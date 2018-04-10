@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.pluginmgr.MirrorList" jls="java5">
+<jent id="0" type="file" span="0:0:189:2">Source/jEdit/org/gjt/sp/jedit/pluginmgr/MirrorList.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:189:1">org.gjt.sp.jedit.pluginmgr.MirrorList</jent>
+<jent id="2" pid="1" type="method" span="48:2:81:2">org.gjt.sp.jedit.pluginmgr.MirrorList.MirrorList(boolean,ProgressObserver)</jent>
+<jent id="3" pid="1" type="method" span="91:2:114:2">org.gjt.sp.jedit.pluginmgr.MirrorList.readXml()</jent>
+<jent id="4" pid="1" type="method" span="124:2:139:2">org.gjt.sp.jedit.pluginmgr.MirrorList.downloadXml(String)</jent>
+<jent id="5" pid="1" type="method" span="142:2:145:2">org.gjt.sp.jedit.pluginmgr.MirrorList.add(Mirror)</jent>
+<jent id="6" pid="1" type="method" span="148:2:151:2">org.gjt.sp.jedit.pluginmgr.MirrorList.finished()</jent>
+<jent id="7" pid="1" type="class" span="158:2:167:2">org.gjt.sp.jedit.pluginmgr.MirrorList.Mirror</jent>
+<jent id="8" pid="1" type="class" span="170:2:186:2">org.gjt.sp.jedit.pluginmgr.MirrorList.MirrorCompare</jent>
+<jent id="9" pid="8" type="method" span="172:3:180:3">org.gjt.sp.jedit.pluginmgr.MirrorList.MirrorCompare.compare(Mirror,Mirror)</jent>
+<jent id="10" pid="8" type="method" span="182:3:185:3">org.gjt.sp.jedit.pluginmgr.MirrorList.MirrorCompare.equals(Object)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * MirrorList.java - Mirrors list
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2002 Kris Kopicki
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="38:1:40:4">/**
+ * @version $Id: MirrorList.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:14:41:24">MirrorList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:9:43:13">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:14:43:20">Mirror</jtok>
+<jtok eid="1" type="field_name" span="43:22:43:29">mirrors</jtok>
+<jtok eid="1" type="block_comment" span="44:2:44:29">/** The xml mirror list. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:9:45:15">String</jtok>
+<jtok eid="1" type="field_name" span="45:16:45:19">xml</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:30">//{{{ MirrorList constructor</jtok>
+<jtok eid="2" type="method_name" span="48:9:48:19">MirrorList</jtok>
+<jtok eid="2" type="parameter_name" span="48:28:48:36">download</jtok>
+<jtok eid="2" type="parameter_type" span="48:38:48:54">ProgressObserver</jtok>
+<jtok eid="2" type="parameter_name" span="48:55:48:63">observer</jtok>
+<jtok eid="2" type="throws" span="48:72:48:81">Exception</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:3:50:10">mirrors</jtok>
+<jtok eid="2" type="constructor_call" span="50:17:50:26">ArrayList</jtok>
+<jtok eid="2" type="constructor_call" span="50:27:50:33">Mirror</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="52:3:52:9">Mirror</jtok>
+<jtok eid="2" type="local_variable_name" span="52:10:52:14">none</jtok>
+<jtok eid="2" type="constructor_call" span="52:21:52:27">Mirror</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:3:53:7">none</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:8:53:10">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:13:53:19">Mirror</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:20:53:24">NONE</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:3:54:7">none</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:8:54:19">description</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:22:54:26">none</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:27:54:35">location</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:38:54:42">none</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:43:54:50">country</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:53:54:57">none</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:58:54:67">continent</jtok>
+<jtok eid="2" type="string_literal" span="54:70:54:72">""</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:10">mirrors</jtok>
+<jtok eid="2" type="method_call" span="55:11:55:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:15:55:19">none</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:3:57:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="57:10:57:14">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:17:57:22">jEdit</jtok>
+<jtok eid="2" type="method_call" span="57:23:57:34">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="57:35:57:62">"plugin-manager.mirror-url"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:3:58:20">MirrorListHandler</jtok>
+<jtok eid="2" type="local_variable_name" span="58:21:58:28">handler</jtok>
+<jtok eid="2" type="constructor_call" span="58:35:58:52">MirrorListHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:58:58:62">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:7:59:15">download</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:4:61:7">Log</jtok>
+<jtok eid="2" type="method_call" span="61:8:61:11">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:12:61:15">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="61:16:61:22">NOTICE</jtok>
+<jtok eid="2" type="string_literal" span="61:30:61:65">"Loading mirror list from internet"</jtok>
+<jtok eid="2" type="method_call" span="62:4:62:15">downloadXml</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:16:62:20">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:4:66:7">Log</jtok>
+<jtok eid="2" type="method_call" span="66:8:66:11">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:12:66:15">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:16:66:22">NOTICE</jtok>
+<jtok eid="2" type="string_literal" span="66:30:66:62">"Loading mirror list from cache"</jtok>
+<jtok eid="2" type="method_call" span="67:4:67:11">readXml</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:3:69:11">observer</jtok>
+<jtok eid="2" type="method_call" span="69:12:69:20">setValue</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="70:3:70:9">Reader</jtok>
+<jtok eid="2" type="local_variable_name" span="70:10:70:12">in</jtok>
+<jtok eid="2" type="constructor_call" span="70:19:70:33">BufferedReader</jtok>
+<jtok eid="2" type="constructor_call" span="70:38:70:50">StringReader</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:51:70:54">xml</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="72:3:72:14">InputSource</jtok>
+<jtok eid="2" type="local_variable_name" span="72:15:72:19">isrc</jtok>
+<jtok eid="2" type="constructor_call" span="72:26:72:37">InputSource</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:38:72:40">in</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:3:73:7">isrc</jtok>
+<jtok eid="2" type="method_call" span="73:8:73:19">setSystemId</jtok>
+<jtok eid="2" type="string_literal" span="73:20:73:31">"jedit.jar"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="74:3:74:12">XMLReader</jtok>
+<jtok eid="2" type="local_variable_name" span="74:13:74:19">parser</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:22:74:38">XMLReaderFactory</jtok>
+<jtok eid="2" type="method_call" span="74:39:74:54">createXMLReader</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:3:75:9">parser</jtok>
+<jtok eid="2" type="method_call" span="75:10:75:27">setContentHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:28:75:35">handler</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:3:76:9">parser</jtok>
+<jtok eid="2" type="method_call" span="76:10:76:23">setDTDHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:24:76:31">handler</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:3:77:9">parser</jtok>
+<jtok eid="2" type="method_call" span="77:10:77:27">setEntityResolver</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:28:77:35">handler</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:3:78:9">parser</jtok>
+<jtok eid="2" type="method_call" span="78:10:78:25">setErrorHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:26:78:33">handler</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:3:79:9">parser</jtok>
+<jtok eid="2" type="method_call" span="79:10:79:15">parse</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:16:79:20">isrc</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:3:80:11">observer</jtok>
+<jtok eid="2" type="method_call" span="80:12:80:20">setValue</jtok>
+<jtok eid="1" type="line_comment" span="81:4:81:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="83:2:83:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="85:2:85:24">//{{{ readXml() method</jtok>
+<jtok eid="1" type="block_comment" span="86:2:90:5">/**
+	 * Read and store the mirror list xml.
+	 * @throws IOException exception if it was not possible to read the
+	 * xml or if the url was invalid
+	 */</jtok>
+<jtok eid="3" type="method_name" span="91:15:91:22">readXml</jtok>
+<jtok eid="3" type="throws" span="91:32:91:43">IOException</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="93:3:93:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="93:10:93:27">settingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:30:93:35">jEdit</jtok>
+<jtok eid="3" type="method_call" span="93:36:93:56">getSettingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:6:94:23">settingsDirectory</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="97:3:97:7">File</jtok>
+<jtok eid="3" type="local_variable_name" span="97:8:97:18">mirrorList</jtok>
+<jtok eid="3" type="constructor_call" span="97:25:97:29">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:30:97:43">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="97:44:97:57">constructPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:4:98:21">settingsDirectory</jtok>
+<jtok eid="3" type="string_literal" span="98:22:98:38">"mirrorList.xml"</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:7:99:17">mirrorList</jtok>
+<jtok eid="3" type="method_call" span="99:18:99:24">exists</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="101:3:101:14">InputStream</jtok>
+<jtok eid="3" type="local_variable_name" span="101:15:101:26">inputStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:4:104:15">inputStream</jtok>
+<jtok eid="3" type="constructor_call" span="104:22:104:41">BufferedInputStream</jtok>
+<jtok eid="3" type="constructor_call" span="104:46:104:61">FileInputStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:62:104:72">mirrorList</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="106:4:106:25">ByteArrayOutputStream</jtok>
+<jtok eid="3" type="local_variable_name" span="106:26:106:29">out</jtok>
+<jtok eid="3" type="constructor_call" span="106:36:106:57">ByteArrayOutputStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:4:107:15">IOUtilities</jtok>
+<jtok eid="3" type="method_call" span="107:16:107:26">copyStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:32:107:43">inputStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:44:107:47">out</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:4:108:7">xml</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:10:108:13">out</jtok>
+<jtok eid="3" type="method_call" span="108:14:108:22">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:4:112:15">IOUtilities</jtok>
+<jtok eid="3" type="method_call" span="112:16:112:28">closeQuietly</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:29:112:40">inputStream</jtok>
+<jtok eid="1" type="line_comment" span="114:4:114:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:28">//{{{ downloadXml() method</jtok>
+<jtok eid="1" type="block_comment" span="117:2:123:5">/**
+	 * Read and store the mirror list xml.
+	 *
+	 * @param path the url
+	 * @throws IOException exception if it was not possible to read the
+	 * xml or if the url was invalid
+	 */</jtok>
+<jtok eid="4" type="method_name" span="124:15:124:26">downloadXml</jtok>
+<jtok eid="4" type="parameter_type" span="124:27:124:33">String</jtok>
+<jtok eid="4" type="parameter_name" span="124:34:124:38">path</jtok>
+<jtok eid="4" type="throws" span="124:47:124:58">IOException</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="126:3:126:14">InputStream</jtok>
+<jtok eid="4" type="local_variable_name" span="126:15:126:26">inputStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:4:129:15">inputStream</jtok>
+<jtok eid="4" type="constructor_call" span="129:22:129:25">URL</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:26:129:30">path</jtok>
+<jtok eid="4" type="method_call" span="129:32:129:42">openStream</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="131:4:131:25">ByteArrayOutputStream</jtok>
+<jtok eid="4" type="local_variable_name" span="131:26:131:29">out</jtok>
+<jtok eid="4" type="constructor_call" span="131:36:131:57">ByteArrayOutputStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:4:132:15">IOUtilities</jtok>
+<jtok eid="4" type="method_call" span="132:16:132:26">copyStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:32:132:43">inputStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:44:132:47">out</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:4:133:7">xml</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:10:133:13">out</jtok>
+<jtok eid="4" type="method_call" span="133:14:133:22">toString</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:4:137:15">IOUtilities</jtok>
+<jtok eid="4" type="method_call" span="137:16:137:28">closeQuietly</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:29:137:40">inputStream</jtok>
+<jtok eid="1" type="line_comment" span="139:4:139:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="141:2:141:20">//{{{ add() method</jtok>
+<jtok eid="5" type="method_name" span="142:7:142:10">add</jtok>
+<jtok eid="5" type="parameter_type" span="142:11:142:17">Mirror</jtok>
+<jtok eid="5" type="parameter_name" span="142:18:142:24">mirror</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:3:144:10">mirrors</jtok>
+<jtok eid="5" type="method_call" span="144:11:144:14">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:15:144:21">mirror</jtok>
+<jtok eid="1" type="line_comment" span="145:4:145:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="147:2:147:25">//{{{ finished() method</jtok>
+<jtok eid="6" type="method_name" span="148:7:148:15">finished</jtok>
+<jtok eid="6" type="primary_name_ref" span="150:3:150:14">Collections</jtok>
+<jtok eid="6" type="method_call" span="150:15:150:19">sort</jtok>
+<jtok eid="6" type="primary_name_ref" span="150:20:150:27">mirrors</jtok>
+<jtok eid="6" type="constructor_call" span="150:32:150:45">MirrorCompare</jtok>
+<jtok eid="1" type="line_comment" span="151:4:151:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="153:2:153:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="155:2:155:21">//{{{ Inner classes</jtok>
+<jtok eid="1" type="line_comment" span="157:2:157:20">//{{{ Mirror class</jtok>
+<jtok eid="7" type="class_name" span="158:22:158:28">Mirror</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="160:23:160:29">String</jtok>
+<jtok eid="7" type="field_name" span="160:30:160:34">NONE</jtok>
+<jtok eid="7" type="string_literal" span="160:37:160:43">"NONE"</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="162:10:162:16">String</jtok>
+<jtok eid="7" type="field_name" span="162:17:162:19">id</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="163:10:163:16">String</jtok>
+<jtok eid="7" type="field_name" span="163:17:163:28">description</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="164:10:164:16">String</jtok>
+<jtok eid="7" type="field_name" span="164:17:164:25">location</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="165:10:165:16">String</jtok>
+<jtok eid="7" type="field_name" span="165:17:165:24">country</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="166:10:166:16">String</jtok>
+<jtok eid="7" type="field_name" span="166:17:166:26">continent</jtok>
+<jtok eid="1" type="line_comment" span="167:4:167:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="169:2:169:27">//{{{ MirrorCompare class</jtok>
+<jtok eid="8" type="class_name" span="170:16:170:29">MirrorCompare</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="170:41:170:51">Comparator</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="170:52:170:58">Mirror</jtok>
+<jtok eid="9" type="method_name" span="172:14:172:21">compare</jtok>
+<jtok eid="9" type="parameter_type" span="172:22:172:28">Mirror</jtok>
+<jtok eid="9" type="parameter_name" span="172:29:172:31">m1</jtok>
+<jtok eid="9" type="parameter_type" span="172:32:172:38">Mirror</jtok>
+<jtok eid="9" type="parameter_name" span="172:39:172:41">m2</jtok>
+<jtok eid="9" type="local_variable_name" span="174:8:174:14">result</jtok>
+<jtok eid="9" type="primary_name_ref" span="175:9:175:15">result</jtok>
+<jtok eid="9" type="primary_name_ref" span="175:18:175:20">m1</jtok>
+<jtok eid="9" type="qualified_name_ref" span="175:21:175:30">continent</jtok>
+<jtok eid="9" type="method_call" span="175:31:175:50">compareToIgnoreCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="175:51:175:53">m2</jtok>
+<jtok eid="9" type="qualified_name_ref" span="175:54:175:63">continent</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:10:176:16">result</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:19:176:21">m1</jtok>
+<jtok eid="9" type="qualified_name_ref" span="176:22:176:29">country</jtok>
+<jtok eid="9" type="method_call" span="176:30:176:49">compareToIgnoreCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:50:176:52">m2</jtok>
+<jtok eid="9" type="qualified_name_ref" span="176:53:176:60">country</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:11:177:17">result</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:20:177:22">m1</jtok>
+<jtok eid="9" type="qualified_name_ref" span="177:23:177:31">location</jtok>
+<jtok eid="9" type="method_call" span="177:32:177:51">compareToIgnoreCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:52:177:54">m2</jtok>
+<jtok eid="9" type="qualified_name_ref" span="177:55:177:63">location</jtok>
+<jtok eid="9" type="primary_name_ref" span="178:14:178:16">m1</jtok>
+<jtok eid="9" type="qualified_name_ref" span="178:17:178:28">description</jtok>
+<jtok eid="9" type="method_call" span="178:29:178:48">compareToIgnoreCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="178:49:178:51">m2</jtok>
+<jtok eid="9" type="qualified_name_ref" span="178:52:178:63">description</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:11:179:17">result</jtok>
+<jtok eid="10" type="method_name" span="182:18:182:24">equals</jtok>
+<jtok eid="10" type="parameter_type" span="182:25:182:31">Object</jtok>
+<jtok eid="10" type="parameter_name" span="182:32:182:35">obj</jtok>
+<jtok eid="10" type="primary_name_ref" span="184:11:184:14">obj</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="184:26:184:39">MirrorCompare</jtok>
+<jtok eid="1" type="line_comment" span="186:4:186:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="188:2:188:7">//}}}</jtok>
+</jdoc>

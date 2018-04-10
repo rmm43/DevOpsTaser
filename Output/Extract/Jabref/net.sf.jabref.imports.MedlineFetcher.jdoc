@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.MedlineFetcher" jls="java5">
+<jent id="0" type="file" span="0:0:227:1">Source/jabref/src/java/net/sf/jabref/imports/MedlineFetcher.java</jent>
+<jent id="1" pid="0" type="class" span="24:1:227:1">net.sf.jabref.imports.MedlineFetcher</jent>
+<jent id="2" pid="1" type="class" span="26:5:42:5">net.sf.jabref.imports.MedlineFetcher.SearchResult</jent>
+<jent id="3" pid="2" type="method" span="36:9:41:9">net.sf.jabref.imports.MedlineFetcher.SearchResult.addID(String)</jent>
+<jent id="4" pid="1" type="method" span="55:5:68:5">net.sf.jabref.imports.MedlineFetcher.toSearchTerm(String)</jent>
+<jent id="5" pid="1" type="method" span="73:5:121:5">net.sf.jabref.imports.MedlineFetcher.getIds(String,int,int)</jent>
+<jent id="6" pid="1" type="method" span="123:5:125:5">net.sf.jabref.imports.MedlineFetcher.stopFetching()</jent>
+<jent id="7" pid="1" type="method" span="127:5:129:5">net.sf.jabref.imports.MedlineFetcher.getHelpPage()</jent>
+<jent id="8" pid="1" type="method" span="131:5:133:5">net.sf.jabref.imports.MedlineFetcher.getIcon()</jent>
+<jent id="9" pid="1" type="method" span="135:5:137:5">net.sf.jabref.imports.MedlineFetcher.getKeyName()</jent>
+<jent id="10" pid="1" type="method" span="139:5:142:5">net.sf.jabref.imports.MedlineFetcher.getOptionsPanel()</jent>
+<jent id="11" pid="1" type="method" span="144:5:146:5">net.sf.jabref.imports.MedlineFetcher.getTitle()</jent>
+<jent id="12" pid="1" type="method" span="148:5:226:5">net.sf.jabref.imports.MedlineFetcher.processQuery(String,ImportInspector,OutputPrinter)</jent>
+<jtok eid="0" type="block_comment" span="20:1:23:4">/**
+ * Fetch or search from Pubmed http://www.ncbi.nlm.nih.gov/sites/entrez/
+ * 
+ */</jtok>
+<jtok eid="1" type="class_name" span="24:14:24:28">MedlineFetcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="24:40:24:52">EntryFetcher</jtok>
+<jtok eid="2" type="class_name" span="26:21:26:33">SearchResult</jtok>
+<jtok eid="2" type="field_name" span="28:20:28:25">count</jtok>
+<jtok eid="2" type="field_name" span="30:20:30:26">retmax</jtok>
+<jtok eid="2" type="field_name" span="32:20:32:28">retstart</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="34:16:34:22">String</jtok>
+<jtok eid="2" type="field_name" span="34:23:34:26">ids</jtok>
+<jtok eid="2" type="string_literal" span="34:29:34:31">""</jtok>
+<jtok eid="3" type="method_name" span="36:21:36:26">addID</jtok>
+<jtok eid="3" type="parameter_type" span="36:27:36:33">String</jtok>
+<jtok eid="3" type="parameter_name" span="36:34:36:36">id</jtok>
+<jtok eid="3" type="primary_name_ref" span="37:17:37:20">ids</jtok>
+<jtok eid="3" type="method_call" span="37:21:37:27">equals</jtok>
+<jtok eid="3" type="string_literal" span="37:28:37:30">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="38:17:38:20">ids</jtok>
+<jtok eid="3" type="primary_name_ref" span="38:23:38:25">id</jtok>
+<jtok eid="3" type="primary_name_ref" span="40:17:40:20">ids</jtok>
+<jtok eid="3" type="string_literal" span="40:24:40:27">","</jtok>
+<jtok eid="3" type="primary_name_ref" span="40:30:40:32">id</jtok>
+<jtok eid="1" type="block_comment" span="44:5:46:8">/**
+     * How many entries to query in one request
+     */</jtok>
+<jtok eid="1" type="field_name" span="47:29:47:35">PACING</jtok>
+<jtok eid="1" type="field_name" span="49:13:49:27">shouldContinue</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="51:5:51:18">OutputPrinter</jtok>
+<jtok eid="1" type="field_name" span="51:19:51:24">frame</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="53:5:53:20">ImportInspector</jtok>
+<jtok eid="1" type="field_name" span="53:21:53:27">dialog</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="55:12:55:18">String</jtok>
+<jtok eid="4" type="method_name" span="55:19:55:31">toSearchTerm</jtok>
+<jtok eid="4" type="parameter_type" span="55:32:55:38">String</jtok>
+<jtok eid="4" type="parameter_name" span="55:39:55:41">in</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="56:9:56:16">Pattern</jtok>
+<jtok eid="4" type="local_variable_name" span="56:17:56:22">part1</jtok>
+<jtok eid="4" type="primary_name_ref" span="56:25:56:32">Pattern</jtok>
+<jtok eid="4" type="method_call" span="56:33:56:40">compile</jtok>
+<jtok eid="4" type="string_literal" span="56:41:56:45">", "</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="57:9:57:16">Pattern</jtok>
+<jtok eid="4" type="local_variable_name" span="57:17:57:22">part2</jtok>
+<jtok eid="4" type="primary_name_ref" span="57:25:57:32">Pattern</jtok>
+<jtok eid="4" type="method_call" span="57:33:57:40">compile</jtok>
+<jtok eid="4" type="string_literal" span="57:41:57:44">","</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="58:9:58:16">Pattern</jtok>
+<jtok eid="4" type="local_variable_name" span="58:17:58:22">part3</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:25:58:32">Pattern</jtok>
+<jtok eid="4" type="method_call" span="58:33:58:40">compile</jtok>
+<jtok eid="4" type="string_literal" span="58:41:58:44">" "</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="59:9:59:16">Matcher</jtok>
+<jtok eid="4" type="local_variable_name" span="59:17:59:24">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="60:9:60:16">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="60:19:60:24">part1</jtok>
+<jtok eid="4" type="method_call" span="60:25:60:32">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="60:33:60:35">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:9:61:11">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:14:61:21">matcher</jtok>
+<jtok eid="4" type="method_call" span="61:22:61:32">replaceAll</jtok>
+<jtok eid="4" type="string_literal" span="61:33:61:44">"\\+AND\\+"</jtok>
+<jtok eid="4" type="primary_name_ref" span="62:9:62:16">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="62:19:62:24">part2</jtok>
+<jtok eid="4" type="method_call" span="62:25:62:32">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="62:33:62:35">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:9:63:11">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:14:63:21">matcher</jtok>
+<jtok eid="4" type="method_call" span="63:22:63:32">replaceAll</jtok>
+<jtok eid="4" type="string_literal" span="63:33:63:44">"\\+AND\\+"</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:9:64:16">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:19:64:24">part3</jtok>
+<jtok eid="4" type="method_call" span="64:25:64:32">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:33:64:35">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:9:65:11">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:14:65:21">matcher</jtok>
+<jtok eid="4" type="method_call" span="65:22:65:32">replaceAll</jtok>
+<jtok eid="4" type="string_literal" span="65:33:65:36">"+"</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:16:67:18">in</jtok>
+<jtok eid="1" type="block_comment" span="70:5:72:8">/**
+     * Gets the initial list of ids
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="73:12:73:24">SearchResult</jtok>
+<jtok eid="5" type="method_name" span="73:25:73:31">getIds</jtok>
+<jtok eid="5" type="parameter_type" span="73:32:73:38">String</jtok>
+<jtok eid="5" type="parameter_name" span="73:39:73:43">term</jtok>
+<jtok eid="5" type="parameter_name" span="73:49:73:54">start</jtok>
+<jtok eid="5" type="parameter_name" span="73:60:73:66">pacing</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="75:9:75:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="75:16:75:23">baseUrl</jtok>
+<jtok eid="5" type="string_literal" span="75:26:75:72">"http://eutils.ncbi.nlm.nih.gov/entrez/eutils"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="76:9:76:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="76:16:76:26">medlineUrl</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:29:76:36">baseUrl</jtok>
+<jtok eid="5" type="string_literal" span="76:39:76:72">"/esearch.fcgi?db=pubmed&amp;retmax="</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:75:76:82">Integer</jtok>
+<jtok eid="5" type="method_call" span="76:83:76:91">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:92:76:98">pacing</jtok>
+<jtok eid="5" type="string_literal" span="77:13:77:25">"&amp;retstart="</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:28:77:35">Integer</jtok>
+<jtok eid="5" type="method_call" span="77:36:77:44">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:45:77:50">start</jtok>
+<jtok eid="5" type="string_literal" span="77:54:77:62">"&amp;term="</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="79:9:79:16">Pattern</jtok>
+<jtok eid="5" type="local_variable_name" span="79:17:79:26">idPattern</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:29:79:36">Pattern</jtok>
+<jtok eid="5" type="method_call" span="79:37:79:44">compile</jtok>
+<jtok eid="5" type="string_literal" span="79:45:79:62">"&lt;Id&gt;(\\d+)&lt;/Id&gt;"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="80:9:80:16">Pattern</jtok>
+<jtok eid="5" type="local_variable_name" span="80:17:80:29">countPattern</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:32:80:39">Pattern</jtok>
+<jtok eid="5" type="method_call" span="80:40:80:47">compile</jtok>
+<jtok eid="5" type="string_literal" span="80:48:80:73">"&lt;Count&gt;(\\d+)&lt;\\/Count&gt;"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="81:9:81:16">Pattern</jtok>
+<jtok eid="5" type="local_variable_name" span="81:17:81:30">retMaxPattern</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:33:81:40">Pattern</jtok>
+<jtok eid="5" type="method_call" span="81:41:81:48">compile</jtok>
+<jtok eid="5" type="string_literal" span="81:49:81:76">"&lt;RetMax&gt;(\\d+)&lt;\\/RetMax&gt;"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="82:9:82:16">Pattern</jtok>
+<jtok eid="5" type="local_variable_name" span="82:17:82:32">retStartPattern</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:35:82:42">Pattern</jtok>
+<jtok eid="5" type="method_call" span="82:43:82:50">compile</jtok>
+<jtok eid="5" type="string_literal" span="82:51:82:82">"&lt;RetStart&gt;(\\d+)&lt;\\/RetStart&gt;"</jtok>
+<jtok eid="5" type="local_variable_name" span="84:17:84:24">doCount</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="85:9:85:21">SearchResult</jtok>
+<jtok eid="5" type="local_variable_name" span="85:22:85:28">result</jtok>
+<jtok eid="5" type="constructor_call" span="85:35:85:47">SearchResult</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="87:13:87:16">URL</jtok>
+<jtok eid="5" type="local_variable_name" span="87:17:87:21">ncbi</jtok>
+<jtok eid="5" type="constructor_call" span="87:28:87:31">URL</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:32:87:42">medlineUrl</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:45:87:49">term</jtok>
+<jtok eid="5" type="line_comment" span="88:13:88:27">// get the ids</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="89:13:89:27">BufferedReader</jtok>
+<jtok eid="5" type="local_variable_name" span="89:28:89:30">in</jtok>
+<jtok eid="5" type="constructor_call" span="89:37:89:51">BufferedReader</jtok>
+<jtok eid="5" type="constructor_call" span="89:56:89:73">InputStreamReader</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:74:89:78">ncbi</jtok>
+<jtok eid="5" type="method_call" span="89:79:89:89">openStream</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="90:13:90:19">String</jtok>
+<jtok eid="5" type="local_variable_name" span="90:20:90:26">inLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="91:21:91:27">inLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="91:30:91:32">in</jtok>
+<jtok eid="5" type="method_call" span="91:33:91:41">readLine</jtok>
+<jtok eid="5" type="line_comment" span="93:17:93:33">// get the count</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="94:17:94:24">Matcher</jtok>
+<jtok eid="5" type="local_variable_name" span="94:25:94:34">idMatcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:37:94:46">idPattern</jtok>
+<jtok eid="5" type="method_call" span="94:47:94:54">matcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:55:94:61">inLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:21:95:30">idMatcher</jtok>
+<jtok eid="5" type="method_call" span="95:31:95:35">find</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:21:96:27">result</jtok>
+<jtok eid="5" type="method_call" span="96:28:96:33">addID</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:34:96:43">idMatcher</jtok>
+<jtok eid="5" type="method_call" span="96:44:96:49">group</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="98:17:98:24">Matcher</jtok>
+<jtok eid="5" type="local_variable_name" span="98:25:98:38">retMaxMatcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:41:98:54">retMaxPattern</jtok>
+<jtok eid="5" type="method_call" span="98:55:98:62">matcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:63:98:69">inLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:21:99:34">retMaxMatcher</jtok>
+<jtok eid="5" type="method_call" span="99:35:99:39">find</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:21:100:27">result</jtok>
+<jtok eid="5" type="qualified_name_ref" span="100:28:100:34">retmax</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:37:100:44">Integer</jtok>
+<jtok eid="5" type="method_call" span="100:45:100:53">parseInt</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:54:100:67">retMaxMatcher</jtok>
+<jtok eid="5" type="method_call" span="100:68:100:73">group</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="102:17:102:24">Matcher</jtok>
+<jtok eid="5" type="local_variable_name" span="102:25:102:40">retStartMatcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:43:102:58">retStartPattern</jtok>
+<jtok eid="5" type="method_call" span="102:59:102:66">matcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:67:102:73">inLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:21:103:36">retStartMatcher</jtok>
+<jtok eid="5" type="method_call" span="103:37:103:41">find</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:21:104:27">result</jtok>
+<jtok eid="5" type="qualified_name_ref" span="104:28:104:36">retstart</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:39:104:46">Integer</jtok>
+<jtok eid="5" type="method_call" span="104:47:104:55">parseInt</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:56:104:71">retStartMatcher</jtok>
+<jtok eid="5" type="method_call" span="104:72:104:77">group</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="106:17:106:24">Matcher</jtok>
+<jtok eid="5" type="local_variable_name" span="106:25:106:37">countMatcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:40:106:52">countPattern</jtok>
+<jtok eid="5" type="method_call" span="106:53:106:60">matcher</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:61:106:67">inLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:21:107:28">doCount</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:32:107:44">countMatcher</jtok>
+<jtok eid="5" type="method_call" span="107:45:107:49">find</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:21:108:27">result</jtok>
+<jtok eid="5" type="qualified_name_ref" span="108:28:108:33">count</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:36:108:43">Integer</jtok>
+<jtok eid="5" type="method_call" span="108:44:108:52">parseInt</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:53:108:65">countMatcher</jtok>
+<jtok eid="5" type="method_call" span="108:66:108:71">group</jtok>
+<jtok eid="5" type="primary_name_ref" span="109:21:109:28">doCount</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:18:112:39">MalformedURLException</jtok>
+<jtok eid="5" type="local_variable_name" span="112:40:112:41">e</jtok>
+<jtok eid="5" type="line_comment" span="112:45:112:64">// new URL() failed</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:13:113:19">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="113:20:113:23">out</jtok>
+<jtok eid="5" type="method_call" span="113:24:113:31">println</jtok>
+<jtok eid="5" type="string_literal" span="113:32:113:41">"bad url"</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:13:114:14">e</jtok>
+<jtok eid="5" type="method_call" span="114:15:114:30">printStackTrace</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="115:18:115:29">IOException</jtok>
+<jtok eid="5" type="local_variable_name" span="115:30:115:31">e</jtok>
+<jtok eid="5" type="line_comment" span="115:35:115:61">// openConnection() failed</jtok>
+<jtok eid="5" type="primary_name_ref" span="116:13:116:19">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="116:20:116:23">out</jtok>
+<jtok eid="5" type="method_call" span="116:24:116:31">println</jtok>
+<jtok eid="5" type="string_literal" span="116:32:116:51">"connection failed"</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:13:117:14">e</jtok>
+<jtok eid="5" type="method_call" span="117:15:117:30">printStackTrace</jtok>
+<jtok eid="5" type="primary_name_ref" span="120:16:120:22">result</jtok>
+<jtok eid="6" type="method_name" span="123:17:123:29">stopFetching</jtok>
+<jtok eid="6" type="primary_name_ref" span="124:9:124:23">shouldContinue</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="127:12:127:18">String</jtok>
+<jtok eid="7" type="method_name" span="127:19:127:30">getHelpPage</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:16:128:26">GUIGlobals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="128:27:128:38">medlineHelp</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="131:12:131:15">URL</jtok>
+<jtok eid="8" type="method_name" span="131:16:131:23">getIcon</jtok>
+<jtok eid="8" type="primary_name_ref" span="132:16:132:26">GUIGlobals</jtok>
+<jtok eid="8" type="method_call" span="132:27:132:37">getIconUrl</jtok>
+<jtok eid="8" type="string_literal" span="132:38:132:43">"www"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="135:12:135:18">String</jtok>
+<jtok eid="9" type="method_name" span="135:19:135:29">getKeyName</jtok>
+<jtok eid="9" type="string_literal" span="136:16:136:31">"Fetch Medline"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="139:12:139:18">JPanel</jtok>
+<jtok eid="10" type="method_name" span="139:19:139:34">getOptionsPanel</jtok>
+<jtok eid="10" type="line_comment" span="140:9:140:27">// No Option Panel</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="144:12:144:18">String</jtok>
+<jtok eid="11" type="method_name" span="144:19:144:27">getTitle</jtok>
+<jtok eid="11" type="primary_name_ref" span="145:16:145:23">Globals</jtok>
+<jtok eid="11" type="method_call" span="145:24:145:33">menuTitle</jtok>
+<jtok eid="11" type="string_literal" span="145:34:145:50">"Search Medline"</jtok>
+<jtok eid="12" type="method_name" span="148:20:148:32">processQuery</jtok>
+<jtok eid="12" type="parameter_type" span="148:33:148:39">String</jtok>
+<jtok eid="12" type="parameter_name" span="148:40:148:45">query</jtok>
+<jtok eid="12" type="parameter_type" span="148:47:148:62">ImportInspector</jtok>
+<jtok eid="12" type="parameter_name" span="148:63:148:69">dialog</jtok>
+<jtok eid="12" type="parameter_type" span="148:71:148:84">OutputPrinter</jtok>
+<jtok eid="12" type="parameter_name" span="148:85:148:90">frame</jtok>
+<jtok eid="12" type="primary_name_ref" span="150:9:150:23">shouldContinue</jtok>
+<jtok eid="12" type="primary_name_ref" span="152:9:152:14">query</jtok>
+<jtok eid="12" type="primary_name_ref" span="152:17:152:22">query</jtok>
+<jtok eid="12" type="method_call" span="152:23:152:27">trim</jtok>
+<jtok eid="12" type="method_call" span="152:30:152:37">replace</jtok>
+<jtok eid="12" type="primary_name_ref" span="154:13:154:18">query</jtok>
+<jtok eid="12" type="method_call" span="154:19:154:26">matches</jtok>
+<jtok eid="12" type="string_literal" span="154:27:154:41">"\\d+[,\\d+]*"</jtok>
+<jtok eid="12" type="primary_name_ref" span="155:13:155:18">frame</jtok>
+<jtok eid="12" type="method_call" span="155:19:155:28">setStatus</jtok>
+<jtok eid="12" type="primary_name_ref" span="155:29:155:36">Globals</jtok>
+<jtok eid="12" type="method_call" span="155:37:155:41">lang</jtok>
+<jtok eid="12" type="string_literal" span="155:42:155:69">"Fetching Medline by id..."</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="157:13:157:17">List</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="157:18:157:29">BibtexEntry</jtok>
+<jtok eid="12" type="local_variable_name" span="157:31:157:35">bibs</jtok>
+<jtok eid="12" type="primary_name_ref" span="157:38:157:53">MedlineImporter</jtok>
+<jtok eid="12" type="method_call" span="157:54:157:66">fetchMedline</jtok>
+<jtok eid="12" type="primary_name_ref" span="157:67:157:72">query</jtok>
+<jtok eid="12" type="primary_name_ref" span="159:17:159:21">bibs</jtok>
+<jtok eid="12" type="method_call" span="159:22:159:26">size</jtok>
+<jtok eid="12" type="primary_name_ref" span="160:14:160:19">frame</jtok>
+<jtok eid="12" type="method_call" span="160:20:160:31">showMessage</jtok>
+<jtok eid="12" type="primary_name_ref" span="160:32:160:39">Globals</jtok>
+<jtok eid="12" type="method_call" span="160:40:160:44">lang</jtok>
+<jtok eid="12" type="string_literal" span="160:45:160:66">"No references found"</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="163:18:163:29">BibtexEntry</jtok>
+<jtok eid="12" type="local_variable_name" span="163:30:163:35">entry</jtok>
+<jtok eid="12" type="primary_name_ref" span="163:38:163:42">bibs</jtok>
+<jtok eid="12" type="primary_name_ref" span="164:17:164:23">dialog</jtok>
+<jtok eid="12" type="method_call" span="164:24:164:32">addEntry</jtok>
+<jtok eid="12" type="primary_name_ref" span="164:33:164:38">entry</jtok>
+<jtok eid="12" type="primary_name_ref" span="169:13:169:18">query</jtok>
+<jtok eid="12" type="method_call" span="169:19:169:25">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:13:170:18">frame</jtok>
+<jtok eid="12" type="method_call" span="170:19:170:28">setStatus</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:29:170:36">Globals</jtok>
+<jtok eid="12" type="method_call" span="170:37:170:41">lang</jtok>
+<jtok eid="12" type="string_literal" span="170:42:170:71">"Fetching Medline by term..."</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="172:13:172:19">String</jtok>
+<jtok eid="12" type="local_variable_name" span="172:20:172:30">searchTerm</jtok>
+<jtok eid="12" type="method_call" span="172:33:172:45">toSearchTerm</jtok>
+<jtok eid="12" type="primary_name_ref" span="172:46:172:51">query</jtok>
+<jtok eid="12" type="line_comment" span="174:13:174:39">// get the ids from entrez</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="175:13:175:25">SearchResult</jtok>
+<jtok eid="12" type="local_variable_name" span="175:26:175:32">result</jtok>
+<jtok eid="12" type="method_call" span="175:35:175:41">getIds</jtok>
+<jtok eid="12" type="primary_name_ref" span="175:42:175:52">searchTerm</jtok>
+<jtok eid="12" type="primary_name_ref" span="177:17:177:23">result</jtok>
+<jtok eid="12" type="qualified_name_ref" span="177:24:177:29">count</jtok>
+<jtok eid="12" type="primary_name_ref" span="178:14:178:19">frame</jtok>
+<jtok eid="12" type="method_call" span="178:20:178:31">showMessage</jtok>
+<jtok eid="12" type="primary_name_ref" span="178:32:178:39">Globals</jtok>
+<jtok eid="12" type="method_call" span="178:40:178:44">lang</jtok>
+<jtok eid="12" type="string_literal" span="178:45:178:66">"No references found"</jtok>
+<jtok eid="12" type="local_variable_name" span="182:17:182:30">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="182:33:182:39">result</jtok>
+<jtok eid="12" type="qualified_name_ref" span="182:40:182:45">count</jtok>
+<jtok eid="12" type="primary_name_ref" span="183:17:183:30">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="183:33:183:39">PACING</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="186:21:186:27">String</jtok>
+<jtok eid="12" type="local_variable_name" span="186:28:186:36">strCount</jtok>
+<jtok eid="12" type="primary_name_ref" span="186:39:186:50">JOptionPane</jtok>
+<jtok eid="12" type="method_call" span="186:51:186:66">showInputDialog</jtok>
+<jtok eid="12" type="primary_name_ref" span="186:67:186:74">Globals</jtok>
+<jtok eid="12" type="method_call" span="186:75:186:79">lang</jtok>
+<jtok eid="12" type="string_literal" span="186:80:186:98">"References found"</jtok>
+<jtok eid="12" type="string_literal" span="187:25:187:29">": "</jtok>
+<jtok eid="12" type="primary_name_ref" span="187:32:187:45">numberToFetch</jtok>
+<jtok eid="12" type="string_literal" span="187:48:187:52">"  "</jtok>
+<jtok eid="12" type="primary_name_ref" span="188:25:188:32">Globals</jtok>
+<jtok eid="12" type="method_call" span="188:33:188:37">lang</jtok>
+<jtok eid="12" type="string_literal" span="188:38:188:70">"Number of references to fetch?"</jtok>
+<jtok eid="12" type="primary_name_ref" span="188:73:188:80">Integer</jtok>
+<jtok eid="12" type="method_call" span="189:26:189:34">toString</jtok>
+<jtok eid="12" type="primary_name_ref" span="189:35:189:48">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="191:25:191:33">strCount</jtok>
+<jtok eid="12" type="primary_name_ref" span="192:25:192:30">frame</jtok>
+<jtok eid="12" type="method_call" span="192:31:192:40">setStatus</jtok>
+<jtok eid="12" type="primary_name_ref" span="192:41:192:48">Globals</jtok>
+<jtok eid="12" type="method_call" span="192:49:192:53">lang</jtok>
+<jtok eid="12" type="string_literal" span="192:54:192:79">"Medline import canceled"</jtok>
+<jtok eid="12" type="primary_name_ref" span="197:25:197:38">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="197:41:197:48">Integer</jtok>
+<jtok eid="12" type="method_call" span="197:49:197:57">parseInt</jtok>
+<jtok eid="12" type="primary_name_ref" span="197:58:197:66">strCount</jtok>
+<jtok eid="12" type="method_call" span="197:67:197:71">trim</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="199:30:199:46">RuntimeException</jtok>
+<jtok eid="12" type="local_variable_name" span="199:47:199:49">ex</jtok>
+<jtok eid="12" type="primary_name_ref" span="200:25:200:30">frame</jtok>
+<jtok eid="12" type="method_call" span="200:31:200:42">showMessage</jtok>
+<jtok eid="12" type="primary_name_ref" span="200:43:200:50">Globals</jtok>
+<jtok eid="12" type="method_call" span="200:51:200:55">lang</jtok>
+<jtok eid="12" type="string_literal" span="200:56:200:85">"Please enter a valid number"</jtok>
+<jtok eid="12" type="local_variable_name" span="205:22:205:23">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="205:29:205:30">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="205:33:205:46">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="205:48:205:49">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="205:53:205:59">PACING</jtok>
+<jtok eid="12" type="primary_name_ref" span="206:22:206:36">shouldContinue</jtok>
+<jtok eid="12" type="local_variable_name" span="209:21:209:30">noToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="209:33:209:37">Math</jtok>
+<jtok eid="12" type="method_call" span="209:38:209:41">min</jtok>
+<jtok eid="12" type="primary_name_ref" span="209:42:209:48">PACING</jtok>
+<jtok eid="12" type="primary_name_ref" span="209:50:209:63">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="209:66:209:67">i</jtok>
+<jtok eid="12" type="line_comment" span="211:17:211:43">// get the ids from entrez</jtok>
+<jtok eid="12" type="primary_name_ref" span="212:17:212:23">result</jtok>
+<jtok eid="12" type="method_call" span="212:26:212:32">getIds</jtok>
+<jtok eid="12" type="primary_name_ref" span="212:33:212:43">searchTerm</jtok>
+<jtok eid="12" type="primary_name_ref" span="212:45:212:46">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="212:48:212:57">noToFetch</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="214:17:214:21">List</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="214:22:214:33">BibtexEntry</jtok>
+<jtok eid="12" type="local_variable_name" span="214:35:214:39">bibs</jtok>
+<jtok eid="12" type="primary_name_ref" span="214:42:214:57">MedlineImporter</jtok>
+<jtok eid="12" type="method_call" span="214:58:214:70">fetchMedline</jtok>
+<jtok eid="12" type="primary_name_ref" span="214:71:214:77">result</jtok>
+<jtok eid="12" type="qualified_name_ref" span="214:78:214:81">ids</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="215:22:215:33">BibtexEntry</jtok>
+<jtok eid="12" type="local_variable_name" span="215:34:215:39">entry</jtok>
+<jtok eid="12" type="primary_name_ref" span="215:42:215:46">bibs</jtok>
+<jtok eid="12" type="primary_name_ref" span="216:21:216:27">dialog</jtok>
+<jtok eid="12" type="method_call" span="216:28:216:36">addEntry</jtok>
+<jtok eid="12" type="primary_name_ref" span="216:37:216:42">entry</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:17:218:23">dialog</jtok>
+<jtok eid="12" type="method_call" span="218:24:218:35">setProgress</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:36:218:37">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:40:218:49">noToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:51:218:64">numberToFetch</jtok>
+<jtok eid="12" type="primary_name_ref" span="222:9:222:14">frame</jtok>
+<jtok eid="12" type="method_call" span="222:15:222:26">showMessage</jtok>
+<jtok eid="12" type="primary_name_ref" span="222:27:222:34">Globals</jtok>
+<jtok eid="12" type="method_call" span="223:14:223:18">lang</jtok>
+<jtok eid="12" type="string_literal" span="223:19:223:98">"Please enter a comma separated list of Medline IDs (numbers) or search terms."</jtok>
+<jtok eid="12" type="primary_name_ref" span="224:13:224:20">Globals</jtok>
+<jtok eid="12" type="method_call" span="224:21:224:25">lang</jtok>
+<jtok eid="12" type="string_literal" span="224:26:224:39">"Input error"</jtok>
+<jtok eid="12" type="primary_name_ref" span="224:42:224:53">JOptionPane</jtok>
+<jtok eid="12" type="qualified_name_ref" span="224:54:224:67">ERROR_MESSAGE</jtok>
+</jdoc>

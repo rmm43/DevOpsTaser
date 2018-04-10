@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.about.ExtendedInfoPanel" jls="java5">
+<jent id="0" type="file" span="0:0:182:1">Source/jabref/src/java/net/sf/jabref/about/ExtendedInfoPanel.java</jent>
+<jent id="1" pid="0" type="class" span="58:1:182:1">net.sf.jabref.about.ExtendedInfoPanel</jent>
+<jent id="2" pid="1" type="method" span="74:3:151:3">net.sf.jabref.about.ExtendedInfoPanel.ExtendedInfoPanel(ActionListener)</jent>
+<jent id="3" pid="1" type="method" span="153:3:158:3">net.sf.jabref.about.ExtendedInfoPanel.animationReady()</jent>
+<jent id="4" pid="1" type="method" span="160:3:180:3">net.sf.jabref.about.ExtendedInfoPanel.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:30:3">/*
+ animated about dialog
+
+Copyright (C) 2005 Raik Nagel &lt;kiar@users.sourceforge.net&gt;
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name of the author nor the names of its contributors may be
+  used to endorse or promote products derived from this software without
+  specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:35">// created by : r.nagel 05.05.2005</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:3">//</jtok>
+<jtok eid="0" type="line_comment" span="35:1:35:43">// function : content for the about dialog</jtok>
+<jtok eid="0" type="line_comment" span="36:1:36:3">//</jtok>
+<jtok eid="0" type="line_comment" span="37:1:37:14">// modified :</jtok>
+<jtok eid="0" type="line_comment" span="38:1:38:25">//            28.07.2005</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:36">//            - hide license button</jtok>
+<jtok eid="1" type="class_name" span="58:14:58:31">ExtendedInfoPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:40:58:46">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:58:58:75">AnimationListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:77:58:91">ActionListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="60:11:60:22">JEditorPane</jtok>
+<jtok eid="1" type="field_name" span="60:23:60:31">textPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="61:11:61:22">JScrollPane</jtok>
+<jtok eid="1" type="field_name" span="61:23:61:31">scroller</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="62:11:62:21">CardLayout</jtok>
+<jtok eid="1" type="field_name" span="62:22:62:27">cards</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:11:64:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="64:19:64:24">close</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:11:65:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="65:19:65:26">license</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="67:11:67:21">AboutPanel</jtok>
+<jtok eid="1" type="field_name" span="67:22:67:27">about</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="68:11:68:17">JPanel</jtok>
+<jtok eid="1" type="field_name" span="68:18:68:27">infoPanel</jtok>
+<jtok eid="1" type="field_name" span="70:19:70:37">animationIsRunning</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:11:72:25">ActionListener</jtok>
+<jtok eid="1" type="field_name" span="72:26:72:38">mainListener</jtok>
+<jtok eid="2" type="method_name" span="74:10:74:27">ExtendedInfoPanel</jtok>
+<jtok eid="2" type="parameter_type" span="74:28:74:42">ActionListener</jtok>
+<jtok eid="2" type="parameter_name" span="74:43:74:52">mainFrame</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:5:76:17">mainListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:20:76:29">mainFrame</jtok>
+<jtok eid="2" type="line_comment" span="78:5:78:21">// animated area</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:5:79:10">about</jtok>
+<jtok eid="2" type="constructor_call" span="79:17:79:27">AboutPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:5:80:10">about</jtok>
+<jtok eid="2" type="method_call" span="80:11:80:31">addAnimationListener</jtok>
+<jtok eid="2" type="line_comment" span="82:5:82:29">// scrallable html infos</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:5:83:13">textPane</jtok>
+<jtok eid="2" type="constructor_call" span="83:20:83:31">JEditorPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:5:85:13">textPane</jtok>
+<jtok eid="2" type="method_call" span="85:14:85:25">setEditable</jtok>
+<jtok eid="2" type="line_comment" span="86:1:86:67">//    URL helpURL = getClass().getResource( "/help/About.html" ) ;</jtok>
+<jtok eid="2" type="line_comment" span="87:5:87:54">// try to load about.html for the locale language</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="88:5:88:8">URL</jtok>
+<jtok eid="2" type="local_variable_name" span="88:9:88:16">helpURL</jtok>
+<jtok eid="2" type="method_call" span="88:19:88:27">getClass</jtok>
+<jtok eid="2" type="method_call" span="88:30:88:41">getResource</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:43:88:53">GUIGlobals</jtok>
+<jtok eid="2" type="method_call" span="88:54:88:71">getLocaleHelpPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:76:88:86">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="88:87:88:96">aboutPage</jtok>
+<jtok eid="2" type="line_comment" span="89:5:89:72">// about.html could not detected =&gt; try to load the default version</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:9:90:16">helpURL</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:7:92:14">helpURL</jtok>
+<jtok eid="2" type="method_call" span="92:17:92:25">getClass</jtok>
+<jtok eid="2" type="method_call" span="92:28:92:39">getResource</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:41:92:51">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="92:52:92:59">helpPre</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:62:92:72">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="92:73:92:82">aboutPage</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:10:95:17">helpURL</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:9:99:17">textPane</jtok>
+<jtok eid="2" type="method_call" span="99:18:99:25">setPage</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:27:99:34">helpURL</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="101:15:101:26">IOException</jtok>
+<jtok eid="2" type="local_variable_name" span="101:27:101:28">e</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:9:103:15">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="103:16:103:19">err</jtok>
+<jtok eid="2" type="method_call" span="103:20:103:27">println</jtok>
+<jtok eid="2" type="string_literal" span="103:29:103:60">"Attempted to read a bad URL: "</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:63:103:70">helpURL</jtok>
+<jtok eid="2" type="primary_name_ref" span="108:7:108:13">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="108:14:108:17">err</jtok>
+<jtok eid="2" type="method_call" span="108:18:108:25">println</jtok>
+<jtok eid="2" type="string_literal" span="108:27:108:59">"Couldn't find file: About.html"</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:5:111:13">scroller</jtok>
+<jtok eid="2" type="constructor_call" span="111:20:111:31">JScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:32:111:40">textPane</jtok>
+<jtok eid="2" type="line_comment" span="111:44:111:129">//, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS) ;</jtok>
+<jtok eid="2" type="primary_name_ref" span="112:5:112:13">scroller</jtok>
+<jtok eid="2" type="method_call" span="112:14:112:30">setPreferredSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="112:32:112:37">about</jtok>
+<jtok eid="2" type="method_call" span="112:38:112:45">getSize</jtok>
+<jtok eid="2" type="line_comment" span="114:5:114:43">// overlapped animated/scrollable area</jtok>
+<jtok eid="2" type="primary_name_ref" span="115:5:115:14">infoPanel</jtok>
+<jtok eid="2" type="constructor_call" span="115:21:115:27">JPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:5:116:10">cards</jtok>
+<jtok eid="2" type="constructor_call" span="116:17:116:27">CardLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:5:117:14">infoPanel</jtok>
+<jtok eid="2" type="method_call" span="117:15:117:24">setLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:26:117:31">cards</jtok>
+<jtok eid="2" type="primary_name_ref" span="119:5:119:14">infoPanel</jtok>
+<jtok eid="2" type="method_call" span="119:15:119:18">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="119:19:119:24">about</jtok>
+<jtok eid="2" type="string_literal" span="119:26:119:31">"ani"</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:5:120:14">infoPanel</jtok>
+<jtok eid="2" type="method_call" span="120:15:120:18">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:19:120:27">scroller</jtok>
+<jtok eid="2" type="string_literal" span="120:29:120:34">"inf"</jtok>
+<jtok eid="2" type="line_comment" span="122:6:122:16">// Buttons</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="123:5:123:11">JPanel</jtok>
+<jtok eid="2" type="local_variable_name" span="123:12:123:23">buttonPanel</jtok>
+<jtok eid="2" type="constructor_call" span="123:30:123:36">JPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="124:5:124:16">buttonPanel</jtok>
+<jtok eid="2" type="method_call" span="124:17:124:30">setBackground</jtok>
+<jtok eid="2" type="primary_name_ref" span="124:32:124:37">Color</jtok>
+<jtok eid="2" type="qualified_name_ref" span="124:38:124:43">white</jtok>
+<jtok eid="2" type="primary_name_ref" span="125:5:125:16">buttonPanel</jtok>
+<jtok eid="2" type="method_call" span="125:17:125:26">setLayout</jtok>
+<jtok eid="2" type="constructor_call" span="125:32:125:42">GridLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:5:126:16">buttonPanel</jtok>
+<jtok eid="2" type="method_call" span="126:17:126:26">setBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:28:126:41">BorderFactory</jtok>
+<jtok eid="2" type="method_call" span="126:42:126:59">createBevelBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:61:126:72">BevelBorder</jtok>
+<jtok eid="2" type="qualified_name_ref" span="126:73:126:79">RAISED</jtok>
+<jtok eid="2" type="primary_name_ref" span="128:5:128:16">buttonPanel</jtok>
+<jtok eid="2" type="method_call" span="128:17:128:20">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="128:22:128:25">Box</jtok>
+<jtok eid="2" type="method_call" span="128:26:128:36">createGlue</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:5:129:10">close</jtok>
+<jtok eid="2" type="constructor_call" span="129:17:129:24">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:26:129:33">Globals</jtok>
+<jtok eid="2" type="method_call" span="129:34:129:38">lang</jtok>
+<jtok eid="2" type="string_literal" span="129:39:129:45">"Skip"</jtok>
+<jtok eid="2" type="primary_name_ref" span="130:5:130:10">close</jtok>
+<jtok eid="2" type="method_call" span="130:11:130:28">addActionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="131:5:131:10">close</jtok>
+<jtok eid="2" type="method_call" span="131:11:131:27">setActionCommand</jtok>
+<jtok eid="2" type="string_literal" span="131:29:131:36">"close"</jtok>
+<jtok eid="2" type="primary_name_ref" span="132:5:132:10">close</jtok>
+<jtok eid="2" type="method_call" span="132:11:132:23">setFocusable</jtok>
+<jtok eid="2" type="primary_name_ref" span="134:5:134:12">license</jtok>
+<jtok eid="2" type="constructor_call" span="134:19:134:26">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="134:28:134:35">Globals</jtok>
+<jtok eid="2" type="method_call" span="134:36:134:40">lang</jtok>
+<jtok eid="2" type="string_literal" span="134:41:134:50">"License"</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:5:135:12">license</jtok>
+<jtok eid="2" type="method_call" span="135:13:135:30">addActionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="136:5:136:12">license</jtok>
+<jtok eid="2" type="method_call" span="136:13:136:29">setActionCommand</jtok>
+<jtok eid="2" type="string_literal" span="136:31:136:40">"license"</jtok>
+<jtok eid="2" type="primary_name_ref" span="137:5:137:12">license</jtok>
+<jtok eid="2" type="method_call" span="137:13:137:25">setFocusable</jtok>
+<jtok eid="2" type="primary_name_ref" span="139:5:139:16">buttonPanel</jtok>
+<jtok eid="2" type="method_call" span="139:17:139:20">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="139:22:139:27">close</jtok>
+<jtok eid="2" type="line_comment" span="140:1:140:35">//    buttonPanel.add( license ) ;</jtok>
+<jtok eid="2" type="primary_name_ref" span="141:5:141:16">buttonPanel</jtok>
+<jtok eid="2" type="method_call" span="141:17:141:20">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="141:22:141:25">Box</jtok>
+<jtok eid="2" type="method_call" span="141:26:141:36">createGlue</jtok>
+<jtok eid="2" type="line_comment" span="144:5:144:18">// main panel</jtok>
+<jtok eid="2" type="method_call" span="145:10:145:19">setLayout</jtok>
+<jtok eid="2" type="constructor_call" span="145:25:145:37">BorderLayout</jtok>
+<jtok eid="2" type="method_call" span="147:10:147:13">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="147:14:147:23">infoPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="147:25:147:37">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="147:38:147:44">CENTER</jtok>
+<jtok eid="2" type="method_call" span="148:10:148:13">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="148:14:148:25">buttonPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="148:27:148:39">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="148:40:148:45">SOUTH</jtok>
+<jtok eid="2" type="line_comment" span="150:1:150:30">//    about.startAnimation();</jtok>
+<jtok eid="3" type="method_name" span="153:15:153:29">animationReady</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:5:155:23">animationIsRunning</jtok>
+<jtok eid="3" type="primary_name_ref" span="156:5:156:10">cards</jtok>
+<jtok eid="3" type="method_call" span="156:11:156:15">show</jtok>
+<jtok eid="3" type="primary_name_ref" span="156:16:156:25">infoPanel</jtok>
+<jtok eid="3" type="string_literal" span="156:27:156:32">"inf"</jtok>
+<jtok eid="3" type="primary_name_ref" span="157:5:157:10">close</jtok>
+<jtok eid="3" type="method_call" span="157:11:157:18">setText</jtok>
+<jtok eid="3" type="primary_name_ref" span="157:19:157:26">Globals</jtok>
+<jtok eid="3" type="method_call" span="157:27:157:31">lang</jtok>
+<jtok eid="3" type="string_literal" span="157:32:157:39">"Close"</jtok>
+<jtok eid="4" type="method_name" span="160:15:160:30">actionPerformed</jtok>
+<jtok eid="4" type="parameter_type" span="160:32:160:43">ActionEvent</jtok>
+<jtok eid="4" type="parameter_name" span="160:44:160:45">e</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="162:5:162:11">String</jtok>
+<jtok eid="4" type="local_variable_name" span="162:12:162:15">cmd</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:18:162:19">e</jtok>
+<jtok eid="4" type="method_call" span="162:20:162:36">getActionCommand</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:10:163:13">cmd</jtok>
+<jtok eid="4" type="method_call" span="163:14:163:20">equals</jtok>
+<jtok eid="4" type="string_literal" span="163:22:163:29">"close"</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:11:165:29">animationIsRunning</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:10:167:15">about</jtok>
+<jtok eid="4" type="method_call" span="167:16:167:29">skipAnimation</jtok>
+<jtok eid="4" type="line_comment" span="167:33:167:87">// implicit call of AnimationListener.animationReady()</jtok>
+<jtok eid="4" type="method_call" span="171:9:171:19">setVisible</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:9:172:21">mainListener</jtok>
+<jtok eid="4" type="method_call" span="172:22:172:37">actionPerformed</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:38:172:39">e</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:15:175:18">cmd</jtok>
+<jtok eid="4" type="method_call" span="175:19:175:25">equals</jtok>
+<jtok eid="4" type="string_literal" span="175:27:175:36">"license"</jtok>
+<jtok eid="4" type="line_comment" span="177:1:177:24">//      showLicense() ;</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:7:178:19">mainListener</jtok>
+<jtok eid="4" type="method_call" span="178:20:178:35">actionPerformed</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:36:178:37">e</jtok>
+</jdoc>

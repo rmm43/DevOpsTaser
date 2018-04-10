@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.util.ErrorConsole" jls="java5">
+<jent id="0" type="file" span="0:0:113:1">Source/jabref/src/java/net/sf/jabref/util/ErrorConsole.java</jent>
+<jent id="1" pid="0" type="class" span="23:1:113:1">net.sf.jabref.util.ErrorConsole</jent>
+<jent id="2" pid="1" type="method" span="30:5:35:5">net.sf.jabref.util.ErrorConsole.getInstance()</jent>
+<jent id="3" pid="1" type="method" span="37:5:44:5">net.sf.jabref.util.ErrorConsole.ErrorConsole()</jent>
+<jent id="4" pid="1" type="method" span="46:5:48:5">net.sf.jabref.util.ErrorConsole.getErrorMessages()</jent>
+<jent id="5" pid="1" type="method" span="50:5:52:5">net.sf.jabref.util.ErrorConsole.getOutput()</jent>
+<jent id="6" pid="1" type="method" span="54:5:75:5">net.sf.jabref.util.ErrorConsole.displayErrorConsole(JFrame)</jent>
+<jent id="7" pid="1" type="class" span="77:5:88:5">net.sf.jabref.util.ErrorConsole.ErrorConsoleAction</jent>
+<jent id="8" pid="7" type="method" span="79:9:83:9">net.sf.jabref.util.ErrorConsole.ErrorConsoleAction.ErrorConsoleAction(JFrame)</jent>
+<jent id="9" pid="7" type="method" span="85:9:87:9">net.sf.jabref.util.ErrorConsole.ErrorConsoleAction.actionPerformed(ActionEvent)</jent>
+<jent id="10" pid="1" type="method" span="90:5:92:5">net.sf.jabref.util.ErrorConsole.getAction(JFrame)</jent>
+<jent id="11" pid="1" type="class" span="95:5:112:5">net.sf.jabref.util.ErrorConsole.TeeStream</jent>
+<jent id="12" pid="11" type="method" span="97:9:100:9">net.sf.jabref.util.ErrorConsole.TeeStream.TeeStream(PrintStream,PrintStream)</jent>
+<jent id="13" pid="11" type="method" span="101:9:107:9">net.sf.jabref.util.ErrorConsole.TeeStream.write(byte,int,int)</jent>
+<jent id="14" pid="11" type="method" span="108:9:111:9">net.sf.jabref.util.ErrorConsole.TeeStream.flush()</jent>
+<jtok eid="0" type="block_comment" span="12:1:22:4">/**
+ * This class redirects the System.err stream so it goes both the way it normally
+ * goes, and into a ByteArrayOutputStream. We can use this stream to display any
+ * error messages and stack traces to the user. Such an error console can be
+ * useful in getting complete bug reports, especially from Windows users,
+ * without asking users to run JabRef in a command window to catch the error info.
+ *
+ * User: alver
+ * Date: Mar 1, 2006
+ * Time: 11:13:03 PM
+ */</jtok>
+<jtok eid="1" type="class_name" span="23:14:23:26">ErrorConsole</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="25:5:25:26">ByteArrayOutputStream</jtok>
+<jtok eid="1" type="field_name" span="25:27:25:40">errByteStream</jtok>
+<jtok eid="1" type="constructor_call" span="25:47:25:68">ByteArrayOutputStream</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="26:5:26:26">ByteArrayOutputStream</jtok>
+<jtok eid="1" type="field_name" span="26:27:26:40">outByteStream</jtok>
+<jtok eid="1" type="constructor_call" span="26:47:26:68">ByteArrayOutputStream</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="27:20:27:32">ErrorConsole</jtok>
+<jtok eid="1" type="field_name" span="27:33:27:41">instance</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="30:19:30:31">ErrorConsole</jtok>
+<jtok eid="2" type="method_name" span="30:32:30:43">getInstance</jtok>
+<jtok eid="2" type="primary_name_ref" span="31:13:31:21">instance</jtok>
+<jtok eid="2" type="primary_name_ref" span="32:13:32:21">instance</jtok>
+<jtok eid="2" type="constructor_call" span="32:28:32:40">ErrorConsole</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:16:34:24">instance</jtok>
+<jtok eid="3" type="method_name" span="37:13:37:25">ErrorConsole</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="38:9:38:20">PrintStream</jtok>
+<jtok eid="3" type="local_variable_name" span="38:21:38:26">myErr</jtok>
+<jtok eid="3" type="constructor_call" span="38:33:38:44">PrintStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="38:45:38:58">errByteStream</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="39:9:39:20">PrintStream</jtok>
+<jtok eid="3" type="local_variable_name" span="39:21:39:24">tee</jtok>
+<jtok eid="3" type="constructor_call" span="39:31:39:40">TeeStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="39:41:39:47">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="39:48:39:51">err</jtok>
+<jtok eid="3" type="primary_name_ref" span="39:53:39:58">myErr</jtok>
+<jtok eid="3" type="primary_name_ref" span="40:9:40:15">System</jtok>
+<jtok eid="3" type="method_call" span="40:16:40:22">setErr</jtok>
+<jtok eid="3" type="primary_name_ref" span="40:23:40:26">tee</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:9:41:14">myErr</jtok>
+<jtok eid="3" type="constructor_call" span="41:21:41:32">PrintStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:33:41:46">outByteStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="42:9:42:12">tee</jtok>
+<jtok eid="3" type="constructor_call" span="42:19:42:28">TeeStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="42:29:42:35">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="42:36:42:39">out</jtok>
+<jtok eid="3" type="primary_name_ref" span="42:41:42:46">myErr</jtok>
+<jtok eid="3" type="primary_name_ref" span="43:9:43:15">System</jtok>
+<jtok eid="3" type="method_call" span="43:16:43:22">setOut</jtok>
+<jtok eid="3" type="primary_name_ref" span="43:23:43:26">tee</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="46:12:46:18">String</jtok>
+<jtok eid="4" type="method_name" span="46:19:46:35">getErrorMessages</jtok>
+<jtok eid="4" type="primary_name_ref" span="47:16:47:29">errByteStream</jtok>
+<jtok eid="4" type="method_call" span="47:30:47:38">toString</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="50:12:50:18">String</jtok>
+<jtok eid="5" type="method_name" span="50:19:50:28">getOutput</jtok>
+<jtok eid="5" type="primary_name_ref" span="51:16:51:29">outByteStream</jtok>
+<jtok eid="5" type="method_call" span="51:30:51:38">toString</jtok>
+<jtok eid="6" type="method_name" span="54:17:54:36">displayErrorConsole</jtok>
+<jtok eid="6" type="parameter_type" span="54:37:54:43">JFrame</jtok>
+<jtok eid="6" type="parameter_name" span="54:44:54:50">parent</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="55:9:55:20">JTabbedPane</jtok>
+<jtok eid="6" type="local_variable_name" span="55:21:55:27">tabbed</jtok>
+<jtok eid="6" type="constructor_call" span="55:34:55:45">JTabbedPane</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="56:9:56:18">JTextArea</jtok>
+<jtok eid="6" type="local_variable_name" span="56:19:56:21">ta</jtok>
+<jtok eid="6" type="constructor_call" span="56:28:56:37">JTextArea</jtok>
+<jtok eid="6" type="method_call" span="56:38:56:47">getOutput</jtok>
+<jtok eid="6" type="primary_name_ref" span="57:9:57:11">ta</jtok>
+<jtok eid="6" type="method_call" span="57:12:57:23">setEditable</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="58:9:58:20">JScrollPane</jtok>
+<jtok eid="6" type="local_variable_name" span="58:21:58:23">sp</jtok>
+<jtok eid="6" type="constructor_call" span="58:30:58:41">JScrollPane</jtok>
+<jtok eid="6" type="primary_name_ref" span="58:42:58:44">ta</jtok>
+<jtok eid="6" type="primary_name_ref" span="59:9:59:15">tabbed</jtok>
+<jtok eid="6" type="method_call" span="59:16:59:22">addTab</jtok>
+<jtok eid="6" type="primary_name_ref" span="59:23:59:30">Globals</jtok>
+<jtok eid="6" type="method_call" span="59:31:59:35">lang</jtok>
+<jtok eid="6" type="string_literal" span="59:36:59:44">"Output"</jtok>
+<jtok eid="6" type="primary_name_ref" span="59:47:59:49">sp</jtok>
+<jtok eid="6" type="primary_name_ref" span="61:9:61:11">ta</jtok>
+<jtok eid="6" type="constructor_call" span="61:18:61:27">JTextArea</jtok>
+<jtok eid="6" type="method_call" span="61:28:61:44">getErrorMessages</jtok>
+<jtok eid="6" type="primary_name_ref" span="62:9:62:11">ta</jtok>
+<jtok eid="6" type="method_call" span="62:12:62:23">setEditable</jtok>
+<jtok eid="6" type="primary_name_ref" span="63:13:63:15">ta</jtok>
+<jtok eid="6" type="method_call" span="63:16:63:23">getText</jtok>
+<jtok eid="6" type="method_call" span="63:26:63:32">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="64:13:64:15">ta</jtok>
+<jtok eid="6" type="method_call" span="64:16:64:23">setText</jtok>
+<jtok eid="6" type="primary_name_ref" span="64:24:64:31">Globals</jtok>
+<jtok eid="6" type="method_call" span="64:32:64:36">lang</jtok>
+<jtok eid="6" type="string_literal" span="64:37:64:66">"No exceptions have ocurred."</jtok>
+<jtok eid="6" type="primary_name_ref" span="66:9:66:11">sp</jtok>
+<jtok eid="6" type="constructor_call" span="66:18:66:29">JScrollPane</jtok>
+<jtok eid="6" type="primary_name_ref" span="66:30:66:32">ta</jtok>
+<jtok eid="6" type="primary_name_ref" span="68:9:68:15">tabbed</jtok>
+<jtok eid="6" type="method_call" span="68:16:68:22">addTab</jtok>
+<jtok eid="6" type="primary_name_ref" span="68:23:68:30">Globals</jtok>
+<jtok eid="6" type="method_call" span="68:31:68:35">lang</jtok>
+<jtok eid="6" type="string_literal" span="68:36:68:48">"Exceptions"</jtok>
+<jtok eid="6" type="primary_name_ref" span="68:51:68:53">sp</jtok>
+<jtok eid="6" type="primary_name_ref" span="71:9:71:15">tabbed</jtok>
+<jtok eid="6" type="method_call" span="71:16:71:32">setPreferredSize</jtok>
+<jtok eid="6" type="constructor_call" span="71:37:71:46">Dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:9:73:20">JOptionPane</jtok>
+<jtok eid="6" type="method_call" span="73:21:73:38">showMessageDialog</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:39:73:45">parent</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:48:73:54">tabbed</jtok>
+<jtok eid="6" type="primary_name_ref" span="74:17:74:24">Globals</jtok>
+<jtok eid="6" type="method_call" span="74:25:74:29">lang</jtok>
+<jtok eid="6" type="string_literal" span="74:30:74:46">"Program output"</jtok>
+<jtok eid="6" type="primary_name_ref" span="74:49:74:60">JOptionPane</jtok>
+<jtok eid="6" type="qualified_name_ref" span="74:61:74:74">ERROR_MESSAGE</jtok>
+<jtok eid="7" type="class_name" span="77:11:77:29">ErrorConsoleAction</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="77:38:77:52">AbstractAction</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="78:9:78:15">JFrame</jtok>
+<jtok eid="7" type="field_name" span="78:16:78:21">frame</jtok>
+<jtok eid="8" type="method_name" span="79:16:79:34">ErrorConsoleAction</jtok>
+<jtok eid="8" type="parameter_type" span="79:35:79:41">JFrame</jtok>
+<jtok eid="8" type="parameter_name" span="79:42:79:47">frame</jtok>
+<jtok eid="8" type="primary_name_ref" span="80:19:80:26">Globals</jtok>
+<jtok eid="8" type="method_call" span="80:27:80:36">menuTitle</jtok>
+<jtok eid="8" type="string_literal" span="80:37:80:57">"Show error console"</jtok>
+<jtok eid="8" type="method_call" span="81:13:81:21">putValue</jtok>
+<jtok eid="8" type="primary_name_ref" span="81:22:81:39">SHORT_DESCRIPTION</jtok>
+<jtok eid="8" type="primary_name_ref" span="81:41:81:48">Globals</jtok>
+<jtok eid="8" type="method_call" span="81:49:81:53">lang</jtok>
+<jtok eid="8" type="string_literal" span="81:54:81:82">"Display all error messages"</jtok>
+<jtok eid="8" type="qualified_name_ref" span="82:18:82:23">frame</jtok>
+<jtok eid="8" type="primary_name_ref" span="82:26:82:31">frame</jtok>
+<jtok eid="9" type="method_name" span="85:21:85:36">actionPerformed</jtok>
+<jtok eid="9" type="parameter_type" span="85:37:85:48">ActionEvent</jtok>
+<jtok eid="9" type="parameter_name" span="85:49:85:50">e</jtok>
+<jtok eid="9" type="method_call" span="86:13:86:32">displayErrorConsole</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:33:86:38">frame</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="90:12:90:26">AbstractAction</jtok>
+<jtok eid="10" type="method_name" span="90:27:90:36">getAction</jtok>
+<jtok eid="10" type="parameter_type" span="90:37:90:43">JFrame</jtok>
+<jtok eid="10" type="parameter_name" span="90:44:90:50">parent</jtok>
+<jtok eid="10" type="constructor_call" span="91:20:91:38">ErrorConsoleAction</jtok>
+<jtok eid="10" type="primary_name_ref" span="91:39:91:45">parent</jtok>
+<jtok eid="1" type="line_comment" span="94:5:94:71">// All writes to this print stream are copied to two print streams</jtok>
+<jtok eid="11" type="class_name" span="95:18:95:27">TeeStream</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="95:36:95:47">PrintStream</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="96:9:96:20">PrintStream</jtok>
+<jtok eid="11" type="field_name" span="96:21:96:24">out</jtok>
+<jtok eid="12" type="method_name" span="97:16:97:25">TeeStream</jtok>
+<jtok eid="12" type="parameter_type" span="97:26:97:37">PrintStream</jtok>
+<jtok eid="12" type="parameter_name" span="97:38:97:42">out1</jtok>
+<jtok eid="12" type="parameter_type" span="97:44:97:55">PrintStream</jtok>
+<jtok eid="12" type="parameter_name" span="97:56:97:60">out2</jtok>
+<jtok eid="12" type="primary_name_ref" span="98:19:98:23">out1</jtok>
+<jtok eid="12" type="qualified_name_ref" span="99:18:99:21">out</jtok>
+<jtok eid="12" type="primary_name_ref" span="99:24:99:28">out2</jtok>
+<jtok eid="13" type="method_name" span="101:21:101:26">write</jtok>
+<jtok eid="13" type="parameter_name" span="101:32:101:35">buf</jtok>
+<jtok eid="13" type="parameter_name" span="101:43:101:46">off</jtok>
+<jtok eid="13" type="parameter_name" span="101:52:101:55">len</jtok>
+<jtok eid="13" type="method_call" span="103:23:103:28">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="103:29:103:32">buf</jtok>
+<jtok eid="13" type="primary_name_ref" span="103:34:103:37">off</jtok>
+<jtok eid="13" type="primary_name_ref" span="103:39:103:42">len</jtok>
+<jtok eid="13" type="primary_name_ref" span="104:17:104:20">out</jtok>
+<jtok eid="13" type="method_call" span="104:21:104:26">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="104:27:104:30">buf</jtok>
+<jtok eid="13" type="primary_name_ref" span="104:32:104:35">off</jtok>
+<jtok eid="13" type="primary_name_ref" span="104:37:104:40">len</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="105:22:105:31">Exception</jtok>
+<jtok eid="13" type="local_variable_name" span="105:32:105:33">e</jtok>
+<jtok eid="14" type="method_name" span="108:21:108:26">flush</jtok>
+<jtok eid="14" type="method_call" span="109:19:109:24">flush</jtok>
+<jtok eid="14" type="primary_name_ref" span="110:13:110:16">out</jtok>
+<jtok eid="14" type="method_call" span="110:17:110:22">flush</jtok>
+</jdoc>

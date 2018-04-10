@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHBlock" jls="java5">
+<jent id="0" type="file" span="0:0:149:1">Source/jEdit/org/gjt/sp/jedit/bsh/BSHBlock.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:148:1">org.gjt.sp.jedit.bsh.BSHBlock</jent>
+<jent id="2" pid="1" type="method" span="41:2:41:32">org.gjt.sp.jedit.bsh.BSHBlock.BSHBlock(int)</jent>
+<jent id="3" pid="1" type="method" span="43:2:47:2">org.gjt.sp.jedit.bsh.BSHBlock.eval(CallStack,Interpreter)</jent>
+<jent id="4" pid="1" type="method" span="59:2:84:2">org.gjt.sp.jedit.bsh.BSHBlock.eval(CallStack,Interpreter,boolean)</jent>
+<jent id="5" pid="1" type="method" span="86:2:142:2">org.gjt.sp.jedit.bsh.BSHBlock.evalBlock(CallStack,Interpreter,boolean,NodeFilter)</jent>
+<jent id="6" pid="1" type="interface" span="144:2:146:2">org.gjt.sp.jedit.bsh.BSHBlock.NodeFilter</jent>
+<jent id="7" pid="6" type="method" span="145:3:145:46">org.gjt.sp.jedit.bsh.BSHBlock.NodeFilter.isVisible(SimpleNode)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="1" type="class_name" span="37:7:37:15">BSHBlock</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:24:37:34">SimpleNode</jtok>
+<jtok eid="1" type="field_name" span="39:17:39:31">isSynchronized</jtok>
+<jtok eid="2" type="method_name" span="41:2:41:10">BSHBlock</jtok>
+<jtok eid="2" type="parameter_name" span="41:15:41:17">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:27:41:29">id</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="43:9:43:15">Object</jtok>
+<jtok eid="3" type="method_name" span="43:16:43:20">eval</jtok>
+<jtok eid="3" type="parameter_type" span="43:22:43:31">CallStack</jtok>
+<jtok eid="3" type="parameter_name" span="43:32:43:41">callstack</jtok>
+<jtok eid="3" type="parameter_type" span="43:43:43:54">Interpreter</jtok>
+<jtok eid="3" type="parameter_name" span="43:55:43:66">interpreter</jtok>
+<jtok eid="3" type="throws" span="44:10:44:19">EvalError</jtok>
+<jtok eid="3" type="method_call" span="46:10:46:14">eval</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:16:46:25">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:27:46:38">interpreter</jtok>
+<jtok eid="1" type="block_comment" span="49:2:58:4">/**
+		@param overrideNamespace if set to true the block will be executed
+		in the current namespace (not a subordinate one).
+		&lt;p&gt;
+		If true *no* new BlockNamespace will be swapped onto the stack and 
+		the eval will happen in the current
+		top namespace.  This is used by BshMethod, TryStatement, etc.  
+		which must intialize the block first and also for those that perform 
+		multiple passes in the same block.
+	*/</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="59:9:59:15">Object</jtok>
+<jtok eid="4" type="method_name" span="59:16:59:20">eval</jtok>
+<jtok eid="4" type="parameter_type" span="60:3:60:12">CallStack</jtok>
+<jtok eid="4" type="parameter_name" span="60:13:60:22">callstack</jtok>
+<jtok eid="4" type="parameter_type" span="60:24:60:35">Interpreter</jtok>
+<jtok eid="4" type="parameter_name" span="60:36:60:47">interpreter</jtok>
+<jtok eid="4" type="parameter_name" span="61:11:61:28">overrideNamespace</jtok>
+<jtok eid="4" type="throws" span="62:10:62:19">EvalError</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="64:3:64:9">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="64:10:64:19">syncValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:8:65:22">isSynchronized</jtok>
+<jtok eid="4" type="line_comment" span="67:4:67:52">// First node is the expression on which to sync</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="68:4:68:14">SimpleNode</jtok>
+<jtok eid="4" type="local_variable_name" span="68:15:68:18">exp</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="68:23:68:33">SimpleNode</jtok>
+<jtok eid="4" type="method_call" span="68:34:68:45">jjtGetChild</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:4:69:13">syncValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:16:69:19">exp</jtok>
+<jtok eid="4" type="method_call" span="69:20:69:24">eval</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:25:69:34">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:36:69:47">interpreter</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="72:3:72:9">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="72:10:72:13">ret</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:8:73:22">isSynchronized</jtok>
+<jtok eid="4" type="line_comment" span="73:25:73:57">// Do the actual synchronization</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:18:74:27">syncValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:5:76:8">ret</jtok>
+<jtok eid="4" type="method_call" span="76:11:76:20">evalBlock</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:6:77:15">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:17:77:28">interpreter</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:30:77:47">overrideNamespace</jtok>
+<jtok eid="4" type="block_comment" span="77:53:77:63">/*filter*/</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:5:80:8">ret</jtok>
+<jtok eid="4" type="method_call" span="80:11:80:20">evalBlock</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:6:81:15">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:17:81:28">interpreter</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:30:81:47">overrideNamespace</jtok>
+<jtok eid="4" type="block_comment" span="81:53:81:63">/*filter*/</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:10:83:13">ret</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="86:2:86:8">Object</jtok>
+<jtok eid="5" type="method_name" span="86:9:86:18">evalBlock</jtok>
+<jtok eid="5" type="parameter_type" span="87:3:87:12">CallStack</jtok>
+<jtok eid="5" type="parameter_name" span="87:13:87:22">callstack</jtok>
+<jtok eid="5" type="parameter_type" span="87:24:87:35">Interpreter</jtok>
+<jtok eid="5" type="parameter_name" span="87:36:87:47">interpreter</jtok>
+<jtok eid="5" type="parameter_name" span="88:11:88:28">overrideNamespace</jtok>
+<jtok eid="5" type="parameter_type" span="88:30:88:40">NodeFilter</jtok>
+<jtok eid="5" type="parameter_name" span="88:41:88:51">nodeFilter</jtok>
+<jtok eid="5" type="throws" span="89:10:89:19">EvalError</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="91:3:91:9">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="91:10:91:13">ret</jtok>
+<jtok eid="5" type="primary_name_ref" span="91:16:91:25">Primitive</jtok>
+<jtok eid="5" type="qualified_name_ref" span="91:26:91:30">VOID</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="92:3:92:12">NameSpace</jtok>
+<jtok eid="5" type="local_variable_name" span="92:13:92:31">enclosingNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="93:9:93:26">overrideNamespace</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:4:95:22">enclosingNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:24:95:33">callstack</jtok>
+<jtok eid="5" type="method_call" span="95:34:95:37">top</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="96:4:96:18">BlockNameSpace</jtok>
+<jtok eid="5" type="local_variable_name" span="96:19:96:32">bodyNameSpace</jtok>
+<jtok eid="5" type="constructor_call" span="97:9:97:23">BlockNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:25:97:43">enclosingNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:4:99:13">callstack</jtok>
+<jtok eid="5" type="method_call" span="99:14:99:18">swap</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:20:99:33">bodyNameSpace</jtok>
+<jtok eid="5" type="local_variable_name" span="102:7:102:17">startChild</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:20:102:34">isSynchronized</jtok>
+<jtok eid="5" type="local_variable_name" span="103:7:103:18">numChildren</jtok>
+<jtok eid="5" type="method_call" span="103:21:103:38">jjtGetNumChildren</jtok>
+<jtok eid="5" type="block_comment" span="106:4:109:6">/*
+				Evaluate block in two passes: 
+				First do class declarations then do everything else.
+			*/</jtok>
+<jtok eid="5" type="local_variable_name" span="110:12:110:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:14:110:24">startChild</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:26:110:27">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:28:110:39">numChildren</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:41:110:42">i</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:5:112:15">SimpleNode</jtok>
+<jtok eid="5" type="local_variable_name" span="112:16:112:20">node</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:25:112:35">SimpleNode</jtok>
+<jtok eid="5" type="method_call" span="112:36:112:47">jjtGetChild</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:48:112:49">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:10:114:20">nodeFilter</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:33:114:43">nodeFilter</jtok>
+<jtok eid="5" type="method_call" span="114:44:114:53">isVisible</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:55:114:59">node</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:10:117:14">node</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="117:26:117:45">BSHClassDeclaration</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:6:118:10">node</jtok>
+<jtok eid="5" type="method_call" span="118:11:118:15">eval</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:17:118:26">callstack</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:28:118:39">interpreter</jtok>
+<jtok eid="5" type="local_variable_name" span="120:12:120:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="120:14:120:24">startChild</jtok>
+<jtok eid="5" type="primary_name_ref" span="120:26:120:27">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="120:28:120:39">numChildren</jtok>
+<jtok eid="5" type="primary_name_ref" span="120:41:120:42">i</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="122:5:122:15">SimpleNode</jtok>
+<jtok eid="5" type="local_variable_name" span="122:16:122:20">node</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="122:25:122:35">SimpleNode</jtok>
+<jtok eid="5" type="method_call" span="122:36:122:47">jjtGetChild</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:48:122:49">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:10:123:14">node</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="123:26:123:45">BSHClassDeclaration</jtok>
+<jtok eid="5" type="line_comment" span="126:5:126:20">// filter nodes</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:10:127:20">nodeFilter</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:33:127:43">nodeFilter</jtok>
+<jtok eid="5" type="method_call" span="127:44:127:53">isVisible</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:55:127:59">node</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:5:130:8">ret</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:11:130:15">node</jtok>
+<jtok eid="5" type="method_call" span="130:16:130:20">eval</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:22:130:31">callstack</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:33:130:44">interpreter</jtok>
+<jtok eid="5" type="line_comment" span="132:5:132:64">// statement or embedded block evaluated a return statement</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:10:133:13">ret</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="133:25:133:38">ReturnControl</jtok>
+<jtok eid="5" type="line_comment" span="137:4:137:57">// make sure we put the namespace back when we leave.</jtok>
+<jtok eid="5" type="primary_name_ref" span="138:10:138:27">overrideNamespace</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:5:139:14">callstack</jtok>
+<jtok eid="5" type="method_call" span="139:15:139:19">swap</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:21:139:39">enclosingNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:10:141:13">ret</jtok>
+<jtok eid="6" type="interface_name" span="144:19:144:29">NodeFilter</jtok>
+<jtok eid="7" type="method_name" span="145:18:145:27">isVisible</jtok>
+<jtok eid="7" type="parameter_type" span="145:29:145:39">SimpleNode</jtok>
+<jtok eid="7" type="parameter_name" span="145:40:145:44">node</jtok>
+</jdoc>

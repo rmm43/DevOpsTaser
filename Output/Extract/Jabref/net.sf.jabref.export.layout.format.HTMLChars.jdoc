@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.layout.format.HTMLChars" jls="java5">
+<jent id="0" type="file" span="0:0:225:1">Source/jabref/src/java/net/sf/jabref/export/layout/format/HTMLChars.java</jent>
+<jent id="1" pid="0" type="class" span="11:1:225:1">net.sf.jabref.export.layout.format.HTMLChars</jent>
+<jent id="2" pid="1" type="method" span="13:2:183:2">net.sf.jabref.export.layout.format.HTMLChars.format(String)</jent>
+<jent id="3" pid="1" type="method" span="185:2:213:2">net.sf.jabref.export.layout.format.HTMLChars.getPart(String,int,boolean)</jent>
+<jent id="4" pid="1" type="class" span="215:2:224:2">net.sf.jabref.export.layout.format.HTMLChars.IntAndString</jent>
+<jent id="5" pid="4" type="method" span="220:3:223:3">net.sf.jabref.export.layout.format.HTMLChars.IntAndString.IntAndString(int,String)</jent>
+<jtok eid="0" type="block_comment" span="6:1:10:4">/**
+ * This formatter escapes characters so they are suitable for HTML.
+ * 
+ * @version $Revision: 3128 $ ($Date: 2009-11-01 11:38:08 +0100 (Sun, 01 Nov 2009) $)
+ */</jtok>
+<jtok eid="1" type="class_name" span="11:14:11:23">HTMLChars</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="11:35:11:50">LayoutFormatter</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="13:9:13:15">String</jtok>
+<jtok eid="2" type="method_name" span="13:16:13:22">format</jtok>
+<jtok eid="2" type="parameter_type" span="13:23:13:29">String</jtok>
+<jtok eid="2" type="parameter_name" span="13:30:13:35">field</jtok>
+<jtok eid="2" type="local_variable_name" span="14:7:14:8">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="15:3:15:8">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="15:11:15:16">field</jtok>
+<jtok eid="2" type="method_call" span="15:17:15:27">replaceAll</jtok>
+<jtok eid="2" type="string_literal" span="15:28:15:37">"&amp;|\\\\&amp;"</jtok>
+<jtok eid="2" type="string_literal" span="15:39:15:46">"&amp;amp;"</jtok>
+<jtok eid="2" type="method_call" span="15:48:15:58">replaceAll</jtok>
+<jtok eid="2" type="string_literal" span="15:59:15:70">"[\\n]{2,}"</jtok>
+<jtok eid="2" type="string_literal" span="15:72:15:77">"&lt;p&gt;"</jtok>
+<jtok eid="2" type="method_call" span="16:18:16:28">replaceAll</jtok>
+<jtok eid="2" type="string_literal" span="16:29:16:34">"\\n"</jtok>
+<jtok eid="2" type="string_literal" span="16:36:16:42">"&lt;br&gt;"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="18:3:18:15">StringBuffer</jtok>
+<jtok eid="2" type="local_variable_name" span="18:16:18:18">sb</jtok>
+<jtok eid="2" type="constructor_call" span="18:25:18:37">StringBuffer</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="19:3:19:15">StringBuffer</jtok>
+<jtok eid="2" type="local_variable_name" span="19:16:19:30">currentCommand</jtok>
+<jtok eid="2" type="local_variable_name" span="21:8:21:9">c</jtok>
+<jtok eid="2" type="local_variable_name" span="22:11:22:18">escaped</jtok>
+<jtok eid="2" type="local_variable_name" span="22:28:22:37">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="24:8:24:9">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="24:15:24:16">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="24:19:24:24">field</jtok>
+<jtok eid="2" type="method_call" span="24:25:24:31">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="24:35:24:36">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="25:4:25:5">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="25:8:25:13">field</jtok>
+<jtok eid="2" type="method_call" span="25:14:25:20">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="25:21:25:22">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="26:8:26:15">escaped</jtok>
+<jtok eid="2" type="primary_name_ref" span="26:20:26:21">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="27:5:27:7">sb</jtok>
+<jtok eid="2" type="method_call" span="27:8:27:14">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="28:5:28:12">escaped</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:15:29:16">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="30:9:30:18">incommand</jtok>
+<jtok eid="2" type="block_comment" span="31:6:31:25">/* Close Command */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="32:6:32:12">String</jtok>
+<jtok eid="2" type="local_variable_name" span="32:13:32:20">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="32:23:32:37">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="32:38:32:46">toString</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="33:6:33:12">Object</jtok>
+<jtok eid="2" type="local_variable_name" span="33:13:33:19">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:22:33:29">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="33:30:33:39">HTMLCHARS</jtok>
+<jtok eid="2" type="method_call" span="33:40:33:43">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:44:33:51">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:10:34:16">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:7:35:9">sb</jtok>
+<jtok eid="2" type="method_call" span="35:10:35:16">append</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="35:18:35:24">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:26:35:32">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:7:37:9">sb</jtok>
+<jtok eid="2" type="method_call" span="37:10:37:16">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:17:37:24">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:5:40:12">escaped</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:5:41:14">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:5:42:19">currentCommand</jtok>
+<jtok eid="2" type="constructor_call" span="42:26:42:38">StringBuffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:16:43:25">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:30:43:31">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:42:43:43">c</jtok>
+<jtok eid="2" type="line_comment" span="44:5:44:26">// Swallow the brace.</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:15:45:24">Character</jtok>
+<jtok eid="2" type="method_call" span="45:25:45:33">isLetter</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:34:45:35">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:41:45:42">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:9:46:16">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="46:17:46:38">SPECIAL_COMMAND_CHARS</jtok>
+<jtok eid="2" type="method_call" span="46:39:46:46">indexOf</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:47:46:53">String</jtok>
+<jtok eid="2" type="method_call" span="46:54:46:61">valueOf</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:62:46:63">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:5:47:12">escaped</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:22:49:31">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:6:50:8">sb</jtok>
+<jtok eid="2" type="method_call" span="50:9:50:15">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:16:50:17">c</jtok>
+<jtok eid="2" type="line_comment" span="51:6:51:66">// Else we are in a command, and should not keep the letter.</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:6:53:20">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="53:21:53:27">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:28:53:29">c</jtok>
+<jtok eid="2" type="label_name" span="54:21:54:32">testCharCom</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:39:54:53">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="54:54:54:60">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:11:55:18">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:19:55:40">SPECIAL_COMMAND_CHARS</jtok>
+<jtok eid="2" type="method_call" span="55:41:55:48">indexOf</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:49:55:63">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="55:64:55:72">toString</jtok>
+<jtok eid="2" type="line_comment" span="56:7:56:61">// This indicates that we are in a command of the type</jtok>
+<jtok eid="2" type="line_comment" span="57:7:57:22">// \^o or \~{n}</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:11:58:12">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:16:58:21">field</jtok>
+<jtok eid="2" type="method_call" span="58:22:58:28">length</jtok>
+<jtok eid="2" type="label_ref" span="59:14:59:25">testCharCom</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="61:7:61:13">String</jtok>
+<jtok eid="2" type="local_variable_name" span="61:14:61:21">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:24:61:38">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="61:39:61:47">toString</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:7:62:8">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:7:63:8">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:11:63:16">field</jtok>
+<jtok eid="2" type="method_call" span="63:17:63:23">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:24:63:25">i</jtok>
+<jtok eid="2" type="line_comment" span="64:7:64:47">// System.out.println("next: "+(char)c);</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="65:7:65:13">String</jtok>
+<jtok eid="2" type="local_variable_name" span="65:14:65:21">combody</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:11:66:12">c</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="67:8:67:20">IntAndString</jtok>
+<jtok eid="2" type="local_variable_name" span="67:21:67:25">part</jtok>
+<jtok eid="2" type="method_call" span="67:28:67:35">getPart</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:36:67:41">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:43:67:44">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:8:68:9">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:13:68:17">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="68:18:68:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:8:69:15">combody</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:18:69:22">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="69:23:69:24">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:8:71:15">combody</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:18:71:23">field</jtok>
+<jtok eid="2" type="method_call" span="71:24:71:33">substring</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:34:71:35">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:37:71:38">i</jtok>
+<jtok eid="2" type="line_comment" span="72:8:72:46">// System.out.println("... "+combody);</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="74:7:74:13">Object</jtok>
+<jtok eid="2" type="local_variable_name" span="74:14:74:20">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:23:74:30">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="74:31:74:40">HTMLCHARS</jtok>
+<jtok eid="2" type="method_call" span="74:41:74:44">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:45:74:52">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:55:74:62">combody</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:11:76:17">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:8:77:10">sb</jtok>
+<jtok eid="2" type="method_call" span="77:11:77:17">append</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="77:19:77:25">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:27:77:33">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:7:79:16">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:7:80:14">escaped</jtok>
+<jtok eid="2" type="line_comment" span="82:7:82:50">//	Are we already at the end of the string?</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:11:83:12">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:20:83:25">field</jtok>
+<jtok eid="2" type="method_call" span="83:26:83:32">length</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="84:8:84:14">String</jtok>
+<jtok eid="2" type="local_variable_name" span="84:15:84:22">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:25:84:39">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="84:40:84:48">toString</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="85:29:85:35">Object</jtok>
+<jtok eid="2" type="local_variable_name" span="85:36:85:42">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:45:85:52">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="85:53:85:62">HTMLCHARS</jtok>
+<jtok eid="2" type="method_call" span="85:63:85:66">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:67:85:74">command</jtok>
+<jtok eid="2" type="block_comment" span="86:8:89:11">/* If found, then use translated version. If not,
+							 * then keep
+							 * the text of the parameter intact.
+							 */</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:12:90:18">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:9:91:11">sb</jtok>
+<jtok eid="2" type="method_call" span="91:12:91:18">append</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="91:20:91:26">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:28:91:34">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:9:93:11">sb</jtok>
+<jtok eid="2" type="method_call" span="93:12:93:18">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:19:93:26">command</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="100:5:100:11">String</jtok>
+<jtok eid="2" type="local_variable_name" span="100:12:100:20">argument</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:10:102:19">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:6:103:8">sb</jtok>
+<jtok eid="2" type="method_call" span="103:9:103:15">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:16:103:17">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:16:104:25">Character</jtok>
+<jtok eid="2" type="method_call" span="104:26:104:38">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:39:104:40">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:46:104:47">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:60:104:61">c</jtok>
+<jtok eid="2" type="line_comment" span="105:6:105:63">// First test if we are already at the end of the string.</jtok>
+<jtok eid="2" type="line_comment" span="106:6:106:35">// if (i &gt;= field.length()-1)</jtok>
+<jtok eid="2" type="line_comment" span="107:6:107:27">// break testContent;</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="109:6:109:12">String</jtok>
+<jtok eid="2" type="local_variable_name" span="109:13:109:20">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:23:109:37">currentCommand</jtok>
+<jtok eid="2" type="method_call" span="109:38:109:46">toString</jtok>
+<jtok eid="2" type="line_comment" span="111:21:111:74">// Then test if we are dealing with a italics or bold</jtok>
+<jtok eid="2" type="line_comment" span="112:6:112:17">// command.</jtok>
+<jtok eid="2" type="line_comment" span="113:6:113:23">// If so, handle.</jtok>
+<jtok eid="2" type="primary_name_ref" span="114:10:114:17">command</jtok>
+<jtok eid="2" type="method_call" span="114:18:114:24">equals</jtok>
+<jtok eid="2" type="string_literal" span="114:25:114:29">"em"</jtok>
+<jtok eid="2" type="primary_name_ref" span="114:34:114:41">command</jtok>
+<jtok eid="2" type="method_call" span="114:42:114:48">equals</jtok>
+<jtok eid="2" type="string_literal" span="114:49:114:55">"emph"</jtok>
+<jtok eid="2" type="primary_name_ref" span="114:60:114:67">command</jtok>
+<jtok eid="2" type="method_call" span="114:68:114:74">equals</jtok>
+<jtok eid="2" type="string_literal" span="114:75:114:83">"textit"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="115:7:115:19">IntAndString</jtok>
+<jtok eid="2" type="local_variable_name" span="115:20:115:24">part</jtok>
+<jtok eid="2" type="method_call" span="115:27:115:34">getPart</jtok>
+<jtok eid="2" type="primary_name_ref" span="115:35:115:40">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="115:42:115:43">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:7:117:8">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:12:117:16">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="117:17:117:18">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="118:7:118:9">sb</jtok>
+<jtok eid="2" type="method_call" span="118:10:118:16">append</jtok>
+<jtok eid="2" type="string_literal" span="118:17:118:23">"&lt;em&gt;"</jtok>
+<jtok eid="2" type="method_call" span="118:25:118:31">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="118:32:118:36">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="118:37:118:38">s</jtok>
+<jtok eid="2" type="method_call" span="118:40:118:46">append</jtok>
+<jtok eid="2" type="string_literal" span="118:47:118:54">"&lt;/em&gt;"</jtok>
+<jtok eid="2" type="primary_name_ref" span="119:17:119:24">command</jtok>
+<jtok eid="2" type="method_call" span="119:25:119:31">equals</jtok>
+<jtok eid="2" type="string_literal" span="119:32:119:40">"textbf"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="120:7:120:19">IntAndString</jtok>
+<jtok eid="2" type="local_variable_name" span="120:20:120:24">part</jtok>
+<jtok eid="2" type="method_call" span="120:27:120:34">getPart</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:35:120:40">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:42:120:43">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:7:121:8">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:12:121:16">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="121:17:121:18">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="122:7:122:9">sb</jtok>
+<jtok eid="2" type="method_call" span="122:10:122:16">append</jtok>
+<jtok eid="2" type="string_literal" span="122:17:122:22">"&lt;b&gt;"</jtok>
+<jtok eid="2" type="method_call" span="122:24:122:30">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="122:31:122:35">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="122:36:122:37">s</jtok>
+<jtok eid="2" type="method_call" span="122:39:122:45">append</jtok>
+<jtok eid="2" type="string_literal" span="122:46:122:52">"&lt;/b&gt;"</jtok>
+<jtok eid="2" type="primary_name_ref" span="123:17:123:18">c</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="124:7:124:19">IntAndString</jtok>
+<jtok eid="2" type="local_variable_name" span="124:20:124:24">part</jtok>
+<jtok eid="2" type="method_call" span="124:27:124:34">getPart</jtok>
+<jtok eid="2" type="primary_name_ref" span="124:35:124:40">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="124:42:124:43">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="125:7:125:8">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="125:12:125:16">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="125:17:125:18">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:7:126:15">argument</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:18:126:22">part</jtok>
+<jtok eid="2" type="qualified_name_ref" span="126:23:126:24">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="127:11:127:19">argument</jtok>
+<jtok eid="2" type="line_comment" span="128:8:128:54">// handle common case of general latex command</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="129:8:129:14">Object</jtok>
+<jtok eid="2" type="local_variable_name" span="129:15:129:21">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:24:129:31">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="129:32:129:41">HTMLCHARS</jtok>
+<jtok eid="2" type="method_call" span="129:42:129:45">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:46:129:53">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:56:129:64">argument</jtok>
+<jtok eid="2" type="line_comment" span="130:8:130:68">// System.out.print("command: "+command+", arg: "+argument);</jtok>
+<jtok eid="2" type="line_comment" span="131:8:131:42">// System.out.print(", result: ");</jtok>
+<jtok eid="2" type="line_comment" span="132:8:132:67">// If found, then use translated version. If not, then keep</jtok>
+<jtok eid="2" type="line_comment" span="133:8:133:14">// the</jtok>
+<jtok eid="2" type="line_comment" span="134:8:134:40">// text of the parameter intact.</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:12:135:18">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="136:9:136:11">sb</jtok>
+<jtok eid="2" type="method_call" span="136:12:136:18">append</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="136:20:136:26">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="136:28:136:34">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="138:9:138:11">sb</jtok>
+<jtok eid="2" type="method_call" span="138:12:138:18">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="138:19:138:27">argument</jtok>
+<jtok eid="2" type="primary_name_ref" span="141:32:141:33">c</jtok>
+<jtok eid="2" type="line_comment" span="142:25:142:88">// This end brace terminates a command. This can be the case in</jtok>
+<jtok eid="2" type="line_comment" span="143:25:143:85">// constructs like {\aa}. The correct behaviour should be to</jtok>
+<jtok eid="2" type="line_comment" span="144:25:144:83">// substitute the evaluated command and swallow the brace:</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="145:25:145:31">Object</jtok>
+<jtok eid="2" type="local_variable_name" span="145:32:145:38">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="145:41:145:48">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="145:49:145:58">HTMLCHARS</jtok>
+<jtok eid="2" type="method_call" span="145:59:145:62">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="145:63:145:70">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="146:29:146:35">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="147:29:147:31">sb</jtok>
+<jtok eid="2" type="method_call" span="147:32:147:38">append</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="147:40:147:46">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="147:48:147:54">result</jtok>
+<jtok eid="2" type="line_comment" span="149:29:149:73">// If the command is unknown, just print it:</jtok>
+<jtok eid="2" type="primary_name_ref" span="150:29:150:31">sb</jtok>
+<jtok eid="2" type="method_call" span="150:32:150:38">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="150:39:150:46">command</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="153:7:153:13">Object</jtok>
+<jtok eid="2" type="local_variable_name" span="153:14:153:20">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="153:23:153:30">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="153:31:153:40">HTMLCHARS</jtok>
+<jtok eid="2" type="method_call" span="153:41:153:44">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="153:45:153:52">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="154:11:154:17">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="155:8:155:10">sb</jtok>
+<jtok eid="2" type="method_call" span="155:11:155:17">append</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="155:19:155:25">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="155:27:155:33">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="157:8:157:10">sb</jtok>
+<jtok eid="2" type="method_call" span="157:11:157:17">append</jtok>
+<jtok eid="2" type="primary_name_ref" span="157:18:157:25">command</jtok>
+<jtok eid="2" type="primary_name_ref" span="159:7:159:9">sb</jtok>
+<jtok eid="2" type="method_call" span="159:10:159:16">append</jtok>
+<jtok eid="2" type="block_comment" span="161:6:165:8">/* else if (c == '}') {
+                    System.out.printf("com term by }: '%s'\n", currentCommand.toString());
+
+                    argument = "";
+				}*/</jtok>
+<jtok eid="2" type="block_comment" span="166:6:174:9">/*
+					 * TODO: this point is reached, apparently, if a command is
+					 * terminated in a strange way, such as with "$\omega$".
+					 * Also, the command "\&amp;" causes us to get here. The former
+					 * issue is maybe a little difficult to address, since it
+					 * involves the LaTeX math mode. We don't have a complete
+					 * LaTeX parser, so maybe it's better to ignore these
+					 * commands?
+					 */</jtok>
+<jtok eid="2" type="primary_name_ref" span="177:5:177:14">incommand</jtok>
+<jtok eid="2" type="primary_name_ref" span="178:5:178:12">escaped</jtok>
+<jtok eid="2" type="primary_name_ref" span="182:10:182:12">sb</jtok>
+<jtok eid="2" type="method_call" span="182:13:182:21">toString</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="185:10:185:22">IntAndString</jtok>
+<jtok eid="3" type="method_name" span="185:23:185:30">getPart</jtok>
+<jtok eid="3" type="parameter_type" span="185:31:185:37">String</jtok>
+<jtok eid="3" type="parameter_name" span="185:38:185:42">text</jtok>
+<jtok eid="3" type="parameter_name" span="185:48:185:49">i</jtok>
+<jtok eid="3" type="parameter_name" span="185:59:185:82">terminateOnEndBraceOnly</jtok>
+<jtok eid="3" type="local_variable_name" span="186:8:186:9">c</jtok>
+<jtok eid="3" type="local_variable_name" span="187:7:187:12">count</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="189:3:189:15">StringBuffer</jtok>
+<jtok eid="3" type="local_variable_name" span="189:16:189:20">part</jtok>
+<jtok eid="3" type="constructor_call" span="189:27:189:39">StringBuffer</jtok>
+<jtok eid="3" type="line_comment" span="191:3:191:48">// advance to first char and skip wihitespace</jtok>
+<jtok eid="3" type="primary_name_ref" span="192:3:192:4">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="193:10:193:11">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="193:14:193:18">text</jtok>
+<jtok eid="3" type="method_call" span="193:19:193:25">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="193:31:193:40">Character</jtok>
+<jtok eid="3" type="method_call" span="193:41:193:53">isWhitespace</jtok>
+<jtok eid="3" type="primary_name_ref" span="193:54:193:58">text</jtok>
+<jtok eid="3" type="method_call" span="193:59:193:65">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="193:66:193:67">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="194:4:194:5">i</jtok>
+<jtok eid="3" type="line_comment" span="197:3:197:62">// then grab whathever is the first token (counting braces)</jtok>
+<jtok eid="3" type="primary_name_ref" span="198:10:198:11">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="198:14:198:18">text</jtok>
+<jtok eid="3" type="method_call" span="198:19:198:25">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:4:199:5">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:8:199:12">text</jtok>
+<jtok eid="3" type="method_call" span="199:13:199:19">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:20:199:21">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:9:200:32">terminateOnEndBraceOnly</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:36:200:41">count</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:50:200:59">Character</jtok>
+<jtok eid="3" type="method_call" span="200:60:200:72">isWhitespace</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:73:200:74">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="201:5:201:6">i</jtok>
+<jtok eid="3" type="line_comment" span="201:10:201:58">// end argument and leave whitespace for further</jtok>
+<jtok eid="3" type="line_comment" span="202:7:202:20">// processing</jtok>
+<jtok eid="3" type="primary_name_ref" span="205:8:205:9">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="205:22:205:27">count</jtok>
+<jtok eid="3" type="primary_name_ref" span="207:13:207:14">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="208:5:208:10">count</jtok>
+<jtok eid="3" type="primary_name_ref" span="209:4:209:8">part</jtok>
+<jtok eid="3" type="method_call" span="209:9:209:15">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="209:16:209:17">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="210:4:210:5">i</jtok>
+<jtok eid="3" type="constructor_call" span="212:14:212:26">IntAndString</jtok>
+<jtok eid="3" type="primary_name_ref" span="212:27:212:31">part</jtok>
+<jtok eid="3" type="method_call" span="212:32:212:38">length</jtok>
+<jtok eid="3" type="method_call" span="212:42:212:48">format</jtok>
+<jtok eid="3" type="primary_name_ref" span="212:49:212:53">part</jtok>
+<jtok eid="3" type="method_call" span="212:54:212:62">toString</jtok>
+<jtok eid="4" type="class_name" span="215:16:215:28">IntAndString</jtok>
+<jtok eid="4" type="field_name" span="216:14:216:15">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="218:3:218:9">String</jtok>
+<jtok eid="4" type="field_name" span="218:10:218:11">s</jtok>
+<jtok eid="5" type="method_name" span="220:10:220:22">IntAndString</jtok>
+<jtok eid="5" type="parameter_name" span="220:27:220:28">i</jtok>
+<jtok eid="5" type="parameter_type" span="220:30:220:36">String</jtok>
+<jtok eid="5" type="parameter_name" span="220:37:220:38">s</jtok>
+<jtok eid="5" type="qualified_name_ref" span="221:9:221:10">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:13:221:14">i</jtok>
+<jtok eid="5" type="qualified_name_ref" span="222:9:222:10">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:13:222:14">s</jtok>
+</jdoc>

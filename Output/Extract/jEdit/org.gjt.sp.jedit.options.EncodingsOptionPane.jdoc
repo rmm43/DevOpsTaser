@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.options.EncodingsOptionPane" jls="java5">
+<jent id="0" type="file" span="0:0:232:7">Source/jEdit/org/gjt/sp/jedit/options/EncodingsOptionPane.java</jent>
+<jent id="1" pid="0" type="class" span="64:1:232:1">org.gjt.sp.jedit.options.EncodingsOptionPane</jent>
+<jent id="2" pid="1" type="method" span="78:2:81:2">org.gjt.sp.jedit.options.EncodingsOptionPane.EncodingsOptionPane()</jent>
+<jent id="3" pid="1" type="method" span="85:2:156:2">org.gjt.sp.jedit.options.EncodingsOptionPane._init()</jent>
+<jent id="4" pid="1" type="method" span="160:2:181:2">org.gjt.sp.jedit.options.EncodingsOptionPane._save()</jent>
+<jent id="5" pid="1" type="class" span="186:2:203:2">org.gjt.sp.jedit.options.EncodingsOptionPane.ActionHandler</jent>
+<jent id="6" pid="5" type="method" span="188:3:202:3">org.gjt.sp.jedit.options.EncodingsOptionPane.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="7" pid="1" type="class" span="206:2:228:2">org.gjt.sp.jedit.options.EncodingsOptionPane.TableModelHandler</jent>
+<jent id="8" pid="7" type="method" span="208:3:227:3">org.gjt.sp.jedit.options.EncodingsOptionPane.TableModelHandler.tableChanged(TableModelEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * EncodingsOptionPane.java - Encodings options panel
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Björn Kautler
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="54:1:54:6">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="56:1:56:32">//{{{ EncodingsOptionPane class</jtok>
+<jtok eid="0" type="block_comment" span="57:1:63:4">/**
+ * Encodings options.
+ * 
+ * @author Björn Kautler
+ * @since jEdit 4.3pre6
+ * @version $Id: EncodingsOptionPane.java 16347 2009-10-14 10:37:09Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="64:14:64:33">EncodingsOptionPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:42:64:60">AbstractOptionPane</jtok>
+<jtok eid="1" type="line_comment" span="66:2:66:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="67:10:67:19">JComboBox</jtok>
+<jtok eid="1" type="field_name" span="67:20:67:35">defaultEncoding</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="68:10:68:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="68:20:68:38">encodingAutodetect</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="69:10:69:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="69:21:69:38">encodingDetectors</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="70:10:70:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="70:21:70:38">fallbackEncodings</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:10:72:23">JCheckBoxList</jtok>
+<jtok eid="1" type="field_name" span="72:24:72:37">encodingsList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="73:10:73:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="73:18:73:33">selectAllButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="74:10:74:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="74:18:74:34">selectNoneButton</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="77:2:77:39">//{{{ EncodingsOptionPane constructor</jtok>
+<jtok eid="2" type="method_name" span="78:9:78:28">EncodingsOptionPane</jtok>
+<jtok eid="2" type="string_literal" span="80:9:80:20">"encodings"</jtok>
+<jtok eid="1" type="line_comment" span="81:4:81:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="83:2:83:22">//{{{ _init() method</jtok>
+<jtok eid="1" type="annotation_ref" span="84:3:84:11">Override</jtok>
+<jtok eid="3" type="method_name" span="85:17:85:22">_init</jtok>
+<jtok eid="3" type="line_comment" span="87:3:87:27">// Default file encoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="88:3:88:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="88:12:88:21">encodings</jtok>
+<jtok eid="3" type="method_call" span="88:24:88:36">getEncodings</jtok>
+<jtok eid="3" type="method_call" span="89:3:89:7">sort</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:8:89:17">encodings</jtok>
+<jtok eid="3" type="constructor_call" span="89:22:89:39">StandardUtilities</jtok>
+<jtok eid="3" type="constructor_call" span="89:40:89:53">StringCompare</jtok>
+<jtok eid="3" type="constructor_call" span="89:54:89:60">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:3:90:18">defaultEncoding</jtok>
+<jtok eid="3" type="constructor_call" span="90:25:90:34">JComboBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:35:90:44">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:3:91:18">defaultEncoding</jtok>
+<jtok eid="3" type="method_call" span="91:19:91:30">setEditable</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:3:92:18">defaultEncoding</jtok>
+<jtok eid="3" type="method_call" span="92:19:92:34">setSelectedItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:35:92:40">jEdit</jtok>
+<jtok eid="3" type="method_call" span="92:41:92:52">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="92:53:92:62">"buffer."</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:63:92:74">JEditBuffer</jtok>
+<jtok eid="3" type="qualified_name_ref" span="92:75:92:83">ENCODING</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:4:93:10">System</jtok>
+<jtok eid="3" type="method_call" span="93:11:93:22">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="93:23:93:38">"file.encoding"</jtok>
+<jtok eid="3" type="method_call" span="94:3:94:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:16:94:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="94:22:94:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="94:34:94:60">"options.general.encoding"</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:62:94:77">defaultEncoding</jtok>
+<jtok eid="3" type="line_comment" span="96:3:96:26">// Auto detect encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:3:97:21">encodingAutodetect</jtok>
+<jtok eid="3" type="constructor_call" span="97:28:97:37">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:38:97:43">jEdit</jtok>
+<jtok eid="3" type="method_call" span="97:44:97:55">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="98:4:98:40">"options.general.encodingAutodetect"</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:3:99:21">encodingAutodetect</jtok>
+<jtok eid="3" type="method_call" span="99:22:99:33">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:34:99:39">jEdit</jtok>
+<jtok eid="3" type="method_call" span="99:40:99:58">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="100:4:100:31">"buffer.encodingAutodetect"</jtok>
+<jtok eid="3" type="method_call" span="101:3:101:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:16:101:34">encodingAutodetect</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:35:101:39">BOTH</jtok>
+<jtok eid="3" type="line_comment" span="103:3:103:24">// Encoding detectors</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:3:104:20">encodingDetectors</jtok>
+<jtok eid="3" type="constructor_call" span="104:27:104:37">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:38:104:43">jEdit</jtok>
+<jtok eid="3" type="method_call" span="104:44:104:55">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="105:4:105:23">"encodingDetectors"</jtok>
+<jtok eid="3" type="string_literal" span="105:24:105:36">"BOM XML-PI"</jtok>
+<jtok eid="3" type="method_call" span="106:3:106:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:16:106:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="106:22:106:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="106:34:106:69">"options.general.encodingDetectors"</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:71:106:88">encodingDetectors</jtok>
+<jtok eid="3" type="line_comment" span="108:3:108:24">// Fallback Encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:3:109:20">fallbackEncodings</jtok>
+<jtok eid="3" type="constructor_call" span="109:27:109:37">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:38:109:43">jEdit</jtok>
+<jtok eid="3" type="method_call" span="109:44:109:55">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="110:4:110:23">"fallbackEncodings"</jtok>
+<jtok eid="3" type="string_literal" span="110:24:110:26">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:3:111:20">fallbackEncodings</jtok>
+<jtok eid="3" type="method_call" span="111:21:111:35">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:36:111:41">jEdit</jtok>
+<jtok eid="3" type="method_call" span="111:42:111:53">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="112:4:112:47">"options.general.fallbackEncodings.tooltip"</jtok>
+<jtok eid="3" type="method_call" span="113:3:113:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:16:113:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="113:22:113:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="113:34:113:69">"options.general.fallbackEncodings"</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:71:113:88">fallbackEncodings</jtok>
+<jtok eid="3" type="line_comment" span="115:3:115:26">// Encodings to display</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:3:116:12">encodings</jtok>
+<jtok eid="3" type="method_call" span="116:15:116:27">getEncodings</jtok>
+<jtok eid="3" type="method_call" span="117:3:117:7">sort</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:8:117:17">encodings</jtok>
+<jtok eid="3" type="constructor_call" span="117:22:117:39">StandardUtilities</jtok>
+<jtok eid="3" type="constructor_call" span="117:40:117:53">StringCompare</jtok>
+<jtok eid="3" type="constructor_call" span="117:54:117:60">String</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="118:3:118:9">Vector</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="118:10:118:15">Entry</jtok>
+<jtok eid="3" type="local_variable_name" span="118:17:118:38">encodingEntriesVector</jtok>
+<jtok eid="3" type="constructor_call" span="118:45:118:51">Vector</jtok>
+<jtok eid="3" type="constructor_call" span="118:52:118:57">Entry</jtok>
+<jtok eid="3" type="local_variable_name" span="119:11:119:26">enableSelectAll</jtok>
+<jtok eid="3" type="local_variable_name" span="120:11:120:27">enableSelectNone</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="121:8:121:14">String</jtok>
+<jtok eid="3" type="local_variable_name" span="121:15:121:23">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:26:121:35">encodings</jtok>
+<jtok eid="3" type="local_variable_name" span="123:12:123:20">selected</jtok>
+<jtok eid="3" type="method_call" span="123:24:123:42">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="123:43:123:62">"encoding.opt-out."</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:63:123:71">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:4:124:19">enableSelectAll</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:22:124:37">enableSelectAll</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:42:124:50">selected</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:4:125:20">enableSelectNone</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:23:125:39">enableSelectNone</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:43:125:51">selected</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:4:126:25">encodingEntriesVector</jtok>
+<jtok eid="3" type="method_call" span="126:26:126:29">add</jtok>
+<jtok eid="3" type="constructor_call" span="126:34:126:39">Entry</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:40:126:48">selected</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:49:126:57">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:3:128:16">encodingsList</jtok>
+<jtok eid="3" type="constructor_call" span="128:23:128:36">JCheckBoxList</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:37:128:58">encodingEntriesVector</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:3:129:16">encodingsList</jtok>
+<jtok eid="3" type="method_call" span="129:17:129:25">getModel</jtok>
+<jtok eid="3" type="method_call" span="129:28:129:49">addTableModelListener</jtok>
+<jtok eid="3" type="constructor_call" span="129:54:129:71">TableModelHandler</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="130:3:130:14">JScrollPane</jtok>
+<jtok eid="3" type="local_variable_name" span="130:15:130:34">encodingsScrollPane</jtok>
+<jtok eid="3" type="constructor_call" span="130:41:130:52">JScrollPane</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:53:130:66">encodingsList</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:3:131:22">encodingsScrollPane</jtok>
+<jtok eid="3" type="method_call" span="131:23:131:32">setBorder</jtok>
+<jtok eid="3" type="constructor_call" span="132:8:132:20">TitledBorder</jtok>
+<jtok eid="3" type="method_call" span="132:21:132:32">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="132:33:132:68">"options.encodings.selectEncodings"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="133:3:133:12">Dimension</jtok>
+<jtok eid="3" type="local_variable_name" span="133:13:133:14">d</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:17:133:30">encodingsList</jtok>
+<jtok eid="3" type="method_call" span="133:31:133:47">getPreferredSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:3:134:4">d</jtok>
+<jtok eid="3" type="qualified_name_ref" span="134:5:134:11">height</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:14:134:18">Math</jtok>
+<jtok eid="3" type="method_call" span="134:19:134:22">min</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:23:134:24">d</jtok>
+<jtok eid="3" type="qualified_name_ref" span="134:25:134:31">height</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:3:135:22">encodingsScrollPane</jtok>
+<jtok eid="3" type="method_call" span="135:23:135:39">setPreferredSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:40:135:41">d</jtok>
+<jtok eid="3" type="method_call" span="136:3:136:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:16:136:35">encodingsScrollPane</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:36:136:40">BOTH</jtok>
+<jtok eid="3" type="line_comment" span="138:3:138:29">// Select All/None Buttons</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="139:3:139:6">Box</jtok>
+<jtok eid="3" type="local_variable_name" span="139:7:139:17">buttonsBox</jtok>
+<jtok eid="3" type="method_call" span="139:20:139:39">createHorizontalBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:3:140:13">buttonsBox</jtok>
+<jtok eid="3" type="method_call" span="140:14:140:17">add</jtok>
+<jtok eid="3" type="method_call" span="140:18:140:39">createHorizontalStrut</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="142:3:142:16">ActionHandler</jtok>
+<jtok eid="3" type="local_variable_name" span="142:17:142:30">actionHandler</jtok>
+<jtok eid="3" type="constructor_call" span="142:37:142:50">ActionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:3:143:18">selectAllButton</jtok>
+<jtok eid="3" type="constructor_call" span="143:25:143:32">JButton</jtok>
+<jtok eid="3" type="method_call" span="143:33:143:44">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="143:45:143:74">"options.encodings.selectAll"</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:3:144:18">selectAllButton</jtok>
+<jtok eid="3" type="method_call" span="144:19:144:36">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:37:144:50">actionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:3:145:18">selectAllButton</jtok>
+<jtok eid="3" type="method_call" span="145:19:145:29">setEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:30:145:45">enableSelectAll</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:3:146:13">buttonsBox</jtok>
+<jtok eid="3" type="method_call" span="146:14:146:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:18:146:33">selectAllButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:3:147:13">buttonsBox</jtok>
+<jtok eid="3" type="method_call" span="147:14:147:17">add</jtok>
+<jtok eid="3" type="method_call" span="147:18:147:39">createHorizontalStrut</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:3:149:19">selectNoneButton</jtok>
+<jtok eid="3" type="constructor_call" span="149:26:149:33">JButton</jtok>
+<jtok eid="3" type="method_call" span="149:34:149:45">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="149:46:149:76">"options.encodings.selectNone"</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:3:150:19">selectNoneButton</jtok>
+<jtok eid="3" type="method_call" span="150:20:150:37">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:38:150:51">actionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:3:151:19">selectNoneButton</jtok>
+<jtok eid="3" type="method_call" span="151:20:151:30">setEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:31:151:47">enableSelectNone</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:3:152:13">buttonsBox</jtok>
+<jtok eid="3" type="method_call" span="152:14:152:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:18:152:34">selectNoneButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="153:3:153:13">buttonsBox</jtok>
+<jtok eid="3" type="method_call" span="153:14:153:17">add</jtok>
+<jtok eid="3" type="method_call" span="153:18:153:39">createHorizontalStrut</jtok>
+<jtok eid="3" type="method_call" span="155:3:155:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:16:155:26">buttonsBox</jtok>
+<jtok eid="1" type="line_comment" span="156:4:156:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:22">//{{{ _save() method</jtok>
+<jtok eid="1" type="annotation_ref" span="159:3:159:11">Override</jtok>
+<jtok eid="4" type="method_name" span="160:17:160:22">_save</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:3:163:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="163:9:163:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="163:21:163:30">"buffer."</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:32:163:43">JEditBuffer</jtok>
+<jtok eid="4" type="qualified_name_ref" span="163:44:163:52">ENCODING</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="163:54:163:60">String</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:4:164:19">defaultEncoding</jtok>
+<jtok eid="4" type="method_call" span="164:20:164:35">getSelectedItem</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:3:165:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="165:9:165:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="165:28:165:55">"buffer.encodingAutodetect"</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:4:166:22">encodingAutodetect</jtok>
+<jtok eid="4" type="method_call" span="166:23:166:33">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:3:167:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="167:9:167:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="167:21:167:40">"encodingDetectors"</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:41:167:58">encodingDetectors</jtok>
+<jtok eid="4" type="method_call" span="167:59:167:66">getText</jtok>
+<jtok eid="4" type="primary_name_ref" span="168:3:168:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="168:9:168:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="168:21:168:40">"fallbackEncodings"</jtok>
+<jtok eid="4" type="primary_name_ref" span="168:41:168:58">fallbackEncodings</jtok>
+<jtok eid="4" type="method_call" span="168:59:168:66">getText</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="170:8:170:13">Entry</jtok>
+<jtok eid="4" type="local_variable_name" span="170:14:170:19">entry</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:22:170:35">encodingsList</jtok>
+<jtok eid="4" type="method_call" span="170:36:170:45">getValues</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:8:172:13">entry</jtok>
+<jtok eid="4" type="method_call" span="172:14:172:23">isChecked</jtok>
+<jtok eid="4" type="method_call" span="174:5:174:18">unsetProperty</jtok>
+<jtok eid="4" type="string_literal" span="174:19:174:38">"encoding.opt-out."</jtok>
+<jtok eid="4" type="primary_name_ref" span="174:39:174:44">entry</jtok>
+<jtok eid="4" type="method_call" span="174:45:174:53">getValue</jtok>
+<jtok eid="4" type="method_call" span="178:5:178:23">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="178:24:178:43">"encoding.opt-out."</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:44:178:49">entry</jtok>
+<jtok eid="4" type="method_call" span="178:50:178:58">getValue</jtok>
+<jtok eid="1" type="line_comment" span="181:4:181:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:21">//{{{ Inner classes</jtok>
+<jtok eid="1" type="line_comment" span="185:2:185:27">//{{{ ActionHandler class</jtok>
+<jtok eid="5" type="class_name" span="186:16:186:29">ActionHandler</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="186:41:186:55">ActionListener</jtok>
+<jtok eid="6" type="method_name" span="188:15:188:30">actionPerformed</jtok>
+<jtok eid="6" type="parameter_type" span="188:31:188:42">ActionEvent</jtok>
+<jtok eid="6" type="parameter_name" span="188:43:188:45">ae</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="190:4:190:10">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="190:11:190:17">source</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:20:190:22">ae</jtok>
+<jtok eid="6" type="method_call" span="190:23:190:32">getSource</jtok>
+<jtok eid="6" type="primary_name_ref" span="191:8:191:14">source</jtok>
+<jtok eid="6" type="primary_name_ref" span="191:18:191:33">selectAllButton</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:5:193:18">encodingsList</jtok>
+<jtok eid="6" type="method_call" span="193:19:193:28">selectAll</jtok>
+<jtok eid="6" type="primary_name_ref" span="195:13:195:19">source</jtok>
+<jtok eid="6" type="primary_name_ref" span="195:23:195:39">selectNoneButton</jtok>
+<jtok eid="6" type="local_variable_name" span="197:14:197:15">i</jtok>
+<jtok eid="6" type="local_variable_name" span="197:19:197:20">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:21:197:34">encodingsList</jtok>
+<jtok eid="6" type="method_call" span="197:35:197:46">getRowCount</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:51:197:52">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:53:197:54">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:57:197:58">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="199:6:199:19">encodingsList</jtok>
+<jtok eid="6" type="method_call" span="199:20:199:30">setValueAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="199:37:199:38">i</jtok>
+<jtok eid="1" type="line_comment" span="203:4:203:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="205:2:205:31">//{{{ TableModelHandler class</jtok>
+<jtok eid="7" type="class_name" span="206:16:206:33">TableModelHandler</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="206:45:206:63">TableModelListener</jtok>
+<jtok eid="8" type="method_name" span="208:15:208:27">tableChanged</jtok>
+<jtok eid="8" type="parameter_type" span="208:28:208:43">TableModelEvent</jtok>
+<jtok eid="8" type="parameter_name" span="208:44:208:47">tme</jtok>
+<jtok eid="8" type="local_variable_name" span="210:8:210:21">checkedAmount</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:24:210:37">encodingsList</jtok>
+<jtok eid="8" type="method_call" span="210:38:210:54">getCheckedValues</jtok>
+<jtok eid="8" type="qualified_name_ref" span="210:57:210:63">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="211:8:211:21">checkedAmount</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:5:213:21">selectNoneButton</jtok>
+<jtok eid="8" type="method_call" span="213:22:213:32">setEnabled</jtok>
+<jtok eid="8" type="primary_name_ref" span="217:5:217:21">selectNoneButton</jtok>
+<jtok eid="8" type="method_call" span="217:22:217:32">setEnabled</jtok>
+<jtok eid="8" type="primary_name_ref" span="219:8:219:21">encodingsList</jtok>
+<jtok eid="8" type="method_call" span="219:22:219:31">getValues</jtok>
+<jtok eid="8" type="qualified_name_ref" span="219:34:219:40">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="219:44:219:57">checkedAmount</jtok>
+<jtok eid="8" type="primary_name_ref" span="221:5:221:20">selectAllButton</jtok>
+<jtok eid="8" type="method_call" span="221:21:221:31">setEnabled</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:5:225:20">selectAllButton</jtok>
+<jtok eid="8" type="method_call" span="225:21:225:31">setEnabled</jtok>
+<jtok eid="1" type="line_comment" span="228:4:228:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="230:2:230:7">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="232:3:232:8">//}}}</jtok>
+</jdoc>

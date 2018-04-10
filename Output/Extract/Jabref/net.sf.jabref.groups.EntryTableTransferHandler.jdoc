@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.EntryTableTransferHandler" jls="java5">
+<jent id="0" type="file" span="0:0:495:1">Source/jabref/src/java/net/sf/jabref/groups/EntryTableTransferHandler.java</jent>
+<jent id="1" pid="0" type="class" span="56:1:495:1">net.sf.jabref.groups.EntryTableTransferHandler</jent>
+<jent id="2" pid="1" type="method" span="84:2:95:2">net.sf.jabref.groups.EntryTableTransferHandler.EntryTableTransferHandler(MainTable,JabRefFrame,BasePanel)</jent>
+<jent id="3" pid="1" type="method" span="102:2:104:2">net.sf.jabref.groups.EntryTableTransferHandler.getSourceActions(JComponent)</jent>
+<jent id="4" pid="1" type="method" span="109:2:119:2">net.sf.jabref.groups.EntryTableTransferHandler.createTransferable(JComponent)</jent>
+<jent id="5" pid="1" type="method" span="128:2:174:2">net.sf.jabref.groups.EntryTableTransferHandler.importData(JComponent,Transferable)</jent>
+<jent id="6" pid="1" type="method" span="183:2:198:2">net.sf.jabref.groups.EntryTableTransferHandler.canImport(JComponent,DataFlavor[])</jent>
+<jent id="7" pid="1" type="method" span="201:2:218:2">net.sf.jabref.groups.EntryTableTransferHandler.exportAsDrag(JComponent,InputEvent,int)</jent>
+<jent id="8" pid="1" type="method" span="220:2:223:2">net.sf.jabref.groups.EntryTableTransferHandler.exportDone(JComponent,Transferable,int)</jent>
+<jent id="9" pid="1" type="method" span="225:2:228:2">net.sf.jabref.groups.EntryTableTransferHandler.exportToClipboard(JComponent,Clipboard,int)</jent>
+<jent id="10" pid="1" type="method" span="232:2:258:2">net.sf.jabref.groups.EntryTableTransferHandler.handleDropTransfer(String,int)</jent>
+<jent id="11" pid="1" type="method" span="269:5:306:5">net.sf.jabref.groups.EntryTableTransferHandler.getFilesFromDraggedFilesString(String)</jent>
+<jent id="12" pid="1" type="method" span="317:2:321:2">net.sf.jabref.groups.EntryTableTransferHandler.handleDraggedFilenames(String,int)</jent>
+<jent id="13" pid="1" type="method" span="331:2:349:2">net.sf.jabref.groups.EntryTableTransferHandler.handleDraggedFiles(List&lt;File&gt;,int)</jent>
+<jent id="14" pid="13" type="class" span="342:29:346:3">net.sf.jabref.groups.EntryTableTransferHandler.handleDraggedFiles(List&lt;File&gt;,int).$1</jent>
+<jent id="15" pid="14" type="method" span="343:4:345:4">net.sf.jabref.groups.EntryTableTransferHandler.handleDraggedFiles(List&lt;File&gt;,int).$1.run()</jent>
+<jent id="16" pid="1" type="method" span="360:2:477:2">net.sf.jabref.groups.EntryTableTransferHandler.loadOrImportFiles(String[],int)</jent>
+<jent id="17" pid="1" type="method" span="479:2:493:2">net.sf.jabref.groups.EntryTableTransferHandler.handleDropTransfer(URL,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ All programs in this directory and subdirectories are published under the 
+ GNU General Public License as described below.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by the Free 
+ Software Foundation; either version 2 of the License, or (at your option) 
+ any later version.
+
+ This program is distributed in the hope that it will be useful, but WITHOUT 
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ more details.
+
+ You should have received a copy of the GNU General Public License along 
+ with this program; if not, write to the Free Software Foundation, Inc., 59 
+ Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+ */</jtok>
+<jtok eid="1" type="class_name" span="56:14:56:39">EntryTableTransferHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="56:48:56:63">TransferHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:18:58:27">MainTable</jtok>
+<jtok eid="1" type="field_name" span="58:28:58:38">entryTable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="60:12:60:23">JabRefFrame</jtok>
+<jtok eid="1" type="field_name" span="60:24:60:29">frame</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="62:10:62:19">BasePanel</jtok>
+<jtok eid="1" type="field_name" span="62:20:62:25">panel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:12:64:22">DataFlavor</jtok>
+<jtok eid="1" type="field_name" span="64:23:64:32">urlFlavor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:12:66:22">DataFlavor</jtok>
+<jtok eid="1" type="field_name" span="66:23:66:35">stringFlavor</jtok>
+<jtok eid="1" type="field_name" span="68:27:68:39">DROP_ALLOWED</jtok>
+<jtok eid="1" type="block_comment" span="70:2:83:5">/**
+	 * Construct the transfer handler.
+	 * 
+	 * @param entryTable
+	 *            The table this transfer handler should operate on. This
+	 *            argument is allowed to equal
+	 * @null, in which case the transfer handler can assume that it works for a
+	 *        JabRef instance with no databases open, attached to the empty
+	 *        tabbed pane.
+	 * @param frame
+	 *            The JabRefFrame instance.
+	 * @param panel
+	 *            The BasePanel this transferhandler works for.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="84:9:84:34">EntryTableTransferHandler</jtok>
+<jtok eid="2" type="parameter_type" span="84:35:84:44">MainTable</jtok>
+<jtok eid="2" type="parameter_name" span="84:45:84:55">entryTable</jtok>
+<jtok eid="2" type="parameter_type" span="84:57:84:68">JabRefFrame</jtok>
+<jtok eid="2" type="parameter_name" span="84:69:84:74">frame</jtok>
+<jtok eid="2" type="parameter_type" span="84:76:84:85">BasePanel</jtok>
+<jtok eid="2" type="parameter_name" span="84:86:84:91">panel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="85:8:85:18">entryTable</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:21:85:31">entryTable</jtok>
+<jtok eid="2" type="qualified_name_ref" span="86:8:86:13">frame</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:16:86:21">frame</jtok>
+<jtok eid="2" type="qualified_name_ref" span="87:8:87:13">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:16:87:21">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:3:88:15">stringFlavor</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:18:88:28">DataFlavor</jtok>
+<jtok eid="2" type="qualified_name_ref" span="88:29:88:41">stringFlavor</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:4:90:13">urlFlavor</jtok>
+<jtok eid="2" type="constructor_call" span="90:20:90:30">DataFlavor</jtok>
+<jtok eid="2" type="string_literal" span="90:31:90:75">"application/x-java-url; class=java.net.URL"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="91:12:91:34">ClassNotFoundException</jtok>
+<jtok eid="2" type="local_variable_name" span="91:35:91:36">e</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:4:92:11">Globals</jtok>
+<jtok eid="2" type="method_call" span="92:12:92:18">logger</jtok>
+<jtok eid="2" type="string_literal" span="92:19:92:69">"Unable to configure drag and drop for main table"</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:4:93:5">e</jtok>
+<jtok eid="2" type="method_call" span="93:6:93:21">printStackTrace</jtok>
+<jtok eid="1" type="block_comment" span="97:2:101:5">/**
+	 * Overriden to indicate which types of drags are supported (only LINK).
+	 * 
+	 * @override
+	 */</jtok>
+<jtok eid="3" type="method_name" span="102:13:102:29">getSourceActions</jtok>
+<jtok eid="3" type="parameter_type" span="102:30:102:40">JComponent</jtok>
+<jtok eid="3" type="parameter_name" span="102:41:102:42">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:10:103:22">DnDConstants</jtok>
+<jtok eid="3" type="qualified_name_ref" span="103:23:103:34">ACTION_LINK</jtok>
+<jtok eid="1" type="block_comment" span="106:2:108:5">/**
+	 * This method is called when dragging stuff *from* the table.
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="109:9:109:21">Transferable</jtok>
+<jtok eid="4" type="method_name" span="109:22:109:40">createTransferable</jtok>
+<jtok eid="4" type="parameter_type" span="109:41:109:51">JComponent</jtok>
+<jtok eid="4" type="parameter_name" span="109:52:109:53">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:14:110:26">draggingFile</jtok>
+<jtok eid="4" type="block_comment" span="111:13:111:80">/* so we can assume it will never be called if entryTable==null: */</jtok>
+<jtok eid="4" type="constructor_call" span="112:24:112:50">TransferableEntrySelection</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:51:112:61">entryTable</jtok>
+<jtok eid="4" type="method_call" span="112:62:112:80">getSelectedEntries</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:13:115:25">draggingFile</jtok>
+<jtok eid="4" type="constructor_call" span="116:25:116:54">TransferableFileLinkSelection</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:22:117:27">panel</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:29:117:39">entryTable</jtok>
+<jtok eid="4" type="method_call" span="117:40:117:58">getSelectedEntries</jtok>
+<jtok eid="4" type="line_comment" span="117:63:117:84">//.getTransferable();</jtok>
+<jtok eid="1" type="block_comment" span="121:2:127:5">/**
+	 * This method is called when stuff is drag to the component.
+	 * 
+	 * Imports the dropped URL or plain text as a new entry in the current
+	 * database.
+	 * 
+	 */</jtok>
+<jtok eid="5" type="method_name" span="128:17:128:27">importData</jtok>
+<jtok eid="5" type="parameter_type" span="128:28:128:38">JComponent</jtok>
+<jtok eid="5" type="parameter_name" span="128:39:128:43">comp</jtok>
+<jtok eid="5" type="parameter_type" span="128:45:128:57">Transferable</jtok>
+<jtok eid="5" type="parameter_name" span="128:58:128:59">t</jtok>
+<jtok eid="5" type="line_comment" span="130:3:130:67">// If the drop target is the main table, we want to record which</jtok>
+<jtok eid="5" type="line_comment" span="131:3:131:67">// row the item was dropped on, to identify the entry if needed:</jtok>
+<jtok eid="5" type="local_variable_name" span="132:7:132:14">dropRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:7:133:11">comp</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="133:23:133:29">JTable</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:4:134:11">dropRow</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="134:16:134:22">JTable</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:24:134:28">comp</jtok>
+<jtok eid="5" type="method_call" span="134:30:134:44">getSelectedRow</jtok>
+<jtok eid="5" type="line_comment" span="139:4:139:61">// This flavor is used for dragged file links in Windows:</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:8:140:9">t</jtok>
+<jtok eid="5" type="method_call" span="140:10:140:31">isDataFlavorSupported</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:32:140:42">DataFlavor</jtok>
+<jtok eid="5" type="qualified_name_ref" span="140:43:140:61">javaFileListFlavor</jtok>
+<jtok eid="5" type="line_comment" span="141:5:141:53">// JOptionPane.showMessageDialog(null, "Received</jtok>
+<jtok eid="5" type="line_comment" span="142:5:142:29">// javaFileListFlavor");</jtok>
+<jtok eid="5" type="annotation_ref" span="143:6:143:22">SuppressWarnings</jtok>
+<jtok eid="5" type="string_literal" span="143:23:143:34">"unchecked"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="144:5:144:9">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="144:10:144:14">File</jtok>
+<jtok eid="5" type="local_variable_name" span="144:16:144:17">l</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="144:21:144:25">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="144:26:144:30">File</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:33:144:34">t</jtok>
+<jtok eid="5" type="method_call" span="144:35:144:50">getTransferData</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:51:144:61">DataFlavor</jtok>
+<jtok eid="5" type="qualified_name_ref" span="144:62:144:80">javaFileListFlavor</jtok>
+<jtok eid="5" type="method_call" span="145:12:145:30">handleDraggedFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:31:145:32">l</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:34:145:41">dropRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:8:148:9">t</jtok>
+<jtok eid="5" type="method_call" span="148:10:148:31">isDataFlavorSupported</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:32:148:41">urlFlavor</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="149:5:149:8">URL</jtok>
+<jtok eid="5" type="local_variable_name" span="149:9:149:17">dropLink</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="149:21:149:24">URL</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:26:149:27">t</jtok>
+<jtok eid="5" type="method_call" span="149:28:149:43">getTransferData</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:44:149:53">urlFlavor</jtok>
+<jtok eid="5" type="method_call" span="150:12:150:30">handleDropTransfer</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:31:150:39">dropLink</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:41:150:48">dropRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="153:8:153:9">t</jtok>
+<jtok eid="5" type="method_call" span="153:10:153:31">isDataFlavorSupported</jtok>
+<jtok eid="5" type="primary_name_ref" span="153:32:153:44">stringFlavor</jtok>
+<jtok eid="5" type="line_comment" span="154:5:154:67">// JOptionPane.showMessageDialog(null, "Received stringFlavor:</jtok>
+<jtok eid="5" type="line_comment" span="155:5:155:19">// "+dropStr);</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="156:5:156:11">String</jtok>
+<jtok eid="5" type="local_variable_name" span="156:12:156:19">dropStr</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="156:23:156:29">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:31:156:32">t</jtok>
+<jtok eid="5" type="method_call" span="156:33:156:48">getTransferData</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:49:156:61">stringFlavor</jtok>
+<jtok eid="5" type="method_call" span="157:12:157:30">handleDropTransfer</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:31:157:38">dropStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:40:157:47">dropRow</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="160:12:160:23">IOException</jtok>
+<jtok eid="5" type="local_variable_name" span="160:24:160:27">ioe</jtok>
+<jtok eid="5" type="primary_name_ref" span="161:4:161:10">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="161:11:161:14">err</jtok>
+<jtok eid="5" type="method_call" span="161:15:161:22">println</jtok>
+<jtok eid="5" type="string_literal" span="161:23:161:54">"failed to read dropped data: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="161:57:161:60">ioe</jtok>
+<jtok eid="5" type="method_call" span="161:61:161:69">toString</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="162:12:162:38">UnsupportedFlavorException</jtok>
+<jtok eid="5" type="local_variable_name" span="162:39:162:42">ufe</jtok>
+<jtok eid="5" type="primary_name_ref" span="163:4:163:10">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="163:11:163:14">err</jtok>
+<jtok eid="5" type="method_call" span="163:15:163:22">println</jtok>
+<jtok eid="5" type="string_literal" span="163:23:163:42">"drop type error: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="163:45:163:48">ufe</jtok>
+<jtok eid="5" type="method_call" span="163:49:163:57">toString</jtok>
+<jtok eid="5" type="line_comment" span="166:3:166:34">// all supported flavors failed</jtok>
+<jtok eid="5" type="primary_name_ref" span="167:3:167:9">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="167:10:167:13">err</jtok>
+<jtok eid="5" type="method_call" span="167:14:167:21">println</jtok>
+<jtok eid="5" type="string_literal" span="167:22:167:46">"can't transfer input: "</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="168:3:168:13">DataFlavor</jtok>
+<jtok eid="5" type="local_variable_name" span="168:14:168:21">inflavs</jtok>
+<jtok eid="5" type="primary_name_ref" span="168:26:168:27">t</jtok>
+<jtok eid="5" type="method_call" span="168:28:168:50">getTransferDataFlavors</jtok>
+<jtok eid="5" type="local_variable_name" span="169:12:169:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="169:19:169:20">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="169:23:169:30">inflavs</jtok>
+<jtok eid="5" type="qualified_name_ref" span="169:31:169:37">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="169:39:169:40">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="170:4:170:10">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="170:11:170:14">out</jtok>
+<jtok eid="5" type="method_call" span="170:15:170:22">println</jtok>
+<jtok eid="5" type="string_literal" span="170:23:170:27">"  "</jtok>
+<jtok eid="5" type="primary_name_ref" span="170:30:170:37">inflavs</jtok>
+<jtok eid="5" type="primary_name_ref" span="170:38:170:39">i</jtok>
+<jtok eid="5" type="method_call" span="170:41:170:49">toString</jtok>
+<jtok eid="1" type="block_comment" span="176:2:182:5">/**
+	 * This method is called to query whether the transfer can be imported.
+	 * 
+	 * Will return true for urls, strings, javaFileLists
+	 * 
+	 * @override
+	 */</jtok>
+<jtok eid="6" type="method_name" span="183:17:183:26">canImport</jtok>
+<jtok eid="6" type="parameter_type" span="183:27:183:37">JComponent</jtok>
+<jtok eid="6" type="parameter_name" span="183:38:183:42">comp</jtok>
+<jtok eid="6" type="parameter_type" span="183:44:183:54">DataFlavor</jtok>
+<jtok eid="6" type="parameter_name" span="183:57:183:72">transferFlavors</jtok>
+<jtok eid="6" type="primary_name_ref" span="184:8:184:20">DROP_ALLOWED</jtok>
+<jtok eid="6" type="line_comment" span="187:3:187:74">// accept this if any input flavor matches any of our supported flavors</jtok>
+<jtok eid="6" type="local_variable_name" span="188:12:188:13">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:19:188:20">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:23:188:38">transferFlavors</jtok>
+<jtok eid="6" type="qualified_name_ref" span="188:39:188:45">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:47:188:48">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="189:4:189:14">DataFlavor</jtok>
+<jtok eid="6" type="local_variable_name" span="189:15:189:21">inflav</jtok>
+<jtok eid="6" type="primary_name_ref" span="189:24:189:39">transferFlavors</jtok>
+<jtok eid="6" type="primary_name_ref" span="189:40:189:41">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:8:190:14">inflav</jtok>
+<jtok eid="6" type="method_call" span="190:15:190:20">match</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:21:190:30">urlFlavor</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:35:190:41">inflav</jtok>
+<jtok eid="6" type="method_call" span="190:42:190:47">match</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:48:190:60">stringFlavor</jtok>
+<jtok eid="6" type="primary_name_ref" span="191:8:191:14">inflav</jtok>
+<jtok eid="6" type="method_call" span="191:15:191:20">match</jtok>
+<jtok eid="6" type="primary_name_ref" span="191:21:191:31">DataFlavor</jtok>
+<jtok eid="6" type="qualified_name_ref" span="191:32:191:50">javaFileListFlavor</jtok>
+<jtok eid="6" type="line_comment" span="195:3:195:48">// System.out.println("drop type forbidden");</jtok>
+<jtok eid="6" type="line_comment" span="196:3:196:36">// nope, never heard of this type</jtok>
+<jtok eid="1" type="field_name" span="199:13:199:25">draggingFile</jtok>
+<jtok eid="7" type="method_name" span="201:14:201:26">exportAsDrag</jtok>
+<jtok eid="7" type="parameter_type" span="201:27:201:37">JComponent</jtok>
+<jtok eid="7" type="parameter_name" span="201:38:201:42">comp</jtok>
+<jtok eid="7" type="parameter_type" span="201:44:201:54">InputEvent</jtok>
+<jtok eid="7" type="parameter_name" span="201:55:201:56">e</jtok>
+<jtok eid="7" type="parameter_name" span="201:62:201:68">action</jtok>
+<jtok eid="7" type="block_comment" span="202:3:202:81">/* TODO: add support for dragging file link from table icon into other apps */</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:13:203:14">e</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="203:26:203:36">MouseEvent</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="204:13:204:23">MouseEvent</jtok>
+<jtok eid="7" type="local_variable_name" span="204:24:204:26">me</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="204:30:204:40">MouseEvent</jtok>
+<jtok eid="7" type="primary_name_ref" span="204:41:204:42">e</jtok>
+<jtok eid="7" type="local_variable_name" span="205:17:205:20">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="205:23:205:33">entryTable</jtok>
+<jtok eid="7" type="method_call" span="205:34:205:47">columnAtPoint</jtok>
+<jtok eid="7" type="primary_name_ref" span="205:48:205:50">me</jtok>
+<jtok eid="7" type="method_call" span="205:51:205:59">getPoint</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="206:13:206:19">String</jtok>
+<jtok eid="7" type="local_variable_name" span="206:22:206:25">res</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:28:206:38">entryTable</jtok>
+<jtok eid="7" type="method_call" span="206:39:206:59">getIconTypeForColumn</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:60:206:63">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="207:17:207:20">res</jtok>
+<jtok eid="7" type="method_call" span="208:23:208:35">exportAsDrag</jtok>
+<jtok eid="7" type="primary_name_ref" span="208:36:208:40">comp</jtok>
+<jtok eid="7" type="primary_name_ref" span="208:42:208:43">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="208:45:208:57">DnDConstants</jtok>
+<jtok eid="7" type="qualified_name_ref" span="208:58:208:69">ACTION_LINK</jtok>
+<jtok eid="7" type="line_comment" span="211:13:211:39">// We have an icon column:</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:17:212:20">res</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:24:212:39">MainTableFormat</jtok>
+<jtok eid="7" type="qualified_name_ref" span="212:40:212:44">FILE</jtok>
+<jtok eid="7" type="primary_name_ref" span="213:17:213:23">System</jtok>
+<jtok eid="7" type="qualified_name_ref" span="213:24:213:27">out</jtok>
+<jtok eid="7" type="method_call" span="213:28:213:35">println</jtok>
+<jtok eid="7" type="string_literal" span="213:36:213:51">"dragging file"</jtok>
+<jtok eid="7" type="primary_name_ref" span="214:17:214:29">draggingFile</jtok>
+<jtok eid="7" type="method_call" span="217:15:217:27">exportAsDrag</jtok>
+<jtok eid="7" type="primary_name_ref" span="217:28:217:32">comp</jtok>
+<jtok eid="7" type="primary_name_ref" span="217:34:217:35">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="217:37:217:49">DnDConstants</jtok>
+<jtok eid="7" type="qualified_name_ref" span="217:50:217:61">ACTION_LINK</jtok>
+<jtok eid="8" type="method_name" span="220:17:220:27">exportDone</jtok>
+<jtok eid="8" type="parameter_type" span="220:28:220:38">JComponent</jtok>
+<jtok eid="8" type="parameter_name" span="220:39:220:45">source</jtok>
+<jtok eid="8" type="parameter_type" span="220:47:220:59">Transferable</jtok>
+<jtok eid="8" type="parameter_name" span="220:60:220:64">data</jtok>
+<jtok eid="8" type="parameter_name" span="220:70:220:76">action</jtok>
+<jtok eid="8" type="line_comment" span="221:3:221:34">// default implementation is OK</jtok>
+<jtok eid="8" type="method_call" span="222:9:222:19">exportDone</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:20:222:26">source</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:28:222:32">data</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:34:222:40">action</jtok>
+<jtok eid="9" type="method_name" span="225:14:225:31">exportToClipboard</jtok>
+<jtok eid="9" type="parameter_type" span="225:32:225:42">JComponent</jtok>
+<jtok eid="9" type="parameter_name" span="225:43:225:47">comp</jtok>
+<jtok eid="9" type="parameter_type" span="225:49:225:58">Clipboard</jtok>
+<jtok eid="9" type="parameter_name" span="225:59:225:63">clip</jtok>
+<jtok eid="9" type="parameter_name" span="225:69:225:75">action</jtok>
+<jtok eid="9" type="line_comment" span="226:3:226:34">// default implementation is OK</jtok>
+<jtok eid="9" type="method_call" span="227:9:227:26">exportToClipboard</jtok>
+<jtok eid="9" type="primary_name_ref" span="227:27:227:31">comp</jtok>
+<jtok eid="9" type="primary_name_ref" span="227:33:227:37">clip</jtok>
+<jtok eid="9" type="primary_name_ref" span="227:39:227:45">action</jtok>
+<jtok eid="1" type="line_comment" span="230:2:230:36">// add-ons -----------------------</jtok>
+<jtok eid="10" type="method_name" span="232:20:232:38">handleDropTransfer</jtok>
+<jtok eid="10" type="parameter_type" span="232:39:232:45">String</jtok>
+<jtok eid="10" type="parameter_name" span="232:46:232:53">dropStr</jtok>
+<jtok eid="10" type="parameter_name" span="232:65:232:72">dropRow</jtok>
+<jtok eid="10" type="throws" span="232:81:232:92">IOException</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:13:233:20">dropStr</jtok>
+<jtok eid="10" type="method_call" span="233:21:233:31">startsWith</jtok>
+<jtok eid="10" type="string_literal" span="233:32:233:39">"file:"</jtok>
+<jtok eid="10" type="line_comment" span="234:4:234:65">// This appears to be a dragged file link and not a reference</jtok>
+<jtok eid="10" type="line_comment" span="235:4:235:58">// format. Check if we can map this to a set of files:</jtok>
+<jtok eid="10" type="method_call" span="236:8:236:30">handleDraggedFilenames</jtok>
+<jtok eid="10" type="primary_name_ref" span="236:31:236:38">dropStr</jtok>
+<jtok eid="10" type="primary_name_ref" span="236:40:236:47">dropRow</jtok>
+<jtok eid="10" type="line_comment" span="238:4:238:45">// If not, handle it in the normal way...</jtok>
+<jtok eid="10" type="primary_name_ref" span="239:14:239:21">dropStr</jtok>
+<jtok eid="10" type="method_call" span="239:22:239:32">startsWith</jtok>
+<jtok eid="10" type="string_literal" span="239:33:239:40">"http:"</jtok>
+<jtok eid="10" type="line_comment" span="240:4:240:71">// This is the way URL links are received on OS X and KDE (Gnome?):</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="241:4:241:7">URL</jtok>
+<jtok eid="10" type="local_variable_name" span="241:8:241:11">url</jtok>
+<jtok eid="10" type="constructor_call" span="241:18:241:21">URL</jtok>
+<jtok eid="10" type="primary_name_ref" span="241:22:241:29">dropStr</jtok>
+<jtok eid="10" type="line_comment" span="242:4:242:55">// JOptionPane.showMessageDialog(null, "Making URL:</jtok>
+<jtok eid="10" type="line_comment" span="243:4:243:25">// "+url.toString());</jtok>
+<jtok eid="10" type="method_call" span="244:11:244:29">handleDropTransfer</jtok>
+<jtok eid="10" type="primary_name_ref" span="244:30:244:33">url</jtok>
+<jtok eid="10" type="primary_name_ref" span="244:35:244:42">dropRow</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="246:3:246:7">File</jtok>
+<jtok eid="10" type="local_variable_name" span="246:8:246:15">tmpfile</jtok>
+<jtok eid="10" type="primary_name_ref" span="246:18:246:22">java</jtok>
+<jtok eid="10" type="qualified_name_ref" span="246:23:246:25">io</jtok>
+<jtok eid="10" type="qualified_name_ref" span="246:26:246:30">File</jtok>
+<jtok eid="10" type="method_call" span="246:31:246:45">createTempFile</jtok>
+<jtok eid="10" type="string_literal" span="246:46:246:60">"jabrefimport"</jtok>
+<jtok eid="10" type="string_literal" span="246:62:246:64">""</jtok>
+<jtok eid="10" type="primary_name_ref" span="247:3:247:10">tmpfile</jtok>
+<jtok eid="10" type="method_call" span="247:11:247:23">deleteOnExit</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="248:3:248:13">FileWriter</jtok>
+<jtok eid="10" type="local_variable_name" span="248:14:248:16">fw</jtok>
+<jtok eid="10" type="constructor_call" span="248:23:248:33">FileWriter</jtok>
+<jtok eid="10" type="primary_name_ref" span="248:34:248:41">tmpfile</jtok>
+<jtok eid="10" type="primary_name_ref" span="249:3:249:5">fw</jtok>
+<jtok eid="10" type="method_call" span="249:6:249:11">write</jtok>
+<jtok eid="10" type="primary_name_ref" span="249:12:249:19">dropStr</jtok>
+<jtok eid="10" type="primary_name_ref" span="250:3:250:5">fw</jtok>
+<jtok eid="10" type="method_call" span="250:6:250:11">close</jtok>
+<jtok eid="10" type="line_comment" span="252:3:252:72">// System.out.println("importing from " + tmpfile.getAbsolutePath());</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="254:3:254:17">ImportMenuItem</jtok>
+<jtok eid="10" type="local_variable_name" span="254:18:254:26">importer</jtok>
+<jtok eid="10" type="constructor_call" span="254:33:254:47">ImportMenuItem</jtok>
+<jtok eid="10" type="primary_name_ref" span="254:48:254:53">frame</jtok>
+<jtok eid="10" type="primary_name_ref" span="255:3:255:11">importer</jtok>
+<jtok eid="10" type="method_call" span="255:12:255:27">automatedImport</jtok>
+<jtok eid="10" type="constructor_call" span="255:32:255:38">String</jtok>
+<jtok eid="10" type="primary_name_ref" span="255:43:255:50">tmpfile</jtok>
+<jtok eid="10" type="method_call" span="255:51:255:66">getAbsolutePath</jtok>
+<jtok eid="1" type="block_comment" span="260:5:268:5">/**
+	 * Translate a String describing a set of files or URLs dragged into JabRef
+     * into a List of File objects, taking care of URL special characters.
+	 *
+	 * @param s
+	 *            String describing a set of files or URLs dragged into JabRef
+     * @return a List&lt;File&gt; containing the individual file objects.
+     *
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="269:19:269:23">List</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="269:24:269:28">File</jtok>
+<jtok eid="11" type="method_name" span="269:30:269:60">getFilesFromDraggedFilesString</jtok>
+<jtok eid="11" type="parameter_type" span="269:61:269:67">String</jtok>
+<jtok eid="11" type="parameter_name" span="269:68:269:69">s</jtok>
+<jtok eid="11" type="line_comment" span="270:3:270:23">// Split into lines:</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="271:3:271:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="271:12:271:17">lines</jtok>
+<jtok eid="11" type="primary_name_ref" span="271:20:271:21">s</jtok>
+<jtok eid="11" type="method_call" span="271:22:271:32">replaceAll</jtok>
+<jtok eid="11" type="string_literal" span="271:33:271:37">"\r"</jtok>
+<jtok eid="11" type="string_literal" span="271:39:271:41">""</jtok>
+<jtok eid="11" type="method_call" span="271:43:271:48">split</jtok>
+<jtok eid="11" type="string_literal" span="271:49:271:53">"\n"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="272:3:272:7">List</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="272:8:272:12">File</jtok>
+<jtok eid="11" type="local_variable_name" span="272:14:272:19">files</jtok>
+<jtok eid="11" type="constructor_call" span="272:26:272:35">ArrayList</jtok>
+<jtok eid="11" type="constructor_call" span="272:36:272:40">File</jtok>
+<jtok eid="11" type="local_variable_name" span="273:12:273:13">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="273:19:273:20">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="273:23:273:28">lines</jtok>
+<jtok eid="11" type="qualified_name_ref" span="273:29:273:35">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="273:37:273:38">i</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="274:4:274:10">String</jtok>
+<jtok eid="11" type="local_variable_name" span="274:11:274:15">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:18:274:23">lines</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:24:274:25">i</jtok>
+<jtok eid="11" type="line_comment" span="276:13:276:88">// Try to use url.toURI() to translate URL specific sequences like %20 into</jtok>
+<jtok eid="11" type="line_comment" span="277:13:277:36">// standard characters:</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="278:13:278:17">File</jtok>
+<jtok eid="11" type="local_variable_name" span="278:18:278:20">fl</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="280:17:280:20">URL</jtok>
+<jtok eid="11" type="local_variable_name" span="280:21:280:24">url</jtok>
+<jtok eid="11" type="constructor_call" span="280:31:280:34">URL</jtok>
+<jtok eid="11" type="primary_name_ref" span="280:35:280:39">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="281:17:281:19">fl</jtok>
+<jtok eid="11" type="constructor_call" span="281:26:281:30">File</jtok>
+<jtok eid="11" type="primary_name_ref" span="281:31:281:34">url</jtok>
+<jtok eid="11" type="method_call" span="281:35:281:40">toURI</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="282:21:282:39">URISyntaxException</jtok>
+<jtok eid="11" type="local_variable_name" span="282:40:282:41">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="283:17:283:18">e</jtok>
+<jtok eid="11" type="method_call" span="283:19:283:34">printStackTrace</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="284:22:284:43">MalformedURLException</jtok>
+<jtok eid="11" type="local_variable_name" span="284:44:284:45">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="285:17:285:18">e</jtok>
+<jtok eid="11" type="method_call" span="285:19:285:34">printStackTrace</jtok>
+<jtok eid="11" type="line_comment" span="288:13:288:82">// Unless an exception was thrown, we should have the sanitized path:</jtok>
+<jtok eid="11" type="primary_name_ref" span="289:17:289:19">fl</jtok>
+<jtok eid="11" type="primary_name_ref" span="290:17:290:21">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="290:24:290:26">fl</jtok>
+<jtok eid="11" type="method_call" span="290:27:290:34">getPath</jtok>
+<jtok eid="11" type="primary_name_ref" span="291:22:291:26">line</jtok>
+<jtok eid="11" type="method_call" span="291:27:291:37">startsWith</jtok>
+<jtok eid="11" type="string_literal" span="291:38:291:45">"file:"</jtok>
+<jtok eid="11" type="primary_name_ref" span="292:5:292:9">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="292:12:292:16">line</jtok>
+<jtok eid="11" type="method_call" span="292:17:292:26">substring</jtok>
+<jtok eid="11" type="line_comment" span="295:13:295:69">// Under Gnome, the link is given as file:///...., so we</jtok>
+<jtok eid="11" type="line_comment" span="296:4:296:39">// need to strip the extra slashes:</jtok>
+<jtok eid="11" type="primary_name_ref" span="297:8:297:12">line</jtok>
+<jtok eid="11" type="method_call" span="297:13:297:23">startsWith</jtok>
+<jtok eid="11" type="string_literal" span="297:24:297:28">"//"</jtok>
+<jtok eid="11" type="primary_name_ref" span="298:5:298:9">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="298:12:298:16">line</jtok>
+<jtok eid="11" type="method_call" span="298:17:298:26">substring</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="300:13:300:17">File</jtok>
+<jtok eid="11" type="local_variable_name" span="300:18:300:19">f</jtok>
+<jtok eid="11" type="constructor_call" span="300:26:300:30">File</jtok>
+<jtok eid="11" type="primary_name_ref" span="300:31:300:35">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="301:17:301:18">f</jtok>
+<jtok eid="11" type="method_call" span="301:19:301:25">exists</jtok>
+<jtok eid="11" type="primary_name_ref" span="302:5:302:10">files</jtok>
+<jtok eid="11" type="method_call" span="302:11:302:14">add</jtok>
+<jtok eid="11" type="primary_name_ref" span="302:15:302:16">f</jtok>
+<jtok eid="11" type="primary_name_ref" span="305:16:305:21">files</jtok>
+<jtok eid="1" type="block_comment" span="308:5:316:5">/**
+	 * Handle a String describing a set of files or URLs dragged into JabRef.
+	 * 
+	 * @param s
+	 *            String describing a set of files or URLs dragged into JabRef
+     * @param dropRow The row in the table where the files were dragged.
+     * @return success status for the operation
+     *
+	 */</jtok>
+<jtok eid="12" type="method_name" span="317:18:317:40">handleDraggedFilenames</jtok>
+<jtok eid="12" type="parameter_type" span="317:41:317:47">String</jtok>
+<jtok eid="12" type="parameter_name" span="317:48:317:49">s</jtok>
+<jtok eid="12" type="parameter_name" span="317:61:317:68">dropRow</jtok>
+<jtok eid="12" type="method_call" span="319:10:319:28">handleDraggedFiles</jtok>
+<jtok eid="12" type="method_call" span="319:29:319:59">getFilesFromDraggedFilesString</jtok>
+<jtok eid="12" type="primary_name_ref" span="319:60:319:61">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="319:64:319:71">dropRow</jtok>
+<jtok eid="1" type="block_comment" span="323:2:330:5">/**
+	 * Handle a List containing File objects for a set of files to import.
+	 * 
+	 * @param files
+	 *            A List containing File instances pointing to files.
+	 * @param dropRow @param dropRow The row in the table where the files were dragged.
+     * @return success status for the operation
+	 */</jtok>
+<jtok eid="13" type="method_name" span="331:18:331:36">handleDraggedFiles</jtok>
+<jtok eid="13" type="parameter_type" span="331:37:331:41">List</jtok>
+<jtok eid="13" type="parameter_type" span="331:42:331:46">File</jtok>
+<jtok eid="13" type="parameter_name" span="331:48:331:53">files</jtok>
+<jtok eid="13" type="parameter_name" span="331:65:331:72">dropRow</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="332:9:332:15">String</jtok>
+<jtok eid="13" type="local_variable_name" span="332:18:332:27">fileNames</jtok>
+<jtok eid="13" type="constructor_call" span="332:34:332:40">String</jtok>
+<jtok eid="13" type="primary_name_ref" span="332:41:332:46">files</jtok>
+<jtok eid="13" type="method_call" span="332:47:332:51">size</jtok>
+<jtok eid="13" type="local_variable_name" span="333:7:333:8">i</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="334:8:334:16">Iterator</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="334:17:334:21">File</jtok>
+<jtok eid="13" type="local_variable_name" span="334:23:334:31">iterator</jtok>
+<jtok eid="13" type="primary_name_ref" span="334:34:334:39">files</jtok>
+<jtok eid="13" type="method_call" span="334:40:334:48">iterator</jtok>
+<jtok eid="13" type="primary_name_ref" span="334:52:334:60">iterator</jtok>
+<jtok eid="13" type="method_call" span="334:61:334:68">hasNext</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="335:4:335:8">File</jtok>
+<jtok eid="13" type="local_variable_name" span="335:9:335:13">file</jtok>
+<jtok eid="13" type="primary_name_ref" span="335:16:335:24">iterator</jtok>
+<jtok eid="13" type="method_call" span="335:25:335:29">next</jtok>
+<jtok eid="13" type="primary_name_ref" span="336:4:336:13">fileNames</jtok>
+<jtok eid="13" type="primary_name_ref" span="336:14:336:15">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="336:19:336:23">file</jtok>
+<jtok eid="13" type="method_call" span="336:24:336:39">getAbsolutePath</jtok>
+<jtok eid="13" type="primary_name_ref" span="337:4:337:5">i</jtok>
+<jtok eid="13" type="line_comment" span="339:3:339:74">// Try to load bib files normally, and import the rest into the current</jtok>
+<jtok eid="13" type="line_comment" span="340:3:340:15">// database.</jtok>
+<jtok eid="13" type="line_comment" span="341:3:341:61">// This process must be spun off into a background thread:</jtok>
+<jtok eid="13" type="constructor_call" span="342:7:342:13">Thread</jtok>
+<jtok eid="13" type="constructor_call" span="342:18:342:26">Runnable</jtok>
+<jtok eid="15" type="method_name" span="343:16:343:19">run</jtok>
+<jtok eid="15" type="method_call" span="344:5:344:22">loadOrImportFiles</jtok>
+<jtok eid="15" type="primary_name_ref" span="344:23:344:32">fileNames</jtok>
+<jtok eid="15" type="primary_name_ref" span="344:34:344:41">dropRow</jtok>
+<jtok eid="13" type="method_call" span="346:6:346:11">start</jtok>
+<jtok eid="1" type="block_comment" span="351:2:359:5">/**
+	 * Take a set of filenames. Those with names indicating bib files are opened
+	 * as such if possible. All other files we will attempt to import into the
+	 * current database.
+	 * 
+	 * @param fileNames
+	 *            The names of the files to open.
+	 * @param dropRow success status for the operation
+	 */</jtok>
+<jtok eid="16" type="method_name" span="360:15:360:32">loadOrImportFiles</jtok>
+<jtok eid="16" type="parameter_type" span="360:33:360:39">String</jtok>
+<jtok eid="16" type="parameter_name" span="360:42:360:51">fileNames</jtok>
+<jtok eid="16" type="parameter_name" span="360:57:360:64">dropRow</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="362:3:362:21">OpenDatabaseAction</jtok>
+<jtok eid="16" type="local_variable_name" span="362:22:362:32">openAction</jtok>
+<jtok eid="16" type="constructor_call" span="362:39:362:57">OpenDatabaseAction</jtok>
+<jtok eid="16" type="primary_name_ref" span="362:58:362:63">frame</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="363:3:363:12">ArrayList</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="363:13:363:19">String</jtok>
+<jtok eid="16" type="local_variable_name" span="363:21:363:32">notBibFiles</jtok>
+<jtok eid="16" type="constructor_call" span="363:39:363:48">ArrayList</jtok>
+<jtok eid="16" type="constructor_call" span="363:49:363:55">String</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="364:3:364:9">String</jtok>
+<jtok eid="16" type="local_variable_name" span="364:10:364:18">encoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="364:21:364:28">Globals</jtok>
+<jtok eid="16" type="qualified_name_ref" span="364:29:364:34">prefs</jtok>
+<jtok eid="16" type="method_call" span="364:35:364:38">get</jtok>
+<jtok eid="16" type="string_literal" span="364:39:364:56">"defaultEncoding"</jtok>
+<jtok eid="16" type="local_variable_name" span="365:12:365:13">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="365:19:365:20">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="365:23:365:32">fileNames</jtok>
+<jtok eid="16" type="qualified_name_ref" span="365:33:365:39">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="365:41:365:42">i</jtok>
+<jtok eid="16" type="line_comment" span="366:4:366:41">// Find the file's extension, if any:</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="367:13:367:19">String</jtok>
+<jtok eid="16" type="local_variable_name" span="367:20:367:29">extension</jtok>
+<jtok eid="16" type="string_literal" span="367:32:367:34">""</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="368:4:368:20">ExternalFileType</jtok>
+<jtok eid="16" type="local_variable_name" span="368:21:368:29">fileType</jtok>
+<jtok eid="16" type="local_variable_name" span="369:8:369:13">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="369:16:369:25">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="369:26:369:27">i</jtok>
+<jtok eid="16" type="method_call" span="369:29:369:40">lastIndexOf</jtok>
+<jtok eid="16" type="primary_name_ref" span="370:9:370:14">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="370:25:370:30">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="370:33:370:42">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="370:43:370:44">i</jtok>
+<jtok eid="16" type="method_call" span="370:46:370:52">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="371:5:371:14">extension</jtok>
+<jtok eid="16" type="primary_name_ref" span="371:17:371:26">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="371:27:371:28">i</jtok>
+<jtok eid="16" type="method_call" span="371:30:371:39">substring</jtok>
+<jtok eid="16" type="primary_name_ref" span="371:40:371:45">index</jtok>
+<jtok eid="16" type="method_call" span="371:51:371:62">toLowerCase</jtok>
+<jtok eid="16" type="primary_name_ref" span="372:5:372:13">fileType</jtok>
+<jtok eid="16" type="primary_name_ref" span="372:16:372:23">Globals</jtok>
+<jtok eid="16" type="qualified_name_ref" span="372:24:372:29">prefs</jtok>
+<jtok eid="16" type="method_call" span="372:30:372:54">getExternalFileTypeByExt</jtok>
+<jtok eid="16" type="primary_name_ref" span="372:55:372:64">extension</jtok>
+<jtok eid="16" type="primary_name_ref" span="374:8:374:17">extension</jtok>
+<jtok eid="16" type="method_call" span="374:18:374:24">equals</jtok>
+<jtok eid="16" type="string_literal" span="374:25:374:30">"bib"</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="375:5:375:9">File</jtok>
+<jtok eid="16" type="local_variable_name" span="375:10:375:11">f</jtok>
+<jtok eid="16" type="constructor_call" span="375:18:375:22">File</jtok>
+<jtok eid="16" type="primary_name_ref" span="375:23:375:32">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="375:33:375:34">i</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="377:6:377:18">ParserResult</jtok>
+<jtok eid="16" type="local_variable_name" span="377:19:377:21">pr</jtok>
+<jtok eid="16" type="primary_name_ref" span="377:24:377:42">OpenDatabaseAction</jtok>
+<jtok eid="16" type="method_call" span="377:43:377:55">loadDatabase</jtok>
+<jtok eid="16" type="primary_name_ref" span="377:56:377:57">f</jtok>
+<jtok eid="16" type="primary_name_ref" span="377:59:377:67">encoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="378:11:378:13">pr</jtok>
+<jtok eid="16" type="primary_name_ref" span="378:27:378:29">pr</jtok>
+<jtok eid="16" type="primary_name_ref" span="378:33:378:45">ParserResult</jtok>
+<jtok eid="16" type="qualified_name_ref" span="378:46:378:60">INVALID_FORMAT</jtok>
+<jtok eid="16" type="primary_name_ref" span="379:7:379:18">notBibFiles</jtok>
+<jtok eid="16" type="method_call" span="379:19:379:22">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="379:23:379:32">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="379:33:379:34">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="381:7:381:17">openAction</jtok>
+<jtok eid="16" type="method_call" span="381:18:381:32">addNewDatabase</jtok>
+<jtok eid="16" type="primary_name_ref" span="381:33:381:35">pr</jtok>
+<jtok eid="16" type="primary_name_ref" span="381:37:381:38">f</jtok>
+<jtok eid="16" type="primary_name_ref" span="382:25:382:30">frame</jtok>
+<jtok eid="16" type="method_call" span="382:31:382:45">getFileHistory</jtok>
+<jtok eid="16" type="method_call" span="382:48:382:55">newFile</jtok>
+<jtok eid="16" type="primary_name_ref" span="382:56:382:65">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="382:66:382:67">i</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="384:14:384:25">IOException</jtok>
+<jtok eid="16" type="local_variable_name" span="384:26:384:27">e</jtok>
+<jtok eid="16" type="primary_name_ref" span="385:6:385:17">notBibFiles</jtok>
+<jtok eid="16" type="method_call" span="385:18:385:21">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="385:22:385:31">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="385:32:385:33">i</jtok>
+<jtok eid="16" type="line_comment" span="386:6:386:61">// No error message, since we want to try importing the</jtok>
+<jtok eid="16" type="line_comment" span="387:6:387:14">// file?</jtok>
+<jtok eid="16" type="line_comment" span="388:6:388:8">//</jtok>
+<jtok eid="16" type="line_comment" span="389:6:389:60">// Util.showQuickErrorDialog(frame, Globals.lang("Open</jtok>
+<jtok eid="16" type="line_comment" span="390:6:390:24">// database"), e);</jtok>
+<jtok eid="16" type="block_comment" span="395:4:400:7">/*
+			 * This is a linkable file. If the user dropped it on an entry, we
+			 * should offer options for autolinking to this files:
+			 * 
+			 * TODO we should offer an option to highlight the row the user is on too.
+			 */</jtok>
+<jtok eid="16" type="primary_name_ref" span="401:8:401:16">fileType</jtok>
+<jtok eid="16" type="primary_name_ref" span="401:28:401:35">dropRow</jtok>
+<jtok eid="16" type="block_comment" span="403:5:406:8">/*
+				 * TODO: need to signal if this is a local or autodownloaded
+				 * file
+				 */</jtok>
+<jtok eid="16" type="local_variable_name" span="407:13:407:18">local</jtok>
+<jtok eid="16" type="block_comment" span="409:5:411:8">/*
+				 * TODO: make this an instance variable?
+				 */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="412:5:412:23">DroppedFileHandler</jtok>
+<jtok eid="16" type="local_variable_name" span="412:24:412:27">dfh</jtok>
+<jtok eid="16" type="constructor_call" span="412:34:412:52">DroppedFileHandler</jtok>
+<jtok eid="16" type="primary_name_ref" span="412:53:412:58">frame</jtok>
+<jtok eid="16" type="primary_name_ref" span="412:60:412:65">panel</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:5:413:8">dfh</jtok>
+<jtok eid="16" type="method_call" span="413:9:413:26">handleDroppedfile</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:27:413:36">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:37:413:38">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:41:413:49">fileType</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:51:413:56">local</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:58:413:68">entryTable</jtok>
+<jtok eid="16" type="primary_name_ref" span="413:70:413:77">dropRow</jtok>
+<jtok eid="16" type="block_comment" span="417:1:463:6">/*
+			if (extension.equals("pdf")) {
+				Collection c;
+				try {
+					c = XMPUtil.readXMP(fileNames[i]);
+				} catch (IOException e1) {
+					c = null;
+					frame.output(Globals.lang("No XMP metadata found in " + fileNames[i]));
+				}
+
+				if (c != null &amp;&amp; c.size() &gt; 0) {
+					Iterator it = c.iterator();
+
+					BasePanel panel = frame.basePanel();
+
+					if (panel == null) {
+						// // Create a new, empty, database.
+						BibtexDatabase database = new BibtexDatabase();
+						frame.addTab(database, null, null, Globals.prefs.get("defaultEncoding"),
+							true);
+						frame.output(Globals.lang("New database created."));
+						panel = frame.basePanel();
+					}
+
+					BibtexDatabase database = frame.basePanel().database();
+
+					NamedCompound ce = new NamedCompound(Globals.lang("Drog PDF"));
+
+					while (it.hasNext()) {
+						BibtexEntry e = (BibtexEntry) it.next();
+
+						try {
+							e.setId(Util.createNeutralId());
+							database.insertEntry(e);
+							ce.addEdit(new UndoableInsertEntry(database, e, panel));
+						} catch (Exception e2) {
+							// Should not happen?
+						}
+					}
+
+					ce.end();
+					panel.undoManager.addEdit(ce);
+					panel.markBaseChanged();
+					continue;
+				}
+			}
+			*/</jtok>
+<jtok eid="16" type="primary_name_ref" span="465:4:465:15">notBibFiles</jtok>
+<jtok eid="16" type="method_call" span="465:16:465:19">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="465:20:465:29">fileNames</jtok>
+<jtok eid="16" type="primary_name_ref" span="465:30:465:31">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="468:7:468:18">notBibFiles</jtok>
+<jtok eid="16" type="method_call" span="468:19:468:23">size</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="469:4:469:10">String</jtok>
+<jtok eid="16" type="local_variable_name" span="469:13:469:21">toImport</jtok>
+<jtok eid="16" type="constructor_call" span="469:28:469:34">String</jtok>
+<jtok eid="16" type="primary_name_ref" span="469:35:469:46">notBibFiles</jtok>
+<jtok eid="16" type="method_call" span="469:47:469:51">size</jtok>
+<jtok eid="16" type="primary_name_ref" span="470:4:470:15">notBibFiles</jtok>
+<jtok eid="16" type="method_call" span="470:16:470:23">toArray</jtok>
+<jtok eid="16" type="primary_name_ref" span="470:24:470:32">toImport</jtok>
+<jtok eid="16" type="line_comment" span="472:4:472:66">// Import into new if entryTable==null, otherwise into current</jtok>
+<jtok eid="16" type="line_comment" span="473:4:473:16">// database:</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="474:4:474:18">ImportMenuItem</jtok>
+<jtok eid="16" type="local_variable_name" span="474:19:474:27">importer</jtok>
+<jtok eid="16" type="constructor_call" span="474:34:474:48">ImportMenuItem</jtok>
+<jtok eid="16" type="primary_name_ref" span="474:49:474:54">frame</jtok>
+<jtok eid="16" type="primary_name_ref" span="474:57:474:67">entryTable</jtok>
+<jtok eid="16" type="primary_name_ref" span="475:4:475:12">importer</jtok>
+<jtok eid="16" type="method_call" span="475:13:475:28">automatedImport</jtok>
+<jtok eid="16" type="primary_name_ref" span="475:29:475:37">toImport</jtok>
+<jtok eid="17" type="method_name" span="479:20:479:38">handleDropTransfer</jtok>
+<jtok eid="17" type="parameter_type" span="479:39:479:42">URL</jtok>
+<jtok eid="17" type="parameter_name" span="479:43:479:51">dropLink</jtok>
+<jtok eid="17" type="parameter_name" span="479:57:479:64">dropRow</jtok>
+<jtok eid="17" type="throws" span="479:73:479:84">IOException</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="480:3:480:7">File</jtok>
+<jtok eid="17" type="local_variable_name" span="480:8:480:15">tmpfile</jtok>
+<jtok eid="17" type="primary_name_ref" span="480:18:480:22">java</jtok>
+<jtok eid="17" type="qualified_name_ref" span="480:23:480:25">io</jtok>
+<jtok eid="17" type="qualified_name_ref" span="480:26:480:30">File</jtok>
+<jtok eid="17" type="method_call" span="480:31:480:45">createTempFile</jtok>
+<jtok eid="17" type="string_literal" span="480:46:480:60">"jabrefimport"</jtok>
+<jtok eid="17" type="string_literal" span="480:62:480:64">""</jtok>
+<jtok eid="17" type="primary_name_ref" span="481:3:481:10">tmpfile</jtok>
+<jtok eid="17" type="method_call" span="481:11:481:23">deleteOnExit</jtok>
+<jtok eid="17" type="line_comment" span="483:3:483:63">// System.out.println("Import url: " + dropLink.toString());</jtok>
+<jtok eid="17" type="line_comment" span="484:3:484:66">// System.out.println("Temp file: "+tmpfile.getAbsolutePath());</jtok>
+<jtok eid="17" type="constructor_call" span="486:7:486:18">URLDownload</jtok>
+<jtok eid="17" type="primary_name_ref" span="486:19:486:29">entryTable</jtok>
+<jtok eid="17" type="primary_name_ref" span="486:31:486:39">dropLink</jtok>
+<jtok eid="17" type="primary_name_ref" span="486:41:486:48">tmpfile</jtok>
+<jtok eid="17" type="method_call" span="486:50:486:58">download</jtok>
+<jtok eid="17" type="line_comment" span="488:3:488:75">// Import into new if entryTable==null, otherwise into current database:</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="489:3:489:17">ImportMenuItem</jtok>
+<jtok eid="17" type="local_variable_name" span="489:18:489:26">importer</jtok>
+<jtok eid="17" type="constructor_call" span="489:33:489:47">ImportMenuItem</jtok>
+<jtok eid="17" type="primary_name_ref" span="489:48:489:53">frame</jtok>
+<jtok eid="17" type="primary_name_ref" span="489:56:489:66">entryTable</jtok>
+<jtok eid="17" type="primary_name_ref" span="490:3:490:11">importer</jtok>
+<jtok eid="17" type="method_call" span="490:12:490:27">automatedImport</jtok>
+<jtok eid="17" type="constructor_call" span="490:32:490:38">String</jtok>
+<jtok eid="17" type="primary_name_ref" span="490:43:490:50">tmpfile</jtok>
+<jtok eid="17" type="method_call" span="490:51:490:66">getAbsolutePath</jtok>
+</jdoc>

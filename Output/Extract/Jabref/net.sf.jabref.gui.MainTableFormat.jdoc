@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.gui.MainTableFormat" jls="java5">
+<jent id="0" type="file" span="0:0:262:1">Source/jabref/src/java/net/sf/jabref/gui/MainTableFormat.java</jent>
+<jent id="1" pid="0" type="class" span="21:1:262:1">net.sf.jabref.gui.MainTableFormat</jent>
+<jent id="2" pid="1" type="method" span="45:5:47:5">net.sf.jabref.gui.MainTableFormat.MainTableFormat(BasePanel)</jent>
+<jent id="3" pid="1" type="method" span="49:5:51:5">net.sf.jabref.gui.MainTableFormat.getColumnCount()</jent>
+<jent id="4" pid="1" type="method" span="53:5:80:5">net.sf.jabref.gui.MainTableFormat.getColumnName(int)</jent>
+<jent id="5" pid="1" type="method" span="87:5:93:5">net.sf.jabref.gui.MainTableFormat.getIconTypeForColumn(int)</jent>
+<jent id="6" pid="1" type="method" span="100:5:107:5">net.sf.jabref.gui.MainTableFormat.getColumnIndex(String)</jent>
+<jent id="7" pid="1" type="method" span="109:5:154:5">net.sf.jabref.gui.MainTableFormat.getColumnValue(BibtexEntry,int)</jent>
+<jent id="8" pid="1" type="method" span="161:5:171:5">net.sf.jabref.gui.MainTableFormat.formatName(Object)</jent>
+<jent id="9" pid="1" type="method" span="173:5:177:5">net.sf.jabref.gui.MainTableFormat.hasField(BibtexEntry,String)</jent>
+<jent id="10" pid="1" type="method" span="179:5:235:5">net.sf.jabref.gui.MainTableFormat.updateTableFormat()</jent>
+<jent id="11" pid="1" type="method" span="237:5:239:5">net.sf.jabref.gui.MainTableFormat.isIconColumn(int)</jent>
+<jent id="12" pid="1" type="class" span="243:5:247:5">net.sf.jabref.gui.MainTableFormat.NoSearchMatcher</jent>
+<jent id="13" pid="12" type="method" span="244:9:246:9">net.sf.jabref.gui.MainTableFormat.NoSearchMatcher.matches(BibtexEntry)</jent>
+<jent id="14" pid="1" type="class" span="249:5:261:5">net.sf.jabref.gui.MainTableFormat.SearchMatcher</jent>
+<jent id="15" pid="14" type="method" span="253:9:256:9">net.sf.jabref.gui.MainTableFormat.SearchMatcher.SearchMatcher(SearchRuleSet,Hashtable&lt;String,String&gt;)</jent>
+<jent id="16" pid="14" type="method" span="257:9:260:9">net.sf.jabref.gui.MainTableFormat.SearchMatcher.matches(BibtexEntry)</jent>
+<jtok eid="0" type="block_comment" span="18:1:20:4">/**
+ * Class defining the contents and column headers of the main table.
+ */</jtok>
+<jtok eid="1" type="class_name" span="21:14:21:29">MainTableFormat</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="21:41:21:52">TableFormat</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="21:53:21:64">BibtexEntry</jtok>
+<jtok eid="1" type="line_comment" span="23:5:23:75">// Character separating field names that are to be used in sequence as</jtok>
+<jtok eid="1" type="line_comment" span="24:5:24:79">// fallbacks for a single column (e.g. "author/editor" to use editor where</jtok>
+<jtok eid="1" type="line_comment" span="25:5:25:27">// author is not set):</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="26:25:26:31">String</jtok>
+<jtok eid="1" type="field_name" span="26:32:26:62">COL_DEFINITION_FIELD_SEPARATOR</jtok>
+<jtok eid="1" type="string_literal" span="26:65:26:68">"/"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="28:25:28:31">String</jtok>
+<jtok eid="1" type="field_name" span="29:13:29:16">PDF</jtok>
+<jtok eid="1" type="string_literal" span="29:20:29:25">"pdf"</jtok>
+<jtok eid="1" type="string_literal" span="29:27:29:31">"ps"</jtok>
+<jtok eid="1" type="field_name" span="31:5:31:9">URL_</jtok>
+<jtok eid="1" type="string_literal" span="31:13:31:18">"url"</jtok>
+<jtok eid="1" type="string_literal" span="31:20:31:25">"doi"</jtok>
+<jtok eid="1" type="field_name" span="33:5:33:13">CITESEER</jtok>
+<jtok eid="1" type="string_literal" span="33:17:33:30">"citeseerurl"</jtok>
+<jtok eid="1" type="field_name" span="34:5:34:9">FILE</jtok>
+<jtok eid="1" type="primary_name_ref" span="34:13:34:23">GUIGlobals</jtok>
+<jtok eid="1" type="qualified_name_ref" span="34:24:34:34">FILE_FIELD</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:5:36:14">BasePanel</jtok>
+<jtok eid="1" type="field_name" span="36:15:36:20">panel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:13:38:19">String</jtok>
+<jtok eid="1" type="field_name" span="38:24:38:31">columns</jtok>
+<jtok eid="1" type="line_comment" span="38:33:38:70">// Contains the current column names.</jtok>
+<jtok eid="1" type="field_name" span="39:16:39:23">padleft</jtok>
+<jtok eid="1" type="line_comment" span="39:30:39:92">// padleft indicates how many columns (starting from left) are</jtok>
+<jtok eid="1" type="line_comment" span="40:5:40:55">// special columns (number column or icon column).</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:13:41:20">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:21:41:28">Integer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:30:41:36">String</jtok>
+<jtok eid="1" type="field_name" span="41:40:41:48">iconCols</jtok>
+<jtok eid="1" type="constructor_call" span="41:55:41:62">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="41:63:41:70">Integer</jtok>
+<jtok eid="1" type="constructor_call" span="41:72:41:78">String</jtok>
+<jtok eid="1" type="field_name" span="42:13:42:21">nameCols</jtok>
+<jtok eid="1" type="field_name" span="43:13:43:22">namesAsIs</jtok>
+<jtok eid="1" type="field_name" span="43:24:43:34">abbr_names</jtok>
+<jtok eid="1" type="field_name" span="43:36:43:47">namesNatbib</jtok>
+<jtok eid="1" type="field_name" span="43:49:43:56">namesFf</jtok>
+<jtok eid="1" type="field_name" span="43:58:43:65">namesLf</jtok>
+<jtok eid="1" type="field_name" span="43:67:43:80">namesLastOnly</jtok>
+<jtok eid="1" type="field_name" span="43:82:43:91">showShort</jtok>
+<jtok eid="2" type="method_name" span="45:12:45:27">MainTableFormat</jtok>
+<jtok eid="2" type="parameter_type" span="45:28:45:37">BasePanel</jtok>
+<jtok eid="2" type="parameter_name" span="45:38:45:43">panel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="46:14:46:19">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:22:46:27">panel</jtok>
+<jtok eid="3" type="method_name" span="49:16:49:30">getColumnCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:16:50:23">padleft</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:26:50:33">columns</jtok>
+<jtok eid="3" type="qualified_name_ref" span="50:34:50:40">length</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="53:12:53:18">String</jtok>
+<jtok eid="4" type="method_name" span="53:19:53:32">getColumnName</jtok>
+<jtok eid="4" type="parameter_name" span="53:37:53:40">col</jtok>
+<jtok eid="4" type="primary_name_ref" span="54:13:54:16">col</jtok>
+<jtok eid="4" type="primary_name_ref" span="55:20:55:30">GUIGlobals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="55:31:55:41">NUMBER_COL</jtok>
+<jtok eid="4" type="method_call" span="56:20:56:40">getIconTypeForColumn</jtok>
+<jtok eid="4" type="primary_name_ref" span="56:41:56:44">col</jtok>
+<jtok eid="4" type="string_literal" span="57:20:57:22">""</jtok>
+<jtok eid="4" type="line_comment" span="59:14:59:67">// try to find an alternative fieldname (for display)</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="61:13:61:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="61:22:61:25">fld</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:28:61:35">columns</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:36:61:39">col</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:42:61:49">padleft</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="62:13:62:26">StringBuilder</jtok>
+<jtok eid="4" type="local_variable_name" span="62:27:62:29">sb</jtok>
+<jtok eid="4" type="constructor_call" span="62:36:62:49">StringBuilder</jtok>
+<jtok eid="4" type="local_variable_name" span="63:22:63:23">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:27:63:28">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:29:63:32">fld</jtok>
+<jtok eid="4" type="qualified_name_ref" span="63:33:63:39">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:41:63:42">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:21:64:22">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:21:65:23">sb</jtok>
+<jtok eid="4" type="method_call" span="65:24:65:30">append</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="66:17:66:23">String</jtok>
+<jtok eid="4" type="local_variable_name" span="66:24:66:31">disName</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:34:66:46">BibtexFields</jtok>
+<jtok eid="4" type="method_call" span="66:47:66:66">getFieldDisplayName</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:67:66:70">fld</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:71:66:72">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:21:67:28">disName</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:21:68:23">sb</jtok>
+<jtok eid="4" type="method_call" span="68:24:68:30">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:31:68:38">disName</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:21:70:23">sb</jtok>
+<jtok eid="4" type="method_call" span="70:24:70:30">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:31:70:35">Util</jtok>
+<jtok eid="4" type="method_call" span="70:36:70:41">nCase</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:42:70:45">fld</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:46:70:47">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:20:72:22">sb</jtok>
+<jtok eid="4" type="method_call" span="72:23:72:31">toString</jtok>
+<jtok eid="4" type="block_comment" span="73:11:77:15">/*String disName = BibtexFields.getFieldDisplayName(columns[col - padleft]) ;
+          if ( disName != null)
+          {
+            return disName ;
+          } */</jtok>
+<jtok eid="4" type="line_comment" span="79:9:79:53">//return Util.nCase(columns[col - padleft]);</jtok>
+<jtok eid="1" type="block_comment" span="82:5:86:8">/**
+     * This method returns a string array indicating the types of icons to be displayed in the given column.
+     * It returns null if the column is not an icon column, and thereby also serves to identify icon
+     * columns.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="87:12:87:18">String</jtok>
+<jtok eid="5" type="method_name" span="87:21:87:41">getIconTypeForColumn</jtok>
+<jtok eid="5" type="parameter_name" span="87:46:87:49">col</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="88:9:88:15">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="88:16:88:17">o</jtok>
+<jtok eid="5" type="primary_name_ref" span="88:20:88:28">iconCols</jtok>
+<jtok eid="5" type="method_call" span="88:29:88:32">get</jtok>
+<jtok eid="5" type="constructor_call" span="88:37:88:44">Integer</jtok>
+<jtok eid="5" type="primary_name_ref" span="88:45:88:48">col</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:13:89:14">o</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="90:21:90:27">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="90:31:90:32">o</jtok>
+<jtok eid="1" type="block_comment" span="95:5:99:8">/**
+     * Finds the column index for the given column name.
+     * @param colName The column name
+     * @return The column index if any, or -1 if no column has that name.
+     */</jtok>
+<jtok eid="6" type="method_name" span="100:16:100:30">getColumnIndex</jtok>
+<jtok eid="6" type="parameter_type" span="100:31:100:37">String</jtok>
+<jtok eid="6" type="parameter_name" span="100:38:100:45">colName</jtok>
+<jtok eid="6" type="local_variable_name" span="101:18:101:19">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:23:101:24">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:25:101:32">columns</jtok>
+<jtok eid="6" type="qualified_name_ref" span="101:33:101:39">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:41:101:42">i</jtok>
+<jtok eid="6" type="line_comment" span="102:13:102:62">// TODO: is the following line correct with [0] ?</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:17:103:24">columns</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:25:103:26">i</jtok>
+<jtok eid="6" type="method_call" span="103:31:103:47">equalsIgnoreCase</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:48:103:55">colName</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:24:104:25">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:26:104:33">padleft</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="109:12:109:18">Object</jtok>
+<jtok eid="7" type="method_name" span="109:19:109:33">getColumnValue</jtok>
+<jtok eid="7" type="parameter_type" span="109:34:109:45">BibtexEntry</jtok>
+<jtok eid="7" type="parameter_name" span="109:46:109:48">be</jtok>
+<jtok eid="7" type="parameter_name" span="109:54:109:57">col</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="110:9:110:15">Object</jtok>
+<jtok eid="7" type="local_variable_name" span="110:16:110:17">o</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="111:9:111:15">String</jtok>
+<jtok eid="7" type="local_variable_name" span="111:18:111:26">iconType</jtok>
+<jtok eid="7" type="method_call" span="111:29:111:49">getIconTypeForColumn</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:50:111:53">col</jtok>
+<jtok eid="7" type="line_comment" span="111:56:111:104">// If non-null, indicates an icon column's type.</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:13:112:16">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="113:13:113:14">o</jtok>
+<jtok eid="7" type="string_literal" span="113:17:113:20">"#"</jtok>
+<jtok eid="7" type="line_comment" span="113:21:113:36">// + (row + 1);</jtok>
+<jtok eid="7" type="primary_name_ref" span="116:18:116:26">iconType</jtok>
+<jtok eid="7" type="local_variable_name" span="117:17:117:25">hasField</jtok>
+<jtok eid="7" type="local_variable_name" span="118:22:118:23">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:26:118:34">iconType</jtok>
+<jtok eid="7" type="qualified_name_ref" span="118:35:118:41">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:47:118:48">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:55:118:56">i</jtok>
+<jtok eid="7" type="method_call" span="119:21:119:29">hasField</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:30:119:32">be</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:34:119:42">iconType</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:43:119:44">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="120:21:120:29">hasField</jtok>
+<jtok eid="7" type="primary_name_ref" span="120:32:120:33">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:17:121:25">hasField</jtok>
+<jtok eid="7" type="line_comment" span="124:13:124:90">// Ok, so we are going to display an icon. Find out which one, and return it:</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:17:125:25">iconType</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:26:125:34">hasField</jtok>
+<jtok eid="7" type="method_call" span="125:36:125:42">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:43:125:53">GUIGlobals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="125:54:125:64">FILE_FIELD</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:17:126:18">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:21:126:39">FileListTableModel</jtok>
+<jtok eid="7" type="method_call" span="126:40:126:53">getFirstLabel</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:54:126:56">be</jtok>
+<jtok eid="7" type="method_call" span="126:57:126:65">getField</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:66:126:76">GUIGlobals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="126:77:126:87">FILE_FIELD</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:17:128:18">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:21:128:31">GUIGlobals</jtok>
+<jtok eid="7" type="method_call" span="128:32:128:44">getTableIcon</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:45:128:53">iconType</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:54:128:62">hasField</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="130:13:130:19">String</jtok>
+<jtok eid="7" type="local_variable_name" span="130:22:130:25">fld</jtok>
+<jtok eid="7" type="primary_name_ref" span="130:28:130:35">columns</jtok>
+<jtok eid="7" type="primary_name_ref" span="130:36:130:39">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="130:42:130:49">padleft</jtok>
+<jtok eid="7" type="line_comment" span="131:13:131:69">// Go through the fields until we find one with content:</jtok>
+<jtok eid="7" type="local_variable_name" span="132:17:132:18">j</jtok>
+<jtok eid="7" type="local_variable_name" span="133:22:133:23">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:29:133:30">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:33:133:36">fld</jtok>
+<jtok eid="7" type="qualified_name_ref" span="133:37:133:43">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:45:133:46">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="134:21:134:24">fld</jtok>
+<jtok eid="7" type="primary_name_ref" span="134:25:134:26">i</jtok>
+<jtok eid="7" type="method_call" span="134:28:134:34">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="134:35:134:45">GUIGlobals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="134:46:134:57">TYPE_HEADER</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:21:135:22">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:25:135:27">be</jtok>
+<jtok eid="7" type="method_call" span="135:28:135:35">getType</jtok>
+<jtok eid="7" type="method_call" span="135:38:135:45">getName</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:21:137:22">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:25:137:27">be</jtok>
+<jtok eid="7" type="method_call" span="137:28:137:36">getField</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:37:137:40">fld</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:41:137:42">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:21:138:22">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="139:21:139:22">j</jtok>
+<jtok eid="7" type="primary_name_ref" span="139:25:139:26">i</jtok>
+<jtok eid="7" type="local_variable_name" span="144:22:144:23">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:29:144:30">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:33:144:41">nameCols</jtok>
+<jtok eid="7" type="qualified_name_ref" span="144:42:144:48">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:50:144:51">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:22:145:25">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:28:145:35">padleft</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:39:145:47">nameCols</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:48:145:49">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:59:145:67">nameCols</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:68:145:69">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:77:145:78">j</jtok>
+<jtok eid="7" type="method_call" span="146:28:146:38">formatName</jtok>
+<jtok eid="7" type="primary_name_ref" span="146:39:146:40">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="153:16:153:17">o</jtok>
+<jtok eid="1" type="block_comment" span="156:5:160:8">/**
+     * Format a name field for the table, according to user preferences.
+     * @param o The contents of the name field.
+     * @return The formatted name field.
+     */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="161:12:161:18">Object</jtok>
+<jtok eid="8" type="method_name" span="161:19:161:29">formatName</jtok>
+<jtok eid="8" type="parameter_type" span="161:30:161:36">Object</jtok>
+<jtok eid="8" type="parameter_name" span="161:37:161:38">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="162:13:162:14">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="165:13:165:22">namesAsIs</jtok>
+<jtok eid="8" type="primary_name_ref" span="165:31:165:32">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:13:166:24">namesNatbib</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:26:166:27">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:30:166:40">AuthorList</jtok>
+<jtok eid="8" type="method_call" span="166:41:166:57">fixAuthor_Natbib</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="166:59:166:65">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:67:166:68">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:18:167:31">namesLastOnly</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:33:167:34">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:37:167:47">AuthorList</jtok>
+<jtok eid="8" type="method_call" span="167:48:167:76">fixAuthor_lastNameOnlyCommas</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="167:78:167:84">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:86:167:87">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:18:168:25">namesFf</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:27:168:28">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:31:168:41">AuthorList</jtok>
+<jtok eid="8" type="method_call" span="168:42:168:72">fixAuthor_firstNameFirstCommas</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="168:74:168:80">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:82:168:83">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:85:168:95">abbr_names</jtok>
+<jtok eid="8" type="primary_name_ref" span="169:18:169:25">namesLf</jtok>
+<jtok eid="8" type="primary_name_ref" span="169:27:169:28">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="169:31:169:41">AuthorList</jtok>
+<jtok eid="8" type="method_call" span="169:42:169:71">fixAuthor_lastNameFirstCommas</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="169:73:169:79">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="169:81:169:82">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="169:84:169:94">abbr_names</jtok>
+<jtok eid="8" type="primary_name_ref" span="170:16:170:17">o</jtok>
+<jtok eid="9" type="method_name" span="173:20:173:28">hasField</jtok>
+<jtok eid="9" type="parameter_type" span="173:29:173:40">BibtexEntry</jtok>
+<jtok eid="9" type="parameter_name" span="173:41:173:43">be</jtok>
+<jtok eid="9" type="parameter_type" span="173:45:173:51">String</jtok>
+<jtok eid="9" type="parameter_name" span="173:52:173:57">field</jtok>
+<jtok eid="9" type="line_comment" span="174:9:174:65">// Returns true iff the entry has a nonzero value in its</jtok>
+<jtok eid="9" type="line_comment" span="175:9:175:27">// 'search' field.</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:18:176:20">be</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:34:176:36">be</jtok>
+<jtok eid="9" type="method_call" span="176:37:176:45">getField</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:46:176:51">field</jtok>
+<jtok eid="10" type="method_name" span="179:17:179:34">updateTableFormat</jtok>
+<jtok eid="10" type="line_comment" span="181:9:181:42">// Read table columns from prefs:</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="182:9:182:15">String</jtok>
+<jtok eid="10" type="local_variable_name" span="182:18:182:29">colSettings</jtok>
+<jtok eid="10" type="primary_name_ref" span="182:32:182:39">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="182:40:182:45">prefs</jtok>
+<jtok eid="10" type="method_call" span="182:46:182:60">getStringArray</jtok>
+<jtok eid="10" type="string_literal" span="182:61:182:74">"columnNames"</jtok>
+<jtok eid="10" type="primary_name_ref" span="183:9:183:16">columns</jtok>
+<jtok eid="10" type="constructor_call" span="183:23:183:29">String</jtok>
+<jtok eid="10" type="primary_name_ref" span="183:30:183:41">colSettings</jtok>
+<jtok eid="10" type="qualified_name_ref" span="183:42:183:48">length</jtok>
+<jtok eid="10" type="local_variable_name" span="184:18:184:19">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="184:23:184:24">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="184:25:184:36">colSettings</jtok>
+<jtok eid="10" type="qualified_name_ref" span="184:37:184:43">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="184:45:184:46">i</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="185:13:185:19">String</jtok>
+<jtok eid="10" type="local_variable_name" span="185:22:185:28">fields</jtok>
+<jtok eid="10" type="primary_name_ref" span="185:31:185:42">colSettings</jtok>
+<jtok eid="10" type="primary_name_ref" span="185:43:185:44">i</jtok>
+<jtok eid="10" type="method_call" span="185:46:185:51">split</jtok>
+<jtok eid="10" type="primary_name_ref" span="185:52:185:82">COL_DEFINITION_FIELD_SEPARATOR</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:13:186:20">columns</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:21:186:22">i</jtok>
+<jtok eid="10" type="constructor_call" span="186:30:186:36">String</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:37:186:43">fields</jtok>
+<jtok eid="10" type="qualified_name_ref" span="186:44:186:50">length</jtok>
+<jtok eid="10" type="local_variable_name" span="187:22:187:23">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:29:187:30">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:33:187:39">fields</jtok>
+<jtok eid="10" type="qualified_name_ref" span="187:40:187:46">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:48:187:49">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:17:188:24">columns</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:25:188:26">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:28:188:29">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:33:188:39">fields</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:40:188:41">j</jtok>
+<jtok eid="10" type="line_comment" span="192:9:192:37">// Read name format options:</jtok>
+<jtok eid="10" type="primary_name_ref" span="193:9:193:18">showShort</jtok>
+<jtok eid="10" type="primary_name_ref" span="193:21:193:28">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="193:29:193:34">prefs</jtok>
+<jtok eid="10" type="method_call" span="193:35:193:45">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="193:46:193:57">"showShort"</jtok>
+<jtok eid="10" type="line_comment" span="193:67:193:72">//MK:</jtok>
+<jtok eid="10" type="primary_name_ref" span="194:9:194:20">namesNatbib</jtok>
+<jtok eid="10" type="primary_name_ref" span="194:23:194:30">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="194:31:194:36">prefs</jtok>
+<jtok eid="10" type="method_call" span="194:37:194:47">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="194:48:194:61">"namesNatbib"</jtok>
+<jtok eid="10" type="line_comment" span="194:67:194:72">//MK:</jtok>
+<jtok eid="10" type="primary_name_ref" span="195:9:195:22">namesLastOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="195:25:195:32">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="195:33:195:38">prefs</jtok>
+<jtok eid="10" type="method_call" span="195:39:195:49">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="195:50:195:65">"namesLastOnly"</jtok>
+<jtok eid="10" type="primary_name_ref" span="196:9:196:18">namesAsIs</jtok>
+<jtok eid="10" type="primary_name_ref" span="196:21:196:28">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="196:29:196:34">prefs</jtok>
+<jtok eid="10" type="method_call" span="196:35:196:45">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="196:46:196:57">"namesAsIs"</jtok>
+<jtok eid="10" type="primary_name_ref" span="197:9:197:19">abbr_names</jtok>
+<jtok eid="10" type="primary_name_ref" span="197:22:197:29">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="197:30:197:35">prefs</jtok>
+<jtok eid="10" type="method_call" span="197:36:197:46">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="197:47:197:64">"abbrAuthorNames"</jtok>
+<jtok eid="10" type="line_comment" span="197:67:197:72">//MK:</jtok>
+<jtok eid="10" type="primary_name_ref" span="198:9:198:16">namesFf</jtok>
+<jtok eid="10" type="primary_name_ref" span="198:19:198:26">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="198:27:198:32">prefs</jtok>
+<jtok eid="10" type="method_call" span="198:33:198:43">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="198:44:198:53">"namesFf"</jtok>
+<jtok eid="10" type="primary_name_ref" span="199:9:199:16">namesLf</jtok>
+<jtok eid="10" type="primary_name_ref" span="199:21:199:30">namesAsIs</jtok>
+<jtok eid="10" type="primary_name_ref" span="199:34:199:41">namesFf</jtok>
+<jtok eid="10" type="primary_name_ref" span="199:45:199:56">namesNatbib</jtok>
+<jtok eid="10" type="primary_name_ref" span="199:60:199:73">namesLastOnly</jtok>
+<jtok eid="10" type="line_comment" span="199:76:199:97">// None of the above.</jtok>
+<jtok eid="10" type="line_comment" span="201:9:201:87">// Set the icon columns, indicating the number of special columns to the left.</jtok>
+<jtok eid="10" type="line_comment" span="202:9:202:57">// We add those that are enabled in preferences.</jtok>
+<jtok eid="10" type="primary_name_ref" span="203:9:203:17">iconCols</jtok>
+<jtok eid="10" type="method_call" span="203:18:203:23">clear</jtok>
+<jtok eid="10" type="local_variable_name" span="204:13:204:17">coln</jtok>
+<jtok eid="10" type="primary_name_ref" span="205:13:205:20">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="205:21:205:26">prefs</jtok>
+<jtok eid="10" type="method_call" span="205:27:205:37">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="205:38:205:50">"fileColumn"</jtok>
+<jtok eid="10" type="primary_name_ref" span="206:13:206:21">iconCols</jtok>
+<jtok eid="10" type="method_call" span="206:22:206:25">put</jtok>
+<jtok eid="10" type="primary_name_ref" span="206:26:206:30">coln</jtok>
+<jtok eid="10" type="primary_name_ref" span="206:34:206:38">FILE</jtok>
+<jtok eid="10" type="primary_name_ref" span="207:13:207:20">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="207:21:207:26">prefs</jtok>
+<jtok eid="10" type="method_call" span="207:27:207:37">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="207:38:207:49">"pdfColumn"</jtok>
+<jtok eid="10" type="primary_name_ref" span="208:13:208:21">iconCols</jtok>
+<jtok eid="10" type="method_call" span="208:22:208:25">put</jtok>
+<jtok eid="10" type="primary_name_ref" span="208:26:208:30">coln</jtok>
+<jtok eid="10" type="primary_name_ref" span="208:34:208:37">PDF</jtok>
+<jtok eid="10" type="primary_name_ref" span="209:13:209:20">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="209:21:209:26">prefs</jtok>
+<jtok eid="10" type="method_call" span="209:27:209:37">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="209:38:209:49">"urlColumn"</jtok>
+<jtok eid="10" type="primary_name_ref" span="210:13:210:21">iconCols</jtok>
+<jtok eid="10" type="method_call" span="210:22:210:25">put</jtok>
+<jtok eid="10" type="primary_name_ref" span="210:26:210:30">coln</jtok>
+<jtok eid="10" type="primary_name_ref" span="210:34:210:38">URL_</jtok>
+<jtok eid="10" type="primary_name_ref" span="211:13:211:20">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="211:21:211:26">prefs</jtok>
+<jtok eid="10" type="method_call" span="211:27:211:37">getBoolean</jtok>
+<jtok eid="10" type="string_literal" span="211:38:211:54">"citeseerColumn"</jtok>
+<jtok eid="10" type="primary_name_ref" span="212:13:212:21">iconCols</jtok>
+<jtok eid="10" type="method_call" span="212:22:212:25">put</jtok>
+<jtok eid="10" type="primary_name_ref" span="212:26:212:30">coln</jtok>
+<jtok eid="10" type="primary_name_ref" span="212:34:212:42">CITESEER</jtok>
+<jtok eid="10" type="line_comment" span="214:9:214:63">// Add 1 to the number of icon columns to get padleft.</jtok>
+<jtok eid="10" type="primary_name_ref" span="215:9:215:16">padleft</jtok>
+<jtok eid="10" type="primary_name_ref" span="215:23:215:31">iconCols</jtok>
+<jtok eid="10" type="method_call" span="215:32:215:36">size</jtok>
+<jtok eid="10" type="line_comment" span="217:9:217:72">// Set up the int[][] nameCols, to mark which columns should be</jtok>
+<jtok eid="10" type="line_comment" span="218:9:218:80">// treated as lists of names. This is to provide a correct presentation</jtok>
+<jtok eid="10" type="line_comment" span="219:9:219:48">// of names as efficiently as possible.</jtok>
+<jtok eid="10" type="line_comment" span="220:9:220:77">// Each subarray contains the column number (before padding) and the</jtok>
+<jtok eid="10" type="line_comment" span="221:9:221:65">// subfield number in case a column has fallback fields.</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="222:9:222:15">Vector</jtok>
+<jtok eid="10" type="local_variable_name" span="222:23:222:26">tmp</jtok>
+<jtok eid="10" type="constructor_call" span="222:33:222:39">Vector</jtok>
+<jtok eid="10" type="local_variable_name" span="223:18:223:19">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="223:25:223:26">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="223:29:223:36">columns</jtok>
+<jtok eid="10" type="qualified_name_ref" span="223:37:223:43">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="223:45:223:46">i</jtok>
+<jtok eid="10" type="local_variable_name" span="224:22:224:23">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="224:29:224:30">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="224:33:224:40">columns</jtok>
+<jtok eid="10" type="primary_name_ref" span="224:41:224:42">i</jtok>
+<jtok eid="10" type="qualified_name_ref" span="224:44:224:50">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="224:52:224:53">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="225:21:225:28">columns</jtok>
+<jtok eid="10" type="primary_name_ref" span="225:29:225:30">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="225:32:225:33">j</jtok>
+<jtok eid="10" type="method_call" span="225:35:225:41">equals</jtok>
+<jtok eid="10" type="string_literal" span="225:42:225:50">"author"</jtok>
+<jtok eid="10" type="primary_name_ref" span="226:24:226:31">columns</jtok>
+<jtok eid="10" type="primary_name_ref" span="226:32:226:33">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="226:35:226:36">j</jtok>
+<jtok eid="10" type="method_call" span="226:38:226:44">equals</jtok>
+<jtok eid="10" type="string_literal" span="226:45:226:53">"editor"</jtok>
+<jtok eid="10" type="primary_name_ref" span="227:21:227:24">tmp</jtok>
+<jtok eid="10" type="method_call" span="227:25:227:28">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="227:40:227:41">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="227:43:227:44">j</jtok>
+<jtok eid="10" type="primary_name_ref" span="231:9:231:17">nameCols</jtok>
+<jtok eid="10" type="primary_name_ref" span="231:28:231:31">tmp</jtok>
+<jtok eid="10" type="method_call" span="231:32:231:36">size</jtok>
+<jtok eid="10" type="local_variable_name" span="232:18:232:19">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:25:232:26">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:29:232:37">nameCols</jtok>
+<jtok eid="10" type="qualified_name_ref" span="232:38:232:44">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:46:232:47">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:13:233:21">nameCols</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:22:233:23">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:27:233:30">tmp</jtok>
+<jtok eid="10" type="method_call" span="233:31:233:40">elementAt</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:41:233:42">i</jtok>
+<jtok eid="11" type="method_name" span="237:20:237:32">isIconColumn</jtok>
+<jtok eid="11" type="parameter_name" span="237:37:237:40">col</jtok>
+<jtok eid="11" type="method_call" span="238:17:238:37">getIconTypeForColumn</jtok>
+<jtok eid="11" type="primary_name_ref" span="238:38:238:41">col</jtok>
+<jtok eid="12" type="class_name" span="243:18:243:33">NoSearchMatcher</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="243:45:243:52">Matcher</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="243:53:243:64">BibtexEntry</jtok>
+<jtok eid="13" type="method_name" span="244:24:244:31">matches</jtok>
+<jtok eid="13" type="parameter_type" span="244:32:244:43">BibtexEntry</jtok>
+<jtok eid="13" type="parameter_name" span="244:44:244:50">object</jtok>
+<jtok eid="14" type="class_name" span="249:18:249:31">SearchMatcher</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="249:43:249:50">Matcher</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="249:51:249:62">BibtexEntry</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="250:17:250:30">SearchRuleSet</jtok>
+<jtok eid="14" type="field_name" span="250:31:250:38">ruleSet</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="251:17:251:26">Hashtable</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="251:27:251:33">String</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="251:35:251:41">String</jtok>
+<jtok eid="14" type="field_name" span="251:43:251:56">searchOptions</jtok>
+<jtok eid="15" type="method_name" span="253:16:253:29">SearchMatcher</jtok>
+<jtok eid="15" type="parameter_type" span="253:30:253:43">SearchRuleSet</jtok>
+<jtok eid="15" type="parameter_name" span="253:44:253:51">ruleSet</jtok>
+<jtok eid="15" type="parameter_type" span="253:53:253:62">Hashtable</jtok>
+<jtok eid="15" type="parameter_type" span="253:63:253:69">String</jtok>
+<jtok eid="15" type="parameter_type" span="253:71:253:77">String</jtok>
+<jtok eid="15" type="parameter_name" span="253:79:253:92">searchOptions</jtok>
+<jtok eid="15" type="qualified_name_ref" span="254:18:254:25">ruleSet</jtok>
+<jtok eid="15" type="primary_name_ref" span="254:28:254:35">ruleSet</jtok>
+<jtok eid="15" type="qualified_name_ref" span="255:18:255:31">searchOptions</jtok>
+<jtok eid="15" type="primary_name_ref" span="255:34:255:47">searchOptions</jtok>
+<jtok eid="16" type="method_name" span="257:24:257:31">matches</jtok>
+<jtok eid="16" type="parameter_type" span="257:32:257:43">BibtexEntry</jtok>
+<jtok eid="16" type="parameter_name" span="257:44:257:49">entry</jtok>
+<jtok eid="16" type="local_variable_name" span="258:17:258:23">result</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:26:258:33">ruleSet</jtok>
+<jtok eid="16" type="method_call" span="258:34:258:43">applyRule</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:44:258:57">searchOptions</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:59:258:64">entry</jtok>
+<jtok eid="16" type="primary_name_ref" span="259:20:259:26">result</jtok>
+</jdoc>

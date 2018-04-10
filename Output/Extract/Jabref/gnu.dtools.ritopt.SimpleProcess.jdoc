@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="gnu.dtools.ritopt.SimpleProcess" jls="java5">
+<jent id="0" type="file" span="0:0:219:23">Source/jabref/src/java/gnu/dtools/ritopt/SimpleProcess.java</jent>
+<jent id="1" pid="0" type="class" span="72:1:219:1">gnu.dtools.ritopt.SimpleProcess</jent>
+<jent id="2" pid="1" type="method" span="110:5:112:5">gnu.dtools.ritopt.SimpleProcess.SimpleProcess(Process)</jent>
+<jent id="3" pid="1" type="method" span="126:5:134:5">gnu.dtools.ritopt.SimpleProcess.SimpleProcess(Process,InputStream,PrintStream,PrintStream)</jent>
+<jent id="4" pid="1" type="method" span="142:5:144:5">gnu.dtools.ritopt.SimpleProcess.getOutputStream()</jent>
+<jent id="5" pid="1" type="method" span="152:5:154:5">gnu.dtools.ritopt.SimpleProcess.getInputStream()</jent>
+<jent id="6" pid="1" type="method" span="162:5:164:5">gnu.dtools.ritopt.SimpleProcess.getErrorStream()</jent>
+<jent id="7" pid="1" type="method" span="174:5:180:5">gnu.dtools.ritopt.SimpleProcess.waitFor()</jent>
+<jent id="8" pid="1" type="method" span="188:5:200:5">gnu.dtools.ritopt.SimpleProcess.waitForImpl()</jent>
+<jent id="9" pid="1" type="method" span="208:5:210:5">gnu.dtools.ritopt.SimpleProcess.exitValue()</jent>
+<jent id="10" pid="1" type="method" span="216:5:218:5">gnu.dtools.ritopt.SimpleProcess.destroy()</jent>
+<jtok eid="0" type="block_comment" span="3:1:8:4">/**
+ * SimpleProcess.java
+ *
+ * Version:
+ *   $Id: SimpleProcess.java 2275 2007-08-20 22:28:09Z coezbek $
+ */</jtok>
+<jtok eid="0" type="block_comment" span="15:1:70:4">/**
+ * A SimpleProcess is used to execute a shell process, and redirect an
+ * input stream to the processes' standard input, as well as redirect
+ * the processes' standard output/error to an output stream. The processes
+ * is multithreaded to prevent deadlock.&lt;p&gt;
+ *
+ * The example below demonstrates the use of this class.
+ * &lt;pre&gt;
+ *  class ExecuteProcess {
+ *       public static void main( String args[] ) {
+ *           if ( args.length &gt; 0 ) {
+ *               String processName = args[ 0 ];
+ *               try {
+ *                   SimpleProcess process
+ *                      = new SimpleProcess( Runtime.getRuntime.exec(
+ *                                                            processName ) );
+ *                                          );
+ *                   int exitStatus = process.waitFor();
+ *                   System.out.println( "The process ran successfully" 
+ *                                       + " with an exit status of "
+ *                                       + exitStatus + "." );
+ *               }
+ *               catch ( Exception e ) {
+ *                   System.out.println( "The process was not successful. "
+ *                                       + " Reason: " + e.getMessage() );
+ *               }
+ *           }
+ *           else {
+ *               System.err.println( "Please specify a command" );
+ *           }
+ *       }
+ *  }
+ * &lt;/pre&gt;
+ *
+ * &lt;hr&gt;
+ *
+ * &lt;pre&gt;
+ * Copyright (C) Damian Ryan Eads, 2001. All Rights Reserved.
+ *
+ * ritopt is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+
+ * ritopt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ritopt; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * &lt;/pre&gt;
+ *
+ * @author Damian Eads
+ */</jtok>
+<jtok eid="1" type="class_name" span="72:14:72:27">SimpleProcess</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:36:72:43">Process</jtok>
+<jtok eid="1" type="block_comment" span="74:5:76:8">/**
+     * The target process.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="78:13:78:20">Process</jtok>
+<jtok eid="1" type="field_name" span="78:21:78:28">process</jtok>
+<jtok eid="1" type="block_comment" span="80:5:82:8">/**
+     * The input stream that the processes' standard input will use.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="84:13:84:24">InputStream</jtok>
+<jtok eid="1" type="field_name" span="84:25:84:37">processInput</jtok>
+<jtok eid="1" type="block_comment" span="86:5:88:8">/**
+     * The print stream to redirect to.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="90:13:90:24">PrintStream</jtok>
+<jtok eid="1" type="field_name" span="90:25:90:35">yourOutput</jtok>
+<jtok eid="1" type="block_comment" span="92:5:94:8">/**
+     * The print stream to redirect to.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="96:13:96:24">PrintStream</jtok>
+<jtok eid="1" type="field_name" span="96:25:96:34">yourError</jtok>
+<jtok eid="1" type="block_comment" span="98:5:100:8">/**
+     * The StreamPrinters.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="102:13:102:26">StreamPrinter</jtok>
+<jtok eid="1" type="field_name" span="102:27:102:29">in</jtok>
+<jtok eid="1" type="field_name" span="102:31:102:34">out</jtok>
+<jtok eid="1" type="field_name" span="102:36:102:41">error</jtok>
+<jtok eid="1" type="block_comment" span="104:5:108:8">/**
+     * Constructs a SimpleProcess, redirecting System.in to the its standard
+     * input, System.out to its standard output, and System.err to its standard
+     * error.
+     */</jtok>
+<jtok eid="2" type="method_name" span="110:12:110:25">SimpleProcess</jtok>
+<jtok eid="2" type="parameter_type" span="110:27:110:34">Process</jtok>
+<jtok eid="2" type="parameter_name" span="110:35:110:42">process</jtok>
+<jtok eid="2" type="method_call" span="110:52:110:63">IOException</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:8:111:15">process</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:17:111:23">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="111:24:111:26">in</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:28:111:34">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="111:35:111:38">out</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:40:111:46">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="111:47:111:50">err</jtok>
+<jtok eid="1" type="block_comment" span="114:5:124:8">/**
+     * Constructs a SimpleProcess, initializing it with the streams passed.
+     *
+     * @param process       The target process.
+     * @param processInput  The stream that is redirected to the
+     *                      processes' standard input.
+     * @param processOutput The stream to redirect the processes's
+     *                      standard output.
+     * @param processError  The stream to redirect the processes's
+     *                      standard input.
+     */</jtok>
+<jtok eid="3" type="method_name" span="126:12:126:25">SimpleProcess</jtok>
+<jtok eid="3" type="parameter_type" span="126:27:126:34">Process</jtok>
+<jtok eid="3" type="parameter_name" span="126:35:126:42">process</jtok>
+<jtok eid="3" type="parameter_type" span="126:44:126:55">InputStream</jtok>
+<jtok eid="3" type="parameter_name" span="126:56:126:68">processInput</jtok>
+<jtok eid="3" type="parameter_type" span="127:6:127:17">PrintStream</jtok>
+<jtok eid="3" type="parameter_name" span="127:18:127:28">yourOutput</jtok>
+<jtok eid="3" type="parameter_type" span="127:30:127:41">PrintStream</jtok>
+<jtok eid="3" type="parameter_name" span="127:42:127:51">yourError</jtok>
+<jtok eid="3" type="method_call" span="128:33:128:44">IOException</jtok>
+<jtok eid="3" type="qualified_name_ref" span="130:7:130:14">process</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:17:130:24">process</jtok>
+<jtok eid="3" type="qualified_name_ref" span="131:7:131:19">processInput</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:22:131:34">processInput</jtok>
+<jtok eid="3" type="qualified_name_ref" span="132:7:132:17">yourOutput</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:20:132:30">yourOutput</jtok>
+<jtok eid="3" type="qualified_name_ref" span="133:7:133:16">yourError</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:19:133:28">yourError</jtok>
+<jtok eid="1" type="block_comment" span="136:5:140:8">/**
+     * Returns the standard input of this process.
+     *
+     * @return The standard input of this process.
+     */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="142:12:142:24">OutputStream</jtok>
+<jtok eid="4" type="method_name" span="142:25:142:40">getOutputStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:9:143:16">process</jtok>
+<jtok eid="4" type="method_call" span="143:17:143:32">getOutputStream</jtok>
+<jtok eid="1" type="block_comment" span="146:5:150:8">/**
+     * Returns the standard output of this process.
+     *
+     * @return The standard output of this process.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="152:12:152:23">InputStream</jtok>
+<jtok eid="5" type="method_name" span="152:24:152:38">getInputStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="153:9:153:16">process</jtok>
+<jtok eid="5" type="method_call" span="153:17:153:31">getInputStream</jtok>
+<jtok eid="1" type="block_comment" span="156:5:160:8">/**
+     * Returns the standard error of this process.
+     *
+     * @return The standard error of this process.
+     */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="162:12:162:23">InputStream</jtok>
+<jtok eid="6" type="method_name" span="162:24:162:38">getErrorStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:9:163:16">process</jtok>
+<jtok eid="6" type="method_call" span="163:17:163:31">getErrorStream</jtok>
+<jtok eid="1" type="block_comment" span="166:5:172:8">/**
+     * Begin redirecting the streams passed. This method should be invoked
+     * immediately after execution of a simple process to prevent thread
+     * deadlock.
+     *
+     * @return The exit status of the target process.
+     */</jtok>
+<jtok eid="7" type="method_name" span="174:16:174:23">waitFor</jtok>
+<jtok eid="7" type="throws" span="174:33:174:53">InterruptedException</jtok>
+<jtok eid="7" type="local_variable_name" span="175:6:175:12">retval</jtok>
+<jtok eid="7" type="method_call" span="175:15:175:26">waitForImpl</jtok>
+<jtok eid="7" type="primary_name_ref" span="176:7:176:9">in</jtok>
+<jtok eid="7" type="primary_name_ref" span="177:6:177:8">in</jtok>
+<jtok eid="7" type="method_call" span="177:9:177:13">stop</jtok>
+<jtok eid="7" type="primary_name_ref" span="179:9:179:15">retval</jtok>
+<jtok eid="1" type="block_comment" span="182:5:186:8">/**
+     * Contains the implementation of wait for.
+     *
+     * @return The exit status of the target process.
+     */</jtok>
+<jtok eid="8" type="method_name" span="188:17:188:28">waitForImpl</jtok>
+<jtok eid="8" type="throws" span="188:38:188:58">InterruptedException</jtok>
+<jtok eid="8" type="primary_name_ref" span="189:3:189:5">in</jtok>
+<jtok eid="8" type="constructor_call" span="189:12:189:25">StreamPrinter</jtok>
+<jtok eid="8" type="primary_name_ref" span="189:27:189:39">processInput</jtok>
+<jtok eid="8" type="constructor_call" span="190:10:190:21">PrintStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="190:23:190:30">process</jtok>
+<jtok eid="8" type="method_call" span="190:31:190:46">getOutputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="191:3:191:5">in</jtok>
+<jtok eid="8" type="method_call" span="191:6:191:14">setFlush</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:3:192:6">out</jtok>
+<jtok eid="8" type="constructor_call" span="192:13:192:26">StreamPrinter</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:28:192:35">process</jtok>
+<jtok eid="8" type="method_call" span="192:36:192:50">getInputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:54:192:64">yourOutput</jtok>
+<jtok eid="8" type="primary_name_ref" span="193:3:193:8">error</jtok>
+<jtok eid="8" type="constructor_call" span="193:15:193:28">StreamPrinter</jtok>
+<jtok eid="8" type="primary_name_ref" span="193:30:193:37">process</jtok>
+<jtok eid="8" type="method_call" span="193:38:193:52">getErrorStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="193:56:193:65">yourError</jtok>
+<jtok eid="8" type="primary_name_ref" span="194:3:194:5">in</jtok>
+<jtok eid="8" type="method_call" span="194:6:194:11">start</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:3:195:6">out</jtok>
+<jtok eid="8" type="method_call" span="195:7:195:12">start</jtok>
+<jtok eid="8" type="primary_name_ref" span="196:3:196:8">error</jtok>
+<jtok eid="8" type="method_call" span="196:9:196:14">start</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:3:197:6">out</jtok>
+<jtok eid="8" type="method_call" span="197:7:197:11">join</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:3:198:8">error</jtok>
+<jtok eid="8" type="method_call" span="198:9:198:13">join</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:10:199:17">process</jtok>
+<jtok eid="8" type="method_call" span="199:18:199:25">waitFor</jtok>
+<jtok eid="1" type="block_comment" span="202:5:206:8">/**
+     * Returns the target processes' exit value.
+     *
+     * @return This processes' exit value.
+     */</jtok>
+<jtok eid="9" type="method_name" span="208:16:208:25">exitValue</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:9:209:16">process</jtok>
+<jtok eid="9" type="method_call" span="209:17:209:26">exitValue</jtok>
+<jtok eid="1" type="block_comment" span="212:5:214:8">/**
+     * Destroys the target process.
+     */</jtok>
+<jtok eid="10" type="method_name" span="216:17:216:24">destroy</jtok>
+<jtok eid="10" type="throws" span="216:34:216:61">IllegalThreadStateException</jtok>
+<jtok eid="10" type="primary_name_ref" span="217:2:217:9">process</jtok>
+<jtok eid="10" type="method_call" span="217:10:217:17">destroy</jtok>
+<jtok eid="0" type="block_comment" span="219:3:219:24">/** SimpleProcess **/</jtok>
+</jdoc>

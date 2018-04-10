@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.GroupDialog" jls="java5">
+<jent id="0" type="file" span="0:0:583:1">Source/jabref/src/java/net/sf/jabref/groups/GroupDialog.java</jent>
+<jent id="1" pid="0" type="class" span="75:1:583:1">net.sf.jabref.groups.GroupDialog</jent>
+<jent id="2" pid="1" type="class" span="112:53:120:9">net.sf.jabref.groups.GroupDialog.$1</jent>
+<jent id="3" pid="2" type="method" span="113:17:119:17">net.sf.jabref.groups.GroupDialog.$1.getPreferredSize()</jent>
+<jent id="4" pid="1" type="method" span="147:9:390:9">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup)</jent>
+<jent id="5" pid="4" type="class" span="257:77:261:17">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$2</jent>
+<jent id="6" pid="5" type="method" span="258:25:260:25">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$2.getPreferredSize()</jent>
+<jent id="7" pid="4" type="class" span="283:75:288:17">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$3</jent>
+<jent id="8" pid="7" type="method" span="284:25:287:25">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$3.itemStateChanged(ItemEvent)</jent>
+<jent id="9" pid="4" type="class" span="293:65:297:17">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$4</jent>
+<jent id="10" pid="9" type="method" span="294:25:296:25">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$4.actionPerformed(ActionEvent)</jent>
+<jent id="11" pid="4" type="class" span="299:61:341:17">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$5</jent>
+<jent id="12" pid="11" type="method" span="300:25:340:25">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$5.actionPerformed(ActionEvent)</jent>
+<jent id="13" pid="4" type="class" span="343:67:347:17">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$6</jent>
+<jent id="14" pid="13" type="method" span="344:25:346:25">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$6.caretUpdate(CaretEvent)</jent>
+<jent id="15" pid="4" type="class" span="349:64:353:17">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$7</jent>
+<jent id="16" pid="15" type="method" span="350:25:352:25">net.sf.jabref.groups.GroupDialog.GroupDialog(JabRefFrame,BasePanel,AbstractGroup).$7.itemStateChanged(ItemEvent)</jent>
+<jent id="17" pid="1" type="method" span="392:9:394:9">net.sf.jabref.groups.GroupDialog.okPressed()</jent>
+<jent id="18" pid="1" type="method" span="396:9:398:9">net.sf.jabref.groups.GroupDialog.getResultingGroup()</jent>
+<jent id="19" pid="1" type="method" span="400:9:410:9">net.sf.jabref.groups.GroupDialog.setLayoutForSelectedGroup()</jent>
+<jent id="20" pid="1" type="method" span="412:9:477:9">net.sf.jabref.groups.GroupDialog.updateComponents()</jent>
+<jent id="21" pid="1" type="method" span="484:9:508:9">net.sf.jabref.groups.GroupDialog.addPreviousEntries()</jent>
+<jent id="22" pid="1" type="method" span="510:9:512:9">net.sf.jabref.groups.GroupDialog.setDescription(String)</jent>
+<jent id="23" pid="1" type="method" span="514:9:536:9">net.sf.jabref.groups.GroupDialog.formatRegExException(String,Exception)</jent>
+<jent id="24" pid="1" type="method" span="542:9:544:9">net.sf.jabref.groups.GroupDialog.getUndoForAddPreviousEntries()</jent>
+<jent id="25" pid="1" type="method" span="547:9:553:9">net.sf.jabref.groups.GroupDialog.setNameFontItalic(boolean)</jent>
+<jent id="26" pid="1" type="method" span="558:9:566:9">net.sf.jabref.groups.GroupDialog.getContext()</jent>
+<jent id="27" pid="1" type="method" span="568:9:581:9">net.sf.jabref.groups.GroupDialog.setContext(int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2003 Morten O. Alver, Nizar N. Batada
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="0" type="block_comment" span="71:1:74:4">/**
+ * Dialog for creating or modifying groups. Operates directly on the Vector
+ * containing group information.
+ */</jtok>
+<jtok eid="1" type="class_name" span="75:7:75:18">GroupDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:27:75:34">JDialog</jtok>
+<jtok eid="1" type="field_name" span="76:34:76:53">INDEX_EXPLICITGROUP</jtok>
+<jtok eid="1" type="field_name" span="77:34:77:52">INDEX_KEYWORDGROUP</jtok>
+<jtok eid="1" type="field_name" span="78:34:78:51">INDEX_SEARCHGROUP</jtok>
+<jtok eid="1" type="field_name" span="79:34:79:50">TEXTFIELD_LENGTH</jtok>
+<jtok eid="1" type="line_comment" span="80:9:80:25">// for all types</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:17:81:27">JTextField</jtok>
+<jtok eid="1" type="field_name" span="81:28:81:34">m_name</jtok>
+<jtok eid="1" type="constructor_call" span="81:41:81:51">JTextField</jtok>
+<jtok eid="1" type="primary_name_ref" span="81:52:81:68">TEXTFIELD_LENGTH</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="82:17:82:29">JRadioButton</jtok>
+<jtok eid="1" type="field_name" span="82:30:82:51">m_explicitRadioButton</jtok>
+<jtok eid="1" type="constructor_call" span="82:58:82:70">JRadioButton</jtok>
+<jtok eid="1" type="primary_name_ref" span="82:71:82:78">Globals</jtok>
+<jtok eid="1" type="method_call" span="83:26:83:30">lang</jtok>
+<jtok eid="1" type="string_literal" span="83:31:83:78">"Statically group entries by manual assignment"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="84:17:84:29">JRadioButton</jtok>
+<jtok eid="1" type="field_name" span="84:30:84:51">m_keywordsRadioButton</jtok>
+<jtok eid="1" type="constructor_call" span="84:58:84:70">JRadioButton</jtok>
+<jtok eid="1" type="primary_name_ref" span="85:25:85:32">Globals</jtok>
+<jtok eid="1" type="method_call" span="85:33:85:37">lang</jtok>
+<jtok eid="1" type="string_literal" span="85:38:85:100">"Dynamically group entries by searching a field for a keyword"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="86:17:86:29">JRadioButton</jtok>
+<jtok eid="1" type="field_name" span="86:30:86:49">m_searchRadioButton</jtok>
+<jtok eid="1" type="constructor_call" span="86:56:86:68">JRadioButton</jtok>
+<jtok eid="1" type="primary_name_ref" span="86:69:86:76">Globals</jtok>
+<jtok eid="1" type="method_call" span="87:26:87:30">lang</jtok>
+<jtok eid="1" type="string_literal" span="87:31:87:91">"Dynamically group entries by a free-form search expression"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="88:17:88:29">JRadioButton</jtok>
+<jtok eid="1" type="field_name" span="88:30:88:49">m_independentButton</jtok>
+<jtok eid="1" type="constructor_call" span="88:56:88:68">JRadioButton</jtok>
+<jtok eid="1" type="line_comment" span="88:70:88:86">// JZTODO lyrics</jtok>
+<jtok eid="1" type="primary_name_ref" span="89:25:89:32">Globals</jtok>
+<jtok eid="1" type="method_call" span="89:33:89:37">lang</jtok>
+<jtok eid="1" type="string_literal" span="89:38:89:104">"Independent group: When selected, view only this group's entries"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="90:17:90:29">JRadioButton</jtok>
+<jtok eid="1" type="field_name" span="90:30:90:50">m_intersectionButton</jtok>
+<jtok eid="1" type="constructor_call" span="90:57:90:69">JRadioButton</jtok>
+<jtok eid="1" type="line_comment" span="90:71:90:87">// JZTODO lyrics</jtok>
+<jtok eid="1" type="primary_name_ref" span="91:25:91:32">Globals</jtok>
+<jtok eid="1" type="method_call" span="91:33:91:37">lang</jtok>
+<jtok eid="1" type="string_literal" span="91:38:91:134">"Refine supergroup: When selected, view entries contained in both this group and its supergroup"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="92:17:92:29">JRadioButton</jtok>
+<jtok eid="1" type="field_name" span="92:30:92:43">m_unionButton</jtok>
+<jtok eid="1" type="constructor_call" span="92:50:92:62">JRadioButton</jtok>
+<jtok eid="1" type="line_comment" span="92:64:92:80">// JZTODO lyrics</jtok>
+<jtok eid="1" type="primary_name_ref" span="93:25:93:32">Globals</jtok>
+<jtok eid="1" type="method_call" span="93:33:93:37">lang</jtok>
+<jtok eid="1" type="string_literal" span="93:38:93:127">"Include subgroups: When selected, view entries contained in this group or its subgroups"</jtok>
+<jtok eid="1" type="line_comment" span="94:9:94:28">// for KeywordGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="95:17:95:27">JTextField</jtok>
+<jtok eid="1" type="field_name" span="95:28:95:43">m_kgSearchField</jtok>
+<jtok eid="1" type="constructor_call" span="95:50:95:60">JTextField</jtok>
+<jtok eid="1" type="primary_name_ref" span="95:61:95:77">TEXTFIELD_LENGTH</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="96:17:96:31">FieldTextField</jtok>
+<jtok eid="1" type="field_name" span="96:32:96:46">m_kgSearchTerm</jtok>
+<jtok eid="1" type="constructor_call" span="96:53:96:67">FieldTextField</jtok>
+<jtok eid="1" type="string_literal" span="96:68:96:78">"keywords"</jtok>
+<jtok eid="1" type="string_literal" span="96:80:96:82">""</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="98:17:98:26">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="98:27:98:44">m_kgCaseSensitive</jtok>
+<jtok eid="1" type="constructor_call" span="98:51:98:60">JCheckBox</jtok>
+<jtok eid="1" type="primary_name_ref" span="98:61:98:68">Globals</jtok>
+<jtok eid="1" type="method_call" span="99:26:99:30">lang</jtok>
+<jtok eid="1" type="string_literal" span="99:31:99:47">"Case sensitive"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="100:17:100:26">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="100:27:100:37">m_kgRegExp</jtok>
+<jtok eid="1" type="constructor_call" span="100:44:100:53">JCheckBox</jtok>
+<jtok eid="1" type="primary_name_ref" span="100:54:100:61">Globals</jtok>
+<jtok eid="1" type="method_call" span="101:26:101:30">lang</jtok>
+<jtok eid="1" type="string_literal" span="101:31:101:51">"Regular Expression"</jtok>
+<jtok eid="1" type="line_comment" span="102:9:102:27">// for SearchGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="103:17:103:27">JTextField</jtok>
+<jtok eid="1" type="field_name" span="103:28:103:48">m_sgSearchExpression</jtok>
+<jtok eid="1" type="constructor_call" span="103:55:103:65">JTextField</jtok>
+<jtok eid="1" type="primary_name_ref" span="103:66:103:82">TEXTFIELD_LENGTH</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="104:17:104:26">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="104:27:104:44">m_sgCaseSensitive</jtok>
+<jtok eid="1" type="constructor_call" span="104:51:104:60">JCheckBox</jtok>
+<jtok eid="1" type="primary_name_ref" span="104:61:104:68">Globals</jtok>
+<jtok eid="1" type="method_call" span="105:26:105:30">lang</jtok>
+<jtok eid="1" type="string_literal" span="105:31:105:47">"Case sensitive"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="106:17:106:26">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="106:27:106:37">m_sgRegExp</jtok>
+<jtok eid="1" type="constructor_call" span="106:44:106:53">JCheckBox</jtok>
+<jtok eid="1" type="primary_name_ref" span="106:54:106:61">Globals</jtok>
+<jtok eid="1" type="method_call" span="107:26:107:30">lang</jtok>
+<jtok eid="1" type="string_literal" span="107:31:107:51">"Regular Expression"</jtok>
+<jtok eid="1" type="line_comment" span="108:9:108:25">// for all types</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="109:17:109:24">JButton</jtok>
+<jtok eid="1" type="field_name" span="109:25:109:29">m_ok</jtok>
+<jtok eid="1" type="constructor_call" span="109:36:109:43">JButton</jtok>
+<jtok eid="1" type="primary_name_ref" span="109:44:109:51">Globals</jtok>
+<jtok eid="1" type="method_call" span="109:52:109:56">lang</jtok>
+<jtok eid="1" type="string_literal" span="109:57:109:61">"Ok"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="110:17:110:24">JButton</jtok>
+<jtok eid="1" type="field_name" span="110:25:110:33">m_cancel</jtok>
+<jtok eid="1" type="constructor_call" span="110:40:110:47">JButton</jtok>
+<jtok eid="1" type="primary_name_ref" span="110:48:110:55">Globals</jtok>
+<jtok eid="1" type="method_call" span="110:56:110:60">lang</jtok>
+<jtok eid="1" type="string_literal" span="110:61:110:69">"Cancel"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="111:17:111:23">JPanel</jtok>
+<jtok eid="1" type="field_name" span="111:24:111:38">m_optionsPanel</jtok>
+<jtok eid="1" type="constructor_call" span="111:45:111:51">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="112:17:112:23">JLabel</jtok>
+<jtok eid="1" type="field_name" span="112:24:112:37">m_description</jtok>
+<jtok eid="1" type="constructor_call" span="112:44:112:50">JLabel</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="113:24:113:33">Dimension</jtok>
+<jtok eid="3" type="method_name" span="113:34:113:50">getPreferredSize</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="114:25:114:34">Dimension</jtok>
+<jtok eid="3" type="local_variable_name" span="114:35:114:36">d</jtok>
+<jtok eid="3" type="method_call" span="114:45:114:61">getPreferredSize</jtok>
+<jtok eid="3" type="line_comment" span="115:25:115:85">// width must be smaller than width of enclosing JScrollPane</jtok>
+<jtok eid="3" type="line_comment" span="116:25:116:62">// to prevent a horizontal scroll bar</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:25:117:26">d</jtok>
+<jtok eid="3" type="qualified_name_ref" span="117:27:117:32">width</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:32:118:33">d</jtok>
+<jtok eid="1" type="field_name" span="122:25:122:36">m_okPressed</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="124:23:124:34">JabRefFrame</jtok>
+<jtok eid="1" type="field_name" span="124:35:124:43">m_parent</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="126:23:126:32">BasePanel</jtok>
+<jtok eid="1" type="field_name" span="126:33:126:44">m_basePanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="128:17:128:30">AbstractGroup</jtok>
+<jtok eid="1" type="field_name" span="128:31:128:47">m_resultingGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="130:17:130:37">AbstractUndoableEdit</jtok>
+<jtok eid="1" type="field_name" span="130:38:130:62">m_undoAddPreviousEntires</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="132:23:132:36">AbstractGroup</jtok>
+<jtok eid="1" type="field_name" span="132:37:132:50">m_editedGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="134:17:134:27">CardLayout</jtok>
+<jtok eid="1" type="field_name" span="134:28:134:43">m_optionsLayout</jtok>
+<jtok eid="1" type="constructor_call" span="134:50:134:60">CardLayout</jtok>
+<jtok eid="1" type="block_comment" span="136:9:146:12">/**
+         * Shows a group add/edit dialog.
+         *
+         * @param jabrefFrame
+         *            The parent frame.
+         * @param defaultField
+         *            The default grouping field.
+         * @param editedGroup
+         *            The group being edited, or null if a new group is to be
+         *            created.
+         */</jtok>
+<jtok eid="4" type="method_name" span="147:16:147:27">GroupDialog</jtok>
+<jtok eid="4" type="parameter_type" span="147:28:147:39">JabRefFrame</jtok>
+<jtok eid="4" type="parameter_name" span="147:40:147:51">jabrefFrame</jtok>
+<jtok eid="4" type="parameter_type" span="147:53:147:62">BasePanel</jtok>
+<jtok eid="4" type="parameter_name" span="147:63:147:72">basePanel</jtok>
+<jtok eid="4" type="parameter_type" span="148:25:148:38">AbstractGroup</jtok>
+<jtok eid="4" type="parameter_name" span="148:39:148:50">editedGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:23:149:34">jabrefFrame</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:36:149:43">Globals</jtok>
+<jtok eid="4" type="method_call" span="149:44:149:48">lang</jtok>
+<jtok eid="4" type="string_literal" span="149:49:149:61">"Edit group"</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:17:150:28">m_basePanel</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:31:150:40">basePanel</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:17:151:25">m_parent</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:28:151:39">jabrefFrame</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:17:152:30">m_editedGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:33:152:44">editedGroup</jtok>
+<jtok eid="4" type="line_comment" span="154:17:154:75">// set default values (overwritten if editedGroup != null)</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:17:155:32">m_kgSearchField</jtok>
+<jtok eid="4" type="method_call" span="155:33:155:40">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:41:155:52">jabrefFrame</jtok>
+<jtok eid="4" type="method_call" span="155:53:155:58">prefs</jtok>
+<jtok eid="4" type="method_call" span="155:61:155:64">get</jtok>
+<jtok eid="4" type="string_literal" span="155:65:155:85">"groupsDefaultField"</jtok>
+<jtok eid="4" type="line_comment" span="157:17:157:38">// configure elements</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="158:17:158:28">ButtonGroup</jtok>
+<jtok eid="4" type="local_variable_name" span="158:29:158:38">groupType</jtok>
+<jtok eid="4" type="constructor_call" span="158:45:158:56">ButtonGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:17:159:26">groupType</jtok>
+<jtok eid="4" type="method_call" span="159:27:159:30">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:31:159:52">m_explicitRadioButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:17:160:26">groupType</jtok>
+<jtok eid="4" type="method_call" span="160:27:160:30">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:31:160:52">m_keywordsRadioButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:17:161:26">groupType</jtok>
+<jtok eid="4" type="method_call" span="161:27:161:30">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:31:161:50">m_searchRadioButton</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="162:17:162:28">ButtonGroup</jtok>
+<jtok eid="4" type="local_variable_name" span="162:29:162:43">groupHierarchy</jtok>
+<jtok eid="4" type="constructor_call" span="162:50:162:61">ButtonGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:17:163:31">groupHierarchy</jtok>
+<jtok eid="4" type="method_call" span="163:32:163:35">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:36:163:55">m_independentButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:17:164:31">groupHierarchy</jtok>
+<jtok eid="4" type="method_call" span="164:32:164:35">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:36:164:56">m_intersectionButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:17:165:31">groupHierarchy</jtok>
+<jtok eid="4" type="method_call" span="165:32:165:35">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:36:165:49">m_unionButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:17:166:30">m_description</jtok>
+<jtok eid="4" type="method_call" span="166:31:166:51">setVerticalAlignment</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:52:166:58">JLabel</jtok>
+<jtok eid="4" type="qualified_name_ref" span="166:59:166:62">TOP</jtok>
+<jtok eid="4" type="method_call" span="167:17:167:28">getRootPane</jtok>
+<jtok eid="4" type="method_call" span="167:31:167:47">setDefaultButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:48:167:52">m_ok</jtok>
+<jtok eid="4" type="line_comment" span="169:17:169:64">// build individual layout cards for each group</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:17:170:31">m_optionsPanel</jtok>
+<jtok eid="4" type="method_call" span="170:32:170:41">setLayout</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:42:170:57">m_optionsLayout</jtok>
+<jtok eid="4" type="line_comment" span="171:17:171:42">// ... for explicit group</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:17:172:31">m_optionsPanel</jtok>
+<jtok eid="4" type="method_call" span="172:32:172:35">add</jtok>
+<jtok eid="4" type="constructor_call" span="172:40:172:46">JPanel</jtok>
+<jtok eid="4" type="string_literal" span="172:50:172:52">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:55:172:74">INDEX_EXPLICITGROUP</jtok>
+<jtok eid="4" type="line_comment" span="173:17:173:41">// ... for keyword group</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="174:17:174:27">FormLayout</jtok>
+<jtok eid="4" type="local_variable_name" span="174:28:174:36">layoutKG</jtok>
+<jtok eid="4" type="constructor_call" span="174:43:174:53">FormLayout</jtok>
+<jtok eid="4" type="string_literal" span="175:33:175:84">"right:pref, 4dlu, fill:1dlu:grow, 2dlu, left:pref"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="176:17:176:35">DefaultFormBuilder</jtok>
+<jtok eid="4" type="local_variable_name" span="176:36:176:45">builderKG</jtok>
+<jtok eid="4" type="constructor_call" span="176:52:176:70">DefaultFormBuilder</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:71:176:79">layoutKG</jtok>
+<jtok eid="4" type="primary_name_ref" span="177:17:177:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="177:27:177:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="177:34:177:41">Globals</jtok>
+<jtok eid="4" type="method_call" span="177:42:177:46">lang</jtok>
+<jtok eid="4" type="string_literal" span="177:47:177:54">"Field"</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:17:178:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="178:27:178:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:34:178:49">m_kgSearchField</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:17:179:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="179:27:179:35">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:17:180:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="180:27:180:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:34:180:41">Globals</jtok>
+<jtok eid="4" type="method_call" span="180:42:180:46">lang</jtok>
+<jtok eid="4" type="string_literal" span="180:47:180:56">"Keyword"</jtok>
+<jtok eid="4" type="primary_name_ref" span="181:17:181:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="181:27:181:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="181:34:181:48">m_kgSearchTerm</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:17:182:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="182:27:182:33">append</jtok>
+<jtok eid="4" type="constructor_call" span="182:38:182:58">FieldContentSelector</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:59:182:67">m_parent</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:69:182:80">m_basePanel</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:33:183:47">m_kgSearchTerm</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:49:183:60">m_basePanel</jtok>
+<jtok eid="4" type="method_call" span="183:61:183:69">metaData</jtok>
+<jtok eid="4" type="string_literal" span="183:85:183:89">", "</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:17:184:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="184:27:184:35">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:17:185:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="185:27:185:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:34:185:51">m_kgCaseSensitive</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:17:186:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="186:27:186:35">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="187:17:187:26">builderKG</jtok>
+<jtok eid="4" type="method_call" span="187:27:187:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="187:34:187:44">m_kgRegExp</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:17:188:31">m_optionsPanel</jtok>
+<jtok eid="4" type="method_call" span="188:32:188:35">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:36:188:45">builderKG</jtok>
+<jtok eid="4" type="method_call" span="188:46:188:54">getPanel</jtok>
+<jtok eid="4" type="string_literal" span="188:58:188:60">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:63:188:81">INDEX_KEYWORDGROUP</jtok>
+<jtok eid="4" type="line_comment" span="189:17:189:40">// ... for search group</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="190:17:190:27">FormLayout</jtok>
+<jtok eid="4" type="local_variable_name" span="190:28:190:36">layoutSG</jtok>
+<jtok eid="4" type="constructor_call" span="190:43:190:53">FormLayout</jtok>
+<jtok eid="4" type="string_literal" span="190:54:190:88">"right:pref, 4dlu, fill:1dlu:grow"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="191:17:191:35">DefaultFormBuilder</jtok>
+<jtok eid="4" type="local_variable_name" span="191:36:191:45">builderSG</jtok>
+<jtok eid="4" type="constructor_call" span="191:52:191:70">DefaultFormBuilder</jtok>
+<jtok eid="4" type="primary_name_ref" span="191:71:191:79">layoutSG</jtok>
+<jtok eid="4" type="primary_name_ref" span="192:17:192:26">builderSG</jtok>
+<jtok eid="4" type="method_call" span="192:27:192:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="192:34:192:41">Globals</jtok>
+<jtok eid="4" type="method_call" span="192:42:192:46">lang</jtok>
+<jtok eid="4" type="string_literal" span="192:47:192:66">"Search expression"</jtok>
+<jtok eid="4" type="primary_name_ref" span="193:17:193:26">builderSG</jtok>
+<jtok eid="4" type="method_call" span="193:27:193:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="193:34:193:54">m_sgSearchExpression</jtok>
+<jtok eid="4" type="primary_name_ref" span="194:17:194:26">builderSG</jtok>
+<jtok eid="4" type="method_call" span="194:27:194:35">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="195:17:195:26">builderSG</jtok>
+<jtok eid="4" type="method_call" span="195:27:195:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="195:34:195:51">m_sgCaseSensitive</jtok>
+<jtok eid="4" type="primary_name_ref" span="196:17:196:26">builderSG</jtok>
+<jtok eid="4" type="method_call" span="196:27:196:35">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="197:17:197:26">builderSG</jtok>
+<jtok eid="4" type="method_call" span="197:27:197:33">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="197:34:197:44">m_sgRegExp</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:17:198:31">m_optionsPanel</jtok>
+<jtok eid="4" type="method_call" span="198:32:198:35">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:36:198:45">builderSG</jtok>
+<jtok eid="4" type="method_call" span="198:46:198:54">getPanel</jtok>
+<jtok eid="4" type="string_literal" span="198:58:198:60">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:63:198:80">INDEX_SEARCHGROUP</jtok>
+<jtok eid="4" type="line_comment" span="199:17:199:41">// ... for buttons panel</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="200:17:200:27">FormLayout</jtok>
+<jtok eid="4" type="local_variable_name" span="200:28:200:36">layoutBP</jtok>
+<jtok eid="4" type="constructor_call" span="200:43:200:53">FormLayout</jtok>
+<jtok eid="4" type="string_literal" span="200:54:200:72">"pref, 4dlu, pref"</jtok>
+<jtok eid="4" type="string_literal" span="200:74:200:77">"p"</jtok>
+<jtok eid="4" type="primary_name_ref" span="201:17:201:25">layoutBP</jtok>
+<jtok eid="4" type="method_call" span="201:26:201:41">setColumnGroups</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="202:17:202:33">ButtonBarBuilder</jtok>
+<jtok eid="4" type="local_variable_name" span="202:34:202:43">builderBP</jtok>
+<jtok eid="4" type="constructor_call" span="202:50:202:66">ButtonBarBuilder</jtok>
+<jtok eid="4" type="primary_name_ref" span="203:17:203:26">builderBP</jtok>
+<jtok eid="4" type="method_call" span="203:27:203:34">addGlue</jtok>
+<jtok eid="4" type="primary_name_ref" span="204:17:204:26">builderBP</jtok>
+<jtok eid="4" type="method_call" span="204:27:204:37">addGridded</jtok>
+<jtok eid="4" type="primary_name_ref" span="204:38:204:42">m_ok</jtok>
+<jtok eid="4" type="primary_name_ref" span="205:17:205:26">builderBP</jtok>
+<jtok eid="4" type="method_call" span="205:27:205:37">addGridded</jtok>
+<jtok eid="4" type="primary_name_ref" span="205:38:205:46">m_cancel</jtok>
+<jtok eid="4" type="primary_name_ref" span="206:17:206:26">builderBP</jtok>
+<jtok eid="4" type="method_call" span="206:27:206:34">addGlue</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:17:207:26">builderBP</jtok>
+<jtok eid="4" type="method_call" span="207:27:207:35">getPanel</jtok>
+<jtok eid="4" type="method_call" span="207:38:207:47">setBorder</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:48:207:61">BorderFactory</jtok>
+<jtok eid="4" type="method_call" span="207:62:207:79">createEmptyBorder</jtok>
+<jtok eid="4" type="line_comment" span="209:17:209:33">// create layout</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="210:17:210:27">FormLayout</jtok>
+<jtok eid="4" type="local_variable_name" span="210:28:210:37">layoutAll</jtok>
+<jtok eid="4" type="constructor_call" span="210:44:210:54">FormLayout</jtok>
+<jtok eid="4" type="string_literal" span="211:33:211:80">"right:pref, 4dlu, fill:600px, 4dlu, fill:pref"</jtok>
+<jtok eid="4" type="string_literal" span="212:33:212:92">"p, 3dlu, p, 3dlu, p, 0dlu, p, 0dlu, p, 3dlu, p, 3dlu, p, "</jtok>
+<jtok eid="4" type="string_literal" span="213:51:213:86">"0dlu, p, 0dlu, p, 3dlu, p, 3dlu, "</jtok>
+<jtok eid="4" type="string_literal" span="214:51:214:98">"p, 3dlu, p, 3dlu, top:80dlu, 9dlu, p, 9dlu, p"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="216:17:216:35">DefaultFormBuilder</jtok>
+<jtok eid="4" type="local_variable_name" span="216:36:216:46">builderAll</jtok>
+<jtok eid="4" type="constructor_call" span="216:53:216:71">DefaultFormBuilder</jtok>
+<jtok eid="4" type="primary_name_ref" span="216:72:216:81">layoutAll</jtok>
+<jtok eid="4" type="primary_name_ref" span="217:17:217:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="217:28:217:50">setDefaultDialogBorder</jtok>
+<jtok eid="4" type="primary_name_ref" span="218:17:218:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="218:28:218:43">appendSeparator</jtok>
+<jtok eid="4" type="primary_name_ref" span="218:44:218:51">Globals</jtok>
+<jtok eid="4" type="method_call" span="218:52:218:56">lang</jtok>
+<jtok eid="4" type="string_literal" span="218:57:218:66">"General"</jtok>
+<jtok eid="4" type="primary_name_ref" span="219:17:219:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="219:28:219:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="220:17:220:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="220:28:220:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="221:17:221:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="221:28:221:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="221:35:221:42">Globals</jtok>
+<jtok eid="4" type="method_call" span="221:43:221:47">lang</jtok>
+<jtok eid="4" type="string_literal" span="221:48:221:54">"Name"</jtok>
+<jtok eid="4" type="primary_name_ref" span="222:17:222:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="222:28:222:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="222:35:222:41">m_name</jtok>
+<jtok eid="4" type="primary_name_ref" span="223:17:223:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="223:28:223:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="224:17:224:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="224:28:224:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="225:17:225:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="225:28:225:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="225:35:225:56">m_explicitRadioButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="226:17:226:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="226:28:226:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="227:17:227:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="227:28:227:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="228:17:228:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="228:28:228:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="228:35:228:56">m_keywordsRadioButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="229:17:229:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="229:28:229:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="230:17:230:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="230:28:230:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="231:17:231:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="231:28:231:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="231:35:231:54">m_searchRadioButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="232:17:232:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="232:28:232:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="233:17:233:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="233:28:233:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="234:17:234:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="234:28:234:43">appendSeparator</jtok>
+<jtok eid="4" type="primary_name_ref" span="234:44:234:51">Globals</jtok>
+<jtok eid="4" type="method_call" span="234:52:234:56">lang</jtok>
+<jtok eid="4" type="string_literal" span="234:57:234:79">"Hierarchical context"</jtok>
+<jtok eid="4" type="line_comment" span="234:83:234:99">// JZTODO lyrics</jtok>
+<jtok eid="4" type="primary_name_ref" span="235:17:235:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="235:28:235:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="236:17:236:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="236:28:236:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="237:17:237:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="237:28:237:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="237:35:237:54">m_independentButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="238:17:238:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="238:28:238:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="239:17:239:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="239:28:239:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="240:17:240:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="240:28:240:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="240:35:240:55">m_intersectionButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="241:17:241:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="241:28:241:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="242:17:242:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="242:28:242:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="243:17:243:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="243:28:243:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="243:35:243:48">m_unionButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="244:17:244:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="244:28:244:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="245:17:245:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="245:28:245:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="246:17:246:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="246:28:246:43">appendSeparator</jtok>
+<jtok eid="4" type="primary_name_ref" span="246:44:246:51">Globals</jtok>
+<jtok eid="4" type="method_call" span="246:52:246:56">lang</jtok>
+<jtok eid="4" type="string_literal" span="246:57:246:66">"Options"</jtok>
+<jtok eid="4" type="primary_name_ref" span="247:17:247:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="247:28:247:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="248:17:248:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="248:28:248:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:17:249:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="249:28:249:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:35:249:49">m_optionsPanel</jtok>
+<jtok eid="4" type="primary_name_ref" span="250:17:250:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="250:28:250:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="251:17:251:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="251:28:251:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="252:17:252:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="252:28:252:43">appendSeparator</jtok>
+<jtok eid="4" type="primary_name_ref" span="252:44:252:51">Globals</jtok>
+<jtok eid="4" type="method_call" span="252:52:252:56">lang</jtok>
+<jtok eid="4" type="string_literal" span="252:57:252:70">"Description"</jtok>
+<jtok eid="4" type="primary_name_ref" span="253:17:253:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="253:28:253:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="254:17:254:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="254:28:254:36">nextLine</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="255:17:255:28">JScrollPane</jtok>
+<jtok eid="4" type="local_variable_name" span="255:29:255:31">sp</jtok>
+<jtok eid="4" type="constructor_call" span="255:38:255:49">JScrollPane</jtok>
+<jtok eid="4" type="primary_name_ref" span="255:50:255:63">m_description</jtok>
+<jtok eid="4" type="primary_name_ref" span="256:33:256:44">JScrollPane</jtok>
+<jtok eid="4" type="qualified_name_ref" span="256:45:256:73">VERTICAL_SCROLLBAR_AS_NEEDED</jtok>
+<jtok eid="4" type="primary_name_ref" span="257:33:257:44">JScrollPane</jtok>
+<jtok eid="4" type="qualified_name_ref" span="257:45:257:75">HORIZONTAL_SCROLLBAR_AS_NEEDED</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="258:32:258:41">Dimension</jtok>
+<jtok eid="6" type="method_name" span="258:42:258:58">getPreferredSize</jtok>
+<jtok eid="6" type="method_call" span="259:40:259:54">getMaximumSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="262:17:262:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="262:28:262:34">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="262:35:262:37">sp</jtok>
+<jtok eid="4" type="primary_name_ref" span="263:17:263:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="263:28:263:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="264:17:264:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="264:28:264:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="265:17:265:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="265:28:265:43">appendSeparator</jtok>
+<jtok eid="4" type="primary_name_ref" span="266:17:266:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="266:28:266:36">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="267:17:267:27">builderAll</jtok>
+<jtok eid="4" type="method_call" span="267:28:267:36">nextLine</jtok>
+<jtok eid="4" type="line_comment" span="268:17:268:62">//CellConstraints cc = new CellConstraints();</jtok>
+<jtok eid="4" type="line_comment" span="269:17:269:86">//builderAll.add(builderBP.getPanel(), cc.xyw(builderAll.getColumn(),</jtok>
+<jtok eid="4" type="line_comment" span="270:17:270:76">//                builderAll.getRow(), 5, "center, fill"));</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="272:17:272:26">Container</jtok>
+<jtok eid="4" type="local_variable_name" span="272:27:272:29">cp</jtok>
+<jtok eid="4" type="method_call" span="272:32:272:46">getContentPane</jtok>
+<jtok eid="4" type="line_comment" span="273:17:273:69">//cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));</jtok>
+<jtok eid="4" type="primary_name_ref" span="274:17:274:19">cp</jtok>
+<jtok eid="4" type="method_call" span="274:20:274:23">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="274:24:274:34">builderAll</jtok>
+<jtok eid="4" type="method_call" span="274:35:274:43">getPanel</jtok>
+<jtok eid="4" type="primary_name_ref" span="274:47:274:59">BorderLayout</jtok>
+<jtok eid="4" type="qualified_name_ref" span="274:60:274:66">CENTER</jtok>
+<jtok eid="4" type="primary_name_ref" span="275:17:275:19">cp</jtok>
+<jtok eid="4" type="method_call" span="275:20:275:23">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="275:24:275:33">builderBP</jtok>
+<jtok eid="4" type="method_call" span="275:34:275:42">getPanel</jtok>
+<jtok eid="4" type="primary_name_ref" span="275:46:275:58">BorderLayout</jtok>
+<jtok eid="4" type="qualified_name_ref" span="275:59:275:64">SOUTH</jtok>
+<jtok eid="4" type="method_call" span="276:17:276:21">pack</jtok>
+<jtok eid="4" type="method_call" span="277:17:277:29">setResizable</jtok>
+<jtok eid="4" type="method_call" span="278:17:278:33">updateComponents</jtok>
+<jtok eid="4" type="method_call" span="279:17:279:42">setLayoutForSelectedGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="280:17:280:21">Util</jtok>
+<jtok eid="4" type="method_call" span="280:22:280:33">placeDialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="280:40:280:48">m_parent</jtok>
+<jtok eid="4" type="line_comment" span="282:17:282:33">// add listeners</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="283:17:283:29">ItemListener</jtok>
+<jtok eid="4" type="local_variable_name" span="283:30:283:53">radioButtonItemListener</jtok>
+<jtok eid="4" type="constructor_call" span="283:60:283:72">ItemListener</jtok>
+<jtok eid="8" type="method_name" span="284:37:284:53">itemStateChanged</jtok>
+<jtok eid="8" type="parameter_type" span="284:54:284:63">ItemEvent</jtok>
+<jtok eid="8" type="parameter_name" span="284:64:284:65">e</jtok>
+<jtok eid="8" type="method_call" span="285:33:285:58">setLayoutForSelectedGroup</jtok>
+<jtok eid="8" type="method_call" span="286:33:286:49">updateComponents</jtok>
+<jtok eid="4" type="primary_name_ref" span="289:17:289:38">m_explicitRadioButton</jtok>
+<jtok eid="4" type="method_call" span="289:39:289:54">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="289:55:289:78">radioButtonItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="290:17:290:38">m_keywordsRadioButton</jtok>
+<jtok eid="4" type="method_call" span="290:39:290:54">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="290:55:290:78">radioButtonItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="291:17:291:36">m_searchRadioButton</jtok>
+<jtok eid="4" type="method_call" span="291:37:291:52">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="291:53:291:76">radioButtonItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="293:17:293:25">m_cancel</jtok>
+<jtok eid="4" type="method_call" span="293:26:293:43">addActionListener</jtok>
+<jtok eid="4" type="constructor_call" span="293:48:293:62">ActionListener</jtok>
+<jtok eid="10" type="method_name" span="294:37:294:52">actionPerformed</jtok>
+<jtok eid="10" type="parameter_type" span="294:53:294:64">ActionEvent</jtok>
+<jtok eid="10" type="parameter_name" span="294:65:294:66">e</jtok>
+<jtok eid="10" type="method_call" span="295:33:295:40">dispose</jtok>
+<jtok eid="4" type="primary_name_ref" span="299:17:299:21">m_ok</jtok>
+<jtok eid="4" type="method_call" span="299:22:299:39">addActionListener</jtok>
+<jtok eid="4" type="constructor_call" span="299:44:299:58">ActionListener</jtok>
+<jtok eid="12" type="method_name" span="300:37:300:52">actionPerformed</jtok>
+<jtok eid="12" type="parameter_type" span="300:53:300:64">ActionEvent</jtok>
+<jtok eid="12" type="parameter_name" span="300:65:300:66">e</jtok>
+<jtok eid="12" type="primary_name_ref" span="301:33:301:44">m_okPressed</jtok>
+<jtok eid="12" type="primary_name_ref" span="302:37:302:58">m_explicitRadioButton</jtok>
+<jtok eid="12" type="method_call" span="302:59:302:69">isSelected</jtok>
+<jtok eid="12" type="primary_name_ref" span="303:45:303:58">m_editedGroup</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="303:70:303:83">ExplicitGroup</jtok>
+<jtok eid="12" type="line_comment" span="304:49:304:105">// keep assignments from possible previous ExplicitGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="305:49:305:65">m_resultingGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="305:68:305:81">m_editedGroup</jtok>
+<jtok eid="12" type="method_call" span="305:82:305:90">deepCopy</jtok>
+<jtok eid="12" type="primary_name_ref" span="306:49:306:65">m_resultingGroup</jtok>
+<jtok eid="12" type="method_call" span="306:66:306:73">setName</jtok>
+<jtok eid="12" type="primary_name_ref" span="306:74:306:80">m_name</jtok>
+<jtok eid="12" type="method_call" span="306:81:306:88">getText</jtok>
+<jtok eid="12" type="method_call" span="306:91:306:95">trim</jtok>
+<jtok eid="12" type="primary_name_ref" span="307:49:307:65">m_resultingGroup</jtok>
+<jtok eid="12" type="method_call" span="307:66:307:88">setHierarchicalContext</jtok>
+<jtok eid="12" type="method_call" span="307:89:307:99">getContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="309:49:309:65">m_resultingGroup</jtok>
+<jtok eid="12" type="constructor_call" span="309:72:309:85">ExplicitGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="309:86:309:92">m_name</jtok>
+<jtok eid="12" type="method_call" span="309:93:309:100">getText</jtok>
+<jtok eid="12" type="method_call" span="310:66:310:70">trim</jtok>
+<jtok eid="12" type="method_call" span="310:74:310:84">getContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="311:53:311:66">m_editedGroup</jtok>
+<jtok eid="12" type="method_call" span="312:57:312:75">addPreviousEntries</jtok>
+<jtok eid="12" type="primary_name_ref" span="314:44:314:65">m_keywordsRadioButton</jtok>
+<jtok eid="12" type="method_call" span="314:66:314:76">isSelected</jtok>
+<jtok eid="12" type="line_comment" span="315:41:315:99">// regex is correct, otherwise OK would have been disabled</jtok>
+<jtok eid="12" type="line_comment" span="316:41:316:81">// therefore I don't catch anything here</jtok>
+<jtok eid="12" type="primary_name_ref" span="317:41:317:57">m_resultingGroup</jtok>
+<jtok eid="12" type="constructor_call" span="317:64:317:76">KeywordGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="318:57:318:63">m_name</jtok>
+<jtok eid="12" type="method_call" span="318:64:318:71">getText</jtok>
+<jtok eid="12" type="method_call" span="318:74:318:78">trim</jtok>
+<jtok eid="12" type="primary_name_ref" span="318:82:318:97">m_kgSearchField</jtok>
+<jtok eid="12" type="method_call" span="318:98:318:105">getText</jtok>
+<jtok eid="12" type="method_call" span="319:74:319:78">trim</jtok>
+<jtok eid="12" type="primary_name_ref" span="319:82:319:96">m_kgSearchTerm</jtok>
+<jtok eid="12" type="method_call" span="319:97:319:104">getText</jtok>
+<jtok eid="12" type="method_call" span="319:107:319:111">trim</jtok>
+<jtok eid="12" type="primary_name_ref" span="320:57:320:74">m_kgCaseSensitive</jtok>
+<jtok eid="12" type="method_call" span="320:75:320:85">isSelected</jtok>
+<jtok eid="12" type="primary_name_ref" span="320:89:320:99">m_kgRegExp</jtok>
+<jtok eid="12" type="method_call" span="321:74:321:84">isSelected</jtok>
+<jtok eid="12" type="method_call" span="321:88:321:98">getContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="322:46:322:59">m_editedGroup</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="322:71:322:84">ExplicitGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="322:88:322:101">m_editedGroup</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="322:113:322:124">SearchGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="323:60:323:76">m_resultingGroup</jtok>
+<jtok eid="12" type="method_call" span="323:77:323:88">supportsAdd</jtok>
+<jtok eid="12" type="method_call" span="324:49:324:67">addPreviousEntries</jtok>
+<jtok eid="12" type="primary_name_ref" span="326:44:326:63">m_searchRadioButton</jtok>
+<jtok eid="12" type="method_call" span="326:64:326:74">isSelected</jtok>
+<jtok eid="12" type="line_comment" span="328:49:328:98">// regex is correct, otherwise OK would have been</jtok>
+<jtok eid="12" type="line_comment" span="329:49:329:60">// disabled</jtok>
+<jtok eid="12" type="line_comment" span="330:49:330:89">// therefore I don't catch anything here</jtok>
+<jtok eid="12" type="primary_name_ref" span="331:49:331:65">m_resultingGroup</jtok>
+<jtok eid="12" type="constructor_call" span="331:72:331:83">SearchGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="331:84:331:90">m_name</jtok>
+<jtok eid="12" type="method_call" span="331:91:331:98">getText</jtok>
+<jtok eid="12" type="method_call" span="332:66:332:70">trim</jtok>
+<jtok eid="12" type="primary_name_ref" span="332:74:332:94">m_sgSearchExpression</jtok>
+<jtok eid="12" type="method_call" span="332:95:332:102">getText</jtok>
+<jtok eid="12" type="method_call" span="332:105:332:109">trim</jtok>
+<jtok eid="12" type="primary_name_ref" span="333:65:333:82">m_sgCaseSensitive</jtok>
+<jtok eid="12" type="method_call" span="333:83:333:93">isSelected</jtok>
+<jtok eid="12" type="primary_name_ref" span="333:97:333:107">m_sgRegExp</jtok>
+<jtok eid="12" type="method_call" span="334:82:334:92">isSelected</jtok>
+<jtok eid="12" type="method_call" span="334:96:334:106">getContext</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="335:50:335:59">Exception</jtok>
+<jtok eid="12" type="local_variable_name" span="335:60:335:62">e1</jtok>
+<jtok eid="12" type="line_comment" span="336:49:336:71">// should never happen</jtok>
+<jtok eid="12" type="method_call" span="339:33:339:40">dispose</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="343:17:343:30">CaretListener</jtok>
+<jtok eid="4" type="local_variable_name" span="343:31:343:44">caretListener</jtok>
+<jtok eid="4" type="constructor_call" span="343:51:343:64">CaretListener</jtok>
+<jtok eid="14" type="method_name" span="344:37:344:48">caretUpdate</jtok>
+<jtok eid="14" type="parameter_type" span="344:49:344:59">CaretEvent</jtok>
+<jtok eid="14" type="parameter_name" span="344:60:344:61">e</jtok>
+<jtok eid="14" type="method_call" span="345:33:345:49">updateComponents</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="349:17:349:29">ItemListener</jtok>
+<jtok eid="4" type="local_variable_name" span="349:30:349:42">itemListener</jtok>
+<jtok eid="4" type="constructor_call" span="349:49:349:61">ItemListener</jtok>
+<jtok eid="16" type="method_name" span="350:37:350:53">itemStateChanged</jtok>
+<jtok eid="16" type="parameter_type" span="350:54:350:63">ItemEvent</jtok>
+<jtok eid="16" type="parameter_name" span="350:64:350:65">e</jtok>
+<jtok eid="16" type="method_call" span="351:33:351:49">updateComponents</jtok>
+<jtok eid="4" type="primary_name_ref" span="355:17:355:23">m_name</jtok>
+<jtok eid="4" type="method_call" span="355:24:355:40">addCaretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="355:41:355:54">caretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="356:17:356:32">m_kgSearchField</jtok>
+<jtok eid="4" type="method_call" span="356:33:356:49">addCaretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="356:50:356:63">caretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="357:17:357:31">m_kgSearchTerm</jtok>
+<jtok eid="4" type="method_call" span="357:32:357:48">addCaretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="357:49:357:62">caretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="358:17:358:34">m_kgCaseSensitive</jtok>
+<jtok eid="4" type="method_call" span="358:35:358:50">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="358:51:358:63">itemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="359:17:359:27">m_kgRegExp</jtok>
+<jtok eid="4" type="method_call" span="359:28:359:43">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="359:44:359:56">itemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="360:17:360:37">m_sgSearchExpression</jtok>
+<jtok eid="4" type="method_call" span="360:38:360:54">addCaretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="360:55:360:68">caretListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="361:17:361:27">m_sgRegExp</jtok>
+<jtok eid="4" type="method_call" span="361:28:361:43">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="361:44:361:56">itemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="362:17:362:34">m_sgCaseSensitive</jtok>
+<jtok eid="4" type="method_call" span="362:35:362:50">addItemListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="362:51:362:63">itemListener</jtok>
+<jtok eid="4" type="line_comment" span="364:17:364:46">// configure for current type</jtok>
+<jtok eid="4" type="primary_name_ref" span="365:21:365:32">editedGroup</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="365:44:365:56">KeywordGroup</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="366:25:366:37">KeywordGroup</jtok>
+<jtok eid="4" type="local_variable_name" span="366:38:366:43">group</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="366:47:366:59">KeywordGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="366:61:366:72">editedGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="367:25:367:31">m_name</jtok>
+<jtok eid="4" type="method_call" span="367:32:367:39">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="367:40:367:45">group</jtok>
+<jtok eid="4" type="method_call" span="367:46:367:53">getName</jtok>
+<jtok eid="4" type="primary_name_ref" span="368:25:368:40">m_kgSearchField</jtok>
+<jtok eid="4" type="method_call" span="368:41:368:48">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="368:49:368:54">group</jtok>
+<jtok eid="4" type="method_call" span="368:55:368:69">getSearchField</jtok>
+<jtok eid="4" type="primary_name_ref" span="369:25:369:39">m_kgSearchTerm</jtok>
+<jtok eid="4" type="method_call" span="369:40:369:47">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="369:48:369:53">group</jtok>
+<jtok eid="4" type="method_call" span="369:54:369:73">getSearchExpression</jtok>
+<jtok eid="4" type="primary_name_ref" span="370:25:370:42">m_kgCaseSensitive</jtok>
+<jtok eid="4" type="method_call" span="370:43:370:54">setSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="370:55:370:60">group</jtok>
+<jtok eid="4" type="method_call" span="370:61:370:76">isCaseSensitive</jtok>
+<jtok eid="4" type="primary_name_ref" span="371:25:371:35">m_kgRegExp</jtok>
+<jtok eid="4" type="method_call" span="371:36:371:47">setSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="371:48:371:53">group</jtok>
+<jtok eid="4" type="method_call" span="371:54:371:62">isRegExp</jtok>
+<jtok eid="4" type="primary_name_ref" span="372:25:372:46">m_keywordsRadioButton</jtok>
+<jtok eid="4" type="method_call" span="372:47:372:58">setSelected</jtok>
+<jtok eid="4" type="method_call" span="373:25:373:35">setContext</jtok>
+<jtok eid="4" type="primary_name_ref" span="373:36:373:47">editedGroup</jtok>
+<jtok eid="4" type="method_call" span="373:48:373:70">getHierarchicalContext</jtok>
+<jtok eid="4" type="primary_name_ref" span="374:28:374:39">editedGroup</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="374:51:374:62">SearchGroup</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="375:25:375:36">SearchGroup</jtok>
+<jtok eid="4" type="local_variable_name" span="375:37:375:42">group</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="375:46:375:57">SearchGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="375:59:375:70">editedGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="376:25:376:31">m_name</jtok>
+<jtok eid="4" type="method_call" span="376:32:376:39">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="376:40:376:45">group</jtok>
+<jtok eid="4" type="method_call" span="376:46:376:53">getName</jtok>
+<jtok eid="4" type="primary_name_ref" span="377:25:377:45">m_sgSearchExpression</jtok>
+<jtok eid="4" type="method_call" span="377:46:377:53">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="377:54:377:59">group</jtok>
+<jtok eid="4" type="method_call" span="377:60:377:79">getSearchExpression</jtok>
+<jtok eid="4" type="primary_name_ref" span="378:25:378:42">m_sgCaseSensitive</jtok>
+<jtok eid="4" type="method_call" span="378:43:378:54">setSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="378:55:378:60">group</jtok>
+<jtok eid="4" type="method_call" span="378:61:378:76">isCaseSensitive</jtok>
+<jtok eid="4" type="primary_name_ref" span="379:25:379:35">m_sgRegExp</jtok>
+<jtok eid="4" type="method_call" span="379:36:379:47">setSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="379:48:379:53">group</jtok>
+<jtok eid="4" type="method_call" span="379:54:379:62">isRegExp</jtok>
+<jtok eid="4" type="primary_name_ref" span="380:25:380:44">m_searchRadioButton</jtok>
+<jtok eid="4" type="method_call" span="380:45:380:56">setSelected</jtok>
+<jtok eid="4" type="method_call" span="381:25:381:35">setContext</jtok>
+<jtok eid="4" type="primary_name_ref" span="381:36:381:47">editedGroup</jtok>
+<jtok eid="4" type="method_call" span="381:48:381:70">getHierarchicalContext</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:28:382:39">editedGroup</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="382:51:382:64">ExplicitGroup</jtok>
+<jtok eid="4" type="primary_name_ref" span="383:25:383:31">m_name</jtok>
+<jtok eid="4" type="method_call" span="383:32:383:39">setText</jtok>
+<jtok eid="4" type="primary_name_ref" span="383:40:383:51">editedGroup</jtok>
+<jtok eid="4" type="method_call" span="383:52:383:59">getName</jtok>
+<jtok eid="4" type="primary_name_ref" span="384:25:384:46">m_explicitRadioButton</jtok>
+<jtok eid="4" type="method_call" span="384:47:384:58">setSelected</jtok>
+<jtok eid="4" type="method_call" span="385:25:385:35">setContext</jtok>
+<jtok eid="4" type="primary_name_ref" span="385:36:385:47">editedGroup</jtok>
+<jtok eid="4" type="method_call" span="385:48:385:70">getHierarchicalContext</jtok>
+<jtok eid="4" type="line_comment" span="386:26:386:60">// creating new group -&gt; defaults!</jtok>
+<jtok eid="4" type="primary_name_ref" span="387:25:387:46">m_explicitRadioButton</jtok>
+<jtok eid="4" type="method_call" span="387:47:387:58">setSelected</jtok>
+<jtok eid="4" type="method_call" span="388:25:388:35">setContext</jtok>
+<jtok eid="4" type="primary_name_ref" span="388:36:388:49">AbstractGroup</jtok>
+<jtok eid="4" type="qualified_name_ref" span="388:50:388:61">INDEPENDENT</jtok>
+<jtok eid="17" type="method_name" span="392:24:392:33">okPressed</jtok>
+<jtok eid="17" type="primary_name_ref" span="393:24:393:35">m_okPressed</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="396:16:396:29">AbstractGroup</jtok>
+<jtok eid="18" type="method_name" span="396:30:396:47">getResultingGroup</jtok>
+<jtok eid="18" type="primary_name_ref" span="397:24:397:40">m_resultingGroup</jtok>
+<jtok eid="19" type="method_name" span="400:22:400:47">setLayoutForSelectedGroup</jtok>
+<jtok eid="19" type="primary_name_ref" span="401:21:401:42">m_explicitRadioButton</jtok>
+<jtok eid="19" type="method_call" span="401:43:401:53">isSelected</jtok>
+<jtok eid="19" type="primary_name_ref" span="402:25:402:40">m_optionsLayout</jtok>
+<jtok eid="19" type="method_call" span="402:41:402:45">show</jtok>
+<jtok eid="19" type="primary_name_ref" span="402:46:402:60">m_optionsPanel</jtok>
+<jtok eid="19" type="primary_name_ref" span="402:62:402:68">String</jtok>
+<jtok eid="19" type="method_call" span="403:42:403:49">valueOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="403:50:403:69">INDEX_EXPLICITGROUP</jtok>
+<jtok eid="19" type="primary_name_ref" span="404:26:404:47">m_keywordsRadioButton</jtok>
+<jtok eid="19" type="method_call" span="404:48:404:58">isSelected</jtok>
+<jtok eid="19" type="primary_name_ref" span="405:25:405:40">m_optionsLayout</jtok>
+<jtok eid="19" type="method_call" span="405:41:405:45">show</jtok>
+<jtok eid="19" type="primary_name_ref" span="405:46:405:60">m_optionsPanel</jtok>
+<jtok eid="19" type="primary_name_ref" span="405:62:405:68">String</jtok>
+<jtok eid="19" type="method_call" span="406:42:406:49">valueOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="406:50:406:68">INDEX_KEYWORDGROUP</jtok>
+<jtok eid="19" type="primary_name_ref" span="407:26:407:45">m_searchRadioButton</jtok>
+<jtok eid="19" type="method_call" span="407:46:407:56">isSelected</jtok>
+<jtok eid="19" type="primary_name_ref" span="408:25:408:40">m_optionsLayout</jtok>
+<jtok eid="19" type="method_call" span="408:41:408:45">show</jtok>
+<jtok eid="19" type="primary_name_ref" span="408:46:408:60">m_optionsPanel</jtok>
+<jtok eid="19" type="primary_name_ref" span="408:62:408:68">String</jtok>
+<jtok eid="19" type="method_call" span="409:42:409:49">valueOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="409:50:409:67">INDEX_SEARCHGROUP</jtok>
+<jtok eid="20" type="method_name" span="412:22:412:38">updateComponents</jtok>
+<jtok eid="20" type="line_comment" span="413:17:413:42">// all groups need a name</jtok>
+<jtok eid="20" type="local_variable_name" span="414:25:414:34">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="414:37:414:43">m_name</jtok>
+<jtok eid="20" type="method_call" span="414:44:414:51">getText</jtok>
+<jtok eid="20" type="method_call" span="414:54:414:58">trim</jtok>
+<jtok eid="20" type="method_call" span="414:61:414:67">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="415:22:415:31">okEnabled</jtok>
+<jtok eid="20" type="method_call" span="416:25:416:39">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="416:40:416:47">Globals</jtok>
+<jtok eid="20" type="method_call" span="416:48:416:52">lang</jtok>
+<jtok eid="20" type="string_literal" span="416:53:416:89">"Please enter a name for the group."</jtok>
+<jtok eid="20" type="primary_name_ref" span="417:25:417:29">m_ok</jtok>
+<jtok eid="20" type="method_call" span="417:30:417:40">setEnabled</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="420:17:420:23">String</jtok>
+<jtok eid="20" type="local_variable_name" span="420:24:420:26">s1</jtok>
+<jtok eid="20" type="local_variable_name" span="420:28:420:30">s2</jtok>
+<jtok eid="20" type="primary_name_ref" span="421:21:421:42">m_keywordsRadioButton</jtok>
+<jtok eid="20" type="method_call" span="421:43:421:53">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="422:25:422:27">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="422:30:422:45">m_kgSearchField</jtok>
+<jtok eid="20" type="method_call" span="422:46:422:53">getText</jtok>
+<jtok eid="20" type="method_call" span="422:56:422:60">trim</jtok>
+<jtok eid="20" type="primary_name_ref" span="423:25:423:34">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="423:37:423:46">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="423:50:423:52">s1</jtok>
+<jtok eid="20" type="method_call" span="423:53:423:60">matches</jtok>
+<jtok eid="20" type="string_literal" span="423:61:423:67">"\\w+"</jtok>
+<jtok eid="20" type="primary_name_ref" span="424:25:424:27">s2</jtok>
+<jtok eid="20" type="primary_name_ref" span="424:30:424:44">m_kgSearchTerm</jtok>
+<jtok eid="20" type="method_call" span="424:45:424:52">getText</jtok>
+<jtok eid="20" type="method_call" span="424:55:424:59">trim</jtok>
+<jtok eid="20" type="primary_name_ref" span="425:25:425:34">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="425:37:425:46">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="425:50:425:52">s2</jtok>
+<jtok eid="20" type="method_call" span="425:53:425:59">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="426:30:426:39">okEnabled</jtok>
+<jtok eid="20" type="method_call" span="427:33:427:47">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="427:48:427:55">Globals</jtok>
+<jtok eid="20" type="method_call" span="428:50:428:54">lang</jtok>
+<jtok eid="20" type="string_literal" span="428:55:428:171">"Please enter the field to search (e.g. &lt;b&gt;keywords&lt;/b&gt;) and the keyword to search it for (e.g. &lt;b&gt;electrical&lt;/b&gt;)."</jtok>
+<jtok eid="20" type="primary_name_ref" span="430:37:430:47">m_kgRegExp</jtok>
+<jtok eid="20" type="method_call" span="430:48:430:58">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="432:49:432:56">Pattern</jtok>
+<jtok eid="20" type="method_call" span="432:57:432:64">compile</jtok>
+<jtok eid="20" type="primary_name_ref" span="432:65:432:67">s2</jtok>
+<jtok eid="20" type="method_call" span="433:49:433:63">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="433:64:433:76">KeywordGroup</jtok>
+<jtok eid="20" type="method_call" span="433:77:433:101">getDescriptionForPreview</jtok>
+<jtok eid="20" type="primary_name_ref" span="433:102:433:104">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="433:106:433:108">s2</jtok>
+<jtok eid="20" type="primary_name_ref" span="434:65:434:82">m_kgCaseSensitive</jtok>
+<jtok eid="20" type="method_call" span="434:83:434:93">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="434:97:434:107">m_kgRegExp</jtok>
+<jtok eid="20" type="method_call" span="435:82:435:92">isSelected</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="436:50:436:59">Exception</jtok>
+<jtok eid="20" type="local_variable_name" span="436:60:436:61">e</jtok>
+<jtok eid="20" type="primary_name_ref" span="437:49:437:58">okEnabled</jtok>
+<jtok eid="20" type="method_call" span="438:49:438:63">setDescription</jtok>
+<jtok eid="20" type="method_call" span="438:64:438:84">formatRegExException</jtok>
+<jtok eid="20" type="primary_name_ref" span="438:85:438:87">s2</jtok>
+<jtok eid="20" type="primary_name_ref" span="438:89:438:90">e</jtok>
+<jtok eid="20" type="method_call" span="441:41:441:55">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="441:56:441:68">KeywordGroup</jtok>
+<jtok eid="20" type="method_call" span="441:69:441:93">getDescriptionForPreview</jtok>
+<jtok eid="20" type="primary_name_ref" span="441:94:441:96">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="441:98:441:100">s2</jtok>
+<jtok eid="20" type="primary_name_ref" span="442:57:442:74">m_kgCaseSensitive</jtok>
+<jtok eid="20" type="method_call" span="442:75:442:85">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="442:89:442:99">m_kgRegExp</jtok>
+<jtok eid="20" type="method_call" span="443:74:443:84">isSelected</jtok>
+<jtok eid="20" type="method_call" span="446:25:446:42">setNameFontItalic</jtok>
+<jtok eid="20" type="primary_name_ref" span="447:28:447:47">m_searchRadioButton</jtok>
+<jtok eid="20" type="method_call" span="447:48:447:58">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="448:25:448:27">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="448:30:448:50">m_sgSearchExpression</jtok>
+<jtok eid="20" type="method_call" span="448:51:448:58">getText</jtok>
+<jtok eid="20" type="method_call" span="448:61:448:65">trim</jtok>
+<jtok eid="20" type="primary_name_ref" span="449:25:449:34">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="449:37:449:46">okEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="449:49:449:51">s1</jtok>
+<jtok eid="20" type="method_call" span="449:52:449:58">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="450:30:450:39">okEnabled</jtok>
+<jtok eid="20" type="method_call" span="451:33:451:47">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="451:48:451:55">Globals</jtok>
+<jtok eid="20" type="method_call" span="452:50:452:54">lang</jtok>
+<jtok eid="20" type="string_literal" span="452:55:452:147">"Please enter a search term. For example, to search all fields for &lt;b&gt;Smith&lt;/b&gt;, enter%c&lt;p&gt;"</jtok>
+<jtok eid="20" type="string_literal" span="453:67:453:86">"&lt;tt&gt;smith&lt;/tt&gt;&lt;p&gt;"</jtok>
+<jtok eid="20" type="string_literal" span="454:67:454:180">"To search the field &lt;b&gt;Author&lt;/b&gt; for &lt;b&gt;Smith&lt;/b&gt; and the field &lt;b&gt;Title&lt;/b&gt; for &lt;b&gt;electrical&lt;/b&gt;, enter%c&lt;p&gt;"</jtok>
+<jtok eid="20" type="string_literal" span="455:67:455:113">"&lt;tt&gt;author%esmith and title%eelectrical&lt;/tt&gt;"</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="457:33:457:36">AST</jtok>
+<jtok eid="20" type="local_variable_name" span="457:37:457:40">ast</jtok>
+<jtok eid="20" type="primary_name_ref" span="457:43:457:65">SearchExpressionParser</jtok>
+<jtok eid="20" type="method_call" span="458:50:458:61">checkSyntax</jtok>
+<jtok eid="20" type="primary_name_ref" span="458:62:458:64">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="458:66:458:83">m_sgCaseSensitive</jtok>
+<jtok eid="20" type="method_call" span="458:84:458:94">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="459:65:459:75">m_sgRegExp</jtok>
+<jtok eid="20" type="method_call" span="459:76:459:86">isSelected</jtok>
+<jtok eid="20" type="method_call" span="460:33:460:47">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="460:48:460:59">SearchGroup</jtok>
+<jtok eid="20" type="method_call" span="460:60:460:84">getDescriptionForPreview</jtok>
+<jtok eid="20" type="primary_name_ref" span="460:85:460:87">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="460:89:460:92">ast</jtok>
+<jtok eid="20" type="primary_name_ref" span="461:49:461:66">m_sgCaseSensitive</jtok>
+<jtok eid="20" type="method_call" span="461:67:461:77">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="461:81:461:91">m_sgRegExp</jtok>
+<jtok eid="20" type="method_call" span="461:92:461:102">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="462:37:462:47">m_sgRegExp</jtok>
+<jtok eid="20" type="method_call" span="462:48:462:58">isSelected</jtok>
+<jtok eid="20" type="primary_name_ref" span="464:49:464:56">Pattern</jtok>
+<jtok eid="20" type="method_call" span="464:57:464:64">compile</jtok>
+<jtok eid="20" type="primary_name_ref" span="464:65:464:67">s1</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="465:50:465:59">Exception</jtok>
+<jtok eid="20" type="local_variable_name" span="465:60:465:61">e</jtok>
+<jtok eid="20" type="primary_name_ref" span="466:49:466:58">okEnabled</jtok>
+<jtok eid="20" type="method_call" span="467:49:467:63">setDescription</jtok>
+<jtok eid="20" type="method_call" span="467:64:467:84">formatRegExException</jtok>
+<jtok eid="20" type="primary_name_ref" span="467:85:467:87">s1</jtok>
+<jtok eid="20" type="primary_name_ref" span="467:89:467:90">e</jtok>
+<jtok eid="20" type="method_call" span="471:25:471:42">setNameFontItalic</jtok>
+<jtok eid="20" type="primary_name_ref" span="472:28:472:49">m_explicitRadioButton</jtok>
+<jtok eid="20" type="method_call" span="472:50:472:60">isSelected</jtok>
+<jtok eid="20" type="method_call" span="473:25:473:39">setDescription</jtok>
+<jtok eid="20" type="primary_name_ref" span="473:40:473:53">ExplicitGroup</jtok>
+<jtok eid="20" type="method_call" span="473:54:473:78">getDescriptionForPreview</jtok>
+<jtok eid="20" type="method_call" span="474:25:474:42">setNameFontItalic</jtok>
+<jtok eid="20" type="primary_name_ref" span="476:17:476:21">m_ok</jtok>
+<jtok eid="20" type="method_call" span="476:22:476:32">setEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="476:33:476:42">okEnabled</jtok>
+<jtok eid="1" type="block_comment" span="479:9:483:12">/**
+         * This is used when a group is converted and the new group supports
+         * explicit adding of entries: All entries that match the previous group are
+         * added to the new group.
+         */</jtok>
+<jtok eid="21" type="method_name" span="484:22:484:40">addPreviousEntries</jtok>
+<jtok eid="21" type="line_comment" span="485:17:485:36">// JZTODO lyrics...</jtok>
+<jtok eid="21" type="local_variable_name" span="486:21:486:22">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="486:25:486:36">JOptionPane</jtok>
+<jtok eid="21" type="method_call" span="486:37:486:54">showConfirmDialog</jtok>
+<jtok eid="21" type="primary_name_ref" span="486:55:486:66">m_basePanel</jtok>
+<jtok eid="21" type="method_call" span="486:67:486:72">frame</jtok>
+<jtok eid="21" type="primary_name_ref" span="486:76:486:83">Globals</jtok>
+<jtok eid="21" type="method_call" span="487:34:487:38">lang</jtok>
+<jtok eid="21" type="string_literal" span="487:39:487:91">"Assign the original group's entries to this group?"</jtok>
+<jtok eid="21" type="primary_name_ref" span="488:33:488:40">Globals</jtok>
+<jtok eid="21" type="method_call" span="488:41:488:45">lang</jtok>
+<jtok eid="21" type="string_literal" span="488:46:488:73">"Change of Grouping Method"</jtok>
+<jtok eid="21" type="primary_name_ref" span="489:33:489:44">JOptionPane</jtok>
+<jtok eid="21" type="qualified_name_ref" span="489:45:489:58">YES_NO_OPTION</jtok>
+<jtok eid="21" type="primary_name_ref" span="489:60:489:71">JOptionPane</jtok>
+<jtok eid="21" type="qualified_name_ref" span="489:72:489:88">QUESTION_MESSAGE</jtok>
+<jtok eid="21" type="primary_name_ref" span="490:21:490:22">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="490:26:490:37">JOptionPane</jtok>
+<jtok eid="21" type="qualified_name_ref" span="490:38:490:47">NO_OPTION</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="492:17:492:23">Vector</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="492:24:492:35">BibtexEntry</jtok>
+<jtok eid="21" type="local_variable_name" span="492:37:492:40">vec</jtok>
+<jtok eid="21" type="constructor_call" span="492:47:492:53">Vector</jtok>
+<jtok eid="21" type="constructor_call" span="492:54:492:65">BibtexEntry</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="493:22:493:33">BibtexEntry</jtok>
+<jtok eid="21" type="local_variable_name" span="493:34:493:39">entry</jtok>
+<jtok eid="21" type="primary_name_ref" span="493:42:493:53">m_basePanel</jtok>
+<jtok eid="21" type="method_call" span="493:54:493:62">database</jtok>
+<jtok eid="21" type="method_call" span="493:65:493:75">getEntries</jtok>
+<jtok eid="21" type="primary_name_ref" span="494:29:494:42">m_editedGroup</jtok>
+<jtok eid="21" type="method_call" span="494:43:494:51">contains</jtok>
+<jtok eid="21" type="primary_name_ref" span="494:52:494:57">entry</jtok>
+<jtok eid="21" type="primary_name_ref" span="495:26:495:29">vec</jtok>
+<jtok eid="21" type="method_call" span="495:30:495:33">add</jtok>
+<jtok eid="21" type="primary_name_ref" span="495:34:495:39">entry</jtok>
+<jtok eid="21" type="primary_name_ref" span="497:21:497:24">vec</jtok>
+<jtok eid="21" type="method_call" span="497:25:497:29">size</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="498:25:498:36">BibtexEntry</jtok>
+<jtok eid="21" type="local_variable_name" span="498:39:498:46">entries</jtok>
+<jtok eid="21" type="constructor_call" span="498:53:498:64">BibtexEntry</jtok>
+<jtok eid="21" type="primary_name_ref" span="498:65:498:68">vec</jtok>
+<jtok eid="21" type="method_call" span="498:69:498:73">size</jtok>
+<jtok eid="21" type="primary_name_ref" span="499:25:499:28">vec</jtok>
+<jtok eid="21" type="method_call" span="499:29:499:36">toArray</jtok>
+<jtok eid="21" type="primary_name_ref" span="499:37:499:44">entries</jtok>
+<jtok eid="21" type="primary_name_ref" span="500:30:500:34">Util</jtok>
+<jtok eid="21" type="method_call" span="500:35:500:60">warnAssignmentSideEffects</jtok>
+<jtok eid="21" type="constructor_call" span="500:65:500:78">AbstractGroup</jtok>
+<jtok eid="21" type="primary_name_ref" span="500:81:500:97">m_resultingGroup</jtok>
+<jtok eid="21" type="primary_name_ref" span="501:41:501:48">entries</jtok>
+<jtok eid="21" type="primary_name_ref" span="501:50:501:61">m_basePanel</jtok>
+<jtok eid="21" type="method_call" span="501:62:501:73">getDatabase</jtok>
+<jtok eid="21" type="line_comment" span="503:25:503:88">// the undo information for a conversion to an ExplicitGroup is</jtok>
+<jtok eid="21" type="line_comment" span="504:25:504:83">// contained completely in the UndoableModifyGroup object.</jtok>
+<jtok eid="21" type="primary_name_ref" span="505:31:505:47">m_resultingGroup</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="505:59:505:72">ExplicitGroup</jtok>
+<jtok eid="21" type="primary_name_ref" span="506:33:506:57">m_undoAddPreviousEntires</jtok>
+<jtok eid="21" type="primary_name_ref" span="506:60:506:76">m_resultingGroup</jtok>
+<jtok eid="21" type="method_call" span="506:77:506:80">add</jtok>
+<jtok eid="21" type="primary_name_ref" span="506:81:506:88">entries</jtok>
+<jtok eid="22" type="method_name" span="510:24:510:38">setDescription</jtok>
+<jtok eid="22" type="parameter_type" span="510:39:510:45">String</jtok>
+<jtok eid="22" type="parameter_name" span="510:46:510:57">description</jtok>
+<jtok eid="22" type="primary_name_ref" span="511:17:511:30">m_description</jtok>
+<jtok eid="22" type="method_call" span="511:31:511:38">setText</jtok>
+<jtok eid="22" type="string_literal" span="511:39:511:47">"&lt;html&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="511:50:511:61">description</jtok>
+<jtok eid="22" type="string_literal" span="511:64:511:73">"&lt;/html&gt;"</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="514:19:514:25">String</jtok>
+<jtok eid="23" type="method_name" span="514:26:514:46">formatRegExException</jtok>
+<jtok eid="23" type="parameter_type" span="514:47:514:53">String</jtok>
+<jtok eid="23" type="parameter_name" span="514:54:514:60">regExp</jtok>
+<jtok eid="23" type="parameter_type" span="514:62:514:71">Exception</jtok>
+<jtok eid="23" type="parameter_name" span="514:72:514:73">e</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="515:9:515:15">String</jtok>
+<jtok eid="23" type="local_variable_name" span="515:18:515:20">sa</jtok>
+<jtok eid="23" type="primary_name_ref" span="515:23:515:24">e</jtok>
+<jtok eid="23" type="method_call" span="515:25:515:35">getMessage</jtok>
+<jtok eid="23" type="method_call" span="515:38:515:43">split</jtok>
+<jtok eid="23" type="string_literal" span="515:44:515:49">"\\n"</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="516:9:516:21">StringBuffer</jtok>
+<jtok eid="23" type="local_variable_name" span="516:22:516:24">sb</jtok>
+<jtok eid="23" type="constructor_call" span="516:31:516:43">StringBuffer</jtok>
+<jtok eid="23" type="local_variable_name" span="517:18:517:19">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="517:25:517:26">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="517:29:517:31">sa</jtok>
+<jtok eid="23" type="qualified_name_ref" span="517:32:517:38">length</jtok>
+<jtok eid="23" type="primary_name_ref" span="517:42:517:43">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="518:17:518:18">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="519:17:519:19">sb</jtok>
+<jtok eid="23" type="method_call" span="519:20:519:26">append</jtok>
+<jtok eid="23" type="string_literal" span="519:27:519:33">"&lt;br&gt;"</jtok>
+<jtok eid="23" type="primary_name_ref" span="520:13:520:15">sb</jtok>
+<jtok eid="23" type="method_call" span="520:16:520:22">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="520:23:520:27">Util</jtok>
+<jtok eid="23" type="method_call" span="520:28:520:40">quoteForHTML</jtok>
+<jtok eid="23" type="primary_name_ref" span="520:41:520:43">sa</jtok>
+<jtok eid="23" type="primary_name_ref" span="520:44:520:45">i</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="522:17:522:23">String</jtok>
+<jtok eid="23" type="local_variable_name" span="522:24:522:25">s</jtok>
+<jtok eid="23" type="primary_name_ref" span="522:28:522:35">Globals</jtok>
+<jtok eid="23" type="method_call" span="522:36:522:40">lang</jtok>
+<jtok eid="23" type="string_literal" span="523:33:523:80">"The regular expression &lt;b&gt;%0&lt;/b&gt; is invalid%c"</jtok>
+<jtok eid="23" type="primary_name_ref" span="524:17:524:21">Util</jtok>
+<jtok eid="23" type="method_call" span="524:22:524:34">quoteForHTML</jtok>
+<jtok eid="23" type="primary_name_ref" span="524:35:524:41">regExp</jtok>
+<jtok eid="23" type="string_literal" span="525:35:525:44">"&lt;p&gt;&lt;tt&gt;"</jtok>
+<jtok eid="23" type="primary_name_ref" span="526:35:526:37">sb</jtok>
+<jtok eid="23" type="method_call" span="526:38:526:46">toString</jtok>
+<jtok eid="23" type="string_literal" span="527:35:527:42">"&lt;/tt&gt;"</jtok>
+<jtok eid="23" type="primary_name_ref" span="528:23:528:24">e</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="528:36:528:58">PatternSyntaxException</jtok>
+<jtok eid="23" type="primary_name_ref" span="529:32:529:33">s</jtok>
+<jtok eid="23" type="local_variable_name" span="530:21:530:32">lastNewline</jtok>
+<jtok eid="23" type="primary_name_ref" span="530:35:530:36">s</jtok>
+<jtok eid="23" type="method_call" span="530:37:530:48">lastIndexOf</jtok>
+<jtok eid="23" type="string_literal" span="530:49:530:55">"&lt;br&gt;"</jtok>
+<jtok eid="23" type="local_variable_name" span="531:21:531:24">hat</jtok>
+<jtok eid="23" type="primary_name_ref" span="531:27:531:28">s</jtok>
+<jtok eid="23" type="method_call" span="531:29:531:40">lastIndexOf</jtok>
+<jtok eid="23" type="string_literal" span="531:41:531:44">"^"</jtok>
+<jtok eid="23" type="primary_name_ref" span="532:21:532:32">lastNewline</jtok>
+<jtok eid="23" type="primary_name_ref" span="532:41:532:44">hat</jtok>
+<jtok eid="23" type="primary_name_ref" span="532:53:532:56">hat</jtok>
+<jtok eid="23" type="primary_name_ref" span="532:59:532:70">lastNewline</jtok>
+<jtok eid="23" type="primary_name_ref" span="533:32:533:33">s</jtok>
+<jtok eid="23" type="method_call" span="533:34:533:43">substring</jtok>
+<jtok eid="23" type="primary_name_ref" span="533:47:533:58">lastNewline</jtok>
+<jtok eid="23" type="primary_name_ref" span="534:43:534:44">s</jtok>
+<jtok eid="23" type="method_call" span="534:45:534:54">substring</jtok>
+<jtok eid="23" type="primary_name_ref" span="534:55:534:66">lastNewline</jtok>
+<jtok eid="23" type="method_call" span="534:72:534:82">replaceAll</jtok>
+<jtok eid="23" type="string_literal" span="534:83:534:86">" "</jtok>
+<jtok eid="23" type="string_literal" span="534:88:534:96">"&amp;nbsp;"</jtok>
+<jtok eid="23" type="primary_name_ref" span="535:24:535:25">s</jtok>
+<jtok eid="1" type="block_comment" span="538:9:541:12">/**
+         * Returns an undo object for adding the edited group's entries to the new
+         * group, or null if this did not occur.
+         */</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="542:16:542:36">AbstractUndoableEdit</jtok>
+<jtok eid="24" type="method_name" span="542:37:542:65">getUndoForAddPreviousEntries</jtok>
+<jtok eid="24" type="primary_name_ref" span="543:24:543:48">m_undoAddPreviousEntires</jtok>
+<jtok eid="1" type="block_comment" span="546:9:546:54">/** Sets the font of the name entry field. */</jtok>
+<jtok eid="25" type="method_name" span="547:24:547:41">setNameFontItalic</jtok>
+<jtok eid="25" type="parameter_name" span="547:50:547:56">italic</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="548:17:548:21">Font</jtok>
+<jtok eid="25" type="local_variable_name" span="548:22:548:23">f</jtok>
+<jtok eid="25" type="primary_name_ref" span="548:26:548:32">m_name</jtok>
+<jtok eid="25" type="method_call" span="548:33:548:40">getFont</jtok>
+<jtok eid="25" type="primary_name_ref" span="549:21:549:22">f</jtok>
+<jtok eid="25" type="method_call" span="549:23:549:31">isItalic</jtok>
+<jtok eid="25" type="primary_name_ref" span="549:37:549:43">italic</jtok>
+<jtok eid="25" type="primary_name_ref" span="550:25:550:26">f</jtok>
+<jtok eid="25" type="primary_name_ref" span="550:29:550:30">f</jtok>
+<jtok eid="25" type="method_call" span="550:31:550:41">deriveFont</jtok>
+<jtok eid="25" type="primary_name_ref" span="550:42:550:48">italic</jtok>
+<jtok eid="25" type="primary_name_ref" span="550:51:550:55">Font</jtok>
+<jtok eid="25" type="qualified_name_ref" span="550:56:550:62">ITALIC</jtok>
+<jtok eid="25" type="primary_name_ref" span="550:65:550:69">Font</jtok>
+<jtok eid="25" type="qualified_name_ref" span="550:70:550:75">PLAIN</jtok>
+<jtok eid="25" type="primary_name_ref" span="551:25:551:31">m_name</jtok>
+<jtok eid="25" type="method_call" span="551:32:551:39">setFont</jtok>
+<jtok eid="25" type="primary_name_ref" span="551:40:551:41">f</jtok>
+<jtok eid="1" type="block_comment" span="555:9:557:12">/**
+         * Returns the int representing the selected hierarchical group context.
+         */</jtok>
+<jtok eid="26" type="method_name" span="558:23:558:33">getContext</jtok>
+<jtok eid="26" type="primary_name_ref" span="559:21:559:40">m_independentButton</jtok>
+<jtok eid="26" type="method_call" span="559:41:559:51">isSelected</jtok>
+<jtok eid="26" type="primary_name_ref" span="560:32:560:45">AbstractGroup</jtok>
+<jtok eid="26" type="qualified_name_ref" span="560:46:560:57">INDEPENDENT</jtok>
+<jtok eid="26" type="primary_name_ref" span="561:21:561:41">m_intersectionButton</jtok>
+<jtok eid="26" type="method_call" span="561:42:561:52">isSelected</jtok>
+<jtok eid="26" type="primary_name_ref" span="562:32:562:45">AbstractGroup</jtok>
+<jtok eid="26" type="qualified_name_ref" span="562:46:562:54">REFINING</jtok>
+<jtok eid="26" type="primary_name_ref" span="563:21:563:34">m_unionButton</jtok>
+<jtok eid="26" type="method_call" span="563:35:563:45">isSelected</jtok>
+<jtok eid="26" type="primary_name_ref" span="564:32:564:45">AbstractGroup</jtok>
+<jtok eid="26" type="qualified_name_ref" span="564:46:564:55">INCLUDING</jtok>
+<jtok eid="26" type="primary_name_ref" span="565:24:565:37">AbstractGroup</jtok>
+<jtok eid="26" type="qualified_name_ref" span="565:38:565:49">INDEPENDENT</jtok>
+<jtok eid="26" type="line_comment" span="565:51:565:61">// default</jtok>
+<jtok eid="27" type="method_name" span="568:24:568:34">setContext</jtok>
+<jtok eid="27" type="parameter_name" span="568:39:568:46">context</jtok>
+<jtok eid="27" type="primary_name_ref" span="569:25:569:32">context</jtok>
+<jtok eid="27" type="primary_name_ref" span="570:22:570:35">AbstractGroup</jtok>
+<jtok eid="27" type="qualified_name_ref" span="570:36:570:44">REFINING</jtok>
+<jtok eid="27" type="primary_name_ref" span="571:25:571:45">m_intersectionButton</jtok>
+<jtok eid="27" type="method_call" span="571:46:571:57">setSelected</jtok>
+<jtok eid="27" type="primary_name_ref" span="573:22:573:35">AbstractGroup</jtok>
+<jtok eid="27" type="qualified_name_ref" span="573:36:573:45">INCLUDING</jtok>
+<jtok eid="27" type="primary_name_ref" span="574:25:574:38">m_unionButton</jtok>
+<jtok eid="27" type="method_call" span="574:39:574:50">setSelected</jtok>
+<jtok eid="27" type="primary_name_ref" span="576:22:576:35">AbstractGroup</jtok>
+<jtok eid="27" type="qualified_name_ref" span="576:36:576:47">INDEPENDENT</jtok>
+<jtok eid="27" type="primary_name_ref" span="578:25:578:44">m_independentButton</jtok>
+<jtok eid="27" type="method_call" span="578:45:578:56">setSelected</jtok>
+</jdoc>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.HTMLConverter" jls="java5">
+<jent id="0" type="file" span="0:0:110:1">Source/jabref/src/java/net/sf/jabref/imports/HTMLConverter.java</jent>
+<jent id="1" pid="0" type="class" span="17:1:110:1">net.sf.jabref.imports.HTMLConverter</jent>
+<jent id="2" pid="1" type="method" span="20:2:31:2">net.sf.jabref.imports.HTMLConverter.HTMLConverter()</jent>
+<jent id="3" pid="1" type="method" span="32:5:87:5">net.sf.jabref.imports.HTMLConverter.format(String)</jent>
+<jent id="4" pid="1" type="method" span="102:5:109:5">net.sf.jabref.imports.HTMLConverter.readTag(String,StringBuffer,int)</jent>
+<jtok eid="0" type="block_comment" span="10:1:16:4">/**
+ * Created by IntelliJ IDEA.
+ * User: alver
+ * Date: Mar 26, 2006
+ * Time: 8:05:08 PM
+ * To change this template use File | Settings | File Templates.
+ */</jtok>
+<jtok eid="1" type="class_name" span="17:14:17:27">HTMLConverter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="17:39:17:54">LayoutFormatter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="18:10:18:17">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="18:18:18:24">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="18:26:18:32">String</jtok>
+<jtok eid="1" type="field_name" span="18:34:18:48">escapedSymbols</jtok>
+<jtok eid="1" type="constructor_call" span="18:55:18:62">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="18:63:18:69">String</jtok>
+<jtok eid="1" type="constructor_call" span="18:71:18:77">String</jtok>
+<jtok eid="2" type="method_name" span="20:9:20:22">HTMLConverter</jtok>
+<jtok eid="2" type="primary_name_ref" span="22:3:22:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="22:18:22:21">put</jtok>
+<jtok eid="2" type="string_literal" span="22:22:22:31">"&amp;ldquo;"</jtok>
+<jtok eid="2" type="string_literal" span="22:33:22:37">"``"</jtok>
+<jtok eid="2" type="primary_name_ref" span="23:3:23:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="23:18:23:21">put</jtok>
+<jtok eid="2" type="string_literal" span="23:22:23:31">"&amp;rdquo;"</jtok>
+<jtok eid="2" type="string_literal" span="23:33:23:37">"''"</jtok>
+<jtok eid="2" type="primary_name_ref" span="24:3:24:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="24:18:24:21">put</jtok>
+<jtok eid="2" type="string_literal" span="24:22:24:31">"&amp;lsquo;"</jtok>
+<jtok eid="2" type="string_literal" span="24:33:24:37">"``"</jtok>
+<jtok eid="2" type="primary_name_ref" span="25:3:25:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="25:18:25:21">put</jtok>
+<jtok eid="2" type="string_literal" span="25:22:25:31">"&amp;rsquo;"</jtok>
+<jtok eid="2" type="string_literal" span="25:33:25:37">"''"</jtok>
+<jtok eid="2" type="primary_name_ref" span="26:3:26:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="26:18:26:21">put</jtok>
+<jtok eid="2" type="string_literal" span="26:22:26:30">"&amp;nbsp;"</jtok>
+<jtok eid="2" type="string_literal" span="26:32:26:35">" "</jtok>
+<jtok eid="2" type="primary_name_ref" span="27:3:27:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="27:18:27:21">put</jtok>
+<jtok eid="2" type="string_literal" span="27:22:27:30">"&amp;quot;"</jtok>
+<jtok eid="2" type="string_literal" span="27:32:27:36">"\""</jtok>
+<jtok eid="2" type="primary_name_ref" span="28:3:28:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="28:18:28:21">put</jtok>
+<jtok eid="2" type="string_literal" span="28:22:28:29">"&amp;amp;"</jtok>
+<jtok eid="2" type="string_literal" span="28:31:28:34">"&amp;"</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:3:29:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="29:18:29:21">put</jtok>
+<jtok eid="2" type="string_literal" span="29:22:29:28">"&amp;lt;"</jtok>
+<jtok eid="2" type="string_literal" span="29:30:29:33">"&lt;"</jtok>
+<jtok eid="2" type="primary_name_ref" span="30:3:30:17">escapedSymbols</jtok>
+<jtok eid="2" type="method_call" span="30:18:30:21">put</jtok>
+<jtok eid="2" type="string_literal" span="30:22:30:28">"&amp;gt;"</jtok>
+<jtok eid="2" type="string_literal" span="30:30:30:33">"&gt;"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="32:12:32:18">String</jtok>
+<jtok eid="3" type="method_name" span="32:19:32:25">format</jtok>
+<jtok eid="3" type="parameter_type" span="32:26:32:32">String</jtok>
+<jtok eid="3" type="parameter_name" span="32:33:32:37">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="33:13:33:17">text</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="35:9:35:21">StringBuffer</jtok>
+<jtok eid="3" type="local_variable_name" span="35:22:35:24">sb</jtok>
+<jtok eid="3" type="constructor_call" span="35:31:35:43">StringBuffer</jtok>
+<jtok eid="3" type="local_variable_name" span="36:18:36:19">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="36:23:36:24">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="36:25:36:29">text</jtok>
+<jtok eid="3" type="method_call" span="36:30:36:36">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="36:40:36:41">i</jtok>
+<jtok eid="3" type="local_variable_name" span="38:17:38:18">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="38:21:38:25">text</jtok>
+<jtok eid="3" type="method_call" span="38:26:38:32">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="38:33:38:34">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="40:17:40:18">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:17:41:18">i</jtok>
+<jtok eid="3" type="method_call" span="41:21:41:28">readTag</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:29:41:33">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:35:41:37">sb</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:39:41:40">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="43:17:43:19">sb</jtok>
+<jtok eid="3" type="method_call" span="43:20:43:26">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="43:33:43:34">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:9:46:13">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:16:46:18">sb</jtok>
+<jtok eid="3" type="method_call" span="46:19:46:27">toString</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="47:9:47:12">Set</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="47:13:47:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="47:21:47:29">patterns</jtok>
+<jtok eid="3" type="primary_name_ref" span="47:32:47:46">escapedSymbols</jtok>
+<jtok eid="3" type="method_call" span="47:47:47:53">keySet</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:14:48:20">String</jtok>
+<jtok eid="3" type="local_variable_name" span="48:21:48:28">pattern</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:30:48:38">patterns</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:10:49:14">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:17:49:21">text</jtok>
+<jtok eid="3" type="method_call" span="49:22:49:32">replaceAll</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:33:49:40">pattern</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:42:49:56">escapedSymbols</jtok>
+<jtok eid="3" type="method_call" span="49:57:49:60">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:61:49:68">pattern</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="52:9:52:16">Pattern</jtok>
+<jtok eid="3" type="local_variable_name" span="52:17:52:31">escapedPattern</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:34:52:41">Pattern</jtok>
+<jtok eid="3" type="method_call" span="52:42:52:49">compile</jtok>
+<jtok eid="3" type="string_literal" span="52:50:52:65">"&amp;#([x]*\\d+);"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="53:9:53:16">Matcher</jtok>
+<jtok eid="3" type="local_variable_name" span="53:17:53:18">m</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:21:53:35">escapedPattern</jtok>
+<jtok eid="3" type="method_call" span="53:36:53:43">matcher</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:44:53:48">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:16:54:17">m</jtok>
+<jtok eid="3" type="method_call" span="54:18:54:22">find</jtok>
+<jtok eid="3" type="local_variable_name" span="55:14:55:17">num</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:20:55:27">Integer</jtok>
+<jtok eid="3" type="method_call" span="55:28:55:34">decode</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:35:55:36">m</jtok>
+<jtok eid="3" type="method_call" span="55:37:55:42">group</jtok>
+<jtok eid="3" type="method_call" span="55:46:55:53">replace</jtok>
+<jtok eid="3" type="string_literal" span="55:54:55:57">"x"</jtok>
+<jtok eid="3" type="string_literal" span="55:59:55:62">"#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:18:56:21">num</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:11:58:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:18:58:22">text</jtok>
+<jtok eid="3" type="method_call" span="58:23:58:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="58:34:58:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:41:58:42">m</jtok>
+<jtok eid="3" type="method_call" span="58:43:58:48">group</jtok>
+<jtok eid="3" type="string_literal" span="58:54:58:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="58:59:58:62">"%"</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:11:61:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:18:61:22">text</jtok>
+<jtok eid="3" type="method_call" span="61:23:61:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="61:34:61:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:41:61:42">m</jtok>
+<jtok eid="3" type="method_call" span="61:43:61:48">group</jtok>
+<jtok eid="3" type="string_literal" span="61:54:61:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="61:59:61:62">"&amp;"</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:11:64:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:18:64:22">text</jtok>
+<jtok eid="3" type="method_call" span="64:23:64:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="64:34:64:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:41:64:42">m</jtok>
+<jtok eid="3" type="method_call" span="64:43:64:48">group</jtok>
+<jtok eid="3" type="string_literal" span="64:54:64:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="64:59:64:70">"$\\delta$"</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:11:67:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:18:67:22">text</jtok>
+<jtok eid="3" type="method_call" span="67:23:67:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="67:34:67:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:41:67:42">m</jtok>
+<jtok eid="3" type="method_call" span="67:43:67:48">group</jtok>
+<jtok eid="3" type="string_literal" span="67:54:67:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="67:59:67:67">"$\\mu$"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:11:70:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:18:70:22">text</jtok>
+<jtok eid="3" type="method_call" span="70:23:70:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="70:34:70:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:41:70:42">m</jtok>
+<jtok eid="3" type="method_call" span="70:43:70:48">group</jtok>
+<jtok eid="3" type="string_literal" span="70:54:70:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="70:59:70:62">"-"</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:11:73:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:18:73:22">text</jtok>
+<jtok eid="3" type="method_call" span="73:23:73:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="73:34:73:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:41:73:42">m</jtok>
+<jtok eid="3" type="method_call" span="73:43:73:48">group</jtok>
+<jtok eid="3" type="string_literal" span="73:54:73:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="73:59:73:63">"--"</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:11:76:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:18:76:22">text</jtok>
+<jtok eid="3" type="method_call" span="76:23:76:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="76:34:76:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:41:76:42">m</jtok>
+<jtok eid="3" type="method_call" span="76:43:76:48">group</jtok>
+<jtok eid="3" type="string_literal" span="76:54:76:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="76:59:76:64">"---"</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:11:79:15">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:18:79:22">text</jtok>
+<jtok eid="3" type="method_call" span="79:23:79:33">replaceAll</jtok>
+<jtok eid="3" type="string_literal" span="79:34:79:38">"&amp;#"</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:41:79:42">m</jtok>
+<jtok eid="3" type="method_call" span="79:43:79:48">group</jtok>
+<jtok eid="3" type="string_literal" span="79:54:79:57">";"</jtok>
+<jtok eid="3" type="string_literal" span="79:59:79:62">"'"</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:11:82:17">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="82:18:82:21">err</jtok>
+<jtok eid="3" type="method_call" span="82:22:82:29">println</jtok>
+<jtok eid="3" type="string_literal" span="82:30:82:64">"HTML escaped char not converted "</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:67:82:68">m</jtok>
+<jtok eid="3" type="method_call" span="82:69:82:74">group</jtok>
+<jtok eid="3" type="string_literal" span="82:80:82:84">": "</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:87:82:94">Integer</jtok>
+<jtok eid="3" type="method_call" span="82:95:82:103">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:104:82:107">num</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:16:86:20">text</jtok>
+<jtok eid="3" type="method_call" span="86:21:86:25">trim</jtok>
+<jtok eid="1" type="field_name" span="89:23:89:37">MAX_TAG_LENGTH</jtok>
+<jtok eid="1" type="block_comment" span="90:5:100:8">/*private final int MAX_CHAR_LENGTH = 10;
+
+    private int readHtmlChar(String text, StringBuffer sb, int position) {
+        // Have just read the &lt; character that starts the tag.
+        int index = text.indexOf(';', position);
+        if ((index &gt; position) &amp;&amp; (index-position &lt; MAX_CHAR_LENGTH)) {
+        	//String code = text.substring(position, index);
+            //System.out.println("Removed code: "+text.substring(position, index));
+            return index; // Just skip the tag.
+        } else return position; // Don't do anything.
+    }*/</jtok>
+<jtok eid="4" type="method_name" span="102:17:102:24">readTag</jtok>
+<jtok eid="4" type="parameter_type" span="102:25:102:31">String</jtok>
+<jtok eid="4" type="parameter_name" span="102:32:102:36">text</jtok>
+<jtok eid="4" type="parameter_type" span="102:38:102:50">StringBuffer</jtok>
+<jtok eid="4" type="parameter_name" span="102:51:102:53">sb</jtok>
+<jtok eid="4" type="parameter_name" span="102:59:102:67">position</jtok>
+<jtok eid="4" type="line_comment" span="103:9:103:63">// Have just read the &lt; character that starts the tag.</jtok>
+<jtok eid="4" type="local_variable_name" span="104:13:104:18">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:21:104:25">text</jtok>
+<jtok eid="4" type="method_call" span="104:26:104:33">indexOf</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:39:104:47">position</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:14:105:19">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:22:105:30">position</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:36:105:41">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:42:105:50">position</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:53:105:67">MAX_TAG_LENGTH</jtok>
+<jtok eid="4" type="line_comment" span="106:13:106:83">//System.out.println("Removed tag: "+text.substring(position, index));</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:20:107:25">index</jtok>
+<jtok eid="4" type="line_comment" span="107:27:107:48">// Just skip the tag.</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:23:108:31">position</jtok>
+<jtok eid="4" type="line_comment" span="108:33:108:54">// Don't do anything.</jtok>
+</jdoc>

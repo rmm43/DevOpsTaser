@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.plugin.PluginCore" jls="java5">
+<jent id="0" type="file" span="0:0:190:1">Source/jabref/src/java/net/sf/jabref/plugin/PluginCore.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:190:1">net.sf.jabref.plugin.PluginCore</jent>
+<jent id="2" pid="1" type="method" span="44:5:66:5">net.sf.jabref.plugin.PluginCore.getLocationInsideJar(String,String)</jent>
+<jent id="3" pid="1" type="method" span="68:5:181:5">net.sf.jabref.plugin.PluginCore.initialize()</jent>
+<jent id="4" pid="1" type="method" span="183:5:189:5">net.sf.jabref.plugin.PluginCore.getManager()</jent>
+<jtok eid="0" type="block_comment" span="24:1:37:4">/**
+ * Helper class for the plug-in system. Helps to retrieve the singleton instance
+ * of the PluginManager, which then can be used to access all the plug-ins
+ * registered.
+ * 
+ * For an example how this is done see
+ * {@link net.sf.jabref.export.layout.LayoutEntry#getLayoutFormatterFromPlugins(String)}
+ * 
+ * The PluginCore relies on the generated class
+ * {@link net.sf.jabref.plugin.core.JabRefPlugin} in the sub-package "core" for
+ * finding the plugins and their extension.
+ * 
+ * @author Christopher Oezbek
+ */</jtok>
+<jtok eid="1" type="class_name" span="38:14:38:24">PluginCore</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:12:40:25">PluginManager</jtok>
+<jtok eid="1" type="field_name" span="40:26:40:35">singleton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:12:42:16">File</jtok>
+<jtok eid="1" type="field_name" span="42:17:42:30">userPluginDir</jtok>
+<jtok eid="1" type="constructor_call" span="42:37:42:41">File</jtok>
+<jtok eid="1" type="primary_name_ref" span="42:42:42:48">System</jtok>
+<jtok eid="1" type="method_call" span="42:49:42:60">getProperty</jtok>
+<jtok eid="1" type="string_literal" span="42:61:42:72">"user.home"</jtok>
+<jtok eid="1" type="string_literal" span="42:74:42:92">"/.jabref/plugins"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="44:12:44:26">PluginLocation</jtok>
+<jtok eid="2" type="method_name" span="44:27:44:47">getLocationInsideJar</jtok>
+<jtok eid="2" type="parameter_type" span="44:48:44:54">String</jtok>
+<jtok eid="2" type="parameter_name" span="44:55:44:62">context</jtok>
+<jtok eid="2" type="parameter_type" span="44:64:44:70">String</jtok>
+<jtok eid="2" type="parameter_name" span="44:71:44:79">manifest</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:9:45:12">URL</jtok>
+<jtok eid="2" type="local_variable_name" span="45:13:45:16">jar</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:19:45:29">PluginCore</jtok>
+<jtok eid="2" type="method_call" span="46:14:46:25">getResource</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:26:46:30">Util</jtok>
+<jtok eid="2" type="method_call" span="46:31:46:39">joinPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:40:46:47">context</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:49:46:57">manifest</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:13:48:16">jar</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="51:9:51:15">String</jtok>
+<jtok eid="2" type="local_variable_name" span="51:16:51:24">protocol</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:27:51:30">jar</jtok>
+<jtok eid="2" type="method_call" span="51:31:51:42">getProtocol</jtok>
+<jtok eid="2" type="method_call" span="51:45:51:56">toLowerCase</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:17:53:25">protocol</jtok>
+<jtok eid="2" type="method_call" span="53:26:53:36">startsWith</jtok>
+<jtok eid="2" type="string_literal" span="53:37:53:42">"jar"</jtok>
+<jtok eid="2" type="constructor_call" span="54:28:54:50">StandardPluginLocation</jtok>
+<jtok eid="2" type="constructor_call" span="54:55:54:58">URL</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:59:54:62">jar</jtok>
+<jtok eid="2" type="method_call" span="54:63:54:77">toExternalForm</jtok>
+<jtok eid="2" type="method_call" span="55:22:55:34">replaceFirst</jtok>
+<jtok eid="2" type="string_literal" span="55:35:55:44">"!(.*?)$"</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:46:55:50">Util</jtok>
+<jtok eid="2" type="method_call" span="55:51:55:59">joinPath</jtok>
+<jtok eid="2" type="string_literal" span="55:60:55:63">"!"</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:65:55:72">context</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:77:55:80">jar</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:24:56:32">protocol</jtok>
+<jtok eid="2" type="method_call" span="56:33:56:43">startsWith</jtok>
+<jtok eid="2" type="string_literal" span="56:44:56:50">"file"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:17:57:21">File</jtok>
+<jtok eid="2" type="local_variable_name" span="57:22:57:23">f</jtok>
+<jtok eid="2" type="constructor_call" span="57:30:57:34">File</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:35:57:38">jar</jtok>
+<jtok eid="2" type="method_call" span="57:39:57:44">toURI</jtok>
+<jtok eid="2" type="constructor_call" span="58:28:58:50">StandardPluginLocation</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:51:58:52">f</jtok>
+<jtok eid="2" type="method_call" span="58:53:58:66">getParentFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:70:58:78">manifest</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="60:18:60:36">URISyntaxException</jtok>
+<jtok eid="2" type="local_variable_name" span="60:37:60:38">e</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="62:18:62:39">MalformedURLException</jtok>
+<jtok eid="2" type="local_variable_name" span="62:40:62:41">e</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="68:12:68:25">PluginManager</jtok>
+<jtok eid="3" type="method_name" span="68:26:68:36">initialize</jtok>
+<jtok eid="3" type="line_comment" span="69:9:69:50">// We do not want info messages from JPF.</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:9:70:15">Logger</jtok>
+<jtok eid="3" type="method_call" span="70:16:70:25">getLogger</jtok>
+<jtok eid="3" type="string_literal" span="70:26:70:43">"org.java.plugin"</jtok>
+<jtok eid="3" type="method_call" span="70:45:70:53">setLevel</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:54:70:59">Level</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:60:70:67">WARNING</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="72:9:72:15">Logger</jtok>
+<jtok eid="3" type="local_variable_name" span="72:16:72:19">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:22:72:28">Logger</jtok>
+<jtok eid="3" type="method_call" span="72:29:72:38">getLogger</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:39:72:49">PluginCore</jtok>
+<jtok eid="3" type="method_call" span="72:56:72:63">getName</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:9:74:22">ObjectFactory</jtok>
+<jtok eid="3" type="local_variable_name" span="74:23:74:36">objectFactory</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:39:74:52">ObjectFactory</jtok>
+<jtok eid="3" type="method_call" span="74:53:74:64">newInstance</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="76:9:76:22">PluginManager</jtok>
+<jtok eid="3" type="local_variable_name" span="76:23:76:29">result</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:32:76:45">objectFactory</jtok>
+<jtok eid="3" type="method_call" span="76:46:76:59">createManager</jtok>
+<jtok eid="3" type="block_comment" span="79:9:81:12">/*
+         * Now find plug-ins! Check directories and jar.
+         */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="83:13:83:36">DefaultPluginsCollector</jtok>
+<jtok eid="3" type="local_variable_name" span="83:37:83:46">collector</jtok>
+<jtok eid="3" type="constructor_call" span="83:53:83:76">DefaultPluginsCollector</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="84:13:84:31">ExtendedProperties</jtok>
+<jtok eid="3" type="local_variable_name" span="84:32:84:34">ep</jtok>
+<jtok eid="3" type="constructor_call" span="84:41:84:59">ExtendedProperties</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="87:13:87:17">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="87:18:87:22">File</jtok>
+<jtok eid="3" type="local_variable_name" span="87:24:87:43">directoriesToSearch</jtok>
+<jtok eid="3" type="constructor_call" span="87:50:87:60">LinkedList</jtok>
+<jtok eid="3" type="constructor_call" span="87:61:87:65">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:13:88:32">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="88:33:88:36">add</jtok>
+<jtok eid="3" type="constructor_call" span="88:41:88:45">File</jtok>
+<jtok eid="3" type="string_literal" span="88:46:88:61">"./src/plugins"</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:13:89:32">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="89:33:89:36">add</jtok>
+<jtok eid="3" type="constructor_call" span="89:41:89:45">File</jtok>
+<jtok eid="3" type="string_literal" span="89:46:89:57">"./plugins"</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:13:90:32">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="90:33:90:36">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:37:90:50">userPluginDir</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="93:17:93:21">File</jtok>
+<jtok eid="3" type="local_variable_name" span="93:22:93:28">parent</jtok>
+<jtok eid="3" type="constructor_call" span="93:35:93:39">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:40:93:50">PluginCore</jtok>
+<jtok eid="3" type="method_call" span="93:57:93:76">getProtectionDomain</jtok>
+<jtok eid="3" type="method_call" span="94:22:94:35">getCodeSource</jtok>
+<jtok eid="3" type="method_call" span="94:38:94:49">getLocation</jtok>
+<jtok eid="3" type="method_call" span="94:52:94:57">toURI</jtok>
+<jtok eid="3" type="method_call" span="94:61:94:74">getParentFile</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:22:96:28">parent</jtok>
+<jtok eid="3" type="method_call" span="96:29:96:45">getCanonicalFile</jtok>
+<jtok eid="3" type="method_call" span="96:48:96:54">equals</jtok>
+<jtok eid="3" type="constructor_call" span="97:25:97:29">File</jtok>
+<jtok eid="3" type="string_literal" span="97:30:97:33">"."</jtok>
+<jtok eid="3" type="method_call" span="97:35:97:51">getCanonicalFile</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:21:98:40">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="98:41:98:44">add</jtok>
+<jtok eid="3" type="constructor_call" span="98:49:98:53">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:54:98:60">parent</jtok>
+<jtok eid="3" type="string_literal" span="98:62:98:76">"/src/plugins"</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:21:99:40">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="99:41:99:44">add</jtok>
+<jtok eid="3" type="constructor_call" span="99:49:99:53">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:54:99:60">parent</jtok>
+<jtok eid="3" type="string_literal" span="99:62:99:72">"/plugins"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="101:22:101:31">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="101:32:101:33">e</jtok>
+<jtok eid="3" type="line_comment" span="102:17:102:74">// no problem, we just use paths relative to current dir.</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="105:13:105:26">StringBuilder</jtok>
+<jtok eid="3" type="local_variable_name" span="105:27:105:29">sb</jtok>
+<jtok eid="3" type="constructor_call" span="105:36:105:49">StringBuilder</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="106:18:106:22">File</jtok>
+<jtok eid="3" type="local_variable_name" span="106:23:106:32">directory</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:35:106:54">directoriesToSearch</jtok>
+<jtok eid="3" type="line_comment" span="107:17:107:77">// We don't want warnings if the default plug-in paths don't</jtok>
+<jtok eid="3" type="line_comment" span="108:17:108:43">// exist, we do that below</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:21:109:30">directory</jtok>
+<jtok eid="3" type="method_call" span="109:31:109:37">exists</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:25:110:27">sb</jtok>
+<jtok eid="3" type="method_call" span="110:28:110:34">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:25:111:27">sb</jtok>
+<jtok eid="3" type="method_call" span="111:28:111:34">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:21:112:23">sb</jtok>
+<jtok eid="3" type="method_call" span="112:24:112:30">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:31:112:40">directory</jtok>
+<jtok eid="3" type="method_call" span="112:41:112:48">getPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:13:116:15">ep</jtok>
+<jtok eid="3" type="method_call" span="116:16:116:27">setProperty</jtok>
+<jtok eid="3" type="string_literal" span="116:28:116:70">"org.java.plugin.boot.pluginsRepositories"</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:72:116:74">sb</jtok>
+<jtok eid="3" type="method_call" span="117:18:117:26">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:13:118:22">collector</jtok>
+<jtok eid="3" type="method_call" span="118:23:118:32">configure</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:33:118:35">ep</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="120:13:120:23">Collection</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="120:24:120:38">PluginLocation</jtok>
+<jtok eid="3" type="local_variable_name" span="120:40:120:47">plugins</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:50:120:59">collector</jtok>
+<jtok eid="3" type="method_call" span="121:18:121:40">collectPluginLocations</jtok>
+<jtok eid="3" type="block_comment" span="123:13:126:16">/**
+             * I know the following is really, really ugly, but I have found no
+             * way to automatically discover multiple plugin.xmls in JARs
+             */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="127:13:127:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="127:22:127:42">jarLocationsToSearch</jtok>
+<jtok eid="3" type="constructor_call" span="127:49:127:55">String</jtok>
+<jtok eid="3" type="string_literal" span="128:17:128:47">"/plugins/net.sf.jabref.core/"</jtok>
+<jtok eid="3" type="string_literal" span="129:17:129:54">"/plugins/net.sf.jabref.export.misq/"</jtok>
+<jtok eid="3" type="line_comment" span="131:13:131:36">// Collection locations</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="132:18:132:24">String</jtok>
+<jtok eid="3" type="local_variable_name" span="132:25:132:36">jarLocation</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:39:132:59">jarLocationsToSearch</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="133:17:133:31">PluginLocation</jtok>
+<jtok eid="3" type="local_variable_name" span="133:32:133:40">location</jtok>
+<jtok eid="3" type="method_call" span="133:43:133:63">getLocationInsideJar</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:64:133:75">jarLocation</jtok>
+<jtok eid="3" type="string_literal" span="134:21:134:33">"plugin.xml"</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:21:135:29">location</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:21:136:28">plugins</jtok>
+<jtok eid="3" type="method_call" span="136:29:136:32">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:33:136:41">location</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:17:139:24">plugins</jtok>
+<jtok eid="3" type="method_call" span="139:25:139:29">size</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:17:140:20">log</jtok>
+<jtok eid="3" type="method_call" span="141:22:141:29">warning</jtok>
+<jtok eid="3" type="primary_name_ref" span="141:30:141:37">Globals</jtok>
+<jtok eid="3" type="method_call" span="142:26:142:30">lang</jtok>
+<jtok eid="3" type="string_literal" span="142:31:142:80">"No plugins were found in the following folders:"</jtok>
+<jtok eid="3" type="string_literal" span="143:25:143:31">"\n  "</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:25:144:29">Util</jtok>
+<jtok eid="3" type="method_call" span="144:30:144:34">join</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:35:144:54">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="145:30:145:37">toArray</jtok>
+<jtok eid="3" type="constructor_call" span="145:42:145:48">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:49:145:68">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="145:69:145:73">size</jtok>
+<jtok eid="3" type="string_literal" span="146:29:146:35">"\n  "</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:40:146:59">directoriesToSearch</jtok>
+<jtok eid="3" type="method_call" span="146:60:146:64">size</jtok>
+<jtok eid="3" type="string_literal" span="147:25:147:29">"\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="148:25:148:32">Globals</jtok>
+<jtok eid="3" type="method_call" span="148:33:148:37">lang</jtok>
+<jtok eid="3" type="string_literal" span="148:38:148:66">"and inside the JabRef-jar:"</jtok>
+<jtok eid="3" type="string_literal" span="149:25:149:31">"\n  "</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:25:150:29">Util</jtok>
+<jtok eid="3" type="method_call" span="150:30:150:34">join</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:35:150:55">jarLocationsToSearch</jtok>
+<jtok eid="3" type="string_literal" span="150:57:150:63">"\n  "</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:29:151:49">jarLocationsToSearch</jtok>
+<jtok eid="3" type="qualified_name_ref" span="151:50:151:56">length</jtok>
+<jtok eid="3" type="string_literal" span="152:25:152:29">"\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="153:25:153:32">Globals</jtok>
+<jtok eid="3" type="method_call" span="154:30:154:34">lang</jtok>
+<jtok eid="3" type="string_literal" span="154:35:154:95">"At least the plug-in 'net.sf.jabref.core' should be there."</jtok>
+<jtok eid="3" type="primary_name_ref" span="156:17:156:23">result</jtok>
+<jtok eid="3" type="method_call" span="156:24:156:38">publishPlugins</jtok>
+<jtok eid="3" type="primary_name_ref" span="156:39:156:46">plugins</jtok>
+<jtok eid="3" type="method_call" span="156:47:156:54">toArray</jtok>
+<jtok eid="3" type="constructor_call" span="156:59:156:73">PluginLocation</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="158:17:158:27">Collection</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="158:28:158:44">PluginDescriptor</jtok>
+<jtok eid="3" type="local_variable_name" span="158:46:158:51">descs</jtok>
+<jtok eid="3" type="primary_name_ref" span="158:54:158:60">result</jtok>
+<jtok eid="3" type="method_call" span="158:61:158:72">getRegistry</jtok>
+<jtok eid="3" type="method_call" span="159:22:159:42">getPluginDescriptors</jtok>
+<jtok eid="3" type="primary_name_ref" span="161:17:161:19">sb</jtok>
+<jtok eid="3" type="constructor_call" span="161:26:161:39">StringBuilder</jtok>
+<jtok eid="3" type="primary_name_ref" span="162:17:162:19">sb</jtok>
+<jtok eid="3" type="method_call" span="162:20:162:26">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="162:27:162:34">Globals</jtok>
+<jtok eid="3" type="method_call" span="162:35:162:39">lang</jtok>
+<jtok eid="3" type="string_literal" span="162:40:162:60">"Found %0 plugin(s)"</jtok>
+<jtok eid="3" type="primary_name_ref" span="162:62:162:68">String</jtok>
+<jtok eid="3" type="method_call" span="163:22:163:29">valueOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="163:30:163:35">descs</jtok>
+<jtok eid="3" type="method_call" span="163:36:163:40">size</jtok>
+<jtok eid="3" type="string_literal" span="164:21:164:26">":\n"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="166:22:166:38">PluginDescriptor</jtok>
+<jtok eid="3" type="local_variable_name" span="166:39:166:40">p</jtok>
+<jtok eid="3" type="primary_name_ref" span="166:43:166:49">result</jtok>
+<jtok eid="3" type="method_call" span="166:50:166:61">getRegistry</jtok>
+<jtok eid="3" type="method_call" span="167:22:167:42">getPluginDescriptors</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:21:168:23">sb</jtok>
+<jtok eid="3" type="method_call" span="168:24:168:30">append</jtok>
+<jtok eid="3" type="string_literal" span="168:31:168:37">"  - "</jtok>
+<jtok eid="3" type="method_call" span="168:39:168:45">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:46:168:47">p</jtok>
+<jtok eid="3" type="method_call" span="168:48:168:53">getId</jtok>
+<jtok eid="3" type="method_call" span="168:57:168:63">append</jtok>
+<jtok eid="3" type="string_literal" span="168:64:168:68">" ("</jtok>
+<jtok eid="3" type="method_call" span="168:70:168:76">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="169:25:169:26">p</jtok>
+<jtok eid="3" type="method_call" span="169:27:169:38">getLocation</jtok>
+<jtok eid="3" type="method_call" span="169:42:169:48">append</jtok>
+<jtok eid="3" type="string_literal" span="169:49:169:54">")\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:17:171:20">log</jtok>
+<jtok eid="3" type="method_call" span="171:21:171:25">info</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:26:171:28">sb</jtok>
+<jtok eid="3" type="method_call" span="171:29:171:37">toString</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="174:18:174:27">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="174:28:174:29">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="175:13:175:16">log</jtok>
+<jtok eid="3" type="method_call" span="176:18:176:24">severe</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:25:176:32">Globals</jtok>
+<jtok eid="3" type="method_call" span="177:22:177:26">lang</jtok>
+<jtok eid="3" type="string_literal" span="177:27:177:119">"Error in starting plug-in system. Starting without, but some functionality may be missing."</jtok>
+<jtok eid="3" type="string_literal" span="178:21:178:25">"\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:28:178:29">e</jtok>
+<jtok eid="3" type="method_call" span="178:30:178:49">getLocalizedMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="180:16:180:22">result</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="183:19:183:32">PluginManager</jtok>
+<jtok eid="4" type="method_name" span="183:33:183:43">getManager</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:13:184:22">singleton</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:13:185:22">singleton</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:25:185:35">PluginCore</jtok>
+<jtok eid="4" type="method_call" span="185:36:185:46">initialize</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:16:188:25">singleton</jtok>
+</jdoc>

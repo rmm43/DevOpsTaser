@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.SPIRESFetcher" jls="java5">
+<jent id="0" type="file" span="0:0:220:1">Source/jabref/src/java/net/sf/jabref/imports/SPIRESFetcher.java</jent>
+<jent id="1" pid="0" type="class" span="32:1:220:1">net.sf.jabref.imports.SPIRESFetcher</jent>
+<jent id="2" pid="1" type="method" span="36:2:37:2">net.sf.jabref.imports.SPIRESFetcher.SPIRESFetcher()</jent>
+<jent id="3" pid="1" type="method" span="47:2:61:2">net.sf.jabref.imports.SPIRESFetcher.constructUrl(String)</jent>
+<jent id="4" pid="1" type="method" span="69:2:85:2">net.sf.jabref.imports.SPIRESFetcher.constructUrlFromSlaccitation(String)</jent>
+<jent id="5" pid="1" type="method" span="93:2:106:2">net.sf.jabref.imports.SPIRESFetcher.constructUrlFromEprint(String)</jent>
+<jent id="6" pid="1" type="method" span="116:2:142:2">net.sf.jabref.imports.SPIRESFetcher.importSpiresEntries(String,OutputPrinter)</jent>
+<jent id="7" pid="1" type="method" span="159:2:161:2">net.sf.jabref.imports.SPIRESFetcher.getHelpPage()</jent>
+<jent id="8" pid="1" type="method" span="163:2:165:2">net.sf.jabref.imports.SPIRESFetcher.getIcon()</jent>
+<jent id="9" pid="1" type="method" span="167:2:169:2">net.sf.jabref.imports.SPIRESFetcher.getKeyName()</jent>
+<jent id="10" pid="1" type="method" span="171:2:174:2">net.sf.jabref.imports.SPIRESFetcher.getOptionsPanel()</jent>
+<jent id="11" pid="1" type="method" span="176:2:178:2">net.sf.jabref.imports.SPIRESFetcher.getTitle()</jent>
+<jent id="12" pid="1" type="method" span="183:2:184:2">net.sf.jabref.imports.SPIRESFetcher.cancelled()</jent>
+<jent id="13" pid="1" type="method" span="186:2:187:2">net.sf.jabref.imports.SPIRESFetcher.done(int)</jent>
+<jent id="14" pid="1" type="method" span="189:2:190:2">net.sf.jabref.imports.SPIRESFetcher.stopFetching()</jent>
+<jent id="15" pid="1" type="method" span="195:2:219:2">net.sf.jabref.imports.SPIRESFetcher.processQuery(String,ImportInspector,OutputPrinter)</jent>
+<jtok eid="0" type="block_comment" span="20:1:31:4">/**
+ * 
+ * This class allows to access the Slac SPIRES database.
+ * 
+ * It can either be a GeneralFetcher to pose requests to the database or fetch
+ * individual entries.
+ * 
+ * @author Fedor Bezrukov
+ * 
+ * @version $Id$
+ * 
+ */</jtok>
+<jtok eid="1" type="class_name" span="32:14:32:27">SPIRESFetcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:39:32:51">EntryFetcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:17:34:23">String</jtok>
+<jtok eid="1" type="field_name" span="34:24:34:34">spiresHost</jtok>
+<jtok eid="1" type="string_literal" span="34:37:34:67">"www-spires.slac.stanford.edu"</jtok>
+<jtok eid="2" type="method_name" span="36:9:36:22">SPIRESFetcher</jtok>
+<jtok eid="1" type="block_comment" span="39:2:46:5">/**
+	 * Construct the query URL
+	 * 
+	 * @param key
+	 *            The key of the OAI2 entry that the url should poitn to.
+	 * 
+	 * @return a String denoting the query URL
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="47:9:47:15">String</jtok>
+<jtok eid="3" type="method_name" span="47:16:47:28">constructUrl</jtok>
+<jtok eid="3" type="parameter_type" span="47:29:47:35">String</jtok>
+<jtok eid="3" type="parameter_name" span="47:36:47:39">key</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:3:48:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="48:10:48:20">identifier</jtok>
+<jtok eid="3" type="string_literal" span="48:23:48:25">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:4:50:14">identifier</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:17:50:27">URLEncoder</jtok>
+<jtok eid="3" type="method_call" span="50:28:50:34">encode</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:35:50:38">key</jtok>
+<jtok eid="3" type="string_literal" span="50:40:50:47">"UTF-8"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="51:12:51:40">UnsupportedEncodingException</jtok>
+<jtok eid="3" type="local_variable_name" span="51:41:51:42">e</jtok>
+<jtok eid="3" type="string_literal" span="52:11:52:13">""</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="54:3:54:15">StringBuffer</jtok>
+<jtok eid="3" type="local_variable_name" span="54:16:54:18">sb</jtok>
+<jtok eid="3" type="constructor_call" span="54:25:54:37">StringBuffer</jtok>
+<jtok eid="3" type="string_literal" span="54:38:54:47">"http://"</jtok>
+<jtok eid="3" type="method_call" span="54:49:54:55">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:56:54:66">spiresHost</jtok>
+<jtok eid="3" type="method_call" span="55:6:55:12">append</jtok>
+<jtok eid="3" type="string_literal" span="55:13:55:16">"/"</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:3:56:5">sb</jtok>
+<jtok eid="3" type="method_call" span="56:6:56:12">append</jtok>
+<jtok eid="3" type="string_literal" span="56:13:56:34">"spires/find/hep/www"</jtok>
+<jtok eid="3" type="method_call" span="56:36:56:42">append</jtok>
+<jtok eid="3" type="string_literal" span="56:43:56:46">"?"</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:3:57:5">sb</jtok>
+<jtok eid="3" type="method_call" span="57:6:57:12">append</jtok>
+<jtok eid="3" type="string_literal" span="57:13:57:27">"rawcmd=find+"</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:3:58:5">sb</jtok>
+<jtok eid="3" type="method_call" span="58:6:58:12">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:13:58:23">identifier</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:3:59:5">sb</jtok>
+<jtok eid="3" type="method_call" span="59:6:59:12">append</jtok>
+<jtok eid="3" type="string_literal" span="59:13:59:47">"&amp;FORMAT=WWWBRIEFBIBTEX&amp;SEQUENCE="</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:10:60:12">sb</jtok>
+<jtok eid="3" type="method_call" span="60:13:60:21">toString</jtok>
+<jtok eid="1" type="block_comment" span="63:2:68:5">/**
+	 * Constructs a SPIRES query url from slaccitation field
+	 * 
+	 * @param slaccitation
+	 * @return query string
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="69:16:69:22">String</jtok>
+<jtok eid="4" type="method_name" span="69:23:69:51">constructUrlFromSlaccitation</jtok>
+<jtok eid="4" type="parameter_type" span="69:52:69:58">String</jtok>
+<jtok eid="4" type="parameter_name" span="69:59:69:71">slaccitation</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="70:3:70:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="70:10:70:13">cmd</jtok>
+<jtok eid="4" type="string_literal" span="70:16:70:19">"j"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="71:3:71:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="71:10:71:13">key</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:16:71:28">slaccitation</jtok>
+<jtok eid="4" type="method_call" span="71:29:71:39">replaceAll</jtok>
+<jtok eid="4" type="string_literal" span="71:40:71:56">"^%%CITATION = "</jtok>
+<jtok eid="4" type="string_literal" span="71:58:71:60">""</jtok>
+<jtok eid="4" type="method_call" span="71:62:71:72">replaceAll</jtok>
+<jtok eid="4" type="string_literal" span="72:5:72:11">";%%$"</jtok>
+<jtok eid="4" type="string_literal" span="72:13:72:15">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:7:73:10">key</jtok>
+<jtok eid="4" type="method_call" span="73:11:73:18">matches</jtok>
+<jtok eid="4" type="string_literal" span="73:19:73:37">"^\\w*-\\w*[ /].*"</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:4:74:7">cmd</jtok>
+<jtok eid="4" type="string_literal" span="74:10:74:18">"eprint"</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:4:76:7">key</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:10:76:20">URLEncoder</jtok>
+<jtok eid="4" type="method_call" span="76:21:76:27">encode</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:28:76:31">key</jtok>
+<jtok eid="4" type="string_literal" span="76:33:76:40">"UTF-8"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="77:12:77:40">UnsupportedEncodingException</jtok>
+<jtok eid="4" type="local_variable_name" span="77:41:77:42">e</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="79:3:79:15">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="79:16:79:18">sb</jtok>
+<jtok eid="4" type="constructor_call" span="79:25:79:37">StringBuffer</jtok>
+<jtok eid="4" type="string_literal" span="79:38:79:47">"http://"</jtok>
+<jtok eid="4" type="method_call" span="79:49:79:55">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:56:79:66">spiresHost</jtok>
+<jtok eid="4" type="method_call" span="80:6:80:12">append</jtok>
+<jtok eid="4" type="string_literal" span="80:13:80:16">"/"</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:3:81:5">sb</jtok>
+<jtok eid="4" type="method_call" span="81:6:81:12">append</jtok>
+<jtok eid="4" type="string_literal" span="81:13:81:34">"spires/find/hep/www"</jtok>
+<jtok eid="4" type="method_call" span="81:36:81:42">append</jtok>
+<jtok eid="4" type="string_literal" span="81:43:81:46">"?"</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:3:82:5">sb</jtok>
+<jtok eid="4" type="method_call" span="82:6:82:12">append</jtok>
+<jtok eid="4" type="string_literal" span="82:13:82:27">"rawcmd=find+"</jtok>
+<jtok eid="4" type="method_call" span="82:29:82:35">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:36:82:39">cmd</jtok>
+<jtok eid="4" type="method_call" span="82:41:82:47">append</jtok>
+<jtok eid="4" type="string_literal" span="82:48:82:51">"+"</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:3:83:5">sb</jtok>
+<jtok eid="4" type="method_call" span="83:6:83:12">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:13:83:16">key</jtok>
+<jtok eid="4" type="primary_name_ref" span="84:10:84:12">sb</jtok>
+<jtok eid="4" type="method_call" span="84:13:84:21">toString</jtok>
+<jtok eid="1" type="block_comment" span="87:2:92:5">/**
+	 * Construct an SPIRES query url from eprint field
+	 * 
+	 * @param eprint
+	 * @return query string
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="93:16:93:22">String</jtok>
+<jtok eid="5" type="method_name" span="93:23:93:45">constructUrlFromEprint</jtok>
+<jtok eid="5" type="parameter_type" span="93:46:93:52">String</jtok>
+<jtok eid="5" type="parameter_name" span="93:53:93:59">eprint</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="94:3:94:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="94:10:94:13">key</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:16:94:22">eprint</jtok>
+<jtok eid="5" type="method_call" span="94:23:94:33">replaceAll</jtok>
+<jtok eid="5" type="string_literal" span="94:34:94:42">" [.*]$"</jtok>
+<jtok eid="5" type="string_literal" span="94:44:94:46">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:4:96:7">key</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:10:96:20">URLEncoder</jtok>
+<jtok eid="5" type="method_call" span="96:21:96:27">encode</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:28:96:31">key</jtok>
+<jtok eid="5" type="string_literal" span="96:33:96:40">"UTF-8"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="97:12:97:40">UnsupportedEncodingException</jtok>
+<jtok eid="5" type="local_variable_name" span="97:41:97:42">e</jtok>
+<jtok eid="5" type="string_literal" span="98:11:98:13">""</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="100:3:100:15">StringBuffer</jtok>
+<jtok eid="5" type="local_variable_name" span="100:16:100:18">sb</jtok>
+<jtok eid="5" type="constructor_call" span="100:25:100:37">StringBuffer</jtok>
+<jtok eid="5" type="string_literal" span="100:38:100:47">"http://"</jtok>
+<jtok eid="5" type="method_call" span="100:49:100:55">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:56:100:66">spiresHost</jtok>
+<jtok eid="5" type="method_call" span="101:6:101:12">append</jtok>
+<jtok eid="5" type="string_literal" span="101:13:101:16">"/"</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:3:102:5">sb</jtok>
+<jtok eid="5" type="method_call" span="102:6:102:12">append</jtok>
+<jtok eid="5" type="string_literal" span="102:13:102:34">"spires/find/hep/www"</jtok>
+<jtok eid="5" type="method_call" span="102:36:102:42">append</jtok>
+<jtok eid="5" type="string_literal" span="102:43:102:46">"?"</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:3:103:5">sb</jtok>
+<jtok eid="5" type="method_call" span="103:6:103:12">append</jtok>
+<jtok eid="5" type="string_literal" span="103:13:103:34">"rawcmd=find+eprint+"</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:3:104:5">sb</jtok>
+<jtok eid="5" type="method_call" span="104:6:104:12">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:13:104:16">key</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:10:105:12">sb</jtok>
+<jtok eid="5" type="method_call" span="105:13:105:21">toString</jtok>
+<jtok eid="1" type="block_comment" span="108:2:115:5">/**
+	 * Import an entry from an OAI2 archive. The BibtexEntry provided has to
+	 * have the field OAI2_IDENTIFIER_FIELD set to the search string.
+	 * 
+	 * @param key
+	 *            The OAI2 key to fetch from ArXiv.
+	 * @return The imnported BibtexEntry or null if none.
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="116:10:116:24">BibtexDatabase</jtok>
+<jtok eid="6" type="method_name" span="116:25:116:44">importSpiresEntries</jtok>
+<jtok eid="6" type="parameter_type" span="116:45:116:51">String</jtok>
+<jtok eid="6" type="parameter_name" span="116:52:116:55">key</jtok>
+<jtok eid="6" type="parameter_type" span="116:57:116:70">OutputPrinter</jtok>
+<jtok eid="6" type="parameter_name" span="116:71:116:76">frame</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="117:3:117:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="117:10:117:13">url</jtok>
+<jtok eid="6" type="method_call" span="117:16:117:28">constructUrl</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:29:117:32">key</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="119:4:119:21">HttpURLConnection</jtok>
+<jtok eid="6" type="local_variable_name" span="119:22:119:26">conn</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="119:30:119:47">HttpURLConnection</jtok>
+<jtok eid="6" type="constructor_call" span="119:54:119:57">URL</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:58:119:61">url</jtok>
+<jtok eid="6" type="method_call" span="119:64:119:78">openConnection</jtok>
+<jtok eid="6" type="primary_name_ref" span="120:4:120:8">conn</jtok>
+<jtok eid="6" type="method_call" span="120:9:120:27">setRequestProperty</jtok>
+<jtok eid="6" type="string_literal" span="120:28:120:40">"User-Agent"</jtok>
+<jtok eid="6" type="string_literal" span="120:42:120:50">"Jabref"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="121:4:121:15">InputStream</jtok>
+<jtok eid="6" type="local_variable_name" span="121:16:121:27">inputStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="121:30:121:34">conn</jtok>
+<jtok eid="6" type="method_call" span="121:35:121:49">getInputStream</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="123:4:123:28">SPIRESBibtexFilterReader</jtok>
+<jtok eid="6" type="local_variable_name" span="123:29:123:35">reader</jtok>
+<jtok eid="6" type="constructor_call" span="123:42:123:66">SPIRESBibtexFilterReader</jtok>
+<jtok eid="6" type="constructor_call" span="124:10:124:27">InputStreamReader</jtok>
+<jtok eid="6" type="primary_name_ref" span="124:28:124:39">inputStream</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="126:4:126:16">ParserResult</jtok>
+<jtok eid="6" type="local_variable_name" span="126:17:126:19">pr</jtok>
+<jtok eid="6" type="primary_name_ref" span="126:22:126:34">BibtexParser</jtok>
+<jtok eid="6" type="method_call" span="126:35:126:40">parse</jtok>
+<jtok eid="6" type="primary_name_ref" span="126:41:126:47">reader</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:11:128:13">pr</jtok>
+<jtok eid="6" type="method_call" span="128:14:128:25">getDatabase</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="129:12:129:23">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="129:24:129:25">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:4:130:9">frame</jtok>
+<jtok eid="6" type="method_call" span="130:10:130:21">showMessage</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:23:130:30">Globals</jtok>
+<jtok eid="6" type="method_call" span="130:31:130:35">lang</jtok>
+<jtok eid="6" type="string_literal" span="131:6:131:49">"An Exception ocurred while accessing '%0'"</jtok>
+<jtok eid="6" type="primary_name_ref" span="131:51:131:54">url</jtok>
+<jtok eid="6" type="string_literal" span="132:8:132:14">"\n\n"</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:17:132:18">e</jtok>
+<jtok eid="6" type="method_call" span="132:19:132:27">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:31:132:38">Globals</jtok>
+<jtok eid="6" type="method_call" span="132:39:132:43">lang</jtok>
+<jtok eid="6" type="method_call" span="132:44:132:54">getKeyName</jtok>
+<jtok eid="6" type="primary_name_ref" span="133:6:133:17">JOptionPane</jtok>
+<jtok eid="6" type="qualified_name_ref" span="133:18:133:31">ERROR_MESSAGE</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="134:12:134:28">RuntimeException</jtok>
+<jtok eid="6" type="local_variable_name" span="134:29:134:30">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:4:135:9">frame</jtok>
+<jtok eid="6" type="method_call" span="135:10:135:21">showMessage</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:23:135:30">Globals</jtok>
+<jtok eid="6" type="method_call" span="135:31:135:35">lang</jtok>
+<jtok eid="6" type="string_literal" span="136:6:136:65">"An Error occurred while fetching from SPIRES source (%0):"</jtok>
+<jtok eid="6" type="constructor_call" span="137:10:137:16">String</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:21:137:24">url</jtok>
+<jtok eid="6" type="string_literal" span="138:8:138:14">"\n\n"</jtok>
+<jtok eid="6" type="primary_name_ref" span="138:17:138:18">e</jtok>
+<jtok eid="6" type="method_call" span="138:19:138:29">getMessage</jtok>
+<jtok eid="6" type="primary_name_ref" span="138:33:138:40">Globals</jtok>
+<jtok eid="6" type="method_call" span="138:41:138:45">lang</jtok>
+<jtok eid="6" type="method_call" span="138:46:138:56">getKeyName</jtok>
+<jtok eid="6" type="primary_name_ref" span="139:6:139:17">JOptionPane</jtok>
+<jtok eid="6" type="qualified_name_ref" span="139:18:139:31">ERROR_MESSAGE</jtok>
+<jtok eid="1" type="line_comment" span="144:2:144:50">// public void addSpiresURL(BibtexEntry entry) {</jtok>
+<jtok eid="1" type="line_comment" span="145:2:145:70">// String url = "http://"+spiresHost+"/spires/find/hep/www?texkey+";</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:34">// url = url+entry.getCiteKey();</jtok>
+<jtok eid="1" type="line_comment" span="147:2:147:32">// entry.setField("url", url);</jtok>
+<jtok eid="1" type="line_comment" span="148:2:148:6">// }</jtok>
+<jtok eid="1" type="line_comment" span="149:2:149:4">//</jtok>
+<jtok eid="1" type="line_comment" span="150:2:150:60">// public void addSpiresURLtoDatabase(BibtexDatabase db) {</jtok>
+<jtok eid="1" type="line_comment" span="151:2:151:61">// Iterator&lt;BibtexEntry&gt; iter = db.getEntries().iterator();</jtok>
+<jtok eid="1" type="line_comment" span="152:2:152:27">// while (iter.hasNext())</jtok>
+<jtok eid="1" type="line_comment" span="153:2:153:31">// addSpiresURL(iter.next());</jtok>
+<jtok eid="1" type="line_comment" span="154:2:154:6">// }</jtok>
+<jtok eid="1" type="block_comment" span="156:2:158:5">/*
+	 * @see net.sf.jabref.imports.EntryFetcher
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="159:9:159:15">String</jtok>
+<jtok eid="7" type="method_name" span="159:16:159:27">getHelpPage</jtok>
+<jtok eid="7" type="string_literal" span="160:10:160:23">"Spires.html"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="163:9:163:12">URL</jtok>
+<jtok eid="8" type="method_name" span="163:13:163:20">getIcon</jtok>
+<jtok eid="8" type="primary_name_ref" span="164:10:164:20">GUIGlobals</jtok>
+<jtok eid="8" type="method_call" span="164:21:164:31">getIconUrl</jtok>
+<jtok eid="8" type="string_literal" span="164:32:164:37">"www"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="167:9:167:15">String</jtok>
+<jtok eid="9" type="method_name" span="167:16:167:26">getKeyName</jtok>
+<jtok eid="9" type="string_literal" span="168:10:168:24">"Fetch SPIRES"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="171:9:171:15">JPanel</jtok>
+<jtok eid="10" type="method_name" span="171:16:171:31">getOptionsPanel</jtok>
+<jtok eid="10" type="line_comment" span="172:3:172:35">// we have no additional options</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="176:9:176:15">String</jtok>
+<jtok eid="11" type="method_name" span="176:16:176:24">getTitle</jtok>
+<jtok eid="11" type="primary_name_ref" span="177:10:177:17">Globals</jtok>
+<jtok eid="11" type="method_call" span="177:18:177:27">menuTitle</jtok>
+<jtok eid="11" type="method_call" span="177:28:177:38">getKeyName</jtok>
+<jtok eid="1" type="block_comment" span="180:2:182:5">/*
+	 * @see net.sf.jabref.gui.ImportInspectionDialog.CallBack
+	 */</jtok>
+<jtok eid="12" type="method_name" span="183:14:183:23">cancelled</jtok>
+<jtok eid="13" type="method_name" span="186:14:186:18">done</jtok>
+<jtok eid="13" type="parameter_name" span="186:23:186:38">entriesImported</jtok>
+<jtok eid="14" type="method_name" span="189:14:189:26">stopFetching</jtok>
+<jtok eid="1" type="block_comment" span="192:2:194:5">/*
+	 * @see java.lang.Runnable
+	 */</jtok>
+<jtok eid="15" type="method_name" span="195:17:195:29">processQuery</jtok>
+<jtok eid="15" type="parameter_type" span="195:30:195:36">String</jtok>
+<jtok eid="15" type="parameter_name" span="195:37:195:42">query</jtok>
+<jtok eid="15" type="parameter_type" span="195:44:195:59">ImportInspector</jtok>
+<jtok eid="15" type="parameter_name" span="195:60:195:66">dialog</jtok>
+<jtok eid="15" type="parameter_type" span="196:9:196:22">OutputPrinter</jtok>
+<jtok eid="15" type="parameter_name" span="196:23:196:28">frame</jtok>
+<jtok eid="15" type="primary_name_ref" span="198:4:198:9">frame</jtok>
+<jtok eid="15" type="method_call" span="198:10:198:19">setStatus</jtok>
+<jtok eid="15" type="string_literal" span="198:20:198:50">"Fetching entries from Spires"</jtok>
+<jtok eid="15" type="block_comment" span="199:4:199:69">/* query the archive and load the results into the BibtexEntry */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="200:4:200:18">BibtexDatabase</jtok>
+<jtok eid="15" type="local_variable_name" span="200:19:200:21">bd</jtok>
+<jtok eid="15" type="method_call" span="200:24:200:43">importSpiresEntries</jtok>
+<jtok eid="15" type="primary_name_ref" span="200:44:200:49">query</jtok>
+<jtok eid="15" type="primary_name_ref" span="200:50:200:55">frame</jtok>
+<jtok eid="15" type="block_comment" span="202:4:202:37">/* addSpiresURLtoDatabase(bd); */</jtok>
+<jtok eid="15" type="primary_name_ref" span="204:4:204:9">frame</jtok>
+<jtok eid="15" type="method_call" span="204:10:204:19">setStatus</jtok>
+<jtok eid="15" type="string_literal" span="204:20:204:44">"Adding fetched entries"</jtok>
+<jtok eid="15" type="block_comment" span="205:4:205:48">/* add the entry to the inspection dialog */</jtok>
+<jtok eid="15" type="primary_name_ref" span="206:8:206:10">bd</jtok>
+<jtok eid="15" type="method_call" span="206:11:206:24">getEntryCount</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="207:16:207:27">BibtexEntry</jtok>
+<jtok eid="15" type="local_variable_name" span="207:28:207:33">entry</jtok>
+<jtok eid="15" type="primary_name_ref" span="207:36:207:38">bd</jtok>
+<jtok eid="15" type="method_call" span="207:39:207:49">getEntries</jtok>
+<jtok eid="15" type="primary_name_ref" span="208:12:208:18">dialog</jtok>
+<jtok eid="15" type="method_call" span="208:19:208:27">addEntry</jtok>
+<jtok eid="15" type="primary_name_ref" span="208:28:208:33">entry</jtok>
+<jtok eid="15" type="block_comment" span="210:4:210:41">/* update the dialogs progress bar */</jtok>
+<jtok eid="15" type="line_comment" span="211:4:211:46">// dialog.setProgress(i + 1, keys.length);</jtok>
+<jtok eid="15" type="block_comment" span="212:4:212:55">/* inform the inspection dialog, that we're done */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="213:12:213:21">Exception</jtok>
+<jtok eid="15" type="local_variable_name" span="213:22:213:23">e</jtok>
+<jtok eid="15" type="primary_name_ref" span="214:4:214:9">frame</jtok>
+<jtok eid="15" type="method_call" span="214:10:214:21">showMessage</jtok>
+<jtok eid="15" type="primary_name_ref" span="214:22:214:29">Globals</jtok>
+<jtok eid="15" type="method_call" span="214:30:214:34">lang</jtok>
+<jtok eid="15" type="string_literal" span="214:35:214:71">"Error while fetching from Spires: "</jtok>
+<jtok eid="15" type="primary_name_ref" span="215:8:215:9">e</jtok>
+<jtok eid="15" type="method_call" span="215:10:215:20">getMessage</jtok>
+<jtok eid="15" type="primary_name_ref" span="216:4:216:5">e</jtok>
+<jtok eid="15" type="method_call" span="216:6:216:21">printStackTrace</jtok>
+</jdoc>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.ExtensionManager" jls="java5">
+<jent id="0" type="file" span="0:0:186:2">Source/jEdit/org/gjt/sp/jedit/textarea/ExtensionManager.java</jent>
+<jent id="1" pid="0" type="class" span="35:1:186:1">org.gjt.sp.jedit.textarea.ExtensionManager</jent>
+<jent id="2" pid="1" type="method" span="45:2:62:2">org.gjt.sp.jedit.textarea.ExtensionManager.addExtension(int,TextAreaExtension)</jent>
+<jent id="3" pid="1" type="method" span="65:2:76:2">org.gjt.sp.jedit.textarea.ExtensionManager.removeExtension(TextAreaExtension)</jent>
+<jent id="4" pid="1" type="method" span="79:2:89:2">org.gjt.sp.jedit.textarea.ExtensionManager.getExtensions()</jent>
+<jent id="5" pid="1" type="method" span="92:2:127:2">org.gjt.sp.jedit.textarea.ExtensionManager.paintScreenLineRange(TextArea,Graphics2D,int,int,int,int)</jent>
+<jent id="6" pid="1" type="method" span="130:2:141:2">org.gjt.sp.jedit.textarea.ExtensionManager.getToolTipText(int,int)</jent>
+<jent id="7" pid="1" type="method" span="147:2:169:2">org.gjt.sp.jedit.textarea.ExtensionManager.paintScreenLineRange(Graphics2D,int,int,int[],int[],int[],int,int)</jent>
+<jent id="8" pid="1" type="class" span="175:2:185:2">org.gjt.sp.jedit.textarea.ExtensionManager.Entry</jent>
+<jent id="9" pid="8" type="method" span="180:3:184:3">org.gjt.sp.jedit.textarea.ExtensionManager.Entry.Entry(int,TextAreaExtension)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ExtensionManager.java -
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2002, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="29:1:34:4">/**
+ * Manage the extensions for the gutter and the textarea.
+ *
+ * @author Slava Pestov
+ * @version $Id: ExtensionManager.java 16346 2009-10-14 10:35:10Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="35:7:35:23">ExtensionManager</jtok>
+<jtok eid="1" type="line_comment" span="37:2:37:29">//{{{ addExtension() method</jtok>
+<jtok eid="1" type="block_comment" span="38:2:44:5">/**
+	 * Add an extension.
+	 * See {@link Gutter} and {@link TextAreaPainter} to know the layers
+	 *
+	 * @param layer the layer. It could be defined in Gutter or TextAreaPainter
+	 * @param ext the extension to add
+	 */</jtok>
+<jtok eid="2" type="method_name" span="45:7:45:19">addExtension</jtok>
+<jtok eid="2" type="parameter_name" span="45:24:45:29">layer</jtok>
+<jtok eid="2" type="parameter_type" span="45:31:45:48">TextAreaExtension</jtok>
+<jtok eid="2" type="parameter_name" span="45:49:45:52">ext</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="47:3:47:8">Entry</jtok>
+<jtok eid="2" type="local_variable_name" span="47:9:47:14">entry</jtok>
+<jtok eid="2" type="constructor_call" span="47:21:47:26">Entry</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:27:47:32">layer</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:33:47:36">ext</jtok>
+<jtok eid="2" type="local_variable_name" span="49:7:49:8">i</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="50:8:50:13">Entry</jtok>
+<jtok eid="2" type="local_variable_name" span="50:14:50:23">extension</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:26:50:36">extensions</jtok>
+<jtok eid="2" type="local_variable_name" span="52:8:52:14">_layer</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:17:52:26">extension</jtok>
+<jtok eid="2" type="qualified_name_ref" span="52:27:52:32">layer</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:8:53:13">layer</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:16:53:22">_layer</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:5:55:15">extensions</jtok>
+<jtok eid="2" type="method_call" span="55:16:55:19">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:20:55:21">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:23:55:28">entry</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:4:58:5">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:3:61:13">extensions</jtok>
+<jtok eid="2" type="method_call" span="61:14:61:17">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:18:61:23">entry</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:32">//{{{ removeExtension() method</jtok>
+<jtok eid="3" type="method_name" span="65:7:65:22">removeExtension</jtok>
+<jtok eid="3" type="parameter_type" span="65:23:65:40">TextAreaExtension</jtok>
+<jtok eid="3" type="parameter_name" span="65:41:65:44">ext</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="67:3:67:11">Iterator</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="67:12:67:17">Entry</jtok>
+<jtok eid="3" type="local_variable_name" span="67:19:67:23">iter</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:26:67:36">extensions</jtok>
+<jtok eid="3" type="method_call" span="67:37:67:45">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:9:68:13">iter</jtok>
+<jtok eid="3" type="method_call" span="68:14:68:21">hasNext</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:7:70:11">iter</jtok>
+<jtok eid="3" type="method_call" span="70:12:70:16">next</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:19:70:22">ext</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:26:70:29">ext</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:5:72:9">iter</jtok>
+<jtok eid="3" type="method_call" span="72:10:72:16">remove</jtok>
+<jtok eid="1" type="line_comment" span="76:4:76:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:30">//{{{ getExtensions() method</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="79:2:79:19">TextAreaExtension</jtok>
+<jtok eid="4" type="method_name" span="79:22:79:35">getExtensions</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="81:3:81:20">TextAreaExtension</jtok>
+<jtok eid="4" type="local_variable_name" span="81:23:81:29">retVal</jtok>
+<jtok eid="4" type="constructor_call" span="81:36:81:53">TextAreaExtension</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:4:82:14">extensions</jtok>
+<jtok eid="4" type="method_call" span="82:15:82:19">size</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="83:3:83:11">Iterator</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="83:12:83:17">Entry</jtok>
+<jtok eid="4" type="local_variable_name" span="83:19:83:23">iter</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:26:83:36">extensions</jtok>
+<jtok eid="4" type="method_call" span="83:37:83:45">iterator</jtok>
+<jtok eid="4" type="local_variable_name" span="84:7:84:8">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:9:85:13">iter</jtok>
+<jtok eid="4" type="method_call" span="85:14:85:21">hasNext</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:4:86:10">retVal</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:11:86:12">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:18:86:22">iter</jtok>
+<jtok eid="4" type="method_call" span="86:23:86:27">next</jtok>
+<jtok eid="4" type="qualified_name_ref" span="86:30:86:33">ext</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:10:88:16">retVal</jtok>
+<jtok eid="1" type="line_comment" span="89:4:89:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="91:2:91:37">//{{{ paintScreenLineRange() method</jtok>
+<jtok eid="5" type="method_name" span="92:7:92:27">paintScreenLineRange</jtok>
+<jtok eid="5" type="parameter_type" span="92:28:92:36">TextArea</jtok>
+<jtok eid="5" type="parameter_name" span="92:37:92:45">textArea</jtok>
+<jtok eid="5" type="parameter_type" span="92:47:92:57">Graphics2D</jtok>
+<jtok eid="5" type="parameter_name" span="92:58:92:61">gfx</jtok>
+<jtok eid="5" type="parameter_name" span="93:7:93:16">firstLine</jtok>
+<jtok eid="5" type="parameter_name" span="93:22:93:30">lastLine</jtok>
+<jtok eid="5" type="parameter_name" span="93:36:93:37">y</jtok>
+<jtok eid="5" type="parameter_name" span="93:43:93:53">lineHeight</jtok>
+<jtok eid="5" type="local_variable_name" span="97:10:97:23">physicalLines</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:34:97:42">lastLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:45:97:54">firstLine</jtok>
+<jtok eid="5" type="local_variable_name" span="98:10:98:15">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:26:98:39">physicalLines</jtok>
+<jtok eid="5" type="qualified_name_ref" span="98:40:98:46">length</jtok>
+<jtok eid="5" type="local_variable_name" span="99:10:99:13">end</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:24:99:37">physicalLines</jtok>
+<jtok eid="5" type="qualified_name_ref" span="99:38:99:44">length</jtok>
+<jtok eid="5" type="local_variable_name" span="101:12:101:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:19:101:20">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:23:101:36">physicalLines</jtok>
+<jtok eid="5" type="qualified_name_ref" span="101:37:101:43">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:45:101:46">i</jtok>
+<jtok eid="5" type="local_variable_name" span="103:9:103:19">screenLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:22:103:23">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:26:103:35">firstLine</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="104:5:104:15">ChunkCache</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="104:16:104:24">LineInfo</jtok>
+<jtok eid="5" type="local_variable_name" span="104:25:104:33">lineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:36:104:44">textArea</jtok>
+<jtok eid="5" type="qualified_name_ref" span="105:7:105:17">chunkCache</jtok>
+<jtok eid="5" type="method_call" span="105:18:105:29">getLineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:30:105:40">screenLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:8:107:16">lineInfo</jtok>
+<jtok eid="5" type="qualified_name_ref" span="107:17:107:29">physicalLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:6:108:19">physicalLines</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:20:108:21">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:6:111:19">physicalLines</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:20:111:21">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:25:111:33">lineInfo</jtok>
+<jtok eid="5" type="qualified_name_ref" span="111:34:111:46">physicalLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:6:112:11">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:12:112:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:17:112:25">textArea</jtok>
+<jtok eid="5" type="method_call" span="112:26:112:50">getScreenLineStartOffset</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:51:112:61">screenLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:6:113:9">end</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:10:113:11">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:15:113:23">textArea</jtok>
+<jtok eid="5" type="method_call" span="113:24:113:46">getScreenLineEndOffset</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:47:113:57">screenLine</jtok>
+<jtok eid="5" type="method_call" span="117:4:117:24">paintScreenLineRange</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:25:117:28">gfx</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:29:117:38">firstLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:39:117:47">lastLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:48:117:61">physicalLines</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:5:118:10">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:11:118:14">end</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:15:118:16">y</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:17:118:27">lineHeight</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="120:9:120:18">Exception</jtok>
+<jtok eid="5" type="local_variable_name" span="120:19:120:20">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:4:122:7">Log</jtok>
+<jtok eid="5" type="method_call" span="122:8:122:11">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:12:122:15">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="122:16:122:21">ERROR</jtok>
+<jtok eid="5" type="string_literal" span="122:27:122:50">"Error repainting line"</jtok>
+<jtok eid="5" type="string_literal" span="123:7:123:17">" range {"</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:20:123:29">firstLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:8:124:16">lastLine</jtok>
+<jtok eid="5" type="string_literal" span="124:19:124:23">"}:"</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:4:125:7">Log</jtok>
+<jtok eid="5" type="method_call" span="125:8:125:11">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:12:125:15">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="125:16:125:21">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:27:125:28">e</jtok>
+<jtok eid="1" type="line_comment" span="127:4:127:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="129:2:129:31">//{{{ getToolTipText() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="130:2:130:8">String</jtok>
+<jtok eid="6" type="method_name" span="130:9:130:23">getToolTipText</jtok>
+<jtok eid="6" type="parameter_name" span="130:28:130:29">x</jtok>
+<jtok eid="6" type="parameter_name" span="130:35:130:36">y</jtok>
+<jtok eid="6" type="local_variable_name" span="132:11:132:12">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:18:132:19">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:22:132:32">extensions</jtok>
+<jtok eid="6" type="method_call" span="132:33:132:37">size</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:41:132:42">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="134:4:134:21">TextAreaExtension</jtok>
+<jtok eid="6" type="local_variable_name" span="134:22:134:25">ext</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:28:134:38">extensions</jtok>
+<jtok eid="6" type="method_call" span="134:39:134:42">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:43:134:44">i</jtok>
+<jtok eid="6" type="qualified_name_ref" span="134:46:134:49">ext</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="135:4:135:10">String</jtok>
+<jtok eid="6" type="local_variable_name" span="135:11:135:18">toolTip</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:21:135:24">ext</jtok>
+<jtok eid="6" type="method_call" span="135:25:135:39">getToolTipText</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:40:135:41">x</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:42:135:43">y</jtok>
+<jtok eid="6" type="primary_name_ref" span="136:7:136:14">toolTip</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:12:137:19">toolTip</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="144:16:144:20">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="144:21:144:26">Entry</jtok>
+<jtok eid="1" type="field_name" span="144:28:144:38">extensions</jtok>
+<jtok eid="1" type="constructor_call" span="144:45:144:55">LinkedList</jtok>
+<jtok eid="1" type="constructor_call" span="144:56:144:61">Entry</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:37">//{{{ paintScreenLineRange() method</jtok>
+<jtok eid="7" type="method_name" span="147:15:147:35">paintScreenLineRange</jtok>
+<jtok eid="7" type="parameter_type" span="147:36:147:46">Graphics2D</jtok>
+<jtok eid="7" type="parameter_name" span="147:47:147:50">gfx</jtok>
+<jtok eid="7" type="parameter_name" span="147:56:147:65">firstLine</jtok>
+<jtok eid="7" type="parameter_name" span="148:7:148:15">lastLine</jtok>
+<jtok eid="7" type="parameter_name" span="148:23:148:36">physicalLines</jtok>
+<jtok eid="7" type="parameter_name" span="148:44:148:49">start</jtok>
+<jtok eid="7" type="parameter_name" span="148:57:148:60">end</jtok>
+<jtok eid="7" type="parameter_name" span="149:7:149:8">y</jtok>
+<jtok eid="7" type="parameter_name" span="149:14:149:24">lineHeight</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="151:3:151:11">Iterator</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="151:12:151:17">Entry</jtok>
+<jtok eid="7" type="local_variable_name" span="151:19:151:23">iter</jtok>
+<jtok eid="7" type="primary_name_ref" span="151:26:151:36">extensions</jtok>
+<jtok eid="7" type="method_call" span="151:37:151:45">iterator</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:9:152:13">iter</jtok>
+<jtok eid="7" type="method_call" span="152:14:152:21">hasNext</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="154:4:154:21">TextAreaExtension</jtok>
+<jtok eid="7" type="local_variable_name" span="154:22:154:25">ext</jtok>
+<jtok eid="7" type="primary_name_ref" span="154:28:154:32">iter</jtok>
+<jtok eid="7" type="method_call" span="154:33:154:37">next</jtok>
+<jtok eid="7" type="qualified_name_ref" span="154:40:154:43">ext</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:5:157:8">ext</jtok>
+<jtok eid="7" type="method_call" span="157:9:157:29">paintScreenLineRange</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:30:157:33">gfx</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:34:157:43">firstLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:44:157:52">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:6:158:19">physicalLines</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:20:158:25">start</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:26:158:29">end</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:30:158:31">y</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:32:158:42">lineHeight</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="160:10:160:19">Throwable</jtok>
+<jtok eid="7" type="local_variable_name" span="160:20:160:21">t</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:5:162:8">Log</jtok>
+<jtok eid="7" type="method_call" span="162:9:162:12">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:13:162:16">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="162:17:162:22">ERROR</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:28:162:29">t</jtok>
+<jtok eid="7" type="line_comment" span="164:5:164:40">// remove it so editor can continue</jtok>
+<jtok eid="7" type="line_comment" span="165:5:165:19">// functioning</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:5:166:9">iter</jtok>
+<jtok eid="7" type="method_call" span="166:10:166:16">remove</jtok>
+<jtok eid="1" type="line_comment" span="169:4:169:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="171:2:171:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="173:2:173:19">//{{{ Entry class</jtok>
+<jtok eid="1" type="block_comment" span="174:2:174:59">/** This class represents an extension with his layer. */</jtok>
+<jtok eid="8" type="class_name" span="175:15:175:20">Entry</jtok>
+<jtok eid="8" type="field_name" span="177:7:177:12">layer</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="178:3:178:20">TextAreaExtension</jtok>
+<jtok eid="8" type="field_name" span="178:21:178:24">ext</jtok>
+<jtok eid="9" type="method_name" span="180:3:180:8">Entry</jtok>
+<jtok eid="9" type="parameter_name" span="180:13:180:18">layer</jtok>
+<jtok eid="9" type="parameter_type" span="180:20:180:37">TextAreaExtension</jtok>
+<jtok eid="9" type="parameter_name" span="180:38:180:41">ext</jtok>
+<jtok eid="9" type="qualified_name_ref" span="182:9:182:14">layer</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:17:182:22">layer</jtok>
+<jtok eid="9" type="qualified_name_ref" span="183:9:183:12">ext</jtok>
+<jtok eid="9" type="primary_name_ref" span="183:15:183:18">ext</jtok>
+<jtok eid="1" type="line_comment" span="185:4:185:9">//}}}</jtok>
+</jdoc>

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.util.SyntaxUtilities" jls="java5">
+<jent id="0" type="file" span="0:0:230:2">Source/jEdit/org/gjt/sp/util/SyntaxUtilities.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:230:1">org.gjt.sp.util.SyntaxUtilities</jent>
+<jent id="2" pid="1" type="method" span="55:2:59:2">org.gjt.sp.util.SyntaxUtilities.getColorHexString(Color)</jent>
+<jent id="3" pid="1" type="method" span="65:2:108:2">org.gjt.sp.util.SyntaxUtilities.parseColor(String,Color)</jent>
+<jent id="4" pid="1" type="method" span="121:2:164:2">org.gjt.sp.util.SyntaxUtilities.parseStyle(String,String,int,boolean,Color)</jent>
+<jent id="5" pid="1" type="method" span="176:2:181:2">org.gjt.sp.util.SyntaxUtilities.parseStyle(String,String,int,boolean)</jent>
+<jent id="6" pid="1" type="method" span="191:2:194:2">org.gjt.sp.util.SyntaxUtilities.loadStyles(String,int)</jent>
+<jent id="7" pid="1" type="method" span="204:2:227:2">org.gjt.sp.util.SyntaxUtilities.loadStyles(String,int,boolean)</jent>
+<jent id="8" pid="1" type="method" span="229:2:229:28">org.gjt.sp.util.SyntaxUtilities.SyntaxUtilities()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * SyntaxUtilities.java - Syntax and styles utility utility functions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2008 Matthieu Casanova, Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="36:1:42:4">/**
+ * Syntax utilities that depends on JDK only and syntax package.
+ *
+ * @author Matthieu Casanova
+ * @version $Id: StandardUtilities.java 9871 2007-06-28 16:33:20Z Vampire0 $
+ * @since 4.3pre13
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:14:43:29">SyntaxUtilities</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:16:45:32">IPropertyManager</jtok>
+<jtok eid="1" type="field_name" span="45:33:45:48">propertyManager</jtok>
+<jtok eid="1" type="line_comment" span="48:2:48:34">//{{{ getColorHexString() method</jtok>
+<jtok eid="1" type="block_comment" span="49:2:54:5">/**
+	 * Converts a color object to its hex value. The hex value
+	 * prefixed is with `#', for example `#ff0088'.
+	 * @param c The color object
+	 * @since jEdit 4.3pre13	 
+	 */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="55:16:55:22">String</jtok>
+<jtok eid="2" type="method_name" span="55:23:55:40">getColorHexString</jtok>
+<jtok eid="2" type="parameter_type" span="55:41:55:46">Color</jtok>
+<jtok eid="2" type="parameter_name" span="55:47:55:48">c</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:3:57:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="57:10:57:19">colString</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:22:57:29">Integer</jtok>
+<jtok eid="2" type="method_call" span="57:30:57:41">toHexString</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:42:57:43">c</jtok>
+<jtok eid="2" type="method_call" span="57:44:57:50">getRGB</jtok>
+<jtok eid="2" type="string_literal" span="58:10:58:19">"#000000"</jtok>
+<jtok eid="2" type="method_call" span="58:20:58:29">substring</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:36:58:45">colString</jtok>
+<jtok eid="2" type="method_call" span="58:46:58:52">length</jtok>
+<jtok eid="2" type="method_call" span="58:56:58:62">concat</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:63:58:72">colString</jtok>
+<jtok eid="1" type="line_comment" span="59:4:59:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:27">//{{{ parseColor() method</jtok>
+<jtok eid="1" type="block_comment" span="62:2:64:5">/**
+	 * @since jEdit 4.3pre13
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="65:16:65:21">Color</jtok>
+<jtok eid="3" type="method_name" span="65:22:65:32">parseColor</jtok>
+<jtok eid="3" type="parameter_type" span="65:33:65:39">String</jtok>
+<jtok eid="3" type="parameter_name" span="65:40:65:44">name</jtok>
+<jtok eid="3" type="parameter_type" span="65:46:65:51">Color</jtok>
+<jtok eid="3" type="parameter_name" span="65:52:65:64">defaultColor</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:6:67:10">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:22:67:26">name</jtok>
+<jtok eid="3" type="method_call" span="67:27:67:33">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:11:68:23">defaultColor</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:11:69:15">name</jtok>
+<jtok eid="3" type="method_call" span="69:16:69:22">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:12:73:17">Color</jtok>
+<jtok eid="3" type="method_call" span="73:18:73:24">decode</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:25:73:29">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="75:10:75:31">NumberFormatException</jtok>
+<jtok eid="3" type="local_variable_name" span="75:32:75:34">nf</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:12:77:24">defaultColor</jtok>
+<jtok eid="3" type="string_literal" span="80:11:80:16">"red"</jtok>
+<jtok eid="3" type="method_call" span="80:17:80:23">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:24:80:28">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:11:81:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="81:17:81:20">red</jtok>
+<jtok eid="3" type="string_literal" span="82:11:82:18">"green"</jtok>
+<jtok eid="3" type="method_call" span="82:19:82:25">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:26:82:30">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:11:83:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="83:17:83:22">green</jtok>
+<jtok eid="3" type="string_literal" span="84:11:84:17">"blue"</jtok>
+<jtok eid="3" type="method_call" span="84:18:84:24">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:25:84:29">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:11:85:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="85:17:85:21">blue</jtok>
+<jtok eid="3" type="string_literal" span="86:11:86:19">"yellow"</jtok>
+<jtok eid="3" type="method_call" span="86:20:86:26">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:27:86:31">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:11:87:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="87:17:87:23">yellow</jtok>
+<jtok eid="3" type="string_literal" span="88:11:88:19">"orange"</jtok>
+<jtok eid="3" type="method_call" span="88:20:88:26">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:27:88:31">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:11:89:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="89:17:89:23">orange</jtok>
+<jtok eid="3" type="string_literal" span="90:11:90:18">"white"</jtok>
+<jtok eid="3" type="method_call" span="90:19:90:25">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:26:90:30">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:11:91:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="91:17:91:22">white</jtok>
+<jtok eid="3" type="string_literal" span="92:11:92:22">"lightGray"</jtok>
+<jtok eid="3" type="method_call" span="92:23:92:29">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:30:92:34">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:11:93:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="93:17:93:26">lightGray</jtok>
+<jtok eid="3" type="string_literal" span="94:11:94:17">"gray"</jtok>
+<jtok eid="3" type="method_call" span="94:18:94:24">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:25:94:29">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:11:95:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="95:17:95:21">gray</jtok>
+<jtok eid="3" type="string_literal" span="96:11:96:21">"darkGray"</jtok>
+<jtok eid="3" type="method_call" span="96:22:96:28">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:29:96:33">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:11:97:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="97:17:97:25">darkGray</jtok>
+<jtok eid="3" type="string_literal" span="98:11:98:18">"black"</jtok>
+<jtok eid="3" type="method_call" span="98:19:98:25">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:26:98:30">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:11:99:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="99:17:99:22">black</jtok>
+<jtok eid="3" type="string_literal" span="100:11:100:17">"cyan"</jtok>
+<jtok eid="3" type="method_call" span="100:18:100:24">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:25:100:29">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:11:101:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="101:17:101:21">cyan</jtok>
+<jtok eid="3" type="string_literal" span="102:11:102:20">"magenta"</jtok>
+<jtok eid="3" type="method_call" span="102:21:102:27">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:28:102:32">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:11:103:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="103:17:103:24">magenta</jtok>
+<jtok eid="3" type="string_literal" span="104:11:104:17">"pink"</jtok>
+<jtok eid="3" type="method_call" span="104:18:104:24">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:25:104:29">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:11:105:16">Color</jtok>
+<jtok eid="3" type="qualified_name_ref" span="105:17:105:21">pink</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:11:107:23">defaultColor</jtok>
+<jtok eid="1" type="line_comment" span="108:4:108:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="110:2:110:27">//{{{ parseStyle() method</jtok>
+<jtok eid="1" type="block_comment" span="111:2:120:5">/**
+	 * Converts a style string to a style object.
+	 * @param str The style string
+	 * @param family Style strings only specify font style, not font family
+	 * @param size Style strings only specify font style, not font family
+	 * @param color If false, the styles will be monochrome
+	 * @param defaultFgColor Default foreground color (if not specified in style string)
+	 * @exception IllegalArgumentException if the style is invalid
+	 * @since jEdit 4.3pre17
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="121:16:121:27">SyntaxStyle</jtok>
+<jtok eid="4" type="method_name" span="121:28:121:38">parseStyle</jtok>
+<jtok eid="4" type="parameter_type" span="121:39:121:45">String</jtok>
+<jtok eid="4" type="parameter_name" span="121:46:121:49">str</jtok>
+<jtok eid="4" type="parameter_type" span="121:51:121:57">String</jtok>
+<jtok eid="4" type="parameter_name" span="121:58:121:64">family</jtok>
+<jtok eid="4" type="parameter_name" span="121:70:121:74">size</jtok>
+<jtok eid="4" type="parameter_name" span="122:11:122:16">color</jtok>
+<jtok eid="4" type="parameter_type" span="122:18:122:23">Color</jtok>
+<jtok eid="4" type="parameter_name" span="122:24:122:38">defaultFgColor</jtok>
+<jtok eid="4" type="throws" span="123:10:123:34">IllegalArgumentException</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="125:3:125:8">Color</jtok>
+<jtok eid="4" type="local_variable_name" span="125:9:125:16">fgColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:19:125:33">defaultFgColor</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="126:3:126:8">Color</jtok>
+<jtok eid="4" type="local_variable_name" span="126:9:126:16">bgColor</jtok>
+<jtok eid="4" type="local_variable_name" span="127:11:127:17">italic</jtok>
+<jtok eid="4" type="local_variable_name" span="128:11:128:15">bold</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="129:3:129:18">StringTokenizer</jtok>
+<jtok eid="4" type="local_variable_name" span="129:19:129:21">st</jtok>
+<jtok eid="4" type="constructor_call" span="129:28:129:43">StringTokenizer</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:44:129:47">str</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:9:130:11">st</jtok>
+<jtok eid="4" type="method_call" span="130:12:130:25">hasMoreTokens</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="132:4:132:10">String</jtok>
+<jtok eid="4" type="local_variable_name" span="132:11:132:12">s</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:15:132:17">st</jtok>
+<jtok eid="4" type="method_call" span="132:18:132:27">nextToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:7:133:8">s</jtok>
+<jtok eid="4" type="method_call" span="133:9:133:19">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="133:20:133:28">"color:"</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:8:135:13">color</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:6:136:13">fgColor</jtok>
+<jtok eid="4" type="method_call" span="136:16:136:26">parseColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:27:136:28">s</jtok>
+<jtok eid="4" type="method_call" span="136:29:136:38">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:43:136:48">Color</jtok>
+<jtok eid="4" type="qualified_name_ref" span="136:49:136:54">black</jtok>
+<jtok eid="4" type="primary_name_ref" span="138:12:138:13">s</jtok>
+<jtok eid="4" type="method_call" span="138:14:138:24">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="138:25:138:35">"bgColor:"</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:8:140:13">color</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:6:141:13">bgColor</jtok>
+<jtok eid="4" type="method_call" span="141:16:141:26">parseColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:27:141:28">s</jtok>
+<jtok eid="4" type="method_call" span="141:29:141:38">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:12:143:13">s</jtok>
+<jtok eid="4" type="method_call" span="143:14:143:24">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="143:25:143:33">"style:"</jtok>
+<jtok eid="4" type="local_variable_name" span="145:13:145:14">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:20:145:21">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:24:145:25">s</jtok>
+<jtok eid="4" type="method_call" span="145:26:145:32">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:36:145:37">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:9:147:10">s</jtok>
+<jtok eid="4" type="method_call" span="147:11:147:17">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:18:147:19">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="148:7:148:13">italic</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:14:149:15">s</jtok>
+<jtok eid="4" type="method_call" span="149:16:149:22">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:23:149:24">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:7:150:11">bold</jtok>
+<jtok eid="4" type="constructor_call" span="152:17:152:41">IllegalArgumentException</jtok>
+<jtok eid="4" type="string_literal" span="153:9:153:26">"Invalid style: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:29:153:30">s</jtok>
+<jtok eid="4" type="constructor_call" span="157:15:157:39">IllegalArgumentException</jtok>
+<jtok eid="4" type="string_literal" span="158:7:158:28">"Invalid directive: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:31:158:32">s</jtok>
+<jtok eid="4" type="constructor_call" span="160:14:160:25">SyntaxStyle</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:26:160:33">fgColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:34:160:41">bgColor</jtok>
+<jtok eid="4" type="constructor_call" span="161:9:161:13">Font</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:14:161:20">family</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:8:162:14">italic</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:17:162:21">Font</jtok>
+<jtok eid="4" type="qualified_name_ref" span="162:22:162:28">ITALIC</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:37:162:41">bold</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:44:162:48">Font</jtok>
+<jtok eid="4" type="qualified_name_ref" span="162:49:162:53">BOLD</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:7:163:11">size</jtok>
+<jtok eid="1" type="line_comment" span="164:4:164:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="166:2:166:27">//{{{ parseStyle() method</jtok>
+<jtok eid="1" type="block_comment" span="167:2:175:5">/**
+	 * Converts a style string to a style object.
+	 * @param str The style string
+	 * @param family Style strings only specify font style, not font family
+	 * @param size Style strings only specify font style, not font family
+	 * @param color If false, the styles will be monochrome
+	 * @exception IllegalArgumentException if the style is invalid
+	 * @since jEdit 4.3pre13
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="176:16:176:27">SyntaxStyle</jtok>
+<jtok eid="5" type="method_name" span="176:28:176:38">parseStyle</jtok>
+<jtok eid="5" type="parameter_type" span="176:39:176:45">String</jtok>
+<jtok eid="5" type="parameter_name" span="176:46:176:49">str</jtok>
+<jtok eid="5" type="parameter_type" span="176:51:176:57">String</jtok>
+<jtok eid="5" type="parameter_name" span="176:58:176:64">family</jtok>
+<jtok eid="5" type="parameter_name" span="176:70:176:74">size</jtok>
+<jtok eid="5" type="parameter_name" span="177:11:177:16">color</jtok>
+<jtok eid="5" type="throws" span="178:10:178:34">IllegalArgumentException</jtok>
+<jtok eid="5" type="method_call" span="180:10:180:20">parseStyle</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:21:180:24">str</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:26:180:32">family</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:34:180:38">size</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:40:180:45">color</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:47:180:52">Color</jtok>
+<jtok eid="5" type="qualified_name_ref" span="180:53:180:58">black</jtok>
+<jtok eid="1" type="line_comment" span="181:4:181:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:28">//{{{ loadStyles() methods</jtok>
+<jtok eid="1" type="block_comment" span="184:2:190:5">/**
+	 * Loads the syntax styles from the properties, giving them the specified
+	 * base font family and size.
+	 * @param family The font family
+	 * @param size The font size
+	 * @since jEdit 4.3pre13
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="191:16:191:27">SyntaxStyle</jtok>
+<jtok eid="6" type="method_name" span="191:30:191:40">loadStyles</jtok>
+<jtok eid="6" type="parameter_type" span="191:41:191:47">String</jtok>
+<jtok eid="6" type="parameter_name" span="191:48:191:54">family</jtok>
+<jtok eid="6" type="parameter_name" span="191:60:191:64">size</jtok>
+<jtok eid="6" type="method_call" span="193:10:193:20">loadStyles</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:21:193:27">family</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:28:193:32">size</jtok>
+<jtok eid="1" type="block_comment" span="196:2:203:5">/**
+	 * Loads the syntax styles from the properties, giving them the specified
+	 * base font family and size.
+	 * @param family The font family
+	 * @param size The font size
+	 * @param color If false, the styles will be monochrome
+	 * @since jEdit 4.3pre13
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="204:16:204:27">SyntaxStyle</jtok>
+<jtok eid="7" type="method_name" span="204:30:204:40">loadStyles</jtok>
+<jtok eid="7" type="parameter_type" span="204:41:204:47">String</jtok>
+<jtok eid="7" type="parameter_name" span="204:48:204:54">family</jtok>
+<jtok eid="7" type="parameter_name" span="204:60:204:64">size</jtok>
+<jtok eid="7" type="parameter_name" span="204:74:204:79">color</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="206:3:206:14">SyntaxStyle</jtok>
+<jtok eid="7" type="local_variable_name" span="206:17:206:23">styles</jtok>
+<jtok eid="7" type="constructor_call" span="206:30:206:41">SyntaxStyle</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:42:206:47">Token</jtok>
+<jtok eid="7" type="qualified_name_ref" span="206:48:206:56">ID_COUNT</jtok>
+<jtok eid="7" type="line_comment" span="208:3:208:41">// start at 1 not 0 to skip Token.NULL</jtok>
+<jtok eid="7" type="local_variable_name" span="209:11:209:12">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="209:18:209:19">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="209:22:209:28">styles</jtok>
+<jtok eid="7" type="qualified_name_ref" span="209:29:209:35">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="209:37:209:38">i</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="213:5:213:11">String</jtok>
+<jtok eid="7" type="local_variable_name" span="213:12:213:21">styleName</jtok>
+<jtok eid="7" type="string_literal" span="213:24:213:37">"view.style."</jtok>
+<jtok eid="7" type="primary_name_ref" span="214:8:214:13">Token</jtok>
+<jtok eid="7" type="method_call" span="214:14:214:27">tokenToString</jtok>
+<jtok eid="7" type="primary_name_ref" span="214:34:214:35">i</jtok>
+<jtok eid="7" type="method_call" span="215:7:215:18">toLowerCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="215:19:215:25">Locale</jtok>
+<jtok eid="7" type="qualified_name_ref" span="215:26:215:33">ENGLISH</jtok>
+<jtok eid="7" type="primary_name_ref" span="216:5:216:11">styles</jtok>
+<jtok eid="7" type="primary_name_ref" span="216:12:216:13">i</jtok>
+<jtok eid="7" type="method_call" span="216:17:216:27">parseStyle</jtok>
+<jtok eid="7" type="primary_name_ref" span="217:6:217:21">propertyManager</jtok>
+<jtok eid="7" type="method_call" span="217:22:217:33">getProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="217:34:217:43">styleName</jtok>
+<jtok eid="7" type="primary_name_ref" span="218:6:218:12">family</jtok>
+<jtok eid="7" type="primary_name_ref" span="218:13:218:17">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="218:18:218:23">color</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="220:10:220:19">Exception</jtok>
+<jtok eid="7" type="local_variable_name" span="220:20:220:21">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="222:5:222:8">Log</jtok>
+<jtok eid="7" type="method_call" span="222:9:222:12">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="222:13:222:16">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="222:17:222:22">ERROR</jtok>
+<jtok eid="7" type="primary_name_ref" span="222:23:222:40">StandardUtilities</jtok>
+<jtok eid="7" type="primary_name_ref" span="222:47:222:48">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="226:10:226:16">styles</jtok>
+<jtok eid="1" type="line_comment" span="227:4:227:9">//}}}</jtok>
+<jtok eid="8" type="method_name" span="229:10:229:25">SyntaxUtilities</jtok>
+</jdoc>

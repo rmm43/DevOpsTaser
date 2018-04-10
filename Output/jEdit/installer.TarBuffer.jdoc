@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="installer.TarBuffer" jls="java5">
+<jent id="0" type="file" span="0:0:484:1">Source/jEdit/installer/TarBuffer.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:483:2">installer.TarBuffer</jent>
+<jent id="2" pid="1" type="method" span="57:2:61:3">installer.TarBuffer.TarBuffer(InputStream)</jent>
+<jent id="3" pid="1" type="method" span="63:2:67:3">installer.TarBuffer.TarBuffer(InputStream,int)</jent>
+<jent id="4" pid="1" type="method" span="69:2:75:3">installer.TarBuffer.TarBuffer(InputStream,int,int)</jent>
+<jent id="5" pid="1" type="method" span="77:2:81:3">installer.TarBuffer.TarBuffer(OutputStream)</jent>
+<jent id="6" pid="1" type="method" span="83:2:87:3">installer.TarBuffer.TarBuffer(OutputStream,int)</jent>
+<jent id="7" pid="1" type="method" span="89:2:95:3">installer.TarBuffer.TarBuffer(OutputStream,int,int)</jent>
+<jent id="8" pid="1" type="method" span="100:2:119:3">installer.TarBuffer.initialize(int,int)</jent>
+<jent id="9" pid="1" type="method" span="124:2:128:3">installer.TarBuffer.getBlockSize()</jent>
+<jent id="10" pid="1" type="method" span="133:2:137:3">installer.TarBuffer.getRecordSize()</jent>
+<jent id="11" pid="1" type="method" span="144:2:148:3">installer.TarBuffer.setDebug(boolean)</jent>
+<jent id="12" pid="1" type="method" span="156:2:164:3">installer.TarBuffer.isEOFRecord(byte[])</jent>
+<jent id="13" pid="1" type="method" span="170:2:192:3">installer.TarBuffer.skipRecord()</jent>
+<jent id="14" pid="1" type="method" span="200:2:230:3">installer.TarBuffer.readRecord()</jent>
+<jent id="15" pid="1" type="method" span="236:2:293:3">installer.TarBuffer.readBlock()</jent>
+<jent id="16" pid="1" type="method" span="300:2:304:3">installer.TarBuffer.getCurrentBlockNum()</jent>
+<jent id="17" pid="1" type="method" span="312:2:316:3">installer.TarBuffer.getCurrentRecordNum()</jent>
+<jent id="18" pid="1" type="method" span="324:2:356:3">installer.TarBuffer.writeRecord(byte[])</jent>
+<jent id="19" pid="1" type="method" span="367:2:400:3">installer.TarBuffer.writeRecord(byte[],int)</jent>
+<jent id="20" pid="1" type="method" span="405:2:424:3">installer.TarBuffer.writeBlock()</jent>
+<jent id="21" pid="1" type="method" span="430:2:447:3">installer.TarBuffer.flushBlock()</jent>
+<jent id="22" pid="1" type="method" span="453:2:481:3">installer.TarBuffer.close()</jent>
+<jtok eid="0" type="block_comment" span="1:1:14:3">/*
+** Authored by Timothy Gerard Endres
+** &lt;mailto:time@gjt.org&gt;  &lt;http://www.trustice.com&gt;
+** 
+** This work has been placed into the public domain.
+** You may use this work in any way and for any purpose you wish.
+**
+** THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+** NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+** OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+** CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+** REDISTRIBUTION OF THIS SOFTWARE. 
+** 
+*/</jtok>
+<jtok eid="0" type="block_comment" span="21:1:36:4">/**
+ * The TarBuffer class implements the tar archive concept
+ * of a buffered input stream. This concept goes back to the
+ * days of blocked tape drives and special io devices. In the
+ * Java universe, the only real function that this class
+ * performs is to ensure that files have the correct "block"
+ * size, or other tars will complain.
+ * &lt;p&gt;
+ * You should never have a need to access this class directly.
+ * TarBuffers are created by Tar IO Streams.
+ *
+ * @version $Revision: 12504 $
+ * @author Timothy Gerard Endres,
+ *  &lt;a href="mailto:time@gjt.org"&gt;time@trustice.com&lt;/a&gt;.
+ * @see TarArchive
+ */</jtok>
+<jtok eid="1" type="class_name" span="39:1:39:10">TarBuffer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:19:39:25">Object</jtok>
+<jtok eid="1" type="field_name" span="41:27:41:42">DEFAULT_RCDSIZE</jtok>
+<jtok eid="1" type="field_name" span="42:27:42:42">DEFAULT_BLKSIZE</jtok>
+<jtok eid="1" type="primary_name_ref" span="42:47:42:62">DEFAULT_RCDSIZE</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:10:44:21">InputStream</jtok>
+<jtok eid="1" type="field_name" span="44:23:44:31">inStream</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:10:45:22">OutputStream</jtok>
+<jtok eid="1" type="field_name" span="45:23:45:32">outStream</jtok>
+<jtok eid="1" type="field_name" span="47:17:47:28">blockBuffer</jtok>
+<jtok eid="1" type="field_name" span="48:15:48:25">currBlkIdx</jtok>
+<jtok eid="1" type="field_name" span="49:15:49:25">currRecIdx</jtok>
+<jtok eid="1" type="field_name" span="50:15:50:24">blockSize</jtok>
+<jtok eid="1" type="field_name" span="51:15:51:25">recordSize</jtok>
+<jtok eid="1" type="field_name" span="52:15:52:27">recsPerBlock</jtok>
+<jtok eid="1" type="field_name" span="54:18:54:23">debug</jtok>
+<jtok eid="2" type="method_name" span="58:2:58:11">TarBuffer</jtok>
+<jtok eid="2" type="parameter_type" span="58:13:58:24">InputStream</jtok>
+<jtok eid="2" type="parameter_name" span="58:25:58:33">inStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:9:60:17">inStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:19:60:28">TarBuffer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="60:29:60:44">DEFAULT_BLKSIZE</jtok>
+<jtok eid="3" type="method_name" span="64:2:64:11">TarBuffer</jtok>
+<jtok eid="3" type="parameter_type" span="64:13:64:24">InputStream</jtok>
+<jtok eid="3" type="parameter_name" span="64:25:64:33">inStream</jtok>
+<jtok eid="3" type="parameter_name" span="64:39:64:48">blockSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:9:66:17">inStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:19:66:28">blockSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:30:66:39">TarBuffer</jtok>
+<jtok eid="3" type="qualified_name_ref" span="66:40:66:55">DEFAULT_RCDSIZE</jtok>
+<jtok eid="4" type="method_name" span="70:2:70:11">TarBuffer</jtok>
+<jtok eid="4" type="parameter_type" span="70:13:70:24">InputStream</jtok>
+<jtok eid="4" type="parameter_name" span="70:25:70:33">inStream</jtok>
+<jtok eid="4" type="parameter_name" span="70:39:70:48">blockSize</jtok>
+<jtok eid="4" type="parameter_name" span="70:54:70:64">recordSize</jtok>
+<jtok eid="4" type="qualified_name_ref" span="72:8:72:16">inStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:19:72:27">inStream</jtok>
+<jtok eid="4" type="qualified_name_ref" span="73:8:73:17">outStream</jtok>
+<jtok eid="4" type="method_call" span="74:8:74:18">initialize</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:20:74:29">blockSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:31:74:41">recordSize</jtok>
+<jtok eid="5" type="method_name" span="78:2:78:11">TarBuffer</jtok>
+<jtok eid="5" type="parameter_type" span="78:13:78:25">OutputStream</jtok>
+<jtok eid="5" type="parameter_name" span="78:26:78:35">outStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:9:80:18">outStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:20:80:29">TarBuffer</jtok>
+<jtok eid="5" type="qualified_name_ref" span="80:30:80:45">DEFAULT_BLKSIZE</jtok>
+<jtok eid="6" type="method_name" span="84:2:84:11">TarBuffer</jtok>
+<jtok eid="6" type="parameter_type" span="84:13:84:25">OutputStream</jtok>
+<jtok eid="6" type="parameter_name" span="84:26:84:35">outStream</jtok>
+<jtok eid="6" type="parameter_name" span="84:41:84:50">blockSize</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:9:86:18">outStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:20:86:29">blockSize</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:31:86:40">TarBuffer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="86:41:86:56">DEFAULT_RCDSIZE</jtok>
+<jtok eid="7" type="method_name" span="90:2:90:11">TarBuffer</jtok>
+<jtok eid="7" type="parameter_type" span="90:13:90:25">OutputStream</jtok>
+<jtok eid="7" type="parameter_name" span="90:26:90:35">outStream</jtok>
+<jtok eid="7" type="parameter_name" span="90:41:90:50">blockSize</jtok>
+<jtok eid="7" type="parameter_name" span="90:56:90:66">recordSize</jtok>
+<jtok eid="7" type="qualified_name_ref" span="92:8:92:16">inStream</jtok>
+<jtok eid="7" type="qualified_name_ref" span="93:8:93:17">outStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="93:20:93:29">outStream</jtok>
+<jtok eid="7" type="method_call" span="94:8:94:18">initialize</jtok>
+<jtok eid="7" type="primary_name_ref" span="94:20:94:29">blockSize</jtok>
+<jtok eid="7" type="primary_name_ref" span="94:31:94:41">recordSize</jtok>
+<jtok eid="1" type="block_comment" span="97:2:99:5">/**
+	 * Initialization common to all constructors.
+	 */</jtok>
+<jtok eid="8" type="method_name" span="101:2:101:12">initialize</jtok>
+<jtok eid="8" type="parameter_name" span="101:18:101:27">blockSize</jtok>
+<jtok eid="8" type="parameter_name" span="101:33:101:43">recordSize</jtok>
+<jtok eid="8" type="qualified_name_ref" span="103:8:103:13">debug</jtok>
+<jtok eid="8" type="qualified_name_ref" span="104:8:104:17">blockSize</jtok>
+<jtok eid="8" type="primary_name_ref" span="104:20:104:29">blockSize</jtok>
+<jtok eid="8" type="qualified_name_ref" span="105:8:105:18">recordSize</jtok>
+<jtok eid="8" type="primary_name_ref" span="105:21:105:31">recordSize</jtok>
+<jtok eid="8" type="qualified_name_ref" span="106:8:106:20">recsPerBlock</jtok>
+<jtok eid="8" type="qualified_name_ref" span="106:30:106:39">blockSize</jtok>
+<jtok eid="8" type="qualified_name_ref" span="106:47:106:57">recordSize</jtok>
+<jtok eid="8" type="qualified_name_ref" span="107:8:107:19">blockBuffer</jtok>
+<jtok eid="8" type="qualified_name_ref" span="107:37:107:46">blockSize</jtok>
+<jtok eid="8" type="qualified_name_ref" span="109:13:109:21">inStream</jtok>
+<jtok eid="8" type="qualified_name_ref" span="111:9:111:19">currBlkIdx</jtok>
+<jtok eid="8" type="qualified_name_ref" span="112:9:112:19">currRecIdx</jtok>
+<jtok eid="8" type="qualified_name_ref" span="112:27:112:39">recsPerBlock</jtok>
+<jtok eid="8" type="qualified_name_ref" span="116:9:116:19">currBlkIdx</jtok>
+<jtok eid="8" type="qualified_name_ref" span="117:9:117:19">currRecIdx</jtok>
+<jtok eid="1" type="block_comment" span="121:2:123:5">/**
+	 * Get the TAR Buffer's block size. Blocks consist of multiple records.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="125:2:125:14">getBlockSize</jtok>
+<jtok eid="9" type="qualified_name_ref" span="127:15:127:24">blockSize</jtok>
+<jtok eid="1" type="block_comment" span="130:2:132:5">/**
+	 * Get the TAR Buffer's record size.
+	 */</jtok>
+<jtok eid="10" type="method_name" span="134:2:134:15">getRecordSize</jtok>
+<jtok eid="10" type="qualified_name_ref" span="136:15:136:25">recordSize</jtok>
+<jtok eid="1" type="block_comment" span="139:2:143:5">/**
+	 * Set the debugging flag for the buffer.
+	 *
+	 * @param debug If true, print debugging output.
+	 */</jtok>
+<jtok eid="11" type="method_name" span="145:2:145:10">setDebug</jtok>
+<jtok eid="11" type="parameter_name" span="145:20:145:25">debug</jtok>
+<jtok eid="11" type="qualified_name_ref" span="147:8:147:13">debug</jtok>
+<jtok eid="11" type="primary_name_ref" span="147:16:147:21">debug</jtok>
+<jtok eid="1" type="block_comment" span="150:2:155:5">/**
+	 * Determine if an archive record indicate End of Archive. End of
+	 * archive is indicated by a record that consists entirely of null bytes.
+	 *
+	 * @param record The record data to check.
+	 */</jtok>
+<jtok eid="12" type="method_name" span="157:2:157:13">isEOFRecord</jtok>
+<jtok eid="12" type="parameter_name" span="157:22:157:28">record</jtok>
+<jtok eid="12" type="local_variable_name" span="159:13:159:14">i</jtok>
+<jtok eid="12" type="local_variable_name" span="159:20:159:22">sz</jtok>
+<jtok eid="12" type="method_call" span="159:30:159:43">getRecordSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="159:48:159:49">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="159:52:159:54">sz</jtok>
+<jtok eid="12" type="primary_name_ref" span="159:59:159:60">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="160:9:160:15">record</jtok>
+<jtok eid="12" type="primary_name_ref" span="160:16:160:17">i</jtok>
+<jtok eid="1" type="block_comment" span="166:2:168:5">/**
+	 * Skip over a record on the input stream.
+	 */</jtok>
+<jtok eid="13" type="method_name" span="171:2:171:12">skipRecord</jtok>
+<jtok eid="13" type="throws" span="172:10:172:21">IOException</jtok>
+<jtok eid="13" type="qualified_name_ref" span="174:13:174:18">debug</jtok>
+<jtok eid="13" type="primary_name_ref" span="176:4:176:10">System</jtok>
+<jtok eid="13" type="qualified_name_ref" span="176:11:176:14">err</jtok>
+<jtok eid="13" type="method_call" span="176:15:176:22">println</jtok>
+<jtok eid="13" type="string_literal" span="177:7:177:30">"SkipRecord: recIdx = "</jtok>
+<jtok eid="13" type="qualified_name_ref" span="177:38:177:48">currRecIdx</jtok>
+<jtok eid="13" type="string_literal" span="178:8:178:20">" blkIdx = "</jtok>
+<jtok eid="13" type="qualified_name_ref" span="178:28:178:38">currBlkIdx</jtok>
+<jtok eid="13" type="qualified_name_ref" span="181:13:181:21">inStream</jtok>
+<jtok eid="13" type="constructor_call" span="182:14:182:25">IOException</jtok>
+<jtok eid="13" type="string_literal" span="183:7:183:49">"reading (via skip) from an output buffer"</jtok>
+<jtok eid="13" type="qualified_name_ref" span="185:13:185:23">currRecIdx</jtok>
+<jtok eid="13" type="qualified_name_ref" span="185:32:185:44">recsPerBlock</jtok>
+<jtok eid="13" type="method_call" span="187:16:187:25">readBlock</jtok>
+<jtok eid="13" type="line_comment" span="188:13:188:22">// UNDONE</jtok>
+<jtok eid="13" type="qualified_name_ref" span="191:8:191:18">currRecIdx</jtok>
+<jtok eid="1" type="block_comment" span="194:2:198:5">/**
+	 * Read a record from the input stream and return the data.
+	 *
+	 * @return The record data.
+	 */</jtok>
+<jtok eid="14" type="method_name" span="201:2:201:12">readRecord</jtok>
+<jtok eid="14" type="throws" span="202:10:202:21">IOException</jtok>
+<jtok eid="14" type="qualified_name_ref" span="204:13:204:18">debug</jtok>
+<jtok eid="14" type="primary_name_ref" span="206:4:206:10">System</jtok>
+<jtok eid="14" type="qualified_name_ref" span="206:11:206:14">err</jtok>
+<jtok eid="14" type="method_call" span="206:15:206:22">println</jtok>
+<jtok eid="14" type="string_literal" span="207:7:207:30">"ReadRecord: recIdx = "</jtok>
+<jtok eid="14" type="qualified_name_ref" span="207:38:207:48">currRecIdx</jtok>
+<jtok eid="14" type="string_literal" span="208:8:208:20">" blkIdx = "</jtok>
+<jtok eid="14" type="qualified_name_ref" span="208:28:208:38">currBlkIdx</jtok>
+<jtok eid="14" type="qualified_name_ref" span="211:13:211:21">inStream</jtok>
+<jtok eid="14" type="constructor_call" span="212:14:212:25">IOException</jtok>
+<jtok eid="14" type="string_literal" span="213:7:213:38">"reading from an output buffer"</jtok>
+<jtok eid="14" type="qualified_name_ref" span="215:13:215:23">currRecIdx</jtok>
+<jtok eid="14" type="qualified_name_ref" span="215:32:215:44">recsPerBlock</jtok>
+<jtok eid="14" type="method_call" span="217:16:217:25">readBlock</jtok>
+<jtok eid="14" type="local_variable_name" span="221:10:221:16">result</jtok>
+<jtok eid="14" type="qualified_name_ref" span="221:34:221:44">recordSize</jtok>
+<jtok eid="14" type="primary_name_ref" span="223:3:223:9">System</jtok>
+<jtok eid="14" type="method_call" span="223:10:223:19">arraycopy</jtok>
+<jtok eid="14" type="qualified_name_ref" span="224:9:224:20">blockBuffer</jtok>
+<jtok eid="14" type="qualified_name_ref" span="224:28:224:38">currRecIdx</jtok>
+<jtok eid="14" type="qualified_name_ref" span="224:46:224:56">recordSize</jtok>
+<jtok eid="14" type="primary_name_ref" span="225:4:225:10">result</jtok>
+<jtok eid="14" type="qualified_name_ref" span="225:20:225:30">recordSize</jtok>
+<jtok eid="14" type="qualified_name_ref" span="227:8:227:18">currRecIdx</jtok>
+<jtok eid="14" type="primary_name_ref" span="229:10:229:16">result</jtok>
+<jtok eid="1" type="block_comment" span="232:2:234:5">/**
+	 * @return false if End-Of-File, else true
+	 */</jtok>
+<jtok eid="15" type="method_name" span="237:2:237:11">readBlock</jtok>
+<jtok eid="15" type="throws" span="238:10:238:21">IOException</jtok>
+<jtok eid="15" type="qualified_name_ref" span="240:13:240:18">debug</jtok>
+<jtok eid="15" type="primary_name_ref" span="242:4:242:10">System</jtok>
+<jtok eid="15" type="qualified_name_ref" span="242:11:242:14">err</jtok>
+<jtok eid="15" type="method_call" span="242:15:242:22">println</jtok>
+<jtok eid="15" type="string_literal" span="243:7:243:29">"ReadBlock: blkIdx = "</jtok>
+<jtok eid="15" type="qualified_name_ref" span="243:37:243:47">currBlkIdx</jtok>
+<jtok eid="15" type="qualified_name_ref" span="246:13:246:21">inStream</jtok>
+<jtok eid="15" type="constructor_call" span="247:14:247:25">IOException</jtok>
+<jtok eid="15" type="string_literal" span="248:7:248:38">"reading from an output buffer"</jtok>
+<jtok eid="15" type="qualified_name_ref" span="250:8:250:18">currRecIdx</jtok>
+<jtok eid="15" type="local_variable_name" span="252:7:252:13">offset</jtok>
+<jtok eid="15" type="local_variable_name" span="253:7:253:18">bytesNeeded</jtok>
+<jtok eid="15" type="qualified_name_ref" span="253:26:253:35">blockSize</jtok>
+<jtok eid="15" type="primary_name_ref" span="254:11:254:22">bytesNeeded</jtok>
+<jtok eid="15" type="local_variable_name" span="256:9:256:17">numBytes</jtok>
+<jtok eid="15" type="qualified_name_ref" span="257:10:257:18">inStream</jtok>
+<jtok eid="15" type="method_call" span="257:19:257:23">read</jtok>
+<jtok eid="15" type="qualified_name_ref" span="258:13:258:24">blockBuffer</jtok>
+<jtok eid="15" type="primary_name_ref" span="258:26:258:32">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="258:34:258:45">bytesNeeded</jtok>
+<jtok eid="15" type="line_comment" span="260:4:260:6">//</jtok>
+<jtok eid="15" type="line_comment" span="261:4:261:11">// NOTE</jtok>
+<jtok eid="15" type="line_comment" span="262:4:262:50">// We have fit EOF, and the block is not full!</jtok>
+<jtok eid="15" type="line_comment" span="263:4:263:6">//</jtok>
+<jtok eid="15" type="line_comment" span="264:4:264:64">// This is a broken archive. It does not follow the standard</jtok>
+<jtok eid="15" type="line_comment" span="265:4:265:64">// blocking algorithm. However, because we are generous, and</jtok>
+<jtok eid="15" type="line_comment" span="266:4:266:65">// it requires little effort, we will simply ignore the error</jtok>
+<jtok eid="15" type="line_comment" span="267:4:267:63">// and continue as if the entire block were read. This does</jtok>
+<jtok eid="15" type="line_comment" span="268:4:268:63">// not appear to break anything upstream. We used to return</jtok>
+<jtok eid="15" type="line_comment" span="269:4:269:26">// false in this case.</jtok>
+<jtok eid="15" type="line_comment" span="270:4:270:6">//</jtok>
+<jtok eid="15" type="line_comment" span="271:4:271:58">// Thanks to 'Yohann.Roussel@alcatel.fr' for this fix.</jtok>
+<jtok eid="15" type="line_comment" span="272:4:272:6">//</jtok>
+<jtok eid="15" type="primary_name_ref" span="274:9:274:17">numBytes</jtok>
+<jtok eid="15" type="primary_name_ref" span="277:4:277:10">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="277:14:277:22">numBytes</jtok>
+<jtok eid="15" type="primary_name_ref" span="278:4:278:15">bytesNeeded</jtok>
+<jtok eid="15" type="primary_name_ref" span="278:19:278:27">numBytes</jtok>
+<jtok eid="15" type="primary_name_ref" span="279:9:279:17">numBytes</jtok>
+<jtok eid="15" type="qualified_name_ref" span="279:26:279:35">blockSize</jtok>
+<jtok eid="15" type="qualified_name_ref" span="281:15:281:20">debug</jtok>
+<jtok eid="15" type="primary_name_ref" span="283:6:283:12">System</jtok>
+<jtok eid="15" type="qualified_name_ref" span="283:13:283:16">err</jtok>
+<jtok eid="15" type="method_call" span="283:17:283:24">println</jtok>
+<jtok eid="15" type="string_literal" span="284:9:284:38">"ReadBlock: INCOMPLETE READ "</jtok>
+<jtok eid="15" type="primary_name_ref" span="284:41:284:49">numBytes</jtok>
+<jtok eid="15" type="string_literal" span="285:10:285:16">" of "</jtok>
+<jtok eid="15" type="qualified_name_ref" span="285:24:285:33">blockSize</jtok>
+<jtok eid="15" type="string_literal" span="285:36:285:50">" bytes read."</jtok>
+<jtok eid="15" type="qualified_name_ref" span="290:8:290:18">currBlkIdx</jtok>
+<jtok eid="1" type="block_comment" span="295:2:299:5">/**
+	 * Get the current block number, zero based.
+	 *
+	 * @return The current zero based block number.
+	 */</jtok>
+<jtok eid="16" type="method_name" span="301:2:301:20">getCurrentBlockNum</jtok>
+<jtok eid="16" type="qualified_name_ref" span="303:15:303:25">currBlkIdx</jtok>
+<jtok eid="1" type="block_comment" span="306:2:311:5">/**
+	 * Get the current record number, within the current block, zero based.
+	 * Thus, current offset = (currentBlockNum * recsPerBlk) + currentRecNum.
+	 *
+	 * @return The current zero based record number.
+	 */</jtok>
+<jtok eid="17" type="method_name" span="313:2:313:21">getCurrentRecordNum</jtok>
+<jtok eid="17" type="qualified_name_ref" span="315:15:315:25">currRecIdx</jtok>
+<jtok eid="1" type="block_comment" span="318:2:322:5">/**
+	 * Write an archive record to the archive.
+	 *
+	 * @param record The record data to write to the archive.
+	 */</jtok>
+<jtok eid="18" type="method_name" span="325:2:325:13">writeRecord</jtok>
+<jtok eid="18" type="parameter_name" span="325:22:325:28">record</jtok>
+<jtok eid="18" type="throws" span="326:10:326:21">IOException</jtok>
+<jtok eid="18" type="qualified_name_ref" span="328:13:328:18">debug</jtok>
+<jtok eid="18" type="primary_name_ref" span="330:4:330:10">System</jtok>
+<jtok eid="18" type="qualified_name_ref" span="330:11:330:14">err</jtok>
+<jtok eid="18" type="method_call" span="330:15:330:22">println</jtok>
+<jtok eid="18" type="string_literal" span="331:7:331:31">"WriteRecord: recIdx = "</jtok>
+<jtok eid="18" type="qualified_name_ref" span="331:39:331:49">currRecIdx</jtok>
+<jtok eid="18" type="string_literal" span="332:8:332:20">" blkIdx = "</jtok>
+<jtok eid="18" type="qualified_name_ref" span="332:28:332:38">currBlkIdx</jtok>
+<jtok eid="18" type="qualified_name_ref" span="335:13:335:22">outStream</jtok>
+<jtok eid="18" type="constructor_call" span="336:14:336:25">IOException</jtok>
+<jtok eid="18" type="string_literal" span="337:7:337:35">"writing to an input buffer"</jtok>
+<jtok eid="18" type="primary_name_ref" span="339:8:339:14">record</jtok>
+<jtok eid="18" type="qualified_name_ref" span="339:15:339:21">length</jtok>
+<jtok eid="18" type="qualified_name_ref" span="339:30:339:40">recordSize</jtok>
+<jtok eid="18" type="constructor_call" span="340:14:340:25">IOException</jtok>
+<jtok eid="18" type="string_literal" span="341:7:341:37">"record to write has length '"</jtok>
+<jtok eid="18" type="primary_name_ref" span="341:40:341:46">record</jtok>
+<jtok eid="18" type="qualified_name_ref" span="341:47:341:53">length</jtok>
+<jtok eid="18" type="string_literal" span="342:8:342:45">"' which is not the record size of '"</jtok>
+<jtok eid="18" type="qualified_name_ref" span="343:13:343:23">recordSize</jtok>
+<jtok eid="18" type="string_literal" span="343:26:343:29">"'"</jtok>
+<jtok eid="18" type="qualified_name_ref" span="345:13:345:23">currRecIdx</jtok>
+<jtok eid="18" type="qualified_name_ref" span="345:32:345:44">recsPerBlock</jtok>
+<jtok eid="18" type="method_call" span="347:9:347:19">writeBlock</jtok>
+<jtok eid="18" type="primary_name_ref" span="350:3:350:9">System</jtok>
+<jtok eid="18" type="method_call" span="350:10:350:19">arraycopy</jtok>
+<jtok eid="18" type="primary_name_ref" span="351:4:351:10">record</jtok>
+<jtok eid="18" type="qualified_name_ref" span="352:9:352:20">blockBuffer</jtok>
+<jtok eid="18" type="qualified_name_ref" span="352:28:352:38">currRecIdx</jtok>
+<jtok eid="18" type="qualified_name_ref" span="352:46:352:56">recordSize</jtok>
+<jtok eid="18" type="qualified_name_ref" span="353:9:353:19">recordSize</jtok>
+<jtok eid="18" type="qualified_name_ref" span="355:8:355:18">currRecIdx</jtok>
+<jtok eid="1" type="block_comment" span="358:2:365:5">/**
+	 * Write an archive record to the archive, where the record may be
+	 * inside of a larger array buffer. The buffer must be "offset plus
+	 * record size" long.
+	 *
+	 * @param buf The buffer containing the record data to write.
+	 * @param offset The offset of the record data within buf.
+	 */</jtok>
+<jtok eid="19" type="method_name" span="368:2:368:13">writeRecord</jtok>
+<jtok eid="19" type="parameter_name" span="368:22:368:25">buf</jtok>
+<jtok eid="19" type="parameter_name" span="368:31:368:37">offset</jtok>
+<jtok eid="19" type="throws" span="369:10:369:21">IOException</jtok>
+<jtok eid="19" type="qualified_name_ref" span="371:13:371:18">debug</jtok>
+<jtok eid="19" type="primary_name_ref" span="373:4:373:10">System</jtok>
+<jtok eid="19" type="qualified_name_ref" span="373:11:373:14">err</jtok>
+<jtok eid="19" type="method_call" span="373:15:373:22">println</jtok>
+<jtok eid="19" type="string_literal" span="374:7:374:31">"WriteRecord: recIdx = "</jtok>
+<jtok eid="19" type="qualified_name_ref" span="374:39:374:49">currRecIdx</jtok>
+<jtok eid="19" type="string_literal" span="375:8:375:20">" blkIdx = "</jtok>
+<jtok eid="19" type="qualified_name_ref" span="375:28:375:38">currBlkIdx</jtok>
+<jtok eid="19" type="qualified_name_ref" span="378:13:378:22">outStream</jtok>
+<jtok eid="19" type="constructor_call" span="379:14:379:25">IOException</jtok>
+<jtok eid="19" type="string_literal" span="380:7:380:35">"writing to an input buffer"</jtok>
+<jtok eid="19" type="primary_name_ref" span="382:9:382:15">offset</jtok>
+<jtok eid="19" type="qualified_name_ref" span="382:23:382:33">recordSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="382:37:382:40">buf</jtok>
+<jtok eid="19" type="qualified_name_ref" span="382:41:382:47">length</jtok>
+<jtok eid="19" type="constructor_call" span="383:14:383:25">IOException</jtok>
+<jtok eid="19" type="string_literal" span="384:7:384:28">"record has length '"</jtok>
+<jtok eid="19" type="primary_name_ref" span="384:31:384:34">buf</jtok>
+<jtok eid="19" type="qualified_name_ref" span="384:35:384:41">length</jtok>
+<jtok eid="19" type="string_literal" span="385:8:385:25">"' with offset '"</jtok>
+<jtok eid="19" type="primary_name_ref" span="385:28:385:34">offset</jtok>
+<jtok eid="19" type="string_literal" span="386:8:386:51">"' which is less than the record size of '"</jtok>
+<jtok eid="19" type="qualified_name_ref" span="387:13:387:23">recordSize</jtok>
+<jtok eid="19" type="string_literal" span="387:26:387:29">"'"</jtok>
+<jtok eid="19" type="qualified_name_ref" span="389:13:389:23">currRecIdx</jtok>
+<jtok eid="19" type="qualified_name_ref" span="389:32:389:44">recsPerBlock</jtok>
+<jtok eid="19" type="method_call" span="391:9:391:19">writeBlock</jtok>
+<jtok eid="19" type="primary_name_ref" span="394:3:394:9">System</jtok>
+<jtok eid="19" type="method_call" span="394:10:394:19">arraycopy</jtok>
+<jtok eid="19" type="primary_name_ref" span="395:4:395:7">buf</jtok>
+<jtok eid="19" type="primary_name_ref" span="395:9:395:15">offset</jtok>
+<jtok eid="19" type="qualified_name_ref" span="396:9:396:20">blockBuffer</jtok>
+<jtok eid="19" type="qualified_name_ref" span="396:28:396:38">currRecIdx</jtok>
+<jtok eid="19" type="qualified_name_ref" span="396:46:396:56">recordSize</jtok>
+<jtok eid="19" type="qualified_name_ref" span="397:9:397:19">recordSize</jtok>
+<jtok eid="19" type="qualified_name_ref" span="399:8:399:18">currRecIdx</jtok>
+<jtok eid="1" type="block_comment" span="402:2:404:5">/**
+	 * Write a TarBuffer block to the archive.
+	 */</jtok>
+<jtok eid="20" type="method_name" span="406:2:406:12">writeBlock</jtok>
+<jtok eid="20" type="throws" span="407:10:407:21">IOException</jtok>
+<jtok eid="20" type="qualified_name_ref" span="409:13:409:18">debug</jtok>
+<jtok eid="20" type="primary_name_ref" span="411:4:411:10">System</jtok>
+<jtok eid="20" type="qualified_name_ref" span="411:11:411:14">err</jtok>
+<jtok eid="20" type="method_call" span="411:15:411:22">println</jtok>
+<jtok eid="20" type="string_literal" span="412:7:412:30">"WriteBlock: blkIdx = "</jtok>
+<jtok eid="20" type="qualified_name_ref" span="412:38:412:48">currBlkIdx</jtok>
+<jtok eid="20" type="qualified_name_ref" span="415:13:415:22">outStream</jtok>
+<jtok eid="20" type="constructor_call" span="416:14:416:25">IOException</jtok>
+<jtok eid="20" type="string_literal" span="417:7:417:35">"writing to an input buffer"</jtok>
+<jtok eid="20" type="qualified_name_ref" span="419:8:419:17">outStream</jtok>
+<jtok eid="20" type="method_call" span="419:18:419:23">write</jtok>
+<jtok eid="20" type="qualified_name_ref" span="419:30:419:41">blockBuffer</jtok>
+<jtok eid="20" type="qualified_name_ref" span="419:51:419:60">blockSize</jtok>
+<jtok eid="20" type="qualified_name_ref" span="420:8:420:17">outStream</jtok>
+<jtok eid="20" type="method_call" span="420:18:420:23">flush</jtok>
+<jtok eid="20" type="qualified_name_ref" span="422:8:422:18">currRecIdx</jtok>
+<jtok eid="20" type="qualified_name_ref" span="423:8:423:18">currBlkIdx</jtok>
+<jtok eid="1" type="block_comment" span="426:2:428:5">/**
+	 * Flush the current data block if it has any data in it.
+	 */</jtok>
+<jtok eid="21" type="method_name" span="431:2:431:12">flushBlock</jtok>
+<jtok eid="21" type="throws" span="432:10:432:21">IOException</jtok>
+<jtok eid="21" type="qualified_name_ref" span="434:13:434:18">debug</jtok>
+<jtok eid="21" type="primary_name_ref" span="436:4:436:10">System</jtok>
+<jtok eid="21" type="qualified_name_ref" span="436:11:436:14">err</jtok>
+<jtok eid="21" type="method_call" span="436:15:436:22">println</jtok>
+<jtok eid="21" type="string_literal" span="436:24:436:56">"TarBuffer.flushBlock() called."</jtok>
+<jtok eid="21" type="qualified_name_ref" span="439:13:439:22">outStream</jtok>
+<jtok eid="21" type="constructor_call" span="440:14:440:25">IOException</jtok>
+<jtok eid="21" type="string_literal" span="441:7:441:35">"writing to an input buffer"</jtok>
+<jtok eid="21" type="qualified_name_ref" span="443:13:443:23">currRecIdx</jtok>
+<jtok eid="21" type="method_call" span="445:9:445:19">writeBlock</jtok>
+<jtok eid="1" type="block_comment" span="449:2:452:5">/**
+	 * Close the TarBuffer. If this is an output buffer, also flush the
+	 * current block before closing.
+	 */</jtok>
+<jtok eid="22" type="method_name" span="454:2:454:7">close</jtok>
+<jtok eid="22" type="throws" span="455:10:455:21">IOException</jtok>
+<jtok eid="22" type="qualified_name_ref" span="457:13:457:18">debug</jtok>
+<jtok eid="22" type="primary_name_ref" span="459:4:459:10">System</jtok>
+<jtok eid="22" type="qualified_name_ref" span="459:11:459:14">err</jtok>
+<jtok eid="22" type="method_call" span="459:15:459:22">println</jtok>
+<jtok eid="22" type="string_literal" span="459:24:459:50">"TarBuffer.closeBuffer()."</jtok>
+<jtok eid="22" type="qualified_name_ref" span="462:13:462:22">outStream</jtok>
+<jtok eid="22" type="method_call" span="464:9:464:19">flushBlock</jtok>
+<jtok eid="22" type="qualified_name_ref" span="466:14:466:23">outStream</jtok>
+<jtok eid="22" type="primary_name_ref" span="466:27:466:33">System</jtok>
+<jtok eid="22" type="qualified_name_ref" span="466:34:466:37">out</jtok>
+<jtok eid="22" type="qualified_name_ref" span="467:14:467:23">outStream</jtok>
+<jtok eid="22" type="primary_name_ref" span="467:27:467:33">System</jtok>
+<jtok eid="22" type="qualified_name_ref" span="467:34:467:37">err</jtok>
+<jtok eid="22" type="qualified_name_ref" span="469:10:469:19">outStream</jtok>
+<jtok eid="22" type="method_call" span="469:20:469:25">close</jtok>
+<jtok eid="22" type="qualified_name_ref" span="470:10:470:19">outStream</jtok>
+<jtok eid="22" type="qualified_name_ref" span="473:18:473:26">inStream</jtok>
+<jtok eid="22" type="qualified_name_ref" span="475:14:475:22">inStream</jtok>
+<jtok eid="22" type="primary_name_ref" span="475:26:475:32">System</jtok>
+<jtok eid="22" type="qualified_name_ref" span="475:33:475:35">in</jtok>
+<jtok eid="22" type="qualified_name_ref" span="477:10:477:18">inStream</jtok>
+<jtok eid="22" type="method_call" span="477:19:477:24">close</jtok>
+<jtok eid="22" type="qualified_name_ref" span="478:10:478:18">inStream</jtok>
+</jdoc>

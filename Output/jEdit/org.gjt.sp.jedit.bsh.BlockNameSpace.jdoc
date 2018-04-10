@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BlockNameSpace" jls="java5">
+<jent id="0" type="file" span="0:0:192:1">Source/jEdit/org/gjt/sp/jedit/bsh/BlockNameSpace.java</jent>
+<jent id="1" pid="0" type="class" span="52:1:191:1">org.gjt.sp.jedit.bsh.BlockNameSpace</jent>
+<jent id="2" pid="1" type="method" span="54:5:58:5">org.gjt.sp.jedit.bsh.BlockNameSpace.BlockNameSpace(NameSpace)</jent>
+<jent id="3" pid="1" type="method" span="75:5:85:5">org.gjt.sp.jedit.bsh.BlockNameSpace.setVariable(String,Object,boolean,boolean)</jent>
+<jent id="4" pid="1" type="method" span="93:5:97:2">org.gjt.sp.jedit.bsh.BlockNameSpace.setBlockVariable(String,Object)</jent>
+<jent id="5" pid="1" type="method" span="104:2:110:2">org.gjt.sp.jedit.bsh.BlockNameSpace.weHaveVar(String)</jent>
+<jent id="6" pid="1" type="method" span="145:2:152:2">org.gjt.sp.jedit.bsh.BlockNameSpace.getNonBlockParent()</jent>
+<jent id="7" pid="1" type="method" span="161:5:163:2">org.gjt.sp.jedit.bsh.BlockNameSpace.getThis(Interpreter)</jent>
+<jent id="8" pid="1" type="method" span="168:5:170:2">org.gjt.sp.jedit.bsh.BlockNameSpace.getSuper(Interpreter)</jent>
+<jent id="9" pid="1" type="method" span="175:5:177:2">org.gjt.sp.jedit.bsh.BlockNameSpace.importClass(String)</jent>
+<jent id="10" pid="1" type="method" span="182:5:184:2">org.gjt.sp.jedit.bsh.BlockNameSpace.importPackage(String)</jent>
+<jent id="11" pid="1" type="method" span="186:5:190:2">org.gjt.sp.jedit.bsh.BlockNameSpace.setMethod(String,BshMethod)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="36:1:44:3">/**
+    A specialized namespace	for Blocks (e.g. the body of a "for" statement).
+	The Block acts like a child namespace but only for typed variables 
+	declared within it (block local scope) or untyped variables explicitly set 
+	in it via setBlockVariable().  Otherwise variable assignment 
+	(including untyped variable usage) acts like it is part of the containing
+	block.  
+	&lt;p&gt;
+*/</jtok>
+<jtok eid="0" type="block_comment" span="45:1:51:3">/*
+	Note: This class essentially just delegates most of its methods to its
+	parent.  The setVariable() indirection is very small.  We could probably
+	fold this functionality back into the base NameSpace as a special case.
+	But this has changed a few times so I'd like to leave this abstraction for
+	now.
+*/</jtok>
+<jtok eid="1" type="class_name" span="52:7:52:21">BlockNameSpace</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:30:52:39">NameSpace</jtok>
+<jtok eid="2" type="method_name" span="54:12:54:26">BlockNameSpace</jtok>
+<jtok eid="2" type="parameter_type" span="54:28:54:37">NameSpace</jtok>
+<jtok eid="2" type="parameter_name" span="54:38:54:44">parent</jtok>
+<jtok eid="2" type="method_call" span="55:10:55:19">EvalError</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:10:57:16">parent</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:18:57:24">parent</jtok>
+<jtok eid="2" type="method_call" span="57:25:57:32">getName</jtok>
+<jtok eid="2" type="string_literal" span="57:36:57:53">"/BlockNameSpace"</jtok>
+<jtok eid="1" type="block_comment" span="60:2:69:4">/**
+		Override the standard namespace behavior to make assignments
+		happen in our parent (enclosing) namespace, unless the variable has
+		already been assigned here via a typed declaration or through
+		the special setBlockVariable() (used for untyped args in try/catch).
+		&lt;p&gt;
+		i.e. only allow typed var declaration to happen in this namespace.
+		Typed vars are handled in the ordinary way local scope.  All untyped
+		assignments are delegated to the enclosing context.
+	*/</jtok>
+<jtok eid="1" type="block_comment" span="70:2:74:4">/*
+		Note: it may see like with the new 1.3 scoping this test could be
+		removed, but it cannot.  When recurse is false we still need to set the
+		variable in our parent, not here.
+	*/</jtok>
+<jtok eid="3" type="method_name" span="75:17:75:28">setVariable</jtok>
+<jtok eid="3" type="parameter_type" span="76:3:76:9">String</jtok>
+<jtok eid="3" type="parameter_name" span="76:10:76:14">name</jtok>
+<jtok eid="3" type="parameter_type" span="76:16:76:22">Object</jtok>
+<jtok eid="3" type="parameter_name" span="76:23:76:28">value</jtok>
+<jtok eid="3" type="parameter_name" span="76:38:76:48">strictJava</jtok>
+<jtok eid="3" type="parameter_name" span="76:58:76:65">recurse</jtok>
+<jtok eid="3" type="throws" span="77:10:77:23">UtilEvalError</jtok>
+<jtok eid="3" type="method_call" span="79:8:79:17">weHaveVar</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:19:79:23">name</jtok>
+<jtok eid="3" type="line_comment" span="80:4:80:46">// set the var here in the block namespace</jtok>
+<jtok eid="3" type="method_call" span="81:10:81:21">setVariable</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:23:81:27">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:29:81:34">value</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:36:81:46">strictJava</jtok>
+<jtok eid="3" type="line_comment" span="83:4:83:54">// set the var in the enclosing (parent) namespace</jtok>
+<jtok eid="3" type="method_call" span="84:4:84:13">getParent</jtok>
+<jtok eid="3" type="method_call" span="84:16:84:27">setVariable</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:29:84:33">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:35:84:40">value</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:42:84:52">strictJava</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:54:84:61">recurse</jtok>
+<jtok eid="1" type="block_comment" span="87:2:92:4">/**
+		Set an untyped variable in the block namespace.
+		The BlockNameSpace would normally delegate this set to the parent.
+		Typed variables are naturally set locally.
+		This is used in try/catch block argument. 
+	*/</jtok>
+<jtok eid="4" type="method_name" span="93:17:93:33">setBlockVariable</jtok>
+<jtok eid="4" type="parameter_type" span="93:35:93:41">String</jtok>
+<jtok eid="4" type="parameter_name" span="93:42:93:46">name</jtok>
+<jtok eid="4" type="parameter_type" span="93:48:93:54">Object</jtok>
+<jtok eid="4" type="parameter_name" span="93:55:93:60">value</jtok>
+<jtok eid="4" type="throws" span="94:10:94:23">UtilEvalError</jtok>
+<jtok eid="4" type="method_call" span="96:9:96:20">setVariable</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:22:96:26">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:28:96:33">value</jtok>
+<jtok eid="4" type="block_comment" span="96:40:96:51">/*strict?*/</jtok>
+<jtok eid="1" type="block_comment" span="99:2:103:4">/**
+		We have the variable: either it was declared here with a type, giving
+		it block local scope or an untyped var was explicitly set here via
+		setBlockVariable().
+	*/</jtok>
+<jtok eid="5" type="method_name" span="104:18:104:27">weHaveVar</jtok>
+<jtok eid="5" type="parameter_type" span="104:29:104:35">String</jtok>
+<jtok eid="5" type="parameter_name" span="104:36:104:40">name</jtok>
+<jtok eid="5" type="line_comment" span="106:3:106:67">// super.variables.containsKey( name ) not any faster, I checked</jtok>
+<jtok eid="5" type="method_call" span="108:17:108:32">getVariableImpl</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:34:108:38">name</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="109:13:109:26">UtilEvalError</jtok>
+<jtok eid="5" type="local_variable_name" span="109:27:109:28">e</jtok>
+<jtok eid="1" type="block_comment" span="112:1:126:3">/**
+		Get the actual BlockNameSpace 'this' reference.
+		&lt;p/&gt;
+		Normally a 'this' reference to a BlockNameSpace (e.g. if () { } )
+		resolves to the parent namespace (e.g. the namespace containing the
+		"if" statement).  However when code inside the BlockNameSpace needs to
+		resolve things relative to 'this' we must use the actual block's 'this'
+		reference.  Name.java is smart enough to handle this using
+		getBlockThis().
+		@see #getThis( Interpreter )
+    This getBlockThis( Interpreter declaringInterpreter ) 
+	{
+		return super.getThis( declaringInterpreter );
+	}
+*/</jtok>
+<jtok eid="1" type="line_comment" span="128:2:128:4">//</jtok>
+<jtok eid="1" type="line_comment" span="129:2:129:72">// Begin methods which simply delegate to our parent (enclosing scope)</jtok>
+<jtok eid="1" type="line_comment" span="130:2:130:4">//</jtok>
+<jtok eid="1" type="block_comment" span="132:2:143:3">/**
+		This method recurses to find the nearest non-BlockNameSpace parent.
+
+	public NameSpace getParent() 
+	{
+		NameSpace parent = super.getParent();
+		if ( parent instanceof BlockNameSpace )
+			return parent.getParent();
+		else
+			return parent;
+	}
+*/</jtok>
+<jtok eid="1" type="block_comment" span="144:2:144:25">/** do we need this? */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="145:10:145:19">NameSpace</jtok>
+<jtok eid="6" type="method_name" span="145:20:145:37">getNonBlockParent</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="147:3:147:12">NameSpace</jtok>
+<jtok eid="6" type="local_variable_name" span="147:13:147:19">parent</jtok>
+<jtok eid="6" type="method_call" span="147:28:147:37">getParent</jtok>
+<jtok eid="6" type="primary_name_ref" span="148:8:148:14">parent</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="148:26:148:40">BlockNameSpace</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="149:13:149:27">BlockNameSpace</jtok>
+<jtok eid="6" type="primary_name_ref" span="149:28:149:34">parent</jtok>
+<jtok eid="6" type="method_call" span="149:36:149:53">getNonBlockParent</jtok>
+<jtok eid="6" type="primary_name_ref" span="151:11:151:17">parent</jtok>
+<jtok eid="1" type="block_comment" span="154:2:160:4">/**
+		Get a 'this' reference is our parent's 'this' for the object closure.
+		e.g. Normally a 'this' reference to a BlockNameSpace (e.g. if () { } )
+		resolves to the parent namespace (e.g. the namespace containing the
+		"if" statement). 
+		@see #getBlockThis( Interpreter )
+	*/</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="161:5:161:9">This</jtok>
+<jtok eid="7" type="method_name" span="161:10:161:17">getThis</jtok>
+<jtok eid="7" type="parameter_type" span="161:19:161:30">Interpreter</jtok>
+<jtok eid="7" type="parameter_name" span="161:31:161:51">declaringInterpreter</jtok>
+<jtok eid="7" type="method_call" span="162:10:162:27">getNonBlockParent</jtok>
+<jtok eid="7" type="method_call" span="162:30:162:37">getThis</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:39:162:59">declaringInterpreter</jtok>
+<jtok eid="1" type="block_comment" span="165:2:167:4">/**
+		super is our parent's super
+	*/</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="168:12:168:16">This</jtok>
+<jtok eid="8" type="method_name" span="168:17:168:25">getSuper</jtok>
+<jtok eid="8" type="parameter_type" span="168:27:168:38">Interpreter</jtok>
+<jtok eid="8" type="parameter_name" span="168:39:168:59">declaringInterpreter</jtok>
+<jtok eid="8" type="method_call" span="169:10:169:27">getNonBlockParent</jtok>
+<jtok eid="8" type="method_call" span="169:30:169:38">getSuper</jtok>
+<jtok eid="8" type="primary_name_ref" span="169:40:169:60">declaringInterpreter</jtok>
+<jtok eid="1" type="block_comment" span="172:2:174:4">/**
+		delegate import to our parent
+	*/</jtok>
+<jtok eid="9" type="method_name" span="175:17:175:28">importClass</jtok>
+<jtok eid="9" type="parameter_type" span="175:29:175:35">String</jtok>
+<jtok eid="9" type="parameter_name" span="175:36:175:40">name</jtok>
+<jtok eid="9" type="method_call" span="176:3:176:12">getParent</jtok>
+<jtok eid="9" type="method_call" span="176:15:176:26">importClass</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:28:176:32">name</jtok>
+<jtok eid="1" type="block_comment" span="179:2:181:4">/**
+		delegate import to our parent
+	*/</jtok>
+<jtok eid="10" type="method_name" span="182:17:182:30">importPackage</jtok>
+<jtok eid="10" type="parameter_type" span="182:31:182:37">String</jtok>
+<jtok eid="10" type="parameter_name" span="182:38:182:42">name</jtok>
+<jtok eid="10" type="method_call" span="183:3:183:12">getParent</jtok>
+<jtok eid="10" type="method_call" span="183:15:183:28">importPackage</jtok>
+<jtok eid="10" type="primary_name_ref" span="183:30:183:34">name</jtok>
+<jtok eid="11" type="method_name" span="186:17:186:26">setMethod</jtok>
+<jtok eid="11" type="parameter_type" span="186:27:186:33">String</jtok>
+<jtok eid="11" type="parameter_name" span="186:34:186:38">name</jtok>
+<jtok eid="11" type="parameter_type" span="186:40:186:49">BshMethod</jtok>
+<jtok eid="11" type="parameter_name" span="186:50:186:56">method</jtok>
+<jtok eid="11" type="throws" span="187:10:187:23">UtilEvalError</jtok>
+<jtok eid="11" type="method_call" span="189:3:189:12">getParent</jtok>
+<jtok eid="11" type="method_call" span="189:15:189:24">setMethod</jtok>
+<jtok eid="11" type="primary_name_ref" span="189:26:189:30">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="189:32:189:38">method</jtok>
+</jdoc>

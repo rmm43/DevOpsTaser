@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.syntax.ParserRuleSet" jls="java5">
+<jent id="0" type="file" span="0:0:397:2">Source/jEdit/org/gjt/sp/jedit/syntax/ParserRuleSet.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:397:1">org.gjt.sp.jedit.syntax.ParserRuleSet</jent>
+<jent id="2" pid="1" type="method" span="44:2:47:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getStandardRuleSet(byte)</jent>
+<jent id="3" pid="1" type="method" span="50:2:56:2">org.gjt.sp.jedit.syntax.ParserRuleSet.ParserRuleSet(String,String)</jent>
+<jent id="4" pid="1" type="method" span="59:2:62:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getModeName()</jent>
+<jent id="5" pid="1" type="method" span="65:2:68:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getSetName()</jent>
+<jent id="6" pid="1" type="method" span="71:2:74:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getName()</jent>
+<jent id="7" pid="1" type="method" span="77:2:80:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getProperties()</jent>
+<jent id="8" pid="1" type="method" span="83:2:87:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setProperties(Hashtable&lt;String,String&gt;)</jent>
+<jent id="9" pid="1" type="method" span="94:2:121:2">org.gjt.sp.jedit.syntax.ParserRuleSet.resolveImports()</jent>
+<jent id="10" pid="1" type="method" span="129:2:132:2">org.gjt.sp.jedit.syntax.ParserRuleSet.addRuleSet(ParserRuleSet)</jent>
+<jent id="11" pid="1" type="method" span="135:2:176:2">org.gjt.sp.jedit.syntax.ParserRuleSet.addRule(ParserRule)</jent>
+<jent id="12" pid="1" type="method" span="183:2:187:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getRules(char)</jent>
+<jent id="13" pid="1" type="method" span="190:2:219:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getRules(Character)</jent>
+<jent id="14" pid="1" type="method" span="222:2:225:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getRuleCount()</jent>
+<jent id="15" pid="1" type="method" span="233:2:236:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getTerminateChar()</jent>
+<jent id="16" pid="1" type="method" span="239:2:242:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setTerminateChar(int)</jent>
+<jent id="17" pid="1" type="method" span="245:2:248:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getIgnoreCase()</jent>
+<jent id="18" pid="1" type="method" span="251:2:254:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setIgnoreCase(boolean)</jent>
+<jent id="19" pid="1" type="method" span="257:2:260:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getKeywords()</jent>
+<jent id="20" pid="1" type="method" span="263:2:267:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setKeywords(KeywordMap)</jent>
+<jent id="21" pid="1" type="method" span="270:2:273:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getHighlightDigits()</jent>
+<jent id="22" pid="1" type="method" span="276:2:279:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setHighlightDigits(boolean)</jent>
+<jent id="23" pid="1" type="method" span="282:2:285:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getDigitRegexp()</jent>
+<jent id="24" pid="1" type="method" span="288:2:291:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setDigitRegexp(Pattern)</jent>
+<jent id="25" pid="1" type="method" span="294:2:297:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getEscapeRule()</jent>
+<jent id="26" pid="1" type="method" span="300:2:303:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setEscapeRule(ParserRule)</jent>
+<jent id="27" pid="1" type="method" span="306:2:309:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getDefault()</jent>
+<jent id="28" pid="1" type="method" span="312:2:315:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setDefault(byte)</jent>
+<jent id="29" pid="1" type="method" span="318:2:329:2">org.gjt.sp.jedit.syntax.ParserRuleSet.getNoWordSep()</jent>
+<jent id="30" pid="1" type="method" span="332:2:336:2">org.gjt.sp.jedit.syntax.ParserRuleSet.setNoWordSep(String)</jent>
+<jent id="31" pid="1" type="method" span="343:2:346:2">org.gjt.sp.jedit.syntax.ParserRuleSet.isBuiltIn()</jent>
+<jent id="32" pid="1" type="method" span="350:2:353:2">org.gjt.sp.jedit.syntax.ParserRuleSet.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * ParserRuleSet.java - A set of parser rules
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999 mike dillon
+ * Portions copyright (C) 2001, 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="29:1:29:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="31:1:35:4">/**
+ * A set of parser rules.
+ * @author mike dillon
+ * @version $Id: ParserRuleSet.java 16344 2009-10-14 10:31:01Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="36:14:36:27">ParserRuleSet</jtok>
+<jtok eid="1" type="line_comment" span="38:2:38:35">//{{{ getStandardRuleSet() method</jtok>
+<jtok eid="1" type="block_comment" span="39:2:43:5">/**
+	 * Returns a parser rule set that highlights everything with the
+	 * specified token type.
+	 * @param id The token type
+	 */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="44:16:44:29">ParserRuleSet</jtok>
+<jtok eid="2" type="method_name" span="44:30:44:48">getStandardRuleSet</jtok>
+<jtok eid="2" type="parameter_name" span="44:54:44:56">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:10:46:18">standard</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:19:46:21">id</jtok>
+<jtok eid="1" type="line_comment" span="47:4:47:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:33">//{{{ ParserRuleSet constructor</jtok>
+<jtok eid="3" type="method_name" span="50:9:50:22">ParserRuleSet</jtok>
+<jtok eid="3" type="parameter_type" span="50:23:50:29">String</jtok>
+<jtok eid="3" type="parameter_name" span="50:30:50:38">modeName</jtok>
+<jtok eid="3" type="parameter_type" span="50:40:50:46">String</jtok>
+<jtok eid="3" type="parameter_name" span="50:47:50:54">setName</jtok>
+<jtok eid="3" type="qualified_name_ref" span="52:8:52:16">modeName</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:19:52:27">modeName</jtok>
+<jtok eid="3" type="qualified_name_ref" span="53:8:53:15">setName</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:18:53:25">setName</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:3:54:10">ruleMap</jtok>
+<jtok eid="3" type="constructor_call" span="54:17:54:24">HashMap</jtok>
+<jtok eid="3" type="constructor_call" span="54:25:54:34">Character</jtok>
+<jtok eid="3" type="constructor_call" span="54:36:54:40">List</jtok>
+<jtok eid="3" type="constructor_call" span="54:41:54:51">ParserRule</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:3:55:10">imports</jtok>
+<jtok eid="3" type="constructor_call" span="55:17:55:26">ArrayList</jtok>
+<jtok eid="3" type="constructor_call" span="55:27:55:40">ParserRuleSet</jtok>
+<jtok eid="1" type="line_comment" span="56:4:56:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:28">//{{{ getModeName() method</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="59:9:59:15">String</jtok>
+<jtok eid="4" type="method_name" span="59:16:59:27">getModeName</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:10:61:18">modeName</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:27">//{{{ getSetName() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="65:9:65:15">String</jtok>
+<jtok eid="5" type="method_name" span="65:16:65:26">getSetName</jtok>
+<jtok eid="5" type="primary_name_ref" span="67:10:67:17">setName</jtok>
+<jtok eid="1" type="line_comment" span="68:4:68:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="70:2:70:24">//{{{ getName() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="71:9:71:15">String</jtok>
+<jtok eid="6" type="method_name" span="71:16:71:23">getName</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:10:73:18">modeName</jtok>
+<jtok eid="6" type="string_literal" span="73:21:73:25">"::"</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:28:73:35">setName</jtok>
+<jtok eid="1" type="line_comment" span="74:4:74:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:30">//{{{ getProperties() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="77:9:77:18">Hashtable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="77:19:77:25">String</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="77:27:77:33">String</jtok>
+<jtok eid="7" type="method_name" span="77:35:77:48">getProperties</jtok>
+<jtok eid="7" type="primary_name_ref" span="79:10:79:15">props</jtok>
+<jtok eid="1" type="line_comment" span="80:4:80:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="82:2:82:30">//{{{ setProperties() method</jtok>
+<jtok eid="8" type="method_name" span="83:14:83:27">setProperties</jtok>
+<jtok eid="8" type="parameter_type" span="83:28:83:37">Hashtable</jtok>
+<jtok eid="8" type="parameter_type" span="83:38:83:44">String</jtok>
+<jtok eid="8" type="parameter_type" span="83:46:83:52">String</jtok>
+<jtok eid="8" type="parameter_name" span="83:54:83:59">props</jtok>
+<jtok eid="8" type="qualified_name_ref" span="85:8:85:13">props</jtok>
+<jtok eid="8" type="primary_name_ref" span="85:16:85:21">props</jtok>
+<jtok eid="8" type="primary_name_ref" span="86:3:86:13">_noWordSep</jtok>
+<jtok eid="1" type="line_comment" span="87:4:87:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="89:2:89:31">//{{{ resolveImports() method</jtok>
+<jtok eid="1" type="block_comment" span="90:2:93:5">/**
+	 * Resolves all rulesets added with {@link #addRuleSet(ParserRuleSet)}.
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="9" type="method_name" span="94:14:94:28">resolveImports</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="96:8:96:21">ParserRuleSet</jtok>
+<jtok eid="9" type="local_variable_name" span="96:22:96:29">ruleset</jtok>
+<jtok eid="9" type="primary_name_ref" span="96:32:96:39">imports</jtok>
+<jtok eid="9" type="primary_name_ref" span="98:9:98:16">ruleset</jtok>
+<jtok eid="9" type="qualified_name_ref" span="98:17:98:24">imports</jtok>
+<jtok eid="9" type="method_call" span="98:25:98:32">isEmpty</jtok>
+<jtok eid="9" type="line_comment" span="100:5:100:33">//prevent infinite recursion</jtok>
+<jtok eid="9" type="primary_name_ref" span="101:5:101:12">ruleset</jtok>
+<jtok eid="9" type="qualified_name_ref" span="101:13:101:20">imports</jtok>
+<jtok eid="9" type="method_call" span="101:21:101:27">remove</jtok>
+<jtok eid="9" type="primary_name_ref" span="102:5:102:12">ruleset</jtok>
+<jtok eid="9" type="method_call" span="102:13:102:27">resolveImports</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="105:9:105:13">List</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="105:14:105:24">ParserRule</jtok>
+<jtok eid="9" type="local_variable_name" span="105:26:105:31">rules</jtok>
+<jtok eid="9" type="primary_name_ref" span="105:34:105:41">ruleset</jtok>
+<jtok eid="9" type="qualified_name_ref" span="105:42:105:49">ruleMap</jtok>
+<jtok eid="9" type="method_call" span="105:50:105:56">values</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="107:10:107:20">ParserRule</jtok>
+<jtok eid="9" type="local_variable_name" span="107:21:107:25">rule</jtok>
+<jtok eid="9" type="primary_name_ref" span="107:28:107:33">rules</jtok>
+<jtok eid="9" type="method_call" span="109:6:109:13">addRule</jtok>
+<jtok eid="9" type="primary_name_ref" span="109:14:109:18">rule</jtok>
+<jtok eid="9" type="primary_name_ref" span="113:8:113:15">ruleset</jtok>
+<jtok eid="9" type="qualified_name_ref" span="113:16:113:24">keywords</jtok>
+<jtok eid="9" type="primary_name_ref" span="115:9:115:17">keywords</jtok>
+<jtok eid="9" type="primary_name_ref" span="116:6:116:14">keywords</jtok>
+<jtok eid="9" type="constructor_call" span="116:21:116:31">KeywordMap</jtok>
+<jtok eid="9" type="primary_name_ref" span="116:32:116:42">ignoreCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="117:5:117:13">keywords</jtok>
+<jtok eid="9" type="method_call" span="117:14:117:17">add</jtok>
+<jtok eid="9" type="primary_name_ref" span="117:18:117:25">ruleset</jtok>
+<jtok eid="9" type="qualified_name_ref" span="117:26:117:34">keywords</jtok>
+<jtok eid="9" type="primary_name_ref" span="120:3:120:10">imports</jtok>
+<jtok eid="9" type="method_call" span="120:11:120:16">clear</jtok>
+<jtok eid="1" type="line_comment" span="121:4:121:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="123:2:123:27">//{{{ addRuleSet() method</jtok>
+<jtok eid="1" type="block_comment" span="124:2:128:5">/**
+	 * Adds all rules contained in the given ruleset.
+	 * @param ruleset The ruleset
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="10" type="method_name" span="129:14:129:24">addRuleSet</jtok>
+<jtok eid="10" type="parameter_type" span="129:25:129:38">ParserRuleSet</jtok>
+<jtok eid="10" type="parameter_name" span="129:39:129:46">ruleset</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:3:131:10">imports</jtok>
+<jtok eid="10" type="method_call" span="131:11:131:14">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:15:131:22">ruleset</jtok>
+<jtok eid="1" type="line_comment" span="132:4:132:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="134:2:134:24">//{{{ addRule() method</jtok>
+<jtok eid="11" type="method_name" span="135:14:135:21">addRule</jtok>
+<jtok eid="11" type="parameter_type" span="135:22:135:32">ParserRule</jtok>
+<jtok eid="11" type="parameter_name" span="135:33:135:34">r</jtok>
+<jtok eid="11" type="primary_name_ref" span="137:3:137:12">ruleCount</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="138:3:138:12">Character</jtok>
+<jtok eid="11" type="local_variable_name" span="138:15:138:19">keys</jtok>
+<jtok eid="11" type="primary_name_ref" span="139:15:139:16">r</jtok>
+<jtok eid="11" type="qualified_name_ref" span="139:17:139:28">upHashChars</jtok>
+<jtok eid="11" type="primary_name_ref" span="141:4:141:8">keys</jtok>
+<jtok eid="11" type="constructor_call" span="141:15:141:24">Character</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:17:142:18">r</jtok>
+<jtok eid="11" type="qualified_name_ref" span="142:19:142:29">upHashChar</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:40:142:41">r</jtok>
+<jtok eid="11" type="qualified_name_ref" span="142:42:142:52">upHashChar</jtok>
+<jtok eid="11" type="method_call" span="142:53:142:59">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="144:5:144:9">keys</jtok>
+<jtok eid="11" type="primary_name_ref" span="148:5:148:9">keys</jtok>
+<jtok eid="11" type="primary_name_ref" span="148:15:148:24">Character</jtok>
+<jtok eid="11" type="method_call" span="148:25:148:32">valueOf</jtok>
+<jtok eid="11" type="primary_name_ref" span="148:33:148:34">r</jtok>
+<jtok eid="11" type="qualified_name_ref" span="148:35:148:45">upHashChar</jtok>
+<jtok eid="11" type="method_call" span="148:46:148:52">charAt</jtok>
+<jtok eid="11" type="primary_name_ref" span="153:4:153:8">keys</jtok>
+<jtok eid="11" type="constructor_call" span="153:15:153:24">Character</jtok>
+<jtok eid="11" type="primary_name_ref" span="153:25:153:26">r</jtok>
+<jtok eid="11" type="qualified_name_ref" span="153:27:153:38">upHashChars</jtok>
+<jtok eid="11" type="qualified_name_ref" span="153:39:153:45">length</jtok>
+<jtok eid="11" type="local_variable_name" span="154:8:154:9">i</jtok>
+<jtok eid="11" type="local_variable_name" span="155:14:155:24">upHashChar</jtok>
+<jtok eid="11" type="primary_name_ref" span="155:27:155:28">r</jtok>
+<jtok eid="11" type="qualified_name_ref" span="155:29:155:40">upHashChars</jtok>
+<jtok eid="11" type="primary_name_ref" span="157:5:157:9">keys</jtok>
+<jtok eid="11" type="primary_name_ref" span="157:10:157:11">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="157:17:157:27">upHashChar</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="160:8:160:17">Character</jtok>
+<jtok eid="11" type="local_variable_name" span="160:18:160:21">key</jtok>
+<jtok eid="11" type="primary_name_ref" span="160:24:160:28">keys</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="162:4:162:8">List</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="162:9:162:19">ParserRule</jtok>
+<jtok eid="11" type="local_variable_name" span="162:21:162:26">rules</jtok>
+<jtok eid="11" type="primary_name_ref" span="162:29:162:36">ruleMap</jtok>
+<jtok eid="11" type="method_call" span="162:37:162:40">get</jtok>
+<jtok eid="11" type="primary_name_ref" span="162:41:162:44">key</jtok>
+<jtok eid="11" type="primary_name_ref" span="163:16:163:21">rules</jtok>
+<jtok eid="11" type="primary_name_ref" span="165:5:165:10">rules</jtok>
+<jtok eid="11" type="constructor_call" span="165:17:165:26">ArrayList</jtok>
+<jtok eid="11" type="constructor_call" span="165:27:165:37">ParserRule</jtok>
+<jtok eid="11" type="primary_name_ref" span="166:5:166:12">ruleMap</jtok>
+<jtok eid="11" type="method_call" span="166:13:166:16">put</jtok>
+<jtok eid="11" type="primary_name_ref" span="166:17:166:20">key</jtok>
+<jtok eid="11" type="primary_name_ref" span="166:21:166:26">rules</jtok>
+<jtok eid="11" type="local_variable_name" span="168:8:168:18">ruleAmount</jtok>
+<jtok eid="11" type="primary_name_ref" span="168:21:168:26">rules</jtok>
+<jtok eid="11" type="method_call" span="168:27:168:31">size</jtok>
+<jtok eid="11" type="primary_name_ref" span="169:4:169:9">rules</jtok>
+<jtok eid="11" type="method_call" span="169:10:169:13">add</jtok>
+<jtok eid="11" type="primary_name_ref" span="169:14:169:15">r</jtok>
+<jtok eid="11" type="line_comment" span="170:4:170:50">// fill the deprecated ParserRule.next pointer</jtok>
+<jtok eid="11" type="primary_name_ref" span="171:8:171:18">ruleAmount</jtok>
+<jtok eid="11" type="primary_name_ref" span="173:5:173:10">rules</jtok>
+<jtok eid="11" type="method_call" span="173:11:173:14">get</jtok>
+<jtok eid="11" type="primary_name_ref" span="173:15:173:25">ruleAmount</jtok>
+<jtok eid="11" type="qualified_name_ref" span="173:27:173:31">next</jtok>
+<jtok eid="11" type="primary_name_ref" span="173:34:173:35">r</jtok>
+<jtok eid="1" type="line_comment" span="176:4:176:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="178:2:178:25">//{{{ getRules() method</jtok>
+<jtok eid="1" type="block_comment" span="179:2:181:4">/**
+	* @deprecated As the linking between rules is not anymore done within the rule, use {@link #getRules(Character)} instead
+	*/</jtok>
+<jtok eid="1" type="annotation_ref" span="182:3:182:13">Deprecated</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="183:9:183:19">ParserRule</jtok>
+<jtok eid="12" type="method_name" span="183:20:183:28">getRules</jtok>
+<jtok eid="12" type="parameter_name" span="183:34:183:36">ch</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="185:3:185:7">List</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="185:8:185:18">ParserRule</jtok>
+<jtok eid="12" type="local_variable_name" span="185:20:185:25">rules</jtok>
+<jtok eid="12" type="method_call" span="185:28:185:36">getRules</jtok>
+<jtok eid="12" type="primary_name_ref" span="185:37:185:46">Character</jtok>
+<jtok eid="12" type="method_call" span="185:47:185:54">valueOf</jtok>
+<jtok eid="12" type="primary_name_ref" span="185:55:185:57">ch</jtok>
+<jtok eid="12" type="primary_name_ref" span="186:10:186:15">rules</jtok>
+<jtok eid="12" type="method_call" span="186:16:186:19">get</jtok>
+<jtok eid="1" type="line_comment" span="187:4:187:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="189:2:189:25">//{{{ getRules() method</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="190:9:190:13">List</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="190:14:190:24">ParserRule</jtok>
+<jtok eid="13" type="method_name" span="190:26:190:34">getRules</jtok>
+<jtok eid="13" type="parameter_type" span="190:35:190:44">Character</jtok>
+<jtok eid="13" type="parameter_name" span="190:45:190:48">key</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="192:3:192:7">List</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="192:8:192:18">ParserRule</jtok>
+<jtok eid="13" type="local_variable_name" span="192:20:192:32">rulesForNull</jtok>
+<jtok eid="13" type="primary_name_ref" span="192:35:192:42">ruleMap</jtok>
+<jtok eid="13" type="method_call" span="192:43:192:46">get</jtok>
+<jtok eid="13" type="local_variable_name" span="193:11:193:23">emptyForNull</jtok>
+<jtok eid="13" type="primary_name_ref" span="193:27:193:39">rulesForNull</jtok>
+<jtok eid="13" type="primary_name_ref" span="193:53:193:65">rulesForNull</jtok>
+<jtok eid="13" type="method_call" span="193:66:193:70">size</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="194:3:194:12">Character</jtok>
+<jtok eid="13" type="local_variable_name" span="194:13:194:21">upperKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="194:32:194:35">key</jtok>
+<jtok eid="13" type="primary_name_ref" span="194:45:194:54">Character</jtok>
+<jtok eid="13" type="method_call" span="194:55:194:62">valueOf</jtok>
+<jtok eid="13" type="primary_name_ref" span="194:63:194:72">Character</jtok>
+<jtok eid="13" type="method_call" span="194:73:194:84">toUpperCase</jtok>
+<jtok eid="13" type="primary_name_ref" span="194:85:194:88">key</jtok>
+<jtok eid="13" type="method_call" span="194:89:194:98">charValue</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="195:3:195:7">List</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="195:8:195:18">ParserRule</jtok>
+<jtok eid="13" type="local_variable_name" span="195:20:195:31">rulesForKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="195:42:195:50">upperKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="195:60:195:67">ruleMap</jtok>
+<jtok eid="13" type="method_call" span="195:68:195:71">get</jtok>
+<jtok eid="13" type="primary_name_ref" span="195:72:195:80">upperKey</jtok>
+<jtok eid="13" type="local_variable_name" span="196:11:196:22">emptyForKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="196:26:196:37">rulesForKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="196:51:196:62">rulesForKey</jtok>
+<jtok eid="13" type="method_call" span="196:63:196:67">size</jtok>
+<jtok eid="13" type="primary_name_ref" span="197:7:197:19">emptyForNull</jtok>
+<jtok eid="13" type="primary_name_ref" span="197:23:197:34">emptyForKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:11:199:22">Collections</jtok>
+<jtok eid="13" type="method_call" span="199:23:199:32">emptyList</jtok>
+<jtok eid="13" type="primary_name_ref" span="201:12:201:23">emptyForKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="203:11:203:23">rulesForNull</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:12:205:24">emptyForNull</jtok>
+<jtok eid="13" type="primary_name_ref" span="207:11:207:22">rulesForKey</jtok>
+<jtok eid="13" type="local_variable_name" span="211:8:211:12">size</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:15:211:27">rulesForNull</jtok>
+<jtok eid="13" type="method_call" span="211:28:211:32">size</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:37:211:48">rulesForKey</jtok>
+<jtok eid="13" type="method_call" span="211:49:211:53">size</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="212:4:212:13">ArrayList</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="212:14:212:24">ParserRule</jtok>
+<jtok eid="13" type="local_variable_name" span="212:26:212:31">mixed</jtok>
+<jtok eid="13" type="constructor_call" span="212:38:212:47">ArrayList</jtok>
+<jtok eid="13" type="constructor_call" span="212:48:212:58">ParserRule</jtok>
+<jtok eid="13" type="primary_name_ref" span="212:60:212:64">size</jtok>
+<jtok eid="13" type="primary_name_ref" span="213:4:213:9">mixed</jtok>
+<jtok eid="13" type="method_call" span="213:10:213:16">addAll</jtok>
+<jtok eid="13" type="primary_name_ref" span="213:17:213:28">rulesForKey</jtok>
+<jtok eid="13" type="primary_name_ref" span="214:4:214:9">mixed</jtok>
+<jtok eid="13" type="method_call" span="214:10:214:16">addAll</jtok>
+<jtok eid="13" type="primary_name_ref" span="214:17:214:29">rulesForNull</jtok>
+<jtok eid="13" type="line_comment" span="215:4:215:50">// fill the deprecated ParserRule.next pointer</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:4:216:15">rulesForKey</jtok>
+<jtok eid="13" type="method_call" span="216:16:216:19">get</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:20:216:31">rulesForKey</jtok>
+<jtok eid="13" type="method_call" span="216:32:216:36">size</jtok>
+<jtok eid="13" type="qualified_name_ref" span="216:44:216:48">next</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:51:216:63">rulesForNull</jtok>
+<jtok eid="13" type="method_call" span="216:64:216:67">get</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:11:217:16">mixed</jtok>
+<jtok eid="1" type="line_comment" span="219:4:219:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="221:2:221:29">//{{{ getRuleCount() method</jtok>
+<jtok eid="14" type="method_name" span="222:13:222:25">getRuleCount</jtok>
+<jtok eid="14" type="primary_name_ref" span="224:10:224:19">ruleCount</jtok>
+<jtok eid="1" type="line_comment" span="225:4:225:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="227:2:227:33">//{{{ getTerminateChar() method</jtok>
+<jtok eid="1" type="block_comment" span="228:2:232:5">/**
+	 * Returns the number of chars that can be read before the rule parsing stops.
+	 *
+	 * @return a number of chars or -1 (default value) if there is no limit
+	 */</jtok>
+<jtok eid="15" type="method_name" span="233:13:233:29">getTerminateChar</jtok>
+<jtok eid="15" type="primary_name_ref" span="235:10:235:23">terminateChar</jtok>
+<jtok eid="1" type="line_comment" span="236:4:236:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="238:2:238:33">//{{{ setTerminateChar() method</jtok>
+<jtok eid="16" type="method_name" span="239:14:239:30">setTerminateChar</jtok>
+<jtok eid="16" type="parameter_name" span="239:35:239:41">atChar</jtok>
+<jtok eid="16" type="primary_name_ref" span="241:3:241:16">terminateChar</jtok>
+<jtok eid="16" type="primary_name_ref" span="241:20:241:26">atChar</jtok>
+<jtok eid="16" type="primary_name_ref" span="241:35:241:41">atChar</jtok>
+<jtok eid="1" type="line_comment" span="242:4:242:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="244:2:244:30">//{{{ getIgnoreCase() method</jtok>
+<jtok eid="17" type="method_name" span="245:17:245:30">getIgnoreCase</jtok>
+<jtok eid="17" type="primary_name_ref" span="247:10:247:20">ignoreCase</jtok>
+<jtok eid="1" type="line_comment" span="248:4:248:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="250:2:250:30">//{{{ setIgnoreCase() method</jtok>
+<jtok eid="18" type="method_name" span="251:14:251:27">setIgnoreCase</jtok>
+<jtok eid="18" type="parameter_name" span="251:36:251:37">b</jtok>
+<jtok eid="18" type="primary_name_ref" span="253:3:253:13">ignoreCase</jtok>
+<jtok eid="18" type="primary_name_ref" span="253:16:253:17">b</jtok>
+<jtok eid="1" type="line_comment" span="254:4:254:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="256:2:256:28">//{{{ getKeywords() method</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="257:9:257:19">KeywordMap</jtok>
+<jtok eid="19" type="method_name" span="257:20:257:31">getKeywords</jtok>
+<jtok eid="19" type="primary_name_ref" span="259:10:259:18">keywords</jtok>
+<jtok eid="1" type="line_comment" span="260:4:260:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="262:2:262:28">//{{{ setKeywords() method</jtok>
+<jtok eid="20" type="method_name" span="263:14:263:25">setKeywords</jtok>
+<jtok eid="20" type="parameter_type" span="263:26:263:36">KeywordMap</jtok>
+<jtok eid="20" type="parameter_name" span="263:37:263:39">km</jtok>
+<jtok eid="20" type="primary_name_ref" span="265:3:265:11">keywords</jtok>
+<jtok eid="20" type="primary_name_ref" span="265:14:265:16">km</jtok>
+<jtok eid="20" type="primary_name_ref" span="266:3:266:13">_noWordSep</jtok>
+<jtok eid="1" type="line_comment" span="267:4:267:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="269:2:269:35">//{{{ getHighlightDigits() method</jtok>
+<jtok eid="21" type="method_name" span="270:17:270:35">getHighlightDigits</jtok>
+<jtok eid="21" type="primary_name_ref" span="272:10:272:25">highlightDigits</jtok>
+<jtok eid="1" type="line_comment" span="273:4:273:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="275:2:275:35">//{{{ setHighlightDigits() method</jtok>
+<jtok eid="22" type="method_name" span="276:14:276:32">setHighlightDigits</jtok>
+<jtok eid="22" type="parameter_name" span="276:41:276:56">highlightDigits</jtok>
+<jtok eid="22" type="qualified_name_ref" span="278:8:278:23">highlightDigits</jtok>
+<jtok eid="22" type="primary_name_ref" span="278:26:278:41">highlightDigits</jtok>
+<jtok eid="1" type="line_comment" span="279:4:279:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="281:2:281:31">//{{{ getDigitRegexp() method</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="282:9:282:16">Pattern</jtok>
+<jtok eid="23" type="method_name" span="282:17:282:31">getDigitRegexp</jtok>
+<jtok eid="23" type="primary_name_ref" span="284:10:284:17">digitRE</jtok>
+<jtok eid="1" type="line_comment" span="285:4:285:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="287:2:287:31">//{{{ setDigitRegexp() method</jtok>
+<jtok eid="24" type="method_name" span="288:14:288:28">setDigitRegexp</jtok>
+<jtok eid="24" type="parameter_type" span="288:29:288:36">Pattern</jtok>
+<jtok eid="24" type="parameter_name" span="288:37:288:44">digitRE</jtok>
+<jtok eid="24" type="qualified_name_ref" span="290:8:290:15">digitRE</jtok>
+<jtok eid="24" type="primary_name_ref" span="290:18:290:25">digitRE</jtok>
+<jtok eid="1" type="line_comment" span="291:4:291:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="293:2:293:30">//{{{ getEscapeRule() method</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="294:9:294:19">ParserRule</jtok>
+<jtok eid="25" type="method_name" span="294:20:294:33">getEscapeRule</jtok>
+<jtok eid="25" type="primary_name_ref" span="296:10:296:20">escapeRule</jtok>
+<jtok eid="1" type="line_comment" span="297:4:297:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="299:2:299:30">//{{{ setEscapeRule() method</jtok>
+<jtok eid="26" type="method_name" span="300:14:300:27">setEscapeRule</jtok>
+<jtok eid="26" type="parameter_type" span="300:28:300:38">ParserRule</jtok>
+<jtok eid="26" type="parameter_name" span="300:39:300:49">escapeRule</jtok>
+<jtok eid="26" type="qualified_name_ref" span="302:8:302:18">escapeRule</jtok>
+<jtok eid="26" type="primary_name_ref" span="302:21:302:31">escapeRule</jtok>
+<jtok eid="1" type="line_comment" span="303:4:303:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="305:2:305:27">//{{{ getDefault() method</jtok>
+<jtok eid="27" type="method_name" span="306:14:306:24">getDefault</jtok>
+<jtok eid="27" type="primary_name_ref" span="308:10:308:22">defaultToken</jtok>
+<jtok eid="1" type="line_comment" span="309:4:309:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="311:2:311:27">//{{{ setDefault() method</jtok>
+<jtok eid="28" type="method_name" span="312:14:312:24">setDefault</jtok>
+<jtok eid="28" type="parameter_name" span="312:30:312:33">def</jtok>
+<jtok eid="28" type="primary_name_ref" span="314:3:314:15">defaultToken</jtok>
+<jtok eid="28" type="primary_name_ref" span="314:18:314:21">def</jtok>
+<jtok eid="1" type="line_comment" span="315:4:315:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="317:2:317:29">//{{{ getNoWordSep() method</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="318:9:318:15">String</jtok>
+<jtok eid="29" type="method_name" span="318:16:318:28">getNoWordSep</jtok>
+<jtok eid="29" type="primary_name_ref" span="320:6:320:16">_noWordSep</jtok>
+<jtok eid="29" type="primary_name_ref" span="322:4:322:14">_noWordSep</jtok>
+<jtok eid="29" type="primary_name_ref" span="322:17:322:26">noWordSep</jtok>
+<jtok eid="29" type="primary_name_ref" span="323:7:323:16">noWordSep</jtok>
+<jtok eid="29" type="primary_name_ref" span="324:5:324:14">noWordSep</jtok>
+<jtok eid="29" type="string_literal" span="324:17:324:19">""</jtok>
+<jtok eid="29" type="primary_name_ref" span="325:7:325:15">keywords</jtok>
+<jtok eid="29" type="primary_name_ref" span="326:5:326:14">noWordSep</jtok>
+<jtok eid="29" type="primary_name_ref" span="326:18:326:26">keywords</jtok>
+<jtok eid="29" type="method_call" span="326:27:326:50">getNonAlphaNumericChars</jtok>
+<jtok eid="29" type="primary_name_ref" span="328:10:328:19">noWordSep</jtok>
+<jtok eid="1" type="line_comment" span="329:4:329:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="331:2:331:29">//{{{ setNoWordSep() method</jtok>
+<jtok eid="30" type="method_name" span="332:14:332:26">setNoWordSep</jtok>
+<jtok eid="30" type="parameter_type" span="332:27:332:33">String</jtok>
+<jtok eid="30" type="parameter_name" span="332:34:332:43">noWordSep</jtok>
+<jtok eid="30" type="qualified_name_ref" span="334:8:334:17">noWordSep</jtok>
+<jtok eid="30" type="primary_name_ref" span="334:20:334:29">noWordSep</jtok>
+<jtok eid="30" type="primary_name_ref" span="335:3:335:13">_noWordSep</jtok>
+<jtok eid="1" type="line_comment" span="336:4:336:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="338:2:338:26">//{{{ isBuiltIn() method</jtok>
+<jtok eid="1" type="block_comment" span="339:2:342:5">/**
+	 * Returns if this is a built-in ruleset.
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="31" type="method_name" span="343:17:343:26">isBuiltIn</jtok>
+<jtok eid="31" type="primary_name_ref" span="345:10:345:17">builtIn</jtok>
+<jtok eid="1" type="line_comment" span="346:4:346:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="348:2:348:25">//{{{ toString() method</jtok>
+<jtok eid="1" type="annotation_ref" span="349:3:349:11">Override</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="350:9:350:15">String</jtok>
+<jtok eid="32" type="method_name" span="350:16:350:24">toString</jtok>
+<jtok eid="32" type="method_call" span="352:10:352:18">getClass</jtok>
+<jtok eid="32" type="method_call" span="352:21:352:28">getName</jtok>
+<jtok eid="32" type="primary_name_ref" span="352:39:352:47">modeName</jtok>
+<jtok eid="32" type="string_literal" span="352:50:352:54">"::"</jtok>
+<jtok eid="32" type="primary_name_ref" span="352:57:352:64">setName</jtok>
+<jtok eid="1" type="line_comment" span="353:4:353:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="355:2:355:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="356:17:356:30">ParserRuleSet</jtok>
+<jtok eid="1" type="field_name" span="356:33:356:41">standard</jtok>
+<jtok eid="1" type="primary_name_ref" span="360:3:360:11">standard</jtok>
+<jtok eid="1" type="constructor_call" span="360:18:360:31">ParserRuleSet</jtok>
+<jtok eid="1" type="primary_name_ref" span="360:32:360:37">Token</jtok>
+<jtok eid="1" type="qualified_name_ref" span="360:38:360:46">ID_COUNT</jtok>
+<jtok eid="1" type="field_name" span="361:12:361:13">i</jtok>
+<jtok eid="1" type="primary_name_ref" span="361:19:361:20">i</jtok>
+<jtok eid="1" type="primary_name_ref" span="361:23:361:28">Token</jtok>
+<jtok eid="1" type="qualified_name_ref" span="361:29:361:37">ID_COUNT</jtok>
+<jtok eid="1" type="primary_name_ref" span="361:39:361:40">i</jtok>
+<jtok eid="1" type="primary_name_ref" span="363:4:363:12">standard</jtok>
+<jtok eid="1" type="primary_name_ref" span="363:13:363:14">i</jtok>
+<jtok eid="1" type="constructor_call" span="363:22:363:35">ParserRuleSet</jtok>
+<jtok eid="1" type="primary_name_ref" span="364:4:364:12">standard</jtok>
+<jtok eid="1" type="primary_name_ref" span="364:13:364:14">i</jtok>
+<jtok eid="1" type="method_call" span="364:16:364:26">setDefault</jtok>
+<jtok eid="1" type="primary_name_ref" span="364:27:364:28">i</jtok>
+<jtok eid="1" type="primary_name_ref" span="365:4:365:12">standard</jtok>
+<jtok eid="1" type="primary_name_ref" span="365:13:365:14">i</jtok>
+<jtok eid="1" type="qualified_name_ref" span="365:16:365:23">builtIn</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="369:10:369:16">String</jtok>
+<jtok eid="1" type="field_name" span="369:17:369:25">modeName</jtok>
+<jtok eid="1" type="field_name" span="369:27:369:34">setName</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="370:10:370:19">Hashtable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="370:20:370:26">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="370:28:370:34">String</jtok>
+<jtok eid="1" type="field_name" span="370:36:370:41">props</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="372:10:372:20">KeywordMap</jtok>
+<jtok eid="1" type="field_name" span="372:21:372:29">keywords</jtok>
+<jtok eid="1" type="field_name" span="374:14:374:23">ruleCount</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="376:10:376:13">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="376:14:376:23">Character</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="376:25:376:29">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="376:30:376:40">ParserRule</jtok>
+<jtok eid="1" type="field_name" span="376:43:376:50">ruleMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="378:16:378:20">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="378:21:378:34">ParserRuleSet</jtok>
+<jtok eid="1" type="field_name" span="378:36:378:43">imports</jtok>
+<jtok eid="1" type="block_comment" span="380:2:383:5">/**
+	 * The number of chars that can be read before the parsing stops.
+	 * &amp;lt;TERMINATE AT_CHAR="1" /&amp;gt;
+	 */</jtok>
+<jtok eid="1" type="field_name" span="384:14:384:27">terminateChar</jtok>
+<jtok eid="1" type="field_name" span="385:18:385:28">ignoreCase</jtok>
+<jtok eid="1" type="field_name" span="386:15:386:27">defaultToken</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="387:10:387:20">ParserRule</jtok>
+<jtok eid="1" type="field_name" span="387:21:387:31">escapeRule</jtok>
+<jtok eid="1" type="field_name" span="389:18:389:33">highlightDigits</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="390:10:390:17">Pattern</jtok>
+<jtok eid="1" type="field_name" span="390:18:390:25">digitRE</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="392:10:392:16">String</jtok>
+<jtok eid="1" type="field_name" span="392:17:392:27">_noWordSep</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="393:10:393:16">String</jtok>
+<jtok eid="1" type="field_name" span="393:17:393:26">noWordSep</jtok>
+<jtok eid="1" type="field_name" span="395:18:395:25">builtIn</jtok>
+<jtok eid="1" type="line_comment" span="396:2:396:7">//}}}</jtok>
+</jdoc>

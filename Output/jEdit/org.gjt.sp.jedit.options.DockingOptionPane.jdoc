@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.options.DockingOptionPane" jls="java5">
+<jent id="0" type="file" span="0:0:387:7">Source/jEdit/org/gjt/sp/jedit/options/DockingOptionPane.java</jent>
+<jent id="1" pid="0" type="class" span="59:1:199:1">org.gjt.sp.jedit.options.DockingOptionPane</jent>
+<jent id="2" pid="1" type="method" span="62:2:65:2">org.gjt.sp.jedit.options.DockingOptionPane.DockingOptionPane()</jent>
+<jent id="3" pid="1" type="method" span="68:2:75:2">org.gjt.sp.jedit.options.DockingOptionPane._init()</jent>
+<jent id="4" pid="1" type="method" span="78:2:83:2">org.gjt.sp.jedit.options.DockingOptionPane._save()</jent>
+<jent id="5" pid="1" type="method" span="101:2:143:2">org.gjt.sp.jedit.options.DockingOptionPane.createDockingOptionsPanel()</jent>
+<jent id="6" pid="5" type="class" span="117:3:122:3">org.gjt.sp.jedit.options.DockingOptionPane.createDockingOptionsPanel().$1</jent>
+<jent id="7" pid="6" type="method" span="118:4:121:4">org.gjt.sp.jedit.options.DockingOptionPane.createDockingOptionsPanel().$1.actionPerformed(ActionEvent)</jent>
+<jent id="8" pid="5" type="class" span="134:3:139:3">org.gjt.sp.jedit.options.DockingOptionPane.createDockingOptionsPanel().$2</jent>
+<jent id="9" pid="8" type="method" span="135:4:138:4">org.gjt.sp.jedit.options.DockingOptionPane.createDockingOptionsPanel().$2.itemStateChanged(ItemEvent)</jent>
+<jent id="10" pid="1" type="method" span="145:2:165:2">org.gjt.sp.jedit.options.DockingOptionPane.createWindowTableScroller()</jent>
+<jent id="11" pid="1" type="method" span="168:2:171:2">org.gjt.sp.jedit.options.DockingOptionPane.createWindowModel()</jent>
+<jent id="12" pid="1" type="class" span="176:2:198:2">org.gjt.sp.jedit.options.DockingOptionPane.DockPositionCellRenderer</jent>
+<jent id="13" pid="12" type="method" span="179:3:189:3">org.gjt.sp.jedit.options.DockingOptionPane.DockPositionCellRenderer.DockPositionCellRenderer()</jent>
+<jent id="14" pid="12" type="method" span="191:3:197:3">org.gjt.sp.jedit.options.DockingOptionPane.DockPositionCellRenderer.getTableCellRendererComponent(JTable,Object,boolean,boolean,int,int)</jent>
+<jent id="15" pid="0" type="class" span="203:1:387:1">org.gjt.sp.jedit.options.WindowTableModel</jent>
+<jent id="16" pid="15" type="method" span="212:2:239:2">org.gjt.sp.jedit.options.WindowTableModel.WindowTableModel()</jent>
+<jent id="17" pid="15" type="method" span="241:2:252:2">org.gjt.sp.jedit.options.WindowTableModel.getDockableSets()</jent>
+<jent id="18" pid="15" type="method" span="255:2:260:2">org.gjt.sp.jedit.options.WindowTableModel.showSet(String)</jent>
+<jent id="19" pid="15" type="method" span="263:2:266:2">org.gjt.sp.jedit.options.WindowTableModel.getColumnCount()</jent>
+<jent id="20" pid="15" type="method" span="269:2:272:2">org.gjt.sp.jedit.options.WindowTableModel.getRowCount()</jent>
+<jent id="21" pid="15" type="method" span="275:2:285:2">org.gjt.sp.jedit.options.WindowTableModel.getColumnClass(int)</jent>
+<jent id="22" pid="15" type="method" span="288:2:300:2">org.gjt.sp.jedit.options.WindowTableModel.getValueAt(int,int)</jent>
+<jent id="23" pid="15" type="method" span="303:2:306:2">org.gjt.sp.jedit.options.WindowTableModel.isCellEditable(int,int)</jent>
+<jent id="24" pid="15" type="method" span="309:2:325:2">org.gjt.sp.jedit.options.WindowTableModel.setValueAt(Object,int,int)</jent>
+<jent id="25" pid="15" type="method" span="328:2:339:2">org.gjt.sp.jedit.options.WindowTableModel.getColumnName(int)</jent>
+<jent id="26" pid="15" type="method" span="342:2:348:2">org.gjt.sp.jedit.options.WindowTableModel.save()</jent>
+<jent id="27" pid="15" type="class" span="351:2:373:2">org.gjt.sp.jedit.options.WindowTableModel.Entry</jent>
+<jent id="28" pid="27" type="method" span="357:3:367:3">org.gjt.sp.jedit.options.WindowTableModel.Entry.Entry(String)</jent>
+<jent id="29" pid="27" type="method" span="369:3:372:3">org.gjt.sp.jedit.options.WindowTableModel.Entry.save()</jent>
+<jent id="30" pid="15" type="class" span="376:2:386:2">org.gjt.sp.jedit.options.WindowTableModel.WindowCompare</jent>
+<jent id="31" pid="30" type="method" span="378:3:385:3">org.gjt.sp.jedit.options.WindowTableModel.WindowCompare.compare(Object,Object)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * DockingOptionPane.java - Dockable window options panel
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="55:1:55:6">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="57:1:57:30">//{{{ DockingOptionPane class</jtok>
+<jtok eid="1" type="annotation_ref" span="58:2:58:18">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="58:19:58:27">"serial"</jtok>
+<jtok eid="1" type="class_name" span="59:14:59:31">DockingOptionPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="59:40:59:58">AbstractOptionPane</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:37">//{{{ DockingOptionPane constructor</jtok>
+<jtok eid="2" type="method_name" span="62:9:62:26">DockingOptionPane</jtok>
+<jtok eid="2" type="string_literal" span="64:9:64:18">"docking"</jtok>
+<jtok eid="1" type="line_comment" span="65:4:65:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="67:2:67:22">//{{{ _init() method</jtok>
+<jtok eid="3" type="method_name" span="68:14:68:19">_init</jtok>
+<jtok eid="3" type="method_call" span="70:3:70:12">setLayout</jtok>
+<jtok eid="3" type="constructor_call" span="70:17:70:29">BorderLayout</jtok>
+<jtok eid="3" type="method_call" span="71:3:71:6">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:7:71:19">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="71:20:71:25">NORTH</jtok>
+<jtok eid="3" type="method_call" span="71:26:71:51">createDockingOptionsPanel</jtok>
+<jtok eid="3" type="method_call" span="72:3:72:6">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:7:72:19">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="72:20:72:26">CENTER</jtok>
+<jtok eid="3" type="method_call" span="72:27:72:52">createWindowTableScroller</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:3:73:23">dockableSetSelection</jtok>
+<jtok eid="3" type="method_call" span="73:24:73:32">setModel</jtok>
+<jtok eid="3" type="constructor_call" span="74:8:74:28">DefaultComboBoxModel</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:29:74:40">windowModel</jtok>
+<jtok eid="3" type="method_call" span="74:41:74:56">getDockableSets</jtok>
+<jtok eid="1" type="line_comment" span="75:4:75:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="77:2:77:22">//{{{ _save() method</jtok>
+<jtok eid="4" type="method_name" span="78:14:78:19">_save</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:3:80:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="80:9:80:27">setBooleanProperty</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:28:80:54">AUTO_LOAD_MODE_LAYOUT_PROP</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:56:80:74">autoLoadModeLayout</jtok>
+<jtok eid="4" type="method_call" span="80:75:80:85">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:3:81:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="81:9:81:27">setBooleanProperty</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:28:81:54">AUTO_SAVE_MODE_LAYOUT_PROP</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:56:81:74">autoSaveModeLayout</jtok>
+<jtok eid="4" type="method_call" span="81:75:81:85">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:3:82:14">windowModel</jtok>
+<jtok eid="4" type="method_call" span="82:15:82:19">save</jtok>
+<jtok eid="1" type="line_comment" span="83:4:83:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="85:2:85:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="88:10:88:16">JTable</jtok>
+<jtok eid="1" type="field_name" span="88:17:88:28">windowTable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="89:10:89:26">WindowTableModel</jtok>
+<jtok eid="1" type="field_name" span="89:27:89:38">windowModel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="90:10:90:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="90:20:90:38">autoLoadModeLayout</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="91:10:91:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="91:20:91:38">autoSaveModeLayout</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="92:10:92:19">JComboBox</jtok>
+<jtok eid="1" type="field_name" span="92:20:92:40">dockableSetSelection</jtok>
+<jtok eid="1" type="line_comment" span="93:2:93:7">//}}}</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="95:23:95:29">String</jtok>
+<jtok eid="1" type="field_name" span="95:30:95:52">DOCKING_OPTIONS_PREFIX</jtok>
+<jtok eid="1" type="string_literal" span="95:55:95:73">"options.docking."</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="96:22:96:28">String</jtok>
+<jtok eid="1" type="field_name" span="96:29:96:55">AUTO_LOAD_MODE_LAYOUT_PROP</jtok>
+<jtok eid="1" type="primary_name_ref" span="96:58:96:80">DOCKING_OPTIONS_PREFIX</jtok>
+<jtok eid="1" type="string_literal" span="96:83:96:103">"autoLoadModeLayout"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="97:23:97:29">String</jtok>
+<jtok eid="1" type="field_name" span="97:30:97:57">AUTO_LOAD_MODE_LAYOUT_LABEL</jtok>
+<jtok eid="1" type="primary_name_ref" span="97:60:97:86">AUTO_LOAD_MODE_LAYOUT_PROP</jtok>
+<jtok eid="1" type="string_literal" span="97:89:97:97">".label"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="98:22:98:28">String</jtok>
+<jtok eid="1" type="field_name" span="98:29:98:55">AUTO_SAVE_MODE_LAYOUT_PROP</jtok>
+<jtok eid="1" type="primary_name_ref" span="98:58:98:80">DOCKING_OPTIONS_PREFIX</jtok>
+<jtok eid="1" type="string_literal" span="98:83:98:103">"autoSaveModeLayout"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="99:23:99:29">String</jtok>
+<jtok eid="1" type="field_name" span="99:30:99:57">AUTO_SAVE_MODE_LAYOUT_LABEL</jtok>
+<jtok eid="1" type="primary_name_ref" span="99:60:99:86">AUTO_SAVE_MODE_LAYOUT_PROP</jtok>
+<jtok eid="1" type="string_literal" span="99:89:99:97">".label"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="101:10:101:16">JPanel</jtok>
+<jtok eid="5" type="method_name" span="101:17:101:42">createDockingOptionsPanel</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="103:3:103:9">JPanel</jtok>
+<jtok eid="5" type="local_variable_name" span="103:10:103:11">p</jtok>
+<jtok eid="5" type="constructor_call" span="103:18:103:24">JPanel</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:3:104:4">p</jtok>
+<jtok eid="5" type="method_call" span="104:5:104:14">setLayout</jtok>
+<jtok eid="5" type="constructor_call" span="104:19:104:29">GridLayout</jtok>
+<jtok eid="5" type="local_variable_name" span="105:11:105:33">autoLoadModeLayoutProp</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:36:105:41">jEdit</jtok>
+<jtok eid="5" type="method_call" span="105:42:105:60">getBooleanProperty</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:4:106:30">AUTO_LOAD_MODE_LAYOUT_PROP</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:3:107:21">autoLoadModeLayout</jtok>
+<jtok eid="5" type="constructor_call" span="107:28:107:37">JCheckBox</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:4:108:9">jEdit</jtok>
+<jtok eid="5" type="method_call" span="108:10:108:21">getProperty</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:22:108:49">AUTO_LOAD_MODE_LAYOUT_LABEL</jtok>
+<jtok eid="5" type="primary_name_ref" span="109:4:109:26">autoLoadModeLayoutProp</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:3:110:4">p</jtok>
+<jtok eid="5" type="method_call" span="110:5:110:8">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:9:110:27">autoLoadModeLayout</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:3:111:21">autoSaveModeLayout</jtok>
+<jtok eid="5" type="constructor_call" span="111:28:111:37">JCheckBox</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:4:112:9">jEdit</jtok>
+<jtok eid="5" type="method_call" span="112:10:112:21">getProperty</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:22:112:49">AUTO_SAVE_MODE_LAYOUT_LABEL</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:4:113:9">jEdit</jtok>
+<jtok eid="5" type="method_call" span="113:10:113:28">getBooleanProperty</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:29:113:55">AUTO_SAVE_MODE_LAYOUT_PROP</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:3:114:4">p</jtok>
+<jtok eid="5" type="method_call" span="114:5:114:8">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:9:114:27">autoSaveModeLayout</jtok>
+<jtok eid="5" type="primary_name_ref" span="115:3:115:21">autoSaveModeLayout</jtok>
+<jtok eid="5" type="method_call" span="115:22:115:32">setEnabled</jtok>
+<jtok eid="5" type="primary_name_ref" span="115:33:115:55">autoLoadModeLayoutProp</jtok>
+<jtok eid="5" type="primary_name_ref" span="116:3:116:21">autoLoadModeLayout</jtok>
+<jtok eid="5" type="method_call" span="116:22:116:39">addActionListener</jtok>
+<jtok eid="5" type="constructor_call" span="116:44:116:58">ActionListener</jtok>
+<jtok eid="7" type="method_name" span="118:16:118:31">actionPerformed</jtok>
+<jtok eid="7" type="parameter_type" span="118:32:118:43">ActionEvent</jtok>
+<jtok eid="7" type="parameter_name" span="118:44:118:45">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="120:5:120:23">autoSaveModeLayout</jtok>
+<jtok eid="7" type="method_call" span="120:24:120:34">setEnabled</jtok>
+<jtok eid="7" type="primary_name_ref" span="120:35:120:53">autoLoadModeLayout</jtok>
+<jtok eid="7" type="method_call" span="120:54:120:64">isSelected</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="123:3:123:6">Box</jtok>
+<jtok eid="5" type="local_variable_name" span="123:7:123:20">vSetSelection</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:23:123:26">Box</jtok>
+<jtok eid="5" type="method_call" span="123:27:123:44">createVerticalBox</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:3:124:4">p</jtok>
+<jtok eid="5" type="method_call" span="124:5:124:8">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:9:124:22">vSetSelection</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="125:3:125:6">Box</jtok>
+<jtok eid="5" type="local_variable_name" span="125:7:125:19">setSelection</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:22:125:25">Box</jtok>
+<jtok eid="5" type="method_call" span="125:26:125:45">createHorizontalBox</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:3:126:16">vSetSelection</jtok>
+<jtok eid="5" type="method_call" span="126:17:126:20">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:21:126:33">setSelection</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:3:127:15">setSelection</jtok>
+<jtok eid="5" type="method_call" span="127:16:127:19">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:20:127:23">Box</jtok>
+<jtok eid="5" type="method_call" span="127:24:127:45">createHorizontalStrut</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:3:128:15">setSelection</jtok>
+<jtok eid="5" type="method_call" span="128:16:128:19">add</jtok>
+<jtok eid="5" type="constructor_call" span="128:24:128:30">JLabel</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:31:128:36">jEdit</jtok>
+<jtok eid="5" type="method_call" span="128:37:128:48">getProperty</jtok>
+<jtok eid="5" type="string_literal" span="129:4:129:37">"options.docking.selectSet.label"</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:3:130:15">setSelection</jtok>
+<jtok eid="5" type="method_call" span="130:16:130:19">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:20:130:23">Box</jtok>
+<jtok eid="5" type="method_call" span="130:24:130:45">createHorizontalStrut</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:3:131:23">dockableSetSelection</jtok>
+<jtok eid="5" type="constructor_call" span="131:30:131:39">JComboBox</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:3:132:15">setSelection</jtok>
+<jtok eid="5" type="method_call" span="132:16:132:19">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:20:132:40">dockableSetSelection</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:3:133:23">dockableSetSelection</jtok>
+<jtok eid="5" type="method_call" span="133:24:133:39">addItemListener</jtok>
+<jtok eid="5" type="constructor_call" span="133:44:133:56">ItemListener</jtok>
+<jtok eid="9" type="method_name" span="135:16:135:32">itemStateChanged</jtok>
+<jtok eid="9" type="parameter_type" span="135:33:135:42">ItemEvent</jtok>
+<jtok eid="9" type="parameter_name" span="135:43:135:44">e</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:5:137:16">windowModel</jtok>
+<jtok eid="9" type="method_call" span="137:17:137:24">showSet</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="137:26:137:32">String</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:34:137:54">dockableSetSelection</jtok>
+<jtok eid="9" type="method_call" span="137:55:137:70">getSelectedItem</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:3:140:15">setSelection</jtok>
+<jtok eid="5" type="method_call" span="140:16:140:19">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:20:140:23">Box</jtok>
+<jtok eid="5" type="method_call" span="140:24:140:45">createHorizontalStrut</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:3:141:16">vSetSelection</jtok>
+<jtok eid="5" type="method_call" span="141:17:141:20">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:21:141:24">Box</jtok>
+<jtok eid="5" type="method_call" span="141:25:141:44">createVerticalStrut</jtok>
+<jtok eid="5" type="primary_name_ref" span="142:10:142:11">p</jtok>
+<jtok eid="1" type="line_comment" span="144:2:144:42">//{{{ createWindowTableScroller() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="145:10:145:21">JScrollPane</jtok>
+<jtok eid="10" type="method_name" span="145:22:145:47">createWindowTableScroller</jtok>
+<jtok eid="10" type="primary_name_ref" span="147:3:147:14">windowModel</jtok>
+<jtok eid="10" type="method_call" span="147:17:147:34">createWindowModel</jtok>
+<jtok eid="10" type="primary_name_ref" span="148:3:148:14">windowTable</jtok>
+<jtok eid="10" type="constructor_call" span="148:21:148:27">JTable</jtok>
+<jtok eid="10" type="primary_name_ref" span="148:28:148:39">windowModel</jtok>
+<jtok eid="10" type="primary_name_ref" span="149:3:149:14">windowTable</jtok>
+<jtok eid="10" type="method_call" span="149:15:149:29">getTableHeader</jtok>
+<jtok eid="10" type="method_call" span="149:32:149:52">setReorderingAllowed</jtok>
+<jtok eid="10" type="primary_name_ref" span="150:3:150:14">windowTable</jtok>
+<jtok eid="10" type="method_call" span="150:15:150:40">setColumnSelectionAllowed</jtok>
+<jtok eid="10" type="primary_name_ref" span="151:3:151:14">windowTable</jtok>
+<jtok eid="10" type="method_call" span="151:15:151:37">setRowSelectionAllowed</jtok>
+<jtok eid="10" type="primary_name_ref" span="152:3:152:14">windowTable</jtok>
+<jtok eid="10" type="method_call" span="152:15:152:38">setCellSelectionEnabled</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="154:3:154:27">DockPositionCellRenderer</jtok>
+<jtok eid="10" type="local_variable_name" span="154:28:154:36">comboBox</jtok>
+<jtok eid="10" type="constructor_call" span="154:43:154:67">DockPositionCellRenderer</jtok>
+<jtok eid="10" type="primary_name_ref" span="155:3:155:14">windowTable</jtok>
+<jtok eid="10" type="method_call" span="155:15:155:27">setRowHeight</jtok>
+<jtok eid="10" type="primary_name_ref" span="155:28:155:36">comboBox</jtok>
+<jtok eid="10" type="method_call" span="155:37:155:53">getPreferredSize</jtok>
+<jtok eid="10" type="qualified_name_ref" span="155:56:155:62">height</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="156:3:156:14">TableColumn</jtok>
+<jtok eid="10" type="local_variable_name" span="156:15:156:21">column</jtok>
+<jtok eid="10" type="primary_name_ref" span="156:24:156:35">windowTable</jtok>
+<jtok eid="10" type="method_call" span="156:36:156:50">getColumnModel</jtok>
+<jtok eid="10" type="method_call" span="156:53:156:62">getColumn</jtok>
+<jtok eid="10" type="primary_name_ref" span="157:3:157:9">column</jtok>
+<jtok eid="10" type="method_call" span="157:10:157:25">setCellRenderer</jtok>
+<jtok eid="10" type="primary_name_ref" span="157:26:157:34">comboBox</jtok>
+<jtok eid="10" type="primary_name_ref" span="158:3:158:9">column</jtok>
+<jtok eid="10" type="method_call" span="158:10:158:23">setCellEditor</jtok>
+<jtok eid="10" type="constructor_call" span="158:28:158:45">DefaultCellEditor</jtok>
+<jtok eid="10" type="constructor_call" span="158:50:158:74">DockPositionCellRenderer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="160:3:160:12">Dimension</jtok>
+<jtok eid="10" type="local_variable_name" span="160:13:160:14">d</jtok>
+<jtok eid="10" type="primary_name_ref" span="160:17:160:28">windowTable</jtok>
+<jtok eid="10" type="method_call" span="160:29:160:45">getPreferredSize</jtok>
+<jtok eid="10" type="primary_name_ref" span="161:3:161:4">d</jtok>
+<jtok eid="10" type="qualified_name_ref" span="161:5:161:11">height</jtok>
+<jtok eid="10" type="primary_name_ref" span="161:14:161:18">Math</jtok>
+<jtok eid="10" type="method_call" span="161:19:161:22">min</jtok>
+<jtok eid="10" type="primary_name_ref" span="161:23:161:24">d</jtok>
+<jtok eid="10" type="qualified_name_ref" span="161:25:161:31">height</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="162:3:162:14">JScrollPane</jtok>
+<jtok eid="10" type="local_variable_name" span="162:15:162:23">scroller</jtok>
+<jtok eid="10" type="constructor_call" span="162:30:162:41">JScrollPane</jtok>
+<jtok eid="10" type="primary_name_ref" span="162:42:162:53">windowTable</jtok>
+<jtok eid="10" type="primary_name_ref" span="163:3:163:11">scroller</jtok>
+<jtok eid="10" type="method_call" span="163:12:163:28">setPreferredSize</jtok>
+<jtok eid="10" type="primary_name_ref" span="163:29:163:30">d</jtok>
+<jtok eid="10" type="primary_name_ref" span="164:10:164:18">scroller</jtok>
+<jtok eid="1" type="line_comment" span="165:4:165:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="167:2:167:34">//{{{ createWindowModel() method</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="168:17:168:33">WindowTableModel</jtok>
+<jtok eid="11" type="method_name" span="168:34:168:51">createWindowModel</jtok>
+<jtok eid="11" type="constructor_call" span="170:14:170:30">WindowTableModel</jtok>
+<jtok eid="1" type="line_comment" span="171:4:171:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="173:2:173:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="175:2:175:38">//{{{ DockPositionCellRenderer class</jtok>
+<jtok eid="12" type="class_name" span="176:15:176:39">DockPositionCellRenderer</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="176:48:176:57">JComboBox</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="177:14:177:31">TableCellRenderer</jtok>
+<jtok eid="13" type="method_name" span="179:3:179:27">DockPositionCellRenderer</jtok>
+<jtok eid="13" type="constructor_call" span="181:14:181:20">String</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:5:182:26">DockableWindowManager</jtok>
+<jtok eid="13" type="qualified_name_ref" span="182:27:182:35">FLOATING</jtok>
+<jtok eid="13" type="primary_name_ref" span="183:5:183:26">DockableWindowManager</jtok>
+<jtok eid="13" type="qualified_name_ref" span="183:27:183:30">TOP</jtok>
+<jtok eid="13" type="primary_name_ref" span="184:5:184:26">DockableWindowManager</jtok>
+<jtok eid="13" type="qualified_name_ref" span="184:27:184:31">LEFT</jtok>
+<jtok eid="13" type="primary_name_ref" span="185:5:185:26">DockableWindowManager</jtok>
+<jtok eid="13" type="qualified_name_ref" span="185:27:185:33">BOTTOM</jtok>
+<jtok eid="13" type="primary_name_ref" span="186:5:186:26">DockableWindowManager</jtok>
+<jtok eid="13" type="qualified_name_ref" span="186:27:186:32">RIGHT</jtok>
+<jtok eid="13" type="primary_name_ref" span="188:4:188:28">DockPositionCellRenderer</jtok>
+<jtok eid="13" type="method_call" span="188:34:188:56">setRequestFocusEnabled</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="191:10:191:19">Component</jtok>
+<jtok eid="14" type="method_name" span="191:20:191:49">getTableCellRendererComponent</jtok>
+<jtok eid="14" type="parameter_type" span="191:50:191:56">JTable</jtok>
+<jtok eid="14" type="parameter_name" span="191:57:191:62">table</jtok>
+<jtok eid="14" type="parameter_type" span="192:4:192:10">Object</jtok>
+<jtok eid="14" type="parameter_name" span="192:11:192:16">value</jtok>
+<jtok eid="14" type="parameter_name" span="192:26:192:36">isSelected</jtok>
+<jtok eid="14" type="parameter_name" span="192:46:192:54">hasFocus</jtok>
+<jtok eid="14" type="parameter_name" span="193:8:193:11">row</jtok>
+<jtok eid="14" type="parameter_name" span="193:17:193:23">column</jtok>
+<jtok eid="14" type="method_call" span="195:4:195:19">setSelectedItem</jtok>
+<jtok eid="14" type="primary_name_ref" span="195:20:195:25">value</jtok>
+<jtok eid="1" type="line_comment" span="198:4:198:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="199:3:199:8">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="201:1:201:29">//{{{ WindowTableModel class</jtok>
+<jtok eid="15" type="annotation_ref" span="202:2:202:18">SuppressWarnings</jtok>
+<jtok eid="15" type="string_literal" span="202:19:202:27">"serial"</jtok>
+<jtok eid="15" type="class_name" span="203:7:203:23">WindowTableModel</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="203:32:203:50">AbstractTableModel</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="205:23:205:29">String</jtok>
+<jtok eid="15" type="field_name" span="205:30:205:47">PLUGIN_SET_PREFIX</jtok>
+<jtok eid="15" type="string_literal" span="205:50:205:60">"Plugin: "</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="206:23:206:29">String</jtok>
+<jtok eid="15" type="field_name" span="206:30:206:47">CORE_DOCKABLE_SET</jtok>
+<jtok eid="15" type="string_literal" span="206:50:206:56">"Core"</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="207:23:207:29">String</jtok>
+<jtok eid="15" type="field_name" span="207:30:207:46">ALL_DOCKABLE_SET</jtok>
+<jtok eid="15" type="string_literal" span="207:49:207:54">"All"</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="208:10:208:17">HashMap</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="208:18:208:24">String</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="208:26:208:32">Vector</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="208:33:208:38">Entry</jtok>
+<jtok eid="15" type="field_name" span="208:41:208:53">dockableSets</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="209:10:209:16">Vector</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="209:17:209:22">Entry</jtok>
+<jtok eid="15" type="field_name" span="209:24:209:31">windows</jtok>
+<jtok eid="15" type="line_comment" span="211:2:211:36">//{{{ WindowTableModel constructor</jtok>
+<jtok eid="16" type="method_name" span="212:2:212:18">WindowTableModel</jtok>
+<jtok eid="16" type="primary_name_ref" span="214:3:214:15">dockableSets</jtok>
+<jtok eid="16" type="constructor_call" span="214:22:214:29">HashMap</jtok>
+<jtok eid="16" type="constructor_call" span="214:30:214:36">String</jtok>
+<jtok eid="16" type="constructor_call" span="214:38:214:44">Vector</jtok>
+<jtok eid="16" type="constructor_call" span="214:45:214:50">Entry</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="215:3:215:9">Vector</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="215:10:215:15">Entry</jtok>
+<jtok eid="16" type="local_variable_name" span="215:17:215:20">all</jtok>
+<jtok eid="16" type="constructor_call" span="215:27:215:33">Vector</jtok>
+<jtok eid="16" type="constructor_call" span="215:34:215:39">Entry</jtok>
+<jtok eid="16" type="primary_name_ref" span="216:3:216:15">dockableSets</jtok>
+<jtok eid="16" type="method_call" span="216:16:216:19">put</jtok>
+<jtok eid="16" type="primary_name_ref" span="216:20:216:36">ALL_DOCKABLE_SET</jtok>
+<jtok eid="16" type="primary_name_ref" span="216:38:216:41">all</jtok>
+<jtok eid="16" type="primary_name_ref" span="217:3:217:10">windows</jtok>
+<jtok eid="16" type="constructor_call" span="217:17:217:23">Vector</jtok>
+<jtok eid="16" type="constructor_call" span="217:24:217:29">Entry</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="218:3:218:9">String</jtok>
+<jtok eid="16" type="local_variable_name" span="218:12:218:21">dockables</jtok>
+<jtok eid="16" type="primary_name_ref" span="218:24:218:45">DockableWindowManager</jtok>
+<jtok eid="16" type="method_call" span="218:46:218:74">getRegisteredDockableWindows</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="219:8:219:14">String</jtok>
+<jtok eid="16" type="local_variable_name" span="219:15:219:23">dockable</jtok>
+<jtok eid="16" type="primary_name_ref" span="219:25:219:34">dockables</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="221:4:221:10">String</jtok>
+<jtok eid="16" type="local_variable_name" span="221:11:221:17">plugin</jtok>
+<jtok eid="16" type="primary_name_ref" span="221:20:221:41">DockableWindowManager</jtok>
+<jtok eid="16" type="method_call" span="222:5:222:32">getDockableWindowPluginName</jtok>
+<jtok eid="16" type="primary_name_ref" span="222:33:222:41">dockable</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="223:4:223:10">String</jtok>
+<jtok eid="16" type="local_variable_name" span="223:11:223:14">set</jtok>
+<jtok eid="16" type="primary_name_ref" span="224:8:224:14">plugin</jtok>
+<jtok eid="16" type="primary_name_ref" span="225:5:225:8">set</jtok>
+<jtok eid="16" type="primary_name_ref" span="225:11:225:28">PLUGIN_SET_PREFIX</jtok>
+<jtok eid="16" type="primary_name_ref" span="225:31:225:37">plugin</jtok>
+<jtok eid="16" type="primary_name_ref" span="227:5:227:8">set</jtok>
+<jtok eid="16" type="primary_name_ref" span="227:11:227:28">CORE_DOCKABLE_SET</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="228:4:228:10">Vector</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="228:11:228:16">Entry</jtok>
+<jtok eid="16" type="local_variable_name" span="228:18:228:37">currentSetDockables</jtok>
+<jtok eid="16" type="primary_name_ref" span="228:40:228:52">dockableSets</jtok>
+<jtok eid="16" type="method_call" span="228:53:228:56">get</jtok>
+<jtok eid="16" type="primary_name_ref" span="228:57:228:60">set</jtok>
+<jtok eid="16" type="primary_name_ref" span="229:8:229:27">currentSetDockables</jtok>
+<jtok eid="16" type="primary_name_ref" span="231:5:231:24">currentSetDockables</jtok>
+<jtok eid="16" type="constructor_call" span="231:31:231:37">Vector</jtok>
+<jtok eid="16" type="constructor_call" span="231:38:231:43">Entry</jtok>
+<jtok eid="16" type="primary_name_ref" span="232:5:232:17">dockableSets</jtok>
+<jtok eid="16" type="method_call" span="232:18:232:21">put</jtok>
+<jtok eid="16" type="primary_name_ref" span="232:22:232:25">set</jtok>
+<jtok eid="16" type="primary_name_ref" span="232:27:232:46">currentSetDockables</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="234:4:234:9">Entry</jtok>
+<jtok eid="16" type="local_variable_name" span="234:10:234:15">entry</jtok>
+<jtok eid="16" type="constructor_call" span="234:22:234:27">Entry</jtok>
+<jtok eid="16" type="primary_name_ref" span="234:28:234:36">dockable</jtok>
+<jtok eid="16" type="primary_name_ref" span="235:4:235:23">currentSetDockables</jtok>
+<jtok eid="16" type="method_call" span="235:24:235:27">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="235:28:235:33">entry</jtok>
+<jtok eid="16" type="primary_name_ref" span="236:4:236:7">all</jtok>
+<jtok eid="16" type="method_call" span="236:8:236:11">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="236:12:236:17">entry</jtok>
+<jtok eid="16" type="method_call" span="238:3:238:10">showSet</jtok>
+<jtok eid="16" type="primary_name_ref" span="238:11:238:27">ALL_DOCKABLE_SET</jtok>
+<jtok eid="15" type="line_comment" span="239:4:239:9">//}}}</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="241:9:241:15">Vector</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="241:16:241:22">String</jtok>
+<jtok eid="17" type="method_name" span="241:24:241:39">getDockableSets</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="243:3:243:9">Vector</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="243:10:243:16">String</jtok>
+<jtok eid="17" type="local_variable_name" span="243:18:243:22">sets</jtok>
+<jtok eid="17" type="constructor_call" span="243:29:243:35">Vector</jtok>
+<jtok eid="17" type="constructor_call" span="243:36:243:42">String</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="244:8:244:14">String</jtok>
+<jtok eid="17" type="local_variable_name" span="244:15:244:18">set</jtok>
+<jtok eid="17" type="primary_name_ref" span="244:20:244:32">dockableSets</jtok>
+<jtok eid="17" type="method_call" span="244:33:244:39">keySet</jtok>
+<jtok eid="17" type="primary_name_ref" span="245:4:245:8">sets</jtok>
+<jtok eid="17" type="method_call" span="245:9:245:12">add</jtok>
+<jtok eid="17" type="primary_name_ref" span="245:13:245:16">set</jtok>
+<jtok eid="17" type="primary_name_ref" span="246:3:246:7">sets</jtok>
+<jtok eid="17" type="method_call" span="246:8:246:14">remove</jtok>
+<jtok eid="17" type="primary_name_ref" span="246:15:246:31">ALL_DOCKABLE_SET</jtok>
+<jtok eid="17" type="primary_name_ref" span="247:3:247:7">sets</jtok>
+<jtok eid="17" type="method_call" span="247:8:247:14">remove</jtok>
+<jtok eid="17" type="primary_name_ref" span="247:15:247:32">CORE_DOCKABLE_SET</jtok>
+<jtok eid="17" type="primary_name_ref" span="248:3:248:14">Collections</jtok>
+<jtok eid="17" type="method_call" span="248:15:248:19">sort</jtok>
+<jtok eid="17" type="primary_name_ref" span="248:20:248:24">sets</jtok>
+<jtok eid="17" type="primary_name_ref" span="249:3:249:7">sets</jtok>
+<jtok eid="17" type="method_call" span="249:8:249:23">insertElementAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="249:24:249:41">CORE_DOCKABLE_SET</jtok>
+<jtok eid="17" type="primary_name_ref" span="250:3:250:7">sets</jtok>
+<jtok eid="17" type="method_call" span="250:8:250:23">insertElementAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="250:24:250:40">ALL_DOCKABLE_SET</jtok>
+<jtok eid="17" type="primary_name_ref" span="251:10:251:14">sets</jtok>
+<jtok eid="15" type="line_comment" span="254:2:254:24">//{{{ showSet() method</jtok>
+<jtok eid="18" type="method_name" span="255:14:255:21">showSet</jtok>
+<jtok eid="18" type="parameter_type" span="255:22:255:28">String</jtok>
+<jtok eid="18" type="parameter_name" span="255:29:255:32">set</jtok>
+<jtok eid="18" type="primary_name_ref" span="257:3:257:10">windows</jtok>
+<jtok eid="18" type="primary_name_ref" span="257:13:257:25">dockableSets</jtok>
+<jtok eid="18" type="method_call" span="257:26:257:29">get</jtok>
+<jtok eid="18" type="primary_name_ref" span="257:30:257:33">set</jtok>
+<jtok eid="18" type="primary_name_ref" span="258:3:258:14">Collections</jtok>
+<jtok eid="18" type="method_call" span="258:15:258:19">sort</jtok>
+<jtok eid="18" type="primary_name_ref" span="258:20:258:27">windows</jtok>
+<jtok eid="18" type="constructor_call" span="258:32:258:45">WindowCompare</jtok>
+<jtok eid="18" type="method_call" span="259:3:259:23">fireTableDataChanged</jtok>
+<jtok eid="15" type="line_comment" span="260:4:260:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="262:2:262:31">//{{{ getColumnCount() method</jtok>
+<jtok eid="19" type="method_name" span="263:13:263:27">getColumnCount</jtok>
+<jtok eid="15" type="line_comment" span="266:4:266:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="268:2:268:28">//{{{ getRowCount() method</jtok>
+<jtok eid="20" type="method_name" span="269:13:269:24">getRowCount</jtok>
+<jtok eid="20" type="primary_name_ref" span="271:10:271:17">windows</jtok>
+<jtok eid="20" type="method_call" span="271:18:271:22">size</jtok>
+<jtok eid="15" type="line_comment" span="272:4:272:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="274:2:274:31">//{{{ getColumnClass() method</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="275:9:275:14">Class</jtok>
+<jtok eid="21" type="method_name" span="275:15:275:29">getColumnClass</jtok>
+<jtok eid="21" type="parameter_name" span="275:34:275:37">col</jtok>
+<jtok eid="21" type="primary_name_ref" span="277:10:277:13">col</jtok>
+<jtok eid="21" type="primary_name_ref" span="281:11:281:17">String</jtok>
+<jtok eid="21" type="constructor_call" span="283:14:283:27">InternalError</jtok>
+<jtok eid="15" type="line_comment" span="285:4:285:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="287:2:287:27">//{{{ getValueAt() method</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="288:9:288:15">Object</jtok>
+<jtok eid="22" type="method_name" span="288:16:288:26">getValueAt</jtok>
+<jtok eid="22" type="parameter_name" span="288:31:288:34">row</jtok>
+<jtok eid="22" type="parameter_name" span="288:40:288:43">col</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="290:3:290:8">Entry</jtok>
+<jtok eid="22" type="local_variable_name" span="290:9:290:15">window</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="290:19:290:24">Entry</jtok>
+<jtok eid="22" type="primary_name_ref" span="290:25:290:32">windows</jtok>
+<jtok eid="22" type="method_call" span="290:33:290:42">elementAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="290:43:290:46">row</jtok>
+<jtok eid="22" type="primary_name_ref" span="291:10:291:13">col</jtok>
+<jtok eid="22" type="primary_name_ref" span="294:11:294:17">window</jtok>
+<jtok eid="22" type="qualified_name_ref" span="294:18:294:23">title</jtok>
+<jtok eid="22" type="primary_name_ref" span="296:11:296:17">window</jtok>
+<jtok eid="22" type="qualified_name_ref" span="296:18:296:30">dockPosition</jtok>
+<jtok eid="22" type="constructor_call" span="298:14:298:27">InternalError</jtok>
+<jtok eid="15" type="line_comment" span="300:4:300:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="302:2:302:31">//{{{ isCellEditable() method</jtok>
+<jtok eid="23" type="method_name" span="303:17:303:31">isCellEditable</jtok>
+<jtok eid="23" type="parameter_name" span="303:36:303:39">row</jtok>
+<jtok eid="23" type="parameter_name" span="303:45:303:48">col</jtok>
+<jtok eid="23" type="primary_name_ref" span="305:10:305:13">col</jtok>
+<jtok eid="15" type="line_comment" span="306:4:306:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="308:2:308:27">//{{{ setValueAt() method</jtok>
+<jtok eid="24" type="method_name" span="309:14:309:24">setValueAt</jtok>
+<jtok eid="24" type="parameter_type" span="309:25:309:31">Object</jtok>
+<jtok eid="24" type="parameter_name" span="309:32:309:37">value</jtok>
+<jtok eid="24" type="parameter_name" span="309:43:309:46">row</jtok>
+<jtok eid="24" type="parameter_name" span="309:52:309:55">col</jtok>
+<jtok eid="24" type="primary_name_ref" span="311:6:311:9">col</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="314:3:314:8">Entry</jtok>
+<jtok eid="24" type="local_variable_name" span="314:9:314:15">window</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="314:19:314:24">Entry</jtok>
+<jtok eid="24" type="primary_name_ref" span="314:25:314:32">windows</jtok>
+<jtok eid="24" type="method_call" span="314:33:314:42">elementAt</jtok>
+<jtok eid="24" type="primary_name_ref" span="314:43:314:46">row</jtok>
+<jtok eid="24" type="primary_name_ref" span="315:10:315:13">col</jtok>
+<jtok eid="24" type="primary_name_ref" span="318:4:318:10">window</jtok>
+<jtok eid="24" type="qualified_name_ref" span="318:11:318:23">dockPosition</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="318:27:318:33">String</jtok>
+<jtok eid="24" type="primary_name_ref" span="318:34:318:39">value</jtok>
+<jtok eid="24" type="constructor_call" span="321:14:321:27">InternalError</jtok>
+<jtok eid="24" type="method_call" span="324:3:324:23">fireTableRowsUpdated</jtok>
+<jtok eid="24" type="primary_name_ref" span="324:24:324:27">row</jtok>
+<jtok eid="24" type="primary_name_ref" span="324:28:324:31">row</jtok>
+<jtok eid="15" type="line_comment" span="325:4:325:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="327:2:327:30">//{{{ getColumnName() method</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="328:9:328:15">String</jtok>
+<jtok eid="25" type="method_name" span="328:16:328:29">getColumnName</jtok>
+<jtok eid="25" type="parameter_name" span="328:34:328:39">index</jtok>
+<jtok eid="25" type="primary_name_ref" span="330:10:330:15">index</jtok>
+<jtok eid="25" type="primary_name_ref" span="333:11:333:16">jEdit</jtok>
+<jtok eid="25" type="method_call" span="333:17:333:28">getProperty</jtok>
+<jtok eid="25" type="string_literal" span="333:29:333:52">"options.docking.title"</jtok>
+<jtok eid="25" type="primary_name_ref" span="335:11:335:16">jEdit</jtok>
+<jtok eid="25" type="method_call" span="335:17:335:28">getProperty</jtok>
+<jtok eid="25" type="string_literal" span="335:29:335:59">"options.docking.dockPosition"</jtok>
+<jtok eid="25" type="constructor_call" span="337:14:337:27">InternalError</jtok>
+<jtok eid="15" type="line_comment" span="339:4:339:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="341:2:341:21">//{{{ save() method</jtok>
+<jtok eid="26" type="method_name" span="342:14:342:18">save</jtok>
+<jtok eid="26" type="local_variable_name" span="344:11:344:12">i</jtok>
+<jtok eid="26" type="primary_name_ref" span="344:18:344:19">i</jtok>
+<jtok eid="26" type="primary_name_ref" span="344:22:344:29">windows</jtok>
+<jtok eid="26" type="method_call" span="344:30:344:34">size</jtok>
+<jtok eid="26" type="primary_name_ref" span="344:38:344:39">i</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="346:6:346:11">Entry</jtok>
+<jtok eid="26" type="primary_name_ref" span="346:12:346:19">windows</jtok>
+<jtok eid="26" type="method_call" span="346:20:346:29">elementAt</jtok>
+<jtok eid="26" type="primary_name_ref" span="346:30:346:31">i</jtok>
+<jtok eid="26" type="method_call" span="346:34:346:38">save</jtok>
+<jtok eid="15" type="line_comment" span="348:4:348:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="350:2:350:19">//{{{ Entry class</jtok>
+<jtok eid="27" type="class_name" span="351:15:351:20">Entry</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="353:3:353:9">String</jtok>
+<jtok eid="27" type="field_name" span="353:10:353:14">name</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="354:3:354:9">String</jtok>
+<jtok eid="27" type="field_name" span="354:10:354:15">title</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="355:3:355:9">String</jtok>
+<jtok eid="27" type="field_name" span="355:10:355:22">dockPosition</jtok>
+<jtok eid="28" type="method_name" span="357:3:357:8">Entry</jtok>
+<jtok eid="28" type="parameter_type" span="357:9:357:15">String</jtok>
+<jtok eid="28" type="parameter_name" span="357:16:357:20">name</jtok>
+<jtok eid="28" type="qualified_name_ref" span="359:9:359:13">name</jtok>
+<jtok eid="28" type="primary_name_ref" span="359:16:359:20">name</jtok>
+<jtok eid="28" type="primary_name_ref" span="360:4:360:9">title</jtok>
+<jtok eid="28" type="primary_name_ref" span="360:12:360:17">jEdit</jtok>
+<jtok eid="28" type="method_call" span="360:18:360:29">getProperty</jtok>
+<jtok eid="28" type="primary_name_ref" span="360:30:360:34">name</jtok>
+<jtok eid="28" type="string_literal" span="360:37:360:45">".title"</jtok>
+<jtok eid="28" type="primary_name_ref" span="361:7:361:12">title</jtok>
+<jtok eid="28" type="primary_name_ref" span="362:5:362:10">title</jtok>
+<jtok eid="28" type="primary_name_ref" span="362:13:362:17">name</jtok>
+<jtok eid="28" type="primary_name_ref" span="364:4:364:16">dockPosition</jtok>
+<jtok eid="28" type="primary_name_ref" span="364:19:364:24">jEdit</jtok>
+<jtok eid="28" type="method_call" span="364:25:364:36">getProperty</jtok>
+<jtok eid="28" type="primary_name_ref" span="364:37:364:41">name</jtok>
+<jtok eid="28" type="string_literal" span="364:44:364:60">".dock-position"</jtok>
+<jtok eid="28" type="primary_name_ref" span="365:7:365:19">dockPosition</jtok>
+<jtok eid="28" type="primary_name_ref" span="366:5:366:17">dockPosition</jtok>
+<jtok eid="28" type="primary_name_ref" span="366:20:366:41">DockableWindowManager</jtok>
+<jtok eid="28" type="qualified_name_ref" span="366:42:366:50">FLOATING</jtok>
+<jtok eid="29" type="method_name" span="369:8:369:12">save</jtok>
+<jtok eid="29" type="primary_name_ref" span="371:4:371:9">jEdit</jtok>
+<jtok eid="29" type="method_call" span="371:10:371:21">setProperty</jtok>
+<jtok eid="29" type="primary_name_ref" span="371:22:371:26">name</jtok>
+<jtok eid="29" type="string_literal" span="371:29:371:45">".dock-position"</jtok>
+<jtok eid="29" type="primary_name_ref" span="371:46:371:58">dockPosition</jtok>
+<jtok eid="15" type="line_comment" span="373:4:373:9">//}}}</jtok>
+<jtok eid="15" type="line_comment" span="375:2:375:27">//{{{ WindowCompare class</jtok>
+<jtok eid="30" type="class_name" span="376:15:376:28">WindowCompare</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="376:40:376:50">Comparator</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="376:51:376:57">Object</jtok>
+<jtok eid="31" type="method_name" span="378:14:378:21">compare</jtok>
+<jtok eid="31" type="parameter_type" span="378:22:378:28">Object</jtok>
+<jtok eid="31" type="parameter_name" span="378:29:378:33">obj1</jtok>
+<jtok eid="31" type="parameter_type" span="378:35:378:41">Object</jtok>
+<jtok eid="31" type="parameter_name" span="378:42:378:46">obj2</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="380:4:380:9">Entry</jtok>
+<jtok eid="31" type="local_variable_name" span="380:10:380:12">e1</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="380:16:380:21">Entry</jtok>
+<jtok eid="31" type="primary_name_ref" span="380:22:380:26">obj1</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="381:4:381:9">Entry</jtok>
+<jtok eid="31" type="local_variable_name" span="381:10:381:12">e2</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="381:16:381:21">Entry</jtok>
+<jtok eid="31" type="primary_name_ref" span="381:22:381:26">obj2</jtok>
+<jtok eid="31" type="primary_name_ref" span="383:11:383:28">StandardUtilities</jtok>
+<jtok eid="31" type="method_call" span="383:29:383:43">compareStrings</jtok>
+<jtok eid="31" type="primary_name_ref" span="384:5:384:7">e1</jtok>
+<jtok eid="31" type="qualified_name_ref" span="384:8:384:13">title</jtok>
+<jtok eid="31" type="primary_name_ref" span="384:14:384:16">e2</jtok>
+<jtok eid="31" type="qualified_name_ref" span="384:17:384:22">title</jtok>
+<jtok eid="15" type="line_comment" span="386:4:386:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="387:3:387:8">//}}}</jtok>
+</jdoc>

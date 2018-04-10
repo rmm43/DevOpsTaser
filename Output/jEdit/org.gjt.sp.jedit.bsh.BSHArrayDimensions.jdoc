@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHArrayDimensions" jls="java5">
+<jent id="0" type="file" span="0:0:148:2">Source/jEdit/org/gjt/sp/jedit/bsh/BSHArrayDimensions.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:148:1">org.gjt.sp.jedit.bsh.BSHArrayDimensions</jent>
+<jent id="2" pid="1" type="method" span="55:5:55:45">org.gjt.sp.jedit.bsh.BSHArrayDimensions.BSHArrayDimensions(int)</jent>
+<jent id="3" pid="1" type="method" span="57:5:57:59">org.gjt.sp.jedit.bsh.BSHArrayDimensions.addDefinedDimension()</jent>
+<jent id="4" pid="1" type="method" span="58:5:58:63">org.gjt.sp.jedit.bsh.BSHArrayDimensions.addUndefinedDimension()</jent>
+<jent id="5" pid="1" type="method" span="60:5:67:2">org.gjt.sp.jedit.bsh.BSHArrayDimensions.eval(Class,CallStack,Interpreter)</jent>
+<jent id="6" pid="1" type="method" span="81:5:147:5">org.gjt.sp.jedit.bsh.BSHArrayDimensions.eval(CallStack,Interpreter)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="39:1:42:3">/**
+	The name of this class is somewhat misleading.  This covers both the case
+	where there is an array initializer and 
+*/</jtok>
+<jtok eid="1" type="class_name" span="43:7:43:25">BSHArrayDimensions</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:34:43:44">SimpleNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:9:45:14">Class</jtok>
+<jtok eid="1" type="field_name" span="45:15:45:23">baseType</jtok>
+<jtok eid="1" type="field_name" span="46:16:46:30">numDefinedDims</jtok>
+<jtok eid="1" type="field_name" span="47:16:47:32">numUndefinedDims</jtok>
+<jtok eid="1" type="block_comment" span="48:2:52:4">/** 
+		The Length in each defined dimension.  This value set by the eval() 
+		Since the values can come from Expressions we should be re-eval()d each
+		time.
+	*/</jtok>
+<jtok eid="1" type="field_name" span="53:16:53:33">definedDimensions</jtok>
+<jtok eid="2" type="method_name" span="55:5:55:23">BSHArrayDimensions</jtok>
+<jtok eid="2" type="parameter_name" span="55:28:55:30">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:40:55:42">id</jtok>
+<jtok eid="3" type="method_name" span="57:17:57:36">addDefinedDimension</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:41:57:55">numDefinedDims</jtok>
+<jtok eid="4" type="method_name" span="58:17:58:38">addUndefinedDimension</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:43:58:59">numUndefinedDims</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="60:12:60:18">Object</jtok>
+<jtok eid="5" type="method_name" span="60:19:60:23">eval</jtok>
+<jtok eid="5" type="parameter_type" span="61:4:61:9">Class</jtok>
+<jtok eid="5" type="parameter_name" span="61:10:61:14">type</jtok>
+<jtok eid="5" type="parameter_type" span="61:16:61:25">CallStack</jtok>
+<jtok eid="5" type="parameter_name" span="61:26:61:35">callstack</jtok>
+<jtok eid="5" type="parameter_type" span="61:37:61:48">Interpreter</jtok>
+<jtok eid="5" type="parameter_name" span="61:49:61:60">interpreter</jtok>
+<jtok eid="5" type="throws" span="62:10:62:19">EvalError</jtok>
+<jtok eid="5" type="primary_name_ref" span="64:8:64:19">Interpreter</jtok>
+<jtok eid="5" type="qualified_name_ref" span="64:20:64:25">DEBUG</jtok>
+<jtok eid="5" type="primary_name_ref" span="64:28:64:39">Interpreter</jtok>
+<jtok eid="5" type="method_call" span="64:40:64:45">debug</jtok>
+<jtok eid="5" type="string_literal" span="64:46:64:66">"array base type = "</jtok>
+<jtok eid="5" type="primary_name_ref" span="64:67:64:71">type</jtok>
+<jtok eid="5" type="primary_name_ref" span="65:3:65:11">baseType</jtok>
+<jtok eid="5" type="primary_name_ref" span="65:14:65:18">type</jtok>
+<jtok eid="5" type="method_call" span="66:10:66:14">eval</jtok>
+<jtok eid="5" type="primary_name_ref" span="66:16:66:25">callstack</jtok>
+<jtok eid="5" type="primary_name_ref" span="66:27:66:38">interpreter</jtok>
+<jtok eid="1" type="block_comment" span="69:2:80:4">/**
+		Evaluate the structure of the array in one of two ways:
+
+			a) an initializer exists, evaluate it and return
+			the fully constructed array object, also record the dimensions
+			of that array
+			
+			b) evaluate and record the lengths in each dimension and 
+			return void.
+
+		The structure of the array dims is maintained in dimensions.
+	*/</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="81:12:81:18">Object</jtok>
+<jtok eid="6" type="method_name" span="81:19:81:23">eval</jtok>
+<jtok eid="6" type="parameter_type" span="81:25:81:34">CallStack</jtok>
+<jtok eid="6" type="parameter_name" span="81:35:81:44">callstack</jtok>
+<jtok eid="6" type="parameter_type" span="81:46:81:57">Interpreter</jtok>
+<jtok eid="6" type="parameter_name" span="81:58:81:69">interpreter</jtok>
+<jtok eid="6" type="throws" span="82:10:82:19">EvalError</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="84:3:84:13">SimpleNode</jtok>
+<jtok eid="6" type="local_variable_name" span="84:14:84:19">child</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="84:23:84:33">SimpleNode</jtok>
+<jtok eid="6" type="method_call" span="84:34:84:45">jjtGetChild</jtok>
+<jtok eid="6" type="block_comment" span="86:3:92:5">/*
+			Child is array initializer.  Evaluate it and fill in the 
+			dimensions it returns.  Initialized arrays are always fully defined
+			(no undefined dimensions to worry about).  
+			The syntax uses the undefinedDimension count.
+			e.g. int [][] { 1, 2 };
+		*/</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:7:93:12">child</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="93:24:93:43">BSHArrayInitializer</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:9:95:17">baseType</jtok>
+<jtok eid="6" type="constructor_call" span="96:15:96:24">EvalError</jtok>
+<jtok eid="6" type="string_literal" span="97:6:97:51">"Internal Array Eval err:  unknown base type"</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:12:98:21">callstack</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="100:4:100:10">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="100:11:100:20">initValue</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="100:25:100:44">BSHArrayInitializer</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:45:100:50">child</jtok>
+<jtok eid="6" type="method_call" span="100:52:100:56">eval</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:5:101:13">baseType</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:15:101:31">numUndefinedDims</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:33:101:42">callstack</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:44:101:55">interpreter</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="103:4:103:9">Class</jtok>
+<jtok eid="6" type="local_variable_name" span="103:10:103:20">arrayClass</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:23:103:32">initValue</jtok>
+<jtok eid="6" type="method_call" span="103:33:103:41">getClass</jtok>
+<jtok eid="6" type="local_variable_name" span="104:8:104:24">actualDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:27:104:34">Reflect</jtok>
+<jtok eid="6" type="method_call" span="104:35:104:53">getArrayDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:54:104:64">arrayClass</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:4:105:21">definedDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:33:105:49">actualDimensions</jtok>
+<jtok eid="6" type="line_comment" span="107:4:107:66">// Compare with number of dimensions actually created with the</jtok>
+<jtok eid="6" type="line_comment" span="108:4:108:61">// number specified (syntax uses the undefined ones here)</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:9:109:26">definedDimensions</jtok>
+<jtok eid="6" type="qualified_name_ref" span="109:27:109:33">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:37:109:53">numUndefinedDims</jtok>
+<jtok eid="6" type="constructor_call" span="110:15:110:24">EvalError</jtok>
+<jtok eid="6" type="string_literal" span="111:5:111:56">"Incompatible initializer. Allocation calls for a "</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:5:112:21">numUndefinedDims</jtok>
+<jtok eid="6" type="string_literal" span="112:23:112:66">" dimensional array, but initializer is a "</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:6:113:22">actualDimensions</jtok>
+<jtok eid="6" type="string_literal" span="113:25:113:45">" dimensional array"</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:53:113:62">callstack</jtok>
+<jtok eid="6" type="line_comment" span="115:4:115:43">// fill in definedDimensions [] lengths</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="116:4:116:10">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="116:11:116:21">arraySlice</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:24:116:33">initValue</jtok>
+<jtok eid="6" type="local_variable_name" span="117:14:117:15">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:21:117:22">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:25:117:42">definedDimensions</jtok>
+<jtok eid="6" type="qualified_name_ref" span="117:43:117:49">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:51:117:52">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:5:118:22">definedDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:23:118:24">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:28:118:33">Array</jtok>
+<jtok eid="6" type="method_call" span="118:34:118:43">getLength</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:45:118:55">arraySlice</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:10:119:27">definedDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:28:119:29">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="120:6:120:16">arraySlice</jtok>
+<jtok eid="6" type="primary_name_ref" span="120:19:120:24">Array</jtok>
+<jtok eid="6" type="method_call" span="120:25:120:28">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="120:29:120:39">arraySlice</jtok>
+<jtok eid="6" type="primary_name_ref" span="123:11:123:20">initValue</jtok>
+<jtok eid="6" type="line_comment" span="126:3:126:50">// Evaluate the defined dimensions of the array</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:4:128:21">definedDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:33:128:47">numDefinedDims</jtok>
+<jtok eid="6" type="local_variable_name" span="130:12:130:13">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:19:130:20">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:23:130:37">numDefinedDims</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:39:130:40">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="133:6:133:12">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="133:13:133:19">length</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="133:24:133:34">SimpleNode</jtok>
+<jtok eid="6" type="method_call" span="133:35:133:46">jjtGetChild</jtok>
+<jtok eid="6" type="primary_name_ref" span="133:47:133:48">i</jtok>
+<jtok eid="6" type="method_call" span="133:51:133:55">eval</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:7:134:16">callstack</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:18:134:29">interpreter</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:6:135:23">definedDimensions</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:24:135:25">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="135:31:135:40">Primitive</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:41:135:47">length</jtok>
+<jtok eid="6" type="method_call" span="135:49:135:57">intValue</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="137:11:137:20">Exception</jtok>
+<jtok eid="6" type="local_variable_name" span="137:21:137:22">e</jtok>
+<jtok eid="6" type="constructor_call" span="139:16:139:25">EvalError</jtok>
+<jtok eid="6" type="string_literal" span="140:7:140:22">"Array index: "</jtok>
+<jtok eid="6" type="primary_name_ref" span="140:25:140:26">i</jtok>
+<jtok eid="6" type="string_literal" span="141:7:141:41">" does not evaluate to an integer"</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:49:141:58">callstack</jtok>
+<jtok eid="6" type="primary_name_ref" span="146:16:146:25">Primitive</jtok>
+<jtok eid="6" type="qualified_name_ref" span="146:26:146:30">VOID</jtok>
+</jdoc>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.util.IOUtilities" jls="java5">
+<jent id="0" type="file" span="0:0:291:2">Source/jEdit/org/gjt/sp/util/IOUtilities.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:291:1">org.gjt.sp.util.IOUtilities</jent>
+<jent id="2" pid="1" type="method" span="51:2:81:2">org.gjt.sp.util.IOUtilities.moveFile(File,File)</jent>
+<jent id="3" pid="1" type="method" span="95:2:111:2">org.gjt.sp.util.IOUtilities.copyStream(int,ProgressObserver,InputStream,OutputStream,boolean)</jent>
+<jent id="4" pid="1" type="method" span="123:2:128:2">org.gjt.sp.util.IOUtilities.copyStream(ProgressObserver,InputStream,OutputStream,boolean)</jent>
+<jent id="5" pid="1" type="method" span="138:2:152:2">org.gjt.sp.util.IOUtilities.fileLength(File)</jent>
+<jent id="6" pid="1" type="method" span="160:2:173:2">org.gjt.sp.util.IOUtilities.closeQuietly(InputStream)</jent>
+<jent id="7" pid="1" type="method" span="180:2:203:2">org.gjt.sp.util.IOUtilities.closeQuietly(OutputStream)</jent>
+<jent id="8" pid="1" type="method" span="211:2:224:2">org.gjt.sp.util.IOUtilities.closeQuietly(Reader)</jent>
+<jent id="9" pid="1" type="method" span="231:2:254:2">org.gjt.sp.util.IOUtilities.closeQuietly(Writer)</jent>
+<jent id="10" pid="1" type="method" span="262:2:285:2">org.gjt.sp.util.IOUtilities.closeQuietly(Closeable)</jent>
+<jent id="11" pid="1" type="method" span="288:2:290:2">org.gjt.sp.util.IOUtilities.IOUtilities()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * IOUtilities.java - IO related functions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="27:1:33:4">/**
+ * IO tools that depends on JDK only.
+ *
+ * @author Matthieu Casanova
+ * @version $Id: IOUtilities.java 14929 2009-04-14 18:31:50Z daleanson $
+ * @since 4.3pre5
+ */</jtok>
+<jtok eid="1" type="class_name" span="34:14:34:25">IOUtilities</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:25">//{{{ moveFile() method</jtok>
+<jtok eid="1" type="block_comment" span="37:2:50:5">/**
+	 * Moves the source file to the destination.
+	 *
+	 * If the destination cannot be created or is a read-only file, the
+	 * method returns &lt;code&gt;false&lt;/code&gt;. Otherwise, the contents of the
+	 * source are copied to the destination, the source is deleted,
+	 * and &lt;code&gt;true&lt;/code&gt; is returned.
+	 *
+	 * @param source The source file to move.
+	 * @param dest   The destination where to move the file.
+	 * @return true on success, false otherwise.
+	 *
+	 * @since jEdit 4.3pre9
+	 */</jtok>
+<jtok eid="2" type="method_name" span="51:24:51:32">moveFile</jtok>
+<jtok eid="2" type="parameter_type" span="51:33:51:37">File</jtok>
+<jtok eid="2" type="parameter_name" span="51:38:51:44">source</jtok>
+<jtok eid="2" type="parameter_type" span="51:46:51:50">File</jtok>
+<jtok eid="2" type="parameter_name" span="51:51:51:55">dest</jtok>
+<jtok eid="2" type="local_variable_name" span="53:11:53:13">ok</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:8:55:12">dest</jtok>
+<jtok eid="2" type="method_call" span="55:13:55:19">exists</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:25:55:29">dest</jtok>
+<jtok eid="2" type="method_call" span="55:30:55:38">canWrite</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:9:56:13">dest</jtok>
+<jtok eid="2" type="method_call" span="56:14:56:20">exists</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:26:56:30">dest</jtok>
+<jtok eid="2" type="method_call" span="56:31:56:44">getParentFile</jtok>
+<jtok eid="2" type="method_call" span="56:47:56:55">canWrite</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:5:58:17">OutputStream</jtok>
+<jtok eid="2" type="local_variable_name" span="58:18:58:21">fos</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="59:5:59:16">InputStream</jtok>
+<jtok eid="2" type="local_variable_name" span="59:17:59:20">fis</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:6:62:9">fos</jtok>
+<jtok eid="2" type="constructor_call" span="62:16:62:32">FileOutputStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:33:62:37">dest</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:6:63:9">fis</jtok>
+<jtok eid="2" type="constructor_call" span="63:16:63:31">FileInputStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:32:63:38">source</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:6:64:8">ok</jtok>
+<jtok eid="2" type="method_call" span="64:11:64:21">copyStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:33:64:36">fis</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:37:64:40">fos</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="66:12:66:23">IOException</jtok>
+<jtok eid="2" type="local_variable_name" span="66:24:66:27">ioe</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:6:68:9">Log</jtok>
+<jtok eid="2" type="method_call" span="68:10:68:13">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:14:68:17">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="68:18:68:25">WARNING</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:27:68:38">IOUtilities</jtok>
+<jtok eid="2" type="string_literal" span="69:8:69:29">"Error moving file: "</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:32:69:35">ioe</jtok>
+<jtok eid="2" type="string_literal" span="69:38:69:43">" : "</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:46:69:49">ioe</jtok>
+<jtok eid="2" type="method_call" span="69:50:69:60">getMessage</jtok>
+<jtok eid="2" type="method_call" span="73:6:73:18">closeQuietly</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:19:73:22">fos</jtok>
+<jtok eid="2" type="method_call" span="74:6:74:18">closeQuietly</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:19:74:22">fis</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:8:77:10">ok</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:6:78:12">source</jtok>
+<jtok eid="2" type="method_call" span="78:13:78:19">delete</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:10:80:12">ok</jtok>
+<jtok eid="1" type="line_comment" span="81:4:81:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="83:2:83:28">//{{{ copyStream() methods</jtok>
+<jtok eid="1" type="block_comment" span="84:2:94:5">/**
+	 * Copy an input stream to an output stream.
+	 *
+	 * @param bufferSize the size of the buffer
+	 * @param progress the progress observer it could be null
+	 * @param in the input stream
+	 * @param out the output stream
+	 * @param canStop if true, the copy can be stopped by interrupting the thread
+	 * @return &lt;code&gt;true&lt;/code&gt; if the copy was done, &lt;code&gt;false&lt;/code&gt; if it was interrupted
+	 * @throws IOException  IOException If an I/O error occurs
+	 */</jtok>
+<jtok eid="3" type="method_name" span="95:24:95:34">copyStream</jtok>
+<jtok eid="3" type="parameter_name" span="95:39:95:49">bufferSize</jtok>
+<jtok eid="3" type="parameter_type" span="95:51:95:67">ProgressObserver</jtok>
+<jtok eid="3" type="parameter_name" span="95:68:95:76">progress</jtok>
+<jtok eid="3" type="parameter_type" span="96:6:96:17">InputStream</jtok>
+<jtok eid="3" type="parameter_name" span="96:18:96:20">in</jtok>
+<jtok eid="3" type="parameter_type" span="96:22:96:34">OutputStream</jtok>
+<jtok eid="3" type="parameter_name" span="96:35:96:38">out</jtok>
+<jtok eid="3" type="parameter_name" span="96:48:96:55">canStop</jtok>
+<jtok eid="3" type="throws" span="97:10:97:21">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="99:10:99:16">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:28:99:38">bufferSize</jtok>
+<jtok eid="3" type="local_variable_name" span="100:7:100:8">n</jtok>
+<jtok eid="3" type="local_variable_name" span="101:8:101:14">copied</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:17:102:18">n</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:21:102:23">in</jtok>
+<jtok eid="3" type="method_call" span="102:24:102:28">read</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:29:102:35">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:4:104:7">out</jtok>
+<jtok eid="3" type="method_call" span="104:8:104:13">write</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:14:104:20">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:25:104:26">n</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:4:105:10">copied</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:14:105:15">n</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:7:106:15">progress</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:5:107:13">progress</jtok>
+<jtok eid="3" type="method_call" span="107:14:107:22">setValue</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:23:107:29">copied</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:7:108:14">canStop</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:18:108:24">Thread</jtok>
+<jtok eid="3" type="method_call" span="108:25:108:36">interrupted</jtok>
+<jtok eid="1" type="block_comment" span="113:2:122:5">/**
+	 * Copy an input stream to an output stream with a buffer of 4096 bytes.
+	 *
+	 * @param progress the progress observer it could be null
+	 * @param in the input stream
+	 * @param out the output stream
+	 * @param canStop if true, the copy can be stopped by interrupting the thread
+	 * @return &lt;code&gt;true&lt;/code&gt; if the copy was done, &lt;code&gt;false&lt;/code&gt; if it was interrupted
+	 * @throws IOException  IOException If an I/O error occurs
+	 */</jtok>
+<jtok eid="4" type="method_name" span="123:24:123:34">copyStream</jtok>
+<jtok eid="4" type="parameter_type" span="123:35:123:51">ProgressObserver</jtok>
+<jtok eid="4" type="parameter_name" span="123:52:123:60">progress</jtok>
+<jtok eid="4" type="parameter_type" span="124:7:124:18">InputStream</jtok>
+<jtok eid="4" type="parameter_name" span="124:19:124:21">in</jtok>
+<jtok eid="4" type="parameter_type" span="124:23:124:35">OutputStream</jtok>
+<jtok eid="4" type="parameter_name" span="124:36:124:39">out</jtok>
+<jtok eid="4" type="parameter_name" span="124:49:124:56">canStop</jtok>
+<jtok eid="4" type="throws" span="125:10:125:21">IOException</jtok>
+<jtok eid="4" type="method_call" span="127:10:127:20">copyStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:26:127:34">progress</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:36:127:38">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:40:127:43">out</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:45:127:52">canStop</jtok>
+<jtok eid="1" type="line_comment" span="128:4:128:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="130:2:130:27">//{{{ fileLength() method</jtok>
+<jtok eid="1" type="block_comment" span="131:2:137:5">/**
+	 * Returns the length of a file. If it is a directory it will calculate recursively the length.
+	 *
+	 * @param file the file or directory
+	 * @return the length of the file or directory. If the file doesn't exist it will return 0
+	 * @since 4.3pre10
+	 */</jtok>
+<jtok eid="5" type="method_name" span="138:21:138:31">fileLength</jtok>
+<jtok eid="5" type="parameter_type" span="138:32:138:36">File</jtok>
+<jtok eid="5" type="parameter_name" span="138:37:138:41">file</jtok>
+<jtok eid="5" type="local_variable_name" span="140:8:140:14">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:7:141:11">file</jtok>
+<jtok eid="5" type="method_call" span="141:12:141:18">isFile</jtok>
+<jtok eid="5" type="primary_name_ref" span="142:4:142:10">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="142:13:142:17">file</jtok>
+<jtok eid="5" type="method_call" span="142:18:142:24">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:12:143:16">file</jtok>
+<jtok eid="5" type="method_call" span="143:17:143:28">isDirectory</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="145:4:145:8">File</jtok>
+<jtok eid="5" type="local_variable_name" span="145:11:145:16">files</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:19:145:23">file</jtok>
+<jtok eid="5" type="method_call" span="145:24:145:33">listFiles</jtok>
+<jtok eid="5" type="local_variable_name" span="146:13:146:14">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="146:20:146:21">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="146:24:146:29">files</jtok>
+<jtok eid="5" type="qualified_name_ref" span="146:30:146:36">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="146:38:146:39">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:5:148:11">length</jtok>
+<jtok eid="5" type="method_call" span="148:15:148:25">fileLength</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:26:148:31">files</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:32:148:33">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="151:10:151:16">length</jtok>
+<jtok eid="1" type="line_comment" span="152:4:152:10">// }}}</jtok>
+<jtok eid="1" type="line_comment" span="154:2:154:30">//{{{ closeQuietly() methods</jtok>
+<jtok eid="1" type="block_comment" span="155:2:159:5">/**
+	 * Method that will close an {@link InputStream} ignoring it if it is null and ignoring exceptions.
+	 *
+	 * @param in the InputStream to close.
+	 */</jtok>
+<jtok eid="6" type="method_name" span="160:21:160:33">closeQuietly</jtok>
+<jtok eid="6" type="parameter_type" span="160:34:160:45">InputStream</jtok>
+<jtok eid="6" type="parameter_name" span="160:46:160:48">in</jtok>
+<jtok eid="6" type="primary_name_ref" span="162:6:162:8">in</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:5:166:7">in</jtok>
+<jtok eid="6" type="method_call" span="166:8:166:13">close</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="168:11:168:22">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="168:23:168:24">e</jtok>
+<jtok eid="6" type="line_comment" span="170:5:170:13">//ignore</jtok>
+<jtok eid="1" type="block_comment" span="175:2:179:5">/**
+	 * Method that will close an {@link OutputStream} ignoring it if it is null and ignoring exceptions.
+	 *
+	 * @param out the OutputStream to close.
+	 */</jtok>
+<jtok eid="7" type="method_name" span="180:21:180:33">closeQuietly</jtok>
+<jtok eid="7" type="parameter_type" span="180:34:180:46">OutputStream</jtok>
+<jtok eid="7" type="parameter_name" span="180:47:180:50">out</jtok>
+<jtok eid="7" type="primary_name_ref" span="182:6:182:9">out</jtok>
+<jtok eid="7" type="primary_name_ref" span="185:9:185:12">out</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="185:24:185:33">Flushable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="187:8:187:17">Flushable</jtok>
+<jtok eid="7" type="primary_name_ref" span="187:18:187:21">out</jtok>
+<jtok eid="7" type="method_call" span="187:23:187:28">flush</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="190:11:190:22">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="190:23:190:24">e</jtok>
+<jtok eid="7" type="line_comment" span="192:5:192:14">// ignore</jtok>
+<jtok eid="7" type="primary_name_ref" span="196:5:196:8">out</jtok>
+<jtok eid="7" type="method_call" span="196:9:196:14">close</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="198:11:198:22">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="198:23:198:24">e</jtok>
+<jtok eid="7" type="line_comment" span="200:5:200:13">//ignore</jtok>
+<jtok eid="1" type="block_comment" span="205:2:210:5">/**
+	 * Method that will close an {@link Reader} ignoring it if it is null and ignoring exceptions.
+	 *
+	 * @param r the Reader to close.
+	 * @since jEdit 4.3pre5
+	 */</jtok>
+<jtok eid="8" type="method_name" span="211:21:211:33">closeQuietly</jtok>
+<jtok eid="8" type="parameter_type" span="211:34:211:40">Reader</jtok>
+<jtok eid="8" type="parameter_name" span="211:41:211:42">r</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:6:213:7">r</jtok>
+<jtok eid="8" type="primary_name_ref" span="217:5:217:6">r</jtok>
+<jtok eid="8" type="method_call" span="217:7:217:12">close</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="219:11:219:22">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="219:23:219:24">e</jtok>
+<jtok eid="8" type="line_comment" span="221:5:221:13">//ignore</jtok>
+<jtok eid="1" type="block_comment" span="226:2:230:5">/**
+	 * Method that will close a {@link Writer} ignoring it if it is null and ignoring exceptions.
+	 *
+	 * @param out the Writer to close.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="231:21:231:33">closeQuietly</jtok>
+<jtok eid="9" type="parameter_type" span="231:34:231:40">Writer</jtok>
+<jtok eid="9" type="parameter_name" span="231:41:231:44">out</jtok>
+<jtok eid="9" type="primary_name_ref" span="233:6:233:9">out</jtok>
+<jtok eid="9" type="primary_name_ref" span="236:9:236:12">out</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="236:24:236:33">Flushable</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="238:8:238:17">Flushable</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:18:238:21">out</jtok>
+<jtok eid="9" type="method_call" span="238:23:238:28">flush</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="241:11:241:22">IOException</jtok>
+<jtok eid="9" type="local_variable_name" span="241:23:241:24">e</jtok>
+<jtok eid="9" type="line_comment" span="243:5:243:14">// ignore</jtok>
+<jtok eid="9" type="primary_name_ref" span="247:5:247:8">out</jtok>
+<jtok eid="9" type="method_call" span="247:9:247:14">close</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="249:11:249:22">IOException</jtok>
+<jtok eid="9" type="local_variable_name" span="249:23:249:24">e</jtok>
+<jtok eid="9" type="line_comment" span="251:5:251:13">//ignore</jtok>
+<jtok eid="1" type="block_comment" span="256:2:261:5">/**
+	 * Method that will close an {@link java.io.Closeable} ignoring it if it is null and ignoring exceptions.
+	 *
+	 * @param closeable the closeable to close.
+	 * @since jEdit 4.3pre8
+	 */</jtok>
+<jtok eid="10" type="method_name" span="262:21:262:33">closeQuietly</jtok>
+<jtok eid="10" type="parameter_type" span="262:34:262:43">Closeable</jtok>
+<jtok eid="10" type="parameter_name" span="262:44:262:53">closeable</jtok>
+<jtok eid="10" type="primary_name_ref" span="264:6:264:15">closeable</jtok>
+<jtok eid="10" type="primary_name_ref" span="267:9:267:18">closeable</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="267:30:267:39">Flushable</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="269:8:269:17">Flushable</jtok>
+<jtok eid="10" type="primary_name_ref" span="269:18:269:27">closeable</jtok>
+<jtok eid="10" type="method_call" span="269:29:269:34">flush</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="272:11:272:22">IOException</jtok>
+<jtok eid="10" type="local_variable_name" span="272:23:272:24">e</jtok>
+<jtok eid="10" type="line_comment" span="274:5:274:14">// ignore</jtok>
+<jtok eid="10" type="primary_name_ref" span="278:5:278:14">closeable</jtok>
+<jtok eid="10" type="method_call" span="278:15:278:20">close</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="280:11:280:22">IOException</jtok>
+<jtok eid="10" type="local_variable_name" span="280:23:280:24">e</jtok>
+<jtok eid="10" type="line_comment" span="282:5:282:13">//ignore</jtok>
+<jtok eid="1" type="line_comment" span="285:4:285:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="287:2:287:33">//{{{ IOUtilities() constructor</jtok>
+<jtok eid="11" type="method_name" span="288:10:288:21">IOUtilities</jtok>
+<jtok eid="1" type="line_comment" span="290:4:290:9">//}}}</jtok>
+</jdoc>

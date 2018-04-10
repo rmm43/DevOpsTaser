@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.JEditBeanShellAction" jls="java5">
+<jent id="0" type="file" span="0:0:206:2">Source/jEdit/org/gjt/sp/jedit/JEditBeanShellAction.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:206:1">org.gjt.sp.jedit.JEditBeanShellAction</jent>
+<jent id="2" pid="1" type="method" span="48:2:62:2">org.gjt.sp.jedit.JEditBeanShellAction.JEditBeanShellAction(String,String,String,boolean,boolean,boolean)</jent>
+<jent id="3" pid="1" type="method" span="65:2:83:2">org.gjt.sp.jedit.JEditBeanShellAction.invoke(TextArea)</jent>
+<jent id="4" pid="1" type="method" span="86:2:135:2">org.gjt.sp.jedit.JEditBeanShellAction.isSelected(Component)</jent>
+<jent id="5" pid="1" type="method" span="138:2:141:2">org.gjt.sp.jedit.JEditBeanShellAction.noRepeat()</jent>
+<jent id="6" pid="1" type="method" span="144:2:147:2">org.gjt.sp.jedit.JEditBeanShellAction.noRecord()</jent>
+<jent id="7" pid="1" type="method" span="155:2:158:2">org.gjt.sp.jedit.JEditBeanShellAction.noRememberLast()</jent>
+<jent id="8" pid="1" type="method" span="161:2:164:2">org.gjt.sp.jedit.JEditBeanShellAction.getCode()</jent>
+<jent id="9" pid="1" type="class" span="179:2:204:2">org.gjt.sp.jedit.JEditBeanShellAction.MyBeanShellFacade</jent>
+<jent id="10" pid="9" type="method" span="182:3:189:3">org.gjt.sp.jedit.JEditBeanShellAction.MyBeanShellFacade.setupDefaultVariables(NameSpace,TextArea)</jent>
+<jent id="11" pid="9" type="method" span="192:3:196:3">org.gjt.sp.jedit.JEditBeanShellAction.MyBeanShellFacade.resetDefaultVariables(NameSpace)</jent>
+<jent id="12" pid="9" type="method" span="199:3:203:3">org.gjt.sp.jedit.JEditBeanShellAction.MyBeanShellFacade.handleException(TextArea,String,Throwable)</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * JEditBeanShellAction.java - jEdit BeanShell action
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2007 Matthieu Casanova
+ * Portions Copyright (C) 2000, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="31:1:44:4">/**
+ * An action that evaluates BeanShell code when invoked. BeanShell actions are
+ * usually loaded from &lt;code&gt;actions.xml&lt;/code&gt; and
+ * &lt;code&gt;browser.actions.xml&lt;/code&gt; files; see {@link ActionSet} for syntax
+ * information.
+ *
+ * @see jEdit#getAction(String)
+ * @see jEdit#getActionNames()
+ * @see ActionSet
+ *
+ * @author Slava Pestov
+ * @author Matthieu Casanova
+ * @version $Id: BeanShellAction.java 10803 2007-10-04 20:45:31Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:34">JEditBeanShellAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:43:45:66">JEditAbstractEditAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:67:45:75">TextArea</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:35">//{{{ BeanShellAction constructor</jtok>
+<jtok eid="2" type="method_name" span="48:9:48:29">JEditBeanShellAction</jtok>
+<jtok eid="2" type="parameter_type" span="48:30:48:36">String</jtok>
+<jtok eid="2" type="parameter_name" span="48:37:48:41">name</jtok>
+<jtok eid="2" type="parameter_type" span="48:43:48:49">String</jtok>
+<jtok eid="2" type="parameter_name" span="48:50:48:54">code</jtok>
+<jtok eid="2" type="parameter_type" span="48:56:48:62">String</jtok>
+<jtok eid="2" type="parameter_name" span="48:63:48:73">isSelected</jtok>
+<jtok eid="2" type="parameter_name" span="49:11:49:19">noRepeat</jtok>
+<jtok eid="2" type="parameter_name" span="49:29:49:37">noRecord</jtok>
+<jtok eid="2" type="parameter_name" span="49:47:49:61">noRememberLast</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:9:51:13">name</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:8:53:12">code</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:15:53:19">code</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:8:54:18">isSelected</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:21:54:31">isSelected</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:8:55:16">noRepeat</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:19:55:27">noRepeat</jtok>
+<jtok eid="2" type="qualified_name_ref" span="56:8:56:16">noRecord</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:19:56:27">noRecord</jtok>
+<jtok eid="2" type="qualified_name_ref" span="57:8:57:22">noRememberLast</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:25:57:39">noRememberLast</jtok>
+<jtok eid="2" type="block_comment" span="59:3:60:61">/* Some characters that we like to use in action names
+		 * ('.', '-') are not allowed in BeanShell identifiers. */</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:3:61:16">sanitizedName</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:19:61:23">name</jtok>
+<jtok eid="2" type="method_call" span="61:24:61:31">replace</jtok>
+<jtok eid="2" type="method_call" span="61:41:61:48">replace</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:23">//{{{ invoke() method</jtok>
+<jtok eid="3" type="method_name" span="65:14:65:20">invoke</jtok>
+<jtok eid="3" type="parameter_type" span="65:21:65:29">TextArea</jtok>
+<jtok eid="3" type="parameter_name" span="65:30:65:38">textArea</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:7:69:17">cachedCode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:5:71:11">String</jtok>
+<jtok eid="3" type="local_variable_name" span="71:12:71:26">cachedCodeName</jtok>
+<jtok eid="3" type="string_literal" span="71:29:71:38">"action_"</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:41:71:54">sanitizedName</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:5:72:15">cachedCode</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:18:72:21">bsh</jtok>
+<jtok eid="3" type="method_call" span="72:22:72:32">cacheBlock</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:33:72:47">cachedCodeName</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:48:72:52">code</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:4:75:7">bsh</jtok>
+<jtok eid="3" type="method_call" span="75:8:75:22">runCachedBlock</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:23:75:33">cachedCode</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:34:75:42">textArea</jtok>
+<jtok eid="3" type="constructor_call" span="76:9:76:18">NameSpace</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:19:76:22">bsh</jtok>
+<jtok eid="3" type="method_call" span="76:23:76:35">getNameSpace</jtok>
+<jtok eid="3" type="string_literal" span="77:5:77:31">"BeanShellAction.invoke()"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="79:9:79:18">Throwable</jtok>
+<jtok eid="3" type="local_variable_name" span="79:19:79:20">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:4:81:7">Log</jtok>
+<jtok eid="3" type="method_call" span="81:8:81:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:12:81:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="81:16:81:21">ERROR</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:27:81:28">e</jtok>
+<jtok eid="1" type="line_comment" span="83:4:83:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="85:2:85:27">//{{{ isSelected() method</jtok>
+<jtok eid="4" type="method_name" span="86:17:86:27">isSelected</jtok>
+<jtok eid="4" type="parameter_type" span="86:28:86:37">Component</jtok>
+<jtok eid="4" type="parameter_name" span="86:38:86:42">comp</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:6:88:16">isSelected</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="91:3:91:12">NameSpace</jtok>
+<jtok eid="4" type="local_variable_name" span="91:13:91:19">global</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:22:91:25">bsh</jtok>
+<jtok eid="4" type="method_call" span="91:26:91:38">getNameSpace</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:7:95:23">cachedIsSelected</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="97:5:97:11">String</jtok>
+<jtok eid="4" type="local_variable_name" span="97:12:97:32">cachedIsSelectedName</jtok>
+<jtok eid="4" type="string_literal" span="97:35:97:46">"selected_"</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:49:97:62">sanitizedName</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:5:98:21">cachedIsSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:24:98:27">bsh</jtok>
+<jtok eid="4" type="method_call" span="98:28:98:38">cacheBlock</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:39:98:59">cachedIsSelectedName</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:6:99:16">isSelected</jtok>
+<jtok eid="4" type="line_comment" span="102:4:102:58">// undocumented hack to allow browser actions to work.</jtok>
+<jtok eid="4" type="line_comment" span="103:4:103:28">// XXX - clean up in 4.3</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:4:104:10">global</jtok>
+<jtok eid="4" type="method_call" span="104:11:104:22">setVariable</jtok>
+<jtok eid="4" type="string_literal" span="104:23:104:30">"_comp"</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:31:104:35">comp</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:11:106:18">Boolean</jtok>
+<jtok eid="4" type="qualified_name_ref" span="106:19:106:23">TRUE</jtok>
+<jtok eid="4" type="method_call" span="106:24:106:30">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:31:106:34">bsh</jtok>
+<jtok eid="4" type="method_call" span="106:35:106:49">runCachedBlock</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:5:107:21">cachedIsSelected</jtok>
+<jtok eid="4" type="constructor_call" span="108:9:108:18">NameSpace</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:19:108:22">bsh</jtok>
+<jtok eid="4" type="method_call" span="108:23:108:35">getNameSpace</jtok>
+<jtok eid="4" type="string_literal" span="109:5:109:35">"BeanShellAction.isSelected()"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="111:9:111:18">Throwable</jtok>
+<jtok eid="4" type="local_variable_name" span="111:19:111:20">e</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:4:113:7">Log</jtok>
+<jtok eid="4" type="method_call" span="113:8:113:11">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:12:113:15">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="113:16:113:21">ERROR</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:27:113:28">e</jtok>
+<jtok eid="4" type="line_comment" span="115:4:115:56">// dialogs fuck things up if a menu is visible, etc!</jtok>
+<jtok eid="4" type="line_comment" span="116:4:116:39">//new BeanShellErrorDialog(view,e);</jtok>
+<jtok eid="4" type="line_comment" span="118:4:118:52">// so that in the future we don't see streams of</jtok>
+<jtok eid="4" type="line_comment" span="119:4:119:17">// exceptions</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:4:120:14">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:5:128:11">global</jtok>
+<jtok eid="4" type="method_call" span="128:12:128:23">setVariable</jtok>
+<jtok eid="4" type="string_literal" span="128:24:128:31">"_comp"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="130:10:130:23">UtilEvalError</jtok>
+<jtok eid="4" type="local_variable_name" span="130:24:130:27">err</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:5:132:8">Log</jtok>
+<jtok eid="4" type="method_call" span="132:9:132:12">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:13:132:16">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="132:17:132:22">ERROR</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:28:132:31">err</jtok>
+<jtok eid="1" type="line_comment" span="135:4:135:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="137:2:137:25">//{{{ noRepeat() method</jtok>
+<jtok eid="5" type="method_name" span="138:17:138:25">noRepeat</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:10:140:18">noRepeat</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:25">//{{{ noRecord() method</jtok>
+<jtok eid="6" type="method_name" span="144:17:144:25">noRecord</jtok>
+<jtok eid="6" type="primary_name_ref" span="146:10:146:18">noRecord</jtok>
+<jtok eid="1" type="line_comment" span="147:4:147:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="149:2:149:31">//{{{ noRememberLast() method</jtok>
+<jtok eid="1" type="block_comment" span="150:2:154:5">/**
+	 * Returns if this edit action should not be remembered as the most
+	 * recently invoked action.
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="7" type="method_name" span="155:17:155:31">noRememberLast</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:10:157:24">noRememberLast</jtok>
+<jtok eid="1" type="line_comment" span="158:4:158:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:24">//{{{ getCode() method</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="161:9:161:15">String</jtok>
+<jtok eid="8" type="method_name" span="161:16:161:23">getCode</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:10:163:14">code</jtok>
+<jtok eid="8" type="method_call" span="163:15:163:19">trim</jtok>
+<jtok eid="1" type="line_comment" span="164:4:164:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="166:2:166:23">//{{{ Private members</jtok>
+<jtok eid="1" type="field_name" span="167:18:167:26">noRepeat</jtok>
+<jtok eid="1" type="field_name" span="168:18:168:26">noRecord</jtok>
+<jtok eid="1" type="field_name" span="169:18:169:32">noRememberLast</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="170:10:170:16">String</jtok>
+<jtok eid="1" type="field_name" span="170:17:170:21">code</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="171:10:171:16">String</jtok>
+<jtok eid="1" type="field_name" span="171:17:171:27">isSelected</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="172:10:172:19">BshMethod</jtok>
+<jtok eid="1" type="field_name" span="172:20:172:30">cachedCode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="173:10:173:19">BshMethod</jtok>
+<jtok eid="1" type="field_name" span="173:20:173:36">cachedIsSelected</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:10:174:16">String</jtok>
+<jtok eid="1" type="field_name" span="174:17:174:30">sanitizedName</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="175:23:175:38">BeanShellFacade</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="175:39:175:47">TextArea</jtok>
+<jtok eid="1" type="field_name" span="175:49:175:52">bsh</jtok>
+<jtok eid="1" type="constructor_call" span="175:59:175:76">MyBeanShellFacade</jtok>
+<jtok eid="1" type="line_comment" span="176:2:176:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="178:2:178:31">//{{{ MyBeanShellFacade class</jtok>
+<jtok eid="9" type="class_name" span="179:23:179:40">MyBeanShellFacade</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="179:49:179:64">BeanShellFacade</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="179:65:179:73">TextArea</jtok>
+<jtok eid="9" type="annotation_ref" span="181:4:181:12">Override</jtok>
+<jtok eid="10" type="method_name" span="182:18:182:39">setupDefaultVariables</jtok>
+<jtok eid="10" type="parameter_type" span="182:40:182:49">NameSpace</jtok>
+<jtok eid="10" type="parameter_name" span="182:50:182:59">namespace</jtok>
+<jtok eid="10" type="parameter_type" span="182:61:182:69">TextArea</jtok>
+<jtok eid="10" type="parameter_name" span="182:70:182:78">textArea</jtok>
+<jtok eid="10" type="throws" span="182:87:182:100">UtilEvalError</jtok>
+<jtok eid="10" type="primary_name_ref" span="184:7:184:15">textArea</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:5:186:14">namespace</jtok>
+<jtok eid="10" type="method_call" span="186:15:186:26">setVariable</jtok>
+<jtok eid="10" type="string_literal" span="186:27:186:35">"buffer"</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:36:186:44">textArea</jtok>
+<jtok eid="10" type="method_call" span="186:45:186:54">getBuffer</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:5:187:14">namespace</jtok>
+<jtok eid="10" type="method_call" span="187:15:187:26">setVariable</jtok>
+<jtok eid="10" type="string_literal" span="187:27:187:37">"textArea"</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:38:187:46">textArea</jtok>
+<jtok eid="9" type="annotation_ref" span="191:4:191:12">Override</jtok>
+<jtok eid="11" type="method_name" span="192:18:192:39">resetDefaultVariables</jtok>
+<jtok eid="11" type="parameter_type" span="192:40:192:49">NameSpace</jtok>
+<jtok eid="11" type="parameter_name" span="192:50:192:59">namespace</jtok>
+<jtok eid="11" type="throws" span="192:68:192:81">UtilEvalError</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:4:194:13">namespace</jtok>
+<jtok eid="11" type="method_call" span="194:14:194:25">setVariable</jtok>
+<jtok eid="11" type="string_literal" span="194:26:194:34">"buffer"</jtok>
+<jtok eid="11" type="primary_name_ref" span="195:4:195:13">namespace</jtok>
+<jtok eid="11" type="method_call" span="195:14:195:25">setVariable</jtok>
+<jtok eid="11" type="string_literal" span="195:26:195:36">"textArea"</jtok>
+<jtok eid="9" type="annotation_ref" span="198:4:198:12">Override</jtok>
+<jtok eid="12" type="method_name" span="199:18:199:33">handleException</jtok>
+<jtok eid="12" type="parameter_type" span="199:34:199:42">TextArea</jtok>
+<jtok eid="12" type="parameter_name" span="199:43:199:51">textArea</jtok>
+<jtok eid="12" type="parameter_type" span="199:53:199:59">String</jtok>
+<jtok eid="12" type="parameter_name" span="199:60:199:64">path</jtok>
+<jtok eid="12" type="parameter_type" span="199:66:199:75">Throwable</jtok>
+<jtok eid="12" type="parameter_name" span="199:76:199:77">t</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:4:201:7">Log</jtok>
+<jtok eid="12" type="method_call" span="201:8:201:11">log</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:12:201:15">Log</jtok>
+<jtok eid="12" type="qualified_name_ref" span="201:16:201:21">ERROR</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:28:201:29">t</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:31:201:32">t</jtok>
+<jtok eid="12" type="line_comment" span="202:1:202:39">//			new BeanShellErrorDialog(null,t);</jtok>
+<jtok eid="1" type="line_comment" span="204:4:204:9">//}}}</jtok>
+</jdoc>

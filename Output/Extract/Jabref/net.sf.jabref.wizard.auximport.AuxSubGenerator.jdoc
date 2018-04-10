@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.wizard.auximport.AuxSubGenerator" jls="java5">
+<jent id="0" type="file" span="0:0:406:1">Source/jabref/src/java/net/sf/jabref/wizard/auximport/AuxSubGenerator.java</jent>
+<jent id="1" pid="0" type="class" span="70:1:406:1">net.sf.jabref.wizard.auximport.AuxSubGenerator</jent>
+<jent id="2" pid="1" type="method" span="83:3:88:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.AuxSubGenerator(BibtexDatabase)</jent>
+<jent id="3" pid="1" type="method" span="90:3:93:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.setReferenceDatabase(BibtexDatabase)</jent>
+<jent id="4" pid="1" type="method" span="133:3:272:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.parseAuxFile(String)</jent>
+<jent id="5" pid="1" type="method" span="279:3:318:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.resolveTags()</jent>
+<jent id="6" pid="1" type="method" span="325:5:333:5">net.sf.jabref.wizard.auximport.AuxSubGenerator.insertEntry(BibtexDatabase,BibtexEntry)</jent>
+<jent id="7" pid="1" type="method" span="343:5:350:5">net.sf.jabref.wizard.auximport.AuxSubGenerator.generate(String,BibtexDatabase)</jent>
+<jent id="8" pid="1" type="method" span="352:3:358:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.getGeneratedDatabase()</jent>
+<jent id="9" pid="1" type="method" span="360:3:363:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.getFoundKeysInAux()</jent>
+<jent id="10" pid="1" type="method" span="365:3:368:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.getResolvedKeysCount()</jent>
+<jent id="11" pid="1" type="method" span="370:3:373:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.getNotResolvedKeysCount()</jent>
+<jent id="12" pid="1" type="method" span="380:5:383:5">net.sf.jabref.wizard.auximport.AuxSubGenerator.getCrossreferencedEntriesCount()</jent>
+<jent id="13" pid="1" type="method" span="386:3:392:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.clear()</jent>
+<jent id="14" pid="1" type="method" span="395:3:398:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.getNotFoundList()</jent>
+<jent id="15" pid="1" type="method" span="402:3:405:3">net.sf.jabref.wizard.auximport.AuxSubGenerator.getNestedAuxCounter()</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:3">/*
+Copyright (C) 2004 R. Nagel
+
+All programs in this directory and
+subdirectories are published under the GNU General Public License as
+described below.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Further information about the GNU GPL is available at:
+http://www.gnu.org/copyleft/gpl.ja.html
+
+*/</jtok>
+<jtok eid="0" type="block_comment" span="28:1:44:4">/**
+ * &lt;p&gt;Title: Latex Aux to Bibtex&lt;/p&gt;
+ *
+ * &lt;p&gt;Description: generates a sub-database which contains only bibtex entries
+ * from input aux file&lt;/p&gt;
+ *
+ * &lt;p&gt;Copyright: Copyright (c) 2004&lt;/p&gt;
+ *
+ * &lt;p&gt;Company: &lt;/p&gt;
+ *
+ * @version 1.0
+ * @author r.nagel
+ *
+ * @todo Redesign of dialog structure for an assitent like feeling....
+ *   Now - the unknown bibtex entries cannot inserted into the reference
+ *   database without closing the dialog.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="46:1:46:35">// created by : r.nagel 23.08.2004</jtok>
+<jtok eid="0" type="line_comment" span="47:1:47:3">//</jtok>
+<jtok eid="0" type="line_comment" span="48:1:48:27">// modified : - 11.04.2005</jtok>
+<jtok eid="0" type="line_comment" span="49:1:49:80">//              handling \\@input{file.aux} tag in aux files (nested aux files)</jtok>
+<jtok eid="1" type="class_name" span="70:14:70:29">AuxSubGenerator</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="73:11:73:18">HashSet</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="73:19:73:25">String</jtok>
+<jtok eid="1" type="field_name" span="73:27:73:32">mySet</jtok>
+<jtok eid="1" type="line_comment" span="73:35:73:72">// all unique bibtex keys in aux file</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:11:75:17">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:18:75:24">String</jtok>
+<jtok eid="1" type="field_name" span="75:26:75:38">notFoundList</jtok>
+<jtok eid="1" type="line_comment" span="75:41:75:70">// all not solved bibtex keys</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="77:11:77:25">BibtexDatabase</jtok>
+<jtok eid="1" type="field_name" span="77:26:77:28">db</jtok>
+<jtok eid="1" type="line_comment" span="77:31:77:52">// reference database</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="78:11:78:25">BibtexDatabase</jtok>
+<jtok eid="1" type="field_name" span="78:26:78:31">auxDB</jtok>
+<jtok eid="1" type="line_comment" span="78:34:78:88">// contains only the bibtex keys who found in aux file</jtok>
+<jtok eid="1" type="field_name" span="80:15:80:31">nestedAuxCounter</jtok>
+<jtok eid="1" type="line_comment" span="80:35:80:65">// counts the nested aux files</jtok>
+<jtok eid="1" type="field_name" span="81:15:81:42">crossreferencedEntriesCount</jtok>
+<jtok eid="1" type="line_comment" span="81:48:81:91">// counts entries pulled in due to crossref</jtok>
+<jtok eid="2" type="method_name" span="83:10:83:25">AuxSubGenerator</jtok>
+<jtok eid="2" type="parameter_type" span="83:26:83:40">BibtexDatabase</jtok>
+<jtok eid="2" type="parameter_name" span="83:41:83:49">refDBase</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:5:85:10">mySet</jtok>
+<jtok eid="2" type="constructor_call" span="85:17:85:24">HashSet</jtok>
+<jtok eid="2" type="constructor_call" span="85:25:85:31">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:5:86:17">notFoundList</jtok>
+<jtok eid="2" type="constructor_call" span="86:24:86:30">Vector</jtok>
+<jtok eid="2" type="constructor_call" span="86:31:86:37">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:5:87:7">db</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:10:87:18">refDBase</jtok>
+<jtok eid="3" type="method_name" span="90:21:90:41">setReferenceDatabase</jtok>
+<jtok eid="3" type="parameter_type" span="90:42:90:56">BibtexDatabase</jtok>
+<jtok eid="3" type="parameter_name" span="90:57:90:65">newRefDB</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:5:92:7">db</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:10:92:18">newRefDB</jtok>
+<jtok eid="1" type="block_comment" span="95:3:102:6">/**
+   * parseAuxFile
+   * read the Aux file and fill up some intern data structures.
+   * Nested aux files (latex \\include) supported!
+   *
+   * @param filename String : Path to LatexAuxFile
+   * @return boolean, true = no error occurs
+   */</jtok>
+<jtok eid="1" type="line_comment" span="104:3:104:28">// found at comp.text.tex</jtok>
+<jtok eid="1" type="line_comment" span="105:3:105:80">//  &gt; Can anyone tell be the information held within a .aux file?  Is there a</jtok>
+<jtok eid="1" type="line_comment" span="106:3:106:38">//  &gt; specific format to this file?</jtok>
+<jtok eid="1" type="line_comment" span="107:3:107:5">//</jtok>
+<jtok eid="1" type="line_comment" span="108:3:108:70">// I don't think there is a particular format. Every package, class</jtok>
+<jtok eid="1" type="line_comment" span="109:3:109:82">// or document can write to the aux file. The aux file consists of LaTeX macros</jtok>
+<jtok eid="1" type="line_comment" span="110:3:110:74">// and is read at the \begin{document} and again at the \end{document}.</jtok>
+<jtok eid="1" type="line_comment" span="111:3:111:5">//</jtok>
+<jtok eid="1" type="line_comment" span="112:3:112:59">// It usually contains information about existing labels</jtok>
+<jtok eid="1" type="line_comment" span="113:3:113:36">//  \\newlabel{sec:Intro}{{1}{1}}</jtok>
+<jtok eid="1" type="line_comment" span="114:3:114:19">// and citations</jtok>
+<jtok eid="1" type="line_comment" span="115:3:115:32">//  \citation{hiri:conv:1993}</jtok>
+<jtok eid="1" type="line_comment" span="116:3:116:81">// and macros to write information to other files (like toc, lof or lot files)</jtok>
+<jtok eid="1" type="line_comment" span="117:3:117:59">//  \@writefile{toc}{\contentsline {section}{\numberline</jtok>
+<jtok eid="1" type="line_comment" span="118:3:118:19">// {1}Intro}{1}}</jtok>
+<jtok eid="1" type="line_comment" span="119:3:119:44">// but as I said, there can be a lot more</jtok>
+<jtok eid="1" type="line_comment" span="121:3:121:16">// aux file :</jtok>
+<jtok eid="1" type="line_comment" span="122:3:122:5">//</jtok>
+<jtok eid="1" type="line_comment" span="123:3:123:63">// \\citation{x}  x = used reference of bibtex library entry</jtok>
+<jtok eid="1" type="line_comment" span="124:3:124:5">//</jtok>
+<jtok eid="1" type="line_comment" span="125:3:125:38">// \\@input{x}  x = nested aux file</jtok>
+<jtok eid="1" type="line_comment" span="126:3:126:5">//</jtok>
+<jtok eid="1" type="line_comment" span="127:3:127:63">// the \\bibdata{x} directive contains information about the</jtok>
+<jtok eid="1" type="line_comment" span="128:3:128:49">// bibtex library file -&gt; x = name of bib file</jtok>
+<jtok eid="1" type="line_comment" span="129:3:129:5">//</jtok>
+<jtok eid="1" type="line_comment" span="130:3:130:21">// \\bibcite{x}{y}</jtok>
+<jtok eid="1" type="line_comment" span="131:3:131:67">//   x is a label for an item and y is the index in bibliography</jtok>
+<jtok eid="4" type="method_name" span="133:24:133:36">parseAuxFile</jtok>
+<jtok eid="4" type="parameter_type" span="133:37:133:43">String</jtok>
+<jtok eid="4" type="parameter_name" span="133:44:133:52">filename</jtok>
+<jtok eid="4" type="line_comment" span="135:5:135:27">// regular expressions</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="136:5:136:12">Pattern</jtok>
+<jtok eid="4" type="local_variable_name" span="136:13:136:20">pattern</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="137:5:137:12">Matcher</jtok>
+<jtok eid="4" type="local_variable_name" span="137:13:137:20">matcher</jtok>
+<jtok eid="4" type="line_comment" span="139:5:139:23">// while condition</jtok>
+<jtok eid="4" type="local_variable_name" span="140:13:140:19">weiter</jtok>
+<jtok eid="4" type="line_comment" span="142:5:142:41">// return value -&gt; default: no error</jtok>
+<jtok eid="4" type="local_variable_name" span="143:13:143:17">back</jtok>
+<jtok eid="4" type="line_comment" span="145:5:145:23">// fileopen status</jtok>
+<jtok eid="4" type="local_variable_name" span="146:13:146:25">loopFileOpen</jtok>
+<jtok eid="4" type="line_comment" span="148:5:148:25">// the important tag</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:5:149:12">pattern</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:15:149:22">Pattern</jtok>
+<jtok eid="4" type="method_call" span="149:23:149:30">compile</jtok>
+<jtok eid="4" type="string_literal" span="149:32:149:54">"\\\\citation\\{.+\\}"</jtok>
+<jtok eid="4" type="line_comment" span="151:5:151:25">// input-file-buffer</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="152:5:152:19">BufferedReader</jtok>
+<jtok eid="4" type="local_variable_name" span="152:20:152:22">br</jtok>
+<jtok eid="4" type="line_comment" span="154:5:154:43">// filelist, used for nested aux files</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="155:5:155:11">Vector</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="155:12:155:18">String</jtok>
+<jtok eid="4" type="local_variable_name" span="155:20:155:28">fileList</jtok>
+<jtok eid="4" type="constructor_call" span="155:35:155:41">Vector</jtok>
+<jtok eid="4" type="constructor_call" span="155:42:155:48">String</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:5:156:13">fileList</jtok>
+<jtok eid="4" type="method_call" span="156:14:156:17">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:19:156:27">filename</jtok>
+<jtok eid="4" type="line_comment" span="158:5:158:25">// get the file path</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="159:5:159:9">File</jtok>
+<jtok eid="4" type="local_variable_name" span="159:10:159:15">dummy</jtok>
+<jtok eid="4" type="constructor_call" span="159:22:159:26">File</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:28:159:36">filename</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="160:5:160:11">String</jtok>
+<jtok eid="4" type="local_variable_name" span="160:12:160:16">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:19:160:24">dummy</jtok>
+<jtok eid="4" type="method_call" span="160:25:160:34">getParent</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:9:161:13">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:7:162:11">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:14:162:18">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:21:162:25">File</jtok>
+<jtok eid="4" type="qualified_name_ref" span="162:26:162:35">separator</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:7:164:11">path</jtok>
+<jtok eid="4" type="string_literal" span="164:14:164:16">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:5:166:21">nestedAuxCounter</jtok>
+<jtok eid="4" type="line_comment" span="166:30:166:60">// count only the nested reads</jtok>
+<jtok eid="4" type="line_comment" span="168:5:168:37">// index of current file in list</jtok>
+<jtok eid="4" type="local_variable_name" span="169:9:169:18">fileIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="171:12:171:21">fileIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="171:24:171:32">fileList</jtok>
+<jtok eid="4" type="method_call" span="171:33:171:37">size</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="173:7:173:13">String</jtok>
+<jtok eid="4" type="local_variable_name" span="173:14:173:19">fName</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:22:173:30">fileList</jtok>
+<jtok eid="4" type="method_call" span="173:31:173:40">elementAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:42:173:51">fileIndex</jtok>
+<jtok eid="4" type="line_comment" span="176:1:176:52">//        System.out.println("read #"+fName +"#") ;</jtok>
+<jtok eid="4" type="primary_name_ref" span="177:9:177:11">br</jtok>
+<jtok eid="4" type="constructor_call" span="177:18:177:32">BufferedReader</jtok>
+<jtok eid="4" type="constructor_call" span="177:38:177:48">FileReader</jtok>
+<jtok eid="4" type="primary_name_ref" span="177:50:177:55">fName</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:9:178:15">weiter</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:9:179:21">loopFileOpen</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="181:15:181:36">FileNotFoundException</jtok>
+<jtok eid="4" type="local_variable_name" span="181:37:181:41">fnfe</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:9:183:15">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="183:16:183:19">out</jtok>
+<jtok eid="4" type="method_call" span="183:20:183:27">println</jtok>
+<jtok eid="4" type="string_literal" span="183:29:183:57">"Cannot locate input file! "</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:60:183:64">fnfe</jtok>
+<jtok eid="4" type="method_call" span="183:65:183:75">getMessage</jtok>
+<jtok eid="4" type="line_comment" span="184:9:184:30">// System.exit( 0 ) ;</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:9:185:13">back</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:9:186:15">weiter</jtok>
+<jtok eid="4" type="primary_name_ref" span="187:9:187:21">loopFileOpen</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:15:190:21">weiter</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="192:9:192:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="192:16:192:20">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="195:17:195:19">br</jtok>
+<jtok eid="4" type="constructor_call" span="196:27:196:38">IOException</jtok>
+<jtok eid="4" type="primary_name_ref" span="197:13:197:17">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="197:20:197:22">br</jtok>
+<jtok eid="4" type="method_call" span="197:23:197:31">readLine</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="199:17:199:28">IOException</jtok>
+<jtok eid="4" type="local_variable_name" span="199:29:199:32">ioe</jtok>
+<jtok eid="4" type="primary_name_ref" span="201:11:201:15">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="202:11:202:17">weiter</jtok>
+<jtok eid="4" type="primary_name_ref" span="205:14:205:18">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:11:207:18">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:21:207:28">pattern</jtok>
+<jtok eid="4" type="method_call" span="207:29:207:36">matcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:38:207:42">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="209:19:209:26">matcher</jtok>
+<jtok eid="4" type="method_call" span="209:27:209:31">find</jtok>
+<jtok eid="4" type="line_comment" span="211:13:211:72">// extract the bibtex-key(s) XXX from \citation{XXX} string</jtok>
+<jtok eid="4" type="local_variable_name" span="212:17:212:20">len</jtok>
+<jtok eid="4" type="primary_name_ref" span="212:23:212:30">matcher</jtok>
+<jtok eid="4" type="method_call" span="212:31:212:34">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="212:39:212:46">matcher</jtok>
+<jtok eid="4" type="method_call" span="212:47:212:52">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="213:18:213:21">len</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="215:15:215:21">String</jtok>
+<jtok eid="4" type="local_variable_name" span="215:22:215:25">str</jtok>
+<jtok eid="4" type="primary_name_ref" span="215:28:215:35">matcher</jtok>
+<jtok eid="4" type="method_call" span="215:36:215:41">group</jtok>
+<jtok eid="4" type="method_call" span="215:44:215:53">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="215:55:215:62">matcher</jtok>
+<jtok eid="4" type="method_call" span="215:63:215:68">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="216:19:216:26">matcher</jtok>
+<jtok eid="4" type="method_call" span="216:27:216:30">end</jtok>
+<jtok eid="4" type="line_comment" span="217:15:217:58">// could be an comma separated list of keys</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="218:15:218:21">String</jtok>
+<jtok eid="4" type="local_variable_name" span="218:22:218:26">keys</jtok>
+<jtok eid="4" type="primary_name_ref" span="218:31:218:34">str</jtok>
+<jtok eid="4" type="method_call" span="218:35:218:40">split</jtok>
+<jtok eid="4" type="string_literal" span="218:42:218:45">","</jtok>
+<jtok eid="4" type="primary_name_ref" span="219:20:219:24">keys</jtok>
+<jtok eid="4" type="local_variable_name" span="221:21:221:29">keyCount</jtok>
+<jtok eid="4" type="primary_name_ref" span="221:32:221:36">keys</jtok>
+<jtok eid="4" type="qualified_name_ref" span="221:37:221:43">length</jtok>
+<jtok eid="4" type="local_variable_name" span="222:27:222:28">t</jtok>
+<jtok eid="4" type="primary_name_ref" span="222:35:222:36">t</jtok>
+<jtok eid="4" type="primary_name_ref" span="222:39:222:47">keyCount</jtok>
+<jtok eid="4" type="primary_name_ref" span="222:50:222:51">t</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="224:19:224:25">String</jtok>
+<jtok eid="4" type="local_variable_name" span="224:26:224:34">dummyStr</jtok>
+<jtok eid="4" type="primary_name_ref" span="224:37:224:41">keys</jtok>
+<jtok eid="4" type="primary_name_ref" span="224:42:224:43">t</jtok>
+<jtok eid="4" type="primary_name_ref" span="225:24:225:32">dummyStr</jtok>
+<jtok eid="4" type="line_comment" span="227:21:227:78">// delete all unnecessary blanks and save key into an set</jtok>
+<jtok eid="4" type="primary_name_ref" span="228:21:228:26">mySet</jtok>
+<jtok eid="4" type="method_call" span="228:27:228:30">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="228:32:228:40">dummyStr</jtok>
+<jtok eid="4" type="method_call" span="228:41:228:45">trim</jtok>
+<jtok eid="4" type="line_comment" span="229:1:229:65">//                System.out.println("found " +str +" in AUX") ;</jtok>
+<jtok eid="4" type="line_comment" span="235:11:235:43">// try to find a nested aux file</jtok>
+<jtok eid="4" type="local_variable_name" span="236:15:236:20">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="236:23:236:27">line</jtok>
+<jtok eid="4" type="method_call" span="236:28:236:35">indexOf</jtok>
+<jtok eid="4" type="string_literal" span="236:37:236:48">"\\@input{"</jtok>
+<jtok eid="4" type="primary_name_ref" span="237:16:237:21">index</jtok>
+<jtok eid="4" type="local_variable_name" span="239:17:239:22">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="239:25:239:30">index</jtok>
+<jtok eid="4" type="local_variable_name" span="240:17:240:20">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="240:23:240:27">line</jtok>
+<jtok eid="4" type="method_call" span="240:28:240:35">indexOf</jtok>
+<jtok eid="4" type="string_literal" span="240:37:240:40">"}"</jtok>
+<jtok eid="4" type="primary_name_ref" span="240:42:240:47">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="241:18:241:21">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="241:24:241:29">start</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="243:15:243:21">String</jtok>
+<jtok eid="4" type="local_variable_name" span="243:22:243:25">str</jtok>
+<jtok eid="4" type="primary_name_ref" span="243:28:243:32">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="243:35:243:39">line</jtok>
+<jtok eid="4" type="method_call" span="243:40:243:49">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="243:51:243:56">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="243:62:243:65">end</jtok>
+<jtok eid="4" type="line_comment" span="245:15:245:49">// if filename already in filelist</jtok>
+<jtok eid="4" type="primary_name_ref" span="246:20:246:28">fileList</jtok>
+<jtok eid="4" type="method_call" span="246:29:246:37">contains</jtok>
+<jtok eid="4" type="primary_name_ref" span="246:39:246:42">str</jtok>
+<jtok eid="4" type="primary_name_ref" span="248:18:248:26">fileList</jtok>
+<jtok eid="4" type="method_call" span="248:27:248:30">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="248:31:248:34">str</jtok>
+<jtok eid="4" type="line_comment" span="248:39:248:67">// insert file into filelist</jtok>
+<jtok eid="4" type="line_comment" span="252:11:252:26">// line != null</jtok>
+<jtok eid="4" type="primary_name_ref" span="253:14:253:20">weiter</jtok>
+<jtok eid="4" type="line_comment" span="254:9:254:24">// end of while</jtok>
+<jtok eid="4" type="primary_name_ref" span="256:12:256:24">loopFileOpen</jtok>
+<jtok eid="4" type="line_comment" span="256:27:256:59">// only close, if open sucessful</jtok>
+<jtok eid="4" type="primary_name_ref" span="260:17:260:19">br</jtok>
+<jtok eid="4" type="primary_name_ref" span="261:17:261:19">br</jtok>
+<jtok eid="4" type="method_call" span="261:20:261:25">close</jtok>
+<jtok eid="4" type="primary_name_ref" span="262:11:262:27">nestedAuxCounter</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="264:17:264:28">IOException</jtok>
+<jtok eid="4" type="local_variable_name" span="264:29:264:32">ioe</jtok>
+<jtok eid="4" type="primary_name_ref" span="268:7:268:16">fileIndex</jtok>
+<jtok eid="4" type="line_comment" span="268:21:268:38">// load next file</jtok>
+<jtok eid="4" type="primary_name_ref" span="271:12:271:16">back</jtok>
+<jtok eid="1" type="block_comment" span="274:3:278:6">/**
+   * resolveTags
+   * Try to find an equivalent bibtex entry into reference database for all keys
+   * (found in aux file). This methode will fill up some intern data structures.....
+   */</jtok>
+<jtok eid="5" type="method_name" span="279:21:279:32">resolveTags</jtok>
+<jtok eid="5" type="primary_name_ref" span="281:5:281:10">auxDB</jtok>
+<jtok eid="5" type="constructor_call" span="281:17:281:31">BibtexDatabase</jtok>
+<jtok eid="5" type="primary_name_ref" span="282:5:282:17">notFoundList</jtok>
+<jtok eid="5" type="method_call" span="282:18:282:23">clear</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="284:5:284:13">Iterator</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="284:14:284:20">String</jtok>
+<jtok eid="5" type="local_variable_name" span="284:22:284:24">it</jtok>
+<jtok eid="5" type="primary_name_ref" span="284:27:284:32">mySet</jtok>
+<jtok eid="5" type="method_call" span="284:33:284:41">iterator</jtok>
+<jtok eid="5" type="line_comment" span="286:5:286:72">// forall bibtex keys (found in aux-file) try to find an equivalent</jtok>
+<jtok eid="5" type="line_comment" span="287:5:287:37">// entry into reference database</jtok>
+<jtok eid="5" type="primary_name_ref" span="288:12:288:14">it</jtok>
+<jtok eid="5" type="method_call" span="288:15:288:22">hasNext</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="290:7:290:13">String</jtok>
+<jtok eid="5" type="local_variable_name" span="290:14:290:17">str</jtok>
+<jtok eid="5" type="primary_name_ref" span="290:20:290:22">it</jtok>
+<jtok eid="5" type="method_call" span="290:23:290:27">next</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="291:7:291:18">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="291:19:291:24">entry</jtok>
+<jtok eid="5" type="primary_name_ref" span="291:27:291:29">db</jtok>
+<jtok eid="5" type="method_call" span="291:30:291:43">getEntryByKey</jtok>
+<jtok eid="5" type="primary_name_ref" span="291:44:291:47">str</jtok>
+<jtok eid="5" type="primary_name_ref" span="293:11:293:16">entry</jtok>
+<jtok eid="5" type="primary_name_ref" span="295:9:295:21">notFoundList</jtok>
+<jtok eid="5" type="method_call" span="295:22:295:25">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="295:26:295:29">str</jtok>
+<jtok eid="5" type="method_call" span="298:11:298:22">insertEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="298:23:298:28">auxDB</jtok>
+<jtok eid="5" type="primary_name_ref" span="298:30:298:35">entry</jtok>
+<jtok eid="5" type="line_comment" span="299:11:299:77">// Check if the entry we just found references another entry which</jtok>
+<jtok eid="5" type="line_comment" span="300:11:300:77">// we don't already have in our list of entries to include. If so,</jtok>
+<jtok eid="5" type="line_comment" span="301:11:301:41">// pull in that entry as well:</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="302:11:302:17">String</jtok>
+<jtok eid="5" type="local_variable_name" span="302:18:302:26">crossref</jtok>
+<jtok eid="5" type="primary_name_ref" span="302:29:302:34">entry</jtok>
+<jtok eid="5" type="method_call" span="302:35:302:43">getField</jtok>
+<jtok eid="5" type="string_literal" span="302:44:302:54">"crossref"</jtok>
+<jtok eid="5" type="primary_name_ref" span="303:16:303:24">crossref</jtok>
+<jtok eid="5" type="primary_name_ref" span="303:39:303:44">mySet</jtok>
+<jtok eid="5" type="method_call" span="303:45:303:53">contains</jtok>
+<jtok eid="5" type="primary_name_ref" span="303:54:303:62">crossref</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="304:15:304:26">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="304:27:304:35">refEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="304:38:304:40">db</jtok>
+<jtok eid="5" type="method_call" span="304:41:304:54">getEntryByKey</jtok>
+<jtok eid="5" type="primary_name_ref" span="304:55:304:63">crossref</jtok>
+<jtok eid="5" type="block_comment" span="305:15:307:18">/**
+               * [ 1717849 ] Patch for aux import by Kai Eckert
+               */</jtok>
+<jtok eid="5" type="primary_name_ref" span="308:19:308:27">refEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="309:19:309:31">notFoundList</jtok>
+<jtok eid="5" type="method_call" span="309:32:309:35">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="309:36:309:44">crossref</jtok>
+<jtok eid="5" type="method_call" span="311:19:311:30">insertEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="311:31:311:36">auxDB</jtok>
+<jtok eid="5" type="primary_name_ref" span="311:38:311:46">refEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="312:19:312:46">crossreferencedEntriesCount</jtok>
+<jtok eid="1" type="block_comment" span="320:5:324:8">/**
+     * Insert a clone of the given entry. The clone is given a new unique ID.
+     * @param auxDB The database to insert into.
+     * @param entry The entry to insert a copy of.
+     */</jtok>
+<jtok eid="6" type="method_name" span="325:18:325:29">insertEntry</jtok>
+<jtok eid="6" type="parameter_type" span="325:30:325:44">BibtexDatabase</jtok>
+<jtok eid="6" type="parameter_name" span="325:45:325:50">auxDB</jtok>
+<jtok eid="6" type="parameter_type" span="325:52:325:63">BibtexEntry</jtok>
+<jtok eid="6" type="parameter_name" span="325:64:325:69">entry</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="327:13:327:24">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="327:25:327:36">clonedEntry</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="327:40:327:51">BibtexEntry</jtok>
+<jtok eid="6" type="primary_name_ref" span="327:52:327:57">entry</jtok>
+<jtok eid="6" type="method_call" span="327:58:327:63">clone</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:13:328:24">clonedEntry</jtok>
+<jtok eid="6" type="method_call" span="328:25:328:30">setId</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:31:328:35">Util</jtok>
+<jtok eid="6" type="method_call" span="328:36:328:51">createNeutralId</jtok>
+<jtok eid="6" type="primary_name_ref" span="329:13:329:18">auxDB</jtok>
+<jtok eid="6" type="method_call" span="329:19:329:30">insertEntry</jtok>
+<jtok eid="6" type="primary_name_ref" span="329:31:329:42">clonedEntry</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="330:18:330:39">KeyCollisionException</jtok>
+<jtok eid="6" type="local_variable_name" span="330:40:330:41">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="331:13:331:14">e</jtok>
+<jtok eid="6" type="method_call" span="331:15:331:30">printStackTrace</jtok>
+<jtok eid="1" type="block_comment" span="335:5:342:8">/**
+     * generate
+     * Shortcut methode for easy generation.
+     *
+     * @param auxFileName String
+     * @param bibDB BibtexDatabase - reference database
+     * @return Vector - contains all not resolved bibtex entries
+     */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="343:18:343:24">Vector</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="343:25:343:31">String</jtok>
+<jtok eid="7" type="method_name" span="343:33:343:41">generate</jtok>
+<jtok eid="7" type="parameter_type" span="343:42:343:48">String</jtok>
+<jtok eid="7" type="parameter_name" span="343:49:343:60">auxFileName</jtok>
+<jtok eid="7" type="parameter_type" span="343:62:343:76">BibtexDatabase</jtok>
+<jtok eid="7" type="parameter_name" span="343:77:343:82">bibDB</jtok>
+<jtok eid="7" type="method_call" span="345:7:345:27">setReferenceDatabase</jtok>
+<jtok eid="7" type="primary_name_ref" span="345:28:345:33">bibDB</jtok>
+<jtok eid="7" type="method_call" span="346:7:346:19">parseAuxFile</jtok>
+<jtok eid="7" type="primary_name_ref" span="346:20:346:31">auxFileName</jtok>
+<jtok eid="7" type="method_call" span="347:7:347:18">resolveTags</jtok>
+<jtok eid="7" type="primary_name_ref" span="349:14:349:26">notFoundList</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="352:10:352:24">BibtexDatabase</jtok>
+<jtok eid="8" type="method_name" span="352:25:352:45">getGeneratedDatabase</jtok>
+<jtok eid="8" type="primary_name_ref" span="354:9:354:14">auxDB</jtok>
+<jtok eid="8" type="primary_name_ref" span="355:7:355:12">auxDB</jtok>
+<jtok eid="8" type="constructor_call" span="355:19:355:33">BibtexDatabase</jtok>
+<jtok eid="8" type="primary_name_ref" span="357:12:357:17">auxDB</jtok>
+<jtok eid="9" type="method_name" span="360:20:360:37">getFoundKeysInAux</jtok>
+<jtok eid="9" type="primary_name_ref" span="362:12:362:17">mySet</jtok>
+<jtok eid="9" type="method_call" span="362:18:362:22">size</jtok>
+<jtok eid="10" type="method_name" span="365:20:365:40">getResolvedKeysCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="367:12:367:17">auxDB</jtok>
+<jtok eid="10" type="method_call" span="367:18:367:31">getEntryCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="367:36:367:63">crossreferencedEntriesCount</jtok>
+<jtok eid="11" type="method_name" span="370:20:370:43">getNotResolvedKeysCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="372:12:372:24">notFoundList</jtok>
+<jtok eid="11" type="method_call" span="372:25:372:29">size</jtok>
+<jtok eid="1" type="block_comment" span="375:5:379:8">/**
+     * Query the number of extra entries pulled in due to crossrefs from other
+     * entries.
+     * @return The number of additional entries pulled in due to crossref
+     */</jtok>
+<jtok eid="12" type="method_name" span="380:22:380:52">getCrossreferencedEntriesCount</jtok>
+<jtok eid="12" type="primary_name_ref" span="382:16:382:43">crossreferencedEntriesCount</jtok>
+<jtok eid="1" type="block_comment" span="385:3:385:39">/** reset all used datastructures */</jtok>
+<jtok eid="13" type="method_name" span="386:21:386:26">clear</jtok>
+<jtok eid="13" type="primary_name_ref" span="388:5:388:10">mySet</jtok>
+<jtok eid="13" type="method_call" span="388:11:388:16">clear</jtok>
+<jtok eid="13" type="primary_name_ref" span="389:5:389:17">notFoundList</jtok>
+<jtok eid="13" type="method_call" span="389:18:389:23">clear</jtok>
+<jtok eid="13" type="primary_name_ref" span="390:5:390:32">crossreferencedEntriesCount</jtok>
+<jtok eid="13" type="line_comment" span="391:5:391:24">// db = null ;  ???</jtok>
+<jtok eid="1" type="block_comment" span="394:3:394:79">/** returns a vector off all not resolved bibtex entries found in auxfile */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="395:10:395:16">Vector</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="395:17:395:23">String</jtok>
+<jtok eid="14" type="method_name" span="395:25:395:40">getNotFoundList</jtok>
+<jtok eid="14" type="primary_name_ref" span="397:12:397:24">notFoundList</jtok>
+<jtok eid="1" type="block_comment" span="400:3:401:25">/** returns the number of nested aux files, read by the last call of
+   *  generate method */</jtok>
+<jtok eid="15" type="method_name" span="402:14:402:33">getNestedAuxCounter</jtok>
+<jtok eid="15" type="qualified_name_ref" span="404:17:404:33">nestedAuxCounter</jtok>
+</jdoc>

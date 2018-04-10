@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.VersionHandling" jls="java5">
+<jent id="0" type="file" span="0:0:210:1">Source/jabref/src/java/net/sf/jabref/groups/VersionHandling.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:210:1">net.sf.jabref.groups.VersionHandling</jent>
+<jent id="2" pid="1" type="method" span="46:5:59:5">net.sf.jabref.groups.VersionHandling.importFlatGroups(Vector&lt;String&gt;)</jent>
+<jent id="3" pid="1" type="method" span="61:5:76:5">net.sf.jabref.groups.VersionHandling.importGroups(Vector&lt;String&gt;,BibtexDatabase,int)</jent>
+<jent id="4" pid="1" type="class" span="79:5:174:5">net.sf.jabref.groups.VersionHandling.Version0_1</jent>
+<jent id="5" pid="4" type="method" span="88:9:120:9">net.sf.jabref.groups.VersionHandling.Version0_1.fromString(String,BibtexDatabase,int)</jent>
+<jent id="6" pid="4" type="method" span="128:9:148:9">net.sf.jabref.groups.VersionHandling.Version0_1.getSubtree(String)</jent>
+<jent id="7" pid="4" type="method" span="161:9:173:9">net.sf.jabref.groups.VersionHandling.Version0_1.indexOfUnquoted(String,char)</jent>
+<jent id="8" pid="1" type="class" span="176:5:209:5">net.sf.jabref.groups.VersionHandling.Version2_3</jent>
+<jent id="9" pid="8" type="method" span="177:9:208:9">net.sf.jabref.groups.VersionHandling.Version2_3.fromString(Vector&lt;String&gt;,BibtexDatabase,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ All programs in this directory and subdirectories are published under the 
+ GNU General Public License as described below.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by the Free 
+ Software Foundation; either version 2 of the License, or (at your option) 
+ any later version.
+
+ This program is distributed in the hope that it will be useful, but WITHOUT 
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ more details.
+
+ You should have received a copy of the GNU General Public License along 
+ with this program; if not, write to the Free Software Foundation, Inc., 59 
+ Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+ */</jtok>
+<jtok eid="0" type="block_comment" span="31:1:36:4">/**
+ * Handles versioning of groups, e.g. automatic conversion from previous to
+ * current versions, or import of flat groups (JabRef &lt;= 1.6) to tree.
+ * 
+ * @author jzieren (10.04.2005)
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:29">VersionHandling</jtok>
+<jtok eid="1" type="field_name" span="38:29:38:44">CURRENT_VERSION</jtok>
+<jtok eid="1" type="block_comment" span="40:5:45:8">/**
+     * Imports old (flat) groups data and converts it to a 2-level tree with an
+     * AllEntriesGroup at the root.
+     * 
+     * @return the root of the generated tree.
+     */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:19:46:32">GroupTreeNode</jtok>
+<jtok eid="2" type="method_name" span="46:33:46:49">importFlatGroups</jtok>
+<jtok eid="2" type="parameter_type" span="46:50:46:56">Vector</jtok>
+<jtok eid="2" type="parameter_type" span="46:57:46:63">String</jtok>
+<jtok eid="2" type="parameter_name" span="46:65:46:71">groups</jtok>
+<jtok eid="2" type="throws" span="47:20:47:44">IllegalArgumentException</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="48:9:48:22">GroupTreeNode</jtok>
+<jtok eid="2" type="local_variable_name" span="48:23:48:27">root</jtok>
+<jtok eid="2" type="constructor_call" span="48:34:48:47">GroupTreeNode</jtok>
+<jtok eid="2" type="constructor_call" span="48:52:48:67">AllEntriesGroup</jtok>
+<jtok eid="2" type="local_variable_name" span="49:19:49:25">number</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:28:49:34">groups</jtok>
+<jtok eid="2" type="method_call" span="49:35:49:39">size</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="50:9:50:15">String</jtok>
+<jtok eid="2" type="local_variable_name" span="50:16:50:20">name</jtok>
+<jtok eid="2" type="local_variable_name" span="50:22:50:27">field</jtok>
+<jtok eid="2" type="local_variable_name" span="50:29:50:35">regexp</jtok>
+<jtok eid="2" type="local_variable_name" span="51:18:51:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:25:51:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:29:51:35">number</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:39:51:40">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:13:52:18">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:21:52:27">groups</jtok>
+<jtok eid="2" type="method_call" span="52:28:52:31">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:36:52:37">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:13:53:17">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:20:53:26">groups</jtok>
+<jtok eid="2" type="method_call" span="53:27:53:30">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:35:53:36">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:13:54:19">regexp</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:22:54:28">groups</jtok>
+<jtok eid="2" type="method_call" span="54:29:54:32">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:37:54:38">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:13:55:17">root</jtok>
+<jtok eid="2" type="method_call" span="55:18:55:21">add</jtok>
+<jtok eid="2" type="constructor_call" span="55:26:55:39">GroupTreeNode</jtok>
+<jtok eid="2" type="constructor_call" span="55:44:55:56">KeywordGroup</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:57:55:61">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:63:55:68">field</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:70:55:76">regexp</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:34:56:47">AbstractGroup</jtok>
+<jtok eid="2" type="qualified_name_ref" span="56:48:56:59">INDEPENDENT</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:16:58:20">root</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="61:19:61:32">GroupTreeNode</jtok>
+<jtok eid="3" type="method_name" span="61:33:61:45">importGroups</jtok>
+<jtok eid="3" type="parameter_type" span="61:46:61:52">Vector</jtok>
+<jtok eid="3" type="parameter_type" span="61:53:61:59">String</jtok>
+<jtok eid="3" type="parameter_name" span="61:61:61:72">orderedData</jtok>
+<jtok eid="3" type="parameter_type" span="62:13:62:27">BibtexDatabase</jtok>
+<jtok eid="3" type="parameter_name" span="62:28:62:30">db</jtok>
+<jtok eid="3" type="parameter_name" span="62:36:62:43">version</jtok>
+<jtok eid="3" type="throws" span="62:52:62:61">Exception</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:17:63:24">version</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:20:66:30">Version0_1</jtok>
+<jtok eid="3" type="method_call" span="66:31:66:41">fromString</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:42:66:53">orderedData</jtok>
+<jtok eid="3" type="method_call" span="66:54:66:66">firstElement</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:21:67:23">db</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:25:67:32">version</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:20:70:30">Version2_3</jtok>
+<jtok eid="3" type="method_call" span="70:31:70:41">fromString</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:42:70:53">orderedData</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:55:70:57">db</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:59:70:66">version</jtok>
+<jtok eid="3" type="constructor_call" span="72:23:72:47">IllegalArgumentException</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:48:72:55">Globals</jtok>
+<jtok eid="3" type="method_call" span="72:56:72:60">lang</jtok>
+<jtok eid="3" type="string_literal" span="73:21:73:75">"Failed to read groups data (unsupported version: %0)"</jtok>
+<jtok eid="3" type="string_literal" span="74:21:74:23">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:26:74:33">version</jtok>
+<jtok eid="1" type="block_comment" span="78:5:78:43">/** Imports groups version 0 and 1. */</jtok>
+<jtok eid="4" type="class_name" span="79:26:79:36">Version0_1</jtok>
+<jtok eid="4" type="block_comment" span="80:9:87:12">/**
+         * Parses the textual representation obtained from
+         * GroupTreeNode.toString() and recreates that node and all of its
+         * children from it.
+         * 
+         * @throws Exception
+         *             When a group could not be recreated
+         */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="88:24:88:37">GroupTreeNode</jtok>
+<jtok eid="5" type="method_name" span="88:38:88:48">fromString</jtok>
+<jtok eid="5" type="parameter_type" span="88:49:88:55">String</jtok>
+<jtok eid="5" type="parameter_name" span="88:56:88:57">s</jtok>
+<jtok eid="5" type="parameter_type" span="88:59:88:73">BibtexDatabase</jtok>
+<jtok eid="5" type="parameter_name" span="88:74:88:76">db</jtok>
+<jtok eid="5" type="parameter_name" span="89:21:89:28">version</jtok>
+<jtok eid="5" type="throws" span="89:37:89:46">Exception</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="90:13:90:26">GroupTreeNode</jtok>
+<jtok eid="5" type="local_variable_name" span="90:27:90:31">root</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="91:13:91:26">GroupTreeNode</jtok>
+<jtok eid="5" type="local_variable_name" span="91:27:91:34">newNode</jtok>
+<jtok eid="5" type="local_variable_name" span="92:17:92:18">i</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="93:13:93:19">String</jtok>
+<jtok eid="5" type="local_variable_name" span="93:20:93:21">g</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:20:94:21">s</jtok>
+<jtok eid="5" type="method_call" span="94:22:94:28">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:21:95:22">s</jtok>
+<jtok eid="5" type="method_call" span="95:23:95:33">startsWith</jtok>
+<jtok eid="5" type="string_literal" span="95:34:95:37">"("</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="96:21:96:27">String</jtok>
+<jtok eid="5" type="local_variable_name" span="96:28:96:35">subtree</jtok>
+<jtok eid="5" type="method_call" span="96:38:96:48">getSubtree</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:49:96:50">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:21:97:28">newNode</jtok>
+<jtok eid="5" type="method_call" span="97:31:97:41">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:42:97:49">subtree</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:51:97:53">db</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:55:97:62">version</jtok>
+<jtok eid="5" type="line_comment" span="98:21:98:66">// continue after this subtree by removing it</jtok>
+<jtok eid="5" type="line_comment" span="99:21:99:60">// and the leading/trailing braces, and</jtok>
+<jtok eid="5" type="line_comment" span="100:21:100:70">// the comma (that makes 3) that always trails it</jtok>
+<jtok eid="5" type="line_comment" span="101:21:101:59">// unless it's at the end of s anyway.</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:21:102:22">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:29:102:36">subtree</jtok>
+<jtok eid="5" type="method_call" span="102:37:102:43">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:21:103:22">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:25:103:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:30:103:31">s</jtok>
+<jtok eid="5" type="method_call" span="103:32:103:38">length</jtok>
+<jtok eid="5" type="string_literal" span="103:43:103:45">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:48:103:49">s</jtok>
+<jtok eid="5" type="method_call" span="103:50:103:59">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:60:103:61">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:21:105:22">i</jtok>
+<jtok eid="5" type="method_call" span="105:25:105:40">indexOfUnquoted</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:41:105:42">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:21:106:22">g</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:25:106:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:33:106:34">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:37:106:38">s</jtok>
+<jtok eid="5" type="method_call" span="106:39:106:48">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:52:106:53">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:25:107:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:25:108:26">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:29:108:30">s</jtok>
+<jtok eid="5" type="method_call" span="108:31:108:40">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:41:108:42">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:25:110:26">s</jtok>
+<jtok eid="5" type="string_literal" span="110:29:110:31">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:21:111:28">newNode</jtok>
+<jtok eid="5" type="constructor_call" span="111:35:111:48">GroupTreeNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:49:111:62">AbstractGroup</jtok>
+<jtok eid="5" type="method_call" span="111:63:111:73">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:74:111:78">Util</jtok>
+<jtok eid="5" type="method_call" span="112:30:112:37">unquote</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:38:112:39">g</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:48:112:50">db</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:52:112:59">version</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:21:114:25">root</jtok>
+<jtok eid="5" type="line_comment" span="114:35:114:61">// first node will be root</jtok>
+<jtok eid="5" type="primary_name_ref" span="115:21:115:25">root</jtok>
+<jtok eid="5" type="primary_name_ref" span="115:28:115:35">newNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:21:117:25">root</jtok>
+<jtok eid="5" type="method_call" span="117:26:117:29">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:30:117:37">newNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:20:119:24">root</jtok>
+<jtok eid="4" type="block_comment" span="122:9:127:12">/**
+         * Returns the substring delimited by a pair of matching braces, with
+         * the first brace at index 0. Quoted characters are skipped.
+         * 
+         * @return the matching substring, or "" if not found.
+         */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="128:24:128:30">String</jtok>
+<jtok eid="6" type="method_name" span="128:31:128:41">getSubtree</jtok>
+<jtok eid="6" type="parameter_type" span="128:42:128:48">String</jtok>
+<jtok eid="6" type="parameter_name" span="128:49:128:50">s</jtok>
+<jtok eid="6" type="local_variable_name" span="129:17:129:18">i</jtok>
+<jtok eid="6" type="local_variable_name" span="130:17:130:22">level</jtok>
+<jtok eid="6" type="primary_name_ref" span="131:20:131:21">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="131:24:131:25">s</jtok>
+<jtok eid="6" type="method_call" span="131:26:131:32">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:25:132:26">s</jtok>
+<jtok eid="6" type="method_call" span="132:27:132:33">charAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:34:132:35">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:23:134:24">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:23:137:28">level</jtok>
+<jtok eid="6" type="primary_name_ref" span="140:23:140:28">level</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:25:141:30">level</jtok>
+<jtok eid="6" type="primary_name_ref" span="142:32:142:33">s</jtok>
+<jtok eid="6" type="method_call" span="142:34:142:43">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="142:47:142:48">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:19:145:20">i</jtok>
+<jtok eid="6" type="string_literal" span="147:20:147:22">""</jtok>
+<jtok eid="4" type="block_comment" span="150:9:160:12">/**
+         * Returns the index of the first occurence of c, skipping quoted
+         * special characters (escape character: '\\').
+         * 
+         * @param s
+         *            The String to search in.
+         * @param c
+         *            The character to search
+         * @return The index of the first unescaped occurence of c in s, or -1
+         *         if not found.
+         */</jtok>
+<jtok eid="7" type="method_name" span="161:28:161:43">indexOfUnquoted</jtok>
+<jtok eid="7" type="parameter_type" span="161:44:161:50">String</jtok>
+<jtok eid="7" type="parameter_name" span="161:51:161:52">s</jtok>
+<jtok eid="7" type="parameter_name" span="161:59:161:60">c</jtok>
+<jtok eid="7" type="local_variable_name" span="162:17:162:18">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:20:163:21">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:24:163:25">s</jtok>
+<jtok eid="7" type="method_call" span="163:26:163:32">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:21:164:22">s</jtok>
+<jtok eid="7" type="method_call" span="164:23:164:29">charAt</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:30:164:31">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="165:23:165:24">i</jtok>
+<jtok eid="7" type="line_comment" span="165:26:165:48">// skip quoted special</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:25:167:26">s</jtok>
+<jtok eid="7" type="method_call" span="167:27:167:33">charAt</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:34:167:35">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:40:167:41">c</jtok>
+<jtok eid="7" type="primary_name_ref" span="168:32:168:33">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="170:19:170:20">i</jtok>
+<jtok eid="8" type="class_name" span="176:26:176:36">Version2_3</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="177:24:177:37">GroupTreeNode</jtok>
+<jtok eid="9" type="method_name" span="177:38:177:48">fromString</jtok>
+<jtok eid="9" type="parameter_type" span="177:49:177:55">Vector</jtok>
+<jtok eid="9" type="parameter_type" span="177:56:177:62">String</jtok>
+<jtok eid="9" type="parameter_name" span="177:64:177:68">data</jtok>
+<jtok eid="9" type="parameter_type" span="177:70:177:84">BibtexDatabase</jtok>
+<jtok eid="9" type="parameter_name" span="177:85:177:87">db</jtok>
+<jtok eid="9" type="parameter_name" span="178:21:178:28">version</jtok>
+<jtok eid="9" type="throws" span="178:37:178:46">Exception</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="179:13:179:26">GroupTreeNode</jtok>
+<jtok eid="9" type="local_variable_name" span="179:27:179:33">cursor</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="180:13:180:26">GroupTreeNode</jtok>
+<jtok eid="9" type="local_variable_name" span="180:27:180:31">root</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="181:13:181:26">GroupTreeNode</jtok>
+<jtok eid="9" type="local_variable_name" span="181:27:181:34">newNode</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="182:13:182:26">AbstractGroup</jtok>
+<jtok eid="9" type="local_variable_name" span="182:27:182:32">group</jtok>
+<jtok eid="9" type="local_variable_name" span="183:17:183:27">spaceIndex</jtok>
+<jtok eid="9" type="local_variable_name" span="184:17:184:22">level</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="185:13:185:19">String</jtok>
+<jtok eid="9" type="local_variable_name" span="185:20:185:21">s</jtok>
+<jtok eid="9" type="local_variable_name" span="186:22:186:23">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:29:186:30">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:33:186:37">data</jtok>
+<jtok eid="9" type="method_call" span="186:38:186:42">size</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:48:186:49">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="187:17:187:18">s</jtok>
+<jtok eid="9" type="primary_name_ref" span="187:21:187:25">data</jtok>
+<jtok eid="9" type="method_call" span="187:26:187:35">elementAt</jtok>
+<jtok eid="9" type="primary_name_ref" span="187:36:187:37">i</jtok>
+<jtok eid="9" type="method_call" span="187:39:187:47">toString</jtok>
+<jtok eid="9" type="primary_name_ref" span="188:17:188:27">spaceIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="188:30:188:31">s</jtok>
+<jtok eid="9" type="method_call" span="188:32:188:39">indexOf</jtok>
+<jtok eid="9" type="primary_name_ref" span="189:21:189:31">spaceIndex</jtok>
+<jtok eid="9" type="constructor_call" span="190:31:190:40">Exception</jtok>
+<jtok eid="9" type="string_literal" span="190:41:190:53">"bad format"</jtok>
+<jtok eid="9" type="line_comment" span="190:56:190:72">// JZTODO lyrics</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:17:191:22">level</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:25:191:32">Integer</jtok>
+<jtok eid="9" type="method_call" span="191:33:191:41">parseInt</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:42:191:43">s</jtok>
+<jtok eid="9" type="method_call" span="191:44:191:53">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:57:191:67">spaceIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:17:192:22">group</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:25:192:38">AbstractGroup</jtok>
+<jtok eid="9" type="method_call" span="192:39:192:49">fromString</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:50:192:51">s</jtok>
+<jtok eid="9" type="method_call" span="192:52:192:61">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:62:192:72">spaceIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:25:193:27">db</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:29:193:36">version</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:17:194:24">newNode</jtok>
+<jtok eid="9" type="constructor_call" span="194:31:194:44">GroupTreeNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:45:194:50">group</jtok>
+<jtok eid="9" type="primary_name_ref" span="195:21:195:27">cursor</jtok>
+<jtok eid="9" type="line_comment" span="196:21:196:39">// create new root</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:21:197:27">cursor</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:30:197:37">newNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:21:198:25">root</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:28:198:34">cursor</jtok>
+<jtok eid="9" type="line_comment" span="200:21:200:50">// insert at desired location</jtok>
+<jtok eid="9" type="primary_name_ref" span="201:28:201:33">level</jtok>
+<jtok eid="9" type="primary_name_ref" span="201:37:201:43">cursor</jtok>
+<jtok eid="9" type="method_call" span="201:44:201:52">getLevel</jtok>
+<jtok eid="9" type="primary_name_ref" span="202:25:202:31">cursor</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="202:35:202:48">GroupTreeNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="202:50:202:56">cursor</jtok>
+<jtok eid="9" type="method_call" span="202:57:202:66">getParent</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:21:203:27">cursor</jtok>
+<jtok eid="9" type="method_call" span="203:28:203:31">add</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:32:203:39">newNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:21:204:27">cursor</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:30:204:37">newNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:20:207:24">root</jtok>
+</jdoc>

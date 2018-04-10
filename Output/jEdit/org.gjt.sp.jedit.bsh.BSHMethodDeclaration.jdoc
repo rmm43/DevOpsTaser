@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHMethodDeclaration" jls="java5">
+<jent id="0" type="file" span="0:0:179:2">Source/jEdit/org/gjt/sp/jedit/bsh/BSHMethodDeclaration.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:179:1">org.gjt.sp.jedit.bsh.BSHMethodDeclaration</jent>
+<jent id="2" pid="1" type="method" span="56:2:56:44">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.BSHMethodDeclaration(int)</jent>
+<jent id="3" pid="1" type="method" span="62:2:82:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.insureNodesParsed()</jent>
+<jent id="4" pid="1" type="method" span="88:2:96:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.evalReturnType(CallStack,Interpreter)</jent>
+<jent id="5" pid="1" type="method" span="98:2:107:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.getReturnTypeDescriptor(CallStack,Interpreter,String)</jent>
+<jent id="6" pid="1" type="method" span="109:2:112:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.getReturnTypeNode()</jent>
+<jent id="7" pid="1" type="method" span="118:2:141:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.eval(CallStack,Interpreter)</jent>
+<jent id="8" pid="1" type="method" span="143:2:174:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.evalNodes(CallStack,Interpreter)</jent>
+<jent id="9" pid="1" type="method" span="176:2:178:2">org.gjt.sp.jedit.bsh.BSHMethodDeclaration.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="1" type="class_name" span="36:7:36:27">BSHMethodDeclaration</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:36:36:46">SimpleNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:9:38:15">String</jtok>
+<jtok eid="1" type="field_name" span="38:16:38:20">name</jtok>
+<jtok eid="1" type="line_comment" span="40:2:40:62">// Begin Child node structure evaluated by insureNodesParsed</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:2:42:15">BSHReturnType</jtok>
+<jtok eid="1" type="field_name" span="42:16:42:30">returnTypeNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:2:43:21">BSHFormalParameters</jtok>
+<jtok eid="1" type="field_name" span="43:22:43:32">paramsNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:2:44:10">BSHBlock</jtok>
+<jtok eid="1" type="field_name" span="44:11:44:20">blockNode</jtok>
+<jtok eid="1" type="line_comment" span="45:2:45:48">// index of the first throws clause child node</jtok>
+<jtok eid="1" type="field_name" span="46:6:46:23">firstThrowsClause</jtok>
+<jtok eid="1" type="line_comment" span="48:2:48:60">// End Child node structure evaluated by insureNodesParsed</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:9:50:18">Modifiers</jtok>
+<jtok eid="1" type="field_name" span="50:19:50:28">modifiers</jtok>
+<jtok eid="1" type="line_comment" span="52:2:52:33">// Unsafe caching of type here.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="53:2:53:7">Class</jtok>
+<jtok eid="1" type="field_name" span="53:8:53:18">returnType</jtok>
+<jtok eid="1" type="line_comment" span="53:21:53:58">// null (none), Void.TYPE, or a Class</jtok>
+<jtok eid="1" type="field_name" span="54:6:54:15">numThrows</jtok>
+<jtok eid="2" type="method_name" span="56:2:56:22">BSHMethodDeclaration</jtok>
+<jtok eid="2" type="parameter_name" span="56:27:56:29">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:39:56:41">id</jtok>
+<jtok eid="1" type="block_comment" span="58:2:61:4">/**
+		Set the returnTypeNode, paramsNode, and blockNode based on child
+		node structure.  No evaluation is done here.
+	*/</jtok>
+<jtok eid="3" type="method_name" span="62:20:62:37">insureNodesParsed</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:8:64:18">paramsNode</jtok>
+<jtok eid="3" type="line_comment" span="64:29:64:60">// there is always a paramsNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="67:3:67:9">Object</jtok>
+<jtok eid="3" type="local_variable_name" span="67:10:67:19">firstNode</jtok>
+<jtok eid="3" type="method_call" span="67:22:67:33">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:3:68:20">firstThrowsClause</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:8:69:17">firstNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:29:69:42">BSHReturnType</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:4:71:18">returnTypeNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:22:71:35">BSHReturnType</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:36:71:45">firstNode</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:4:72:14">paramsNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="72:18:72:37">BSHFormalParameters</jtok>
+<jtok eid="3" type="method_call" span="72:38:72:49">jjtGetChild</jtok>
+<jtok eid="3" type="method_call" span="73:9:73:26">jjtGetNumChildren</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:33:73:42">numThrows</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:5:74:14">blockNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:18:74:26">BSHBlock</jtok>
+<jtok eid="3" type="method_call" span="74:27:74:38">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:41:74:50">numThrows</jtok>
+<jtok eid="3" type="line_comment" span="74:53:74:67">// skip throws</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:6:75:23">firstThrowsClause</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:4:79:14">paramsNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="79:18:79:37">BSHFormalParameters</jtok>
+<jtok eid="3" type="method_call" span="79:38:79:49">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:4:80:13">blockNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="80:17:80:25">BSHBlock</jtok>
+<jtok eid="3" type="method_call" span="80:26:80:37">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:40:80:49">numThrows</jtok>
+<jtok eid="3" type="line_comment" span="80:52:80:66">// skip throws</jtok>
+<jtok eid="1" type="block_comment" span="84:2:87:4">/**
+		Evaluate the return type node.
+		@return the type or null indicating loosely typed return
+	*/</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="88:2:88:7">Class</jtok>
+<jtok eid="4" type="method_name" span="88:8:88:22">evalReturnType</jtok>
+<jtok eid="4" type="parameter_type" span="88:24:88:33">CallStack</jtok>
+<jtok eid="4" type="parameter_name" span="88:34:88:43">callstack</jtok>
+<jtok eid="4" type="parameter_type" span="88:45:88:56">Interpreter</jtok>
+<jtok eid="4" type="parameter_name" span="88:57:88:68">interpreter</jtok>
+<jtok eid="4" type="throws" span="89:10:89:19">EvalError</jtok>
+<jtok eid="4" type="method_call" span="91:3:91:20">insureNodesParsed</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:8:92:22">returnTypeNode</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:11:93:25">returnTypeNode</jtok>
+<jtok eid="4" type="method_call" span="93:26:93:40">evalReturnType</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:42:93:51">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:53:93:64">interpreter</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="98:2:98:8">String</jtok>
+<jtok eid="5" type="method_name" span="98:9:98:32">getReturnTypeDescriptor</jtok>
+<jtok eid="5" type="parameter_type" span="99:3:99:12">CallStack</jtok>
+<jtok eid="5" type="parameter_name" span="99:13:99:22">callstack</jtok>
+<jtok eid="5" type="parameter_type" span="99:24:99:35">Interpreter</jtok>
+<jtok eid="5" type="parameter_name" span="99:36:99:47">interpreter</jtok>
+<jtok eid="5" type="parameter_type" span="99:49:99:55">String</jtok>
+<jtok eid="5" type="parameter_name" span="99:56:99:70">defaultPackage</jtok>
+<jtok eid="5" type="method_call" span="101:3:101:20">insureNodesParsed</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:8:102:22">returnTypeNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:11:105:25">returnTypeNode</jtok>
+<jtok eid="5" type="method_call" span="105:26:105:43">getTypeDescriptor</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:5:106:14">callstack</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:16:106:27">interpreter</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:29:106:43">defaultPackage</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="109:2:109:15">BSHReturnType</jtok>
+<jtok eid="6" type="method_name" span="109:16:109:33">getReturnTypeNode</jtok>
+<jtok eid="6" type="method_call" span="110:3:110:20">insureNodesParsed</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:10:111:24">returnTypeNode</jtok>
+<jtok eid="1" type="block_comment" span="114:2:117:4">/**
+		Evaluate the declaration of the method.  That is, determine the
+		structure of the method and install it into the caller's namespace.
+	*/</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="118:9:118:15">Object</jtok>
+<jtok eid="7" type="method_name" span="118:16:118:20">eval</jtok>
+<jtok eid="7" type="parameter_type" span="118:22:118:31">CallStack</jtok>
+<jtok eid="7" type="parameter_name" span="118:32:118:41">callstack</jtok>
+<jtok eid="7" type="parameter_type" span="118:43:118:54">Interpreter</jtok>
+<jtok eid="7" type="parameter_name" span="118:55:118:66">interpreter</jtok>
+<jtok eid="7" type="throws" span="119:10:119:19">EvalError</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:3:121:13">returnType</jtok>
+<jtok eid="7" type="method_call" span="121:16:121:30">evalReturnType</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:32:121:41">callstack</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:43:121:54">interpreter</jtok>
+<jtok eid="7" type="method_call" span="122:3:122:12">evalNodes</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:14:122:23">callstack</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:25:122:36">interpreter</jtok>
+<jtok eid="7" type="line_comment" span="124:3:124:60">// Install an *instance* of this method in the namespace.</jtok>
+<jtok eid="7" type="line_comment" span="125:3:125:28">// See notes in BshMethod</jtok>
+<jtok eid="7" type="line_comment" span="127:1:127:23">// This is not good...</jtok>
+<jtok eid="7" type="line_comment" span="128:1:128:54">// need a way to update eval without re-installing...</jtok>
+<jtok eid="7" type="line_comment" span="129:1:129:64">// so that we can re-eval params, etc. when classloader changes</jtok>
+<jtok eid="7" type="line_comment" span="130:1:130:18">// look into this</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="132:3:132:12">NameSpace</jtok>
+<jtok eid="7" type="local_variable_name" span="132:13:132:22">namespace</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:25:132:34">callstack</jtok>
+<jtok eid="7" type="method_call" span="132:35:132:38">top</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="133:3:133:12">BshMethod</jtok>
+<jtok eid="7" type="local_variable_name" span="133:13:133:22">bshMethod</jtok>
+<jtok eid="7" type="constructor_call" span="133:29:133:38">BshMethod</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:46:133:55">namespace</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:57:133:66">modifiers</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:4:135:13">namespace</jtok>
+<jtok eid="7" type="method_call" span="135:14:135:23">setMethod</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:25:135:29">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:31:135:40">bshMethod</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="136:13:136:26">UtilEvalError</jtok>
+<jtok eid="7" type="local_variable_name" span="136:27:136:28">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:10:137:11">e</jtok>
+<jtok eid="7" type="method_call" span="137:12:137:23">toEvalError</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:29:137:38">callstack</jtok>
+<jtok eid="7" type="primary_name_ref" span="140:10:140:19">Primitive</jtok>
+<jtok eid="7" type="qualified_name_ref" span="140:20:140:24">VOID</jtok>
+<jtok eid="8" type="method_name" span="143:15:143:24">evalNodes</jtok>
+<jtok eid="8" type="parameter_type" span="143:26:143:35">CallStack</jtok>
+<jtok eid="8" type="parameter_name" span="143:36:143:45">callstack</jtok>
+<jtok eid="8" type="parameter_type" span="143:47:143:58">Interpreter</jtok>
+<jtok eid="8" type="parameter_name" span="143:59:143:70">interpreter</jtok>
+<jtok eid="8" type="throws" span="144:10:144:19">EvalError</jtok>
+<jtok eid="8" type="method_call" span="146:3:146:20">insureNodesParsed</jtok>
+<jtok eid="8" type="line_comment" span="148:3:148:52">// validate that the throws names are class names</jtok>
+<jtok eid="8" type="local_variable_name" span="149:11:149:12">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="149:13:149:30">firstThrowsClause</jtok>
+<jtok eid="8" type="primary_name_ref" span="149:32:149:33">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="149:34:149:43">numThrows</jtok>
+<jtok eid="8" type="primary_name_ref" span="149:44:149:61">firstThrowsClause</jtok>
+<jtok eid="8" type="primary_name_ref" span="149:63:149:64">i</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="150:6:150:22">BSHAmbiguousName</jtok>
+<jtok eid="8" type="method_call" span="150:23:150:34">jjtGetChild</jtok>
+<jtok eid="8" type="primary_name_ref" span="150:35:150:36">i</jtok>
+<jtok eid="8" type="method_call" span="150:39:150:46">toClass</jtok>
+<jtok eid="8" type="primary_name_ref" span="151:5:151:14">callstack</jtok>
+<jtok eid="8" type="primary_name_ref" span="151:16:151:27">interpreter</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:3:153:13">paramsNode</jtok>
+<jtok eid="8" type="method_call" span="153:14:153:18">eval</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:20:153:29">callstack</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:31:153:42">interpreter</jtok>
+<jtok eid="8" type="line_comment" span="155:3:155:68">// if strictJava mode, check for loose parameters and return type</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:8:156:19">interpreter</jtok>
+<jtok eid="8" type="method_call" span="156:20:156:33">getStrictJava</jtok>
+<jtok eid="8" type="local_variable_name" span="158:12:158:13">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:17:158:18">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:19:158:29">paramsNode</jtok>
+<jtok eid="8" type="qualified_name_ref" span="158:30:158:40">paramTypes</jtok>
+<jtok eid="8" type="qualified_name_ref" span="158:41:158:47">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:49:158:50">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="159:10:159:20">paramsNode</jtok>
+<jtok eid="8" type="qualified_name_ref" span="159:21:159:31">paramTypes</jtok>
+<jtok eid="8" type="primary_name_ref" span="159:32:159:33">i</jtok>
+<jtok eid="8" type="line_comment" span="160:6:160:59">// Warning: Null callstack here.  Don't think we need</jtok>
+<jtok eid="8" type="line_comment" span="161:6:161:61">// a stack trace to indicate how we sourced the method.</jtok>
+<jtok eid="8" type="constructor_call" span="162:16:162:25">EvalError</jtok>
+<jtok eid="8" type="string_literal" span="163:5:163:63">"(Strict Java Mode) Undeclared argument type, parameter: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="164:6:164:16">paramsNode</jtok>
+<jtok eid="8" type="method_call" span="164:17:164:30">getParamNames</jtok>
+<jtok eid="8" type="primary_name_ref" span="164:33:164:34">i</jtok>
+<jtok eid="8" type="string_literal" span="164:38:164:52">" in method: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="165:8:165:12">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:9:167:19">returnType</jtok>
+<jtok eid="8" type="line_comment" span="168:5:168:58">// Warning: Null callstack here.  Don't think we need</jtok>
+<jtok eid="8" type="line_comment" span="169:5:169:60">// a stack trace to indicate how we sourced the method.</jtok>
+<jtok eid="8" type="constructor_call" span="170:15:170:24">EvalError</jtok>
+<jtok eid="8" type="string_literal" span="171:5:171:61">"(Strict Java Mode) Undeclared return type for method: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="172:8:172:12">name</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="176:9:176:15">String</jtok>
+<jtok eid="9" type="method_name" span="176:16:176:24">toString</jtok>
+<jtok eid="9" type="string_literal" span="177:10:177:31">"MethodDeclaration: "</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:32:177:36">name</jtok>
+</jdoc>

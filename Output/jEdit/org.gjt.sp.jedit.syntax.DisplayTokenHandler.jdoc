@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.syntax.DisplayTokenHandler" jls="java5">
+<jent id="0" type="file" span="0:0:248:2">Source/jEdit/org/gjt/sp/jedit/syntax/DisplayTokenHandler.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:248:1">org.gjt.sp.jedit.syntax.DisplayTokenHandler</jent>
+<jent id="2" pid="1" type="method" span="55:2:79:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.init(SyntaxStyle[],FontRenderContext,TabExpander,List&lt;Chunk&gt;,float)</jent>
+<jent id="3" pid="1" type="method" span="86:2:89:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.getChunkList()</jent>
+<jent id="4" pid="1" type="method" span="102:2:163:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.handleToken(Segment,byte,int,int,TokenMarker.LineContext)</jent>
+<jent id="5" pid="1" type="method" span="183:2:189:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.createChunk(byte,int,int,TokenMarker.LineContext)</jent>
+<jent id="6" pid="1" type="method" span="192:2:195:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.initChunk(Chunk,Segment)</jent>
+<jent id="7" pid="1" type="method" span="198:2:231:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.merge(Chunk,Segment)</jent>
+<jent id="8" pid="1" type="method" span="234:2:245:2">org.gjt.sp.jedit.syntax.DisplayTokenHandler.canMerge(Chunk,Chunk,Segment)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * DisplayTokenHandler.java - converts tokens to chunks
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="33:1:36:4">/**
+ * Creates {@link Chunk} objects that can be painted on screen.
+ * @version $Id: DisplayTokenHandler.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:33">DisplayTokenHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:42:37:61">DefaultTokenHandler</jtok>
+<jtok eid="1" type="line_comment" span="39:2:39:78">// don't have chunks longer than 100 characters to avoid slowing things down</jtok>
+<jtok eid="1" type="field_name" span="40:26:40:39">MAX_CHUNK_LEN</jtok>
+<jtok eid="1" type="line_comment" span="42:2:42:21">//{{{ init() method</jtok>
+<jtok eid="1" type="block_comment" span="43:2:54:5">/**
+	 * Init some variables that will be used when marking tokens.
+	 * This is called before {@link JEditBuffer#markTokens(int, TokenHandler)}
+	 * to store some data that will be required and that we don't want
+	 * to put in the parameters
+	 *
+	 * @param styles
+	 * @param fontRenderContext
+	 * @param expander
+	 * @param out
+	 * @param wrapMargin
+	 */</jtok>
+<jtok eid="2" type="method_name" span="55:14:55:18">init</jtok>
+<jtok eid="2" type="parameter_type" span="55:19:55:30">SyntaxStyle</jtok>
+<jtok eid="2" type="parameter_name" span="55:33:55:39">styles</jtok>
+<jtok eid="2" type="parameter_type" span="56:3:56:20">FontRenderContext</jtok>
+<jtok eid="2" type="parameter_name" span="56:21:56:38">fontRenderContext</jtok>
+<jtok eid="2" type="parameter_type" span="57:3:57:14">TabExpander</jtok>
+<jtok eid="2" type="parameter_name" span="57:15:57:23">expander</jtok>
+<jtok eid="2" type="parameter_type" span="57:25:57:29">List</jtok>
+<jtok eid="2" type="parameter_type" span="57:30:57:35">Chunk</jtok>
+<jtok eid="2" type="parameter_name" span="57:37:57:40">out</jtok>
+<jtok eid="2" type="parameter_name" span="58:9:58:19">wrapMargin</jtok>
+<jtok eid="2" type="method_call" span="60:9:60:13">init</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:3:62:4">x</jtok>
+<jtok eid="2" type="qualified_name_ref" span="64:8:64:14">styles</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:17:64:23">styles</jtok>
+<jtok eid="2" type="qualified_name_ref" span="65:8:65:25">fontRenderContext</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:28:65:45">fontRenderContext</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:8:66:16">expander</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:19:66:27">expander</jtok>
+<jtok eid="2" type="line_comment" span="68:3:68:54">// SILLY: allow for anti-aliased characters' "fuzz"</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:6:69:16">wrapMargin</jtok>
+<jtok eid="2" type="qualified_name_ref" span="70:9:70:19">wrapMargin</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:22:70:32">wrapMargin</jtok>
+<jtok eid="2" type="qualified_name_ref" span="72:9:72:19">wrapMargin</jtok>
+<jtok eid="2" type="qualified_name_ref" span="74:8:74:11">out</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:14:74:17">out</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:3:76:20">seenNonWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:3:77:7">endX</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:10:77:25">endOfWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:3:78:6">end</jtok>
+<jtok eid="1" type="line_comment" span="79:4:79:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="81:2:81:29">//{{{ getChunkList() method</jtok>
+<jtok eid="1" type="block_comment" span="82:2:85:5">/**
+	 * Returns the list of chunks.
+	 * @since jEdit 4.1pre7
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="86:9:86:13">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="86:14:86:19">Chunk</jtok>
+<jtok eid="3" type="method_name" span="86:21:86:33">getChunkList</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:10:88:13">out</jtok>
+<jtok eid="1" type="line_comment" span="89:4:89:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="91:2:91:28">//{{{ handleToken() method</jtok>
+<jtok eid="1" type="block_comment" span="92:2:101:5">/**
+	 * Called by the token marker when a syntax token has been parsed.
+	 * @param seg The segment containing the text
+	 * @param id The token type (one of the constants in the
+	 * {@link Token} class).
+	 * @param offset The start offset of the token
+	 * @param length The number of characters in the token
+	 * @param context The line context
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="4" type="method_name" span="102:14:102:25">handleToken</jtok>
+<jtok eid="4" type="parameter_type" span="102:26:102:33">Segment</jtok>
+<jtok eid="4" type="parameter_name" span="102:34:102:37">seg</jtok>
+<jtok eid="4" type="parameter_name" span="102:44:102:46">id</jtok>
+<jtok eid="4" type="parameter_name" span="102:52:102:58">offset</jtok>
+<jtok eid="4" type="parameter_name" span="102:64:102:70">length</jtok>
+<jtok eid="4" type="parameter_type" span="103:3:103:14">TokenMarker</jtok>
+<jtok eid="4" type="parameter_type" span="103:15:103:26">LineContext</jtok>
+<jtok eid="4" type="parameter_name" span="103:27:103:34">context</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:6:105:8">id</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:12:105:17">Token</jtok>
+<jtok eid="4" type="qualified_name_ref" span="105:18:105:21">END</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:7:107:17">firstToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:5:108:8">out</jtok>
+<jtok eid="4" type="method_call" span="108:9:108:12">add</jtok>
+<jtok eid="4" type="method_call" span="108:13:108:18">merge</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="108:20:108:25">Chunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:26:108:36">firstToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:37:108:40">seg</jtok>
+<jtok eid="4" type="local_variable_name" span="112:11:112:22">splitOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:28:112:39">splitOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:42:112:48">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:50:112:61">splitOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:65:112:78">MAX_CHUNK_LEN</jtok>
+<jtok eid="4" type="local_variable_name" span="114:8:114:19">splitLength</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:22:114:26">Math</jtok>
+<jtok eid="4" type="method_call" span="114:27:114:30">min</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:31:114:37">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:40:114:51">splitOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:52:114:65">MAX_CHUNK_LEN</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="115:4:115:9">Chunk</jtok>
+<jtok eid="4" type="local_variable_name" span="115:10:115:15">chunk</jtok>
+<jtok eid="4" type="method_call" span="115:18:115:29">createChunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:30:115:32">id</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:33:115:39">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:42:115:53">splitOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:54:115:65">splitLength</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:66:115:73">context</jtok>
+<jtok eid="4" type="method_call" span="116:4:116:12">addToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:13:116:18">chunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:19:116:26">context</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:7:118:17">wrapMargin</jtok>
+<jtok eid="4" type="method_call" span="120:5:120:14">initChunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:15:120:20">chunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:21:120:24">seg</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:5:121:6">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:10:121:15">chunk</jtok>
+<jtok eid="4" type="qualified_name_ref" span="121:16:121:21">width</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:8:123:17">Character</jtok>
+<jtok eid="4" type="method_call" span="123:18:123:30">isWhitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:31:123:34">seg</jtok>
+<jtok eid="4" type="qualified_name_ref" span="123:35:123:40">array</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:6:124:9">seg</jtok>
+<jtok eid="4" type="qualified_name_ref" span="124:10:124:16">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:19:124:24">chunk</jtok>
+<jtok eid="4" type="qualified_name_ref" span="124:25:124:31">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:9:126:26">seenNonWhitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:7:128:10">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:13:128:22">lastToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:7:129:11">endX</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:14:129:15">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:7:132:22">endOfWhitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:25:132:26">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:9:136:10">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:13:136:23">wrapMargin</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:10:137:13">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="138:10:138:27">seenNonWhitespace</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="140:7:140:12">Chunk</jtok>
+<jtok eid="4" type="local_variable_name" span="140:13:140:21">nextLine</jtok>
+<jtok eid="4" type="constructor_call" span="140:28:140:33">Chunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:34:140:49">endOfWhitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:8:141:11">end</jtok>
+<jtok eid="4" type="qualified_name_ref" span="141:12:141:18">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:21:141:24">end</jtok>
+<jtok eid="4" type="qualified_name_ref" span="141:25:141:31">length</jtok>
+<jtok eid="4" type="method_call" span="142:8:142:24">getParserRuleSet</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:25:142:32">context</jtok>
+<jtok eid="4" type="method_call" span="143:7:143:16">initChunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:17:143:25">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:26:143:29">seg</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:7:145:15">nextLine</jtok>
+<jtok eid="4" type="qualified_name_ref" span="145:16:145:20">next</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:23:145:26">end</jtok>
+<jtok eid="4" type="qualified_name_ref" span="145:27:145:31">next</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:7:146:10">end</jtok>
+<jtok eid="4" type="qualified_name_ref" span="146:11:146:15">next</jtok>
+<jtok eid="4" type="primary_name_ref" span="148:10:148:20">firstToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:8:149:11">out</jtok>
+<jtok eid="4" type="method_call" span="149:12:149:15">add</jtok>
+<jtok eid="4" type="method_call" span="149:16:149:21">merge</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="149:23:149:28">Chunk</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:29:149:39">firstToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:40:149:43">seg</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:7:151:17">firstToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:20:151:28">nextLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:7:153:8">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:11:153:12">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:15:153:19">endX</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:22:153:37">endOfWhitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:7:155:10">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:7:156:11">endX</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:14:156:15">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:6:159:23">seenNonWhitespace</jtok>
+<jtok eid="1" type="line_comment" span="163:4:163:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="165:2:165:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="167:2:167:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="168:10:168:21">SyntaxStyle</jtok>
+<jtok eid="1" type="field_name" span="168:24:168:30">styles</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="169:10:169:27">FontRenderContext</jtok>
+<jtok eid="1" type="field_name" span="169:28:169:45">fontRenderContext</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="170:10:170:21">TabExpander</jtok>
+<jtok eid="1" type="field_name" span="170:22:170:30">expander</jtok>
+<jtok eid="1" type="field_name" span="171:16:171:17">x</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="173:10:173:14">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="173:15:173:20">Chunk</jtok>
+<jtok eid="1" type="field_name" span="173:22:173:25">out</jtok>
+<jtok eid="1" type="field_name" span="174:16:174:26">wrapMargin</jtok>
+<jtok eid="1" type="field_name" span="175:16:175:20">endX</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="176:10:176:15">Token</jtok>
+<jtok eid="1" type="field_name" span="176:16:176:19">end</jtok>
+<jtok eid="1" type="field_name" span="178:18:178:35">seenNonWhitespace</jtok>
+<jtok eid="1" type="field_name" span="179:16:179:31">endOfWhitespace</jtok>
+<jtok eid="1" type="line_comment" span="180:2:180:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="182:2:182:28">//{{{ createChunk() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="183:10:183:15">Chunk</jtok>
+<jtok eid="5" type="method_name" span="183:16:183:27">createChunk</jtok>
+<jtok eid="5" type="parameter_name" span="183:33:183:35">id</jtok>
+<jtok eid="5" type="parameter_name" span="183:41:183:47">offset</jtok>
+<jtok eid="5" type="parameter_name" span="183:53:183:59">length</jtok>
+<jtok eid="5" type="parameter_type" span="184:3:184:14">TokenMarker</jtok>
+<jtok eid="5" type="parameter_type" span="184:15:184:26">LineContext</jtok>
+<jtok eid="5" type="parameter_name" span="184:27:184:34">context</jtok>
+<jtok eid="5" type="constructor_call" span="186:14:186:19">Chunk</jtok>
+<jtok eid="5" type="primary_name_ref" span="186:20:186:22">id</jtok>
+<jtok eid="5" type="primary_name_ref" span="186:23:186:29">offset</jtok>
+<jtok eid="5" type="primary_name_ref" span="186:30:186:36">length</jtok>
+<jtok eid="5" type="method_call" span="187:4:187:20">getParserRuleSet</jtok>
+<jtok eid="5" type="primary_name_ref" span="187:21:187:28">context</jtok>
+<jtok eid="5" type="primary_name_ref" span="187:30:187:36">styles</jtok>
+<jtok eid="5" type="primary_name_ref" span="188:4:188:11">context</jtok>
+<jtok eid="5" type="qualified_name_ref" span="188:12:188:17">rules</jtok>
+<jtok eid="5" type="method_call" span="188:18:188:28">getDefault</jtok>
+<jtok eid="1" type="line_comment" span="189:4:189:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="191:2:191:26">//{{{ initChunk() method</jtok>
+<jtok eid="6" type="method_name" span="192:17:192:26">initChunk</jtok>
+<jtok eid="6" type="parameter_type" span="192:27:192:32">Chunk</jtok>
+<jtok eid="6" type="parameter_name" span="192:33:192:38">chunk</jtok>
+<jtok eid="6" type="parameter_type" span="192:40:192:47">Segment</jtok>
+<jtok eid="6" type="parameter_name" span="192:48:192:51">seg</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:3:194:8">chunk</jtok>
+<jtok eid="6" type="method_call" span="194:9:194:13">init</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:14:194:17">seg</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:18:194:26">expander</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:27:194:28">x</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:29:194:46">fontRenderContext</jtok>
+<jtok eid="1" type="line_comment" span="195:4:195:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="197:2:197:22">//{{{ merge() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="198:10:198:15">Chunk</jtok>
+<jtok eid="7" type="method_name" span="198:16:198:21">merge</jtok>
+<jtok eid="7" type="parameter_type" span="198:22:198:27">Chunk</jtok>
+<jtok eid="7" type="parameter_name" span="198:28:198:33">first</jtok>
+<jtok eid="7" type="parameter_type" span="198:35:198:42">Segment</jtok>
+<jtok eid="7" type="parameter_name" span="198:43:198:46">seg</jtok>
+<jtok eid="7" type="primary_name_ref" span="200:6:200:11">first</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="203:3:203:8">Chunk</jtok>
+<jtok eid="7" type="local_variable_name" span="203:9:203:14">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:17:203:22">first</jtok>
+<jtok eid="7" type="primary_name_ref" span="204:9:204:14">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="204:15:204:19">next</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="206:4:206:9">Chunk</jtok>
+<jtok eid="7" type="local_variable_name" span="206:10:206:14">next</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="206:18:206:23">Chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:24:206:29">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="206:30:206:34">next</jtok>
+<jtok eid="7" type="method_call" span="207:7:207:15">canMerge</jtok>
+<jtok eid="7" type="primary_name_ref" span="207:16:207:21">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="207:22:207:26">next</jtok>
+<jtok eid="7" type="primary_name_ref" span="207:27:207:30">seg</jtok>
+<jtok eid="7" type="line_comment" span="209:5:209:53">// in case already initialized; un-initialize it</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:5:210:10">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="210:11:210:22">initialized</jtok>
+<jtok eid="7" type="primary_name_ref" span="211:5:211:10">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="211:11:211:17">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="211:21:211:25">next</jtok>
+<jtok eid="7" type="qualified_name_ref" span="211:26:211:32">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:5:212:10">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="212:11:212:16">width</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:20:212:24">next</jtok>
+<jtok eid="7" type="qualified_name_ref" span="212:25:212:30">width</jtok>
+<jtok eid="7" type="primary_name_ref" span="213:5:213:10">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="213:11:213:15">next</jtok>
+<jtok eid="7" type="primary_name_ref" span="213:18:213:22">next</jtok>
+<jtok eid="7" type="qualified_name_ref" span="213:23:213:27">next</jtok>
+<jtok eid="7" type="primary_name_ref" span="217:9:217:14">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="217:15:217:26">initialized</jtok>
+<jtok eid="7" type="method_call" span="219:6:219:15">initChunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="219:16:219:21">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="219:22:219:25">seg</jtok>
+<jtok eid="7" type="primary_name_ref" span="220:9:220:19">wrapMargin</jtok>
+<jtok eid="7" type="primary_name_ref" span="221:7:221:8">x</jtok>
+<jtok eid="7" type="primary_name_ref" span="221:12:221:17">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="221:18:221:23">width</jtok>
+<jtok eid="7" type="primary_name_ref" span="223:5:223:10">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="223:13:223:17">next</jtok>
+<jtok eid="7" type="primary_name_ref" span="227:7:227:12">chunk</jtok>
+<jtok eid="7" type="qualified_name_ref" span="227:13:227:24">initialized</jtok>
+<jtok eid="7" type="method_call" span="228:4:228:13">initChunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="228:14:228:19">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="228:20:228:23">seg</jtok>
+<jtok eid="7" type="primary_name_ref" span="230:10:230:15">first</jtok>
+<jtok eid="1" type="line_comment" span="231:4:231:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="233:2:233:25">//{{{ canMerge() method</jtok>
+<jtok eid="8" type="method_name" span="234:25:234:33">canMerge</jtok>
+<jtok eid="8" type="parameter_type" span="234:34:234:39">Chunk</jtok>
+<jtok eid="8" type="parameter_name" span="234:40:234:42">c1</jtok>
+<jtok eid="8" type="parameter_type" span="234:44:234:49">Chunk</jtok>
+<jtok eid="8" type="parameter_name" span="234:50:234:52">c2</jtok>
+<jtok eid="8" type="parameter_type" span="234:54:234:61">Segment</jtok>
+<jtok eid="8" type="parameter_name" span="234:62:234:65">seg</jtok>
+<jtok eid="8" type="primary_name_ref" span="236:7:236:9">c1</jtok>
+<jtok eid="8" type="qualified_name_ref" span="236:10:236:20">accessable</jtok>
+<jtok eid="8" type="primary_name_ref" span="236:25:236:27">c2</jtok>
+<jtok eid="8" type="qualified_name_ref" span="236:28:236:38">accessable</jtok>
+<jtok eid="8" type="local_variable_name" span="239:8:239:11">ch1</jtok>
+<jtok eid="8" type="primary_name_ref" span="239:14:239:17">seg</jtok>
+<jtok eid="8" type="qualified_name_ref" span="239:18:239:23">array</jtok>
+<jtok eid="8" type="primary_name_ref" span="239:24:239:27">seg</jtok>
+<jtok eid="8" type="qualified_name_ref" span="239:28:239:34">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="239:37:239:39">c1</jtok>
+<jtok eid="8" type="qualified_name_ref" span="239:40:239:46">offset</jtok>
+<jtok eid="8" type="local_variable_name" span="240:8:240:11">ch2</jtok>
+<jtok eid="8" type="primary_name_ref" span="240:14:240:17">seg</jtok>
+<jtok eid="8" type="qualified_name_ref" span="240:18:240:23">array</jtok>
+<jtok eid="8" type="primary_name_ref" span="240:24:240:27">seg</jtok>
+<jtok eid="8" type="qualified_name_ref" span="240:28:240:34">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="240:37:240:39">c2</jtok>
+<jtok eid="8" type="qualified_name_ref" span="240:40:240:46">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="242:12:242:14">c1</jtok>
+<jtok eid="8" type="qualified_name_ref" span="242:15:242:20">style</jtok>
+<jtok eid="8" type="primary_name_ref" span="242:24:242:26">c2</jtok>
+<jtok eid="8" type="qualified_name_ref" span="242:27:242:32">style</jtok>
+<jtok eid="8" type="primary_name_ref" span="243:7:243:10">ch1</jtok>
+<jtok eid="8" type="primary_name_ref" span="243:22:243:25">ch2</jtok>
+<jtok eid="8" type="primary_name_ref" span="244:8:244:10">c1</jtok>
+<jtok eid="8" type="qualified_name_ref" span="244:11:244:17">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="244:20:244:22">c2</jtok>
+<jtok eid="8" type="qualified_name_ref" span="244:23:244:29">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="244:33:244:46">MAX_CHUNK_LEN</jtok>
+<jtok eid="1" type="line_comment" span="245:4:245:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="247:2:247:7">//}}}</jtok>
+</jdoc>

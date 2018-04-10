@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.ServiceListHandler" jls="java5">
+<jent id="0" type="file" span="0:0:161:2">Source/jEdit/org/gjt/sp/jedit/ServiceListHandler.java</jent>
+<jent id="1" pid="0" type="class" span="42:1:161:1">org.gjt.sp.jedit.ServiceListHandler</jent>
+<jent id="2" pid="1" type="method" span="45:2:52:2">org.gjt.sp.jedit.ServiceListHandler.ServiceListHandler(PluginJAR,URL)</jent>
+<jent id="3" pid="1" type="method" span="55:2:58:2">org.gjt.sp.jedit.ServiceListHandler.resolveEntity(String,String)</jent>
+<jent id="4" pid="1" type="method" span="61:2:66:2">org.gjt.sp.jedit.ServiceListHandler.characters(char[],int,int)</jent>
+<jent id="5" pid="1" type="method" span="69:2:75:2">org.gjt.sp.jedit.ServiceListHandler.startElement(String,String,String,Attributes)</jent>
+<jent id="6" pid="1" type="method" span="78:2:101:2">org.gjt.sp.jedit.ServiceListHandler.endElement(String,String,String)</jent>
+<jent id="7" pid="1" type="method" span="104:2:114:2">org.gjt.sp.jedit.ServiceListHandler.startDocument()</jent>
+<jent id="8" pid="1" type="method" span="117:2:121:2">org.gjt.sp.jedit.ServiceListHandler.getCachedServices()</jent>
+<jent id="9" pid="1" type="method" span="139:2:146:2">org.gjt.sp.jedit.ServiceListHandler.pushElement(String)</jent>
+<jent id="10" pid="1" type="method" span="149:2:152:2">org.gjt.sp.jedit.ServiceListHandler.peekElement()</jent>
+<jent id="11" pid="1" type="method" span="155:2:158:2">org.gjt.sp.jedit.ServiceListHandler.popElement()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ServiceManager.java - Handles services.xml files in plugins
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="35:1:35:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="37:1:41:4">/**
+ * @since jEdit 4.2pre1
+ * @author Slava Pestov
+ * @version $Id: ServiceListHandler.java 14599 2009-02-07 19:06:52Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="42:7:42:25">ServiceListHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:34:42:48">DefaultHandler</jtok>
+<jtok eid="1" type="line_comment" span="44:2:44:38">//{{{ ServiceListHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="45:2:45:20">ServiceListHandler</jtok>
+<jtok eid="2" type="parameter_type" span="45:21:45:30">PluginJAR</jtok>
+<jtok eid="2" type="parameter_name" span="45:31:45:37">plugin</jtok>
+<jtok eid="2" type="parameter_type" span="45:39:45:42">URL</jtok>
+<jtok eid="2" type="parameter_name" span="45:43:45:46">uri</jtok>
+<jtok eid="2" type="qualified_name_ref" span="47:8:47:14">plugin</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:17:47:23">plugin</jtok>
+<jtok eid="2" type="qualified_name_ref" span="48:8:48:11">uri</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:14:48:17">uri</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:7">code</jtok>
+<jtok eid="2" type="constructor_call" span="49:14:49:27">StringBuilder</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:3:50:13">stateStack</jtok>
+<jtok eid="2" type="constructor_call" span="50:20:50:25">Stack</jtok>
+<jtok eid="2" type="constructor_call" span="50:26:50:32">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:3:51:17">cachedServices</jtok>
+<jtok eid="2" type="constructor_call" span="51:24:51:34">LinkedList</jtok>
+<jtok eid="2" type="constructor_call" span="51:35:51:49">ServiceManager</jtok>
+<jtok eid="2" type="constructor_call" span="51:50:51:60">Descriptor</jtok>
+<jtok eid="1" type="line_comment" span="52:4:52:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:30">//{{{ resolveEntity() method</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="55:9:55:20">InputSource</jtok>
+<jtok eid="3" type="method_name" span="55:21:55:34">resolveEntity</jtok>
+<jtok eid="3" type="parameter_type" span="55:35:55:41">String</jtok>
+<jtok eid="3" type="parameter_name" span="55:42:55:50">publicId</jtok>
+<jtok eid="3" type="parameter_type" span="55:52:55:58">String</jtok>
+<jtok eid="3" type="parameter_name" span="55:59:55:67">systemId</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:10:57:22">XMLUtilities</jtok>
+<jtok eid="3" type="method_call" span="57:23:57:33">findEntity</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:34:57:42">systemId</jtok>
+<jtok eid="3" type="string_literal" span="57:44:57:58">"services.dtd"</jtok>
+<jtok eid="3" type="method_call" span="57:60:57:68">getClass</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:27">//{{{ characters() method</jtok>
+<jtok eid="4" type="method_name" span="61:14:61:24">characters</jtok>
+<jtok eid="4" type="parameter_name" span="61:32:61:33">c</jtok>
+<jtok eid="4" type="parameter_name" span="61:39:61:42">off</jtok>
+<jtok eid="4" type="parameter_name" span="61:48:61:51">len</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="63:3:63:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="63:10:63:13">tag</jtok>
+<jtok eid="4" type="method_call" span="63:16:63:27">peekElement</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:7:64:10">tag</jtok>
+<jtok eid="4" type="string_literal" span="64:14:64:23">"SERVICE"</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:4:65:8">code</jtok>
+<jtok eid="4" type="method_call" span="65:9:65:15">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:16:65:17">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:19:65:22">off</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:24:65:27">len</jtok>
+<jtok eid="1" type="line_comment" span="66:4:66:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="68:2:68:29">//{{{ startElement() method</jtok>
+<jtok eid="5" type="method_name" span="69:14:69:26">startElement</jtok>
+<jtok eid="5" type="parameter_type" span="69:27:69:33">String</jtok>
+<jtok eid="5" type="parameter_name" span="69:34:69:37">uri</jtok>
+<jtok eid="5" type="parameter_type" span="69:39:69:45">String</jtok>
+<jtok eid="5" type="parameter_name" span="69:46:69:55">localName</jtok>
+<jtok eid="5" type="parameter_type" span="70:6:70:12">String</jtok>
+<jtok eid="5" type="parameter_name" span="70:13:70:16">tag</jtok>
+<jtok eid="5" type="parameter_type" span="70:18:70:28">Attributes</jtok>
+<jtok eid="5" type="parameter_name" span="70:29:70:34">attrs</jtok>
+<jtok eid="5" type="primary_name_ref" span="72:3:72:6">tag</jtok>
+<jtok eid="5" type="method_call" span="72:9:72:20">pushElement</jtok>
+<jtok eid="5" type="primary_name_ref" span="72:21:72:24">tag</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:3:73:14">serviceName</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:17:73:22">attrs</jtok>
+<jtok eid="5" type="method_call" span="73:23:73:31">getValue</jtok>
+<jtok eid="5" type="string_literal" span="73:32:73:38">"NAME"</jtok>
+<jtok eid="5" type="primary_name_ref" span="74:3:74:15">serviceClass</jtok>
+<jtok eid="5" type="primary_name_ref" span="74:18:74:23">attrs</jtok>
+<jtok eid="5" type="method_call" span="74:24:74:32">getValue</jtok>
+<jtok eid="5" type="string_literal" span="74:33:74:40">"CLASS"</jtok>
+<jtok eid="1" type="line_comment" span="75:4:75:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="77:2:77:27">//{{{ endElement() method</jtok>
+<jtok eid="6" type="method_name" span="78:14:78:24">endElement</jtok>
+<jtok eid="6" type="parameter_type" span="78:25:78:31">String</jtok>
+<jtok eid="6" type="parameter_name" span="78:32:78:35">uri</jtok>
+<jtok eid="6" type="parameter_type" span="78:37:78:43">String</jtok>
+<jtok eid="6" type="parameter_name" span="78:44:78:53">localName</jtok>
+<jtok eid="6" type="parameter_type" span="78:55:78:61">String</jtok>
+<jtok eid="6" type="parameter_name" span="78:62:78:66">name</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="80:3:80:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="80:10:80:13">tag</jtok>
+<jtok eid="6" type="method_call" span="80:16:80:27">peekElement</jtok>
+<jtok eid="6" type="primary_name_ref" span="82:6:82:10">name</jtok>
+<jtok eid="6" type="method_call" span="82:11:82:17">equals</jtok>
+<jtok eid="6" type="primary_name_ref" span="82:18:82:21">tag</jtok>
+<jtok eid="6" type="primary_name_ref" span="84:8:84:11">tag</jtok>
+<jtok eid="6" type="method_call" span="84:12:84:18">equals</jtok>
+<jtok eid="6" type="string_literal" span="84:19:84:28">"SERVICE"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="86:5:86:19">ServiceManager</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="86:20:86:30">Descriptor</jtok>
+<jtok eid="6" type="local_variable_name" span="86:31:86:32">d</jtok>
+<jtok eid="6" type="constructor_call" span="87:10:87:24">ServiceManager</jtok>
+<jtok eid="6" type="constructor_call" span="87:25:87:35">Descriptor</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:6:88:18">serviceClass</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:19:88:30">serviceName</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:31:88:35">code</jtok>
+<jtok eid="6" type="method_call" span="88:36:88:44">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:47:88:53">plugin</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:5:89:19">ServiceManager</jtok>
+<jtok eid="6" type="method_call" span="89:20:89:35">registerService</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:36:89:37">d</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:5:90:19">cachedServices</jtok>
+<jtok eid="6" type="method_call" span="90:20:90:23">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:24:90:25">d</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:5:91:9">code</jtok>
+<jtok eid="6" type="method_call" span="91:10:91:19">setLength</jtok>
+<jtok eid="6" type="method_call" span="94:4:94:14">popElement</jtok>
+<jtok eid="6" type="line_comment" span="98:4:98:19">// can't happen</jtok>
+<jtok eid="6" type="constructor_call" span="99:14:99:27">InternalError</jtok>
+<jtok eid="1" type="line_comment" span="101:4:101:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="103:2:103:30">//{{{ startDocument() method</jtok>
+<jtok eid="7" type="method_name" span="104:14:104:27">startDocument</jtok>
+<jtok eid="7" type="method_call" span="108:4:108:15">pushElement</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="110:10:110:19">Exception</jtok>
+<jtok eid="7" type="local_variable_name" span="110:20:110:21">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:4:112:7">Log</jtok>
+<jtok eid="7" type="method_call" span="112:8:112:11">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:12:112:15">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="112:16:112:21">ERROR</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:23:112:24">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:26:112:27">e</jtok>
+<jtok eid="1" type="line_comment" span="114:4:114:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:34">//{{{ getCachedServices() method</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="117:9:117:23">ServiceManager</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="117:24:117:34">Descriptor</jtok>
+<jtok eid="8" type="method_name" span="117:37:117:54">getCachedServices</jtok>
+<jtok eid="8" type="primary_name_ref" span="119:10:119:24">cachedServices</jtok>
+<jtok eid="8" type="method_call" span="119:25:119:32">toArray</jtok>
+<jtok eid="8" type="constructor_call" span="120:8:120:22">ServiceManager</jtok>
+<jtok eid="8" type="constructor_call" span="120:23:120:33">Descriptor</jtok>
+<jtok eid="8" type="primary_name_ref" span="120:34:120:48">cachedServices</jtok>
+<jtok eid="8" type="method_call" span="120:49:120:53">size</jtok>
+<jtok eid="1" type="line_comment" span="121:4:121:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="123:2:123:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="125:2:125:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="126:10:126:19">PluginJAR</jtok>
+<jtok eid="1" type="field_name" span="126:20:126:26">plugin</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="127:10:127:13">URL</jtok>
+<jtok eid="1" type="field_name" span="127:14:127:17">uri</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="129:10:129:16">String</jtok>
+<jtok eid="1" type="field_name" span="129:17:129:28">serviceName</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="130:10:130:16">String</jtok>
+<jtok eid="1" type="field_name" span="130:17:130:29">serviceClass</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="131:10:131:23">StringBuilder</jtok>
+<jtok eid="1" type="field_name" span="131:24:131:28">code</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="133:10:133:15">Stack</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="133:16:133:22">String</jtok>
+<jtok eid="1" type="field_name" span="133:24:133:34">stateStack</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="135:10:135:14">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="135:15:135:29">ServiceManager</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="135:30:135:40">Descriptor</jtok>
+<jtok eid="1" type="field_name" span="135:42:135:56">cachedServices</jtok>
+<jtok eid="1" type="line_comment" span="136:2:136:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="138:2:138:28">//{{{ pushElement() method</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="139:10:139:16">String</jtok>
+<jtok eid="9" type="method_name" span="139:17:139:28">pushElement</jtok>
+<jtok eid="9" type="parameter_type" span="139:29:139:35">String</jtok>
+<jtok eid="9" type="parameter_name" span="139:36:139:40">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="141:3:141:7">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="141:11:141:15">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="141:34:141:38">name</jtok>
+<jtok eid="9" type="method_call" span="141:39:141:45">intern</jtok>
+<jtok eid="9" type="primary_name_ref" span="143:3:143:13">stateStack</jtok>
+<jtok eid="9" type="method_call" span="143:14:143:18">push</jtok>
+<jtok eid="9" type="primary_name_ref" span="143:19:143:23">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="145:10:145:14">name</jtok>
+<jtok eid="1" type="line_comment" span="146:4:146:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="148:2:148:28">//{{{ peekElement() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="149:10:149:16">String</jtok>
+<jtok eid="10" type="method_name" span="149:17:149:28">peekElement</jtok>
+<jtok eid="10" type="primary_name_ref" span="151:10:151:20">stateStack</jtok>
+<jtok eid="10" type="method_call" span="151:21:151:25">peek</jtok>
+<jtok eid="1" type="line_comment" span="152:4:152:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="154:2:154:27">//{{{ popElement() method</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="155:10:155:16">String</jtok>
+<jtok eid="11" type="method_name" span="155:17:155:27">popElement</jtok>
+<jtok eid="11" type="primary_name_ref" span="157:10:157:20">stateStack</jtok>
+<jtok eid="11" type="method_call" span="157:21:157:24">pop</jtok>
+<jtok eid="1" type="line_comment" span="158:4:158:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:7">//}}}</jtok>
+</jdoc>

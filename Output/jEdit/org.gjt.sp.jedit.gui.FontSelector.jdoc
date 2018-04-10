@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.FontSelector" jls="java5">
+<jent id="0" type="file" span="0:0:495:7">Source/jEdit/org/gjt/sp/jedit/gui/FontSelector.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:165:1">org.gjt.sp.jedit.gui.FontSelector</jent>
+<jent id="2" pid="1" type="method" span="52:2:55:2">org.gjt.sp.jedit.gui.FontSelector.FontSelector(Font)</jent>
+<jent id="3" pid="1" type="method" span="64:2:74:2">org.gjt.sp.jedit.gui.FontSelector.FontSelector(Font,boolean)</jent>
+<jent id="4" pid="1" type="method" span="77:2:81:2">org.gjt.sp.jedit.gui.FontSelector.paintComponent(Graphics)</jent>
+<jent id="5" pid="1" type="method" span="84:2:87:2">org.gjt.sp.jedit.gui.FontSelector.isAntiAliasEnabled()</jent>
+<jent id="6" pid="1" type="method" span="90:2:93:2">org.gjt.sp.jedit.gui.FontSelector.setAntiAliasEnabled(boolean)</jent>
+<jent id="7" pid="1" type="method" span="96:2:120:2">org.gjt.sp.jedit.gui.FontSelector.updateText()</jent>
+<jent id="8" pid="1" type="method" span="123:2:131:2">org.gjt.sp.jedit.gui.FontSelector.setAntiAliasEnabled(Graphics)</jent>
+<jent id="9" pid="1" type="class" span="136:2:164:2">org.gjt.sp.jedit.gui.FontSelector.ActionHandler</jent>
+<jent id="10" pid="9" type="method" span="138:3:163:3">org.gjt.sp.jedit.gui.FontSelector.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="11" pid="0" type="class" span="168:1:495:1">org.gjt.sp.jedit.gui.FontSelectorDialog</jent>
+<jent id="12" pid="11" type="method" span="171:2:175:2">org.gjt.sp.jedit.gui.FontSelectorDialog.FontSelectorDialog(Frame,Font)</jent>
+<jent id="13" pid="11" type="method" span="178:2:182:2">org.gjt.sp.jedit.gui.FontSelectorDialog.FontSelectorDialog(Dialog,Font)</jent>
+<jent id="14" pid="11" type="method" span="185:2:191:2">org.gjt.sp.jedit.gui.FontSelectorDialog.FontSelectorDialog(Frame,Font,FontSelector)</jent>
+<jent id="15" pid="11" type="method" span="194:2:200:2">org.gjt.sp.jedit.gui.FontSelectorDialog.FontSelectorDialog(Dialog,Font,FontSelector)</jent>
+<jent id="16" pid="11" type="method" span="203:2:207:2">org.gjt.sp.jedit.gui.FontSelectorDialog.ok()</jent>
+<jent id="17" pid="11" type="method" span="210:2:213:2">org.gjt.sp.jedit.gui.FontSelectorDialog.cancel()</jent>
+<jent id="18" pid="11" type="method" span="216:2:233:2">org.gjt.sp.jedit.gui.FontSelectorDialog.getSelectedFont()</jent>
+<jent id="19" pid="11" type="method" span="261:2:368:2">org.gjt.sp.jedit.gui.FontSelectorDialog.init(Font)</jent>
+<jent id="20" pid="19" type="class" span="326:3:333:3">org.gjt.sp.jedit.gui.FontSelectorDialog.init(Font).$1</jent>
+<jent id="21" pid="20" type="method" span="327:4:332:4">org.gjt.sp.jedit.gui.FontSelectorDialog.init(Font).$1.paintComponent(Graphics)</jent>
+<jent id="22" pid="11" type="method" span="371:2:392:2">org.gjt.sp.jedit.gui.FontSelectorDialog.getFontList()</jent>
+<jent id="23" pid="11" type="method" span="395:2:433:2">org.gjt.sp.jedit.gui.FontSelectorDialog.createTextFieldAndListPanel(String,JTextField,JList)</jent>
+<jent id="24" pid="11" type="method" span="436:2:451:2">org.gjt.sp.jedit.gui.FontSelectorDialog.updatePreview()</jent>
+<jent id="25" pid="11" type="class" span="456:2:465:2">org.gjt.sp.jedit.gui.FontSelectorDialog.ActionHandler</jent>
+<jent id="26" pid="25" type="method" span="458:3:464:3">org.gjt.sp.jedit.gui.FontSelectorDialog.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="27" pid="11" type="class" span="468:2:494:2">org.gjt.sp.jedit.gui.FontSelectorDialog.ListHandler</jent>
+<jent id="28" pid="27" type="method" span="470:3:493:3">org.gjt.sp.jedit.gui.FontSelectorDialog.ListHandler.valueChanged(ListSelectionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:23:4">/*
+ * FontSelector.java - Font selector
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2003 Slava Pestov
+ * Portions copyright (C) 1999 Jason Ginchereau
+ * Portions copyright (C) 2003 mike dillon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="27:1:27:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="37:1:37:6">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:25">//{{{ FontSelector class</jtok>
+<jtok eid="0" type="block_comment" span="40:1:44:4">/**
+ * A font chooser widget.
+ * @author Slava Pestov
+ * @version $Id: FontSelector.java 16341 2009-10-14 10:05:51Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:26">FontSelector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:35:45:42">JButton</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:32">//{{{ FontSelector constructor</jtok>
+<jtok eid="1" type="block_comment" span="48:2:51:5">/**
+	 * Creates a new font selector control.
+	 * @param font The font
+	 */</jtok>
+<jtok eid="2" type="method_name" span="52:9:52:21">FontSelector</jtok>
+<jtok eid="2" type="parameter_type" span="52:22:52:26">Font</jtok>
+<jtok eid="2" type="parameter_name" span="52:27:52:31">font</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:8:54:12">font</jtok>
+<jtok eid="1" type="line_comment" span="55:4:55:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="57:2:57:32">//{{{ FontSelector constructor</jtok>
+<jtok eid="1" type="block_comment" span="58:2:63:5">/**
+	 * Creates a new font selector control.
+	 * @param font The font
+	 * @param antiAlias Is anti-aliasing enabled?
+	 * @since jEdit 4.2pre7
+	 */</jtok>
+<jtok eid="3" type="method_name" span="64:9:64:21">FontSelector</jtok>
+<jtok eid="3" type="parameter_type" span="64:22:64:26">Font</jtok>
+<jtok eid="3" type="parameter_name" span="64:27:64:31">font</jtok>
+<jtok eid="3" type="parameter_name" span="64:41:64:50">antiAlias</jtok>
+<jtok eid="3" type="method_call" span="66:3:66:10">setFont</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:11:66:15">font</jtok>
+<jtok eid="3" type="qualified_name_ref" span="67:8:67:17">antiAlias</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:20:67:29">antiAlias</jtok>
+<jtok eid="3" type="method_call" span="69:3:69:13">updateText</jtok>
+<jtok eid="3" type="method_call" span="71:3:71:25">setRequestFocusEnabled</jtok>
+<jtok eid="3" type="method_call" span="73:3:73:20">addActionListener</jtok>
+<jtok eid="3" type="constructor_call" span="73:25:73:38">ActionHandler</jtok>
+<jtok eid="1" type="line_comment" span="74:4:74:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:31">//{{{ paintComponent() method</jtok>
+<jtok eid="4" type="method_name" span="77:14:77:28">paintComponent</jtok>
+<jtok eid="4" type="parameter_type" span="77:29:77:37">Graphics</jtok>
+<jtok eid="4" type="parameter_name" span="77:38:77:39">g</jtok>
+<jtok eid="4" type="method_call" span="79:3:79:22">setAntiAliasEnabled</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:23:79:24">g</jtok>
+<jtok eid="4" type="method_call" span="80:9:80:23">paintComponent</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:24:80:25">g</jtok>
+<jtok eid="1" type="line_comment" span="81:4:81:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="83:2:83:35">//{{{ isAntiAliasEnabled() method</jtok>
+<jtok eid="5" type="method_name" span="84:17:84:35">isAntiAliasEnabled</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:10:86:19">antiAlias</jtok>
+<jtok eid="1" type="line_comment" span="87:4:87:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="89:2:89:36">//{{{ setAntiAliasEnabled() method</jtok>
+<jtok eid="6" type="method_name" span="90:14:90:33">setAntiAliasEnabled</jtok>
+<jtok eid="6" type="parameter_name" span="90:42:90:51">antiAlias</jtok>
+<jtok eid="6" type="qualified_name_ref" span="92:8:92:17">antiAlias</jtok>
+<jtok eid="6" type="primary_name_ref" span="92:20:92:29">antiAlias</jtok>
+<jtok eid="1" type="line_comment" span="93:4:93:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="95:2:95:27">//{{{ updateText() method</jtok>
+<jtok eid="7" type="method_name" span="96:15:96:25">updateText</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="98:3:98:7">Font</jtok>
+<jtok eid="7" type="local_variable_name" span="98:8:98:12">font</jtok>
+<jtok eid="7" type="method_call" span="98:15:98:22">getFont</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="99:3:99:9">String</jtok>
+<jtok eid="7" type="local_variable_name" span="99:10:99:21">styleString</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:10:100:14">font</jtok>
+<jtok eid="7" type="method_call" span="100:15:100:23">getStyle</jtok>
+<jtok eid="7" type="primary_name_ref" span="102:8:102:12">Font</jtok>
+<jtok eid="7" type="qualified_name_ref" span="102:13:102:18">PLAIN</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:4:103:15">styleString</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:18:103:23">jEdit</jtok>
+<jtok eid="7" type="method_call" span="103:24:103:35">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="103:36:103:57">"font-selector.plain"</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:8:105:12">Font</jtok>
+<jtok eid="7" type="qualified_name_ref" span="105:13:105:17">BOLD</jtok>
+<jtok eid="7" type="primary_name_ref" span="106:4:106:15">styleString</jtok>
+<jtok eid="7" type="primary_name_ref" span="106:18:106:23">jEdit</jtok>
+<jtok eid="7" type="method_call" span="106:24:106:35">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="106:36:106:56">"font-selector.bold"</jtok>
+<jtok eid="7" type="primary_name_ref" span="108:8:108:12">Font</jtok>
+<jtok eid="7" type="qualified_name_ref" span="108:13:108:19">ITALIC</jtok>
+<jtok eid="7" type="primary_name_ref" span="109:4:109:15">styleString</jtok>
+<jtok eid="7" type="primary_name_ref" span="109:18:109:23">jEdit</jtok>
+<jtok eid="7" type="method_call" span="109:24:109:35">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="109:36:109:58">"font-selector.italic"</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:8:111:12">Font</jtok>
+<jtok eid="7" type="qualified_name_ref" span="111:13:111:17">BOLD</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:20:111:24">Font</jtok>
+<jtok eid="7" type="qualified_name_ref" span="111:25:111:31">ITALIC</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:4:112:15">styleString</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:18:112:23">jEdit</jtok>
+<jtok eid="7" type="method_call" span="112:24:112:35">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="112:36:112:62">"font-selector.bolditalic"</jtok>
+<jtok eid="7" type="primary_name_ref" span="115:4:115:15">styleString</jtok>
+<jtok eid="7" type="string_literal" span="115:18:115:33">"UNKNOWN!!!???"</jtok>
+<jtok eid="7" type="method_call" span="119:3:119:10">setText</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:11:119:15">font</jtok>
+<jtok eid="7" type="method_call" span="119:16:119:23">getName</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:34:119:38">font</jtok>
+<jtok eid="7" type="method_call" span="119:39:119:46">getSize</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:57:119:68">styleString</jtok>
+<jtok eid="1" type="line_comment" span="120:4:120:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="122:2:122:36">//{{{ setAntiAliasEnabled() method</jtok>
+<jtok eid="8" type="method_name" span="123:7:123:26">setAntiAliasEnabled</jtok>
+<jtok eid="8" type="parameter_type" span="123:27:123:35">Graphics</jtok>
+<jtok eid="8" type="parameter_name" span="123:36:123:37">g</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:7:125:16">antiAlias</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="127:4:127:14">Graphics2D</jtok>
+<jtok eid="8" type="local_variable_name" span="127:15:127:17">g2</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="127:21:127:31">Graphics2D</jtok>
+<jtok eid="8" type="primary_name_ref" span="127:32:127:33">g</jtok>
+<jtok eid="8" type="primary_name_ref" span="128:4:128:6">g2</jtok>
+<jtok eid="8" type="method_call" span="128:7:128:23">setRenderingHint</jtok>
+<jtok eid="8" type="primary_name_ref" span="128:24:128:38">RenderingHints</jtok>
+<jtok eid="8" type="qualified_name_ref" span="128:39:128:55">KEY_ANTIALIASING</jtok>
+<jtok eid="8" type="primary_name_ref" span="129:5:129:19">RenderingHints</jtok>
+<jtok eid="8" type="qualified_name_ref" span="129:20:129:38">VALUE_ANTIALIAS_ON</jtok>
+<jtok eid="1" type="line_comment" span="131:4:131:9">//}}}</jtok>
+<jtok eid="1" type="field_name" span="133:18:133:27">antiAlias</jtok>
+<jtok eid="1" type="line_comment" span="135:2:135:27">//{{{ ActionHandler class</jtok>
+<jtok eid="9" type="class_name" span="136:8:136:21">ActionHandler</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="136:33:136:47">ActionListener</jtok>
+<jtok eid="10" type="method_name" span="138:15:138:30">actionPerformed</jtok>
+<jtok eid="10" type="parameter_type" span="138:31:138:42">ActionEvent</jtok>
+<jtok eid="10" type="parameter_name" span="138:43:138:46">evt</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="140:4:140:8">Font</jtok>
+<jtok eid="10" type="local_variable_name" span="140:9:140:13">font</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="142:4:142:11">JDialog</jtok>
+<jtok eid="10" type="local_variable_name" span="142:12:142:18">dialog</jtok>
+<jtok eid="10" type="primary_name_ref" span="142:21:142:33">GUIUtilities</jtok>
+<jtok eid="10" type="method_call" span="142:34:142:49">getParentDialog</jtok>
+<jtok eid="10" type="primary_name_ref" span="142:50:142:62">FontSelector</jtok>
+<jtok eid="10" type="primary_name_ref" span="143:7:143:13">dialog</jtok>
+<jtok eid="10" type="primary_name_ref" span="145:5:145:9">font</jtok>
+<jtok eid="10" type="constructor_call" span="145:16:145:34">FontSelectorDialog</jtok>
+<jtok eid="10" type="primary_name_ref" span="146:6:146:17">JOptionPane</jtok>
+<jtok eid="10" type="method_call" span="146:18:146:38">getFrameForComponent</jtok>
+<jtok eid="10" type="primary_name_ref" span="147:6:147:18">FontSelector</jtok>
+<jtok eid="10" type="method_call" span="147:25:147:32">getFont</jtok>
+<jtok eid="10" type="primary_name_ref" span="148:6:148:18">FontSelector</jtok>
+<jtok eid="10" type="method_call" span="149:7:149:22">getSelectedFont</jtok>
+<jtok eid="10" type="primary_name_ref" span="153:5:153:9">font</jtok>
+<jtok eid="10" type="constructor_call" span="153:16:153:34">FontSelectorDialog</jtok>
+<jtok eid="10" type="primary_name_ref" span="153:35:153:41">dialog</jtok>
+<jtok eid="10" type="method_call" span="153:42:153:49">getFont</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:6:154:18">FontSelector</jtok>
+<jtok eid="10" type="method_call" span="155:7:155:22">getSelectedFont</jtok>
+<jtok eid="10" type="primary_name_ref" span="158:7:158:11">font</jtok>
+<jtok eid="10" type="method_call" span="160:5:160:12">setFont</jtok>
+<jtok eid="10" type="primary_name_ref" span="160:13:160:17">font</jtok>
+<jtok eid="10" type="method_call" span="161:5:161:15">updateText</jtok>
+<jtok eid="1" type="line_comment" span="164:4:164:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="165:3:165:8">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="167:1:167:31">//{{{ FontSelectorDialog class</jtok>
+<jtok eid="11" type="class_name" span="168:7:168:25">FontSelectorDialog</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="168:34:168:48">EnhancedDialog</jtok>
+<jtok eid="11" type="line_comment" span="170:2:170:38">//{{{ FontSelectorDialog constructor</jtok>
+<jtok eid="12" type="method_name" span="171:2:171:20">FontSelectorDialog</jtok>
+<jtok eid="12" type="parameter_type" span="171:21:171:26">Frame</jtok>
+<jtok eid="12" type="parameter_name" span="171:27:171:33">parent</jtok>
+<jtok eid="12" type="parameter_type" span="171:35:171:39">Font</jtok>
+<jtok eid="12" type="parameter_name" span="171:40:171:44">font</jtok>
+<jtok eid="12" type="primary_name_ref" span="173:9:173:15">parent</jtok>
+<jtok eid="12" type="primary_name_ref" span="173:16:173:21">jEdit</jtok>
+<jtok eid="12" type="method_call" span="173:22:173:33">getProperty</jtok>
+<jtok eid="12" type="string_literal" span="173:34:173:55">"font-selector.title"</jtok>
+<jtok eid="12" type="method_call" span="174:3:174:7">init</jtok>
+<jtok eid="12" type="primary_name_ref" span="174:8:174:12">font</jtok>
+<jtok eid="11" type="line_comment" span="175:4:175:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="177:2:177:38">//{{{ FontSelectorDialog constructor</jtok>
+<jtok eid="13" type="method_name" span="178:2:178:20">FontSelectorDialog</jtok>
+<jtok eid="13" type="parameter_type" span="178:21:178:27">Dialog</jtok>
+<jtok eid="13" type="parameter_name" span="178:28:178:34">parent</jtok>
+<jtok eid="13" type="parameter_type" span="178:36:178:40">Font</jtok>
+<jtok eid="13" type="parameter_name" span="178:41:178:45">font</jtok>
+<jtok eid="13" type="primary_name_ref" span="180:9:180:15">parent</jtok>
+<jtok eid="13" type="primary_name_ref" span="180:16:180:21">jEdit</jtok>
+<jtok eid="13" type="method_call" span="180:22:180:33">getProperty</jtok>
+<jtok eid="13" type="string_literal" span="180:34:180:55">"font-selector.title"</jtok>
+<jtok eid="13" type="method_call" span="181:3:181:7">init</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:8:181:12">font</jtok>
+<jtok eid="11" type="line_comment" span="182:4:182:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="184:2:184:38">//{{{ FontSelectorDialog constructor</jtok>
+<jtok eid="14" type="method_name" span="185:2:185:20">FontSelectorDialog</jtok>
+<jtok eid="14" type="parameter_type" span="185:21:185:26">Frame</jtok>
+<jtok eid="14" type="parameter_name" span="185:27:185:33">parent</jtok>
+<jtok eid="14" type="parameter_type" span="185:35:185:39">Font</jtok>
+<jtok eid="14" type="parameter_name" span="185:40:185:44">font</jtok>
+<jtok eid="14" type="parameter_type" span="186:3:186:15">FontSelector</jtok>
+<jtok eid="14" type="parameter_name" span="186:16:186:28">fontSelector</jtok>
+<jtok eid="14" type="primary_name_ref" span="188:9:188:15">parent</jtok>
+<jtok eid="14" type="primary_name_ref" span="188:16:188:21">jEdit</jtok>
+<jtok eid="14" type="method_call" span="188:22:188:33">getProperty</jtok>
+<jtok eid="14" type="string_literal" span="188:34:188:55">"font-selector.title"</jtok>
+<jtok eid="14" type="qualified_name_ref" span="189:8:189:20">fontSelector</jtok>
+<jtok eid="14" type="primary_name_ref" span="189:23:189:35">fontSelector</jtok>
+<jtok eid="14" type="method_call" span="190:3:190:7">init</jtok>
+<jtok eid="14" type="primary_name_ref" span="190:8:190:12">font</jtok>
+<jtok eid="11" type="line_comment" span="191:4:191:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="193:2:193:38">//{{{ FontSelectorDialog constructor</jtok>
+<jtok eid="15" type="method_name" span="194:2:194:20">FontSelectorDialog</jtok>
+<jtok eid="15" type="parameter_type" span="194:21:194:27">Dialog</jtok>
+<jtok eid="15" type="parameter_name" span="194:28:194:34">parent</jtok>
+<jtok eid="15" type="parameter_type" span="194:36:194:40">Font</jtok>
+<jtok eid="15" type="parameter_name" span="194:41:194:45">font</jtok>
+<jtok eid="15" type="parameter_type" span="195:3:195:15">FontSelector</jtok>
+<jtok eid="15" type="parameter_name" span="195:16:195:28">fontSelector</jtok>
+<jtok eid="15" type="primary_name_ref" span="197:9:197:15">parent</jtok>
+<jtok eid="15" type="primary_name_ref" span="197:16:197:21">jEdit</jtok>
+<jtok eid="15" type="method_call" span="197:22:197:33">getProperty</jtok>
+<jtok eid="15" type="string_literal" span="197:34:197:55">"font-selector.title"</jtok>
+<jtok eid="15" type="qualified_name_ref" span="198:8:198:20">fontSelector</jtok>
+<jtok eid="15" type="primary_name_ref" span="198:23:198:35">fontSelector</jtok>
+<jtok eid="15" type="method_call" span="199:3:199:7">init</jtok>
+<jtok eid="15" type="primary_name_ref" span="199:8:199:12">font</jtok>
+<jtok eid="11" type="line_comment" span="200:4:200:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="202:2:202:19">//{{{ ok() method</jtok>
+<jtok eid="16" type="method_name" span="203:14:203:16">ok</jtok>
+<jtok eid="16" type="primary_name_ref" span="205:3:205:7">isOK</jtok>
+<jtok eid="16" type="method_call" span="206:3:206:10">dispose</jtok>
+<jtok eid="11" type="line_comment" span="207:4:207:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="209:2:209:23">//{{{ cancel() method</jtok>
+<jtok eid="17" type="method_name" span="210:14:210:20">cancel</jtok>
+<jtok eid="17" type="method_call" span="212:3:212:10">dispose</jtok>
+<jtok eid="11" type="line_comment" span="213:4:213:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="215:2:215:32">//{{{ getSelectedFont() method</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="216:9:216:13">Font</jtok>
+<jtok eid="18" type="method_name" span="216:14:216:29">getSelectedFont</jtok>
+<jtok eid="18" type="primary_name_ref" span="218:7:218:11">isOK</jtok>
+<jtok eid="18" type="local_variable_name" span="221:7:221:11">size</jtok>
+<jtok eid="18" type="primary_name_ref" span="224:4:224:8">size</jtok>
+<jtok eid="18" type="primary_name_ref" span="224:11:224:18">Integer</jtok>
+<jtok eid="18" type="method_call" span="224:19:224:27">parseInt</jtok>
+<jtok eid="18" type="primary_name_ref" span="224:28:224:37">sizeField</jtok>
+<jtok eid="18" type="method_call" span="224:38:224:45">getText</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="226:9:226:18">Exception</jtok>
+<jtok eid="18" type="local_variable_name" span="226:19:226:20">e</jtok>
+<jtok eid="18" type="primary_name_ref" span="228:4:228:8">size</jtok>
+<jtok eid="18" type="constructor_call" span="231:14:231:18">Font</jtok>
+<jtok eid="18" type="primary_name_ref" span="231:19:231:30">familyField</jtok>
+<jtok eid="18" type="method_call" span="231:31:231:38">getText</jtok>
+<jtok eid="18" type="primary_name_ref" span="231:41:231:50">styleList</jtok>
+<jtok eid="18" type="method_call" span="232:5:232:21">getSelectedIndex</jtok>
+<jtok eid="18" type="primary_name_ref" span="232:24:232:28">size</jtok>
+<jtok eid="11" type="line_comment" span="233:4:233:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="235:2:235:23">//{{{ Private members</jtok>
+<jtok eid="11" type="line_comment" span="237:2:237:26">//{{{ Instance variables</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="238:10:238:22">FontSelector</jtok>
+<jtok eid="11" type="field_name" span="238:23:238:35">fontSelector</jtok>
+<jtok eid="11" type="field_name" span="239:18:239:22">isOK</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="240:10:240:20">JTextField</jtok>
+<jtok eid="11" type="field_name" span="240:21:240:32">familyField</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="241:10:241:15">JList</jtok>
+<jtok eid="11" type="field_name" span="241:16:241:26">familyList</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="242:10:242:20">JTextField</jtok>
+<jtok eid="11" type="field_name" span="242:21:242:30">sizeField</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="243:10:243:15">JList</jtok>
+<jtok eid="11" type="field_name" span="243:16:243:24">sizeList</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="244:10:244:20">JTextField</jtok>
+<jtok eid="11" type="field_name" span="244:21:244:31">styleField</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="245:10:245:15">JList</jtok>
+<jtok eid="11" type="field_name" span="245:16:245:25">styleList</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="246:10:246:16">JLabel</jtok>
+<jtok eid="11" type="field_name" span="246:17:246:24">preview</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="247:10:247:17">JButton</jtok>
+<jtok eid="11" type="field_name" span="247:18:247:20">ok</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="248:10:248:17">JButton</jtok>
+<jtok eid="11" type="field_name" span="248:18:248:24">cancel</jtok>
+<jtok eid="11" type="line_comment" span="249:2:249:7">//}}}</jtok>
+<jtok eid="11" type="block_comment" span="251:2:254:5">/**
+	 * For some reason the default Java fonts show up in the
+	 * list with .bold, .bolditalic, and .italic extensions.
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="255:23:255:29">String</jtok>
+<jtok eid="11" type="field_name" span="255:32:255:41">HIDEFONTS</jtok>
+<jtok eid="11" type="string_literal" span="256:3:256:10">".bold"</jtok>
+<jtok eid="11" type="string_literal" span="257:3:257:12">".italic"</jtok>
+<jtok eid="11" type="line_comment" span="260:2:260:21">//{{{ init() method</jtok>
+<jtok eid="19" type="method_name" span="261:15:261:19">init</jtok>
+<jtok eid="19" type="parameter_type" span="261:20:261:24">Font</jtok>
+<jtok eid="19" type="parameter_name" span="261:25:261:29">font</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="263:3:263:9">JPanel</jtok>
+<jtok eid="19" type="local_variable_name" span="263:10:263:17">content</jtok>
+<jtok eid="19" type="constructor_call" span="263:24:263:30">JPanel</jtok>
+<jtok eid="19" type="constructor_call" span="263:35:263:47">BorderLayout</jtok>
+<jtok eid="19" type="primary_name_ref" span="264:3:264:10">content</jtok>
+<jtok eid="19" type="method_call" span="264:11:264:20">setBorder</jtok>
+<jtok eid="19" type="constructor_call" span="264:25:264:36">EmptyBorder</jtok>
+<jtok eid="19" type="method_call" span="265:3:265:17">setContentPane</jtok>
+<jtok eid="19" type="primary_name_ref" span="265:18:265:25">content</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="267:3:267:9">JPanel</jtok>
+<jtok eid="19" type="local_variable_name" span="267:10:267:19">listPanel</jtok>
+<jtok eid="19" type="constructor_call" span="267:26:267:32">JPanel</jtok>
+<jtok eid="19" type="constructor_call" span="267:37:267:47">GridLayout</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="269:3:269:9">String</jtok>
+<jtok eid="19" type="local_variable_name" span="269:12:269:17">fonts</jtok>
+<jtok eid="19" type="primary_name_ref" span="272:4:272:9">fonts</jtok>
+<jtok eid="19" type="method_call" span="272:12:272:23">getFontList</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="274:9:274:18">Exception</jtok>
+<jtok eid="19" type="local_variable_name" span="274:19:274:20">e</jtok>
+<jtok eid="19" type="primary_name_ref" span="276:4:276:7">Log</jtok>
+<jtok eid="19" type="method_call" span="276:8:276:11">log</jtok>
+<jtok eid="19" type="primary_name_ref" span="276:12:276:15">Log</jtok>
+<jtok eid="19" type="qualified_name_ref" span="276:16:276:21">ERROR</jtok>
+<jtok eid="19" type="string_literal" span="276:27:276:56">"Broken Java implementation!"</jtok>
+<jtok eid="19" type="block_comment" span="277:4:277:75">/* Log.log(Log.ERROR,this,"Using deprecated Toolkit.getFontList()"); */</jtok>
+<jtok eid="19" type="primary_name_ref" span="278:4:278:7">Log</jtok>
+<jtok eid="19" type="method_call" span="278:8:278:11">log</jtok>
+<jtok eid="19" type="primary_name_ref" span="278:12:278:15">Log</jtok>
+<jtok eid="19" type="qualified_name_ref" span="278:16:278:21">ERROR</jtok>
+<jtok eid="19" type="primary_name_ref" span="278:27:278:28">e</jtok>
+<jtok eid="19" type="block_comment" span="280:4:280:45">/* fonts = getToolkit().getFontList(); */</jtok>
+<jtok eid="19" type="primary_name_ref" span="281:4:281:9">fonts</jtok>
+<jtok eid="19" type="constructor_call" span="281:16:281:22">String</jtok>
+<jtok eid="19" type="string_literal" span="281:27:281:56">"Broken Java implementation!"</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="284:3:284:9">JPanel</jtok>
+<jtok eid="19" type="local_variable_name" span="284:10:284:21">familyPanel</jtok>
+<jtok eid="19" type="method_call" span="284:24:284:51">createTextFieldAndListPanel</jtok>
+<jtok eid="19" type="string_literal" span="285:4:285:26">"font-selector.family"</jtok>
+<jtok eid="19" type="primary_name_ref" span="286:4:286:15">familyField</jtok>
+<jtok eid="19" type="constructor_call" span="286:22:286:32">JTextField</jtok>
+<jtok eid="19" type="primary_name_ref" span="287:4:287:14">familyList</jtok>
+<jtok eid="19" type="constructor_call" span="287:21:287:26">JList</jtok>
+<jtok eid="19" type="primary_name_ref" span="287:27:287:32">fonts</jtok>
+<jtok eid="19" type="primary_name_ref" span="288:3:288:12">listPanel</jtok>
+<jtok eid="19" type="method_call" span="288:13:288:16">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="288:17:288:28">familyPanel</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="290:3:290:9">String</jtok>
+<jtok eid="19" type="local_variable_name" span="290:12:290:17">sizes</jtok>
+<jtok eid="19" type="string_literal" span="290:22:290:25">"9"</jtok>
+<jtok eid="19" type="string_literal" span="290:27:290:31">"10"</jtok>
+<jtok eid="19" type="string_literal" span="290:33:290:37">"12"</jtok>
+<jtok eid="19" type="string_literal" span="290:39:290:43">"14"</jtok>
+<jtok eid="19" type="string_literal" span="290:45:290:49">"16"</jtok>
+<jtok eid="19" type="string_literal" span="290:51:290:55">"18"</jtok>
+<jtok eid="19" type="string_literal" span="290:57:290:61">"24"</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="291:3:291:9">JPanel</jtok>
+<jtok eid="19" type="local_variable_name" span="291:10:291:19">sizePanel</jtok>
+<jtok eid="19" type="method_call" span="291:22:291:49">createTextFieldAndListPanel</jtok>
+<jtok eid="19" type="string_literal" span="292:4:292:24">"font-selector.size"</jtok>
+<jtok eid="19" type="primary_name_ref" span="293:4:293:13">sizeField</jtok>
+<jtok eid="19" type="constructor_call" span="293:20:293:30">JTextField</jtok>
+<jtok eid="19" type="primary_name_ref" span="294:4:294:12">sizeList</jtok>
+<jtok eid="19" type="constructor_call" span="294:19:294:24">JList</jtok>
+<jtok eid="19" type="primary_name_ref" span="294:25:294:30">sizes</jtok>
+<jtok eid="19" type="primary_name_ref" span="295:3:295:12">listPanel</jtok>
+<jtok eid="19" type="method_call" span="295:13:295:16">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="295:17:295:26">sizePanel</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="297:3:297:9">String</jtok>
+<jtok eid="19" type="local_variable_name" span="297:12:297:18">styles</jtok>
+<jtok eid="19" type="primary_name_ref" span="298:4:298:9">jEdit</jtok>
+<jtok eid="19" type="method_call" span="298:10:298:21">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="298:22:298:43">"font-selector.plain"</jtok>
+<jtok eid="19" type="primary_name_ref" span="299:4:299:9">jEdit</jtok>
+<jtok eid="19" type="method_call" span="299:10:299:21">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="299:22:299:42">"font-selector.bold"</jtok>
+<jtok eid="19" type="primary_name_ref" span="300:4:300:9">jEdit</jtok>
+<jtok eid="19" type="method_call" span="300:10:300:21">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="300:22:300:44">"font-selector.italic"</jtok>
+<jtok eid="19" type="primary_name_ref" span="301:4:301:9">jEdit</jtok>
+<jtok eid="19" type="method_call" span="301:10:301:21">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="301:22:301:48">"font-selector.bolditalic"</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="304:3:304:9">JPanel</jtok>
+<jtok eid="19" type="local_variable_name" span="304:10:304:20">stylePanel</jtok>
+<jtok eid="19" type="method_call" span="304:23:304:50">createTextFieldAndListPanel</jtok>
+<jtok eid="19" type="string_literal" span="305:4:305:25">"font-selector.style"</jtok>
+<jtok eid="19" type="primary_name_ref" span="306:4:306:14">styleField</jtok>
+<jtok eid="19" type="constructor_call" span="306:21:306:31">JTextField</jtok>
+<jtok eid="19" type="primary_name_ref" span="307:4:307:13">styleList</jtok>
+<jtok eid="19" type="constructor_call" span="307:20:307:25">JList</jtok>
+<jtok eid="19" type="primary_name_ref" span="307:26:307:32">styles</jtok>
+<jtok eid="19" type="primary_name_ref" span="308:3:308:13">styleField</jtok>
+<jtok eid="19" type="method_call" span="308:14:308:25">setEditable</jtok>
+<jtok eid="19" type="primary_name_ref" span="309:3:309:12">listPanel</jtok>
+<jtok eid="19" type="method_call" span="309:13:309:16">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="309:17:309:27">stylePanel</jtok>
+<jtok eid="19" type="primary_name_ref" span="311:3:311:13">familyList</jtok>
+<jtok eid="19" type="method_call" span="311:14:311:30">setSelectedValue</jtok>
+<jtok eid="19" type="primary_name_ref" span="311:31:311:35">font</jtok>
+<jtok eid="19" type="method_call" span="311:36:311:45">getFamily</jtok>
+<jtok eid="19" type="primary_name_ref" span="312:3:312:14">familyField</jtok>
+<jtok eid="19" type="method_call" span="312:15:312:22">setText</jtok>
+<jtok eid="19" type="primary_name_ref" span="312:23:312:27">font</jtok>
+<jtok eid="19" type="method_call" span="312:28:312:37">getFamily</jtok>
+<jtok eid="19" type="primary_name_ref" span="313:3:313:11">sizeList</jtok>
+<jtok eid="19" type="method_call" span="313:12:313:28">setSelectedValue</jtok>
+<jtok eid="19" type="primary_name_ref" span="313:29:313:35">String</jtok>
+<jtok eid="19" type="method_call" span="313:36:313:43">valueOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="313:44:313:48">font</jtok>
+<jtok eid="19" type="method_call" span="313:49:313:56">getSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="314:3:314:12">sizeField</jtok>
+<jtok eid="19" type="method_call" span="314:13:314:20">setText</jtok>
+<jtok eid="19" type="primary_name_ref" span="314:21:314:27">String</jtok>
+<jtok eid="19" type="method_call" span="314:28:314:35">valueOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="314:36:314:40">font</jtok>
+<jtok eid="19" type="method_call" span="314:41:314:48">getSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="315:3:315:12">styleList</jtok>
+<jtok eid="19" type="method_call" span="315:13:315:29">setSelectedIndex</jtok>
+<jtok eid="19" type="primary_name_ref" span="315:30:315:34">font</jtok>
+<jtok eid="19" type="method_call" span="315:35:315:43">getStyle</jtok>
+<jtok eid="19" type="primary_name_ref" span="316:3:316:13">styleField</jtok>
+<jtok eid="19" type="method_call" span="316:14:316:21">setText</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="316:23:316:29">String</jtok>
+<jtok eid="19" type="primary_name_ref" span="316:30:316:39">styleList</jtok>
+<jtok eid="19" type="method_call" span="316:40:316:56">getSelectedValue</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="318:3:318:14">ListHandler</jtok>
+<jtok eid="19" type="local_variable_name" span="318:15:318:26">listHandler</jtok>
+<jtok eid="19" type="constructor_call" span="318:33:318:44">ListHandler</jtok>
+<jtok eid="19" type="primary_name_ref" span="319:3:319:13">familyList</jtok>
+<jtok eid="19" type="method_call" span="319:14:319:38">addListSelectionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="319:39:319:50">listHandler</jtok>
+<jtok eid="19" type="primary_name_ref" span="320:3:320:11">sizeList</jtok>
+<jtok eid="19" type="method_call" span="320:12:320:36">addListSelectionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="320:37:320:48">listHandler</jtok>
+<jtok eid="19" type="primary_name_ref" span="321:3:321:12">styleList</jtok>
+<jtok eid="19" type="method_call" span="321:13:321:37">addListSelectionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="321:38:321:49">listHandler</jtok>
+<jtok eid="19" type="primary_name_ref" span="323:3:323:10">content</jtok>
+<jtok eid="19" type="method_call" span="323:11:323:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="323:15:323:27">BorderLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="323:28:323:33">NORTH</jtok>
+<jtok eid="19" type="primary_name_ref" span="323:34:323:43">listPanel</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:3:325:10">preview</jtok>
+<jtok eid="19" type="constructor_call" span="325:17:325:23">JLabel</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:24:325:29">jEdit</jtok>
+<jtok eid="19" type="method_call" span="325:30:325:41">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="325:42:325:67">"font-selector.long-text"</jtok>
+<jtok eid="21" type="method_name" span="327:16:327:30">paintComponent</jtok>
+<jtok eid="21" type="parameter_type" span="327:31:327:39">Graphics</jtok>
+<jtok eid="21" type="parameter_name" span="327:40:327:41">g</jtok>
+<jtok eid="21" type="primary_name_ref" span="329:8:329:20">fontSelector</jtok>
+<jtok eid="21" type="primary_name_ref" span="330:6:330:18">fontSelector</jtok>
+<jtok eid="21" type="method_call" span="330:19:330:38">setAntiAliasEnabled</jtok>
+<jtok eid="21" type="primary_name_ref" span="330:39:330:40">g</jtok>
+<jtok eid="21" type="method_call" span="331:11:331:25">paintComponent</jtok>
+<jtok eid="21" type="primary_name_ref" span="331:26:331:27">g</jtok>
+<jtok eid="19" type="primary_name_ref" span="334:3:334:10">preview</jtok>
+<jtok eid="19" type="method_call" span="334:11:334:20">setBorder</jtok>
+<jtok eid="19" type="constructor_call" span="334:25:334:37">TitledBorder</jtok>
+<jtok eid="19" type="primary_name_ref" span="334:38:334:43">jEdit</jtok>
+<jtok eid="19" type="method_call" span="334:44:334:55">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="335:4:335:27">"font-selector.preview"</jtok>
+<jtok eid="19" type="method_call" span="337:3:337:16">updatePreview</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="339:3:339:12">Dimension</jtok>
+<jtok eid="19" type="local_variable_name" span="339:13:339:21">prefSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="339:24:339:31">preview</jtok>
+<jtok eid="19" type="method_call" span="339:32:339:48">getPreferredSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="340:3:340:11">prefSize</jtok>
+<jtok eid="19" type="qualified_name_ref" span="340:12:340:18">height</jtok>
+<jtok eid="19" type="primary_name_ref" span="341:3:341:10">preview</jtok>
+<jtok eid="19" type="method_call" span="341:11:341:27">setPreferredSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="341:28:341:36">prefSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="343:3:343:10">content</jtok>
+<jtok eid="19" type="method_call" span="343:11:343:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="343:15:343:27">BorderLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="343:28:343:34">CENTER</jtok>
+<jtok eid="19" type="primary_name_ref" span="343:35:343:42">preview</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="345:3:345:9">JPanel</jtok>
+<jtok eid="19" type="local_variable_name" span="345:10:345:17">buttons</jtok>
+<jtok eid="19" type="constructor_call" span="345:24:345:30">JPanel</jtok>
+<jtok eid="19" type="primary_name_ref" span="346:3:346:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="346:11:346:20">setLayout</jtok>
+<jtok eid="19" type="constructor_call" span="346:25:346:34">BoxLayout</jtok>
+<jtok eid="19" type="primary_name_ref" span="346:35:346:42">buttons</jtok>
+<jtok eid="19" type="primary_name_ref" span="346:43:346:52">BoxLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="346:53:346:59">X_AXIS</jtok>
+<jtok eid="19" type="primary_name_ref" span="347:3:347:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="347:11:347:20">setBorder</jtok>
+<jtok eid="19" type="constructor_call" span="347:25:347:36">EmptyBorder</jtok>
+<jtok eid="19" type="primary_name_ref" span="348:3:348:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="348:11:348:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="348:15:348:18">Box</jtok>
+<jtok eid="19" type="method_call" span="348:19:348:29">createGlue</jtok>
+<jtok eid="19" type="primary_name_ref" span="350:3:350:5">ok</jtok>
+<jtok eid="19" type="constructor_call" span="350:12:350:19">JButton</jtok>
+<jtok eid="19" type="primary_name_ref" span="350:20:350:25">jEdit</jtok>
+<jtok eid="19" type="method_call" span="350:26:350:37">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="350:38:350:49">"common.ok"</jtok>
+<jtok eid="19" type="primary_name_ref" span="351:3:351:5">ok</jtok>
+<jtok eid="19" type="method_call" span="351:6:351:23">addActionListener</jtok>
+<jtok eid="19" type="constructor_call" span="351:28:351:41">ActionHandler</jtok>
+<jtok eid="19" type="method_call" span="352:3:352:14">getRootPane</jtok>
+<jtok eid="19" type="method_call" span="352:17:352:33">setDefaultButton</jtok>
+<jtok eid="19" type="primary_name_ref" span="352:34:352:36">ok</jtok>
+<jtok eid="19" type="primary_name_ref" span="353:3:353:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="353:11:353:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="353:15:353:17">ok</jtok>
+<jtok eid="19" type="primary_name_ref" span="355:3:355:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="355:11:355:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="355:15:355:18">Box</jtok>
+<jtok eid="19" type="method_call" span="355:19:355:40">createHorizontalStrut</jtok>
+<jtok eid="19" type="primary_name_ref" span="357:3:357:9">cancel</jtok>
+<jtok eid="19" type="constructor_call" span="357:16:357:23">JButton</jtok>
+<jtok eid="19" type="primary_name_ref" span="357:24:357:29">jEdit</jtok>
+<jtok eid="19" type="method_call" span="357:30:357:41">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="357:42:357:57">"common.cancel"</jtok>
+<jtok eid="19" type="primary_name_ref" span="358:3:358:9">cancel</jtok>
+<jtok eid="19" type="method_call" span="358:10:358:27">addActionListener</jtok>
+<jtok eid="19" type="constructor_call" span="358:32:358:45">ActionHandler</jtok>
+<jtok eid="19" type="primary_name_ref" span="359:3:359:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="359:11:359:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="359:15:359:21">cancel</jtok>
+<jtok eid="19" type="primary_name_ref" span="361:3:361:10">buttons</jtok>
+<jtok eid="19" type="method_call" span="361:11:361:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="361:15:361:18">Box</jtok>
+<jtok eid="19" type="method_call" span="361:19:361:29">createGlue</jtok>
+<jtok eid="19" type="primary_name_ref" span="363:3:363:10">content</jtok>
+<jtok eid="19" type="method_call" span="363:11:363:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="363:15:363:27">BorderLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="363:28:363:33">SOUTH</jtok>
+<jtok eid="19" type="primary_name_ref" span="363:34:363:41">buttons</jtok>
+<jtok eid="19" type="method_call" span="365:3:365:7">pack</jtok>
+<jtok eid="19" type="method_call" span="366:3:366:24">setLocationRelativeTo</jtok>
+<jtok eid="19" type="method_call" span="366:25:366:34">getParent</jtok>
+<jtok eid="19" type="method_call" span="367:3:367:13">setVisible</jtok>
+<jtok eid="11" type="line_comment" span="368:4:368:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="370:2:370:28">//{{{ getFontList() method</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="371:17:371:23">String</jtok>
+<jtok eid="22" type="method_name" span="371:26:371:37">getFontList</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="373:3:373:9">String</jtok>
+<jtok eid="22" type="local_variable_name" span="373:12:373:21">nameArray</jtok>
+<jtok eid="22" type="primary_name_ref" span="373:24:373:43">GraphicsEnvironment</jtok>
+<jtok eid="22" type="method_call" span="374:5:374:32">getLocalGraphicsEnvironment</jtok>
+<jtok eid="22" type="method_call" span="375:5:375:32">getAvailableFontFamilyNames</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="376:3:376:7">List</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="376:8:376:14">String</jtok>
+<jtok eid="22" type="local_variable_name" span="376:16:376:26">nameVector</jtok>
+<jtok eid="22" type="constructor_call" span="376:33:376:42">ArrayList</jtok>
+<jtok eid="22" type="constructor_call" span="376:43:376:49">String</jtok>
+<jtok eid="22" type="primary_name_ref" span="376:51:376:60">nameArray</jtok>
+<jtok eid="22" type="qualified_name_ref" span="376:61:376:67">length</jtok>
+<jtok eid="22" type="local_variable_name" span="378:11:378:12">i</jtok>
+<jtok eid="22" type="local_variable_name" span="378:18:378:19">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="378:21:378:22">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="378:25:378:34">nameArray</jtok>
+<jtok eid="22" type="qualified_name_ref" span="378:35:378:41">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="378:43:378:44">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="380:8:380:9">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="380:15:380:16">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="380:19:380:28">HIDEFONTS</jtok>
+<jtok eid="22" type="qualified_name_ref" span="380:29:380:35">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="380:37:380:38">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="382:8:382:17">nameArray</jtok>
+<jtok eid="22" type="primary_name_ref" span="382:18:382:19">i</jtok>
+<jtok eid="22" type="method_call" span="382:21:382:29">contains</jtok>
+<jtok eid="22" type="primary_name_ref" span="382:30:382:39">HIDEFONTS</jtok>
+<jtok eid="22" type="primary_name_ref" span="382:40:382:41">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="386:7:386:8">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="386:12:386:21">HIDEFONTS</jtok>
+<jtok eid="22" type="qualified_name_ref" span="386:22:386:28">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="387:5:387:15">nameVector</jtok>
+<jtok eid="22" type="method_call" span="387:16:387:19">add</jtok>
+<jtok eid="22" type="primary_name_ref" span="387:20:387:29">nameArray</jtok>
+<jtok eid="22" type="primary_name_ref" span="387:30:387:31">i</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="390:3:390:9">String</jtok>
+<jtok eid="22" type="local_variable_name" span="390:12:390:18">_array</jtok>
+<jtok eid="22" type="constructor_call" span="390:25:390:31">String</jtok>
+<jtok eid="22" type="primary_name_ref" span="390:32:390:42">nameVector</jtok>
+<jtok eid="22" type="method_call" span="390:43:390:47">size</jtok>
+<jtok eid="22" type="primary_name_ref" span="391:10:391:20">nameVector</jtok>
+<jtok eid="22" type="method_call" span="391:21:391:28">toArray</jtok>
+<jtok eid="22" type="primary_name_ref" span="391:29:391:35">_array</jtok>
+<jtok eid="11" type="line_comment" span="392:4:392:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="394:2:394:44">//{{{ createTextFieldAndListPanel() method</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="395:17:395:23">JPanel</jtok>
+<jtok eid="23" type="method_name" span="395:24:395:51">createTextFieldAndListPanel</jtok>
+<jtok eid="23" type="parameter_type" span="395:52:395:58">String</jtok>
+<jtok eid="23" type="parameter_name" span="395:59:395:64">label</jtok>
+<jtok eid="23" type="parameter_type" span="396:3:396:13">JTextField</jtok>
+<jtok eid="23" type="parameter_name" span="396:14:396:23">textField</jtok>
+<jtok eid="23" type="parameter_type" span="396:25:396:30">JList</jtok>
+<jtok eid="23" type="parameter_name" span="396:31:396:35">list</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="398:3:398:16">GridBagLayout</jtok>
+<jtok eid="23" type="local_variable_name" span="398:17:398:23">layout</jtok>
+<jtok eid="23" type="constructor_call" span="398:30:398:43">GridBagLayout</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="399:3:399:9">JPanel</jtok>
+<jtok eid="23" type="local_variable_name" span="399:10:399:15">panel</jtok>
+<jtok eid="23" type="constructor_call" span="399:22:399:28">JPanel</jtok>
+<jtok eid="23" type="primary_name_ref" span="399:29:399:35">layout</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="401:3:401:21">GridBagConstraints</jtok>
+<jtok eid="23" type="local_variable_name" span="401:22:401:26">cons</jtok>
+<jtok eid="23" type="constructor_call" span="401:33:401:51">GridBagConstraints</jtok>
+<jtok eid="23" type="primary_name_ref" span="402:3:402:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="402:8:402:13">gridx</jtok>
+<jtok eid="23" type="primary_name_ref" span="402:16:402:20">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="402:21:402:26">gridy</jtok>
+<jtok eid="23" type="primary_name_ref" span="403:3:403:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="403:8:403:17">gridwidth</jtok>
+<jtok eid="23" type="primary_name_ref" span="403:20:403:24">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="403:25:403:35">gridheight</jtok>
+<jtok eid="23" type="primary_name_ref" span="404:3:404:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="404:8:404:12">fill</jtok>
+<jtok eid="23" type="primary_name_ref" span="404:15:404:33">GridBagConstraints</jtok>
+<jtok eid="23" type="qualified_name_ref" span="404:34:404:38">BOTH</jtok>
+<jtok eid="23" type="primary_name_ref" span="405:3:405:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="405:8:405:15">weightx</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="407:3:407:9">JLabel</jtok>
+<jtok eid="23" type="local_variable_name" span="407:10:407:16">_label</jtok>
+<jtok eid="23" type="constructor_call" span="407:23:407:29">JLabel</jtok>
+<jtok eid="23" type="primary_name_ref" span="407:30:407:35">jEdit</jtok>
+<jtok eid="23" type="method_call" span="407:36:407:47">getProperty</jtok>
+<jtok eid="23" type="primary_name_ref" span="407:48:407:53">label</jtok>
+<jtok eid="23" type="primary_name_ref" span="408:3:408:9">layout</jtok>
+<jtok eid="23" type="method_call" span="408:10:408:24">setConstraints</jtok>
+<jtok eid="23" type="primary_name_ref" span="408:25:408:31">_label</jtok>
+<jtok eid="23" type="primary_name_ref" span="408:32:408:36">cons</jtok>
+<jtok eid="23" type="primary_name_ref" span="409:3:409:8">panel</jtok>
+<jtok eid="23" type="method_call" span="409:9:409:12">add</jtok>
+<jtok eid="23" type="primary_name_ref" span="409:13:409:19">_label</jtok>
+<jtok eid="23" type="primary_name_ref" span="411:3:411:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="411:8:411:13">gridy</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="412:3:412:12">Component</jtok>
+<jtok eid="23" type="local_variable_name" span="412:13:412:15">vs</jtok>
+<jtok eid="23" type="primary_name_ref" span="412:18:412:21">Box</jtok>
+<jtok eid="23" type="method_call" span="412:22:412:41">createVerticalStrut</jtok>
+<jtok eid="23" type="primary_name_ref" span="413:3:413:9">layout</jtok>
+<jtok eid="23" type="method_call" span="413:10:413:24">setConstraints</jtok>
+<jtok eid="23" type="primary_name_ref" span="413:25:413:27">vs</jtok>
+<jtok eid="23" type="primary_name_ref" span="413:28:413:32">cons</jtok>
+<jtok eid="23" type="primary_name_ref" span="414:3:414:8">panel</jtok>
+<jtok eid="23" type="method_call" span="414:9:414:12">add</jtok>
+<jtok eid="23" type="primary_name_ref" span="414:13:414:15">vs</jtok>
+<jtok eid="23" type="primary_name_ref" span="416:3:416:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="416:8:416:13">gridy</jtok>
+<jtok eid="23" type="primary_name_ref" span="417:3:417:9">layout</jtok>
+<jtok eid="23" type="method_call" span="417:10:417:24">setConstraints</jtok>
+<jtok eid="23" type="primary_name_ref" span="417:25:417:34">textField</jtok>
+<jtok eid="23" type="primary_name_ref" span="417:35:417:39">cons</jtok>
+<jtok eid="23" type="primary_name_ref" span="418:3:418:8">panel</jtok>
+<jtok eid="23" type="method_call" span="418:9:418:12">add</jtok>
+<jtok eid="23" type="primary_name_ref" span="418:13:418:22">textField</jtok>
+<jtok eid="23" type="primary_name_ref" span="420:3:420:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="420:8:420:13">gridy</jtok>
+<jtok eid="23" type="primary_name_ref" span="421:3:421:5">vs</jtok>
+<jtok eid="23" type="primary_name_ref" span="421:8:421:11">Box</jtok>
+<jtok eid="23" type="method_call" span="421:12:421:31">createVerticalStrut</jtok>
+<jtok eid="23" type="primary_name_ref" span="422:3:422:9">layout</jtok>
+<jtok eid="23" type="method_call" span="422:10:422:24">setConstraints</jtok>
+<jtok eid="23" type="primary_name_ref" span="422:25:422:27">vs</jtok>
+<jtok eid="23" type="primary_name_ref" span="422:28:422:32">cons</jtok>
+<jtok eid="23" type="primary_name_ref" span="423:3:423:8">panel</jtok>
+<jtok eid="23" type="method_call" span="423:9:423:12">add</jtok>
+<jtok eid="23" type="primary_name_ref" span="423:13:423:15">vs</jtok>
+<jtok eid="23" type="primary_name_ref" span="425:3:425:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="425:8:425:13">gridy</jtok>
+<jtok eid="23" type="primary_name_ref" span="426:3:426:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="426:8:426:18">gridheight</jtok>
+<jtok eid="23" type="primary_name_ref" span="426:21:426:39">GridBagConstraints</jtok>
+<jtok eid="23" type="qualified_name_ref" span="426:40:426:49">REMAINDER</jtok>
+<jtok eid="23" type="primary_name_ref" span="427:3:427:7">cons</jtok>
+<jtok eid="23" type="qualified_name_ref" span="427:8:427:15">weighty</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="428:3:428:14">JScrollPane</jtok>
+<jtok eid="23" type="local_variable_name" span="428:15:428:23">scroller</jtok>
+<jtok eid="23" type="constructor_call" span="428:30:428:41">JScrollPane</jtok>
+<jtok eid="23" type="primary_name_ref" span="428:42:428:46">list</jtok>
+<jtok eid="23" type="primary_name_ref" span="429:3:429:9">layout</jtok>
+<jtok eid="23" type="method_call" span="429:10:429:24">setConstraints</jtok>
+<jtok eid="23" type="primary_name_ref" span="429:25:429:33">scroller</jtok>
+<jtok eid="23" type="primary_name_ref" span="429:34:429:38">cons</jtok>
+<jtok eid="23" type="primary_name_ref" span="430:3:430:8">panel</jtok>
+<jtok eid="23" type="method_call" span="430:9:430:12">add</jtok>
+<jtok eid="23" type="primary_name_ref" span="430:13:430:21">scroller</jtok>
+<jtok eid="23" type="primary_name_ref" span="432:10:432:15">panel</jtok>
+<jtok eid="11" type="line_comment" span="433:4:433:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="435:2:435:30">//{{{ updatePreview() method</jtok>
+<jtok eid="24" type="method_name" span="436:15:436:28">updatePreview</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="438:3:438:9">String</jtok>
+<jtok eid="24" type="local_variable_name" span="438:10:438:16">family</jtok>
+<jtok eid="24" type="primary_name_ref" span="438:19:438:30">familyField</jtok>
+<jtok eid="24" type="method_call" span="438:31:438:38">getText</jtok>
+<jtok eid="24" type="local_variable_name" span="439:7:439:11">size</jtok>
+<jtok eid="24" type="primary_name_ref" span="442:4:442:8">size</jtok>
+<jtok eid="24" type="primary_name_ref" span="442:11:442:18">Integer</jtok>
+<jtok eid="24" type="method_call" span="442:19:442:27">parseInt</jtok>
+<jtok eid="24" type="primary_name_ref" span="442:28:442:37">sizeField</jtok>
+<jtok eid="24" type="method_call" span="442:38:442:45">getText</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="444:9:444:18">Exception</jtok>
+<jtok eid="24" type="local_variable_name" span="444:19:444:20">e</jtok>
+<jtok eid="24" type="primary_name_ref" span="446:4:446:8">size</jtok>
+<jtok eid="24" type="local_variable_name" span="448:7:448:12">style</jtok>
+<jtok eid="24" type="primary_name_ref" span="448:15:448:24">styleList</jtok>
+<jtok eid="24" type="method_call" span="448:25:448:41">getSelectedIndex</jtok>
+<jtok eid="24" type="primary_name_ref" span="450:3:450:10">preview</jtok>
+<jtok eid="24" type="method_call" span="450:11:450:18">setFont</jtok>
+<jtok eid="24" type="constructor_call" span="450:23:450:27">Font</jtok>
+<jtok eid="24" type="primary_name_ref" span="450:28:450:34">family</jtok>
+<jtok eid="24" type="primary_name_ref" span="450:35:450:40">style</jtok>
+<jtok eid="24" type="primary_name_ref" span="450:41:450:45">size</jtok>
+<jtok eid="11" type="line_comment" span="451:4:451:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="453:2:453:7">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="455:2:455:27">//{{{ ActionHandler class</jtok>
+<jtok eid="25" type="class_name" span="456:8:456:21">ActionHandler</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="456:33:456:47">ActionListener</jtok>
+<jtok eid="26" type="method_name" span="458:15:458:30">actionPerformed</jtok>
+<jtok eid="26" type="parameter_type" span="458:31:458:42">ActionEvent</jtok>
+<jtok eid="26" type="parameter_name" span="458:43:458:46">evt</jtok>
+<jtok eid="26" type="primary_name_ref" span="460:7:460:10">evt</jtok>
+<jtok eid="26" type="method_call" span="460:11:460:20">getSource</jtok>
+<jtok eid="26" type="primary_name_ref" span="460:26:460:28">ok</jtok>
+<jtok eid="26" type="method_call" span="461:5:461:7">ok</jtok>
+<jtok eid="26" type="primary_name_ref" span="462:12:462:15">evt</jtok>
+<jtok eid="26" type="method_call" span="462:16:462:25">getSource</jtok>
+<jtok eid="26" type="primary_name_ref" span="462:31:462:37">cancel</jtok>
+<jtok eid="26" type="method_call" span="463:5:463:11">cancel</jtok>
+<jtok eid="11" type="line_comment" span="465:4:465:9">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="467:2:467:25">//{{{ ListHandler class</jtok>
+<jtok eid="27" type="class_name" span="468:8:468:19">ListHandler</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="468:31:468:52">ListSelectionListener</jtok>
+<jtok eid="28" type="method_name" span="470:15:470:27">valueChanged</jtok>
+<jtok eid="28" type="parameter_type" span="470:28:470:46">ListSelectionEvent</jtok>
+<jtok eid="28" type="parameter_name" span="470:47:470:50">evt</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="472:4:472:10">Object</jtok>
+<jtok eid="28" type="local_variable_name" span="472:11:472:17">source</jtok>
+<jtok eid="28" type="primary_name_ref" span="472:20:472:23">evt</jtok>
+<jtok eid="28" type="method_call" span="472:24:472:33">getSource</jtok>
+<jtok eid="28" type="primary_name_ref" span="473:7:473:13">source</jtok>
+<jtok eid="28" type="primary_name_ref" span="473:17:473:27">familyList</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="475:5:475:11">String</jtok>
+<jtok eid="28" type="local_variable_name" span="475:12:475:18">family</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="475:22:475:28">String</jtok>
+<jtok eid="28" type="primary_name_ref" span="475:29:475:39">familyList</jtok>
+<jtok eid="28" type="method_call" span="475:40:475:56">getSelectedValue</jtok>
+<jtok eid="28" type="primary_name_ref" span="476:8:476:14">family</jtok>
+<jtok eid="28" type="primary_name_ref" span="477:6:477:17">familyField</jtok>
+<jtok eid="28" type="method_call" span="477:18:477:25">setText</jtok>
+<jtok eid="28" type="primary_name_ref" span="477:26:477:32">family</jtok>
+<jtok eid="28" type="primary_name_ref" span="479:12:479:18">source</jtok>
+<jtok eid="28" type="primary_name_ref" span="479:22:479:30">sizeList</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="481:5:481:11">String</jtok>
+<jtok eid="28" type="local_variable_name" span="481:12:481:16">size</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="481:20:481:26">String</jtok>
+<jtok eid="28" type="primary_name_ref" span="481:27:481:35">sizeList</jtok>
+<jtok eid="28" type="method_call" span="481:36:481:52">getSelectedValue</jtok>
+<jtok eid="28" type="primary_name_ref" span="482:8:482:12">size</jtok>
+<jtok eid="28" type="primary_name_ref" span="483:6:483:15">sizeField</jtok>
+<jtok eid="28" type="method_call" span="483:16:483:23">setText</jtok>
+<jtok eid="28" type="primary_name_ref" span="483:24:483:28">size</jtok>
+<jtok eid="28" type="primary_name_ref" span="485:12:485:18">source</jtok>
+<jtok eid="28" type="primary_name_ref" span="485:22:485:31">styleList</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="487:5:487:11">String</jtok>
+<jtok eid="28" type="local_variable_name" span="487:12:487:17">style</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="487:21:487:27">String</jtok>
+<jtok eid="28" type="primary_name_ref" span="487:28:487:37">styleList</jtok>
+<jtok eid="28" type="method_call" span="487:38:487:54">getSelectedValue</jtok>
+<jtok eid="28" type="primary_name_ref" span="488:8:488:13">style</jtok>
+<jtok eid="28" type="primary_name_ref" span="489:6:489:16">styleField</jtok>
+<jtok eid="28" type="method_call" span="489:17:489:24">setText</jtok>
+<jtok eid="28" type="primary_name_ref" span="489:25:489:30">style</jtok>
+<jtok eid="28" type="method_call" span="492:4:492:17">updatePreview</jtok>
+<jtok eid="11" type="line_comment" span="494:4:494:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="495:3:495:8">//}}}</jtok>
+</jdoc>

@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.Mode" jls="java5">
+<jent id="0" type="file" span="0:0:442:2">Source/jEdit/org/gjt/sp/jedit/Mode.java</jent>
+<jent id="1" pid="0" type="class" span="52:1:442:1">org.gjt.sp.jedit.Mode</jent>
+<jent id="2" pid="1" type="method" span="62:2:67:2">org.gjt.sp.jedit.Mode.Mode(String)</jent>
+<jent id="3" pid="1" type="method" span="74:2:106:2">org.gjt.sp.jedit.Mode.init()</jent>
+<jent id="4" pid="1" type="method" span="112:2:116:2">org.gjt.sp.jedit.Mode.getTokenMarker()</jent>
+<jent id="5" pid="1" type="method" span="123:2:126:2">org.gjt.sp.jedit.Mode.setTokenMarker(TokenMarker)</jent>
+<jent id="6" pid="1" type="method" span="133:2:141:2">org.gjt.sp.jedit.Mode.loadIfNecessary()</jent>
+<jent id="7" pid="1" type="method" span="150:2:156:2">org.gjt.sp.jedit.Mode.getProperty(String)</jent>
+<jent id="8" pid="1" type="method" span="165:2:169:2">org.gjt.sp.jedit.Mode.getBooleanProperty(String)</jent>
+<jent id="9" pid="1" type="method" span="177:2:180:2">org.gjt.sp.jedit.Mode.setProperty(String,Object)</jent>
+<jent id="10" pid="1" type="method" span="188:2:191:2">org.gjt.sp.jedit.Mode.unsetProperty(String)</jent>
+<jent id="11" pid="1" type="method" span="198:2:219:2">org.gjt.sp.jedit.Mode.setProperties(Map)</jent>
+<jent id="12" pid="1" type="method" span="231:2:234:2">org.gjt.sp.jedit.Mode.accept(String,String)</jent>
+<jent id="13" pid="1" type="method" span="243:2:246:2">org.gjt.sp.jedit.Mode.acceptFilename(String)</jent>
+<jent id="14" pid="1" type="method" span="255:2:258:2">org.gjt.sp.jedit.Mode.acceptFirstLine(String)</jent>
+<jent id="15" pid="1" type="method" span="264:2:267:2">org.gjt.sp.jedit.Mode.getName()</jent>
+<jent id="16" pid="1" type="method" span="273:2:276:2">org.gjt.sp.jedit.Mode.toString()</jent>
+<jent id="17" pid="1" type="method" span="279:2:282:2">org.gjt.sp.jedit.Mode.getIgnoreWhitespace()</jent>
+<jent id="18" pid="1" type="method" span="286:2:293:2">org.gjt.sp.jedit.Mode.getIndentRules()</jent>
+<jent id="19" pid="1" type="method" span="295:2:317:2">org.gjt.sp.jedit.Mode.isElectricKey(char)</jent>
+<jent id="20" pid="1" type="method" span="319:2:378:2">org.gjt.sp.jedit.Mode.initIndentRules()</jent>
+<jent id="21" pid="1" type="method" span="380:2:401:2">org.gjt.sp.jedit.Mode.createRegexpIndentRule(String)</jent>
+<jent id="22" pid="1" type="method" span="403:2:428:2">org.gjt.sp.jedit.Mode.createBracketIndentRules(String,List&lt;IndentRule&gt;)</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * Mode.java - jEdit editing mode
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1998, 1999, 2000 Slava Pestov
+ * Copyright (C) 1999 mike dillon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="43:1:43:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="45:1:51:4">/**
+ * An edit mode defines specific settings for editing some type of file.
+ * One instance of this class is created for each supported edit mode.
+ *
+ * @author Slava Pestov
+ * @version $Id: Mode.java 16022 2009-08-22 02:14:59Z daleanson $
+ */</jtok>
+<jtok eid="1" type="class_name" span="52:14:52:18">Mode</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:24">//{{{ Mode constructor</jtok>
+<jtok eid="1" type="block_comment" span="55:2:61:5">/**
+	 * Creates a new edit mode.
+	 *
+	 * @param name The name used in mode listings and to query mode
+	 * properties
+	 * @see #getProperty(String)
+	 */</jtok>
+<jtok eid="2" type="method_name" span="62:9:62:13">Mode</jtok>
+<jtok eid="2" type="parameter_type" span="62:14:62:20">String</jtok>
+<jtok eid="2" type="parameter_name" span="62:21:62:25">name</jtok>
+<jtok eid="2" type="qualified_name_ref" span="64:8:64:12">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:15:64:19">name</jtok>
+<jtok eid="2" type="qualified_name_ref" span="65:8:65:24">ignoreWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:8">props</jtok>
+<jtok eid="2" type="constructor_call" span="66:15:66:24">Hashtable</jtok>
+<jtok eid="2" type="constructor_call" span="66:25:66:31">String</jtok>
+<jtok eid="2" type="constructor_call" span="66:33:66:39">Object</jtok>
+<jtok eid="1" type="line_comment" span="67:4:67:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="69:2:69:21">//{{{ init() method</jtok>
+<jtok eid="1" type="block_comment" span="70:2:73:5">/**
+	 * Initializes the edit mode. Should be called after all properties
+	 * are loaded and set.
+	 */</jtok>
+<jtok eid="3" type="method_name" span="74:14:74:18">init</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="78:4:78:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="78:11:78:23">filenameGlob</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="78:27:78:33">String</jtok>
+<jtok eid="3" type="method_call" span="78:34:78:45">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="78:46:78:60">"filenameGlob"</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:7:79:19">filenameGlob</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:31:79:43">filenameGlob</jtok>
+<jtok eid="3" type="method_call" span="79:44:79:50">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:5:81:15">filenameRE</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:18:81:25">Pattern</jtok>
+<jtok eid="3" type="method_call" span="81:26:81:33">compile</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:34:81:51">StandardUtilities</jtok>
+<jtok eid="3" type="method_call" span="81:52:81:60">globToRE</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:61:81:73">filenameGlob</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:13:82:20">Pattern</jtok>
+<jtok eid="3" type="qualified_name_ref" span="82:21:82:37">CASE_INSENSITIVE</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="85:4:85:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="85:11:85:24">firstlineGlob</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="85:28:85:34">String</jtok>
+<jtok eid="3" type="method_call" span="85:35:85:46">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="85:47:85:62">"firstlineGlob"</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:7:86:20">firstlineGlob</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:32:86:45">firstlineGlob</jtok>
+<jtok eid="3" type="method_call" span="86:46:86:52">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:5:88:16">firstlineRE</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:19:88:26">Pattern</jtok>
+<jtok eid="3" type="method_call" span="88:27:88:34">compile</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:35:88:52">StandardUtilities</jtok>
+<jtok eid="3" type="method_call" span="88:53:88:61">globToRE</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:62:88:75">firstlineGlob</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:14:89:21">Pattern</jtok>
+<jtok eid="3" type="qualified_name_ref" span="89:22:89:38">CASE_INSENSITIVE</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="92:9:92:31">PatternSyntaxException</jtok>
+<jtok eid="3" type="local_variable_name" span="92:32:92:34">re</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:4:94:7">Log</jtok>
+<jtok eid="3" type="method_call" span="94:8:94:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:12:94:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="94:16:94:21">ERROR</jtok>
+<jtok eid="3" type="string_literal" span="94:27:94:55">"Invalid filename/firstline"</jtok>
+<jtok eid="3" type="string_literal" span="95:7:95:24">" globs in mode "</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:27:95:31">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:4:96:7">Log</jtok>
+<jtok eid="3" type="method_call" span="96:8:96:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:12:96:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="96:16:96:21">ERROR</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:27:96:29">re</jtok>
+<jtok eid="3" type="line_comment" span="99:3:99:23">// Fix for this bug:</jtok>
+<jtok eid="3" type="line_comment" span="100:3:100:63">// -- Put a mode into the user dir with the same name as one</jtok>
+<jtok eid="3" type="line_comment" span="101:3:101:27">//    on the system dir.</jtok>
+<jtok eid="3" type="line_comment" span="102:3:102:27">// -- Reload edit modes.</jtok>
+<jtok eid="3" type="line_comment" span="103:3:103:61">// -- Old mode from system dir still used for highlighting</jtok>
+<jtok eid="3" type="line_comment" span="104:3:104:29">//    until jEdit restart.</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:3:105:9">marker</jtok>
+<jtok eid="1" type="line_comment" span="106:4:106:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="108:2:108:31">//{{{ getTokenMarker() method</jtok>
+<jtok eid="1" type="block_comment" span="109:2:111:5">/**
+	 * Returns the token marker for this mode.
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="112:9:112:20">TokenMarker</jtok>
+<jtok eid="4" type="method_name" span="112:21:112:35">getTokenMarker</jtok>
+<jtok eid="4" type="method_call" span="114:3:114:18">loadIfNecessary</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:10:115:16">marker</jtok>
+<jtok eid="1" type="line_comment" span="116:4:116:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="118:2:118:31">//{{{ setTokenMarker() method</jtok>
+<jtok eid="1" type="block_comment" span="119:2:122:5">/**
+	 * Sets the token marker for this mode.
+	 * @param marker The new token marker
+	 */</jtok>
+<jtok eid="5" type="method_name" span="123:14:123:28">setTokenMarker</jtok>
+<jtok eid="5" type="parameter_type" span="123:29:123:40">TokenMarker</jtok>
+<jtok eid="5" type="parameter_name" span="123:41:123:47">marker</jtok>
+<jtok eid="5" type="qualified_name_ref" span="125:8:125:14">marker</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:17:125:23">marker</jtok>
+<jtok eid="1" type="line_comment" span="126:4:126:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="128:2:128:32">//{{{ loadIfNecessary() method</jtok>
+<jtok eid="1" type="block_comment" span="129:2:132:5">/**
+	 * Loads the mode from disk if it hasn't been loaded already.
+	 * @since jEdit 2.5pre3
+	 */</jtok>
+<jtok eid="6" type="method_name" span="133:14:133:29">loadIfNecessary</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:6:135:12">marker</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:4:137:16">ModeProvider</jtok>
+<jtok eid="6" type="qualified_name_ref" span="137:17:137:25">instance</jtok>
+<jtok eid="6" type="method_call" span="137:26:137:34">loadMode</jtok>
+<jtok eid="6" type="primary_name_ref" span="138:8:138:14">marker</jtok>
+<jtok eid="6" type="primary_name_ref" span="139:5:139:8">Log</jtok>
+<jtok eid="6" type="method_call" span="139:9:139:12">log</jtok>
+<jtok eid="6" type="primary_name_ref" span="139:13:139:16">Log</jtok>
+<jtok eid="6" type="qualified_name_ref" span="139:17:139:22">ERROR</jtok>
+<jtok eid="6" type="string_literal" span="139:30:139:85">"Mode not correctly loaded, token marker is still null"</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:28">//{{{ getProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="144:2:149:5">/**
+	 * Returns a mode property.
+	 * @param key The property name
+	 *
+	 * @since jEdit 2.2pre1
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="150:9:150:15">Object</jtok>
+<jtok eid="7" type="method_name" span="150:16:150:27">getProperty</jtok>
+<jtok eid="7" type="parameter_type" span="150:28:150:34">String</jtok>
+<jtok eid="7" type="parameter_name" span="150:35:150:38">key</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="152:3:152:9">Object</jtok>
+<jtok eid="7" type="local_variable_name" span="152:10:152:15">value</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:18:152:23">props</jtok>
+<jtok eid="7" type="method_call" span="152:24:152:27">get</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:28:152:31">key</jtok>
+<jtok eid="7" type="primary_name_ref" span="153:6:153:11">value</jtok>
+<jtok eid="7" type="primary_name_ref" span="154:11:154:16">value</jtok>
+<jtok eid="1" type="line_comment" span="156:4:156:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:35">//{{{ getBooleanProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="159:2:164:5">/**
+	 * Returns the value of a boolean property.
+	 * @param key The property name
+	 *
+	 * @since jEdit 2.5pre3
+	 */</jtok>
+<jtok eid="8" type="method_name" span="165:17:165:35">getBooleanProperty</jtok>
+<jtok eid="8" type="parameter_type" span="165:36:165:42">String</jtok>
+<jtok eid="8" type="parameter_name" span="165:43:165:46">key</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="167:3:167:9">Object</jtok>
+<jtok eid="8" type="local_variable_name" span="167:10:167:15">value</jtok>
+<jtok eid="8" type="method_call" span="167:18:167:29">getProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:30:167:33">key</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:10:168:27">StandardUtilities</jtok>
+<jtok eid="8" type="method_call" span="168:28:168:38">getBoolean</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:39:168:44">value</jtok>
+<jtok eid="1" type="line_comment" span="169:4:169:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="171:2:171:28">//{{{ setProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="172:2:176:5">/**
+	 * Sets a mode property.
+	 * @param key The property name
+	 * @param value The property value
+	 */</jtok>
+<jtok eid="9" type="method_name" span="177:14:177:25">setProperty</jtok>
+<jtok eid="9" type="parameter_type" span="177:26:177:32">String</jtok>
+<jtok eid="9" type="parameter_name" span="177:33:177:36">key</jtok>
+<jtok eid="9" type="parameter_type" span="177:38:177:44">Object</jtok>
+<jtok eid="9" type="parameter_name" span="177:45:177:50">value</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:3:179:8">props</jtok>
+<jtok eid="9" type="method_call" span="179:9:179:12">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:13:179:16">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:17:179:22">value</jtok>
+<jtok eid="1" type="line_comment" span="180:4:180:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="182:2:182:30">//{{{ unsetProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="183:2:187:5">/**
+	 * Unsets a mode property.
+	 * @param key The property name
+	 * @since jEdit 3.2pre3
+	 */</jtok>
+<jtok eid="10" type="method_name" span="188:14:188:27">unsetProperty</jtok>
+<jtok eid="10" type="parameter_type" span="188:28:188:34">String</jtok>
+<jtok eid="10" type="parameter_name" span="188:35:188:38">key</jtok>
+<jtok eid="10" type="primary_name_ref" span="190:3:190:8">props</jtok>
+<jtok eid="10" type="method_call" span="190:9:190:15">remove</jtok>
+<jtok eid="10" type="primary_name_ref" span="190:16:190:19">key</jtok>
+<jtok eid="1" type="line_comment" span="191:4:191:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="193:2:193:30">//{{{ setProperties() method</jtok>
+<jtok eid="1" type="block_comment" span="194:2:197:5">/**
+	 * Should only be called by &lt;code&gt;XModeHandler&lt;/code&gt;.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="11" type="method_name" span="198:14:198:27">setProperties</jtok>
+<jtok eid="11" type="parameter_type" span="198:28:198:31">Map</jtok>
+<jtok eid="11" type="parameter_name" span="198:32:198:37">props</jtok>
+<jtok eid="11" type="primary_name_ref" span="200:6:200:11">props</jtok>
+<jtok eid="11" type="primary_name_ref" span="201:4:201:9">props</jtok>
+<jtok eid="11" type="constructor_call" span="201:16:201:25">Hashtable</jtok>
+<jtok eid="11" type="constructor_call" span="201:26:201:32">String</jtok>
+<jtok eid="11" type="constructor_call" span="201:34:201:40">Object</jtok>
+<jtok eid="11" type="primary_name_ref" span="203:3:203:19">ignoreWhitespace</jtok>
+<jtok eid="11" type="string_literal" span="203:23:203:30">"false"</jtok>
+<jtok eid="11" type="method_call" span="203:31:203:47">equalsIgnoreCase</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="204:7:204:13">String</jtok>
+<jtok eid="11" type="primary_name_ref" span="204:14:204:19">props</jtok>
+<jtok eid="11" type="method_call" span="204:20:204:23">get</jtok>
+<jtok eid="11" type="string_literal" span="204:24:204:42">"ignoreWhitespace"</jtok>
+<jtok eid="11" type="line_comment" span="206:3:206:72">// need to carry over file name and first line globs because they are</jtok>
+<jtok eid="11" type="line_comment" span="207:3:207:72">// not given to us by the XMode handler, but instead are filled in by</jtok>
+<jtok eid="11" type="line_comment" span="208:3:208:25">// the catalog loader.</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="209:3:209:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="209:10:209:22">filenameGlob</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="209:26:209:32">String</jtok>
+<jtok eid="11" type="qualified_name_ref" span="209:38:209:43">props</jtok>
+<jtok eid="11" type="method_call" span="209:44:209:47">get</jtok>
+<jtok eid="11" type="string_literal" span="209:48:209:62">"filenameGlob"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="210:3:210:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="210:10:210:23">firstlineGlob</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="210:27:210:33">String</jtok>
+<jtok eid="11" type="qualified_name_ref" span="210:39:210:44">props</jtok>
+<jtok eid="11" type="method_call" span="210:45:210:48">get</jtok>
+<jtok eid="11" type="string_literal" span="210:49:210:64">"firstlineGlob"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="211:3:211:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="211:10:211:18">filename</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="211:22:211:28">String</jtok>
+<jtok eid="11" type="qualified_name_ref" span="211:34:211:39">props</jtok>
+<jtok eid="11" type="method_call" span="211:40:211:43">get</jtok>
+<jtok eid="11" type="string_literal" span="211:44:211:50">"file"</jtok>
+<jtok eid="11" type="qualified_name_ref" span="212:8:212:13">props</jtok>
+<jtok eid="11" type="primary_name_ref" span="212:16:212:21">props</jtok>
+<jtok eid="11" type="primary_name_ref" span="213:6:213:18">filenameGlob</jtok>
+<jtok eid="11" type="primary_name_ref" span="214:4:214:9">props</jtok>
+<jtok eid="11" type="method_call" span="214:10:214:13">put</jtok>
+<jtok eid="11" type="string_literal" span="214:14:214:28">"filenameGlob"</jtok>
+<jtok eid="11" type="primary_name_ref" span="214:29:214:41">filenameGlob</jtok>
+<jtok eid="11" type="primary_name_ref" span="215:6:215:19">firstlineGlob</jtok>
+<jtok eid="11" type="primary_name_ref" span="216:4:216:9">props</jtok>
+<jtok eid="11" type="method_call" span="216:10:216:13">put</jtok>
+<jtok eid="11" type="string_literal" span="216:14:216:29">"firstlineGlob"</jtok>
+<jtok eid="11" type="primary_name_ref" span="216:30:216:43">firstlineGlob</jtok>
+<jtok eid="11" type="primary_name_ref" span="217:6:217:14">filename</jtok>
+<jtok eid="11" type="primary_name_ref" span="218:4:218:9">props</jtok>
+<jtok eid="11" type="method_call" span="218:10:218:13">put</jtok>
+<jtok eid="11" type="string_literal" span="218:14:218:20">"file"</jtok>
+<jtok eid="11" type="primary_name_ref" span="218:21:218:29">filename</jtok>
+<jtok eid="1" type="line_comment" span="219:4:219:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="221:2:221:23">//{{{ accept() method</jtok>
+<jtok eid="1" type="block_comment" span="222:2:230:5">/**
+	 * Returns true if the edit mode is suitable for editing the specified
+	 * file. The buffer name and first line is checked against the
+	 * file name and first line globs, respectively.
+	 * @param fileName The buffer's name
+	 * @param firstLine The first line of the buffer
+	 *
+	 * @since jEdit 3.2pre3
+	 */</jtok>
+<jtok eid="12" type="method_name" span="231:17:231:23">accept</jtok>
+<jtok eid="12" type="parameter_type" span="231:24:231:30">String</jtok>
+<jtok eid="12" type="parameter_name" span="231:31:231:39">fileName</jtok>
+<jtok eid="12" type="parameter_type" span="231:41:231:47">String</jtok>
+<jtok eid="12" type="parameter_name" span="231:48:231:57">firstLine</jtok>
+<jtok eid="12" type="method_call" span="233:10:233:24">acceptFilename</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:25:233:33">fileName</jtok>
+<jtok eid="12" type="method_call" span="233:38:233:53">acceptFirstLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:54:233:63">firstLine</jtok>
+<jtok eid="1" type="line_comment" span="234:4:234:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="236:2:236:31">//{{{ acceptFilename() method</jtok>
+<jtok eid="1" type="block_comment" span="237:2:242:5">/**
+	 * Returns true if the buffer name matches the file name glob.
+	 * @param fileName The buffer's name
+	 * @return true if the file name matches the file name glob.
+	 * @since jEdit 4.3pre18
+	 */</jtok>
+<jtok eid="13" type="method_name" span="243:17:243:31">acceptFilename</jtok>
+<jtok eid="13" type="parameter_type" span="243:32:243:38">String</jtok>
+<jtok eid="13" type="parameter_name" span="243:39:243:47">fileName</jtok>
+<jtok eid="13" type="primary_name_ref" span="245:10:245:20">filenameRE</jtok>
+<jtok eid="13" type="primary_name_ref" span="245:32:245:42">filenameRE</jtok>
+<jtok eid="13" type="method_call" span="245:43:245:50">matcher</jtok>
+<jtok eid="13" type="primary_name_ref" span="245:51:245:59">fileName</jtok>
+<jtok eid="13" type="method_call" span="245:61:245:68">matches</jtok>
+<jtok eid="1" type="line_comment" span="246:4:246:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="248:2:248:32">//{{{ acceptFirstLine() method</jtok>
+<jtok eid="1" type="block_comment" span="249:2:254:5">/**
+	 * Returns true if the first line matches the first line glob.
+	 * @param firstLine The first line of the buffer
+	 * @return true if the first line matches the first line glob.
+	 * @since jEdit 4.3pre18
+	 */</jtok>
+<jtok eid="14" type="method_name" span="255:17:255:32">acceptFirstLine</jtok>
+<jtok eid="14" type="parameter_type" span="255:33:255:39">String</jtok>
+<jtok eid="14" type="parameter_name" span="255:40:255:49">firstLine</jtok>
+<jtok eid="14" type="primary_name_ref" span="257:10:257:21">firstlineRE</jtok>
+<jtok eid="14" type="primary_name_ref" span="257:33:257:44">firstlineRE</jtok>
+<jtok eid="14" type="method_call" span="257:45:257:52">matcher</jtok>
+<jtok eid="14" type="primary_name_ref" span="257:53:257:62">firstLine</jtok>
+<jtok eid="14" type="method_call" span="257:64:257:71">matches</jtok>
+<jtok eid="1" type="line_comment" span="258:4:258:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="260:2:260:24">//{{{ getName() method</jtok>
+<jtok eid="1" type="block_comment" span="261:2:263:5">/**
+	 * Returns the internal name of this edit mode.
+	 */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="264:9:264:15">String</jtok>
+<jtok eid="15" type="method_name" span="264:16:264:23">getName</jtok>
+<jtok eid="15" type="primary_name_ref" span="266:10:266:14">name</jtok>
+<jtok eid="1" type="line_comment" span="267:4:267:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="269:2:269:25">//{{{ toString() method</jtok>
+<jtok eid="1" type="block_comment" span="270:2:272:5">/**
+	 * Returns a string representation of this edit mode.
+	 */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="273:9:273:15">String</jtok>
+<jtok eid="16" type="method_name" span="273:16:273:24">toString</jtok>
+<jtok eid="16" type="primary_name_ref" span="275:10:275:14">name</jtok>
+<jtok eid="1" type="line_comment" span="276:4:276:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:36">//{{{ getIgnoreWhitespace() method</jtok>
+<jtok eid="17" type="method_name" span="279:17:279:36">getIgnoreWhitespace</jtok>
+<jtok eid="17" type="primary_name_ref" span="281:10:281:26">ignoreWhitespace</jtok>
+<jtok eid="1" type="line_comment" span="282:4:282:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="284:2:284:20">//{{{ Indent rules</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="286:22:286:26">List</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="286:27:286:37">IndentRule</jtok>
+<jtok eid="18" type="method_name" span="286:39:286:53">getIndentRules</jtok>
+<jtok eid="18" type="primary_name_ref" span="288:7:288:18">indentRules</jtok>
+<jtok eid="18" type="method_call" span="290:4:290:19">initIndentRules</jtok>
+<jtok eid="18" type="primary_name_ref" span="292:10:292:21">indentRules</jtok>
+<jtok eid="19" type="method_name" span="295:30:295:43">isElectricKey</jtok>
+<jtok eid="19" type="parameter_name" span="295:49:295:51">ch</jtok>
+<jtok eid="19" type="primary_name_ref" span="297:7:297:19">electricKeys</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="299:4:299:10">String</jtok>
+<jtok eid="19" type="local_variable_name" span="299:13:299:18">props</jtok>
+<jtok eid="19" type="string_literal" span="300:5:300:25">"indentOpenBrackets"</jtok>
+<jtok eid="19" type="string_literal" span="301:5:301:26">"indentCloseBrackets"</jtok>
+<jtok eid="19" type="string_literal" span="302:5:302:19">"electricKeys"</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="305:4:305:17">StringBuilder</jtok>
+<jtok eid="19" type="local_variable_name" span="305:18:305:21">buf</jtok>
+<jtok eid="19" type="constructor_call" span="305:28:305:41">StringBuilder</jtok>
+<jtok eid="19" type="local_variable_name" span="306:12:306:13">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="306:19:306:20">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="306:23:306:28">props</jtok>
+<jtok eid="19" type="qualified_name_ref" span="306:29:306:35">length</jtok>
+<jtok eid="19" type="primary_name_ref" span="306:37:306:38">i</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="308:5:308:11">String</jtok>
+<jtok eid="19" type="local_variable_name" span="308:12:308:16">prop</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="308:20:308:26">String</jtok>
+<jtok eid="19" type="method_call" span="308:28:308:39">getProperty</jtok>
+<jtok eid="19" type="primary_name_ref" span="308:40:308:45">props</jtok>
+<jtok eid="19" type="primary_name_ref" span="308:46:308:47">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="309:9:309:13">prop</jtok>
+<jtok eid="19" type="primary_name_ref" span="310:6:310:9">buf</jtok>
+<jtok eid="19" type="method_call" span="310:10:310:16">append</jtok>
+<jtok eid="19" type="primary_name_ref" span="310:17:310:21">prop</jtok>
+<jtok eid="19" type="primary_name_ref" span="313:4:313:16">electricKeys</jtok>
+<jtok eid="19" type="primary_name_ref" span="313:19:313:22">buf</jtok>
+<jtok eid="19" type="method_call" span="313:23:313:31">toString</jtok>
+<jtok eid="19" type="primary_name_ref" span="316:11:316:23">electricKeys</jtok>
+<jtok eid="19" type="method_call" span="316:24:316:31">indexOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="316:32:316:34">ch</jtok>
+<jtok eid="20" type="method_name" span="319:15:319:30">initIndentRules</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="321:3:321:7">List</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="321:8:321:18">IndentRule</jtok>
+<jtok eid="20" type="local_variable_name" span="321:20:321:25">rules</jtok>
+<jtok eid="20" type="constructor_call" span="321:32:321:42">LinkedList</jtok>
+<jtok eid="20" type="constructor_call" span="321:43:321:53">IndentRule</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="323:3:323:9">String</jtok>
+<jtok eid="20" type="local_variable_name" span="323:12:323:23">regexpProps</jtok>
+<jtok eid="20" type="string_literal" span="324:4:324:20">"indentNextLine"</jtok>
+<jtok eid="20" type="string_literal" span="325:4:325:21">"indentNextLines"</jtok>
+<jtok eid="20" type="local_variable_name" span="328:11:328:12">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="328:18:328:19">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="328:22:328:33">regexpProps</jtok>
+<jtok eid="20" type="qualified_name_ref" span="328:34:328:40">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="328:42:328:43">i</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="330:4:330:14">IndentRule</jtok>
+<jtok eid="20" type="local_variable_name" span="330:15:330:19">rule</jtok>
+<jtok eid="20" type="method_call" span="330:22:330:44">createRegexpIndentRule</jtok>
+<jtok eid="20" type="primary_name_ref" span="330:45:330:56">regexpProps</jtok>
+<jtok eid="20" type="primary_name_ref" span="330:57:330:58">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="331:7:331:11">rule</jtok>
+<jtok eid="20" type="primary_name_ref" span="332:5:332:10">rules</jtok>
+<jtok eid="20" type="method_call" span="332:11:332:14">add</jtok>
+<jtok eid="20" type="primary_name_ref" span="332:15:332:19">rule</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="335:3:335:9">String</jtok>
+<jtok eid="20" type="local_variable_name" span="335:12:335:24">bracketProps</jtok>
+<jtok eid="20" type="string_literal" span="336:4:336:23">"indentOpenBracket"</jtok>
+<jtok eid="20" type="string_literal" span="337:4:337:24">"indentCloseBracket"</jtok>
+<jtok eid="20" type="string_literal" span="338:4:338:26">"unalignedOpenBracket"</jtok>
+<jtok eid="20" type="string_literal" span="339:4:339:27">"unalignedCloseBracket"</jtok>
+<jtok eid="20" type="local_variable_name" span="342:11:342:12">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="342:18:342:19">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="342:22:342:34">bracketProps</jtok>
+<jtok eid="20" type="qualified_name_ref" span="342:35:342:41">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="342:43:342:44">i</jtok>
+<jtok eid="20" type="method_call" span="344:4:344:28">createBracketIndentRules</jtok>
+<jtok eid="20" type="primary_name_ref" span="344:29:344:41">bracketProps</jtok>
+<jtok eid="20" type="primary_name_ref" span="344:42:344:43">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="344:46:344:51">rules</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="347:3:347:9">String</jtok>
+<jtok eid="20" type="local_variable_name" span="347:12:347:22">finalProps</jtok>
+<jtok eid="20" type="string_literal" span="348:4:348:22">"unindentThisLine"</jtok>
+<jtok eid="20" type="string_literal" span="349:4:349:23">"unindentNextLines"</jtok>
+<jtok eid="20" type="local_variable_name" span="352:11:352:12">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="352:18:352:19">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="352:22:352:32">finalProps</jtok>
+<jtok eid="20" type="qualified_name_ref" span="352:33:352:39">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="352:41:352:42">i</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="354:4:354:14">IndentRule</jtok>
+<jtok eid="20" type="local_variable_name" span="354:15:354:19">rule</jtok>
+<jtok eid="20" type="method_call" span="354:22:354:44">createRegexpIndentRule</jtok>
+<jtok eid="20" type="primary_name_ref" span="354:45:354:55">finalProps</jtok>
+<jtok eid="20" type="primary_name_ref" span="354:56:354:57">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="355:7:355:11">rule</jtok>
+<jtok eid="20" type="primary_name_ref" span="356:5:356:10">rules</jtok>
+<jtok eid="20" type="method_call" span="356:11:356:14">add</jtok>
+<jtok eid="20" type="primary_name_ref" span="356:15:356:19">rule</jtok>
+<jtok eid="20" type="method_call" span="359:7:359:25">getBooleanProperty</jtok>
+<jtok eid="20" type="string_literal" span="359:26:359:38">"deepIndent"</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="361:4:361:10">String</jtok>
+<jtok eid="20" type="local_variable_name" span="361:11:361:32">unalignedOpenBrackets</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="361:36:361:42">String</jtok>
+<jtok eid="20" type="method_call" span="361:44:361:55">getProperty</jtok>
+<jtok eid="20" type="string_literal" span="361:56:361:79">"unalignedOpenBrackets"</jtok>
+<jtok eid="20" type="primary_name_ref" span="362:8:362:29">unalignedOpenBrackets</jtok>
+<jtok eid="20" type="local_variable_name" span="364:14:364:15">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="364:22:364:23">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="364:26:364:47">unalignedOpenBrackets</jtok>
+<jtok eid="20" type="method_call" span="364:48:364:54">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="364:57:364:58">i</jtok>
+<jtok eid="20" type="local_variable_name" span="366:11:366:19">openChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="366:22:366:43">unalignedOpenBrackets</jtok>
+<jtok eid="20" type="method_call" span="366:44:366:50">charAt</jtok>
+<jtok eid="20" type="primary_name_ref" span="366:51:366:52">i</jtok>
+<jtok eid="20" type="local_variable_name" span="367:11:367:20">closeChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="367:23:367:36">TextUtilities</jtok>
+<jtok eid="20" type="method_call" span="367:37:367:60">getComplementaryBracket</jtok>
+<jtok eid="20" type="primary_name_ref" span="367:61:367:69">openChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="368:10:368:19">closeChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="369:7:369:12">rules</jtok>
+<jtok eid="20" type="method_call" span="369:13:369:16">add</jtok>
+<jtok eid="20" type="constructor_call" span="369:21:369:35">DeepIndentRule</jtok>
+<jtok eid="20" type="primary_name_ref" span="369:36:369:44">openChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="369:46:369:55">closeChar</jtok>
+<jtok eid="20" type="method_call" span="374:8:374:27">getIgnoreWhitespace</jtok>
+<jtok eid="20" type="primary_name_ref" span="375:4:375:9">rules</jtok>
+<jtok eid="20" type="method_call" span="375:10:375:13">add</jtok>
+<jtok eid="20" type="constructor_call" span="375:18:375:32">WhitespaceRule</jtok>
+<jtok eid="20" type="primary_name_ref" span="377:3:377:14">indentRules</jtok>
+<jtok eid="20" type="primary_name_ref" span="377:17:377:28">Collections</jtok>
+<jtok eid="20" type="method_call" span="377:29:377:45">unmodifiableList</jtok>
+<jtok eid="20" type="primary_name_ref" span="377:46:377:51">rules</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="380:10:380:20">IndentRule</jtok>
+<jtok eid="21" type="method_name" span="380:21:380:43">createRegexpIndentRule</jtok>
+<jtok eid="21" type="parameter_type" span="380:44:380:50">String</jtok>
+<jtok eid="21" type="parameter_name" span="380:51:380:55">prop</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="382:3:382:9">String</jtok>
+<jtok eid="21" type="local_variable_name" span="382:10:382:15">value</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="382:19:382:25">String</jtok>
+<jtok eid="21" type="method_call" span="382:27:382:38">getProperty</jtok>
+<jtok eid="21" type="primary_name_ref" span="382:39:382:43">prop</jtok>
+<jtok eid="21" type="primary_name_ref" span="386:7:386:12">value</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="388:5:388:11">Method</jtok>
+<jtok eid="21" type="local_variable_name" span="388:12:388:13">m</jtok>
+<jtok eid="21" type="primary_name_ref" span="388:16:388:33">IndentRuleFactory</jtok>
+<jtok eid="21" type="method_call" span="388:40:388:49">getMethod</jtok>
+<jtok eid="21" type="primary_name_ref" span="389:6:389:10">prop</jtok>
+<jtok eid="21" type="constructor_call" span="389:15:389:20">Class</jtok>
+<jtok eid="21" type="primary_name_ref" span="389:25:389:31">String</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="390:13:390:23">IndentRule</jtok>
+<jtok eid="21" type="primary_name_ref" span="390:24:390:25">m</jtok>
+<jtok eid="21" type="method_call" span="390:26:390:32">invoke</jtok>
+<jtok eid="21" type="primary_name_ref" span="390:39:390:44">value</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="393:9:393:18">Exception</jtok>
+<jtok eid="21" type="local_variable_name" span="393:19:393:20">e</jtok>
+<jtok eid="21" type="primary_name_ref" span="395:4:395:7">Log</jtok>
+<jtok eid="21" type="method_call" span="395:8:395:11">log</jtok>
+<jtok eid="21" type="primary_name_ref" span="395:12:395:15">Log</jtok>
+<jtok eid="21" type="qualified_name_ref" span="395:16:395:21">ERROR</jtok>
+<jtok eid="21" type="string_literal" span="395:27:395:45">"Bad indent rule "</jtok>
+<jtok eid="21" type="primary_name_ref" span="395:48:395:52">prop</jtok>
+<jtok eid="21" type="primary_name_ref" span="396:13:396:18">value</jtok>
+<jtok eid="21" type="primary_name_ref" span="397:4:397:7">Log</jtok>
+<jtok eid="21" type="method_call" span="397:8:397:11">log</jtok>
+<jtok eid="21" type="primary_name_ref" span="397:12:397:15">Log</jtok>
+<jtok eid="21" type="qualified_name_ref" span="397:16:397:21">ERROR</jtok>
+<jtok eid="21" type="primary_name_ref" span="397:27:397:28">e</jtok>
+<jtok eid="22" type="method_name" span="403:15:403:39">createBracketIndentRules</jtok>
+<jtok eid="22" type="parameter_type" span="403:40:403:46">String</jtok>
+<jtok eid="22" type="parameter_name" span="403:47:403:51">prop</jtok>
+<jtok eid="22" type="parameter_type" span="404:7:404:11">List</jtok>
+<jtok eid="22" type="parameter_type" span="404:12:404:22">IndentRule</jtok>
+<jtok eid="22" type="parameter_name" span="404:24:404:29">rules</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="406:3:406:9">String</jtok>
+<jtok eid="22" type="local_variable_name" span="406:10:406:15">value</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="406:19:406:25">String</jtok>
+<jtok eid="22" type="method_call" span="406:27:406:38">getProperty</jtok>
+<jtok eid="22" type="primary_name_ref" span="406:39:406:43">prop</jtok>
+<jtok eid="22" type="primary_name_ref" span="410:7:410:12">value</jtok>
+<jtok eid="22" type="local_variable_name" span="412:13:412:14">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="412:20:412:21">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="412:24:412:29">value</jtok>
+<jtok eid="22" type="method_call" span="412:30:412:36">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="412:40:412:41">i</jtok>
+<jtok eid="22" type="local_variable_name" span="414:11:414:13">ch</jtok>
+<jtok eid="22" type="primary_name_ref" span="414:16:414:21">value</jtok>
+<jtok eid="22" type="method_call" span="414:22:414:28">charAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="414:29:414:30">i</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="416:6:416:12">Method</jtok>
+<jtok eid="22" type="local_variable_name" span="416:13:416:14">m</jtok>
+<jtok eid="22" type="primary_name_ref" span="416:17:416:34">IndentRuleFactory</jtok>
+<jtok eid="22" type="method_call" span="416:41:416:50">getMethod</jtok>
+<jtok eid="22" type="primary_name_ref" span="417:7:417:11">prop</jtok>
+<jtok eid="22" type="constructor_call" span="417:16:417:21">Class</jtok>
+<jtok eid="22" type="primary_name_ref" span="418:6:418:11">rules</jtok>
+<jtok eid="22" type="method_call" span="418:12:418:15">add</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="418:17:418:27">IndentRule</jtok>
+<jtok eid="22" type="primary_name_ref" span="418:29:418:30">m</jtok>
+<jtok eid="22" type="method_call" span="418:31:418:37">invoke</jtok>
+<jtok eid="22" type="primary_name_ref" span="418:44:418:46">ch</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="422:9:422:18">Exception</jtok>
+<jtok eid="22" type="local_variable_name" span="422:19:422:20">e</jtok>
+<jtok eid="22" type="primary_name_ref" span="424:4:424:7">Log</jtok>
+<jtok eid="22" type="method_call" span="424:8:424:11">log</jtok>
+<jtok eid="22" type="primary_name_ref" span="424:12:424:15">Log</jtok>
+<jtok eid="22" type="qualified_name_ref" span="424:16:424:21">ERROR</jtok>
+<jtok eid="22" type="string_literal" span="424:27:424:45">"Bad indent rule "</jtok>
+<jtok eid="22" type="primary_name_ref" span="424:48:424:52">prop</jtok>
+<jtok eid="22" type="primary_name_ref" span="425:13:425:18">value</jtok>
+<jtok eid="22" type="primary_name_ref" span="426:4:426:7">Log</jtok>
+<jtok eid="22" type="method_call" span="426:8:426:11">log</jtok>
+<jtok eid="22" type="primary_name_ref" span="426:12:426:15">Log</jtok>
+<jtok eid="22" type="qualified_name_ref" span="426:16:426:21">ERROR</jtok>
+<jtok eid="22" type="primary_name_ref" span="426:27:426:28">e</jtok>
+<jtok eid="1" type="line_comment" span="430:2:430:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="432:2:432:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="433:12:433:18">String</jtok>
+<jtok eid="1" type="field_name" span="433:19:433:23">name</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="434:12:434:15">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="434:16:434:22">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="434:24:434:30">Object</jtok>
+<jtok eid="1" type="field_name" span="434:32:434:37">props</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="435:10:435:17">Pattern</jtok>
+<jtok eid="1" type="field_name" span="435:18:435:29">firstlineRE</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="436:10:436:17">Pattern</jtok>
+<jtok eid="1" type="field_name" span="436:18:436:28">filenameRE</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="437:12:437:23">TokenMarker</jtok>
+<jtok eid="1" type="field_name" span="437:24:437:30">marker</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="438:10:438:14">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="438:15:438:25">IndentRule</jtok>
+<jtok eid="1" type="field_name" span="438:27:438:38">indentRules</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="439:10:439:16">String</jtok>
+<jtok eid="1" type="field_name" span="439:17:439:29">electricKeys</jtok>
+<jtok eid="1" type="field_name" span="440:18:440:34">ignoreWhitespace</jtok>
+<jtok eid="1" type="line_comment" span="441:2:441:7">//}}}</jtok>
+</jdoc>

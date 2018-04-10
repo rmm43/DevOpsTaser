@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.OpenDocumentSpreadsheetCreator" jls="java5">
+<jent id="0" type="file" span="0:0:147:1">Source/jabref/src/java/net/sf/jabref/export/OpenDocumentSpreadsheetCreator.java</jent>
+<jent id="1" pid="0" type="class" span="30:1:147:1">net.sf.jabref.export.OpenDocumentSpreadsheetCreator</jent>
+<jent id="2" pid="1" type="method" span="35:5:37:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.OpenDocumentSpreadsheetCreator()</jent>
+<jent id="3" pid="1" type="method" span="39:5:42:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.performExport(BibtexDatabase,MetaData,String,String,Set&lt;String&gt;)</jent>
+<jent id="4" pid="1" type="method" span="44:5:83:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.storeOpenDocumentSpreadsheetFile(File,InputStream)</jent>
+<jent id="5" pid="1" type="method" span="85:5:97:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.exportOpenDocumentSpreadsheet(File,BibtexDatabase,Set&lt;String&gt;)</jent>
+<jent id="6" pid="1" type="method" span="99:5:120:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.exportOpenDocumentSpreadsheetXML(File,BibtexDatabase,Set&lt;String&gt;)</jent>
+<jent id="7" pid="1" type="method" span="122:5:127:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.addResourceFile(String,String,ZipOutputStream)</jent>
+<jent id="8" pid="1" type="method" span="129:5:146:5">net.sf.jabref.export.OpenDocumentSpreadsheetCreator.addFromResource(String,OutputStream)</jent>
+<jtok eid="0" type="block_comment" span="1:1:5:4">/*
+ * OpenOfficeDocumentCreator.java
+ *
+ * Created on February 16, 2005, 8:04 PM
+ */</jtok>
+<jtok eid="0" type="block_comment" span="27:1:29:4">/**
+ * @author alver
+ */</jtok>
+<jtok eid="1" type="class_name" span="30:14:30:44">OpenDocumentSpreadsheetCreator</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="30:53:30:65">ExportFormat</jtok>
+<jtok eid="1" type="block_comment" span="32:5:34:8">/**
+     * Creates a new instance of OpenOfficeDocumentCreator
+     */</jtok>
+<jtok eid="2" type="method_name" span="35:12:35:42">OpenDocumentSpreadsheetCreator</jtok>
+<jtok eid="2" type="primary_name_ref" span="36:15:36:22">Globals</jtok>
+<jtok eid="2" type="method_call" span="36:23:36:27">lang</jtok>
+<jtok eid="2" type="string_literal" span="36:28:36:54">"OpenDocument Spreadsheet"</jtok>
+<jtok eid="2" type="string_literal" span="36:57:36:62">"ods"</jtok>
+<jtok eid="2" type="string_literal" span="36:76:36:82">".ods"</jtok>
+<jtok eid="3" type="method_name" span="39:17:39:30">performExport</jtok>
+<jtok eid="3" type="parameter_type" span="39:37:39:51">BibtexDatabase</jtok>
+<jtok eid="3" type="parameter_name" span="39:52:39:60">database</jtok>
+<jtok eid="3" type="parameter_type" span="39:68:39:76">MetaData</jtok>
+<jtok eid="3" type="parameter_name" span="39:77:39:85">metaData</jtok>
+<jtok eid="3" type="parameter_type" span="40:37:40:43">String</jtok>
+<jtok eid="3" type="parameter_name" span="40:44:40:48">file</jtok>
+<jtok eid="3" type="parameter_type" span="40:56:40:62">String</jtok>
+<jtok eid="3" type="parameter_name" span="40:63:40:71">encoding</jtok>
+<jtok eid="3" type="parameter_type" span="40:73:40:76">Set</jtok>
+<jtok eid="3" type="parameter_type" span="40:77:40:83">String</jtok>
+<jtok eid="3" type="parameter_name" span="40:85:40:91">keySet</jtok>
+<jtok eid="3" type="throws" span="40:100:40:109">Exception</jtok>
+<jtok eid="3" type="method_call" span="41:9:41:38">exportOpenDocumentSpreadsheet</jtok>
+<jtok eid="3" type="constructor_call" span="41:43:41:47">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:48:41:52">file</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:55:41:63">database</jtok>
+<jtok eid="3" type="primary_name_ref" span="41:65:41:71">keySet</jtok>
+<jtok eid="4" type="method_name" span="44:24:44:56">storeOpenDocumentSpreadsheetFile</jtok>
+<jtok eid="4" type="parameter_type" span="44:57:44:61">File</jtok>
+<jtok eid="4" type="parameter_name" span="44:62:44:66">file</jtok>
+<jtok eid="4" type="parameter_type" span="44:68:44:79">InputStream</jtok>
+<jtok eid="4" type="parameter_name" span="44:80:44:86">source</jtok>
+<jtok eid="4" type="throws" span="44:95:44:104">Exception</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="45:9:45:24">ZipOutputStream</jtok>
+<jtok eid="4" type="local_variable_name" span="45:25:45:28">out</jtok>
+<jtok eid="4" type="constructor_call" span="45:35:45:50">ZipOutputStream</jtok>
+<jtok eid="4" type="constructor_call" span="45:55:45:75">BufferedOutputStream</jtok>
+<jtok eid="4" type="constructor_call" span="45:80:45:96">FileOutputStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="45:97:45:101">file</jtok>
+<jtok eid="4" type="line_comment" span="49:13:49:74">//addResourceFile("mimetype", "/resource/ods/mimetype", out);</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="50:13:50:21">ZipEntry</jtok>
+<jtok eid="4" type="local_variable_name" span="50:22:50:24">ze</jtok>
+<jtok eid="4" type="constructor_call" span="50:31:50:39">ZipEntry</jtok>
+<jtok eid="4" type="string_literal" span="50:40:50:50">"mimetype"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="51:13:51:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="51:20:51:24">mime</jtok>
+<jtok eid="4" type="string_literal" span="51:27:51:75">"application/vnd.oasis.opendocument.spreadsheet"</jtok>
+<jtok eid="4" type="primary_name_ref" span="52:13:52:15">ze</jtok>
+<jtok eid="4" type="method_call" span="52:16:52:25">setMethod</jtok>
+<jtok eid="4" type="primary_name_ref" span="52:26:52:34">ZipEntry</jtok>
+<jtok eid="4" type="qualified_name_ref" span="52:35:52:41">STORED</jtok>
+<jtok eid="4" type="primary_name_ref" span="53:13:53:15">ze</jtok>
+<jtok eid="4" type="method_call" span="53:16:53:23">setSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="53:24:53:28">mime</jtok>
+<jtok eid="4" type="method_call" span="53:29:53:35">length</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="54:13:54:18">CRC32</jtok>
+<jtok eid="4" type="local_variable_name" span="54:19:54:22">crc</jtok>
+<jtok eid="4" type="constructor_call" span="54:29:54:34">CRC32</jtok>
+<jtok eid="4" type="primary_name_ref" span="55:13:55:16">crc</jtok>
+<jtok eid="4" type="method_call" span="55:17:55:23">update</jtok>
+<jtok eid="4" type="primary_name_ref" span="55:24:55:28">mime</jtok>
+<jtok eid="4" type="method_call" span="55:29:55:37">getBytes</jtok>
+<jtok eid="4" type="primary_name_ref" span="56:13:56:15">ze</jtok>
+<jtok eid="4" type="method_call" span="56:16:56:22">setCrc</jtok>
+<jtok eid="4" type="primary_name_ref" span="56:23:56:26">crc</jtok>
+<jtok eid="4" type="method_call" span="56:27:56:35">getValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="57:13:57:16">out</jtok>
+<jtok eid="4" type="method_call" span="57:17:57:29">putNextEntry</jtok>
+<jtok eid="4" type="primary_name_ref" span="57:30:57:32">ze</jtok>
+<jtok eid="4" type="local_variable_name" span="58:22:58:23">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:27:58:28">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:29:58:33">mime</jtok>
+<jtok eid="4" type="method_call" span="58:34:58:40">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:44:58:45">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="59:17:59:20">out</jtok>
+<jtok eid="4" type="method_call" span="59:21:59:26">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="59:27:59:31">mime</jtok>
+<jtok eid="4" type="method_call" span="59:32:59:38">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="59:39:59:40">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:13:61:16">out</jtok>
+<jtok eid="4" type="method_call" span="61:17:61:27">closeEntry</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="63:13:63:21">ZipEntry</jtok>
+<jtok eid="4" type="local_variable_name" span="63:22:63:30">zipEntry</jtok>
+<jtok eid="4" type="constructor_call" span="63:37:63:45">ZipEntry</jtok>
+<jtok eid="4" type="string_literal" span="63:46:63:59">"content.xml"</jtok>
+<jtok eid="4" type="line_comment" span="64:13:64:53">//zipEntry.setMethod(ZipEntry.DEFLATED);</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:13:65:16">out</jtok>
+<jtok eid="4" type="method_call" span="65:17:65:29">putNextEntry</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:30:65:38">zipEntry</jtok>
+<jtok eid="4" type="local_variable_name" span="66:17:66:18">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:21:67:22">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:25:67:31">source</jtok>
+<jtok eid="4" type="method_call" span="67:32:67:36">read</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:17:68:20">out</jtok>
+<jtok eid="4" type="method_call" span="68:21:68:26">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:27:68:28">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:13:70:16">out</jtok>
+<jtok eid="4" type="method_call" span="70:17:70:27">closeEntry</jtok>
+<jtok eid="4" type="line_comment" span="72:13:72:84">// Add manifest (required for OOo 2.0) and "meta.xml": These are in the</jtok>
+<jtok eid="4" type="line_comment" span="73:13:73:82">// resource/ods directory, and are copied verbatim into the zip file.</jtok>
+<jtok eid="4" type="method_call" span="74:13:74:28">addResourceFile</jtok>
+<jtok eid="4" type="string_literal" span="74:29:74:39">"meta.xml"</jtok>
+<jtok eid="4" type="string_literal" span="74:41:74:65">"/resource/ods/meta.xml"</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:67:74:70">out</jtok>
+<jtok eid="4" type="method_call" span="76:13:76:28">addResourceFile</jtok>
+<jtok eid="4" type="string_literal" span="76:29:76:52">"META-INF/manifest.xml"</jtok>
+<jtok eid="4" type="string_literal" span="76:54:76:82">"/resource/ods/manifest.xml"</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:84:76:87">out</jtok>
+<jtok eid="4" type="line_comment" span="78:13:78:40">//zipEntry = new ZipEntry()</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:13:81:16">out</jtok>
+<jtok eid="4" type="method_call" span="81:17:81:22">close</jtok>
+<jtok eid="5" type="method_name" span="85:24:85:53">exportOpenDocumentSpreadsheet</jtok>
+<jtok eid="5" type="parameter_type" span="85:54:85:58">File</jtok>
+<jtok eid="5" type="parameter_name" span="85:59:85:63">file</jtok>
+<jtok eid="5" type="parameter_type" span="85:65:85:79">BibtexDatabase</jtok>
+<jtok eid="5" type="parameter_name" span="85:80:85:88">database</jtok>
+<jtok eid="5" type="parameter_type" span="85:90:85:93">Set</jtok>
+<jtok eid="5" type="parameter_type" span="85:94:85:100">String</jtok>
+<jtok eid="5" type="parameter_name" span="85:102:85:108">keySet</jtok>
+<jtok eid="5" type="throws" span="85:117:85:126">Exception</jtok>
+<jtok eid="5" type="line_comment" span="87:9:87:70">// First store the xml formatted content to a temporary file.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="88:9:88:13">File</jtok>
+<jtok eid="5" type="local_variable_name" span="88:14:88:21">tmpFile</jtok>
+<jtok eid="5" type="primary_name_ref" span="88:24:88:28">File</jtok>
+<jtok eid="5" type="method_call" span="88:29:88:43">createTempFile</jtok>
+<jtok eid="5" type="string_literal" span="88:44:88:58">"opendocument"</jtok>
+<jtok eid="5" type="method_call" span="89:9:89:41">exportOpenDocumentSpreadsheetXML</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:42:89:49">tmpFile</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:51:89:59">database</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:61:89:67">keySet</jtok>
+<jtok eid="5" type="line_comment" span="91:9:91:49">// Then add the content to the zip file:</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="92:9:92:28">BufferedInputStream</jtok>
+<jtok eid="5" type="local_variable_name" span="92:29:92:31">in</jtok>
+<jtok eid="5" type="constructor_call" span="92:38:92:57">BufferedInputStream</jtok>
+<jtok eid="5" type="constructor_call" span="92:62:92:77">FileInputStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="92:78:92:85">tmpFile</jtok>
+<jtok eid="5" type="method_call" span="93:9:93:41">storeOpenDocumentSpreadsheetFile</jtok>
+<jtok eid="5" type="primary_name_ref" span="93:42:93:46">file</jtok>
+<jtok eid="5" type="primary_name_ref" span="93:48:93:50">in</jtok>
+<jtok eid="5" type="line_comment" span="95:9:95:38">// Delete the temporary file:</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:9:96:16">tmpFile</jtok>
+<jtok eid="5" type="method_call" span="96:17:96:23">delete</jtok>
+<jtok eid="6" type="method_name" span="99:24:99:56">exportOpenDocumentSpreadsheetXML</jtok>
+<jtok eid="6" type="parameter_type" span="99:57:99:61">File</jtok>
+<jtok eid="6" type="parameter_name" span="99:62:99:69">tmpFile</jtok>
+<jtok eid="6" type="parameter_type" span="99:71:99:85">BibtexDatabase</jtok>
+<jtok eid="6" type="parameter_name" span="99:86:99:94">database</jtok>
+<jtok eid="6" type="parameter_type" span="99:96:99:99">Set</jtok>
+<jtok eid="6" type="parameter_type" span="99:100:99:106">String</jtok>
+<jtok eid="6" type="parameter_name" span="99:108:99:114">keySet</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="100:9:100:35">OpenDocumentRepresentation</jtok>
+<jtok eid="6" type="local_variable_name" span="100:36:100:38">od</jtok>
+<jtok eid="6" type="constructor_call" span="100:45:100:71">OpenDocumentRepresentation</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:72:100:80">database</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:82:100:88">keySet</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="103:13:103:19">Writer</jtok>
+<jtok eid="6" type="local_variable_name" span="103:20:103:22">ps</jtok>
+<jtok eid="6" type="constructor_call" span="103:29:103:47">OutputStreamWriter</jtok>
+<jtok eid="6" type="constructor_call" span="103:52:103:68">FileOutputStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:69:103:76">tmpFile</jtok>
+<jtok eid="6" type="string_literal" span="103:79:103:85">"UTF8"</jtok>
+<jtok eid="6" type="line_comment" span="106:17:106:67">//            Writer ps = new FileWriter(tmpFile);</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="107:17:107:26">DOMSource</jtok>
+<jtok eid="6" type="local_variable_name" span="107:27:107:33">source</jtok>
+<jtok eid="6" type="constructor_call" span="107:40:107:49">DOMSource</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:50:107:52">od</jtok>
+<jtok eid="6" type="method_call" span="107:53:107:73">getDOMrepresentation</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="108:17:108:29">StreamResult</jtok>
+<jtok eid="6" type="local_variable_name" span="108:30:108:36">result</jtok>
+<jtok eid="6" type="constructor_call" span="108:43:108:55">StreamResult</jtok>
+<jtok eid="6" type="primary_name_ref" span="108:56:108:58">ps</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="109:17:109:28">Transformer</jtok>
+<jtok eid="6" type="local_variable_name" span="109:29:109:34">trans</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:37:109:55">TransformerFactory</jtok>
+<jtok eid="6" type="method_call" span="109:56:109:67">newInstance</jtok>
+<jtok eid="6" type="method_call" span="109:70:109:84">newTransformer</jtok>
+<jtok eid="6" type="primary_name_ref" span="110:17:110:22">trans</jtok>
+<jtok eid="6" type="method_call" span="110:23:110:40">setOutputProperty</jtok>
+<jtok eid="6" type="primary_name_ref" span="110:41:110:51">OutputKeys</jtok>
+<jtok eid="6" type="qualified_name_ref" span="110:52:110:58">INDENT</jtok>
+<jtok eid="6" type="string_literal" span="110:60:110:65">"yes"</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:17:111:22">trans</jtok>
+<jtok eid="6" type="method_call" span="111:23:111:32">transform</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:33:111:39">source</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:41:111:47">result</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:17:113:19">ps</jtok>
+<jtok eid="6" type="method_call" span="113:20:113:25">close</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="115:18:115:27">Exception</jtok>
+<jtok eid="6" type="local_variable_name" span="115:28:115:29">e</jtok>
+<jtok eid="6" type="constructor_call" span="116:23:116:28">Error</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:29:116:30">e</jtok>
+<jtok eid="7" type="method_name" span="122:25:122:40">addResourceFile</jtok>
+<jtok eid="7" type="parameter_type" span="122:41:122:47">String</jtok>
+<jtok eid="7" type="parameter_name" span="122:48:122:52">name</jtok>
+<jtok eid="7" type="parameter_type" span="122:54:122:60">String</jtok>
+<jtok eid="7" type="parameter_name" span="122:61:122:69">resource</jtok>
+<jtok eid="7" type="parameter_type" span="122:71:122:86">ZipOutputStream</jtok>
+<jtok eid="7" type="parameter_name" span="122:87:122:90">out</jtok>
+<jtok eid="7" type="throws" span="122:99:122:110">IOException</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="123:9:123:17">ZipEntry</jtok>
+<jtok eid="7" type="local_variable_name" span="123:18:123:26">zipEntry</jtok>
+<jtok eid="7" type="constructor_call" span="123:33:123:41">ZipEntry</jtok>
+<jtok eid="7" type="primary_name_ref" span="123:42:123:46">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="124:9:124:12">out</jtok>
+<jtok eid="7" type="method_call" span="124:13:124:25">putNextEntry</jtok>
+<jtok eid="7" type="primary_name_ref" span="124:26:124:34">zipEntry</jtok>
+<jtok eid="7" type="method_call" span="125:9:125:24">addFromResource</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:25:125:33">resource</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:35:125:38">out</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:9:126:12">out</jtok>
+<jtok eid="7" type="method_call" span="126:13:126:23">closeEntry</jtok>
+<jtok eid="8" type="method_name" span="129:25:129:40">addFromResource</jtok>
+<jtok eid="8" type="parameter_type" span="129:41:129:47">String</jtok>
+<jtok eid="8" type="parameter_name" span="129:48:129:56">resource</jtok>
+<jtok eid="8" type="parameter_type" span="129:58:129:70">OutputStream</jtok>
+<jtok eid="8" type="parameter_name" span="129:71:129:74">out</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="130:9:130:12">URL</jtok>
+<jtok eid="8" type="local_variable_name" span="130:13:130:16">url</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:19:130:49">OpenDocumentSpreadsheetCreator</jtok>
+<jtok eid="8" type="method_call" span="130:56:130:67">getResource</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:68:130:76">resource</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="132:13:132:24">InputStream</jtok>
+<jtok eid="8" type="local_variable_name" span="132:25:132:27">in</jtok>
+<jtok eid="8" type="primary_name_ref" span="132:30:132:33">url</jtok>
+<jtok eid="8" type="method_call" span="132:34:132:44">openStream</jtok>
+<jtok eid="8" type="local_variable_name" span="133:20:133:26">buffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="134:27:134:29">in</jtok>
+<jtok eid="8" type="primary_name_ref" span="135:31:135:34">out</jtok>
+<jtok eid="8" type="local_variable_name" span="137:29:137:38">bytesRead</jtok>
+<jtok eid="8" type="primary_name_ref" span="137:41:137:43">in</jtok>
+<jtok eid="8" type="method_call" span="137:44:137:48">read</jtok>
+<jtok eid="8" type="primary_name_ref" span="137:49:137:55">buffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:29:138:38">bytesRead</jtok>
+<jtok eid="8" type="primary_name_ref" span="139:25:139:28">out</jtok>
+<jtok eid="8" type="method_call" span="139:29:139:34">write</jtok>
+<jtok eid="8" type="primary_name_ref" span="139:35:139:41">buffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="139:46:139:55">bytesRead</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="143:18:143:29">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="143:30:143:31">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="144:13:144:14">e</jtok>
+<jtok eid="8" type="method_call" span="144:15:144:30">printStackTrace</jtok>
+</jdoc>

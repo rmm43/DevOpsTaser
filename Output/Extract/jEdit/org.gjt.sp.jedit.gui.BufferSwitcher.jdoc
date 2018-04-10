@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.BufferSwitcher" jls="java5">
+<jent id="0" type="file" span="0:0:114:2">Source/jEdit/org/gjt/sp/jedit/gui/BufferSwitcher.java</jent>
+<jent id="1" pid="0" type="class" span="33:1:114:1">org.gjt.sp.jedit.gui.BufferSwitcher</jent>
+<jent id="2" pid="1" type="method" span="39:2:63:2">org.gjt.sp.jedit.gui.BufferSwitcher.BufferSwitcher(EditPane)</jent>
+<jent id="3" pid="2" type="class" span="48:3:62:3">org.gjt.sp.jedit.gui.BufferSwitcher.BufferSwitcher(EditPane).$1</jent>
+<jent id="4" pid="3" type="method" span="49:4:50:24">org.gjt.sp.jedit.gui.BufferSwitcher.BufferSwitcher(EditPane).$1.popupMenuWillBecomeVisible(PopupMenuEvent)</jent>
+<jent id="5" pid="3" type="method" span="52:4:56:4">org.gjt.sp.jedit.gui.BufferSwitcher.BufferSwitcher(EditPane).$1.popupMenuWillBecomeInvisible(PopupMenuEvent)</jent>
+<jent id="6" pid="3" type="method" span="58:4:61:4">org.gjt.sp.jedit.gui.BufferSwitcher.BufferSwitcher(EditPane).$1.popupMenuCanceled(PopupMenuEvent)</jent>
+<jent id="7" pid="1" type="method" span="65:2:79:2">org.gjt.sp.jedit.gui.BufferSwitcher.updateBufferList()</jent>
+<jent id="8" pid="1" type="class" span="81:2:92:2">org.gjt.sp.jedit.gui.BufferSwitcher.ActionHandler</jent>
+<jent id="9" pid="8" type="method" span="83:3:91:3">org.gjt.sp.jedit.gui.BufferSwitcher.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="10" pid="1" type="class" span="94:2:113:2">org.gjt.sp.jedit.gui.BufferSwitcher.BufferCellRenderer</jent>
+<jent id="11" pid="10" type="method" span="96:3:112:3">org.gjt.sp.jedit.gui.BufferSwitcher.BufferCellRenderer.getListCellRendererComponent(JList,Object,int,boolean,boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:18:4">/*
+ * BufferSwitcher.java - Status bar
+ * Copyright (C) 2000, 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="30:1:32:3">/** BufferSwitcher class
+   @version $Id: BufferSwitcher.java 16348 2009-10-14 10:40:15Z kpouer $
+*/</jtok>
+<jtok eid="1" type="class_name" span="33:14:33:28">BufferSwitcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:37:33:46">JComboBox</jtok>
+<jtok eid="1" type="line_comment" span="35:5:35:23">// private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:10:36:18">EditPane</jtok>
+<jtok eid="1" type="field_name" span="36:19:36:27">editPane</jtok>
+<jtok eid="1" type="field_name" span="37:18:37:26">updating</jtok>
+<jtok eid="2" type="method_name" span="39:9:39:23">BufferSwitcher</jtok>
+<jtok eid="2" type="parameter_type" span="39:30:39:38">EditPane</jtok>
+<jtok eid="2" type="parameter_name" span="39:39:39:47">editPane</jtok>
+<jtok eid="2" type="qualified_name_ref" span="41:8:41:16">editPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:19:41:27">editPane</jtok>
+<jtok eid="2" type="line_comment" span="43:3:43:46">//setFont(new Font("Dialog",Font.BOLD,10));</jtok>
+<jtok eid="2" type="method_call" span="44:3:44:14">setRenderer</jtok>
+<jtok eid="2" type="constructor_call" span="44:19:44:37">BufferCellRenderer</jtok>
+<jtok eid="2" type="method_call" span="45:3:45:21">setMaximumRowCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:22:45:27">jEdit</jtok>
+<jtok eid="2" type="method_call" span="45:28:45:46">getIntegerProperty</jtok>
+<jtok eid="2" type="string_literal" span="45:47:45:75">"bufferSwitcher.maxRowCount"</jtok>
+<jtok eid="2" type="method_call" span="46:3:46:20">addActionListener</jtok>
+<jtok eid="2" type="constructor_call" span="46:25:46:38">ActionHandler</jtok>
+<jtok eid="2" type="method_call" span="47:3:47:23">addPopupMenuListener</jtok>
+<jtok eid="2" type="constructor_call" span="47:28:47:45">PopupMenuListener</jtok>
+<jtok eid="4" type="method_name" span="49:16:49:42">popupMenuWillBecomeVisible</jtok>
+<jtok eid="4" type="parameter_type" span="50:5:50:19">PopupMenuEvent</jtok>
+<jtok eid="4" type="parameter_name" span="50:20:50:21">e</jtok>
+<jtok eid="5" type="method_name" span="52:16:52:44">popupMenuWillBecomeInvisible</jtok>
+<jtok eid="5" type="parameter_type" span="53:5:53:19">PopupMenuEvent</jtok>
+<jtok eid="5" type="parameter_name" span="53:20:53:21">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="55:5:55:13">editPane</jtok>
+<jtok eid="5" type="method_call" span="55:14:55:25">getTextArea</jtok>
+<jtok eid="5" type="method_call" span="55:28:55:40">requestFocus</jtok>
+<jtok eid="6" type="method_name" span="58:16:58:33">popupMenuCanceled</jtok>
+<jtok eid="6" type="parameter_type" span="58:34:58:48">PopupMenuEvent</jtok>
+<jtok eid="6" type="parameter_name" span="58:49:58:50">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="60:5:60:13">editPane</jtok>
+<jtok eid="6" type="method_call" span="60:14:60:25">getTextArea</jtok>
+<jtok eid="6" type="method_call" span="60:28:60:40">requestFocus</jtok>
+<jtok eid="7" type="method_name" span="65:14:65:30">updateBufferList</jtok>
+<jtok eid="7" type="line_comment" span="67:3:67:61">// if the buffer count becomes 0, then it is guaranteed to</jtok>
+<jtok eid="7" type="line_comment" span="68:3:68:60">// become 1 very soon, so don't do anything in that case.</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="69:3:69:12">BufferSet</jtok>
+<jtok eid="7" type="local_variable_name" span="69:13:69:22">bufferSet</jtok>
+<jtok eid="7" type="primary_name_ref" span="69:25:69:33">editPane</jtok>
+<jtok eid="7" type="method_call" span="69:34:69:46">getBufferSet</jtok>
+<jtok eid="7" type="primary_name_ref" span="70:6:70:15">bufferSet</jtok>
+<jtok eid="7" type="method_call" span="70:16:70:20">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="73:3:73:11">updating</jtok>
+<jtok eid="7" type="method_call" span="74:3:74:21">setMaximumRowCount</jtok>
+<jtok eid="7" type="primary_name_ref" span="74:22:74:27">jEdit</jtok>
+<jtok eid="7" type="method_call" span="74:28:74:46">getIntegerProperty</jtok>
+<jtok eid="7" type="string_literal" span="74:47:74:75">"bufferSwitcher.maxRowCount"</jtok>
+<jtok eid="7" type="method_call" span="75:3:75:11">setModel</jtok>
+<jtok eid="7" type="constructor_call" span="75:16:75:36">DefaultComboBoxModel</jtok>
+<jtok eid="7" type="primary_name_ref" span="75:37:75:46">bufferSet</jtok>
+<jtok eid="7" type="method_call" span="75:47:75:60">getAllBuffers</jtok>
+<jtok eid="7" type="method_call" span="76:3:76:18">setSelectedItem</jtok>
+<jtok eid="7" type="primary_name_ref" span="76:19:76:27">editPane</jtok>
+<jtok eid="7" type="method_call" span="76:28:76:37">getBuffer</jtok>
+<jtok eid="7" type="method_call" span="77:3:77:17">setToolTipText</jtok>
+<jtok eid="7" type="primary_name_ref" span="77:18:77:26">editPane</jtok>
+<jtok eid="7" type="method_call" span="77:27:77:36">getBuffer</jtok>
+<jtok eid="7" type="method_call" span="77:39:77:46">getPath</jtok>
+<jtok eid="7" type="primary_name_ref" span="78:3:78:11">updating</jtok>
+<jtok eid="8" type="class_name" span="81:8:81:21">ActionHandler</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="81:33:81:47">ActionListener</jtok>
+<jtok eid="9" type="method_name" span="83:15:83:30">actionPerformed</jtok>
+<jtok eid="9" type="parameter_type" span="83:31:83:42">ActionEvent</jtok>
+<jtok eid="9" type="parameter_name" span="83:43:83:46">evt</jtok>
+<jtok eid="9" type="primary_name_ref" span="85:8:85:16">updating</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="87:5:87:11">Buffer</jtok>
+<jtok eid="9" type="local_variable_name" span="87:12:87:18">buffer</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="87:22:87:28">Buffer</jtok>
+<jtok eid="9" type="method_call" span="87:29:87:44">getSelectedItem</jtok>
+<jtok eid="9" type="primary_name_ref" span="88:8:88:14">buffer</jtok>
+<jtok eid="9" type="primary_name_ref" span="89:6:89:14">editPane</jtok>
+<jtok eid="9" type="method_call" span="89:15:89:24">setBuffer</jtok>
+<jtok eid="9" type="primary_name_ref" span="89:25:89:31">buffer</jtok>
+<jtok eid="10" type="class_name" span="94:8:94:26">BufferCellRenderer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="94:35:94:58">DefaultListCellRenderer</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="96:10:96:19">Component</jtok>
+<jtok eid="11" type="method_name" span="96:20:96:48">getListCellRendererComponent</jtok>
+<jtok eid="11" type="parameter_type" span="97:4:97:9">JList</jtok>
+<jtok eid="11" type="parameter_name" span="97:10:97:14">list</jtok>
+<jtok eid="11" type="parameter_type" span="97:16:97:22">Object</jtok>
+<jtok eid="11" type="parameter_name" span="97:23:97:28">value</jtok>
+<jtok eid="11" type="parameter_name" span="97:34:97:39">index</jtok>
+<jtok eid="11" type="parameter_name" span="98:12:98:22">isSelected</jtok>
+<jtok eid="11" type="parameter_name" span="98:32:98:44">cellHasFocus</jtok>
+<jtok eid="11" type="method_call" span="100:10:100:38">getListCellRendererComponent</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:39:100:43">list</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:44:100:49">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:50:100:55">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="101:5:101:15">isSelected</jtok>
+<jtok eid="11" type="primary_name_ref" span="101:16:101:28">cellHasFocus</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="102:4:102:10">Buffer</jtok>
+<jtok eid="11" type="local_variable_name" span="102:11:102:17">buffer</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="102:21:102:27">Buffer</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:28:102:33">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="104:7:104:13">buffer</jtok>
+<jtok eid="11" type="method_call" span="105:5:105:12">setIcon</jtok>
+<jtok eid="11" type="method_call" span="108:5:108:12">setIcon</jtok>
+<jtok eid="11" type="primary_name_ref" span="108:13:108:19">buffer</jtok>
+<jtok eid="11" type="method_call" span="108:20:108:27">getIcon</jtok>
+<jtok eid="11" type="method_call" span="109:5:109:19">setToolTipText</jtok>
+<jtok eid="11" type="primary_name_ref" span="109:20:109:26">buffer</jtok>
+<jtok eid="11" type="method_call" span="109:27:109:34">getPath</jtok>
+</jdoc>

@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.GroupsTree" jls="java5">
+<jent id="0" type="file" span="0:0:461:1">Source/jabref/src/java/net/sf/jabref/groups/GroupsTree.java</jent>
+<jent id="1" pid="0" type="class" span="48:1:461:1">net.sf.jabref.groups.GroupsTree</jent>
+<jent id="2" pid="1" type="method" span="83:2:99:2">net.sf.jabref.groups.GroupsTree.GroupsTree(GroupSelector)</jent>
+<jent id="3" pid="1" type="method" span="101:2:103:2">net.sf.jabref.groups.GroupsTree.dragEnter(DragSourceDragEvent)</jent>
+<jent id="4" pid="1" type="method" span="106:2:122:2">net.sf.jabref.groups.GroupsTree.dragOver(DragSourceDragEvent)</jent>
+<jent id="5" pid="1" type="method" span="124:2:126:2">net.sf.jabref.groups.GroupsTree.dropActionChanged(DragSourceDragEvent)</jent>
+<jent id="6" pid="1" type="method" span="128:2:130:2">net.sf.jabref.groups.GroupsTree.dragDropEnd(DragSourceDropEvent)</jent>
+<jent id="7" pid="1" type="method" span="132:2:134:2">net.sf.jabref.groups.GroupsTree.dragExit(DragSourceEvent)</jent>
+<jent id="8" pid="1" type="method" span="136:2:138:2">net.sf.jabref.groups.GroupsTree.dragEnter(DropTargetDragEvent)</jent>
+<jent id="9" pid="1" type="method" span="141:2:210:2">net.sf.jabref.groups.GroupsTree.dragOver(DropTargetDragEvent)</jent>
+<jent id="10" pid="1" type="method" span="212:2:214:2">net.sf.jabref.groups.GroupsTree.dropActionChanged(DropTargetDragEvent)</jent>
+<jent id="11" pid="1" type="method" span="216:2:298:2">net.sf.jabref.groups.GroupsTree.drop(DropTargetDropEvent)</jent>
+<jent id="12" pid="1" type="method" span="300:2:302:2">net.sf.jabref.groups.GroupsTree.dragExit(DropTargetEvent)</jent>
+<jent id="13" pid="1" type="method" span="304:2:311:2">net.sf.jabref.groups.GroupsTree.dragGestureRecognized(DragGestureEvent)</jent>
+<jent id="14" pid="1" type="method" span="314:2:318:2">net.sf.jabref.groups.GroupsTree.getSelectedNode()</jent>
+<jent id="15" pid="1" type="method" span="329:5:337:5">net.sf.jabref.groups.GroupsTree.refreshPaths(Enumeration&lt;TreePath&gt;)</jent>
+<jent id="16" pid="1" type="method" span="348:5:355:5">net.sf.jabref.groups.GroupsTree.refreshPaths(TreePath[])</jent>
+<jent id="17" pid="1" type="method" span="358:2:361:2">net.sf.jabref.groups.GroupsTree.setHighlight1Cell(Object)</jent>
+<jent id="18" pid="1" type="method" span="364:2:367:2">net.sf.jabref.groups.GroupsTree.setHighlight2Cells(Object[])</jent>
+<jent id="19" pid="1" type="method" span="370:2:373:2">net.sf.jabref.groups.GroupsTree.setHighlight3Cells(Object[])</jent>
+<jent id="20" pid="1" type="method" span="376:5:379:5">net.sf.jabref.groups.GroupsTree.setHighlightBorderCell(GroupTreeNode)</jent>
+<jent id="21" pid="1" type="method" span="382:2:385:2">net.sf.jabref.groups.GroupsTree.sort(GroupTreeNode,boolean)</jent>
+<jent id="22" pid="1" type="method" span="388:2:413:2">net.sf.jabref.groups.GroupsTree.sortWithoutRevalidate(GroupTreeNode,boolean)</jent>
+<jent id="23" pid="1" type="method" span="416:2:419:2">net.sf.jabref.groups.GroupsTree.expandSubtree(GroupTreeNode)</jent>
+<jent id="24" pid="1" type="method" span="422:2:426:2">net.sf.jabref.groups.GroupsTree.collapseSubtree(GroupTreeNode)</jent>
+<jent id="25" pid="1" type="method" span="432:2:443:2">net.sf.jabref.groups.GroupsTree.hasExpandedDescendant(TreePath)</jent>
+<jent id="26" pid="1" type="method" span="449:2:460:2">net.sf.jabref.groups.GroupsTree.hasCollapsedDescendant(TreePath)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ All programs in this directory and subdirectories are published under the 
+ GNU General Public License as described below.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by the Free 
+ Software Foundation; either version 2 of the License, or (at your option) 
+ any later version.
+
+ This program is distributed in the hope that it will be useful, but WITHOUT 
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ more details.
+
+ You should have received a copy of the GNU General Public License along 
+ with this program; if not, write to the Free Software Foundation, Inc., 59 
+ Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+ */</jtok>
+<jtok eid="1" type="class_name" span="48:14:48:24">GroupsTree</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:33:48:38">JTree</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:50:48:68">DragSourceListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:3:49:21">DropTargetListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:23:49:42">DragGestureListener</jtok>
+<jtok eid="1" type="block_comment" span="50:2:50:76">/** distance from component borders from which on autoscrolling starts. */</jtok>
+<jtok eid="1" type="field_name" span="51:27:51:53">dragScrollActivationMargin</jtok>
+<jtok eid="1" type="block_comment" span="53:2:53:64">/** number of pixels to scroll each time handler is called. */</jtok>
+<jtok eid="1" type="field_name" span="54:27:54:45">dragScrollDistance</jtok>
+<jtok eid="1" type="block_comment" span="56:2:56:60">/** time of last autoscroll event (for limiting speed). */</jtok>
+<jtok eid="1" type="field_name" span="57:22:57:40">lastDragAutoscroll</jtok>
+<jtok eid="1" type="block_comment" span="59:2:59:77">/** minimum interval between two autoscroll events (for limiting speed). */</jtok>
+<jtok eid="1" type="field_name" span="60:28:60:49">minAutoscrollInterval</jtok>
+<jtok eid="1" type="block_comment" span="62:2:65:5">/**
+	 * the point on which the cursor is currently idling during a drag
+	 * operation.
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:10:66:15">Point</jtok>
+<jtok eid="1" type="field_name" span="66:16:66:25">idlePoint</jtok>
+<jtok eid="1" type="block_comment" span="68:2:68:43">/** time since which cursor is idling. */</jtok>
+<jtok eid="1" type="field_name" span="69:15:69:28">idleStartTime</jtok>
+<jtok eid="1" type="block_comment" span="71:2:71:72">/** max. distance cursor may move in x or y direction while idling. */</jtok>
+<jtok eid="1" type="field_name" span="72:27:72:37">idleMargin</jtok>
+<jtok eid="1" type="block_comment" span="74:2:74:58">/** idle time after which the node below is expanded. */</jtok>
+<jtok eid="1" type="field_name" span="75:28:75:48">idleTimeToExpandNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="77:10:77:23">GroupSelector</jtok>
+<jtok eid="1" type="field_name" span="77:24:77:37">groupSelector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="79:10:79:23">GroupTreeNode</jtok>
+<jtok eid="1" type="field_name" span="79:24:79:32">dragNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:16:81:37">GroupTreeCellRenderer</jtok>
+<jtok eid="1" type="field_name" span="81:38:81:50">cellRenderer</jtok>
+<jtok eid="1" type="constructor_call" span="81:57:81:78">GroupTreeCellRenderer</jtok>
+<jtok eid="2" type="method_name" span="83:9:83:19">GroupsTree</jtok>
+<jtok eid="2" type="parameter_type" span="83:20:83:33">GroupSelector</jtok>
+<jtok eid="2" type="parameter_name" span="83:34:83:47">groupSelector</jtok>
+<jtok eid="2" type="qualified_name_ref" span="84:8:84:21">groupSelector</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:24:84:37">groupSelector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="85:3:85:24">DragGestureRecognizer</jtok>
+<jtok eid="2" type="local_variable_name" span="85:25:85:28">dgr</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:31:85:41">DragSource</jtok>
+<jtok eid="2" type="method_call" span="85:42:85:62">getDefaultDragSource</jtok>
+<jtok eid="2" type="method_call" span="86:6:86:40">createDefaultDragGestureRecognizer</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:7:87:19">DnDConstants</jtok>
+<jtok eid="2" type="qualified_name_ref" span="87:20:87:31">ACTION_MOVE</jtok>
+<jtok eid="2" type="line_comment" span="88:3:88:52">// Eliminates right mouse clicks as valid actions</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:3:89:6">dgr</jtok>
+<jtok eid="2" type="method_call" span="89:7:89:23">setSourceActions</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:24:89:27">dgr</jtok>
+<jtok eid="2" type="method_call" span="89:28:89:44">getSourceActions</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:50:89:60">InputEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="89:61:89:73">BUTTON3_MASK</jtok>
+<jtok eid="2" type="constructor_call" span="90:7:90:17">DropTarget</jtok>
+<jtok eid="2" type="method_call" span="91:3:91:18">setCellRenderer</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:19:91:31">cellRenderer</jtok>
+<jtok eid="2" type="method_call" span="92:3:92:15">setFocusable</jtok>
+<jtok eid="2" type="method_call" span="93:3:93:22">setToggleClickCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:3:94:17">ToolTipManager</jtok>
+<jtok eid="2" type="method_call" span="94:18:94:32">sharedInstance</jtok>
+<jtok eid="2" type="method_call" span="94:35:94:52">registerComponent</jtok>
+<jtok eid="2" type="method_call" span="95:3:95:22">setShowsRootHandles</jtok>
+<jtok eid="2" type="method_call" span="96:3:96:21">setVisibleRowCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:22:96:29">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="96:30:96:35">prefs</jtok>
+<jtok eid="2" type="method_call" span="96:36:96:42">getInt</jtok>
+<jtok eid="2" type="string_literal" span="96:43:96:62">"groupsVisibleRows"</jtok>
+<jtok eid="2" type="method_call" span="97:3:97:20">getSelectionModel</jtok>
+<jtok eid="2" type="method_call" span="97:23:97:39">setSelectionMode</jtok>
+<jtok eid="2" type="primary_name_ref" span="98:5:98:23">TreeSelectionModel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="98:24:98:52">DISCONTIGUOUS_TREE_SELECTION</jtok>
+<jtok eid="3" type="method_name" span="101:14:101:23">dragEnter</jtok>
+<jtok eid="3" type="parameter_type" span="101:24:101:43">DragSourceDragEvent</jtok>
+<jtok eid="3" type="parameter_name" span="101:44:101:48">dsde</jtok>
+<jtok eid="3" type="line_comment" span="102:3:102:12">// ignore</jtok>
+<jtok eid="1" type="block_comment" span="105:2:105:50">/** This is for moving of nodes within myself */</jtok>
+<jtok eid="4" type="method_name" span="106:14:106:22">dragOver</jtok>
+<jtok eid="4" type="parameter_type" span="106:23:106:42">DragSourceDragEvent</jtok>
+<jtok eid="4" type="parameter_name" span="106:43:106:47">dsde</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="107:9:107:14">Point</jtok>
+<jtok eid="4" type="local_variable_name" span="107:15:107:16">p</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:19:107:23">dsde</jtok>
+<jtok eid="4" type="method_call" span="107:24:107:35">getLocation</jtok>
+<jtok eid="4" type="line_comment" span="107:39:107:61">// screen coordinates!</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:3:108:17">SwingUtilities</jtok>
+<jtok eid="4" type="method_call" span="108:18:108:40">convertPointFromScreen</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:41:108:42">p</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="109:9:109:17">TreePath</jtok>
+<jtok eid="4" type="local_variable_name" span="109:18:109:22">path</jtok>
+<jtok eid="4" type="method_call" span="109:25:109:43">getPathForLocation</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:44:109:45">p</jtok>
+<jtok eid="4" type="qualified_name_ref" span="109:46:109:47">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:49:109:50">p</jtok>
+<jtok eid="4" type="qualified_name_ref" span="109:51:109:52">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:7:110:11">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:4:111:8">dsde</jtok>
+<jtok eid="4" type="method_call" span="111:9:111:29">getDragSourceContext</jtok>
+<jtok eid="4" type="method_call" span="111:32:111:41">setCursor</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:42:111:52">DragSource</jtok>
+<jtok eid="4" type="qualified_name_ref" span="111:53:111:70">DefaultMoveNoDrop</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="114:9:114:22">GroupTreeNode</jtok>
+<jtok eid="4" type="local_variable_name" span="114:23:114:29">target</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="114:33:114:46">GroupTreeNode</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:48:114:52">path</jtok>
+<jtok eid="4" type="method_call" span="115:6:115:26">getLastPathComponent</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:7:116:13">target</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:25:116:33">dragNode</jtok>
+<jtok eid="4" type="method_call" span="116:34:116:50">isNodeDescendant</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:51:116:57">target</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:8:117:16">dragNode</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:20:117:26">target</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:4:118:8">dsde</jtok>
+<jtok eid="4" type="method_call" span="118:9:118:29">getDragSourceContext</jtok>
+<jtok eid="4" type="method_call" span="118:32:118:41">setCursor</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:42:118:52">DragSource</jtok>
+<jtok eid="4" type="qualified_name_ref" span="118:53:118:70">DefaultMoveNoDrop</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:3:121:7">dsde</jtok>
+<jtok eid="4" type="method_call" span="121:8:121:28">getDragSourceContext</jtok>
+<jtok eid="4" type="method_call" span="121:31:121:40">setCursor</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:41:121:51">DragSource</jtok>
+<jtok eid="4" type="qualified_name_ref" span="121:52:121:67">DefaultMoveDrop</jtok>
+<jtok eid="5" type="method_name" span="124:14:124:31">dropActionChanged</jtok>
+<jtok eid="5" type="parameter_type" span="124:32:124:51">DragSourceDragEvent</jtok>
+<jtok eid="5" type="parameter_name" span="124:52:124:56">dsde</jtok>
+<jtok eid="5" type="line_comment" span="125:3:125:12">// ignore</jtok>
+<jtok eid="6" type="method_name" span="128:14:128:25">dragDropEnd</jtok>
+<jtok eid="6" type="parameter_type" span="128:26:128:45">DragSourceDropEvent</jtok>
+<jtok eid="6" type="parameter_name" span="128:46:128:50">dsde</jtok>
+<jtok eid="6" type="primary_name_ref" span="129:3:129:11">dragNode</jtok>
+<jtok eid="7" type="method_name" span="132:14:132:22">dragExit</jtok>
+<jtok eid="7" type="parameter_type" span="132:23:132:38">DragSourceEvent</jtok>
+<jtok eid="7" type="parameter_name" span="132:39:132:42">dse</jtok>
+<jtok eid="7" type="line_comment" span="133:3:133:12">// ignore</jtok>
+<jtok eid="8" type="method_name" span="136:14:136:23">dragEnter</jtok>
+<jtok eid="8" type="parameter_type" span="136:24:136:43">DropTargetDragEvent</jtok>
+<jtok eid="8" type="parameter_name" span="136:44:136:48">dtde</jtok>
+<jtok eid="8" type="line_comment" span="137:3:137:12">// ignore</jtok>
+<jtok eid="1" type="block_comment" span="140:2:140:81">/** This handles dragging of nodes (from myself) or entries (from the table) */</jtok>
+<jtok eid="9" type="method_name" span="141:14:141:22">dragOver</jtok>
+<jtok eid="9" type="parameter_type" span="141:23:141:42">DropTargetDragEvent</jtok>
+<jtok eid="9" type="parameter_name" span="141:43:141:47">dtde</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="142:9:142:14">Point</jtok>
+<jtok eid="9" type="local_variable_name" span="142:15:142:21">cursor</jtok>
+<jtok eid="9" type="primary_name_ref" span="142:24:142:28">dtde</jtok>
+<jtok eid="9" type="method_call" span="142:29:142:40">getLocation</jtok>
+<jtok eid="9" type="local_variable_name" span="143:14:143:25">currentTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="143:28:143:34">System</jtok>
+<jtok eid="9" type="method_call" span="143:35:143:52">currentTimeMillis</jtok>
+<jtok eid="9" type="primary_name_ref" span="144:7:144:16">idlePoint</jtok>
+<jtok eid="9" type="primary_name_ref" span="145:4:145:13">idlePoint</jtok>
+<jtok eid="9" type="primary_name_ref" span="145:16:145:22">cursor</jtok>
+<jtok eid="9" type="line_comment" span="147:3:147:52">// determine node over which the user is dragging</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="148:9:148:17">TreePath</jtok>
+<jtok eid="9" type="local_variable_name" span="148:18:148:22">path</jtok>
+<jtok eid="9" type="method_call" span="148:25:148:43">getPathForLocation</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:44:148:50">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="148:51:148:52">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:54:148:60">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="148:61:148:62">y</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="149:9:149:22">GroupTreeNode</jtok>
+<jtok eid="9" type="local_variable_name" span="149:23:149:29">target</jtok>
+<jtok eid="9" type="primary_name_ref" span="149:32:149:36">path</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="149:55:149:68">GroupTreeNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="149:70:149:74">path</jtok>
+<jtok eid="9" type="method_call" span="150:6:150:26">getLastPathComponent</jtok>
+<jtok eid="9" type="method_call" span="151:3:151:20">setHighlight1Cell</jtok>
+<jtok eid="9" type="primary_name_ref" span="151:21:151:27">target</jtok>
+<jtok eid="9" type="line_comment" span="153:3:153:22">// accept or reject</jtok>
+<jtok eid="9" type="primary_name_ref" span="154:7:154:11">dtde</jtok>
+<jtok eid="9" type="method_call" span="154:12:154:33">isDataFlavorSupported</jtok>
+<jtok eid="9" type="primary_name_ref" span="154:34:154:47">GroupTreeNode</jtok>
+<jtok eid="9" type="qualified_name_ref" span="154:48:154:54">flavor</jtok>
+<jtok eid="9" type="line_comment" span="155:4:155:37">// accept: move nodes within tree</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:4:156:8">dtde</jtok>
+<jtok eid="9" type="method_call" span="156:9:156:19">acceptDrag</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:20:156:32">DnDConstants</jtok>
+<jtok eid="9" type="qualified_name_ref" span="156:33:156:44">ACTION_MOVE</jtok>
+<jtok eid="9" type="primary_name_ref" span="157:14:157:18">dtde</jtok>
+<jtok eid="9" type="method_call" span="158:6:158:27">isDataFlavorSupported</jtok>
+<jtok eid="9" type="primary_name_ref" span="158:28:158:54">TransferableEntrySelection</jtok>
+<jtok eid="9" type="qualified_name_ref" span="158:55:158:69">flavorInternal</jtok>
+<jtok eid="9" type="line_comment" span="159:4:159:48">// check if node accepts explicit assignment</jtok>
+<jtok eid="9" type="primary_name_ref" span="160:8:160:12">path</jtok>
+<jtok eid="9" type="primary_name_ref" span="161:5:161:9">dtde</jtok>
+<jtok eid="9" type="method_call" span="161:10:161:20">rejectDrag</jtok>
+<jtok eid="9" type="line_comment" span="163:5:163:64">// this would be the place to check if the dragging entries</jtok>
+<jtok eid="9" type="line_comment" span="164:5:164:63">// maybe are in this group already, but I think that's not</jtok>
+<jtok eid="9" type="line_comment" span="165:5:165:62">// worth the bother (DropTargetDragEvent does not provide</jtok>
+<jtok eid="9" type="line_comment" span="166:5:166:37">// access to the drag object)...</jtok>
+<jtok eid="9" type="line_comment" span="167:5:167:48">// it might even be irritating to the user.</jtok>
+<jtok eid="9" type="primary_name_ref" span="168:9:168:15">target</jtok>
+<jtok eid="9" type="method_call" span="168:16:168:24">getGroup</jtok>
+<jtok eid="9" type="method_call" span="168:27:168:38">supportsAdd</jtok>
+<jtok eid="9" type="line_comment" span="169:6:169:43">// accept: assignment from EntryTable</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:6:170:10">dtde</jtok>
+<jtok eid="9" type="method_call" span="170:11:170:21">acceptDrag</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:22:170:34">DnDConstants</jtok>
+<jtok eid="9" type="qualified_name_ref" span="170:35:170:46">ACTION_LINK</jtok>
+<jtok eid="9" type="primary_name_ref" span="172:6:172:10">dtde</jtok>
+<jtok eid="9" type="method_call" span="172:11:172:21">rejectDrag</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:4:176:8">dtde</jtok>
+<jtok eid="9" type="method_call" span="176:9:176:19">rejectDrag</jtok>
+<jtok eid="9" type="line_comment" span="179:3:179:15">// auto open</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:7:180:11">Math</jtok>
+<jtok eid="9" type="method_call" span="180:12:180:15">abs</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:16:180:22">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="180:23:180:24">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:27:180:36">idlePoint</jtok>
+<jtok eid="9" type="qualified_name_ref" span="180:37:180:38">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:42:180:52">idleMargin</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:8:181:12">Math</jtok>
+<jtok eid="9" type="method_call" span="181:13:181:16">abs</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:17:181:23">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="181:24:181:25">y</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:28:181:37">idlePoint</jtok>
+<jtok eid="9" type="qualified_name_ref" span="181:38:181:39">y</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:43:181:53">idleMargin</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:8:182:19">currentTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:22:182:35">idleStartTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:39:182:59">idleTimeToExpandNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="183:9:183:13">path</jtok>
+<jtok eid="9" type="method_call" span="184:6:184:16">expandPath</jtok>
+<jtok eid="9" type="primary_name_ref" span="184:17:184:21">path</jtok>
+<jtok eid="9" type="primary_name_ref" span="188:4:188:13">idlePoint</jtok>
+<jtok eid="9" type="primary_name_ref" span="188:16:188:22">cursor</jtok>
+<jtok eid="9" type="primary_name_ref" span="189:4:189:17">idleStartTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="189:20:189:31">currentTime</jtok>
+<jtok eid="9" type="line_comment" span="192:3:192:19">// autoscrolling</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:7:193:18">currentTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:21:193:39">lastDragAutoscroll</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:42:193:63">minAutoscrollInterval</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="195:9:195:18">Rectangle</jtok>
+<jtok eid="9" type="local_variable_name" span="195:19:195:20">r</jtok>
+<jtok eid="9" type="method_call" span="195:23:195:37">getVisibleRect</jtok>
+<jtok eid="9" type="local_variable_name" span="196:17:196:25">scrollUp</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:28:196:34">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="196:35:196:36">y</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:39:196:40">r</jtok>
+<jtok eid="9" type="qualified_name_ref" span="196:41:196:42">y</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:45:196:71">dragScrollActivationMargin</jtok>
+<jtok eid="9" type="local_variable_name" span="197:17:197:27">scrollDown</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:30:197:31">r</jtok>
+<jtok eid="9" type="qualified_name_ref" span="197:32:197:33">y</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:36:197:37">r</jtok>
+<jtok eid="9" type="qualified_name_ref" span="197:38:197:44">height</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:47:197:53">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="197:54:197:55">y</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:58:197:84">dragScrollActivationMargin</jtok>
+<jtok eid="9" type="local_variable_name" span="198:17:198:27">scrollLeft</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:30:198:36">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="198:37:198:38">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:41:198:42">r</jtok>
+<jtok eid="9" type="qualified_name_ref" span="198:43:198:44">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:47:198:73">dragScrollActivationMargin</jtok>
+<jtok eid="9" type="local_variable_name" span="199:17:199:28">scrollRight</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:31:199:32">r</jtok>
+<jtok eid="9" type="qualified_name_ref" span="199:33:199:34">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:37:199:38">r</jtok>
+<jtok eid="9" type="qualified_name_ref" span="199:39:199:44">width</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:47:199:53">cursor</jtok>
+<jtok eid="9" type="qualified_name_ref" span="199:54:199:55">x</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:58:199:84">dragScrollActivationMargin</jtok>
+<jtok eid="9" type="primary_name_ref" span="200:7:200:15">scrollUp</jtok>
+<jtok eid="9" type="primary_name_ref" span="201:4:201:5">r</jtok>
+<jtok eid="9" type="method_call" span="201:6:201:15">translate</jtok>
+<jtok eid="9" type="primary_name_ref" span="201:20:201:38">dragScrollDistance</jtok>
+<jtok eid="9" type="primary_name_ref" span="202:12:202:22">scrollDown</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:4:203:5">r</jtok>
+<jtok eid="9" type="method_call" span="203:6:203:15">translate</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:20:203:38">dragScrollDistance</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:7:204:17">scrollLeft</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:4:205:5">r</jtok>
+<jtok eid="9" type="method_call" span="205:6:205:15">translate</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:17:205:35">dragScrollDistance</jtok>
+<jtok eid="9" type="primary_name_ref" span="206:12:206:23">scrollRight</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:4:207:5">r</jtok>
+<jtok eid="9" type="method_call" span="207:6:207:15">translate</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:17:207:35">dragScrollDistance</jtok>
+<jtok eid="9" type="method_call" span="208:3:208:22">scrollRectToVisible</jtok>
+<jtok eid="9" type="primary_name_ref" span="208:23:208:24">r</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:3:209:21">lastDragAutoscroll</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:24:209:35">currentTime</jtok>
+<jtok eid="10" type="method_name" span="212:14:212:31">dropActionChanged</jtok>
+<jtok eid="10" type="parameter_type" span="212:32:212:51">DropTargetDragEvent</jtok>
+<jtok eid="10" type="parameter_name" span="212:52:212:56">dtde</jtok>
+<jtok eid="10" type="line_comment" span="213:3:213:12">// ignore</jtok>
+<jtok eid="11" type="method_name" span="216:14:216:18">drop</jtok>
+<jtok eid="11" type="parameter_type" span="216:19:216:38">DropTargetDropEvent</jtok>
+<jtok eid="11" type="parameter_name" span="216:39:216:43">dtde</jtok>
+<jtok eid="11" type="method_call" span="217:3:217:20">setHighlight1Cell</jtok>
+<jtok eid="11" type="line_comment" span="219:4:219:44">// initializations common to all flavors</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="220:10:220:22">Transferable</jtok>
+<jtok eid="11" type="local_variable_name" span="220:23:220:35">transferable</jtok>
+<jtok eid="11" type="primary_name_ref" span="220:38:220:42">dtde</jtok>
+<jtok eid="11" type="method_call" span="220:43:220:58">getTransferable</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="221:10:221:15">Point</jtok>
+<jtok eid="11" type="local_variable_name" span="221:16:221:17">p</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:20:221:24">dtde</jtok>
+<jtok eid="11" type="method_call" span="221:25:221:36">getLocation</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="222:10:222:18">TreePath</jtok>
+<jtok eid="11" type="local_variable_name" span="222:19:222:23">path</jtok>
+<jtok eid="11" type="method_call" span="222:26:222:44">getPathForLocation</jtok>
+<jtok eid="11" type="primary_name_ref" span="222:45:222:46">p</jtok>
+<jtok eid="11" type="qualified_name_ref" span="222:47:222:48">x</jtok>
+<jtok eid="11" type="primary_name_ref" span="222:50:222:51">p</jtok>
+<jtok eid="11" type="qualified_name_ref" span="222:52:222:53">y</jtok>
+<jtok eid="11" type="primary_name_ref" span="223:8:223:12">path</jtok>
+<jtok eid="11" type="primary_name_ref" span="224:5:224:9">dtde</jtok>
+<jtok eid="11" type="method_call" span="224:10:224:20">rejectDrop</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="227:10:227:23">GroupTreeNode</jtok>
+<jtok eid="11" type="local_variable_name" span="227:24:227:30">target</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="227:34:227:47">GroupTreeNode</jtok>
+<jtok eid="11" type="primary_name_ref" span="227:49:227:53">path</jtok>
+<jtok eid="11" type="method_call" span="228:7:228:27">getLastPathComponent</jtok>
+<jtok eid="11" type="line_comment" span="229:4:229:30">// check supported flavors</jtok>
+<jtok eid="11" type="primary_name_ref" span="230:8:230:20">transferable</jtok>
+<jtok eid="11" type="method_call" span="230:21:230:42">isDataFlavorSupported</jtok>
+<jtok eid="11" type="primary_name_ref" span="230:43:230:56">GroupTreeNode</jtok>
+<jtok eid="11" type="qualified_name_ref" span="230:57:230:63">flavor</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="231:5:231:18">GroupTreeNode</jtok>
+<jtok eid="11" type="local_variable_name" span="231:19:231:25">source</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="231:29:231:42">GroupTreeNode</jtok>
+<jtok eid="11" type="primary_name_ref" span="231:44:231:56">transferable</jtok>
+<jtok eid="11" type="method_call" span="232:8:232:23">getTransferData</jtok>
+<jtok eid="11" type="primary_name_ref" span="232:24:232:37">GroupTreeNode</jtok>
+<jtok eid="11" type="qualified_name_ref" span="232:38:232:44">flavor</jtok>
+<jtok eid="11" type="primary_name_ref" span="233:9:233:15">source</jtok>
+<jtok eid="11" type="primary_name_ref" span="233:19:233:25">target</jtok>
+<jtok eid="11" type="primary_name_ref" span="234:6:234:10">dtde</jtok>
+<jtok eid="11" type="method_call" span="234:11:234:21">rejectDrop</jtok>
+<jtok eid="11" type="line_comment" span="234:25:234:39">// ignore this</jtok>
+<jtok eid="11" type="primary_name_ref" span="237:9:237:15">source</jtok>
+<jtok eid="11" type="method_call" span="237:16:237:32">isNodeDescendant</jtok>
+<jtok eid="11" type="primary_name_ref" span="237:33:237:39">target</jtok>
+<jtok eid="11" type="primary_name_ref" span="238:6:238:10">dtde</jtok>
+<jtok eid="11" type="method_call" span="238:11:238:21">rejectDrop</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="241:5:241:16">Enumeration</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="241:17:241:25">TreePath</jtok>
+<jtok eid="11" type="local_variable_name" span="241:27:241:40">expandedPaths</jtok>
+<jtok eid="11" type="primary_name_ref" span="241:43:241:56">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="241:57:241:73">getExpandedPaths</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="242:5:242:22">UndoableMoveGroup</jtok>
+<jtok eid="11" type="local_variable_name" span="242:23:242:27">undo</jtok>
+<jtok eid="11" type="constructor_call" span="242:34:242:51">UndoableMoveGroup</jtok>
+<jtok eid="11" type="primary_name_ref" span="242:52:242:65">groupSelector</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:7:243:20">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="243:21:243:37">getGroupTreeRoot</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:41:243:47">source</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:49:243:55">target</jtok>
+<jtok eid="11" type="primary_name_ref" span="244:7:244:13">target</jtok>
+<jtok eid="11" type="method_call" span="244:14:244:27">getChildCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:5:245:11">target</jtok>
+<jtok eid="11" type="method_call" span="245:12:245:15">add</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:16:245:22">source</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:5:246:9">dtde</jtok>
+<jtok eid="11" type="method_call" span="246:10:246:30">getDropTargetContext</jtok>
+<jtok eid="11" type="method_call" span="246:33:246:45">dropComplete</jtok>
+<jtok eid="11" type="line_comment" span="247:5:247:40">// update selection/expansion state</jtok>
+<jtok eid="11" type="primary_name_ref" span="248:5:248:18">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="248:19:248:35">revalidateGroups</jtok>
+<jtok eid="11" type="constructor_call" span="248:40:248:48">TreePath</jtok>
+<jtok eid="11" type="constructor_call" span="248:57:248:65">TreePath</jtok>
+<jtok eid="11" type="primary_name_ref" span="249:7:249:13">source</jtok>
+<jtok eid="11" type="method_call" span="249:14:249:21">getPath</jtok>
+<jtok eid="11" type="method_call" span="249:28:249:40">refreshPaths</jtok>
+<jtok eid="11" type="primary_name_ref" span="249:41:249:54">expandedPaths</jtok>
+<jtok eid="11" type="primary_name_ref" span="250:5:250:18">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="250:19:250:36">concludeMoveGroup</jtok>
+<jtok eid="11" type="primary_name_ref" span="250:37:250:41">undo</jtok>
+<jtok eid="11" type="primary_name_ref" span="250:43:250:49">source</jtok>
+<jtok eid="11" type="primary_name_ref" span="251:15:251:27">transferable</jtok>
+<jtok eid="11" type="method_call" span="252:7:252:28">isDataFlavorSupported</jtok>
+<jtok eid="11" type="primary_name_ref" span="252:29:252:55">TransferableEntrySelection</jtok>
+<jtok eid="11" type="qualified_name_ref" span="252:56:252:70">flavorInternal</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="253:11:253:24">AbstractGroup</jtok>
+<jtok eid="11" type="local_variable_name" span="253:25:253:30">group</jtok>
+<jtok eid="11" type="primary_name_ref" span="253:33:253:39">target</jtok>
+<jtok eid="11" type="method_call" span="253:40:253:48">getGroup</jtok>
+<jtok eid="11" type="primary_name_ref" span="254:10:254:15">group</jtok>
+<jtok eid="11" type="method_call" span="254:16:254:27">supportsAdd</jtok>
+<jtok eid="11" type="line_comment" span="255:6:255:61">// this should never happen, because the same condition</jtok>
+<jtok eid="11" type="line_comment" span="256:6:256:39">// is checked in dragOver already</jtok>
+<jtok eid="11" type="primary_name_ref" span="257:6:257:10">dtde</jtok>
+<jtok eid="11" type="method_call" span="257:11:257:21">rejectDrop</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="260:11:260:37">TransferableEntrySelection</jtok>
+<jtok eid="11" type="local_variable_name" span="260:38:260:47">selection</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="260:51:260:77">TransferableEntrySelection</jtok>
+<jtok eid="11" type="primary_name_ref" span="260:79:260:91">transferable</jtok>
+<jtok eid="11" type="method_call" span="261:8:261:23">getTransferData</jtok>
+<jtok eid="11" type="primary_name_ref" span="261:24:261:50">TransferableEntrySelection</jtok>
+<jtok eid="11" type="qualified_name_ref" span="261:51:261:65">flavorInternal</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="262:11:262:22">BibtexEntry</jtok>
+<jtok eid="11" type="local_variable_name" span="262:25:262:32">entries</jtok>
+<jtok eid="11" type="primary_name_ref" span="262:35:262:44">selection</jtok>
+<jtok eid="11" type="method_call" span="262:45:262:57">getSelection</jtok>
+<jtok eid="11" type="local_variable_name" span="263:9:263:24">assignedEntries</jtok>
+<jtok eid="11" type="local_variable_name" span="264:14:264:15">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="264:21:264:22">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="264:25:264:32">entries</jtok>
+<jtok eid="11" type="qualified_name_ref" span="264:33:264:39">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="264:43:264:44">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:11:265:17">target</jtok>
+<jtok eid="11" type="method_call" span="265:18:265:26">getGroup</jtok>
+<jtok eid="11" type="method_call" span="265:29:265:37">contains</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:38:265:45">entries</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:46:265:47">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="266:9:266:24">assignedEntries</jtok>
+<jtok eid="11" type="line_comment" span="269:5:269:65">// warn if assignment has undesired side effects (modifies a</jtok>
+<jtok eid="11" type="line_comment" span="270:5:270:26">// field != keywords)</jtok>
+<jtok eid="11" type="primary_name_ref" span="271:10:271:14">Util</jtok>
+<jtok eid="11" type="method_call" span="271:15:271:40">warnAssignmentSideEffects</jtok>
+<jtok eid="11" type="constructor_call" span="272:11:272:24">AbstractGroup</jtok>
+<jtok eid="11" type="primary_name_ref" span="272:29:272:34">group</jtok>
+<jtok eid="11" type="primary_name_ref" span="273:7:273:16">selection</jtok>
+<jtok eid="11" type="method_call" span="273:17:273:29">getSelection</jtok>
+<jtok eid="11" type="primary_name_ref" span="273:33:273:46">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="274:10:274:28">getActiveBasePanel</jtok>
+<jtok eid="11" type="method_call" span="274:31:274:42">getDatabase</jtok>
+<jtok eid="11" type="primary_name_ref" span="275:7:275:20">groupSelector</jtok>
+<jtok eid="11" type="qualified_name_ref" span="275:21:275:26">frame</jtok>
+<jtok eid="11" type="line_comment" span="276:14:276:39">// user aborted operation</jtok>
+<jtok eid="11" type="line_comment" span="278:5:278:59">// if an editor is showing, its fields must be updated</jtok>
+<jtok eid="11" type="line_comment" span="279:5:279:58">// after the assignment, and before that, the current</jtok>
+<jtok eid="11" type="line_comment" span="280:5:280:30">// edit has to be stored:</jtok>
+<jtok eid="11" type="primary_name_ref" span="281:5:281:18">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="281:19:281:37">getActiveBasePanel</jtok>
+<jtok eid="11" type="method_call" span="281:40:281:56">storeCurrentEdit</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="283:5:283:25">AbstractUndoableEdit</jtok>
+<jtok eid="11" type="local_variable_name" span="283:26:283:30">undo</jtok>
+<jtok eid="11" type="primary_name_ref" span="283:33:283:38">group</jtok>
+<jtok eid="11" type="method_call" span="283:39:283:42">add</jtok>
+<jtok eid="11" type="primary_name_ref" span="283:43:283:52">selection</jtok>
+<jtok eid="11" type="method_call" span="283:53:283:65">getSelection</jtok>
+<jtok eid="11" type="primary_name_ref" span="284:9:284:13">undo</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="284:25:284:49">UndoableChangeAssignment</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="285:8:285:32">UndoableChangeAssignment</jtok>
+<jtok eid="11" type="primary_name_ref" span="285:34:285:38">undo</jtok>
+<jtok eid="11" type="method_call" span="285:40:285:53">setEditedNode</jtok>
+<jtok eid="11" type="primary_name_ref" span="285:54:285:60">target</jtok>
+<jtok eid="11" type="primary_name_ref" span="286:5:286:9">dtde</jtok>
+<jtok eid="11" type="method_call" span="286:10:286:30">getDropTargetContext</jtok>
+<jtok eid="11" type="method_call" span="286:33:286:45">dropComplete</jtok>
+<jtok eid="11" type="primary_name_ref" span="287:5:287:18">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="287:19:287:35">revalidateGroups</jtok>
+<jtok eid="11" type="primary_name_ref" span="288:5:288:18">groupSelector</jtok>
+<jtok eid="11" type="method_call" span="288:19:288:37">concludeAssignment</jtok>
+<jtok eid="11" type="primary_name_ref" span="288:38:288:42">undo</jtok>
+<jtok eid="11" type="primary_name_ref" span="288:44:288:50">target</jtok>
+<jtok eid="11" type="primary_name_ref" span="288:52:288:67">assignedEntries</jtok>
+<jtok eid="11" type="primary_name_ref" span="290:5:290:9">dtde</jtok>
+<jtok eid="11" type="method_call" span="290:10:290:20">rejectDrop</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="293:12:293:23">IOException</jtok>
+<jtok eid="11" type="local_variable_name" span="293:24:293:27">ioe</jtok>
+<jtok eid="11" type="line_comment" span="294:4:294:13">// ignore</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="295:12:295:38">UnsupportedFlavorException</jtok>
+<jtok eid="11" type="local_variable_name" span="295:39:295:40">e</jtok>
+<jtok eid="11" type="line_comment" span="296:4:296:13">// ignore</jtok>
+<jtok eid="12" type="method_name" span="300:14:300:22">dragExit</jtok>
+<jtok eid="12" type="parameter_type" span="300:23:300:38">DropTargetEvent</jtok>
+<jtok eid="12" type="parameter_name" span="300:39:300:42">dte</jtok>
+<jtok eid="12" type="method_call" span="301:3:301:20">setHighlight1Cell</jtok>
+<jtok eid="13" type="method_name" span="304:14:304:35">dragGestureRecognized</jtok>
+<jtok eid="13" type="parameter_type" span="304:36:304:52">DragGestureEvent</jtok>
+<jtok eid="13" type="parameter_name" span="304:53:304:56">dge</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="305:3:305:16">GroupTreeNode</jtok>
+<jtok eid="13" type="local_variable_name" span="305:17:305:29">selectedNode</jtok>
+<jtok eid="13" type="method_call" span="305:32:305:47">getSelectedNode</jtok>
+<jtok eid="13" type="primary_name_ref" span="306:7:306:19">selectedNode</jtok>
+<jtok eid="13" type="line_comment" span="307:12:307:53">// nothing to transfer (select manually?)</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="308:3:308:9">Cursor</jtok>
+<jtok eid="13" type="local_variable_name" span="308:10:308:16">cursor</jtok>
+<jtok eid="13" type="primary_name_ref" span="308:19:308:29">DragSource</jtok>
+<jtok eid="13" type="qualified_name_ref" span="308:30:308:45">DefaultMoveDrop</jtok>
+<jtok eid="13" type="primary_name_ref" span="309:3:309:11">dragNode</jtok>
+<jtok eid="13" type="primary_name_ref" span="309:14:309:26">selectedNode</jtok>
+<jtok eid="13" type="primary_name_ref" span="310:3:310:6">dge</jtok>
+<jtok eid="13" type="method_call" span="310:7:310:20">getDragSource</jtok>
+<jtok eid="13" type="method_call" span="310:23:310:32">startDrag</jtok>
+<jtok eid="13" type="primary_name_ref" span="310:33:310:36">dge</jtok>
+<jtok eid="13" type="primary_name_ref" span="310:38:310:44">cursor</jtok>
+<jtok eid="13" type="primary_name_ref" span="310:46:310:58">selectedNode</jtok>
+<jtok eid="1" type="block_comment" span="313:2:313:73">/** Returns the first selected node, or null if nothing is selected. */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="314:9:314:22">GroupTreeNode</jtok>
+<jtok eid="14" type="method_name" span="314:23:314:38">getSelectedNode</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="315:3:315:11">TreePath</jtok>
+<jtok eid="14" type="local_variable_name" span="315:12:315:25">selectionPath</jtok>
+<jtok eid="14" type="method_call" span="315:28:315:44">getSelectionPath</jtok>
+<jtok eid="14" type="primary_name_ref" span="316:10:316:23">selectionPath</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="316:35:316:48">GroupTreeNode</jtok>
+<jtok eid="14" type="primary_name_ref" span="316:50:316:63">selectionPath</jtok>
+<jtok eid="14" type="method_call" span="317:6:317:26">getLastPathComponent</jtok>
+<jtok eid="1" type="block_comment" span="320:5:328:8">/**
+     * Refresh paths that may have become invalid due to node movements within
+     * the tree. This method creates new paths to the last path components
+     * (which must still exist) of the specified paths.
+     * 
+     * @param paths
+     *            Paths that may have become invalid.
+     * @return Refreshed paths that are all valid.
+     */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="329:12:329:23">Enumeration</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="329:24:329:32">TreePath</jtok>
+<jtok eid="15" type="method_name" span="329:34:329:46">refreshPaths</jtok>
+<jtok eid="15" type="parameter_type" span="329:47:329:58">Enumeration</jtok>
+<jtok eid="15" type="parameter_type" span="329:59:329:67">TreePath</jtok>
+<jtok eid="15" type="parameter_name" span="329:69:329:74">paths</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="330:9:330:15">Vector</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="330:16:330:24">TreePath</jtok>
+<jtok eid="15" type="local_variable_name" span="330:26:330:36">freshPaths</jtok>
+<jtok eid="15" type="constructor_call" span="330:43:330:49">Vector</jtok>
+<jtok eid="15" type="constructor_call" span="330:50:330:58">TreePath</jtok>
+<jtok eid="15" type="primary_name_ref" span="331:16:331:21">paths</jtok>
+<jtok eid="15" type="method_call" span="331:22:331:37">hasMoreElements</jtok>
+<jtok eid="15" type="primary_name_ref" span="332:13:332:23">freshPaths</jtok>
+<jtok eid="15" type="method_call" span="332:24:332:27">add</jtok>
+<jtok eid="15" type="constructor_call" span="332:32:332:40">TreePath</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="333:23:333:45">DefaultMutableTreeNode</jtok>
+<jtok eid="15" type="primary_name_ref" span="333:46:333:51">paths</jtok>
+<jtok eid="15" type="method_call" span="333:52:333:63">nextElement</jtok>
+<jtok eid="15" type="method_call" span="334:30:334:50">getLastPathComponent</jtok>
+<jtok eid="15" type="method_call" span="334:54:334:61">getPath</jtok>
+<jtok eid="15" type="primary_name_ref" span="336:16:336:26">freshPaths</jtok>
+<jtok eid="15" type="method_call" span="336:27:336:35">elements</jtok>
+<jtok eid="1" type="block_comment" span="339:5:347:8">/**
+     * Refresh paths that may have become invalid due to node movements within
+     * the tree. This method creates new paths to the last path components
+     * (which must still exist) of the specified paths.
+     * 
+     * @param paths
+     *            Paths that may have become invalid.
+     * @return Refreshed paths that are all valid.
+     */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="348:12:348:20">TreePath</jtok>
+<jtok eid="16" type="method_name" span="348:23:348:35">refreshPaths</jtok>
+<jtok eid="16" type="parameter_type" span="348:36:348:44">TreePath</jtok>
+<jtok eid="16" type="parameter_name" span="348:47:348:52">paths</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="349:9:349:17">TreePath</jtok>
+<jtok eid="16" type="local_variable_name" span="349:20:349:30">freshPaths</jtok>
+<jtok eid="16" type="constructor_call" span="349:37:349:45">TreePath</jtok>
+<jtok eid="16" type="primary_name_ref" span="349:46:349:51">paths</jtok>
+<jtok eid="16" type="qualified_name_ref" span="349:52:349:58">length</jtok>
+<jtok eid="16" type="local_variable_name" span="350:18:350:19">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="350:25:350:26">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="350:29:350:34">paths</jtok>
+<jtok eid="16" type="qualified_name_ref" span="350:35:350:41">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="350:45:350:46">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="351:13:351:23">freshPaths</jtok>
+<jtok eid="16" type="primary_name_ref" span="351:24:351:25">i</jtok>
+<jtok eid="16" type="constructor_call" span="351:33:351:41">TreePath</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="351:44:351:66">DefaultMutableTreeNode</jtok>
+<jtok eid="16" type="primary_name_ref" span="351:68:351:73">paths</jtok>
+<jtok eid="16" type="primary_name_ref" span="351:74:351:75">i</jtok>
+<jtok eid="16" type="method_call" span="352:30:352:50">getLastPathComponent</jtok>
+<jtok eid="16" type="method_call" span="352:54:352:61">getPath</jtok>
+<jtok eid="16" type="primary_name_ref" span="354:16:354:26">freshPaths</jtok>
+<jtok eid="1" type="block_comment" span="357:2:357:76">/** Highlights the specified cell or disables highlight if cell == null */</jtok>
+<jtok eid="17" type="method_name" span="358:14:358:31">setHighlight1Cell</jtok>
+<jtok eid="17" type="parameter_type" span="358:32:358:38">Object</jtok>
+<jtok eid="17" type="parameter_name" span="358:39:358:43">cell</jtok>
+<jtok eid="17" type="primary_name_ref" span="359:3:359:15">cellRenderer</jtok>
+<jtok eid="17" type="method_call" span="359:16:359:33">setHighlight1Cell</jtok>
+<jtok eid="17" type="primary_name_ref" span="359:34:359:38">cell</jtok>
+<jtok eid="17" type="method_call" span="360:3:360:10">repaint</jtok>
+<jtok eid="1" type="block_comment" span="363:2:363:78">/** Highlights the specified cells or disables highlight if cells == null */</jtok>
+<jtok eid="18" type="method_name" span="364:14:364:32">setHighlight2Cells</jtok>
+<jtok eid="18" type="parameter_type" span="364:33:364:39">Object</jtok>
+<jtok eid="18" type="parameter_name" span="364:42:364:47">cells</jtok>
+<jtok eid="18" type="primary_name_ref" span="365:3:365:15">cellRenderer</jtok>
+<jtok eid="18" type="method_call" span="365:16:365:34">setHighlight2Cells</jtok>
+<jtok eid="18" type="primary_name_ref" span="365:35:365:40">cells</jtok>
+<jtok eid="18" type="method_call" span="366:3:366:10">repaint</jtok>
+<jtok eid="1" type="block_comment" span="369:2:369:78">/** Highlights the specified cells or disables highlight if cells == null */</jtok>
+<jtok eid="19" type="method_name" span="370:14:370:32">setHighlight3Cells</jtok>
+<jtok eid="19" type="parameter_type" span="370:33:370:39">Object</jtok>
+<jtok eid="19" type="parameter_name" span="370:42:370:47">cells</jtok>
+<jtok eid="19" type="primary_name_ref" span="371:3:371:15">cellRenderer</jtok>
+<jtok eid="19" type="method_call" span="371:16:371:34">setHighlight3Cells</jtok>
+<jtok eid="19" type="primary_name_ref" span="371:35:371:40">cells</jtok>
+<jtok eid="19" type="method_call" span="372:3:372:10">repaint</jtok>
+<jtok eid="1" type="block_comment" span="375:5:375:79">/** Highlights the specified cell or disables highlight if cell == null */</jtok>
+<jtok eid="20" type="method_name" span="376:17:376:39">setHighlightBorderCell</jtok>
+<jtok eid="20" type="parameter_type" span="376:40:376:53">GroupTreeNode</jtok>
+<jtok eid="20" type="parameter_name" span="376:54:376:58">node</jtok>
+<jtok eid="20" type="primary_name_ref" span="377:9:377:21">cellRenderer</jtok>
+<jtok eid="20" type="method_call" span="377:22:377:44">setHighlightBorderCell</jtok>
+<jtok eid="20" type="primary_name_ref" span="377:45:377:49">node</jtok>
+<jtok eid="20" type="method_call" span="378:9:378:16">repaint</jtok>
+<jtok eid="1" type="block_comment" span="381:2:381:70">/** Sort immediate children of the specified node alphabetically. */</jtok>
+<jtok eid="21" type="method_name" span="382:14:382:18">sort</jtok>
+<jtok eid="21" type="parameter_type" span="382:19:382:32">GroupTreeNode</jtok>
+<jtok eid="21" type="parameter_name" span="382:33:382:37">node</jtok>
+<jtok eid="21" type="parameter_name" span="382:47:382:56">recursive</jtok>
+<jtok eid="21" type="method_call" span="383:3:383:24">sortWithoutRevalidate</jtok>
+<jtok eid="21" type="primary_name_ref" span="383:25:383:29">node</jtok>
+<jtok eid="21" type="primary_name_ref" span="383:31:383:40">recursive</jtok>
+<jtok eid="21" type="primary_name_ref" span="384:3:384:16">groupSelector</jtok>
+<jtok eid="21" type="method_call" span="384:17:384:33">revalidateGroups</jtok>
+<jtok eid="1" type="block_comment" span="387:2:387:50">/** This sorts without revalidation of groups */</jtok>
+<jtok eid="22" type="method_name" span="388:17:388:38">sortWithoutRevalidate</jtok>
+<jtok eid="22" type="parameter_type" span="388:39:388:52">GroupTreeNode</jtok>
+<jtok eid="22" type="parameter_name" span="388:53:388:57">node</jtok>
+<jtok eid="22" type="parameter_name" span="388:67:388:76">recursive</jtok>
+<jtok eid="22" type="primary_name_ref" span="389:7:389:11">node</jtok>
+<jtok eid="22" type="method_call" span="389:12:389:18">isLeaf</jtok>
+<jtok eid="22" type="line_comment" span="390:12:390:30">// nothing to sort</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="391:3:391:16">GroupTreeNode</jtok>
+<jtok eid="22" type="local_variable_name" span="391:17:391:23">child1</jtok>
+<jtok eid="22" type="local_variable_name" span="391:25:391:31">child2</jtok>
+<jtok eid="22" type="local_variable_name" span="392:7:392:8">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="392:11:392:15">node</jtok>
+<jtok eid="22" type="method_call" span="392:16:392:29">getChildCount</jtok>
+<jtok eid="22" type="local_variable_name" span="393:7:393:19">lastModified</jtok>
+<jtok eid="22" type="primary_name_ref" span="394:10:394:11">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="395:4:395:16">lastModified</jtok>
+<jtok eid="22" type="primary_name_ref" span="395:19:395:20">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="396:4:396:5">j</jtok>
+<jtok eid="22" type="local_variable_name" span="397:13:397:14">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="397:20:397:21">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="397:24:397:36">lastModified</jtok>
+<jtok eid="22" type="primary_name_ref" span="397:40:397:41">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="398:5:398:11">child1</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="398:15:398:28">GroupTreeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="398:30:398:34">node</jtok>
+<jtok eid="22" type="method_call" span="398:35:398:45">getChildAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="398:46:398:47">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="399:5:399:11">child2</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="399:15:399:28">GroupTreeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="399:30:399:34">node</jtok>
+<jtok eid="22" type="method_call" span="399:35:399:45">getChildAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="399:46:399:47">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="400:9:400:15">child2</jtok>
+<jtok eid="22" type="method_call" span="400:16:400:24">getGroup</jtok>
+<jtok eid="22" type="method_call" span="400:27:400:34">getName</jtok>
+<jtok eid="22" type="method_call" span="400:37:400:56">compareToIgnoreCase</jtok>
+<jtok eid="22" type="primary_name_ref" span="401:7:401:13">child1</jtok>
+<jtok eid="22" type="method_call" span="401:14:401:22">getGroup</jtok>
+<jtok eid="22" type="method_call" span="401:25:401:32">getName</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:6:402:10">node</jtok>
+<jtok eid="22" type="method_call" span="402:11:402:17">remove</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:18:402:24">child1</jtok>
+<jtok eid="22" type="primary_name_ref" span="403:6:403:10">node</jtok>
+<jtok eid="22" type="method_call" span="403:11:403:17">insert</jtok>
+<jtok eid="22" type="primary_name_ref" span="403:18:403:24">child1</jtok>
+<jtok eid="22" type="primary_name_ref" span="403:26:403:27">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="404:6:404:7">j</jtok>
+<jtok eid="22" type="primary_name_ref" span="404:10:404:11">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="408:7:408:16">recursive</jtok>
+<jtok eid="22" type="local_variable_name" span="409:13:409:14">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="409:20:409:21">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="409:24:409:28">node</jtok>
+<jtok eid="22" type="method_call" span="409:29:409:42">getChildCount</jtok>
+<jtok eid="22" type="primary_name_ref" span="409:48:409:49">i</jtok>
+<jtok eid="22" type="method_call" span="410:5:410:26">sortWithoutRevalidate</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="410:28:410:41">GroupTreeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="410:43:410:47">node</jtok>
+<jtok eid="22" type="method_call" span="410:48:410:58">getChildAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="410:59:410:60">i</jtok>
+<jtok eid="1" type="block_comment" span="415:2:415:47">/** Expand this node and all its children. */</jtok>
+<jtok eid="23" type="method_name" span="416:14:416:27">expandSubtree</jtok>
+<jtok eid="23" type="parameter_type" span="416:28:416:41">GroupTreeNode</jtok>
+<jtok eid="23" type="parameter_name" span="416:42:416:46">node</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="417:8:417:19">Enumeration</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="417:20:417:33">GroupTreeNode</jtok>
+<jtok eid="23" type="local_variable_name" span="417:35:417:36">e</jtok>
+<jtok eid="23" type="primary_name_ref" span="417:39:417:43">node</jtok>
+<jtok eid="23" type="method_call" span="417:44:417:65">depthFirstEnumeration</jtok>
+<jtok eid="23" type="primary_name_ref" span="417:69:417:70">e</jtok>
+<jtok eid="23" type="method_call" span="417:71:417:86">hasMoreElements</jtok>
+<jtok eid="23" type="method_call" span="418:4:418:14">expandPath</jtok>
+<jtok eid="23" type="constructor_call" span="418:19:418:27">TreePath</jtok>
+<jtok eid="23" type="primary_name_ref" span="418:28:418:29">e</jtok>
+<jtok eid="23" type="method_call" span="418:30:418:41">nextElement</jtok>
+<jtok eid="23" type="method_call" span="418:44:418:51">getPath</jtok>
+<jtok eid="1" type="block_comment" span="421:2:421:49">/** Collapse this node and all its children. */</jtok>
+<jtok eid="24" type="method_name" span="422:14:422:29">collapseSubtree</jtok>
+<jtok eid="24" type="parameter_type" span="422:30:422:43">GroupTreeNode</jtok>
+<jtok eid="24" type="parameter_name" span="422:44:422:48">node</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="423:8:423:19">Enumeration</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="423:20:423:33">GroupTreeNode</jtok>
+<jtok eid="24" type="local_variable_name" span="423:35:423:36">e</jtok>
+<jtok eid="24" type="primary_name_ref" span="423:39:423:43">node</jtok>
+<jtok eid="24" type="method_call" span="423:44:423:65">depthFirstEnumeration</jtok>
+<jtok eid="24" type="primary_name_ref" span="423:69:423:70">e</jtok>
+<jtok eid="24" type="method_call" span="423:71:423:86">hasMoreElements</jtok>
+<jtok eid="24" type="method_call" span="424:4:424:16">collapsePath</jtok>
+<jtok eid="24" type="constructor_call" span="424:21:424:29">TreePath</jtok>
+<jtok eid="24" type="primary_name_ref" span="424:31:424:32">e</jtok>
+<jtok eid="24" type="method_call" span="424:33:424:44">nextElement</jtok>
+<jtok eid="24" type="method_call" span="425:7:425:14">getPath</jtok>
+<jtok eid="1" type="block_comment" span="428:2:431:5">/**
+	 * Returns true if the node specified by path has at least one descendant
+	 * that is currently expanded.
+	 */</jtok>
+<jtok eid="25" type="method_name" span="432:17:432:38">hasExpandedDescendant</jtok>
+<jtok eid="25" type="parameter_type" span="432:39:432:47">TreePath</jtok>
+<jtok eid="25" type="parameter_name" span="432:48:432:52">path</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="433:3:433:16">GroupTreeNode</jtok>
+<jtok eid="25" type="local_variable_name" span="433:17:433:21">node</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="433:25:433:38">GroupTreeNode</jtok>
+<jtok eid="25" type="primary_name_ref" span="433:40:433:44">path</jtok>
+<jtok eid="25" type="method_call" span="433:45:433:65">getLastPathComponent</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="434:8:434:19">Enumeration</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="434:20:434:33">GroupTreeNode</jtok>
+<jtok eid="25" type="local_variable_name" span="434:35:434:36">e</jtok>
+<jtok eid="25" type="primary_name_ref" span="434:39:434:43">node</jtok>
+<jtok eid="25" type="method_call" span="434:44:434:52">children</jtok>
+<jtok eid="25" type="primary_name_ref" span="434:56:434:57">e</jtok>
+<jtok eid="25" type="method_call" span="434:58:434:73">hasMoreElements</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="435:4:435:17">GroupTreeNode</jtok>
+<jtok eid="25" type="local_variable_name" span="435:18:435:23">child</jtok>
+<jtok eid="25" type="primary_name_ref" span="435:26:435:27">e</jtok>
+<jtok eid="25" type="method_call" span="435:28:435:39">nextElement</jtok>
+<jtok eid="25" type="primary_name_ref" span="436:8:436:13">child</jtok>
+<jtok eid="25" type="method_call" span="436:14:436:20">isLeaf</jtok>
+<jtok eid="25" type="line_comment" span="437:15:437:44">// don't care about this case</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="438:4:438:12">TreePath</jtok>
+<jtok eid="25" type="local_variable_name" span="438:13:438:24">pathToChild</jtok>
+<jtok eid="25" type="primary_name_ref" span="438:27:438:31">path</jtok>
+<jtok eid="25" type="method_call" span="438:32:438:49">pathByAddingChild</jtok>
+<jtok eid="25" type="primary_name_ref" span="438:50:438:55">child</jtok>
+<jtok eid="25" type="method_call" span="439:8:439:18">isExpanded</jtok>
+<jtok eid="25" type="primary_name_ref" span="439:19:439:30">pathToChild</jtok>
+<jtok eid="25" type="method_call" span="439:35:439:56">hasExpandedDescendant</jtok>
+<jtok eid="25" type="primary_name_ref" span="439:57:439:68">pathToChild</jtok>
+<jtok eid="1" type="block_comment" span="445:2:448:5">/**
+	 * Returns true if the node specified by path has at least one descendant
+	 * that is currently collapsed.
+	 */</jtok>
+<jtok eid="26" type="method_name" span="449:17:449:39">hasCollapsedDescendant</jtok>
+<jtok eid="26" type="parameter_type" span="449:40:449:48">TreePath</jtok>
+<jtok eid="26" type="parameter_name" span="449:49:449:53">path</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="450:3:450:16">GroupTreeNode</jtok>
+<jtok eid="26" type="local_variable_name" span="450:17:450:21">node</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="450:25:450:38">GroupTreeNode</jtok>
+<jtok eid="26" type="primary_name_ref" span="450:40:450:44">path</jtok>
+<jtok eid="26" type="method_call" span="450:45:450:65">getLastPathComponent</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="451:8:451:19">Enumeration</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="451:20:451:33">GroupTreeNode</jtok>
+<jtok eid="26" type="local_variable_name" span="451:35:451:36">e</jtok>
+<jtok eid="26" type="primary_name_ref" span="451:39:451:43">node</jtok>
+<jtok eid="26" type="method_call" span="451:44:451:52">children</jtok>
+<jtok eid="26" type="primary_name_ref" span="451:56:451:57">e</jtok>
+<jtok eid="26" type="method_call" span="451:58:451:73">hasMoreElements</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="452:4:452:17">GroupTreeNode</jtok>
+<jtok eid="26" type="local_variable_name" span="452:18:452:23">child</jtok>
+<jtok eid="26" type="primary_name_ref" span="452:26:452:27">e</jtok>
+<jtok eid="26" type="method_call" span="452:28:452:39">nextElement</jtok>
+<jtok eid="26" type="primary_name_ref" span="453:8:453:13">child</jtok>
+<jtok eid="26" type="method_call" span="453:14:453:20">isLeaf</jtok>
+<jtok eid="26" type="line_comment" span="454:15:454:44">// don't care about this case</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="455:4:455:12">TreePath</jtok>
+<jtok eid="26" type="local_variable_name" span="455:13:455:24">pathToChild</jtok>
+<jtok eid="26" type="primary_name_ref" span="455:27:455:31">path</jtok>
+<jtok eid="26" type="method_call" span="455:32:455:49">pathByAddingChild</jtok>
+<jtok eid="26" type="primary_name_ref" span="455:50:455:55">child</jtok>
+<jtok eid="26" type="method_call" span="456:8:456:19">isCollapsed</jtok>
+<jtok eid="26" type="primary_name_ref" span="456:20:456:31">pathToChild</jtok>
+<jtok eid="26" type="method_call" span="456:36:456:58">hasCollapsedDescendant</jtok>
+<jtok eid="26" type="primary_name_ref" span="456:59:456:70">pathToChild</jtok>
+</jdoc>

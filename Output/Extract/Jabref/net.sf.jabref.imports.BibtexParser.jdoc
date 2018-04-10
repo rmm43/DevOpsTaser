@@ -1,0 +1,1567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.BibtexParser" jls="java5">
+<jent id="0" type="file" span="0:0:1101:1">Source/jabref/src/java/net/sf/jabref/imports/BibtexParser.java</jent>
+<jent id="1" pid="0" type="class" span="73:1:1101:1">net.sf.jabref.imports.BibtexParser</jent>
+<jent id="2" pid="1" type="method" span="93:2:102:2">net.sf.jabref.imports.BibtexParser.BibtexParser(Reader)</jent>
+<jent id="3" pid="1" type="method" span="111:2:114:2">net.sf.jabref.imports.BibtexParser.parse(Reader)</jent>
+<jent id="4" pid="1" type="method" span="124:2:132:2">net.sf.jabref.imports.BibtexParser.fromString(String)</jent>
+<jent id="5" pid="1" type="method" span="143:2:149:2">net.sf.jabref.imports.BibtexParser.singleFromString(String)</jent>
+<jent id="6" pid="1" type="method" span="154:2:171:2">net.sf.jabref.imports.BibtexParser.isRecognizedFormat(Reader)</jent>
+<jent id="7" pid="1" type="method" span="173:2:195:2">net.sf.jabref.imports.BibtexParser.skipWhitespace()</jent>
+<jent id="8" pid="1" type="method" span="197:2:224:2">net.sf.jabref.imports.BibtexParser.skipAndRecordWhitespace(int)</jent>
+<jent id="9" pid="1" type="method" span="236:2:399:2">net.sf.jabref.imports.BibtexParser.parse()</jent>
+<jent id="10" pid="1" type="method" span="401:2:406:2">net.sf.jabref.imports.BibtexParser.peek()</jent>
+<jent id="11" pid="1" type="method" span="408:2:413:2">net.sf.jabref.imports.BibtexParser.read()</jent>
+<jent id="12" pid="1" type="method" span="415:2:419:2">net.sf.jabref.imports.BibtexParser.unread(int)</jent>
+<jent id="13" pid="1" type="method" span="421:2:439:2">net.sf.jabref.imports.BibtexParser.parseString()</jent>
+<jent id="14" pid="1" type="method" span="441:2:443:2">net.sf.jabref.imports.BibtexParser.parsePreamble()</jent>
+<jent id="15" pid="1" type="method" span="445:2:507:2">net.sf.jabref.imports.BibtexParser.parseEntry(BibtexEntryType)</jent>
+<jent id="16" pid="1" type="method" span="509:2:538:2">net.sf.jabref.imports.BibtexParser.parseField(BibtexEntry)</jent>
+<jent id="17" pid="1" type="method" span="540:2:626:2">net.sf.jabref.imports.BibtexParser.parseFieldContent(String)</jent>
+<jent id="18" pid="1" type="method" span="646:2:659:2">net.sf.jabref.imports.BibtexParser.hasNegativeBraceCount(String)</jent>
+<jent id="19" pid="1" type="method" span="665:2:686:2">net.sf.jabref.imports.BibtexParser.parseTextToken()</jent>
+<jent id="20" pid="1" type="method" span="696:5:774:5">net.sf.jabref.imports.BibtexParser.fixKey()</jent>
+<jent id="21" pid="1" type="method" span="782:2:791:2">net.sf.jabref.imports.BibtexParser.removeWhitespaces(StringBuilder)</jent>
+<jent id="22" pid="1" type="method" span="800:2:804:2">net.sf.jabref.imports.BibtexParser.unreadBuffer(StringBuilder)</jent>
+<jent id="23" pid="1" type="method" span="810:2:857:2">net.sf.jabref.imports.BibtexParser.parseKey()</jent>
+<jent id="24" pid="1" type="class" span="859:2:863:2">net.sf.jabref.imports.BibtexParser.NoLabelException</jent>
+<jent id="25" pid="24" type="method" span="860:3:862:3">net.sf.jabref.imports.BibtexParser.NoLabelException.NoLabelException(String)</jent>
+<jent id="26" pid="1" type="method" span="865:2:915:2">net.sf.jabref.imports.BibtexParser.parseBracketedText()</jent>
+<jent id="27" pid="1" type="method" span="917:2:942:2">net.sf.jabref.imports.BibtexParser.parseBracketedTextExactly()</jent>
+<jent id="28" pid="1" type="method" span="944:2:969:2">net.sf.jabref.imports.BibtexParser.parseQuotedFieldExactly()</jent>
+<jent id="29" pid="1" type="method" span="971:2:979:2">net.sf.jabref.imports.BibtexParser.consume(char)</jent>
+<jent id="30" pid="1" type="method" span="981:2:992:2">net.sf.jabref.imports.BibtexParser.consumeUncritically(char)</jent>
+<jent id="31" pid="1" type="method" span="994:2:1005:2">net.sf.jabref.imports.BibtexParser.consume(char,char)</jent>
+<jent id="32" pid="1" type="method" span="1007:2:1028:2">net.sf.jabref.imports.BibtexParser.checkEntryTypes(ParserResult)</jent>
+<jent id="33" pid="1" type="method" span="1040:5:1083:5">net.sf.jabref.imports.BibtexParser.readJabRefVersionNumber()</jent>
+<jent id="34" pid="1" type="method" span="1090:5:1100:5">net.sf.jabref.imports.BibtexParser.setMajorMinorVersions()</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2003-06 David Weitzman, Nizar N. Batada, Morten O. Alver, Christopher Oezbek
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="0" type="block_comment" span="53:1:72:4">/**
+ * Class for importing BibTeX-files.
+ * 
+ * Use:
+ * 
+ * BibtexParser parser = new BibtexParser(reader);
+ * 
+ * ParserResult result = parser.parse();
+ * 
+ * or
+ * 
+ * ParserResult result = BibtexParser.parse(reader);
+ * 
+ * Can be used stand-alone.
+ * 
+ * @author David Weitzman
+ * @author Nizar N. Batada
+ * @author Morten O. Alver
+ * @author Christopher Oezbek 
+ */</jtok>
+<jtok eid="1" type="class_name" span="73:14:73:26">BibtexParser</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:10:75:24">PushbackReader</jtok>
+<jtok eid="1" type="field_name" span="75:25:75:28">_in</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="77:10:77:24">BibtexDatabase</jtok>
+<jtok eid="1" type="field_name" span="77:25:77:28">_db</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="79:10:79:17">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="79:18:79:24">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="79:26:79:32">String</jtok>
+<jtok eid="1" type="field_name" span="79:34:79:39">_meta</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:10:81:17">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:18:81:24">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:26:81:41">BibtexEntryType</jtok>
+<jtok eid="1" type="field_name" span="81:43:81:53">entryTypes</jtok>
+<jtok eid="1" type="field_name" span="83:18:83:22">_eof</jtok>
+<jtok eid="1" type="field_name" span="85:14:85:18">line</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="87:10:87:28">FieldContentParser</jtok>
+<jtok eid="1" type="field_name" span="87:29:87:47">fieldContentParser</jtok>
+<jtok eid="1" type="constructor_call" span="87:54:87:72">FieldContentParser</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="89:10:89:22">ParserResult</jtok>
+<jtok eid="1" type="field_name" span="89:23:89:26">_pr</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="91:23:91:30">Integer</jtok>
+<jtok eid="1" type="field_name" span="91:31:91:40">LOOKAHEAD</jtok>
+<jtok eid="2" type="method_name" span="93:9:93:21">BibtexParser</jtok>
+<jtok eid="2" type="parameter_type" span="93:22:93:28">Reader</jtok>
+<jtok eid="2" type="parameter_name" span="93:29:93:31">in</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:7:95:9">in</jtok>
+<jtok eid="2" type="constructor_call" span="96:14:96:34">NullPointerException</jtok>
+<jtok eid="2" type="primary_name_ref" span="98:7:98:14">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="98:15:98:20">prefs</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:4:99:11">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="99:12:99:17">prefs</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:20:99:37">JabRefPreferences</jtok>
+<jtok eid="2" type="method_call" span="99:38:99:49">getInstance</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:3:101:6">_in</jtok>
+<jtok eid="2" type="constructor_call" span="101:13:101:27">PushbackReader</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:28:101:30">in</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:32:101:41">LOOKAHEAD</jtok>
+<jtok eid="1" type="block_comment" span="104:2:110:5">/**
+	 * Shortcut usage to create a Parser and read the input.
+	 * 
+	 * @param in -
+	 *            Reader to read from
+	 * @throws IOException
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="111:16:111:28">ParserResult</jtok>
+<jtok eid="3" type="method_name" span="111:29:111:34">parse</jtok>
+<jtok eid="3" type="parameter_type" span="111:35:111:41">Reader</jtok>
+<jtok eid="3" type="parameter_name" span="111:42:111:44">in</jtok>
+<jtok eid="3" type="throws" span="111:53:111:64">IOException</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="112:3:112:15">BibtexParser</jtok>
+<jtok eid="3" type="local_variable_name" span="112:16:112:22">parser</jtok>
+<jtok eid="3" type="constructor_call" span="112:29:112:41">BibtexParser</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:42:112:44">in</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:10:113:16">parser</jtok>
+<jtok eid="3" type="method_call" span="113:17:113:22">parse</jtok>
+<jtok eid="1" type="block_comment" span="117:2:123:5">/**
+	 * Parses BibtexEntries from the given string and returns the collection of all entries found.
+	 * 
+	 * @param bibtexString
+	 * 
+	 * @return Returns null if an error occurred, returns an empty collection if no entries where found. 
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="124:16:124:26">Collection</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="124:27:124:38">BibtexEntry</jtok>
+<jtok eid="4" type="method_name" span="124:40:124:50">fromString</jtok>
+<jtok eid="4" type="parameter_type" span="124:51:124:57">String</jtok>
+<jtok eid="4" type="parameter_name" span="124:58:124:70">bibtexString</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="125:3:125:15">StringReader</jtok>
+<jtok eid="4" type="local_variable_name" span="125:16:125:22">reader</jtok>
+<jtok eid="4" type="constructor_call" span="125:29:125:41">StringReader</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:42:125:54">bibtexString</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="126:3:126:15">BibtexParser</jtok>
+<jtok eid="4" type="local_variable_name" span="126:16:126:22">parser</jtok>
+<jtok eid="4" type="constructor_call" span="126:29:126:41">BibtexParser</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:42:126:48">reader</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:11:128:17">parser</jtok>
+<jtok eid="4" type="method_call" span="128:18:128:23">parse</jtok>
+<jtok eid="4" type="method_call" span="128:26:128:37">getDatabase</jtok>
+<jtok eid="4" type="method_call" span="128:40:128:50">getEntries</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="129:12:129:21">Exception</jtok>
+<jtok eid="4" type="local_variable_name" span="129:22:129:23">e</jtok>
+<jtok eid="1" type="block_comment" span="134:2:142:5">/**
+	 * Parses BibtexEntries from the given string and returns one entry found (or null if none found)
+	 * 
+	 * It is undetermined which entry is returned, so use this in case you know there is only one entry in the string.
+	 * 
+	 * @param bibtexString
+	 * 
+	 * @return The bibtexentry or null if non was found or an error occurred.
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="143:16:143:27">BibtexEntry</jtok>
+<jtok eid="5" type="method_name" span="143:28:143:44">singleFromString</jtok>
+<jtok eid="5" type="parameter_type" span="143:45:143:51">String</jtok>
+<jtok eid="5" type="parameter_name" span="143:52:143:64">bibtexString</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="144:3:144:13">Collection</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="144:14:144:25">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="144:27:144:28">c</jtok>
+<jtok eid="5" type="method_call" span="144:31:144:41">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:42:144:54">bibtexString</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:7:145:8">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:10:148:11">c</jtok>
+<jtok eid="5" type="method_call" span="148:12:148:20">iterator</jtok>
+<jtok eid="5" type="method_call" span="148:23:148:27">next</jtok>
+<jtok eid="1" type="block_comment" span="151:2:153:5">/**
+	 * Check whether the source is in the correct format for this importer.
+	 */</jtok>
+<jtok eid="6" type="method_name" span="154:24:154:42">isRecognizedFormat</jtok>
+<jtok eid="6" type="parameter_type" span="154:43:154:49">Reader</jtok>
+<jtok eid="6" type="parameter_name" span="154:50:154:56">inOrig</jtok>
+<jtok eid="6" type="throws" span="154:65:154:76">IOException</jtok>
+<jtok eid="6" type="line_comment" span="155:3:155:58">// Our strategy is to look for the "@&lt;type&gt;    {" line.</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="156:3:156:17">BufferedReader</jtok>
+<jtok eid="6" type="local_variable_name" span="156:18:156:20">in</jtok>
+<jtok eid="6" type="constructor_call" span="156:27:156:41">BufferedReader</jtok>
+<jtok eid="6" type="primary_name_ref" span="156:42:156:48">inOrig</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="158:3:158:10">Pattern</jtok>
+<jtok eid="6" type="local_variable_name" span="158:11:158:15">pat1</jtok>
+<jtok eid="6" type="primary_name_ref" span="158:18:158:25">Pattern</jtok>
+<jtok eid="6" type="method_call" span="158:26:158:33">compile</jtok>
+<jtok eid="6" type="string_literal" span="158:34:158:53">"@[a-zA-Z]*\\s*\\{"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="160:3:160:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="160:10:160:13">str</jtok>
+<jtok eid="6" type="primary_name_ref" span="162:11:162:14">str</jtok>
+<jtok eid="6" type="primary_name_ref" span="162:17:162:19">in</jtok>
+<jtok eid="6" type="method_call" span="162:20:162:28">readLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:8:164:12">pat1</jtok>
+<jtok eid="6" type="method_call" span="164:13:164:20">matcher</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:21:164:24">str</jtok>
+<jtok eid="6" type="method_call" span="164:26:164:30">find</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:13:166:16">str</jtok>
+<jtok eid="6" type="method_call" span="166:17:166:27">startsWith</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:28:166:38">GUIGlobals</jtok>
+<jtok eid="6" type="qualified_name_ref" span="166:39:166:48">SIGNATURE</jtok>
+<jtok eid="7" type="method_name" span="173:15:173:29">skipWhitespace</jtok>
+<jtok eid="7" type="throws" span="173:39:173:50">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="174:7:174:8">c</jtok>
+<jtok eid="7" type="primary_name_ref" span="177:4:177:5">c</jtok>
+<jtok eid="7" type="method_call" span="177:8:177:12">read</jtok>
+<jtok eid="7" type="primary_name_ref" span="178:9:178:10">c</jtok>
+<jtok eid="7" type="primary_name_ref" span="178:22:178:23">c</jtok>
+<jtok eid="7" type="primary_name_ref" span="179:5:179:9">_eof</jtok>
+<jtok eid="7" type="primary_name_ref" span="183:8:183:17">Character</jtok>
+<jtok eid="7" type="method_call" span="183:18:183:30">isWhitespace</jtok>
+<jtok eid="7" type="primary_name_ref" span="183:38:183:39">c</jtok>
+<jtok eid="7" type="line_comment" span="186:5:186:33">// found non-whitespace char</jtok>
+<jtok eid="7" type="line_comment" span="187:5:187:45">// Util.pr("SkipWhitespace, stops: "+c);</jtok>
+<jtok eid="7" type="method_call" span="188:5:188:11">unread</jtok>
+<jtok eid="7" type="primary_name_ref" span="188:12:188:13">c</jtok>
+<jtok eid="7" type="block_comment" span="189:4:192:7">/*
+			 * try { Thread.currentThread().sleep(500); } catch
+			 * (InterruptedException ex) {}
+			 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="197:10:197:16">String</jtok>
+<jtok eid="8" type="method_name" span="197:17:197:40">skipAndRecordWhitespace</jtok>
+<jtok eid="8" type="parameter_name" span="197:45:197:46">j</jtok>
+<jtok eid="8" type="throws" span="197:55:197:66">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="198:7:198:8">c</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="199:3:199:15">StringBuffer</jtok>
+<jtok eid="8" type="local_variable_name" span="199:16:199:18">sb</jtok>
+<jtok eid="8" type="constructor_call" span="199:25:199:37">StringBuffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:7:200:8">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="201:4:201:6">sb</jtok>
+<jtok eid="8" type="method_call" span="201:7:201:13">append</jtok>
+<jtok eid="8" type="primary_name_ref" span="201:21:201:22">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="203:4:203:5">c</jtok>
+<jtok eid="8" type="method_call" span="203:8:203:12">read</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:9:204:10">c</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:22:204:23">c</jtok>
+<jtok eid="8" type="primary_name_ref" span="205:5:205:9">_eof</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:12:206:14">sb</jtok>
+<jtok eid="8" type="method_call" span="206:15:206:23">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:8:209:17">Character</jtok>
+<jtok eid="8" type="method_call" span="209:18:209:30">isWhitespace</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:38:209:39">c</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:9:210:10">c</jtok>
+<jtok eid="8" type="primary_name_ref" span="211:6:211:8">sb</jtok>
+<jtok eid="8" type="method_call" span="211:9:211:15">append</jtok>
+<jtok eid="8" type="primary_name_ref" span="211:23:211:24">c</jtok>
+<jtok eid="8" type="line_comment" span="214:5:214:33">// found non-whitespace char</jtok>
+<jtok eid="8" type="line_comment" span="215:5:215:45">// Util.pr("SkipWhitespace, stops: "+c);</jtok>
+<jtok eid="8" type="method_call" span="216:5:216:11">unread</jtok>
+<jtok eid="8" type="primary_name_ref" span="216:12:216:13">c</jtok>
+<jtok eid="8" type="block_comment" span="217:4:220:7">/*
+			 * try { Thread.currentThread().sleep(500); } catch
+			 * (InterruptedException ex) {}
+			 */</jtok>
+<jtok eid="8" type="primary_name_ref" span="223:10:223:12">sb</jtok>
+<jtok eid="8" type="method_call" span="223:13:223:21">toString</jtok>
+<jtok eid="1" type="block_comment" span="226:2:235:5">/**
+	 * Will parse the BibTex-Data found when reading from reader.
+	 * 
+	 * The reader will be consumed.
+	 * 
+	 * Multiple calls to parse() return the same results
+	 * 
+	 * @return ParserResult
+	 * @throws IOException
+	 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="236:9:236:21">ParserResult</jtok>
+<jtok eid="9" type="method_name" span="236:22:236:27">parse</jtok>
+<jtok eid="9" type="throws" span="236:37:236:48">IOException</jtok>
+<jtok eid="9" type="line_comment" span="238:3:238:48">// If we already parsed this, just return it.</jtok>
+<jtok eid="9" type="primary_name_ref" span="239:7:239:10">_pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="240:11:240:14">_pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="242:9:242:12">_db</jtok>
+<jtok eid="9" type="constructor_call" span="242:19:242:33">BibtexDatabase</jtok>
+<jtok eid="9" type="line_comment" span="242:37:242:64">// Bibtex related contents.</jtok>
+<jtok eid="9" type="primary_name_ref" span="243:3:243:8">_meta</jtok>
+<jtok eid="9" type="constructor_call" span="243:15:243:22">HashMap</jtok>
+<jtok eid="9" type="constructor_call" span="243:23:243:29">String</jtok>
+<jtok eid="9" type="constructor_call" span="243:31:243:37">String</jtok>
+<jtok eid="9" type="line_comment" span="243:42:243:80">// Metadata in comments for Bibkeeper.</jtok>
+<jtok eid="9" type="primary_name_ref" span="244:3:244:13">entryTypes</jtok>
+<jtok eid="9" type="constructor_call" span="244:20:244:27">HashMap</jtok>
+<jtok eid="9" type="constructor_call" span="244:28:244:34">String</jtok>
+<jtok eid="9" type="constructor_call" span="244:36:244:51">BibtexEntryType</jtok>
+<jtok eid="9" type="line_comment" span="244:56:244:94">// To store custem entry types parsed.</jtok>
+<jtok eid="9" type="primary_name_ref" span="245:3:245:6">_pr</jtok>
+<jtok eid="9" type="constructor_call" span="245:13:245:25">ParserResult</jtok>
+<jtok eid="9" type="primary_name_ref" span="245:26:245:29">_db</jtok>
+<jtok eid="9" type="primary_name_ref" span="245:31:245:36">_meta</jtok>
+<jtok eid="9" type="primary_name_ref" span="245:38:245:48">entryTypes</jtok>
+<jtok eid="9" type="line_comment" span="247:9:247:82">// First see if we can find the version number of the JabRef version that</jtok>
+<jtok eid="9" type="line_comment" span="248:9:248:27">// wrote the file:</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="249:9:249:15">String</jtok>
+<jtok eid="9" type="local_variable_name" span="249:16:249:26">versionNum</jtok>
+<jtok eid="9" type="method_call" span="249:29:249:52">readJabRefVersionNumber</jtok>
+<jtok eid="9" type="primary_name_ref" span="250:13:250:23">versionNum</jtok>
+<jtok eid="9" type="primary_name_ref" span="251:13:251:16">_pr</jtok>
+<jtok eid="9" type="method_call" span="251:17:251:33">setJabrefVersion</jtok>
+<jtok eid="9" type="primary_name_ref" span="251:34:251:44">versionNum</jtok>
+<jtok eid="9" type="method_call" span="252:13:252:34">setMajorMinorVersions</jtok>
+<jtok eid="9" type="line_comment" span="255:13:255:62">// No version number found. However, we have only</jtok>
+<jtok eid="9" type="method_call" span="258:9:258:23">skipWhitespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="261:12:261:16">_eof</jtok>
+<jtok eid="9" type="local_variable_name" span="262:13:262:18">found</jtok>
+<jtok eid="9" type="method_call" span="262:21:262:40">consumeUncritically</jtok>
+<jtok eid="9" type="primary_name_ref" span="263:10:263:15">found</jtok>
+<jtok eid="9" type="method_call" span="265:5:265:19">skipWhitespace</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="266:5:266:11">String</jtok>
+<jtok eid="9" type="local_variable_name" span="266:12:266:21">entryType</jtok>
+<jtok eid="9" type="method_call" span="266:24:266:38">parseTextToken</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="267:5:267:20">BibtexEntryType</jtok>
+<jtok eid="9" type="local_variable_name" span="267:21:267:23">tp</jtok>
+<jtok eid="9" type="primary_name_ref" span="267:26:267:41">BibtexEntryType</jtok>
+<jtok eid="9" type="method_call" span="267:42:267:49">getType</jtok>
+<jtok eid="9" type="primary_name_ref" span="267:50:267:59">entryType</jtok>
+<jtok eid="9" type="local_variable_name" span="268:13:268:20">isEntry</jtok>
+<jtok eid="9" type="primary_name_ref" span="268:24:268:26">tp</jtok>
+<jtok eid="9" type="line_comment" span="269:5:269:30">// Util.pr(tp.getName());</jtok>
+<jtok eid="9" type="primary_name_ref" span="270:10:270:17">isEntry</jtok>
+<jtok eid="9" type="line_comment" span="271:6:271:62">// The entry type name was not recognized. This can mean</jtok>
+<jtok eid="9" type="line_comment" span="272:6:272:58">// that it is a string, preamble, or comment. If so,</jtok>
+<jtok eid="9" type="line_comment" span="273:6:273:65">// parse and set accordingly. If not, assume it is an entry</jtok>
+<jtok eid="9" type="line_comment" span="274:6:274:30">// with an unknown type.</jtok>
+<jtok eid="9" type="primary_name_ref" span="275:10:275:19">entryType</jtok>
+<jtok eid="9" type="method_call" span="275:20:275:31">toLowerCase</jtok>
+<jtok eid="9" type="method_call" span="275:34:275:40">equals</jtok>
+<jtok eid="9" type="string_literal" span="275:41:275:51">"preamble"</jtok>
+<jtok eid="9" type="primary_name_ref" span="276:7:276:10">_db</jtok>
+<jtok eid="9" type="method_call" span="276:11:276:22">setPreamble</jtok>
+<jtok eid="9" type="method_call" span="276:23:276:36">parsePreamble</jtok>
+<jtok eid="9" type="primary_name_ref" span="277:17:277:26">entryType</jtok>
+<jtok eid="9" type="method_call" span="277:27:277:38">toLowerCase</jtok>
+<jtok eid="9" type="method_call" span="277:41:277:47">equals</jtok>
+<jtok eid="9" type="string_literal" span="277:48:277:56">"string"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="278:7:278:19">BibtexString</jtok>
+<jtok eid="9" type="local_variable_name" span="278:20:278:22">bs</jtok>
+<jtok eid="9" type="method_call" span="278:25:278:36">parseString</jtok>
+<jtok eid="9" type="primary_name_ref" span="280:8:280:11">_db</jtok>
+<jtok eid="9" type="method_call" span="280:12:280:21">addString</jtok>
+<jtok eid="9" type="primary_name_ref" span="280:22:280:24">bs</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="281:16:281:37">KeyCollisionException</jtok>
+<jtok eid="9" type="local_variable_name" span="281:38:281:40">ex</jtok>
+<jtok eid="9" type="primary_name_ref" span="282:8:282:11">_pr</jtok>
+<jtok eid="9" type="method_call" span="282:12:282:22">addWarning</jtok>
+<jtok eid="9" type="primary_name_ref" span="282:23:282:30">Globals</jtok>
+<jtok eid="9" type="method_call" span="282:31:282:35">lang</jtok>
+<jtok eid="9" type="string_literal" span="282:36:282:59">"Duplicate string name"</jtok>
+<jtok eid="9" type="string_literal" span="282:63:282:67">": "</jtok>
+<jtok eid="9" type="primary_name_ref" span="283:11:283:13">bs</jtok>
+<jtok eid="9" type="method_call" span="283:14:283:21">getName</jtok>
+<jtok eid="9" type="line_comment" span="284:8:284:32">// ex.printStackTrace();</jtok>
+<jtok eid="9" type="primary_name_ref" span="286:17:286:26">entryType</jtok>
+<jtok eid="9" type="method_call" span="286:27:286:38">toLowerCase</jtok>
+<jtok eid="9" type="method_call" span="286:41:286:47">equals</jtok>
+<jtok eid="9" type="string_literal" span="286:48:286:57">"comment"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="287:7:287:19">StringBuffer</jtok>
+<jtok eid="9" type="local_variable_name" span="287:20:287:30">commentBuf</jtok>
+<jtok eid="9" type="method_call" span="287:33:287:58">parseBracketedTextExactly</jtok>
+<jtok eid="9" type="block_comment" span="288:7:302:10">/**
+						 * 
+						 * Metadata are used to store Bibkeeper-specific
+						 * information in .bib files.
+						 * 
+						 * Metadata are stored in bibtex files in the format
+						 * 
+						 * @comment{jabref-meta: type:data0;data1;data2;...}
+						 * 
+						 * Each comment that starts with the META_FLAG is stored
+						 * in the meta HashMap, with type as key. Unluckily, the
+						 * old META_FLAG bibkeeper-meta: was used in JabRef 1.0
+						 * and 1.1, so we need to support it as well. At least
+						 * for a while. We'll always save with the new one.
+						 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="303:7:303:13">String</jtok>
+<jtok eid="9" type="local_variable_name" span="303:14:303:21">comment</jtok>
+<jtok eid="9" type="primary_name_ref" span="303:24:303:34">commentBuf</jtok>
+<jtok eid="9" type="method_call" span="303:35:303:43">toString</jtok>
+<jtok eid="9" type="method_call" span="303:46:303:56">replaceAll</jtok>
+<jtok eid="9" type="string_literal" span="303:57:303:71">"[\\x0d\\x0a]"</jtok>
+<jtok eid="9" type="string_literal" span="303:73:303:75">""</jtok>
+<jtok eid="9" type="primary_name_ref" span="304:11:304:18">comment</jtok>
+<jtok eid="9" type="method_call" span="304:19:304:28">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="305:8:305:12">Math</jtok>
+<jtok eid="9" type="method_call" span="305:13:305:16">min</jtok>
+<jtok eid="9" type="primary_name_ref" span="305:17:305:24">comment</jtok>
+<jtok eid="9" type="method_call" span="305:25:305:31">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="305:35:305:45">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="305:46:305:55">META_FLAG</jtok>
+<jtok eid="9" type="method_call" span="305:56:305:62">length</jtok>
+<jtok eid="9" type="method_call" span="305:67:305:73">equals</jtok>
+<jtok eid="9" type="primary_name_ref" span="306:8:306:18">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="306:19:306:28">META_FLAG</jtok>
+<jtok eid="9" type="primary_name_ref" span="307:11:307:18">comment</jtok>
+<jtok eid="9" type="method_call" span="307:19:307:28">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="308:9:308:13">Math</jtok>
+<jtok eid="9" type="method_call" span="308:14:308:17">min</jtok>
+<jtok eid="9" type="primary_name_ref" span="308:18:308:25">comment</jtok>
+<jtok eid="9" type="method_call" span="308:26:308:32">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="308:36:308:46">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="308:47:308:60">META_FLAG_OLD</jtok>
+<jtok eid="9" type="method_call" span="308:61:308:67">length</jtok>
+<jtok eid="9" type="method_call" span="309:10:309:16">equals</jtok>
+<jtok eid="9" type="primary_name_ref" span="309:17:309:27">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="309:28:309:41">META_FLAG_OLD</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="311:8:311:14">String</jtok>
+<jtok eid="9" type="local_variable_name" span="311:15:311:19">rest</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:12:312:19">comment</jtok>
+<jtok eid="9" type="method_call" span="312:20:312:29">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:33:312:43">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="312:44:312:53">META_FLAG</jtok>
+<jtok eid="9" type="method_call" span="312:54:312:60">length</jtok>
+<jtok eid="9" type="method_call" span="312:64:312:70">equals</jtok>
+<jtok eid="9" type="primary_name_ref" span="313:9:313:19">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="313:20:313:29">META_FLAG</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:9:314:13">rest</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:16:314:23">comment</jtok>
+<jtok eid="9" type="method_call" span="314:24:314:33">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:34:314:44">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="314:45:314:54">META_FLAG</jtok>
+<jtok eid="9" type="method_call" span="314:55:314:61">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:9:316:13">rest</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:16:316:23">comment</jtok>
+<jtok eid="9" type="method_call" span="316:24:316:33">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:34:316:44">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="316:45:316:58">META_FLAG_OLD</jtok>
+<jtok eid="9" type="method_call" span="316:59:316:65">length</jtok>
+<jtok eid="9" type="local_variable_name" span="318:12:318:15">pos</jtok>
+<jtok eid="9" type="primary_name_ref" span="318:18:318:22">rest</jtok>
+<jtok eid="9" type="method_call" span="318:23:318:30">indexOf</jtok>
+<jtok eid="9" type="primary_name_ref" span="320:12:320:15">pos</jtok>
+<jtok eid="9" type="primary_name_ref" span="321:9:321:14">_meta</jtok>
+<jtok eid="9" type="method_call" span="321:15:321:18">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="321:19:321:23">rest</jtok>
+<jtok eid="9" type="method_call" span="321:24:321:33">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="321:37:321:40">pos</jtok>
+<jtok eid="9" type="primary_name_ref" span="321:43:321:47">rest</jtok>
+<jtok eid="9" type="method_call" span="321:48:321:57">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="321:58:321:61">pos</jtok>
+<jtok eid="9" type="line_comment" span="322:8:322:60">// We remove all line breaks in the metadata - these</jtok>
+<jtok eid="9" type="line_comment" span="323:8:323:34">// will have been inserted</jtok>
+<jtok eid="9" type="line_comment" span="324:8:324:54">// to prevent too long lines when the file was</jtok>
+<jtok eid="9" type="line_comment" span="325:8:325:47">// saved, and are not part of the data.</jtok>
+<jtok eid="9" type="block_comment" span="328:7:332:10">/**
+						 * A custom entry type can also be stored in a
+						 * 
+						 * @comment:
+						 */</jtok>
+<jtok eid="9" type="primary_name_ref" span="333:11:333:18">comment</jtok>
+<jtok eid="9" type="method_call" span="333:19:333:28">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="334:8:334:12">Math</jtok>
+<jtok eid="9" type="method_call" span="334:13:334:16">min</jtok>
+<jtok eid="9" type="primary_name_ref" span="334:17:334:24">comment</jtok>
+<jtok eid="9" type="method_call" span="334:25:334:31">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="334:35:334:45">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="334:46:334:60">ENTRYTYPE_FLAG</jtok>
+<jtok eid="9" type="method_call" span="334:61:334:67">length</jtok>
+<jtok eid="9" type="method_call" span="334:72:334:78">equals</jtok>
+<jtok eid="9" type="primary_name_ref" span="335:8:335:18">GUIGlobals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="335:19:335:33">ENTRYTYPE_FLAG</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="337:8:337:23">CustomEntryType</jtok>
+<jtok eid="9" type="local_variable_name" span="337:24:337:27">typ</jtok>
+<jtok eid="9" type="primary_name_ref" span="337:30:337:45">CustomEntryType</jtok>
+<jtok eid="9" type="method_call" span="337:46:337:60">parseEntryType</jtok>
+<jtok eid="9" type="primary_name_ref" span="337:61:337:68">comment</jtok>
+<jtok eid="9" type="primary_name_ref" span="338:8:338:18">entryTypes</jtok>
+<jtok eid="9" type="method_call" span="338:19:338:22">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="338:23:338:26">typ</jtok>
+<jtok eid="9" type="method_call" span="338:27:338:34">getName</jtok>
+<jtok eid="9" type="method_call" span="338:37:338:48">toLowerCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="338:52:338:55">typ</jtok>
+<jtok eid="9" type="line_comment" span="342:7:342:63">// The entry type was not recognized. This may mean that</jtok>
+<jtok eid="9" type="line_comment" span="343:7:343:57">// it is a custom entry type whose definition will</jtok>
+<jtok eid="9" type="line_comment" span="344:7:344:16">// appear</jtok>
+<jtok eid="9" type="line_comment" span="345:7:345:49">// at the bottom of the file. So we use an</jtok>
+<jtok eid="9" type="line_comment" span="346:7:346:26">// UnknownEntryType</jtok>
+<jtok eid="9" type="line_comment" span="347:7:347:39">// to remember the type name by.</jtok>
+<jtok eid="9" type="primary_name_ref" span="348:7:348:9">tp</jtok>
+<jtok eid="9" type="constructor_call" span="348:16:348:32">UnknownEntryType</jtok>
+<jtok eid="9" type="primary_name_ref" span="348:33:348:42">entryType</jtok>
+<jtok eid="9" type="method_call" span="348:43:348:54">toLowerCase</jtok>
+<jtok eid="9" type="line_comment" span="349:7:349:57">// System.out.println("unknown type: "+entryType);</jtok>
+<jtok eid="9" type="primary_name_ref" span="350:7:350:14">isEntry</jtok>
+<jtok eid="9" type="primary_name_ref" span="354:9:354:16">isEntry</jtok>
+<jtok eid="9" type="line_comment" span="354:18:354:61">// True if not comment, preamble or string.</jtok>
+<jtok eid="9" type="block_comment" span="356:6:365:9">/**
+					 * Morten Alver 13 Aug 2006: Trying to make the parser more
+					 * robust. If an exception is thrown when parsing an entry,
+					 * drop the entry and try to resume parsing. Add a warning
+					 * for the user.
+					 * 
+					 * An alternative solution is to try rescuing the entry for
+					 * which parsing failed, by returning the entry with the
+					 * exception and adding it before parsing is continued.
+					 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="367:7:367:18">BibtexEntry</jtok>
+<jtok eid="9" type="local_variable_name" span="367:19:367:21">be</jtok>
+<jtok eid="9" type="method_call" span="367:24:367:34">parseEntry</jtok>
+<jtok eid="9" type="primary_name_ref" span="367:35:367:37">tp</jtok>
+<jtok eid="9" type="local_variable_name" span="369:15:369:27">duplicateKey</jtok>
+<jtok eid="9" type="primary_name_ref" span="369:30:369:33">_db</jtok>
+<jtok eid="9" type="method_call" span="369:34:369:45">insertEntry</jtok>
+<jtok eid="9" type="primary_name_ref" span="369:46:369:48">be</jtok>
+<jtok eid="9" type="primary_name_ref" span="370:11:370:23">duplicateKey</jtok>
+<jtok eid="9" type="line_comment" span="370:25:370:41">// JZTODO lyrics</jtok>
+<jtok eid="9" type="primary_name_ref" span="371:8:371:11">_pr</jtok>
+<jtok eid="9" type="method_call" span="371:12:371:22">addWarning</jtok>
+<jtok eid="9" type="primary_name_ref" span="371:23:371:30">Globals</jtok>
+<jtok eid="9" type="method_call" span="371:31:371:35">lang</jtok>
+<jtok eid="9" type="string_literal" span="371:36:371:58">"duplicate BibTeX key"</jtok>
+<jtok eid="9" type="string_literal" span="371:62:371:66">": "</jtok>
+<jtok eid="9" type="primary_name_ref" span="372:11:372:13">be</jtok>
+<jtok eid="9" type="method_call" span="372:14:372:24">getCiteKey</jtok>
+<jtok eid="9" type="string_literal" span="372:29:372:33">" ("</jtok>
+<jtok eid="9" type="primary_name_ref" span="373:11:373:18">Globals</jtok>
+<jtok eid="9" type="method_call" span="373:19:373:23">lang</jtok>
+<jtok eid="9" type="string_literal" span="373:24:373:62">"grouping may not work for this entry"</jtok>
+<jtok eid="9" type="string_literal" span="373:66:373:69">")"</jtok>
+<jtok eid="9" type="primary_name_ref" span="374:16:374:18">be</jtok>
+<jtok eid="9" type="method_call" span="374:19:374:29">getCiteKey</jtok>
+<jtok eid="9" type="primary_name_ref" span="374:43:374:45">be</jtok>
+<jtok eid="9" type="method_call" span="374:46:374:56">getCiteKey</jtok>
+<jtok eid="9" type="method_call" span="374:59:374:65">equals</jtok>
+<jtok eid="9" type="string_literal" span="374:66:374:68">""</jtok>
+<jtok eid="9" type="primary_name_ref" span="375:8:375:11">_pr</jtok>
+<jtok eid="9" type="method_call" span="375:12:375:22">addWarning</jtok>
+<jtok eid="9" type="primary_name_ref" span="375:23:375:30">Globals</jtok>
+<jtok eid="9" type="method_call" span="375:31:375:35">lang</jtok>
+<jtok eid="9" type="string_literal" span="375:36:375:54">"empty BibTeX key"</jtok>
+<jtok eid="9" type="string_literal" span="375:58:375:62">": "</jtok>
+<jtok eid="9" type="primary_name_ref" span="376:11:376:13">be</jtok>
+<jtok eid="9" type="method_call" span="376:14:376:32">getAuthorTitleYear</jtok>
+<jtok eid="9" type="string_literal" span="376:39:376:43">" ("</jtok>
+<jtok eid="9" type="primary_name_ref" span="377:11:377:18">Globals</jtok>
+<jtok eid="9" type="method_call" span="377:19:377:23">lang</jtok>
+<jtok eid="9" type="string_literal" span="377:24:377:62">"grouping may not work for this entry"</jtok>
+<jtok eid="9" type="string_literal" span="377:66:377:69">")"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="379:15:379:26">IOException</jtok>
+<jtok eid="9" type="local_variable_name" span="379:27:379:29">ex</jtok>
+<jtok eid="9" type="primary_name_ref" span="380:7:380:9">ex</jtok>
+<jtok eid="9" type="method_call" span="380:10:380:25">printStackTrace</jtok>
+<jtok eid="9" type="primary_name_ref" span="381:7:381:10">_pr</jtok>
+<jtok eid="9" type="method_call" span="381:11:381:21">addWarning</jtok>
+<jtok eid="9" type="primary_name_ref" span="381:22:381:29">Globals</jtok>
+<jtok eid="9" type="method_call" span="381:30:381:34">lang</jtok>
+<jtok eid="9" type="string_literal" span="381:35:381:69">"Error occured when parsing entry"</jtok>
+<jtok eid="9" type="string_literal" span="381:73:381:78">": '"</jtok>
+<jtok eid="9" type="primary_name_ref" span="382:10:382:12">ex</jtok>
+<jtok eid="9" type="method_call" span="382:13:382:23">getMessage</jtok>
+<jtok eid="9" type="string_literal" span="382:28:382:33">"'. "</jtok>
+<jtok eid="9" type="primary_name_ref" span="382:36:382:43">Globals</jtok>
+<jtok eid="9" type="method_call" span="382:44:382:48">lang</jtok>
+<jtok eid="9" type="string_literal" span="382:49:382:65">"Skipped entry."</jtok>
+<jtok eid="9" type="method_call" span="387:5:387:19">skipWhitespace</jtok>
+<jtok eid="9" type="line_comment" span="390:4:390:70">// Before returning the database, update entries with unknown type</jtok>
+<jtok eid="9" type="line_comment" span="391:4:391:53">// based on parsed type definitions, if possible.</jtok>
+<jtok eid="9" type="method_call" span="392:4:392:19">checkEntryTypes</jtok>
+<jtok eid="9" type="primary_name_ref" span="392:20:392:23">_pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="394:11:394:14">_pr</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="395:12:395:33">KeyCollisionException</jtok>
+<jtok eid="9" type="local_variable_name" span="395:34:395:37">kce</jtok>
+<jtok eid="9" type="line_comment" span="396:4:396:29">// kce.printStackTrace();</jtok>
+<jtok eid="9" type="constructor_call" span="397:14:397:25">IOException</jtok>
+<jtok eid="9" type="string_literal" span="397:26:397:57">"Duplicate ID in bibtex file: "</jtok>
+<jtok eid="9" type="primary_name_ref" span="397:60:397:63">kce</jtok>
+<jtok eid="9" type="method_call" span="397:64:397:72">toString</jtok>
+<jtok eid="10" type="method_name" span="401:14:401:18">peek</jtok>
+<jtok eid="10" type="throws" span="401:28:401:39">IOException</jtok>
+<jtok eid="10" type="local_variable_name" span="402:7:402:8">c</jtok>
+<jtok eid="10" type="method_call" span="402:11:402:15">read</jtok>
+<jtok eid="10" type="method_call" span="403:3:403:9">unread</jtok>
+<jtok eid="10" type="primary_name_ref" span="403:10:403:11">c</jtok>
+<jtok eid="10" type="primary_name_ref" span="405:10:405:11">c</jtok>
+<jtok eid="11" type="method_name" span="408:14:408:18">read</jtok>
+<jtok eid="11" type="throws" span="408:28:408:39">IOException</jtok>
+<jtok eid="11" type="local_variable_name" span="409:7:409:8">c</jtok>
+<jtok eid="11" type="primary_name_ref" span="409:11:409:14">_in</jtok>
+<jtok eid="11" type="method_call" span="409:15:409:19">read</jtok>
+<jtok eid="11" type="primary_name_ref" span="410:7:410:8">c</jtok>
+<jtok eid="11" type="primary_name_ref" span="411:4:411:8">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="412:10:412:11">c</jtok>
+<jtok eid="12" type="method_name" span="415:15:415:21">unread</jtok>
+<jtok eid="12" type="parameter_name" span="415:26:415:27">c</jtok>
+<jtok eid="12" type="throws" span="415:36:415:47">IOException</jtok>
+<jtok eid="12" type="primary_name_ref" span="416:7:416:8">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="417:4:417:8">line</jtok>
+<jtok eid="12" type="primary_name_ref" span="418:3:418:6">_in</jtok>
+<jtok eid="12" type="method_call" span="418:7:418:13">unread</jtok>
+<jtok eid="12" type="primary_name_ref" span="418:14:418:15">c</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="421:9:421:21">BibtexString</jtok>
+<jtok eid="13" type="method_name" span="421:22:421:33">parseString</jtok>
+<jtok eid="13" type="throws" span="421:43:421:54">IOException</jtok>
+<jtok eid="13" type="line_comment" span="422:3:422:32">// Util.pr("Parsing string");</jtok>
+<jtok eid="13" type="method_call" span="423:3:423:17">skipWhitespace</jtok>
+<jtok eid="13" type="method_call" span="424:3:424:10">consume</jtok>
+<jtok eid="13" type="line_comment" span="425:3:425:28">// while (read() != '}');</jtok>
+<jtok eid="13" type="method_call" span="426:3:426:17">skipWhitespace</jtok>
+<jtok eid="13" type="line_comment" span="427:3:427:37">// Util.pr("Parsing string name");</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="428:3:428:9">String</jtok>
+<jtok eid="13" type="local_variable_name" span="428:10:428:14">name</jtok>
+<jtok eid="13" type="method_call" span="428:17:428:31">parseTextToken</jtok>
+<jtok eid="13" type="line_comment" span="429:3:429:36">// Util.pr("Parsed string name");</jtok>
+<jtok eid="13" type="method_call" span="430:3:430:17">skipWhitespace</jtok>
+<jtok eid="13" type="line_comment" span="431:3:431:34">// Util.pr("Now the contents");</jtok>
+<jtok eid="13" type="method_call" span="432:3:432:10">consume</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="433:3:433:9">String</jtok>
+<jtok eid="13" type="local_variable_name" span="433:10:433:17">content</jtok>
+<jtok eid="13" type="method_call" span="433:20:433:37">parseFieldContent</jtok>
+<jtok eid="13" type="primary_name_ref" span="433:38:433:42">name</jtok>
+<jtok eid="13" type="line_comment" span="434:3:434:46">// Util.pr("Now I'm going to consume a }");</jtok>
+<jtok eid="13" type="method_call" span="435:3:435:10">consume</jtok>
+<jtok eid="13" type="line_comment" span="436:3:436:42">// Util.pr("Finished string parsing.");</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="437:3:437:9">String</jtok>
+<jtok eid="13" type="local_variable_name" span="437:10:437:12">id</jtok>
+<jtok eid="13" type="primary_name_ref" span="437:15:437:19">Util</jtok>
+<jtok eid="13" type="method_call" span="437:20:437:35">createNeutralId</jtok>
+<jtok eid="13" type="constructor_call" span="438:14:438:26">BibtexString</jtok>
+<jtok eid="13" type="primary_name_ref" span="438:27:438:29">id</jtok>
+<jtok eid="13" type="primary_name_ref" span="438:31:438:35">name</jtok>
+<jtok eid="13" type="primary_name_ref" span="438:37:438:44">content</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="441:9:441:15">String</jtok>
+<jtok eid="14" type="method_name" span="441:16:441:29">parsePreamble</jtok>
+<jtok eid="14" type="throws" span="441:39:441:50">IOException</jtok>
+<jtok eid="14" type="method_call" span="442:10:442:28">parseBracketedText</jtok>
+<jtok eid="14" type="method_call" span="442:31:442:39">toString</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="445:9:445:20">BibtexEntry</jtok>
+<jtok eid="15" type="method_name" span="445:21:445:31">parseEntry</jtok>
+<jtok eid="15" type="parameter_type" span="445:32:445:47">BibtexEntryType</jtok>
+<jtok eid="15" type="parameter_name" span="445:48:445:50">tp</jtok>
+<jtok eid="15" type="throws" span="445:59:445:70">IOException</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="446:3:446:9">String</jtok>
+<jtok eid="15" type="local_variable_name" span="446:10:446:12">id</jtok>
+<jtok eid="15" type="primary_name_ref" span="446:15:446:19">Util</jtok>
+<jtok eid="15" type="method_call" span="446:20:446:35">createNeutralId</jtok>
+<jtok eid="15" type="line_comment" span="446:38:446:59">// createId(tp, _db);</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="447:3:447:14">BibtexEntry</jtok>
+<jtok eid="15" type="local_variable_name" span="447:15:447:21">result</jtok>
+<jtok eid="15" type="constructor_call" span="447:28:447:39">BibtexEntry</jtok>
+<jtok eid="15" type="primary_name_ref" span="447:40:447:42">id</jtok>
+<jtok eid="15" type="primary_name_ref" span="447:44:447:46">tp</jtok>
+<jtok eid="15" type="method_call" span="448:3:448:17">skipWhitespace</jtok>
+<jtok eid="15" type="method_call" span="449:3:449:10">consume</jtok>
+<jtok eid="15" type="local_variable_name" span="450:13:450:14">c</jtok>
+<jtok eid="15" type="method_call" span="450:17:450:21">peek</jtok>
+<jtok eid="15" type="primary_name_ref" span="451:14:451:15">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="451:29:451:30">c</jtok>
+<jtok eid="15" type="method_call" span="452:13:452:27">skipWhitespace</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="453:3:453:9">String</jtok>
+<jtok eid="15" type="local_variable_name" span="453:10:453:13">key</jtok>
+<jtok eid="15" type="local_variable_name" span="454:11:454:18">doAgain</jtok>
+<jtok eid="15" type="primary_name_ref" span="455:10:455:17">doAgain</jtok>
+<jtok eid="15" type="primary_name_ref" span="456:4:456:11">doAgain</jtok>
+<jtok eid="15" type="primary_name_ref" span="458:9:458:12">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="459:6:459:9">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="459:12:459:15">key</jtok>
+<jtok eid="15" type="method_call" span="459:18:459:26">parseKey</jtok>
+<jtok eid="15" type="line_comment" span="459:29:459:49">// parseTextToken(),</jtok>
+<jtok eid="15" type="primary_name_ref" span="461:6:461:9">key</jtok>
+<jtok eid="15" type="method_call" span="461:12:461:20">parseKey</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="462:13:462:29">NoLabelException</jtok>
+<jtok eid="15" type="local_variable_name" span="462:30:462:32">ex</jtok>
+<jtok eid="15" type="line_comment" span="463:5:463:62">// This exception will be thrown if the entry lacks a key</jtok>
+<jtok eid="15" type="line_comment" span="464:5:464:55">// altogether, like in "@article{ author = { ...".</jtok>
+<jtok eid="15" type="line_comment" span="465:5:465:51">// It will also be thrown if a key contains =.</jtok>
+<jtok eid="15" type="primary_name_ref" span="466:5:466:6">c</jtok>
+<jtok eid="15" type="method_call" span="466:16:466:20">peek</jtok>
+<jtok eid="15" type="primary_name_ref" span="467:9:467:18">Character</jtok>
+<jtok eid="15" type="method_call" span="467:19:467:31">isWhitespace</jtok>
+<jtok eid="15" type="primary_name_ref" span="467:32:467:33">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="467:39:467:40">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="467:53:467:54">c</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="468:6:468:12">String</jtok>
+<jtok eid="15" type="local_variable_name" span="468:13:468:22">fieldName</jtok>
+<jtok eid="15" type="primary_name_ref" span="468:25:468:27">ex</jtok>
+<jtok eid="15" type="method_call" span="468:28:468:38">getMessage</jtok>
+<jtok eid="15" type="method_call" span="468:41:468:45">trim</jtok>
+<jtok eid="15" type="method_call" span="468:48:468:59">toLowerCase</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="469:6:469:12">String</jtok>
+<jtok eid="15" type="local_variable_name" span="469:13:469:17">cont</jtok>
+<jtok eid="15" type="method_call" span="469:20:469:37">parseFieldContent</jtok>
+<jtok eid="15" type="primary_name_ref" span="469:38:469:47">fieldName</jtok>
+<jtok eid="15" type="primary_name_ref" span="470:6:470:12">result</jtok>
+<jtok eid="15" type="method_call" span="470:13:470:21">setField</jtok>
+<jtok eid="15" type="primary_name_ref" span="470:22:470:31">fieldName</jtok>
+<jtok eid="15" type="primary_name_ref" span="470:33:470:37">cont</jtok>
+<jtok eid="15" type="primary_name_ref" span="472:10:472:13">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="473:7:473:10">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="473:13:473:16">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="473:19:473:21">ex</jtok>
+<jtok eid="15" type="method_call" span="473:22:473:32">getMessage</jtok>
+<jtok eid="15" type="string_literal" span="473:37:473:40">"="</jtok>
+<jtok eid="15" type="primary_name_ref" span="475:7:475:10">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="475:13:475:15">ex</jtok>
+<jtok eid="15" type="method_call" span="475:16:475:26">getMessage</jtok>
+<jtok eid="15" type="string_literal" span="475:31:475:34">"="</jtok>
+<jtok eid="15" type="primary_name_ref" span="476:6:476:13">doAgain</jtok>
+<jtok eid="15" type="primary_name_ref" span="481:8:481:11">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="481:24:481:27">key</jtok>
+<jtok eid="15" type="method_call" span="481:28:481:34">equals</jtok>
+<jtok eid="15" type="string_literal" span="481:35:481:37">""</jtok>
+<jtok eid="15" type="primary_name_ref" span="482:4:482:7">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="484:3:484:9">result</jtok>
+<jtok eid="15" type="method_call" span="484:10:484:18">setField</jtok>
+<jtok eid="15" type="primary_name_ref" span="484:19:484:31">BibtexFields</jtok>
+<jtok eid="15" type="qualified_name_ref" span="484:32:484:41">KEY_FIELD</jtok>
+<jtok eid="15" type="primary_name_ref" span="484:43:484:46">key</jtok>
+<jtok eid="15" type="method_call" span="485:3:485:17">skipWhitespace</jtok>
+<jtok eid="15" type="primary_name_ref" span="488:4:488:5">c</jtok>
+<jtok eid="15" type="method_call" span="488:8:488:12">peek</jtok>
+<jtok eid="15" type="primary_name_ref" span="489:9:489:10">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="489:23:489:24">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="493:8:493:9">c</jtok>
+<jtok eid="15" type="method_call" span="494:5:494:12">consume</jtok>
+<jtok eid="15" type="method_call" span="496:4:496:18">skipWhitespace</jtok>
+<jtok eid="15" type="primary_name_ref" span="498:4:498:5">c</jtok>
+<jtok eid="15" type="method_call" span="498:8:498:12">peek</jtok>
+<jtok eid="15" type="primary_name_ref" span="499:9:499:10">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="499:23:499:24">c</jtok>
+<jtok eid="15" type="method_call" span="502:4:502:14">parseField</jtok>
+<jtok eid="15" type="primary_name_ref" span="502:15:502:21">result</jtok>
+<jtok eid="15" type="method_call" span="505:3:505:10">consume</jtok>
+<jtok eid="15" type="primary_name_ref" span="506:10:506:16">result</jtok>
+<jtok eid="16" type="method_name" span="509:15:509:25">parseField</jtok>
+<jtok eid="16" type="parameter_type" span="509:26:509:37">BibtexEntry</jtok>
+<jtok eid="16" type="parameter_name" span="509:38:509:43">entry</jtok>
+<jtok eid="16" type="throws" span="509:52:509:63">IOException</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="510:3:510:9">String</jtok>
+<jtok eid="16" type="local_variable_name" span="510:10:510:13">key</jtok>
+<jtok eid="16" type="method_call" span="510:16:510:30">parseTextToken</jtok>
+<jtok eid="16" type="method_call" span="510:33:510:44">toLowerCase</jtok>
+<jtok eid="16" type="line_comment" span="511:3:511:34">// Util.pr("Field: _"+key+"_");</jtok>
+<jtok eid="16" type="method_call" span="512:3:512:17">skipWhitespace</jtok>
+<jtok eid="16" type="method_call" span="513:3:513:10">consume</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="514:3:514:9">String</jtok>
+<jtok eid="16" type="local_variable_name" span="514:10:514:17">content</jtok>
+<jtok eid="16" type="method_call" span="514:20:514:37">parseFieldContent</jtok>
+<jtok eid="16" type="primary_name_ref" span="514:38:514:41">key</jtok>
+<jtok eid="16" type="line_comment" span="515:3:515:72">// Now, if the field in question is set up to be fitted automatically</jtok>
+<jtok eid="16" type="line_comment" span="516:3:516:24">// with braces around</jtok>
+<jtok eid="16" type="line_comment" span="517:3:517:66">// capitals, we should remove those now when reading the field:</jtok>
+<jtok eid="16" type="primary_name_ref" span="518:7:518:14">Globals</jtok>
+<jtok eid="16" type="qualified_name_ref" span="518:15:518:20">prefs</jtok>
+<jtok eid="16" type="method_call" span="518:21:518:44">putBracesAroundCapitals</jtok>
+<jtok eid="16" type="primary_name_ref" span="518:45:518:48">key</jtok>
+<jtok eid="16" type="primary_name_ref" span="519:4:519:11">content</jtok>
+<jtok eid="16" type="primary_name_ref" span="519:14:519:18">Util</jtok>
+<jtok eid="16" type="method_call" span="519:19:519:45">removeBracesAroundCapitals</jtok>
+<jtok eid="16" type="primary_name_ref" span="519:46:519:53">content</jtok>
+<jtok eid="16" type="primary_name_ref" span="521:7:521:14">content</jtok>
+<jtok eid="16" type="method_call" span="521:15:521:21">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="522:8:522:13">entry</jtok>
+<jtok eid="16" type="method_call" span="522:14:522:22">getField</jtok>
+<jtok eid="16" type="primary_name_ref" span="522:23:522:26">key</jtok>
+<jtok eid="16" type="primary_name_ref" span="523:5:523:10">entry</jtok>
+<jtok eid="16" type="method_call" span="523:11:523:19">setField</jtok>
+<jtok eid="16" type="primary_name_ref" span="523:20:523:23">key</jtok>
+<jtok eid="16" type="primary_name_ref" span="523:25:523:32">content</jtok>
+<jtok eid="16" type="line_comment" span="525:5:525:67">// The following hack enables the parser to deal with multiple</jtok>
+<jtok eid="16" type="line_comment" span="526:5:526:17">// author or</jtok>
+<jtok eid="16" type="line_comment" span="527:5:527:69">// editor lines, stringing them together instead of getting just</jtok>
+<jtok eid="16" type="line_comment" span="528:5:528:20">// one of them.</jtok>
+<jtok eid="16" type="line_comment" span="529:5:529:69">// Multiple author or editor lines are not allowed by the bibtex</jtok>
+<jtok eid="16" type="line_comment" span="530:5:530:19">// format, but</jtok>
+<jtok eid="16" type="line_comment" span="531:5:531:69">// at least one online database exports bibtex like that, making</jtok>
+<jtok eid="16" type="line_comment" span="532:5:532:23">// it inconvenient</jtok>
+<jtok eid="16" type="line_comment" span="533:5:533:45">// for users if JabRef didn't accept it.</jtok>
+<jtok eid="16" type="primary_name_ref" span="534:9:534:12">key</jtok>
+<jtok eid="16" type="method_call" span="534:13:534:19">equals</jtok>
+<jtok eid="16" type="string_literal" span="534:20:534:28">"author"</jtok>
+<jtok eid="16" type="primary_name_ref" span="534:33:534:36">key</jtok>
+<jtok eid="16" type="method_call" span="534:37:534:43">equals</jtok>
+<jtok eid="16" type="string_literal" span="534:44:534:52">"editor"</jtok>
+<jtok eid="16" type="primary_name_ref" span="535:6:535:11">entry</jtok>
+<jtok eid="16" type="method_call" span="535:12:535:20">setField</jtok>
+<jtok eid="16" type="primary_name_ref" span="535:21:535:24">key</jtok>
+<jtok eid="16" type="primary_name_ref" span="535:26:535:31">entry</jtok>
+<jtok eid="16" type="method_call" span="535:32:535:40">getField</jtok>
+<jtok eid="16" type="primary_name_ref" span="535:41:535:44">key</jtok>
+<jtok eid="16" type="string_literal" span="535:48:535:55">" and "</jtok>
+<jtok eid="16" type="primary_name_ref" span="535:58:535:65">content</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="540:10:540:16">String</jtok>
+<jtok eid="17" type="method_name" span="540:17:540:34">parseFieldContent</jtok>
+<jtok eid="17" type="parameter_type" span="540:35:540:41">String</jtok>
+<jtok eid="17" type="parameter_name" span="540:42:540:45">key</jtok>
+<jtok eid="17" type="throws" span="540:54:540:65">IOException</jtok>
+<jtok eid="17" type="method_call" span="541:3:541:17">skipWhitespace</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="542:3:542:15">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="542:16:542:21">value</jtok>
+<jtok eid="17" type="constructor_call" span="542:28:542:40">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="543:7:543:8">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="545:12:545:13">c</jtok>
+<jtok eid="17" type="method_call" span="545:16:545:20">peek</jtok>
+<jtok eid="17" type="primary_name_ref" span="545:36:545:37">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="545:50:545:51">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="547:8:547:12">_eof</jtok>
+<jtok eid="17" type="constructor_call" span="548:15:548:31">RuntimeException</jtok>
+<jtok eid="17" type="string_literal" span="548:32:548:48">"Error in line "</jtok>
+<jtok eid="17" type="primary_name_ref" span="548:51:548:55">line</jtok>
+<jtok eid="17" type="string_literal" span="548:58:548:79">": EOF in mid-string"</jtok>
+<jtok eid="17" type="primary_name_ref" span="550:8:550:9">c</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="551:5:551:17">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="551:18:551:22">text</jtok>
+<jtok eid="17" type="method_call" span="551:25:551:48">parseQuotedFieldExactly</jtok>
+<jtok eid="17" type="primary_name_ref" span="552:5:552:10">value</jtok>
+<jtok eid="17" type="method_call" span="552:11:552:17">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="552:18:552:36">fieldContentParser</jtok>
+<jtok eid="17" type="method_call" span="552:37:552:43">format</jtok>
+<jtok eid="17" type="primary_name_ref" span="552:44:552:48">text</jtok>
+<jtok eid="17" type="block_comment" span="553:5:566:8">/*
+				 * 
+				 * The following code doesn't handle {"} correctly: // value is
+				 * a string consume('"');
+				 * 
+				 * while (!((peek() == '"') &amp;&amp; (j != '\\'))) { j = read(); if
+				 * (_eof || (j == -1) || (j == 65535)) { throw new
+				 * RuntimeException("Error in line "+line+ ": EOF in
+				 * mid-string"); }
+				 * 
+				 * value.append((char) j); }
+				 * 
+				 * consume('"');
+				 */</jtok>
+<jtok eid="17" type="primary_name_ref" span="567:15:567:16">c</jtok>
+<jtok eid="17" type="line_comment" span="568:5:568:66">// Value is a string enclosed in brackets. There can be pairs</jtok>
+<jtok eid="17" type="line_comment" span="569:5:569:62">// of brackets inside of a field, so we need to count the</jtok>
+<jtok eid="17" type="line_comment" span="570:5:570:53">// brackets to know when the string is finished.</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="571:5:571:17">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="571:18:571:22">text</jtok>
+<jtok eid="17" type="method_call" span="571:25:571:50">parseBracketedTextExactly</jtok>
+<jtok eid="17" type="primary_name_ref" span="572:5:572:10">value</jtok>
+<jtok eid="17" type="method_call" span="572:11:572:17">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="572:18:572:36">fieldContentParser</jtok>
+<jtok eid="17" type="method_call" span="572:37:572:43">format</jtok>
+<jtok eid="17" type="primary_name_ref" span="572:44:572:48">text</jtok>
+<jtok eid="17" type="primary_name_ref" span="572:50:572:53">key</jtok>
+<jtok eid="17" type="primary_name_ref" span="574:15:574:24">Character</jtok>
+<jtok eid="17" type="method_call" span="574:25:574:32">isDigit</jtok>
+<jtok eid="17" type="primary_name_ref" span="574:40:574:41">c</jtok>
+<jtok eid="17" type="line_comment" span="574:46:574:66">// value is a number</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="576:5:576:11">String</jtok>
+<jtok eid="17" type="local_variable_name" span="576:12:576:21">numString</jtok>
+<jtok eid="17" type="method_call" span="576:24:576:38">parseTextToken</jtok>
+<jtok eid="17" type="line_comment" span="577:17:577:89">// Morten Alver 2007-07-04: I don't see the point of parsing the integer</jtok>
+<jtok eid="17" type="line_comment" span="578:17:578:91">// and converting it back to a string, so I'm removing the construct below</jtok>
+<jtok eid="17" type="line_comment" span="579:17:579:39">// the following line:</jtok>
+<jtok eid="17" type="primary_name_ref" span="580:17:580:22">value</jtok>
+<jtok eid="17" type="method_call" span="580:23:580:29">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="580:30:580:39">numString</jtok>
+<jtok eid="17" type="block_comment" span="581:17:590:7">/*
+                try {
+					// Fixme: What is this for?
+					value.append(String.valueOf(Integer.parseInt(numString)));
+				} catch (NumberFormatException e) {
+					// If Integer could not be parsed then just add the text
+					// Used to fix [ 1594123 ] Failure to import big numbers
+					value.append(numString);
+				}
+				*/</jtok>
+<jtok eid="17" type="primary_name_ref" span="591:15:591:16">c</jtok>
+<jtok eid="17" type="method_call" span="592:5:592:12">consume</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="594:5:594:11">String</jtok>
+<jtok eid="17" type="local_variable_name" span="594:12:594:21">textToken</jtok>
+<jtok eid="17" type="method_call" span="594:24:594:38">parseTextToken</jtok>
+<jtok eid="17" type="primary_name_ref" span="595:9:595:18">textToken</jtok>
+<jtok eid="17" type="method_call" span="595:19:595:25">length</jtok>
+<jtok eid="17" type="constructor_call" span="596:16:596:27">IOException</jtok>
+<jtok eid="17" type="string_literal" span="596:28:596:44">"Error in line "</jtok>
+<jtok eid="17" type="primary_name_ref" span="596:47:596:51">line</jtok>
+<jtok eid="17" type="string_literal" span="596:54:596:67">" or above: "</jtok>
+<jtok eid="17" type="string_literal" span="597:9:597:51">"Empty text token.\nThis could be caused "</jtok>
+<jtok eid="17" type="string_literal" span="598:9:598:49">"by a missing comma between two fields."</jtok>
+<jtok eid="17" type="primary_name_ref" span="599:5:599:10">value</jtok>
+<jtok eid="17" type="method_call" span="599:11:599:17">append</jtok>
+<jtok eid="17" type="string_literal" span="599:18:599:21">"#"</jtok>
+<jtok eid="17" type="method_call" span="599:23:599:29">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="599:30:599:39">textToken</jtok>
+<jtok eid="17" type="method_call" span="599:41:599:47">append</jtok>
+<jtok eid="17" type="string_literal" span="599:48:599:51">"#"</jtok>
+<jtok eid="17" type="line_comment" span="600:5:600:34">// Util.pr(parseTextToken());</jtok>
+<jtok eid="17" type="line_comment" span="601:5:601:57">// throw new RuntimeException("Unknown field type");</jtok>
+<jtok eid="17" type="method_call" span="603:4:603:18">skipWhitespace</jtok>
+<jtok eid="17" type="line_comment" span="605:3:605:60">// Util.pr("Returning field content: "+value.toString());</jtok>
+<jtok eid="17" type="line_comment" span="607:3:607:70">// Check if we are to strip extra pairs of braces before returning:</jtok>
+<jtok eid="17" type="primary_name_ref" span="608:7:608:14">Globals</jtok>
+<jtok eid="17" type="qualified_name_ref" span="608:15:608:20">prefs</jtok>
+<jtok eid="17" type="method_call" span="608:21:608:31">getBoolean</jtok>
+<jtok eid="17" type="string_literal" span="608:32:608:50">"autoDoubleBraces"</jtok>
+<jtok eid="17" type="line_comment" span="609:4:609:13">// Do it:</jtok>
+<jtok eid="17" type="primary_name_ref" span="610:12:610:17">value</jtok>
+<jtok eid="17" type="method_call" span="610:18:610:24">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="610:36:610:41">value</jtok>
+<jtok eid="17" type="method_call" span="610:42:610:48">charAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="611:9:611:14">value</jtok>
+<jtok eid="17" type="method_call" span="611:15:611:21">charAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="611:22:611:27">value</jtok>
+<jtok eid="17" type="method_call" span="611:28:611:34">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="612:5:612:10">value</jtok>
+<jtok eid="17" type="method_call" span="612:11:612:23">deleteCharAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="612:24:612:29">value</jtok>
+<jtok eid="17" type="method_call" span="612:30:612:36">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="613:5:613:10">value</jtok>
+<jtok eid="17" type="method_call" span="613:11:613:23">deleteCharAt</jtok>
+<jtok eid="17" type="line_comment" span="615:4:615:72">// Problem: if the field content is "{DNA} blahblah {EPA}", one pair</jtok>
+<jtok eid="17" type="line_comment" span="616:4:616:32">// too much will be removed.</jtok>
+<jtok eid="17" type="line_comment" span="617:4:617:69">// Check if this is the case, and re-add as many pairs as needed.</jtok>
+<jtok eid="17" type="method_call" span="618:11:618:32">hasNegativeBraceCount</jtok>
+<jtok eid="17" type="primary_name_ref" span="618:33:618:38">value</jtok>
+<jtok eid="17" type="method_call" span="618:39:618:47">toString</jtok>
+<jtok eid="17" type="primary_name_ref" span="619:5:619:10">value</jtok>
+<jtok eid="17" type="method_call" span="619:11:619:17">insert</jtok>
+<jtok eid="17" type="primary_name_ref" span="620:5:620:10">value</jtok>
+<jtok eid="17" type="method_call" span="620:11:620:17">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="624:10:624:15">value</jtok>
+<jtok eid="17" type="method_call" span="624:16:624:24">toString</jtok>
+<jtok eid="1" type="block_comment" span="628:2:632:5">/**
+	 * Originalinhalt nach parseFieldContent(String) verschoben.
+	 * @return
+	 * @throws IOException
+	 */</jtok>
+<jtok eid="1" type="line_comment" span="633:1:633:59">//	private String parseFieldContent() throws IOException {</jtok>
+<jtok eid="1" type="line_comment" span="634:1:634:36">//		return parseFieldContent(null);</jtok>
+<jtok eid="1" type="line_comment" span="635:1:635:5">//	}</jtok>
+<jtok eid="1" type="block_comment" span="637:2:645:5">/**
+	 * Check if a string at any point has had more ending braces (}) than
+	 * opening ones ({). Will e.g. return true for the string "DNA} blahblal
+	 * {EPA"
+	 * 
+	 * @param s
+	 *            The string to check.
+	 * @return true if at any index the brace count is negative.
+	 */</jtok>
+<jtok eid="18" type="method_name" span="646:18:646:39">hasNegativeBraceCount</jtok>
+<jtok eid="18" type="parameter_type" span="646:40:646:46">String</jtok>
+<jtok eid="18" type="parameter_name" span="646:47:646:48">s</jtok>
+<jtok eid="18" type="line_comment" span="647:3:647:28">// System.out.println(s);</jtok>
+<jtok eid="18" type="local_variable_name" span="648:7:648:8">i</jtok>
+<jtok eid="18" type="local_variable_name" span="648:14:648:19">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="649:10:649:11">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="649:14:649:15">s</jtok>
+<jtok eid="18" type="method_call" span="649:16:649:22">length</jtok>
+<jtok eid="18" type="primary_name_ref" span="650:8:650:9">s</jtok>
+<jtok eid="18" type="method_call" span="650:10:650:16">charAt</jtok>
+<jtok eid="18" type="primary_name_ref" span="650:17:650:18">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="651:5:651:10">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="652:13:652:14">s</jtok>
+<jtok eid="18" type="method_call" span="652:15:652:21">charAt</jtok>
+<jtok eid="18" type="primary_name_ref" span="652:22:652:23">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="653:5:653:10">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="654:8:654:13">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="656:4:656:5">i</jtok>
+<jtok eid="1" type="block_comment" span="661:2:664:5">/**
+	 * This method is used to parse string labels, field names, entry type and
+	 * numbers outside brackets.
+	 */</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="665:10:665:16">String</jtok>
+<jtok eid="19" type="method_name" span="665:17:665:31">parseTextToken</jtok>
+<jtok eid="19" type="throws" span="665:41:665:52">IOException</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="666:3:666:15">StringBuffer</jtok>
+<jtok eid="19" type="local_variable_name" span="666:16:666:21">token</jtok>
+<jtok eid="19" type="constructor_call" span="666:28:666:40">StringBuffer</jtok>
+<jtok eid="19" type="local_variable_name" span="669:8:669:9">c</jtok>
+<jtok eid="19" type="method_call" span="669:12:669:16">read</jtok>
+<jtok eid="19" type="line_comment" span="670:4:670:24">// Util.pr(".. "+c);</jtok>
+<jtok eid="19" type="primary_name_ref" span="671:8:671:9">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="672:5:672:9">_eof</jtok>
+<jtok eid="19" type="primary_name_ref" span="674:12:674:17">token</jtok>
+<jtok eid="19" type="method_call" span="674:18:674:26">toString</jtok>
+<jtok eid="19" type="primary_name_ref" span="677:8:677:17">Character</jtok>
+<jtok eid="19" type="method_call" span="677:18:677:33">isLetterOrDigit</jtok>
+<jtok eid="19" type="primary_name_ref" span="677:41:677:42">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="677:48:677:49">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="677:62:677:63">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="677:76:677:77">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="678:9:678:10">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="678:23:678:24">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="678:37:678:38">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="678:51:678:52">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="678:65:678:66">c</jtok>
+<jtok eid="19" type="primary_name_ref" span="679:5:679:10">token</jtok>
+<jtok eid="19" type="method_call" span="679:11:679:17">append</jtok>
+<jtok eid="19" type="primary_name_ref" span="679:25:679:26">c</jtok>
+<jtok eid="19" type="method_call" span="681:5:681:11">unread</jtok>
+<jtok eid="19" type="primary_name_ref" span="681:12:681:13">c</jtok>
+<jtok eid="19" type="line_comment" span="682:5:682:56">// Util.pr("Pasted text token: "+token.toString());</jtok>
+<jtok eid="19" type="primary_name_ref" span="683:12:683:17">token</jtok>
+<jtok eid="19" type="method_call" span="683:18:683:26">toString</jtok>
+<jtok eid="1" type="block_comment" span="689:2:695:5">/**
+	 * Tries to restore the key
+	 * 
+	 * @return rest of key on success, otherwise empty string
+	 * @throws IOException
+	 *             on Reader-Error
+	 */</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="696:13:696:19">String</jtok>
+<jtok eid="20" type="method_name" span="696:20:696:26">fixKey</jtok>
+<jtok eid="20" type="throws" span="696:36:696:47">IOException</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="697:9:697:22">StringBuilder</jtok>
+<jtok eid="20" type="local_variable_name" span="697:23:697:26">key</jtok>
+<jtok eid="20" type="constructor_call" span="697:33:697:46">StringBuilder</jtok>
+<jtok eid="20" type="local_variable_name" span="698:13:698:27">lookahead_used</jtok>
+<jtok eid="20" type="local_variable_name" span="699:14:699:25">currentChar</jtok>
+<jtok eid="20" type="line_comment" span="701:9:701:71">// Find a char which ends key (','&amp;&amp;'\n') or entryfield ('='):</jtok>
+<jtok eid="20" type="primary_name_ref" span="703:13:703:24">currentChar</jtok>
+<jtok eid="20" type="method_call" span="703:34:703:38">read</jtok>
+<jtok eid="20" type="primary_name_ref" span="704:13:704:16">key</jtok>
+<jtok eid="20" type="method_call" span="704:17:704:23">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="704:24:704:35">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="705:13:705:27">lookahead_used</jtok>
+<jtok eid="20" type="primary_name_ref" span="706:19:706:30">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="706:41:706:52">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="706:64:706:75">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="707:21:707:35">lookahead_used</jtok>
+<jtok eid="20" type="primary_name_ref" span="707:38:707:47">LOOKAHEAD</jtok>
+<jtok eid="20" type="line_comment" span="709:9:709:75">// Consumed a char too much, back into reader and remove from key:</jtok>
+<jtok eid="20" type="method_call" span="710:9:710:15">unread</jtok>
+<jtok eid="20" type="primary_name_ref" span="710:16:710:27">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="711:9:711:12">key</jtok>
+<jtok eid="20" type="method_call" span="711:13:711:25">deleteCharAt</jtok>
+<jtok eid="20" type="primary_name_ref" span="711:26:711:29">key</jtok>
+<jtok eid="20" type="method_call" span="711:30:711:36">length</jtok>
+<jtok eid="20" type="line_comment" span="713:9:713:32">// Restore if possible:</jtok>
+<jtok eid="20" type="primary_name_ref" span="714:17:714:28">currentChar</jtok>
+<jtok eid="20" type="line_comment" span="717:17:717:73">// Get entryfieldname, push it back and take rest as key</jtok>
+<jtok eid="20" type="primary_name_ref" span="718:17:718:20">key</jtok>
+<jtok eid="20" type="primary_name_ref" span="718:23:718:26">key</jtok>
+<jtok eid="20" type="method_call" span="718:27:718:34">reverse</jtok>
+<jtok eid="20" type="local_variable_name" span="720:25:720:37">matchedAlpha</jtok>
+<jtok eid="20" type="local_variable_name" span="721:26:721:27">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="721:33:721:34">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="721:37:721:40">key</jtok>
+<jtok eid="20" type="method_call" span="721:41:721:47">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="721:51:721:52">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="722:21:722:32">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="722:35:722:38">key</jtok>
+<jtok eid="20" type="method_call" span="722:39:722:45">charAt</jtok>
+<jtok eid="20" type="primary_name_ref" span="722:46:722:47">i</jtok>
+<jtok eid="20" type="line_comment" span="724:21:724:37">/// Skip spaces:</jtok>
+<jtok eid="20" type="primary_name_ref" span="725:26:725:38">matchedAlpha</jtok>
+<jtok eid="20" type="primary_name_ref" span="725:42:725:53">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="728:21:728:33">matchedAlpha</jtok>
+<jtok eid="20" type="line_comment" span="730:21:730:75">// Begin of entryfieldname (e.g. author) -&gt; push back:</jtok>
+<jtok eid="20" type="method_call" span="731:21:731:27">unread</jtok>
+<jtok eid="20" type="primary_name_ref" span="731:28:731:39">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="732:25:732:36">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="732:47:732:58">currentChar</jtok>
+<jtok eid="20" type="block_comment" span="734:25:737:28">/*
+                         * found whitespaces, entryfieldname completed -&gt; key in
+                         * keybuffer, skip whitespaces
+                         */</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="738:25:738:38">StringBuilder</jtok>
+<jtok eid="20" type="local_variable_name" span="738:39:738:45">newKey</jtok>
+<jtok eid="20" type="constructor_call" span="738:52:738:65">StringBuilder</jtok>
+<jtok eid="20" type="local_variable_name" span="739:34:739:35">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="739:38:739:39">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="739:41:739:42">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="739:45:739:48">key</jtok>
+<jtok eid="20" type="method_call" span="739:49:739:55">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="739:59:739:60">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="740:29:740:40">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="740:43:740:46">key</jtok>
+<jtok eid="20" type="method_call" span="740:47:740:53">charAt</jtok>
+<jtok eid="20" type="primary_name_ref" span="740:54:740:55">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="741:34:741:43">Character</jtok>
+<jtok eid="20" type="method_call" span="741:44:741:56">isWhitespace</jtok>
+<jtok eid="20" type="primary_name_ref" span="741:57:741:68">currentChar</jtok>
+<jtok eid="20" type="primary_name_ref" span="742:33:742:39">newKey</jtok>
+<jtok eid="20" type="method_call" span="742:40:742:46">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="742:47:742:58">currentChar</jtok>
+<jtok eid="20" type="line_comment" span="746:25:746:80">// Finished, now reverse newKey and remove whitespaces:</jtok>
+<jtok eid="20" type="primary_name_ref" span="747:25:747:28">_pr</jtok>
+<jtok eid="20" type="method_call" span="747:29:747:39">addWarning</jtok>
+<jtok eid="20" type="primary_name_ref" span="747:40:747:47">Globals</jtok>
+<jtok eid="20" type="method_call" span="747:48:747:52">lang</jtok>
+<jtok eid="20" type="string_literal" span="747:53:747:91">"Line %0: Found corrupted BibTeX-key."</jtok>
+<jtok eid="20" type="primary_name_ref" span="748:33:748:39">String</jtok>
+<jtok eid="20" type="method_call" span="748:40:748:47">valueOf</jtok>
+<jtok eid="20" type="primary_name_ref" span="748:48:748:52">line</jtok>
+<jtok eid="20" type="primary_name_ref" span="749:25:749:28">key</jtok>
+<jtok eid="20" type="primary_name_ref" span="749:31:749:37">newKey</jtok>
+<jtok eid="20" type="method_call" span="749:38:749:45">reverse</jtok>
+<jtok eid="20" type="primary_name_ref" span="756:17:756:20">_pr</jtok>
+<jtok eid="20" type="method_call" span="756:21:756:31">addWarning</jtok>
+<jtok eid="20" type="primary_name_ref" span="756:32:756:39">Globals</jtok>
+<jtok eid="20" type="method_call" span="756:40:756:44">lang</jtok>
+<jtok eid="20" type="string_literal" span="756:45:756:106">"Line %0: Found corrupted BibTeX-key (contains whitespaces)."</jtok>
+<jtok eid="20" type="primary_name_ref" span="757:25:757:31">String</jtok>
+<jtok eid="20" type="method_call" span="757:32:757:39">valueOf</jtok>
+<jtok eid="20" type="primary_name_ref" span="757:40:757:44">line</jtok>
+<jtok eid="20" type="primary_name_ref" span="761:17:761:20">_pr</jtok>
+<jtok eid="20" type="method_call" span="761:21:761:31">addWarning</jtok>
+<jtok eid="20" type="primary_name_ref" span="761:32:761:39">Globals</jtok>
+<jtok eid="20" type="method_call" span="761:40:761:44">lang</jtok>
+<jtok eid="20" type="string_literal" span="761:45:761:99">"Line %0: Found corrupted BibTeX-key (comma missing)."</jtok>
+<jtok eid="20" type="primary_name_ref" span="762:25:762:31">String</jtok>
+<jtok eid="20" type="method_call" span="762:32:762:39">valueOf</jtok>
+<jtok eid="20" type="primary_name_ref" span="762:40:762:44">line</jtok>
+<jtok eid="20" type="line_comment" span="768:17:768:47">// No more lookahead, give up:</jtok>
+<jtok eid="20" type="method_call" span="769:17:769:29">unreadBuffer</jtok>
+<jtok eid="20" type="primary_name_ref" span="769:30:769:33">key</jtok>
+<jtok eid="20" type="string_literal" span="770:24:770:26">""</jtok>
+<jtok eid="20" type="method_call" span="773:16:773:33">removeWhitespaces</jtok>
+<jtok eid="20" type="primary_name_ref" span="773:34:773:37">key</jtok>
+<jtok eid="20" type="method_call" span="773:39:773:47">toString</jtok>
+<jtok eid="1" type="block_comment" span="776:2:781:5">/**
+	 * removes whitespaces from &lt;code&gt;sb&lt;/code&gt;
+	 * 
+	 * @param sb
+	 * @return
+	 */</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="782:10:782:23">StringBuilder</jtok>
+<jtok eid="21" type="method_name" span="782:24:782:41">removeWhitespaces</jtok>
+<jtok eid="21" type="parameter_type" span="782:42:782:55">StringBuilder</jtok>
+<jtok eid="21" type="parameter_name" span="782:56:782:58">sb</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="783:3:783:16">StringBuilder</jtok>
+<jtok eid="21" type="local_variable_name" span="783:17:783:22">newSb</jtok>
+<jtok eid="21" type="constructor_call" span="783:29:783:42">StringBuilder</jtok>
+<jtok eid="21" type="local_variable_name" span="784:8:784:15">current</jtok>
+<jtok eid="21" type="local_variable_name" span="785:12:785:13">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="785:19:785:20">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="785:23:785:25">sb</jtok>
+<jtok eid="21" type="method_call" span="785:26:785:32">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="785:38:785:39">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="786:4:786:11">current</jtok>
+<jtok eid="21" type="primary_name_ref" span="786:14:786:16">sb</jtok>
+<jtok eid="21" type="method_call" span="786:17:786:23">charAt</jtok>
+<jtok eid="21" type="primary_name_ref" span="786:24:786:25">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="787:9:787:18">Character</jtok>
+<jtok eid="21" type="method_call" span="787:19:787:31">isWhitespace</jtok>
+<jtok eid="21" type="primary_name_ref" span="787:32:787:39">current</jtok>
+<jtok eid="21" type="primary_name_ref" span="788:5:788:10">newSb</jtok>
+<jtok eid="21" type="method_call" span="788:11:788:17">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="788:18:788:25">current</jtok>
+<jtok eid="21" type="primary_name_ref" span="790:10:790:15">newSb</jtok>
+<jtok eid="1" type="block_comment" span="793:2:799:5">/**
+	 * pushes buffer back into input
+	 * 
+	 * @param sb
+	 * @throws IOException
+	 *             can be thrown if buffer is bigger than LOOKAHEAD
+	 */</jtok>
+<jtok eid="22" type="method_name" span="800:15:800:27">unreadBuffer</jtok>
+<jtok eid="22" type="parameter_type" span="800:28:800:41">StringBuilder</jtok>
+<jtok eid="22" type="parameter_name" span="800:42:800:44">sb</jtok>
+<jtok eid="22" type="throws" span="800:53:800:64">IOException</jtok>
+<jtok eid="22" type="local_variable_name" span="801:12:801:13">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="801:16:801:18">sb</jtok>
+<jtok eid="22" type="method_call" span="801:19:801:25">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="801:33:801:34">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="801:43:801:44">i</jtok>
+<jtok eid="22" type="method_call" span="802:4:802:10">unread</jtok>
+<jtok eid="22" type="primary_name_ref" span="802:11:802:13">sb</jtok>
+<jtok eid="22" type="method_call" span="802:14:802:20">charAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="802:21:802:22">i</jtok>
+<jtok eid="1" type="block_comment" span="807:2:809:5">/**
+	 * This method is used to parse the bibtex key for an entry.
+	 */</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="810:10:810:16">String</jtok>
+<jtok eid="23" type="method_name" span="810:17:810:25">parseKey</jtok>
+<jtok eid="23" type="throws" span="810:35:810:46">IOException</jtok>
+<jtok eid="23" type="throws" span="810:48:810:64">NoLabelException</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="811:3:811:15">StringBuffer</jtok>
+<jtok eid="23" type="local_variable_name" span="811:16:811:21">token</jtok>
+<jtok eid="23" type="constructor_call" span="811:28:811:40">StringBuffer</jtok>
+<jtok eid="23" type="local_variable_name" span="814:8:814:9">c</jtok>
+<jtok eid="23" type="method_call" span="814:12:814:16">read</jtok>
+<jtok eid="23" type="line_comment" span="815:4:815:39">// Util.pr(".. '"+(char)c+"'\t"+c);</jtok>
+<jtok eid="23" type="primary_name_ref" span="816:8:816:9">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="817:5:817:9">_eof</jtok>
+<jtok eid="23" type="primary_name_ref" span="819:12:819:17">token</jtok>
+<jtok eid="23" type="method_call" span="819:18:819:26">toString</jtok>
+<jtok eid="23" type="line_comment" span="822:4:822:29">// Ikke: #{}\uFFFD~\uFFFD</jtok>
+<jtok eid="23" type="line_comment" span="823:4:823:6">//</jtok>
+<jtok eid="23" type="line_comment" span="824:4:824:28">// G\uFFFDr: $_*+.-\/?"^</jtok>
+<jtok eid="23" type="primary_name_ref" span="825:9:825:18">Character</jtok>
+<jtok eid="23" type="method_call" span="825:19:825:31">isWhitespace</jtok>
+<jtok eid="23" type="primary_name_ref" span="825:39:825:40">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="826:9:826:18">Character</jtok>
+<jtok eid="23" type="method_call" span="826:19:826:34">isLetterOrDigit</jtok>
+<jtok eid="23" type="primary_name_ref" span="826:42:826:43">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="826:50:826:51">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="826:64:826:65">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="826:78:826:79">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="827:10:827:11">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="827:29:827:30">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="827:43:827:44">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="827:62:827:63">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="827:76:827:77">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="828:5:828:10">token</jtok>
+<jtok eid="23" type="method_call" span="828:11:828:17">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="828:25:828:26">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="831:9:831:18">Character</jtok>
+<jtok eid="23" type="method_call" span="831:19:831:31">isWhitespace</jtok>
+<jtok eid="23" type="primary_name_ref" span="831:39:831:40">c</jtok>
+<jtok eid="23" type="line_comment" span="832:6:832:64">// We have encountered white space instead of the comma at</jtok>
+<jtok eid="23" type="line_comment" span="833:6:833:19">// the end of</jtok>
+<jtok eid="23" type="line_comment" span="834:6:834:61">// the key. Possibly the comma is missing, so we try to</jtok>
+<jtok eid="23" type="line_comment" span="835:6:835:23">// return what we</jtok>
+<jtok eid="23" type="line_comment" span="836:6:836:72">// have found, as the key and try to restore the rest in fixKey().</jtok>
+<jtok eid="23" type="primary_name_ref" span="837:13:837:18">token</jtok>
+<jtok eid="23" type="method_call" span="837:19:837:27">toString</jtok>
+<jtok eid="23" type="method_call" span="837:30:837:36">fixKey</jtok>
+<jtok eid="23" type="primary_name_ref" span="838:16:838:17">c</jtok>
+<jtok eid="23" type="method_call" span="839:6:839:12">unread</jtok>
+<jtok eid="23" type="primary_name_ref" span="839:13:839:14">c</jtok>
+<jtok eid="23" type="primary_name_ref" span="840:13:840:18">token</jtok>
+<jtok eid="23" type="method_call" span="840:19:840:27">toString</jtok>
+<jtok eid="23" type="line_comment" span="841:6:841:54">// } else if (Character.isWhitespace((char)c)) {</jtok>
+<jtok eid="23" type="line_comment" span="842:6:842:54">// throw new NoLabelException(token.toString());</jtok>
+<jtok eid="23" type="primary_name_ref" span="843:16:843:17">c</jtok>
+<jtok eid="23" type="line_comment" span="844:6:844:57">// If we find a '=' sign, it is either an error, or</jtok>
+<jtok eid="23" type="line_comment" span="845:6:845:64">// the entry lacked a comma signifying the end of the key.</jtok>
+<jtok eid="23" type="primary_name_ref" span="847:13:847:18">token</jtok>
+<jtok eid="23" type="method_call" span="847:19:847:27">toString</jtok>
+<jtok eid="23" type="line_comment" span="848:6:848:54">// throw new NoLabelException(token.toString());</jtok>
+<jtok eid="23" type="constructor_call" span="851:16:851:27">IOException</jtok>
+<jtok eid="23" type="string_literal" span="851:28:851:44">"Error in line "</jtok>
+<jtok eid="23" type="primary_name_ref" span="851:47:851:51">line</jtok>
+<jtok eid="23" type="string_literal" span="851:54:851:57">":"</jtok>
+<jtok eid="23" type="string_literal" span="851:60:851:73">"Character '"</jtok>
+<jtok eid="23" type="primary_name_ref" span="851:83:851:84">c</jtok>
+<jtok eid="23" type="string_literal" span="852:9:852:20">"' is not "</jtok>
+<jtok eid="23" type="string_literal" span="852:23:852:48">"allowed in bibtex keys."</jtok>
+<jtok eid="24" type="class_name" span="859:16:859:32">NoLabelException</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="859:41:859:50">Exception</jtok>
+<jtok eid="25" type="method_name" span="860:10:860:26">NoLabelException</jtok>
+<jtok eid="25" type="parameter_type" span="860:27:860:33">String</jtok>
+<jtok eid="25" type="parameter_name" span="860:34:860:41">hasRead</jtok>
+<jtok eid="25" type="primary_name_ref" span="861:10:861:17">hasRead</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="865:10:865:22">StringBuffer</jtok>
+<jtok eid="26" type="method_name" span="865:23:865:41">parseBracketedText</jtok>
+<jtok eid="26" type="throws" span="865:51:865:62">IOException</jtok>
+<jtok eid="26" type="line_comment" span="866:3:866:38">// Util.pr("Parse bracketed text");</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="867:3:867:15">StringBuffer</jtok>
+<jtok eid="26" type="local_variable_name" span="867:16:867:21">value</jtok>
+<jtok eid="26" type="constructor_call" span="867:28:867:40">StringBuffer</jtok>
+<jtok eid="26" type="method_call" span="869:3:869:10">consume</jtok>
+<jtok eid="26" type="local_variable_name" span="871:7:871:15">brackets</jtok>
+<jtok eid="26" type="method_call" span="873:13:873:17">peek</jtok>
+<jtok eid="26" type="primary_name_ref" span="873:32:873:40">brackets</jtok>
+<jtok eid="26" type="local_variable_name" span="875:8:875:9">j</jtok>
+<jtok eid="26" type="method_call" span="875:12:875:16">read</jtok>
+<jtok eid="26" type="primary_name_ref" span="876:9:876:10">j</jtok>
+<jtok eid="26" type="primary_name_ref" span="876:22:876:23">j</jtok>
+<jtok eid="26" type="constructor_call" span="877:15:877:31">RuntimeException</jtok>
+<jtok eid="26" type="string_literal" span="877:32:877:48">"Error in line "</jtok>
+<jtok eid="26" type="primary_name_ref" span="877:51:877:55">line</jtok>
+<jtok eid="26" type="string_literal" span="877:58:877:79">": EOF in mid-string"</jtok>
+<jtok eid="26" type="primary_name_ref" span="878:15:878:16">j</jtok>
+<jtok eid="26" type="primary_name_ref" span="879:5:879:13">brackets</jtok>
+<jtok eid="26" type="primary_name_ref" span="880:13:880:14">j</jtok>
+<jtok eid="26" type="primary_name_ref" span="881:5:881:13">brackets</jtok>
+<jtok eid="26" type="line_comment" span="883:4:883:59">// If we encounter whitespace of any kind, read it as a</jtok>
+<jtok eid="26" type="line_comment" span="884:4:884:67">// simple space, and ignore any others that follow immediately.</jtok>
+<jtok eid="26" type="block_comment" span="885:4:887:7">/*
+			 * if (j == '\n') { if (peek() == '\n') value.append('\n'); } else
+			 */</jtok>
+<jtok eid="26" type="primary_name_ref" span="888:8:888:17">Character</jtok>
+<jtok eid="26" type="method_call" span="888:18:888:30">isWhitespace</jtok>
+<jtok eid="26" type="primary_name_ref" span="888:38:888:39">j</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="889:5:889:11">String</jtok>
+<jtok eid="26" type="local_variable_name" span="889:12:889:15">whs</jtok>
+<jtok eid="26" type="method_call" span="889:18:889:41">skipAndRecordWhitespace</jtok>
+<jtok eid="26" type="primary_name_ref" span="889:42:889:43">j</jtok>
+<jtok eid="26" type="line_comment" span="891:5:891:40">// System.out.println(":"+whs+":");</jtok>
+<jtok eid="26" type="primary_name_ref" span="893:10:893:13">whs</jtok>
+<jtok eid="26" type="method_call" span="893:14:893:20">equals</jtok>
+<jtok eid="26" type="string_literal" span="893:21:893:23">""</jtok>
+<jtok eid="26" type="primary_name_ref" span="893:29:893:32">whs</jtok>
+<jtok eid="26" type="method_call" span="893:33:893:39">equals</jtok>
+<jtok eid="26" type="string_literal" span="893:40:893:46">"\n\t"</jtok>
+<jtok eid="26" type="line_comment" span="893:51:893:56">// &amp;&amp;</jtok>
+<jtok eid="26" type="line_comment" span="894:17:894:38">// !whs.equals("\n"))</jtok>
+<jtok eid="26" type="primary_name_ref" span="896:6:896:9">whs</jtok>
+<jtok eid="26" type="primary_name_ref" span="896:12:896:15">whs</jtok>
+<jtok eid="26" type="method_call" span="896:16:896:26">replaceAll</jtok>
+<jtok eid="26" type="string_literal" span="896:27:896:31">"\t"</jtok>
+<jtok eid="26" type="string_literal" span="896:33:896:35">""</jtok>
+<jtok eid="26" type="line_comment" span="896:38:896:59">// Remove tabulators.</jtok>
+<jtok eid="26" type="line_comment" span="898:6:898:35">// while (whs.endsWith("\t"))</jtok>
+<jtok eid="26" type="line_comment" span="899:6:899:48">// whs = whs.substring(0, whs.length()-1);</jtok>
+<jtok eid="26" type="primary_name_ref" span="901:6:901:11">value</jtok>
+<jtok eid="26" type="method_call" span="901:12:901:18">append</jtok>
+<jtok eid="26" type="primary_name_ref" span="901:19:901:22">whs</jtok>
+<jtok eid="26" type="primary_name_ref" span="904:6:904:11">value</jtok>
+<jtok eid="26" type="method_call" span="904:12:904:18">append</jtok>
+<jtok eid="26" type="primary_name_ref" span="908:5:908:10">value</jtok>
+<jtok eid="26" type="method_call" span="908:11:908:17">append</jtok>
+<jtok eid="26" type="primary_name_ref" span="908:25:908:26">j</jtok>
+<jtok eid="26" type="method_call" span="912:3:912:10">consume</jtok>
+<jtok eid="26" type="primary_name_ref" span="914:10:914:15">value</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="917:10:917:22">StringBuffer</jtok>
+<jtok eid="27" type="method_name" span="917:23:917:48">parseBracketedTextExactly</jtok>
+<jtok eid="27" type="throws" span="917:58:917:69">IOException</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="919:3:919:15">StringBuffer</jtok>
+<jtok eid="27" type="local_variable_name" span="919:16:919:21">value</jtok>
+<jtok eid="27" type="constructor_call" span="919:28:919:40">StringBuffer</jtok>
+<jtok eid="27" type="method_call" span="921:3:921:10">consume</jtok>
+<jtok eid="27" type="local_variable_name" span="923:7:923:15">brackets</jtok>
+<jtok eid="27" type="method_call" span="925:13:925:17">peek</jtok>
+<jtok eid="27" type="primary_name_ref" span="925:32:925:40">brackets</jtok>
+<jtok eid="27" type="local_variable_name" span="927:8:927:9">j</jtok>
+<jtok eid="27" type="method_call" span="927:12:927:16">read</jtok>
+<jtok eid="27" type="primary_name_ref" span="928:9:928:10">j</jtok>
+<jtok eid="27" type="primary_name_ref" span="928:22:928:23">j</jtok>
+<jtok eid="27" type="constructor_call" span="929:15:929:31">RuntimeException</jtok>
+<jtok eid="27" type="string_literal" span="929:32:929:48">"Error in line "</jtok>
+<jtok eid="27" type="primary_name_ref" span="929:51:929:55">line</jtok>
+<jtok eid="27" type="string_literal" span="929:58:929:79">": EOF in mid-string"</jtok>
+<jtok eid="27" type="primary_name_ref" span="930:15:930:16">j</jtok>
+<jtok eid="27" type="primary_name_ref" span="931:5:931:13">brackets</jtok>
+<jtok eid="27" type="primary_name_ref" span="932:13:932:14">j</jtok>
+<jtok eid="27" type="primary_name_ref" span="933:5:933:13">brackets</jtok>
+<jtok eid="27" type="primary_name_ref" span="935:4:935:9">value</jtok>
+<jtok eid="27" type="method_call" span="935:10:935:16">append</jtok>
+<jtok eid="27" type="primary_name_ref" span="935:24:935:25">j</jtok>
+<jtok eid="27" type="method_call" span="939:3:939:10">consume</jtok>
+<jtok eid="27" type="primary_name_ref" span="941:10:941:15">value</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="944:10:944:22">StringBuffer</jtok>
+<jtok eid="28" type="method_name" span="944:23:944:46">parseQuotedFieldExactly</jtok>
+<jtok eid="28" type="throws" span="944:56:944:67">IOException</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="946:3:946:15">StringBuffer</jtok>
+<jtok eid="28" type="local_variable_name" span="946:16:946:21">value</jtok>
+<jtok eid="28" type="constructor_call" span="946:28:946:40">StringBuffer</jtok>
+<jtok eid="28" type="method_call" span="948:3:948:10">consume</jtok>
+<jtok eid="28" type="local_variable_name" span="950:7:950:15">brackets</jtok>
+<jtok eid="28" type="method_call" span="952:13:952:17">peek</jtok>
+<jtok eid="28" type="primary_name_ref" span="952:32:952:40">brackets</jtok>
+<jtok eid="28" type="local_variable_name" span="954:8:954:9">j</jtok>
+<jtok eid="28" type="method_call" span="954:12:954:16">read</jtok>
+<jtok eid="28" type="primary_name_ref" span="955:9:955:10">j</jtok>
+<jtok eid="28" type="primary_name_ref" span="955:22:955:23">j</jtok>
+<jtok eid="28" type="constructor_call" span="956:15:956:31">RuntimeException</jtok>
+<jtok eid="28" type="string_literal" span="956:32:956:48">"Error in line "</jtok>
+<jtok eid="28" type="primary_name_ref" span="956:51:956:55">line</jtok>
+<jtok eid="28" type="string_literal" span="956:58:956:79">": EOF in mid-string"</jtok>
+<jtok eid="28" type="primary_name_ref" span="957:15:957:16">j</jtok>
+<jtok eid="28" type="primary_name_ref" span="958:5:958:13">brackets</jtok>
+<jtok eid="28" type="primary_name_ref" span="959:13:959:14">j</jtok>
+<jtok eid="28" type="primary_name_ref" span="960:5:960:13">brackets</jtok>
+<jtok eid="28" type="primary_name_ref" span="962:4:962:9">value</jtok>
+<jtok eid="28" type="method_call" span="962:10:962:16">append</jtok>
+<jtok eid="28" type="primary_name_ref" span="962:24:962:25">j</jtok>
+<jtok eid="28" type="method_call" span="966:3:966:10">consume</jtok>
+<jtok eid="28" type="primary_name_ref" span="968:10:968:15">value</jtok>
+<jtok eid="29" type="method_name" span="971:15:971:22">consume</jtok>
+<jtok eid="29" type="parameter_name" span="971:28:971:36">expected</jtok>
+<jtok eid="29" type="throws" span="971:45:971:56">IOException</jtok>
+<jtok eid="29" type="local_variable_name" span="972:7:972:8">c</jtok>
+<jtok eid="29" type="method_call" span="972:11:972:15">read</jtok>
+<jtok eid="29" type="primary_name_ref" span="974:7:974:8">c</jtok>
+<jtok eid="29" type="primary_name_ref" span="974:12:974:20">expected</jtok>
+<jtok eid="29" type="constructor_call" span="975:14:975:30">RuntimeException</jtok>
+<jtok eid="29" type="string_literal" span="975:31:975:47">"Error in line "</jtok>
+<jtok eid="29" type="primary_name_ref" span="975:50:975:54">line</jtok>
+<jtok eid="29" type="string_literal" span="975:57:975:70">": Expected "</jtok>
+<jtok eid="29" type="primary_name_ref" span="975:73:975:81">expected</jtok>
+<jtok eid="29" type="string_literal" span="976:7:976:23">" but received "</jtok>
+<jtok eid="29" type="primary_name_ref" span="976:33:976:34">c</jtok>
+<jtok eid="30" type="method_name" span="981:18:981:37">consumeUncritically</jtok>
+<jtok eid="30" type="parameter_name" span="981:43:981:51">expected</jtok>
+<jtok eid="30" type="throws" span="981:60:981:71">IOException</jtok>
+<jtok eid="30" type="local_variable_name" span="982:7:982:8">c</jtok>
+<jtok eid="30" type="primary_name_ref" span="983:12:983:13">c</jtok>
+<jtok eid="30" type="method_call" span="983:16:983:20">read</jtok>
+<jtok eid="30" type="primary_name_ref" span="983:27:983:35">expected</jtok>
+<jtok eid="30" type="primary_name_ref" span="983:41:983:42">c</jtok>
+<jtok eid="30" type="primary_name_ref" span="983:54:983:55">c</jtok>
+<jtok eid="30" type="line_comment" span="984:7:984:20">// do nothing</jtok>
+<jtok eid="30" type="primary_name_ref" span="987:8:987:9">c</jtok>
+<jtok eid="30" type="primary_name_ref" span="987:21:987:22">c</jtok>
+<jtok eid="30" type="primary_name_ref" span="988:4:988:8">_eof</jtok>
+<jtok eid="30" type="line_comment" span="990:3:990:73">// Return true if we actually found the character we were looking for:</jtok>
+<jtok eid="30" type="primary_name_ref" span="991:10:991:11">c</jtok>
+<jtok eid="30" type="primary_name_ref" span="991:15:991:23">expected</jtok>
+<jtok eid="31" type="method_name" span="994:15:994:22">consume</jtok>
+<jtok eid="31" type="parameter_name" span="994:28:994:37">expected1</jtok>
+<jtok eid="31" type="parameter_name" span="994:44:994:53">expected2</jtok>
+<jtok eid="31" type="throws" span="994:62:994:73">IOException</jtok>
+<jtok eid="31" type="line_comment" span="995:3:995:58">// Consumes one of the two, doesn't care which appears.</jtok>
+<jtok eid="31" type="local_variable_name" span="997:7:997:8">c</jtok>
+<jtok eid="31" type="method_call" span="997:11:997:15">read</jtok>
+<jtok eid="31" type="primary_name_ref" span="999:8:999:9">c</jtok>
+<jtok eid="31" type="primary_name_ref" span="999:13:999:22">expected1</jtok>
+<jtok eid="31" type="primary_name_ref" span="999:28:999:29">c</jtok>
+<jtok eid="31" type="primary_name_ref" span="999:33:999:42">expected2</jtok>
+<jtok eid="31" type="constructor_call" span="1000:14:1000:30">RuntimeException</jtok>
+<jtok eid="31" type="string_literal" span="1000:31:1000:47">"Error in line "</jtok>
+<jtok eid="31" type="primary_name_ref" span="1000:50:1000:54">line</jtok>
+<jtok eid="31" type="string_literal" span="1000:57:1000:70">": Expected "</jtok>
+<jtok eid="31" type="primary_name_ref" span="1000:73:1000:82">expected1</jtok>
+<jtok eid="31" type="string_literal" span="1000:85:1000:91">" or "</jtok>
+<jtok eid="31" type="primary_name_ref" span="1001:7:1001:16">expected2</jtok>
+<jtok eid="31" type="string_literal" span="1001:19:1001:35">" but received "</jtok>
+<jtok eid="31" type="primary_name_ref" span="1001:38:1001:39">c</jtok>
+<jtok eid="32" type="method_name" span="1007:14:1007:29">checkEntryTypes</jtok>
+<jtok eid="32" type="parameter_type" span="1007:30:1007:42">ParserResult</jtok>
+<jtok eid="32" type="parameter_name" span="1007:43:1007:46">_pr</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="1009:8:1009:19">BibtexEntry</jtok>
+<jtok eid="32" type="local_variable_name" span="1009:20:1009:22">be</jtok>
+<jtok eid="32" type="primary_name_ref" span="1009:25:1009:28">_db</jtok>
+<jtok eid="32" type="method_call" span="1009:29:1009:39">getEntries</jtok>
+<jtok eid="32" type="primary_name_ref" span="1010:8:1010:10">be</jtok>
+<jtok eid="32" type="method_call" span="1010:11:1010:18">getType</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="1010:32:1010:48">UnknownEntryType</jtok>
+<jtok eid="32" type="line_comment" span="1011:5:1011:65">// Look up the unknown type name in our map of parsed types:</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="1013:5:1013:11">Object</jtok>
+<jtok eid="32" type="local_variable_name" span="1013:12:1013:13">o</jtok>
+<jtok eid="32" type="primary_name_ref" span="1013:16:1013:26">entryTypes</jtok>
+<jtok eid="32" type="method_call" span="1013:27:1013:30">get</jtok>
+<jtok eid="32" type="primary_name_ref" span="1013:31:1013:33">be</jtok>
+<jtok eid="32" type="method_call" span="1013:34:1013:41">getType</jtok>
+<jtok eid="32" type="method_call" span="1013:44:1013:51">getName</jtok>
+<jtok eid="32" type="method_call" span="1013:54:1013:65">toLowerCase</jtok>
+<jtok eid="32" type="primary_name_ref" span="1014:9:1014:10">o</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="1015:6:1015:21">BibtexEntryType</jtok>
+<jtok eid="32" type="local_variable_name" span="1015:22:1015:26">type</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="1015:30:1015:45">BibtexEntryType</jtok>
+<jtok eid="32" type="primary_name_ref" span="1015:47:1015:48">o</jtok>
+<jtok eid="32" type="primary_name_ref" span="1016:6:1016:8">be</jtok>
+<jtok eid="32" type="method_call" span="1016:9:1016:16">setType</jtok>
+<jtok eid="32" type="primary_name_ref" span="1016:17:1016:21">type</jtok>
+<jtok eid="32" type="line_comment" span="1018:6:1018:48">// System.out.println("Unknown entry type:</jtok>
+<jtok eid="32" type="line_comment" span="1019:6:1019:35">// "+be.getType().getName());</jtok>
+<jtok eid="32" type="primary_name_ref" span="1020:6:1020:9">_pr</jtok>
+<jtok eid="32" type="method_call" span="1021:8:1021:18">addWarning</jtok>
+<jtok eid="32" type="primary_name_ref" span="1021:19:1021:26">Globals</jtok>
+<jtok eid="32" type="method_call" span="1021:27:1021:31">lang</jtok>
+<jtok eid="32" type="string_literal" span="1021:32:1021:52">"unknown entry type"</jtok>
+<jtok eid="32" type="string_literal" span="1021:56:1021:60">": "</jtok>
+<jtok eid="32" type="primary_name_ref" span="1022:10:1022:12">be</jtok>
+<jtok eid="32" type="method_call" span="1022:13:1022:20">getType</jtok>
+<jtok eid="32" type="method_call" span="1022:23:1022:30">getName</jtok>
+<jtok eid="32" type="string_literal" span="1022:35:1022:39">". "</jtok>
+<jtok eid="32" type="primary_name_ref" span="1022:42:1022:49">Globals</jtok>
+<jtok eid="32" type="method_call" span="1022:50:1022:54">lang</jtok>
+<jtok eid="32" type="string_literal" span="1022:55:1022:76">"Type set to 'other'"</jtok>
+<jtok eid="32" type="string_literal" span="1023:10:1023:13">"."</jtok>
+<jtok eid="32" type="primary_name_ref" span="1024:6:1024:8">be</jtok>
+<jtok eid="32" type="method_call" span="1024:9:1024:16">setType</jtok>
+<jtok eid="32" type="primary_name_ref" span="1024:17:1024:32">BibtexEntryType</jtok>
+<jtok eid="32" type="qualified_name_ref" span="1024:33:1024:38">OTHER</jtok>
+<jtok eid="1" type="block_comment" span="1030:5:1039:8">/**
+     * Read the JabRef signature, if any, and find what version number is given.
+     * This method advances the file reader only as far as the end of the first line of
+     * the JabRef signature, or up until the point where the read characters don't match
+     * the signature. This should ensure that the parser can continue from that spot without
+     * resetting the reader, without the risk of losing important contents.
+     *
+     * @return The version number, or null if not found.
+     * @throws IOException
+     */</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="1040:13:1040:19">String</jtok>
+<jtok eid="33" type="method_name" span="1040:20:1040:43">readJabRefVersionNumber</jtok>
+<jtok eid="33" type="throws" span="1040:53:1040:64">IOException</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="1041:9:1041:21">StringBuffer</jtok>
+<jtok eid="33" type="local_variable_name" span="1041:22:1041:32">headerText</jtok>
+<jtok eid="33" type="constructor_call" span="1041:39:1041:51">StringBuffer</jtok>
+<jtok eid="33" type="local_variable_name" span="1043:17:1043:23">keepon</jtok>
+<jtok eid="33" type="local_variable_name" span="1044:13:1044:16">piv</jtok>
+<jtok eid="33" type="local_variable_name" span="1045:13:1045:14">c</jtok>
+<jtok eid="33" type="line_comment" span="1047:9:1047:82">// We start by reading the standard part of the signature, which precedes</jtok>
+<jtok eid="33" type="line_comment" span="1048:9:1048:31">// the version number:</jtok>
+<jtok eid="33" type="line_comment" span="1049:9:1049:70">//                     This file was created with JabRef X.y.</jtok>
+<jtok eid="33" type="primary_name_ref" span="1050:16:1050:22">keepon</jtok>
+<jtok eid="33" type="primary_name_ref" span="1051:13:1051:14">c</jtok>
+<jtok eid="33" type="method_call" span="1051:17:1051:21">peek</jtok>
+<jtok eid="33" type="primary_name_ref" span="1052:13:1052:23">headerText</jtok>
+<jtok eid="33" type="method_call" span="1052:24:1052:30">append</jtok>
+<jtok eid="33" type="primary_name_ref" span="1052:38:1052:39">c</jtok>
+<jtok eid="33" type="primary_name_ref" span="1053:18:1053:21">piv</jtok>
+<jtok eid="33" type="primary_name_ref" span="1053:32:1053:41">Character</jtok>
+<jtok eid="33" type="method_call" span="1053:42:1053:54">isWhitespace</jtok>
+<jtok eid="33" type="primary_name_ref" span="1053:62:1053:63">c</jtok>
+<jtok eid="33" type="primary_name_ref" span="1053:69:1053:70">c</jtok>
+<jtok eid="33" type="method_call" span="1054:17:1054:21">read</jtok>
+<jtok eid="33" type="primary_name_ref" span="1055:22:1055:23">c</jtok>
+<jtok eid="33" type="primary_name_ref" span="1055:27:1055:37">GUIGlobals</jtok>
+<jtok eid="33" type="qualified_name_ref" span="1055:38:1055:47">SIGNATURE</jtok>
+<jtok eid="33" type="method_call" span="1055:48:1055:54">charAt</jtok>
+<jtok eid="33" type="primary_name_ref" span="1055:55:1055:58">piv</jtok>
+<jtok eid="33" type="primary_name_ref" span="1056:17:1056:20">piv</jtok>
+<jtok eid="33" type="method_call" span="1057:17:1057:21">read</jtok>
+<jtok eid="33" type="primary_name_ref" span="1060:17:1060:23">keepon</jtok>
+<jtok eid="33" type="line_comment" span="1064:13:1064:80">// Check if we've reached the end of the signature's standard part:</jtok>
+<jtok eid="33" type="primary_name_ref" span="1065:17:1065:20">piv</jtok>
+<jtok eid="33" type="primary_name_ref" span="1065:24:1065:34">GUIGlobals</jtok>
+<jtok eid="33" type="qualified_name_ref" span="1065:35:1065:44">SIGNATURE</jtok>
+<jtok eid="33" type="method_call" span="1065:45:1065:51">length</jtok>
+<jtok eid="33" type="primary_name_ref" span="1066:17:1066:23">keepon</jtok>
+<jtok eid="33" type="line_comment" span="1068:17:1068:73">// Found the standard part. Now read the version number:</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="1069:17:1069:30">StringBuilder</jtok>
+<jtok eid="33" type="local_variable_name" span="1069:31:1069:33">sb</jtok>
+<jtok eid="33" type="constructor_call" span="1069:40:1069:53">StringBuilder</jtok>
+<jtok eid="33" type="primary_name_ref" span="1070:26:1070:27">c</jtok>
+<jtok eid="33" type="method_call" span="1070:28:1070:32">read</jtok>
+<jtok eid="33" type="primary_name_ref" span="1070:49:1070:50">c</jtok>
+<jtok eid="33" type="primary_name_ref" span="1071:21:1071:23">sb</jtok>
+<jtok eid="33" type="method_call" span="1071:24:1071:30">append</jtok>
+<jtok eid="33" type="primary_name_ref" span="1071:37:1071:38">c</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="1072:17:1072:23">String</jtok>
+<jtok eid="33" type="local_variable_name" span="1072:24:1072:34">versionNum</jtok>
+<jtok eid="33" type="primary_name_ref" span="1072:37:1072:39">sb</jtok>
+<jtok eid="33" type="method_call" span="1072:40:1072:48">toString</jtok>
+<jtok eid="33" type="method_call" span="1072:51:1072:55">trim</jtok>
+<jtok eid="33" type="line_comment" span="1073:17:1073:52">// See if it fits the X.y. pattern:</jtok>
+<jtok eid="33" type="primary_name_ref" span="1074:21:1074:28">Pattern</jtok>
+<jtok eid="33" type="method_call" span="1074:29:1074:36">compile</jtok>
+<jtok eid="33" type="string_literal" span="1074:37:1074:64">"[1-9]+\\.[1-9A-Za-z ]+\\."</jtok>
+<jtok eid="33" type="method_call" span="1074:66:1074:73">matcher</jtok>
+<jtok eid="33" type="primary_name_ref" span="1074:74:1074:84">versionNum</jtok>
+<jtok eid="33" type="method_call" span="1074:86:1074:93">matches</jtok>
+<jtok eid="33" type="line_comment" span="1075:21:1075:70">// It matched. Remove the last period and return:</jtok>
+<jtok eid="33" type="primary_name_ref" span="1076:28:1076:38">versionNum</jtok>
+<jtok eid="33" type="method_call" span="1076:39:1076:48">substring</jtok>
+<jtok eid="33" type="primary_name_ref" span="1076:52:1076:62">versionNum</jtok>
+<jtok eid="33" type="method_call" span="1076:63:1076:69">length</jtok>
+<jtok eid="1" type="block_comment" span="1085:5:1089:8">/**
+     * After a JabRef version number has been parsed and put into _pr,
+     * parse the version number to determine the JabRef major and minor version
+     * number
+     */</jtok>
+<jtok eid="34" type="method_name" span="1090:18:1090:39">setMajorMinorVersions</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="1091:9:1091:15">String</jtok>
+<jtok eid="34" type="local_variable_name" span="1091:16:1091:17">v</jtok>
+<jtok eid="34" type="primary_name_ref" span="1091:20:1091:23">_pr</jtok>
+<jtok eid="34" type="method_call" span="1091:24:1091:40">getJabrefVersion</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="1092:9:1092:16">Pattern</jtok>
+<jtok eid="34" type="local_variable_name" span="1092:17:1092:18">p</jtok>
+<jtok eid="34" type="primary_name_ref" span="1092:21:1092:28">Pattern</jtok>
+<jtok eid="34" type="method_call" span="1092:29:1092:36">compile</jtok>
+<jtok eid="34" type="string_literal" span="1092:37:1092:60">"([0-9]+)\\.([0-9]+).*"</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="1093:9:1093:16">Matcher</jtok>
+<jtok eid="34" type="local_variable_name" span="1093:17:1093:18">m</jtok>
+<jtok eid="34" type="primary_name_ref" span="1093:21:1093:22">p</jtok>
+<jtok eid="34" type="method_call" span="1093:23:1093:30">matcher</jtok>
+<jtok eid="34" type="primary_name_ref" span="1093:31:1093:32">v</jtok>
+<jtok eid="34" type="primary_name_ref" span="1094:14:1094:15">m</jtok>
+<jtok eid="34" type="method_call" span="1094:16:1094:23">matches</jtok>
+<jtok eid="34" type="primary_name_ref" span="1096:13:1096:14">m</jtok>
+<jtok eid="34" type="method_call" span="1096:15:1096:25">groupCount</jtok>
+<jtok eid="34" type="primary_name_ref" span="1097:13:1097:16">_pr</jtok>
+<jtok eid="34" type="method_call" span="1097:17:1097:38">setJabrefMajorVersion</jtok>
+<jtok eid="34" type="primary_name_ref" span="1097:39:1097:46">Integer</jtok>
+<jtok eid="34" type="method_call" span="1097:47:1097:55">parseInt</jtok>
+<jtok eid="34" type="primary_name_ref" span="1097:56:1097:57">m</jtok>
+<jtok eid="34" type="method_call" span="1097:58:1097:63">group</jtok>
+<jtok eid="34" type="primary_name_ref" span="1098:13:1098:16">_pr</jtok>
+<jtok eid="34" type="method_call" span="1098:17:1098:38">setJabrefMinorVersion</jtok>
+<jtok eid="34" type="primary_name_ref" span="1098:39:1098:46">Integer</jtok>
+<jtok eid="34" type="method_call" span="1098:47:1098:55">parseInt</jtok>
+<jtok eid="34" type="primary_name_ref" span="1098:56:1098:57">m</jtok>
+<jtok eid="34" type="method_call" span="1098:58:1098:63">group</jtok>
+</jdoc>

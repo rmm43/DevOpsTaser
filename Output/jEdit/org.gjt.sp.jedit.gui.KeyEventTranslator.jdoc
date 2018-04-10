@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.KeyEventTranslator" jls="java5">
+<jent id="0" type="file" span="0:0:544:2">Source/jEdit/org/gjt/sp/jedit/gui/KeyEventTranslator.java</jent>
+<jent id="1" pid="0" type="class" span="42:1:544:1">org.gjt.sp.jedit.gui.KeyEventTranslator</jent>
+<jent id="2" pid="1" type="method" span="51:2:54:2">org.gjt.sp.jedit.gui.KeyEventTranslator.addTranslation(Key,Key)</jent>
+<jent id="3" pid="1" type="method" span="68:2:81:2">org.gjt.sp.jedit.gui.KeyEventTranslator.translateKeyEvent(KeyEvent)</jent>
+<jent id="4" pid="1" type="method" span="89:2:215:2">org.gjt.sp.jedit.gui.KeyEventTranslator.translateKeyEvent2(KeyEvent)</jent>
+<jent id="5" pid="1" type="method" span="228:2:295:2">org.gjt.sp.jedit.gui.KeyEventTranslator.parseKey(String)</jent>
+<jent id="6" pid="1" type="method" span="322:2:353:2">org.gjt.sp.jedit.gui.KeyEventTranslator.setModifierMapping(int,int,int,int)</jent>
+<jent id="7" pid="1" type="method" span="364:2:376:2">org.gjt.sp.jedit.gui.KeyEventTranslator.getSymbolicModifierName(int)</jent>
+<jent id="8" pid="1" type="method" span="386:2:400:2">org.gjt.sp.jedit.gui.KeyEventTranslator.modifiersToString(int)</jent>
+<jent id="9" pid="1" type="method" span="411:2:423:2">org.gjt.sp.jedit.gui.KeyEventTranslator.getModifierString(InputEvent)</jent>
+<jent id="10" pid="1" type="method" span="431:2:438:2">org.gjt.sp.jedit.gui.KeyEventTranslator.lazyAppend(StringBuilder,char)</jent>
+<jent id="11" pid="1" type="class" span="462:2:543:2">org.gjt.sp.jedit.gui.KeyEventTranslator.Key</jent>
+<jent id="12" pid="11" type="method" span="482:3:488:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.Key(String,int,char)</jent>
+<jent id="13" pid="11" type="method" span="491:3:494:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.hashCode()</jent>
+<jent id="14" pid="11" type="method" span="497:3:511:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.equals(Object)</jent>
+<jent id="15" pid="11" type="method" span="514:3:522:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.toString()</jent>
+<jent id="16" pid="11" type="method" span="524:3:527:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.setIsFromGlobalContext(boolean)</jent>
+<jent id="17" pid="11" type="method" span="529:3:532:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.isFromGlobalContext()</jent>
+<jent id="18" pid="11" type="method" span="534:3:537:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.setIsPhantom(boolean)</jent>
+<jent id="19" pid="11" type="method" span="539:3:542:3">org.gjt.sp.jedit.gui.KeyEventTranslator.Key.isPhantom()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * KeyEventTranslator.java - Hides some warts of AWT event API
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="35:1:41:4">/**
+ * In conjunction with the &lt;code&gt;KeyEventWorkaround&lt;/code&gt;, hides some
+ * warts in the AWT key event API.
+ *
+ * @author Slava Pestov
+ * @version $Id: KeyEventTranslator.java 16341 2009-10-14 10:05:51Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="42:14:42:32">KeyEventTranslator</jtok>
+<jtok eid="1" type="line_comment" span="44:2:44:31">//{{{ addTranslation() method</jtok>
+<jtok eid="1" type="block_comment" span="45:2:50:5">/**
+	 * Adds a keyboard translation.
+	 * @param key1 Translate this key
+	 * @param key2 Into this key
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="2" type="method_name" span="51:21:51:35">addTranslation</jtok>
+<jtok eid="2" type="parameter_type" span="51:36:51:39">Key</jtok>
+<jtok eid="2" type="parameter_name" span="51:40:51:44">key1</jtok>
+<jtok eid="2" type="parameter_type" span="51:46:51:49">Key</jtok>
+<jtok eid="2" type="parameter_name" span="51:50:51:54">key2</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:3:53:11">transMap</jtok>
+<jtok eid="2" type="method_call" span="53:12:53:15">put</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:16:53:20">key1</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:21:53:25">key2</jtok>
+<jtok eid="1" type="line_comment" span="54:4:54:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="56:2:56:34">//{{{ translateKeyEvent() method</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:19:58:27">KeyEvent</jtok>
+<jtok eid="1" type="field_name" span="58:28:58:45">lastKeyPressEvent</jtok>
+<jtok eid="1" type="field_name" span="60:27:60:47">lastKeyPressAccepted</jtok>
+<jtok eid="1" type="block_comment" span="62:2:67:5">/**
+	 * Pass this an event from {@link
+	 * KeyEventWorkaround#processKeyEvent(java.awt.event.KeyEvent)}.
+	 * @param evt the KeyEvent to translate
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="68:16:68:19">Key</jtok>
+<jtok eid="3" type="method_name" span="68:20:68:37">translateKeyEvent</jtok>
+<jtok eid="3" type="parameter_type" span="68:38:68:46">KeyEvent</jtok>
+<jtok eid="3" type="parameter_name" span="68:47:68:50">evt</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="70:3:70:6">Key</jtok>
+<jtok eid="3" type="local_variable_name" span="70:7:70:10">key</jtok>
+<jtok eid="3" type="method_call" span="70:13:70:31">translateKeyEvent2</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:32:70:35">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:7:72:10">key</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:8:74:11">key</jtok>
+<jtok eid="3" type="method_call" span="74:12:74:21">isPhantom</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:5:76:8">key</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:10:80:13">key</jtok>
+<jtok eid="1" type="block_comment" span="83:2:88:5">/**
+	 * Pass this an event from {@link
+	 * KeyEventWorkaround#processKeyEvent(java.awt.event.KeyEvent)}.
+	 * @param evt the KeyEvent to translate
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="89:16:89:19">Key</jtok>
+<jtok eid="4" type="method_name" span="89:20:89:38">translateKeyEvent2</jtok>
+<jtok eid="4" type="parameter_type" span="89:39:89:47">KeyEvent</jtok>
+<jtok eid="4" type="parameter_name" span="89:48:89:51">evt</jtok>
+<jtok eid="4" type="local_variable_name" span="91:7:91:16">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:19:91:22">evt</jtok>
+<jtok eid="4" type="method_call" span="91:23:91:35">getModifiers</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="92:3:92:6">Key</jtok>
+<jtok eid="4" type="local_variable_name" span="92:7:92:18">returnValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:10:94:13">evt</jtok>
+<jtok eid="4" type="method_call" span="94:14:94:19">getID</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:8:96:16">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="96:17:96:28">KEY_PRESSED</jtok>
+<jtok eid="4" type="local_variable_name" span="97:8:97:15">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:18:97:21">evt</jtok>
+<jtok eid="4" type="method_call" span="97:22:97:32">getKeyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:8:98:15">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:19:98:27">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="98:28:98:32">VK_0</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:8:99:15">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:19:99:27">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="99:28:99:32">VK_9</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:9:100:16">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:20:100:28">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="100:29:100:33">VK_A</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:8:101:15">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:19:101:27">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="101:28:101:32">VK_Z</jtok>
+<jtok eid="4" type="primary_name_ref" span="103:8:103:13">Debug</jtok>
+<jtok eid="4" type="qualified_name_ref" span="103:14:103:36">ALTERNATIVE_DISPATCHER</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:6:107:17">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="107:24:107:27">Key</jtok>
+<jtok eid="4" type="method_call" span="108:7:108:24">modifiersToString</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:25:108:34">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:12:109:21">Character</jtok>
+<jtok eid="4" type="method_call" span="109:22:109:33">toLowerCase</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:13:110:20">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:8:115:15">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:19:115:27">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="115:28:115:34">VK_TAB</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:6:117:9">evt</jtok>
+<jtok eid="4" type="method_call" span="117:10:117:17">consume</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:6:118:17">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="118:24:118:27">Key</jtok>
+<jtok eid="4" type="method_call" span="119:7:119:24">modifiersToString</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:25:119:34">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:7:120:14">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:13:122:20">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:24:122:32">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="122:33:122:41">VK_SPACE</jtok>
+<jtok eid="4" type="line_comment" span="124:6:124:41">// for SPACE or S+SPACE we pass the</jtok>
+<jtok eid="4" type="line_comment" span="125:6:125:38">// key typed since international</jtok>
+<jtok eid="4" type="line_comment" span="126:6:126:38">// keyboards sometimes produce a</jtok>
+<jtok eid="4" type="line_comment" span="127:6:127:36">// KEY_PRESSED SPACE but not a</jtok>
+<jtok eid="4" type="line_comment" span="128:6:128:43">// KEY_TYPED SPACE, eg if you have to</jtok>
+<jtok eid="4" type="line_comment" span="129:6:129:35">// do a "&lt;space&gt; to insert ".</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:10:130:19">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:23:130:33">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="130:34:130:44">SHIFT_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="131:7:131:18">returnValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="134:7:134:18">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="134:25:134:28">Key</jtok>
+<jtok eid="4" type="method_call" span="135:8:135:25">modifiersToString</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:26:135:35">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:6:141:17">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="141:24:141:27">Key</jtok>
+<jtok eid="4" type="method_call" span="142:7:142:24">modifiersToString</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:25:142:34">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:7:143:14">keyCode</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:8:147:16">KeyEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="147:17:147:26">KEY_TYPED</jtok>
+<jtok eid="4" type="local_variable_name" span="148:9:148:11">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="148:14:148:17">evt</jtok>
+<jtok eid="4" type="method_call" span="148:18:148:28">getKeyChar</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:7:150:25">KeyEventWorkaround</jtok>
+<jtok eid="4" type="method_call" span="150:26:150:38">isMacControl</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:39:150:42">evt</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:5:151:7">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:11:153:13">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:9:160:18">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:22:160:32">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="160:33:160:43">SHIFT_MASK</jtok>
+<jtok eid="4" type="local_variable_name" span="164:8:164:18">ignoreMods</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:7:165:12">Debug</jtok>
+<jtok eid="4" type="qualified_name_ref" span="165:13:165:37">ALT_KEY_PRESSED_DISABLED</jtok>
+<jtok eid="4" type="block_comment" span="167:5:167:41">/* on MacOS, A+ can be user input */</jtok>
+<jtok eid="4" type="primary_name_ref" span="168:5:168:15">ignoreMods</jtok>
+<jtok eid="4" type="primary_name_ref" span="168:18:168:28">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="168:29:168:39">SHIFT_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="169:8:169:18">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="169:19:169:33">ALT_GRAPH_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:8:170:18">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="170:19:170:27">ALT_MASK</jtok>
+<jtok eid="4" type="block_comment" span="174:5:174:41">/* on MacOS, A+ can be user input */</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:5:175:15">ignoreMods</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:18:175:28">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="175:29:175:39">SHIFT_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:8:176:18">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="176:19:176:33">ALT_GRAPH_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:8:179:17">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:20:179:30">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="179:31:179:45">ALT_GRAPH_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:9:180:18">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:22:180:32">ignoreMods</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:8:182:13">Debug</jtok>
+<jtok eid="4" type="qualified_name_ref" span="182:14:182:36">ALTERNATIVE_DISPATCHER</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:6:184:17">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="184:24:184:27">Key</jtok>
+<jtok eid="4" type="method_call" span="185:7:185:24">modifiersToString</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:25:185:34">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:9:186:11">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="193:8:193:10">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="195:6:195:17">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="195:24:195:27">Key</jtok>
+<jtok eid="4" type="method_call" span="196:7:196:24">modifiersToString</jtok>
+<jtok eid="4" type="primary_name_ref" span="196:25:196:34">modifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="197:9:197:11">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:6:200:17">returnValue</jtok>
+<jtok eid="4" type="constructor_call" span="200:24:200:27">Key</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:35:200:37">ch</jtok>
+<jtok eid="4" type="block_comment" span="207:3:209:37">/* I guess translated events do not have the 'evt' field set
+		so consuming won't work. I don't think this is a problem as
+		nothing uses translation anyway */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="210:3:210:6">Key</jtok>
+<jtok eid="4" type="local_variable_name" span="210:7:210:12">trans</jtok>
+<jtok eid="4" type="primary_name_ref" span="210:15:210:23">transMap</jtok>
+<jtok eid="4" type="method_call" span="210:24:210:27">get</jtok>
+<jtok eid="4" type="primary_name_ref" span="210:28:210:39">returnValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="211:6:211:11">trans</jtok>
+<jtok eid="4" type="primary_name_ref" span="212:11:212:22">returnValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="214:11:214:16">trans</jtok>
+<jtok eid="1" type="line_comment" span="215:4:215:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="217:2:217:25">//{{{ parseKey() method</jtok>
+<jtok eid="1" type="block_comment" span="218:2:227:5">/**
+	 * Converts a string to a keystroke. The string should be of the
+	 * form &lt;i&gt;modifiers&lt;/i&gt;+&lt;i&gt;shortcut&lt;/i&gt; where &lt;i&gt;modifiers&lt;/i&gt;
+	 * is any combination of A for Alt, C for Control, S for Shift
+	 * or M for Meta, and &lt;i&gt;shortcut&lt;/i&gt; is either a single character,
+	 * or a keycode name from the &lt;code&gt;KeyEvent&lt;/code&gt; class, without
+	 * the &lt;code&gt;VK_&lt;/code&gt; prefix.
+	 * @param keyStroke A string description of the key stroke
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="228:16:228:19">Key</jtok>
+<jtok eid="5" type="method_name" span="228:20:228:28">parseKey</jtok>
+<jtok eid="5" type="parameter_type" span="228:29:228:35">String</jtok>
+<jtok eid="5" type="parameter_name" span="228:36:228:45">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="230:6:230:15">keyStroke</jtok>
+<jtok eid="5" type="local_variable_name" span="232:7:232:16">modifiers</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="233:3:233:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="233:10:233:13">key</jtok>
+<jtok eid="5" type="local_variable_name" span="234:7:234:21">endOfModifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="234:24:234:33">keyStroke</jtok>
+<jtok eid="5" type="method_call" span="234:34:234:41">indexOf</jtok>
+<jtok eid="5" type="primary_name_ref" span="235:6:235:20">endOfModifiers</jtok>
+<jtok eid="5" type="line_comment" span="235:27:235:57">// not found or found at first</jtok>
+<jtok eid="5" type="primary_name_ref" span="237:4:237:7">key</jtok>
+<jtok eid="5" type="primary_name_ref" span="237:10:237:19">keyStroke</jtok>
+<jtok eid="5" type="local_variable_name" span="241:12:241:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:19:241:20">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:23:241:37">endOfModifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:39:241:40">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="243:12:243:21">Character</jtok>
+<jtok eid="5" type="method_call" span="243:22:243:33">toUpperCase</jtok>
+<jtok eid="5" type="primary_name_ref" span="243:34:243:43">keyStroke</jtok>
+<jtok eid="5" type="method_call" span="244:7:244:13">charAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:14:244:15">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="247:6:247:15">modifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="247:19:247:20">a</jtok>
+<jtok eid="5" type="primary_name_ref" span="250:6:250:15">modifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="250:19:250:20">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="253:6:253:15">modifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="253:19:253:20">m</jtok>
+<jtok eid="5" type="primary_name_ref" span="256:6:256:15">modifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="256:19:256:20">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="260:4:260:7">key</jtok>
+<jtok eid="5" type="primary_name_ref" span="260:10:260:19">keyStroke</jtok>
+<jtok eid="5" type="method_call" span="260:20:260:29">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="260:30:260:44">endOfModifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="262:6:262:9">key</jtok>
+<jtok eid="5" type="method_call" span="262:10:262:16">length</jtok>
+<jtok eid="5" type="constructor_call" span="264:15:264:18">Key</jtok>
+<jtok eid="5" type="method_call" span="264:19:264:36">modifiersToString</jtok>
+<jtok eid="5" type="primary_name_ref" span="264:37:264:46">modifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="264:50:264:53">key</jtok>
+<jtok eid="5" type="method_call" span="264:54:264:60">charAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="266:11:266:14">key</jtok>
+<jtok eid="5" type="method_call" span="266:15:266:21">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="268:4:268:7">Log</jtok>
+<jtok eid="5" type="method_call" span="268:8:268:11">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="268:12:268:15">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="268:16:268:21">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="268:22:268:40">KeyEventTranslator</jtok>
+<jtok eid="5" type="string_literal" span="269:5:269:27">"Invalid key stroke: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="269:30:269:39">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="272:11:272:14">key</jtok>
+<jtok eid="5" type="method_call" span="272:15:272:21">equals</jtok>
+<jtok eid="5" type="string_literal" span="272:22:272:29">"SPACE"</jtok>
+<jtok eid="5" type="constructor_call" span="274:15:274:18">Key</jtok>
+<jtok eid="5" type="method_call" span="274:19:274:36">modifiersToString</jtok>
+<jtok eid="5" type="primary_name_ref" span="274:37:274:46">modifiers</jtok>
+<jtok eid="5" type="local_variable_name" span="278:8:278:10">ch</jtok>
+<jtok eid="5" type="primary_name_ref" span="282:5:282:7">ch</jtok>
+<jtok eid="5" type="primary_name_ref" span="282:10:282:18">KeyEvent</jtok>
+<jtok eid="5" type="method_call" span="282:25:282:33">getField</jtok>
+<jtok eid="5" type="string_literal" span="282:34:282:39">"VK_"</jtok>
+<jtok eid="5" type="method_call" span="282:40:282:46">concat</jtok>
+<jtok eid="5" type="primary_name_ref" span="282:47:282:50">key</jtok>
+<jtok eid="5" type="method_call" span="283:7:283:13">getInt</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="285:10:285:19">Exception</jtok>
+<jtok eid="5" type="local_variable_name" span="285:20:285:21">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="287:5:287:8">Log</jtok>
+<jtok eid="5" type="method_call" span="287:9:287:12">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="287:13:287:16">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="287:17:287:22">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="287:23:287:41">KeyEventTranslator</jtok>
+<jtok eid="5" type="string_literal" span="288:6:288:28">"Invalid key stroke: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="289:8:289:17">keyStroke</jtok>
+<jtok eid="5" type="constructor_call" span="293:15:293:18">Key</jtok>
+<jtok eid="5" type="method_call" span="293:19:293:36">modifiersToString</jtok>
+<jtok eid="5" type="primary_name_ref" span="293:37:293:46">modifiers</jtok>
+<jtok eid="5" type="primary_name_ref" span="293:48:293:50">ch</jtok>
+<jtok eid="1" type="line_comment" span="295:4:295:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="297:2:297:35">//{{{ setModifierMapping() method</jtok>
+<jtok eid="1" type="block_comment" span="298:2:321:5">/**
+	 * Changes the mapping between symbolic modifier key names
+	 * (&lt;code&gt;C&lt;/code&gt;, &lt;code&gt;A&lt;/code&gt;, &lt;code&gt;M&lt;/code&gt;, &lt;code&gt;S&lt;/code&gt;) and
+	 * Java modifier flags.
+	 *
+	 * You can map more than one Java modifier to a symobolic modifier, for
+	 * example :
+	 * &lt;p&gt;&lt;code&gt;&lt;pre&gt;
+	 *	setModifierMapping(
+	 *		InputEvent.CTRL_MASK,
+	 *		InputEvent.ALT_MASK | InputEvent.META_MASK,
+	 *		0,
+	 *		InputEvent.SHIFT_MASK);
+	 *&lt;pre&gt;&lt;/code&gt;&lt;/p&gt;
+	 *
+	 * You cannot map a Java modifer to more than one symbolic modifier.
+	 *
+	 * @param c The modifier(s) to map the &lt;code&gt;C&lt;/code&gt; modifier to
+	 * @param a The modifier(s) to map the &lt;code&gt;A&lt;/code&gt; modifier to
+	 * @param m The modifier(s) to map the &lt;code&gt;M&lt;/code&gt; modifier to
+	 * @param s The modifier(s) to map the &lt;code&gt;S&lt;/code&gt; modifier to
+	 *
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="6" type="method_name" span="322:21:322:39">setModifierMapping</jtok>
+<jtok eid="6" type="parameter_name" span="322:44:322:45">c</jtok>
+<jtok eid="6" type="parameter_name" span="322:51:322:52">a</jtok>
+<jtok eid="6" type="parameter_name" span="322:58:322:59">m</jtok>
+<jtok eid="6" type="parameter_name" span="322:65:322:66">s</jtok>
+<jtok eid="6" type="local_variable_name" span="325:7:325:23">duplicateMapping</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:5:326:6">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:9:326:10">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:15:326:16">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:19:326:20">m</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:25:326:26">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:29:326:30">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:35:326:36">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:39:326:40">m</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:45:326:46">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:49:326:50">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:55:326:56">m</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:59:326:60">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:7:328:23">duplicateMapping</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:26:328:36">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="328:37:328:46">CTRL_MASK</jtok>
+<jtok eid="6" type="constructor_call" span="330:14:330:38">IllegalArgumentException</jtok>
+<jtok eid="6" type="string_literal" span="331:5:331:47">"CTRL is mapped to more than one modifier"</jtok>
+<jtok eid="6" type="primary_name_ref" span="333:7:333:23">duplicateMapping</jtok>
+<jtok eid="6" type="primary_name_ref" span="333:26:333:36">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="333:37:333:45">ALT_MASK</jtok>
+<jtok eid="6" type="constructor_call" span="335:14:335:38">IllegalArgumentException</jtok>
+<jtok eid="6" type="string_literal" span="336:5:336:46">"ALT is mapped to more than one modifier"</jtok>
+<jtok eid="6" type="primary_name_ref" span="338:7:338:23">duplicateMapping</jtok>
+<jtok eid="6" type="primary_name_ref" span="338:26:338:36">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="338:37:338:46">META_MASK</jtok>
+<jtok eid="6" type="constructor_call" span="340:14:340:38">IllegalArgumentException</jtok>
+<jtok eid="6" type="string_literal" span="341:5:341:47">"META is mapped to more than one modifier"</jtok>
+<jtok eid="6" type="primary_name_ref" span="343:7:343:23">duplicateMapping</jtok>
+<jtok eid="6" type="primary_name_ref" span="343:26:343:36">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="343:37:343:47">SHIFT_MASK</jtok>
+<jtok eid="6" type="constructor_call" span="345:14:345:38">IllegalArgumentException</jtok>
+<jtok eid="6" type="string_literal" span="346:5:346:48">"SHIFT is mapped to more than one modifier"</jtok>
+<jtok eid="6" type="primary_name_ref" span="349:3:349:21">KeyEventTranslator</jtok>
+<jtok eid="6" type="qualified_name_ref" span="349:22:349:23">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="349:26:349:27">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="350:3:350:21">KeyEventTranslator</jtok>
+<jtok eid="6" type="qualified_name_ref" span="350:22:350:23">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="350:26:350:27">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="351:3:351:21">KeyEventTranslator</jtok>
+<jtok eid="6" type="qualified_name_ref" span="351:22:351:23">m</jtok>
+<jtok eid="6" type="primary_name_ref" span="351:26:351:27">m</jtok>
+<jtok eid="6" type="primary_name_ref" span="352:3:352:21">KeyEventTranslator</jtok>
+<jtok eid="6" type="qualified_name_ref" span="352:22:352:23">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="352:26:352:27">s</jtok>
+<jtok eid="1" type="line_comment" span="353:4:353:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="355:2:355:40">//{{{ getSymbolicModifierName() method</jtok>
+<jtok eid="1" type="block_comment" span="356:2:363:5">/**
+	 * Returns a the symbolic modifier name for the specified Java modifier
+	 * flag.
+	 *
+	 * @param mod A modifier constant from &lt;code&gt;InputEvent&lt;/code&gt;
+	 *
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="7" type="method_name" span="364:21:364:44">getSymbolicModifierName</jtok>
+<jtok eid="7" type="parameter_name" span="364:49:364:52">mod</jtok>
+<jtok eid="7" type="primary_name_ref" span="366:7:366:10">mod</jtok>
+<jtok eid="7" type="primary_name_ref" span="366:13:366:14">c</jtok>
+<jtok eid="7" type="primary_name_ref" span="368:12:368:15">mod</jtok>
+<jtok eid="7" type="primary_name_ref" span="368:18:368:19">a</jtok>
+<jtok eid="7" type="primary_name_ref" span="370:12:370:15">mod</jtok>
+<jtok eid="7" type="primary_name_ref" span="370:18:370:19">m</jtok>
+<jtok eid="7" type="primary_name_ref" span="372:12:372:15">mod</jtok>
+<jtok eid="7" type="primary_name_ref" span="372:18:372:19">s</jtok>
+<jtok eid="1" type="line_comment" span="376:4:376:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="378:2:378:34">//{{{ modifiersToString() method</jtok>
+<jtok eid="1" type="field_name" span="379:29:379:33">MODS</jtok>
+<jtok eid="1" type="primary_name_ref" span="380:3:380:13">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="380:14:380:23">CTRL_MASK</jtok>
+<jtok eid="1" type="primary_name_ref" span="381:3:381:13">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="381:14:381:22">ALT_MASK</jtok>
+<jtok eid="1" type="primary_name_ref" span="382:3:382:13">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="382:14:382:23">META_MASK</jtok>
+<jtok eid="1" type="primary_name_ref" span="383:3:383:13">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="383:14:383:24">SHIFT_MASK</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="386:16:386:22">String</jtok>
+<jtok eid="8" type="method_name" span="386:23:386:40">modifiersToString</jtok>
+<jtok eid="8" type="parameter_name" span="386:45:386:49">mods</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="388:3:388:16">StringBuilder</jtok>
+<jtok eid="8" type="local_variable_name" span="388:17:388:20">buf</jtok>
+<jtok eid="8" type="local_variable_name" span="390:11:390:12">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="390:18:390:19">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="390:22:390:26">MODS</jtok>
+<jtok eid="8" type="qualified_name_ref" span="390:27:390:33">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="390:35:390:36">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="392:8:392:12">mods</jtok>
+<jtok eid="8" type="primary_name_ref" span="392:15:392:19">MODS</jtok>
+<jtok eid="8" type="primary_name_ref" span="392:20:392:21">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="393:5:393:8">buf</jtok>
+<jtok eid="8" type="method_call" span="393:11:393:21">lazyAppend</jtok>
+<jtok eid="8" type="primary_name_ref" span="393:22:393:25">buf</jtok>
+<jtok eid="8" type="method_call" span="393:26:393:49">getSymbolicModifierName</jtok>
+<jtok eid="8" type="primary_name_ref" span="393:50:393:54">MODS</jtok>
+<jtok eid="8" type="primary_name_ref" span="393:55:393:56">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="396:6:396:9">buf</jtok>
+<jtok eid="8" type="primary_name_ref" span="399:11:399:14">buf</jtok>
+<jtok eid="8" type="method_call" span="399:15:399:23">toString</jtok>
+<jtok eid="1" type="line_comment" span="400:4:400:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="402:2:402:34">//{{{ getModifierString() method</jtok>
+<jtok eid="1" type="block_comment" span="403:2:410:5">/**
+	 * Returns a string containing symbolic modifier names set in the
+	 * specified event.
+	 *
+	 * @param evt The event
+	 *
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="411:16:411:22">String</jtok>
+<jtok eid="9" type="method_name" span="411:23:411:40">getModifierString</jtok>
+<jtok eid="9" type="parameter_type" span="411:41:411:51">InputEvent</jtok>
+<jtok eid="9" type="parameter_name" span="411:52:411:55">evt</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="413:3:413:16">StringBuilder</jtok>
+<jtok eid="9" type="local_variable_name" span="413:17:413:20">buf</jtok>
+<jtok eid="9" type="constructor_call" span="413:27:413:40">StringBuilder</jtok>
+<jtok eid="9" type="primary_name_ref" span="414:6:414:9">evt</jtok>
+<jtok eid="9" type="method_call" span="414:10:414:23">isControlDown</jtok>
+<jtok eid="9" type="primary_name_ref" span="415:4:415:7">buf</jtok>
+<jtok eid="9" type="method_call" span="415:8:415:14">append</jtok>
+<jtok eid="9" type="method_call" span="415:15:415:38">getSymbolicModifierName</jtok>
+<jtok eid="9" type="primary_name_ref" span="415:39:415:49">InputEvent</jtok>
+<jtok eid="9" type="qualified_name_ref" span="415:50:415:59">CTRL_MASK</jtok>
+<jtok eid="9" type="primary_name_ref" span="416:6:416:9">evt</jtok>
+<jtok eid="9" type="method_call" span="416:10:416:19">isAltDown</jtok>
+<jtok eid="9" type="primary_name_ref" span="417:4:417:7">buf</jtok>
+<jtok eid="9" type="method_call" span="417:8:417:14">append</jtok>
+<jtok eid="9" type="method_call" span="417:15:417:38">getSymbolicModifierName</jtok>
+<jtok eid="9" type="primary_name_ref" span="417:39:417:49">InputEvent</jtok>
+<jtok eid="9" type="qualified_name_ref" span="417:50:417:58">ALT_MASK</jtok>
+<jtok eid="9" type="primary_name_ref" span="418:6:418:9">evt</jtok>
+<jtok eid="9" type="method_call" span="418:10:418:20">isMetaDown</jtok>
+<jtok eid="9" type="primary_name_ref" span="419:4:419:7">buf</jtok>
+<jtok eid="9" type="method_call" span="419:8:419:14">append</jtok>
+<jtok eid="9" type="method_call" span="419:15:419:38">getSymbolicModifierName</jtok>
+<jtok eid="9" type="primary_name_ref" span="419:39:419:49">InputEvent</jtok>
+<jtok eid="9" type="qualified_name_ref" span="419:50:419:59">META_MASK</jtok>
+<jtok eid="9" type="primary_name_ref" span="420:6:420:9">evt</jtok>
+<jtok eid="9" type="method_call" span="420:10:420:21">isShiftDown</jtok>
+<jtok eid="9" type="primary_name_ref" span="421:4:421:7">buf</jtok>
+<jtok eid="9" type="method_call" span="421:8:421:14">append</jtok>
+<jtok eid="9" type="method_call" span="421:15:421:38">getSymbolicModifierName</jtok>
+<jtok eid="9" type="primary_name_ref" span="421:39:421:49">InputEvent</jtok>
+<jtok eid="9" type="qualified_name_ref" span="421:50:421:60">SHIFT_MASK</jtok>
+<jtok eid="9" type="primary_name_ref" span="422:10:422:13">buf</jtok>
+<jtok eid="9" type="method_call" span="422:14:422:20">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="422:37:422:40">buf</jtok>
+<jtok eid="9" type="method_call" span="422:41:422:49">toString</jtok>
+<jtok eid="1" type="line_comment" span="423:4:423:9">//}}}</jtok>
+<jtok eid="1" type="field_name" span="425:13:425:14">c</jtok>
+<jtok eid="1" type="field_name" span="425:16:425:17">a</jtok>
+<jtok eid="1" type="field_name" span="425:19:425:20">m</jtok>
+<jtok eid="1" type="field_name" span="425:22:425:23">s</jtok>
+<jtok eid="1" type="line_comment" span="427:2:427:23">//{{{ Private members</jtok>
+<jtok eid="1" type="block_comment" span="428:2:428:35">/** This map is a pool of Key. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="429:23:429:26">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="429:27:429:30">Key</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="429:32:429:35">Key</jtok>
+<jtok eid="1" type="field_name" span="429:37:429:45">transMap</jtok>
+<jtok eid="1" type="constructor_call" span="429:52:429:59">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="429:60:429:63">Key</jtok>
+<jtok eid="1" type="constructor_call" span="429:65:429:68">Key</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="431:17:431:30">StringBuilder</jtok>
+<jtok eid="10" type="method_name" span="431:31:431:41">lazyAppend</jtok>
+<jtok eid="10" type="parameter_type" span="431:42:431:55">StringBuilder</jtok>
+<jtok eid="10" type="parameter_name" span="431:56:431:59">buf</jtok>
+<jtok eid="10" type="parameter_name" span="431:66:431:68">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="433:6:433:9">buf</jtok>
+<jtok eid="10" type="primary_name_ref" span="434:4:434:7">buf</jtok>
+<jtok eid="10" type="constructor_call" span="434:14:434:27">StringBuilder</jtok>
+<jtok eid="10" type="primary_name_ref" span="435:6:435:9">buf</jtok>
+<jtok eid="10" type="method_call" span="435:10:435:17">indexOf</jtok>
+<jtok eid="10" type="primary_name_ref" span="435:18:435:24">String</jtok>
+<jtok eid="10" type="method_call" span="435:25:435:32">valueOf</jtok>
+<jtok eid="10" type="primary_name_ref" span="435:33:435:35">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="436:4:436:7">buf</jtok>
+<jtok eid="10" type="method_call" span="436:8:436:14">append</jtok>
+<jtok eid="10" type="primary_name_ref" span="436:15:436:17">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="437:10:437:13">buf</jtok>
+<jtok eid="1" type="line_comment" span="438:4:438:9">//}}}</jtok>
+<jtok eid="1" type="primary_name_ref" span="442:6:442:21">OperatingSystem</jtok>
+<jtok eid="1" type="method_call" span="442:22:442:29">isMacOS</jtok>
+<jtok eid="1" type="method_call" span="444:4:444:22">setModifierMapping</jtok>
+<jtok eid="1" type="primary_name_ref" span="445:5:445:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="445:16:445:25">META_MASK</jtok>
+<jtok eid="1" type="block_comment" span="445:28:445:39">/* == C+ */</jtok>
+<jtok eid="1" type="primary_name_ref" span="446:5:446:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="446:16:446:25">CTRL_MASK</jtok>
+<jtok eid="1" type="block_comment" span="446:28:446:39">/* == A+ */</jtok>
+<jtok eid="1" type="block_comment" span="447:5:447:48">/* M+ discarded by key event workaround! */</jtok>
+<jtok eid="1" type="primary_name_ref" span="448:5:448:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="448:16:448:24">ALT_MASK</jtok>
+<jtok eid="1" type="block_comment" span="448:28:448:39">/* == M+ */</jtok>
+<jtok eid="1" type="primary_name_ref" span="449:5:449:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="449:16:449:26">SHIFT_MASK</jtok>
+<jtok eid="1" type="block_comment" span="449:28:449:39">/* == S+ */</jtok>
+<jtok eid="1" type="method_call" span="453:4:453:22">setModifierMapping</jtok>
+<jtok eid="1" type="primary_name_ref" span="454:5:454:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="454:16:454:25">CTRL_MASK</jtok>
+<jtok eid="1" type="primary_name_ref" span="455:5:455:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="455:16:455:24">ALT_MASK</jtok>
+<jtok eid="1" type="primary_name_ref" span="456:5:456:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="456:16:456:25">META_MASK</jtok>
+<jtok eid="1" type="primary_name_ref" span="457:5:457:15">InputEvent</jtok>
+<jtok eid="1" type="qualified_name_ref" span="457:16:457:26">SHIFT_MASK</jtok>
+<jtok eid="1" type="line_comment" span="459:4:459:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="461:2:461:17">//{{{ Key class</jtok>
+<jtok eid="11" type="class_name" span="462:22:462:25">Key</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="464:16:464:22">String</jtok>
+<jtok eid="11" type="field_name" span="464:23:464:32">modifiers</jtok>
+<jtok eid="11" type="field_name" span="465:20:465:23">key</jtok>
+<jtok eid="11" type="field_name" span="466:21:466:26">input</jtok>
+<jtok eid="11" type="field_name" span="468:21:468:29">hashCode</jtok>
+<jtok eid="11" type="block_comment" span="469:3:471:5">/**
+			Wether this Key event applies to all jEdit windows (and not only a specific jEdit GUI component).
+		*/</jtok>
+<jtok eid="11" type="field_name" span="472:21:472:40">isFromGlobalContext</jtok>
+<jtok eid="11" type="block_comment" span="474:3:479:5">/**
+			Wether this Key event is a phantom key event. A phantom key event is a kind of duplicate key event which
+			should not - due to its nature of being a duplicate - generate any action on data.
+			However, phantom key events may be necessary to notify the rest of the GUI that the key event, if it was not a phantom key event but a real key event,
+			would generate any action and thus would be consumed.
+		*/</jtok>
+<jtok eid="11" type="field_name" span="480:21:480:30">isPhantom</jtok>
+<jtok eid="12" type="method_name" span="482:10:482:13">Key</jtok>
+<jtok eid="12" type="parameter_type" span="482:14:482:20">String</jtok>
+<jtok eid="12" type="parameter_name" span="482:21:482:30">modifiers</jtok>
+<jtok eid="12" type="parameter_name" span="482:36:482:39">key</jtok>
+<jtok eid="12" type="parameter_name" span="482:46:482:51">input</jtok>
+<jtok eid="12" type="qualified_name_ref" span="484:9:484:18">modifiers</jtok>
+<jtok eid="12" type="primary_name_ref" span="484:21:484:30">modifiers</jtok>
+<jtok eid="12" type="qualified_name_ref" span="485:9:485:12">key</jtok>
+<jtok eid="12" type="primary_name_ref" span="485:15:485:18">key</jtok>
+<jtok eid="12" type="qualified_name_ref" span="486:9:486:14">input</jtok>
+<jtok eid="12" type="primary_name_ref" span="486:17:486:22">input</jtok>
+<jtok eid="12" type="primary_name_ref" span="487:4:487:12">hashCode</jtok>
+<jtok eid="12" type="primary_name_ref" span="487:15:487:18">key</jtok>
+<jtok eid="12" type="primary_name_ref" span="487:21:487:26">input</jtok>
+<jtok eid="11" type="annotation_ref" span="490:4:490:12">Override</jtok>
+<jtok eid="13" type="method_name" span="491:14:491:22">hashCode</jtok>
+<jtok eid="13" type="primary_name_ref" span="493:11:493:19">hashCode</jtok>
+<jtok eid="11" type="annotation_ref" span="496:4:496:12">Override</jtok>
+<jtok eid="14" type="method_name" span="497:18:497:24">equals</jtok>
+<jtok eid="14" type="parameter_type" span="497:25:497:31">Object</jtok>
+<jtok eid="14" type="parameter_name" span="497:32:497:33">o</jtok>
+<jtok eid="14" type="primary_name_ref" span="499:7:499:8">o</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="499:20:499:23">Key</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="501:5:501:8">Key</jtok>
+<jtok eid="14" type="local_variable_name" span="501:9:501:10">k</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="501:14:501:17">Key</jtok>
+<jtok eid="14" type="primary_name_ref" span="501:18:501:19">o</jtok>
+<jtok eid="14" type="primary_name_ref" span="502:8:502:25">StandardUtilities</jtok>
+<jtok eid="14" type="method_call" span="502:26:502:38">objectsEqual</jtok>
+<jtok eid="14" type="primary_name_ref" span="502:39:502:48">modifiers</jtok>
+<jtok eid="14" type="primary_name_ref" span="503:6:503:7">k</jtok>
+<jtok eid="14" type="qualified_name_ref" span="503:8:503:17">modifiers</jtok>
+<jtok eid="14" type="primary_name_ref" span="503:22:503:25">key</jtok>
+<jtok eid="14" type="primary_name_ref" span="503:29:503:30">k</jtok>
+<jtok eid="14" type="qualified_name_ref" span="503:31:503:34">key</jtok>
+<jtok eid="14" type="primary_name_ref" span="504:9:504:14">input</jtok>
+<jtok eid="14" type="primary_name_ref" span="504:18:504:19">k</jtok>
+<jtok eid="14" type="qualified_name_ref" span="504:20:504:25">input</jtok>
+<jtok eid="11" type="annotation_ref" span="513:4:513:12">Override</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="514:10:514:16">String</jtok>
+<jtok eid="15" type="method_name" span="514:17:514:25">toString</jtok>
+<jtok eid="15" type="primary_name_ref" span="516:12:516:21">modifiers</jtok>
+<jtok eid="15" type="string_literal" span="516:32:516:34">""</jtok>
+<jtok eid="15" type="primary_name_ref" span="516:37:516:46">modifiers</jtok>
+<jtok eid="15" type="primary_name_ref" span="518:7:518:14">Integer</jtok>
+<jtok eid="15" type="method_call" span="518:15:518:23">toString</jtok>
+<jtok eid="15" type="primary_name_ref" span="518:24:518:27">key</jtok>
+<jtok eid="15" type="primary_name_ref" span="520:7:520:14">Integer</jtok>
+<jtok eid="15" type="method_call" span="520:15:520:23">toString</jtok>
+<jtok eid="15" type="primary_name_ref" span="520:24:520:29">input</jtok>
+<jtok eid="16" type="method_name" span="524:15:524:37">setIsFromGlobalContext</jtok>
+<jtok eid="16" type="parameter_name" span="524:46:524:48">to</jtok>
+<jtok eid="16" type="primary_name_ref" span="526:4:526:23">isFromGlobalContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="526:26:526:28">to</jtok>
+<jtok eid="17" type="method_name" span="529:18:529:37">isFromGlobalContext</jtok>
+<jtok eid="17" type="primary_name_ref" span="531:11:531:30">isFromGlobalContext</jtok>
+<jtok eid="18" type="method_name" span="534:15:534:27">setIsPhantom</jtok>
+<jtok eid="18" type="parameter_name" span="534:36:534:38">to</jtok>
+<jtok eid="18" type="primary_name_ref" span="536:4:536:13">isPhantom</jtok>
+<jtok eid="18" type="primary_name_ref" span="536:16:536:18">to</jtok>
+<jtok eid="19" type="method_name" span="539:18:539:27">isPhantom</jtok>
+<jtok eid="19" type="primary_name_ref" span="541:11:541:20">isPhantom</jtok>
+<jtok eid="1" type="line_comment" span="543:4:543:9">//}}}</jtok>
+</jdoc>

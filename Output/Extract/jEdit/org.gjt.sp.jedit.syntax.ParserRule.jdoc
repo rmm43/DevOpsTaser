@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.syntax.ParserRule" jls="java5">
+<jent id="0" type="file" span="0:0:404:1">Source/jEdit/org/gjt/sp/jedit/syntax/ParserRule.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:403:1">org.gjt.sp.jedit.syntax.ParserRule</jent>
+<jent id="2" pid="1" type="method" span="117:2:123:2">org.gjt.sp.jedit.syntax.ParserRule.createSequenceRule(int,String,ParserRuleSet,byte)</jent>
+<jent id="3" pid="1" type="method" span="129:2:136:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpSequenceRule(char,int,String,ParserRuleSet,byte,boolean)</jent>
+<jent id="4" pid="1" type="method" span="139:2:147:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpSequenceRule(String,int,String,ParserRuleSet,byte,boolean)</jent>
+<jent id="5" pid="1" type="method" span="150:2:158:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpSequenceRule(int,char[],String,ParserRuleSet,byte,boolean)</jent>
+<jent id="6" pid="1" type="method" span="161:2:174:2">org.gjt.sp.jedit.syntax.ParserRule.createSpanRule(int,String,int,String,ParserRuleSet,byte,byte,boolean,boolean,String)</jent>
+<jent id="7" pid="1" type="method" span="177:2:192:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpSpanRule(String,int,String,int,String,ParserRuleSet,byte,byte,boolean,boolean,boolean,String)</jent>
+<jent id="8" pid="1" type="method" span="195:2:210:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpSpanRule(int,char[],String,int,String,ParserRuleSet,byte,byte,boolean,boolean,boolean,String)</jent>
+<jent id="9" pid="1" type="method" span="213:2:222:2">org.gjt.sp.jedit.syntax.ParserRule.createEOLSpanRule(int,String,ParserRuleSet,byte,byte)</jent>
+<jent id="10" pid="1" type="method" span="228:2:235:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpEOLSpanRule(char,int,String,ParserRuleSet,byte,byte,boolean)</jent>
+<jent id="11" pid="1" type="method" span="238:2:248:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpEOLSpanRule(String,int,String,ParserRuleSet,byte,byte,boolean)</jent>
+<jent id="12" pid="1" type="method" span="251:2:261:2">org.gjt.sp.jedit.syntax.ParserRule.createRegexpEOLSpanRule(int,char[],String,ParserRuleSet,byte,byte,boolean)</jent>
+<jent id="13" pid="1" type="method" span="264:2:272:2">org.gjt.sp.jedit.syntax.ParserRule.createMarkFollowingRule(int,String,byte,byte)</jent>
+<jent id="14" pid="1" type="method" span="275:2:283:2">org.gjt.sp.jedit.syntax.ParserRule.createMarkPreviousRule(int,String,byte,byte)</jent>
+<jent id="15" pid="1" type="method" span="286:2:293:2">org.gjt.sp.jedit.syntax.ParserRule.createEscapeRule(String)</jent>
+<jent id="16" pid="1" type="method" span="296:2:332:2">org.gjt.sp.jedit.syntax.ParserRule.toString()</jent>
+<jent id="17" pid="1" type="method" span="335:2:362:2">org.gjt.sp.jedit.syntax.ParserRule.ParserRule(int,String,int,char[],Pattern,int,char[],ParserRuleSet,byte,byte,String)</jent>
+<jent id="18" pid="1" type="method" span="364:2:402:2">org.gjt.sp.jedit.syntax.ParserRule.ParserRule(char[],int,int,char[],Pattern,int,char[],ParserRuleSet,byte,byte,String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * ParserRule.java - Parser rule for the token marker
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999 mike dillon
+ * Portions copyright (C) 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="32:1:36:4">/**
+ * A parser rule.
+ * @author mike dillon, Slava Pestov
+ * @version $Id: ParserRule.java 15613 2009-06-30 07:07:43Z voituk $
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:24">ParserRule</jtok>
+<jtok eid="1" type="line_comment" span="40:2:40:21">//{{{ Major actions</jtok>
+<jtok eid="1" type="field_name" span="41:26:41:39">MAJOR_ACTIONS</jtok>
+<jtok eid="1" type="field_name" span="42:26:42:29">SEQ</jtok>
+<jtok eid="1" type="field_name" span="43:26:43:30">SPAN</jtok>
+<jtok eid="1" type="field_name" span="44:26:44:39">MARK_PREVIOUS</jtok>
+<jtok eid="1" type="field_name" span="45:26:45:40">MARK_FOLLOWING</jtok>
+<jtok eid="1" type="field_name" span="46:26:46:34">EOL_SPAN</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:20">//{{{ Action hints</jtok>
+<jtok eid="1" type="field_name" span="50:26:50:38">ACTION_HINTS</jtok>
+<jtok eid="1" type="annotation_ref" span="52:3:52:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="53:26:53:39">EXCLUDE_MATCH</jtok>
+<jtok eid="1" type="field_name" span="55:26:55:39">NO_LINE_BREAK</jtok>
+<jtok eid="1" type="field_name" span="56:26:56:39">NO_WORD_BREAK</jtok>
+<jtok eid="1" type="field_name" span="57:26:57:35">IS_ESCAPE</jtok>
+<jtok eid="1" type="annotation_ref" span="59:3:59:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="60:26:60:35">NO_ESCAPE</jtok>
+<jtok eid="1" type="field_name" span="62:26:62:32">REGEXP</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="65:2:65:33">//{{{ Special Match Token Types</jtok>
+<jtok eid="1" type="field_name" span="66:27:66:45">MATCH_TYPE_CONTEXT</jtok>
+<jtok eid="1" type="field_name" span="67:27:67:42">MATCH_TYPE_RULE</jtok>
+<jtok eid="1" type="line_comment" span="68:2:68:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="70:2:70:28">//{{{ Position match hints</jtok>
+<jtok eid="1" type="field_name" span="71:26:71:39">AT_LINE_START</jtok>
+<jtok eid="1" type="field_name" span="72:26:72:43">AT_WHITESPACE_END</jtok>
+<jtok eid="1" type="field_name" span="73:26:73:39">AT_WORD_START</jtok>
+<jtok eid="1" type="line_comment" span="74:2:74:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="77:15:77:21">String</jtok>
+<jtok eid="1" type="field_name" span="77:22:77:32">upHashChar</jtok>
+<jtok eid="1" type="field_name" span="78:22:78:33">upHashChars</jtok>
+<jtok eid="1" type="field_name" span="79:19:79:32">startPosMatch</jtok>
+<jtok eid="1" type="field_name" span="80:22:80:27">start</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:15:81:22">Pattern</jtok>
+<jtok eid="1" type="field_name" span="81:23:81:34">startRegexp</jtok>
+<jtok eid="1" type="field_name" span="83:19:83:30">endPosMatch</jtok>
+<jtok eid="1" type="field_name" span="84:22:84:25">end</jtok>
+<jtok eid="1" type="field_name" span="86:19:86:25">action</jtok>
+<jtok eid="1" type="field_name" span="87:20:87:25">token</jtok>
+<jtok eid="1" type="block_comment" span="89:2:95:5">/**
+	 * matchType is the type of the token for the matched region. Special
+	 * values are: MATCH_TYPE_CONTEXT = default token for the context,
+	 * MATCH_TYPE_RULE = same token as the rule itself.
+	 *
+	 * @since jEdit 4.3pre10
+	 */</jtok>
+<jtok eid="1" type="field_name" span="96:20:96:29">matchType</jtok>
+<jtok eid="1" type="block_comment" span="98:2:105:5">/**
+	 * escapeRule is the rule-specific sequence used to escape other
+	 * characters while the rule is in effect. If this character is
+	 * non-zero, the character following the escape char will be skipped
+	 * during parsing, and highlighted with the rule's token.
+	 *
+	 * @since jEdit 4.3pre12
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="106:15:106:25">ParserRule</jtok>
+<jtok eid="1" type="field_name" span="106:26:106:36">escapeRule</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="108:9:108:22">ParserRuleSet</jtok>
+<jtok eid="1" type="field_name" span="108:23:108:31">delegate</jtok>
+<jtok eid="1" type="block_comment" span="110:2:112:4">/**
+	* @deprecated As the linking between rules is not anymore done within the rule but external. See {@link ParserRuleSet#getRules(Character)}
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="113:9:113:19">ParserRule</jtok>
+<jtok eid="1" type="field_name" span="113:20:113:24">next</jtok>
+<jtok eid="1" type="line_comment" span="114:2:114:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:35">//{{{ createSequenceRule() method</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="117:22:117:32">ParserRule</jtok>
+<jtok eid="2" type="method_name" span="117:33:117:51">createSequenceRule</jtok>
+<jtok eid="2" type="parameter_name" span="118:7:118:15">posMatch</jtok>
+<jtok eid="2" type="parameter_type" span="118:17:118:23">String</jtok>
+<jtok eid="2" type="parameter_name" span="118:24:118:27">seq</jtok>
+<jtok eid="2" type="parameter_type" span="118:29:118:42">ParserRuleSet</jtok>
+<jtok eid="2" type="parameter_name" span="118:43:118:51">delegate</jtok>
+<jtok eid="2" type="parameter_name" span="118:58:118:60">id</jtok>
+<jtok eid="2" type="constructor_call" span="120:14:120:24">ParserRule</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:25:120:28">SEQ</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:30:120:33">seq</jtok>
+<jtok eid="2" type="method_call" span="120:34:120:43">substring</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:4:121:12">posMatch</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:14:121:17">seq</jtok>
+<jtok eid="2" type="method_call" span="121:18:121:29">toCharArray</jtok>
+<jtok eid="2" type="primary_name_ref" span="122:13:122:21">delegate</jtok>
+<jtok eid="2" type="primary_name_ref" span="122:23:122:25">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="122:27:122:45">MATCH_TYPE_CONTEXT</jtok>
+<jtok eid="1" type="line_comment" span="123:4:123:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="125:2:125:41">//{{{ createRegexpSequenceRule() method</jtok>
+<jtok eid="1" type="block_comment" span="126:2:128:5">/**
+	 * @deprecated Use {@link #createRegexpSequenceRule(String,int,String,ParserRuleSet,byte,boolean)} instead
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="129:22:129:32">ParserRule</jtok>
+<jtok eid="3" type="method_name" span="129:33:129:57">createRegexpSequenceRule</jtok>
+<jtok eid="3" type="parameter_name" span="130:8:130:16">hashChar</jtok>
+<jtok eid="3" type="parameter_name" span="130:22:130:30">posMatch</jtok>
+<jtok eid="3" type="parameter_type" span="130:32:130:38">String</jtok>
+<jtok eid="3" type="parameter_name" span="130:39:130:42">seq</jtok>
+<jtok eid="3" type="parameter_type" span="131:3:131:16">ParserRuleSet</jtok>
+<jtok eid="3" type="parameter_name" span="131:17:131:25">delegate</jtok>
+<jtok eid="3" type="parameter_name" span="131:32:131:34">id</jtok>
+<jtok eid="3" type="parameter_name" span="131:44:131:54">ignoreCase</jtok>
+<jtok eid="3" type="throws" span="132:10:132:32">PatternSyntaxException</jtok>
+<jtok eid="3" type="method_call" span="134:10:134:34">createRegexpSequenceRule</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:35:134:41">String</jtok>
+<jtok eid="3" type="method_call" span="134:42:134:49">valueOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:50:134:58">hashChar</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:61:134:69">posMatch</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:4:135:7">seq</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:9:135:17">delegate</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:19:135:21">id</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:23:135:33">ignoreCase</jtok>
+<jtok eid="1" type="line_comment" span="136:4:136:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="138:2:138:41">//{{{ createRegexpSequenceRule() method</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="139:22:139:32">ParserRule</jtok>
+<jtok eid="4" type="method_name" span="139:33:139:57">createRegexpSequenceRule</jtok>
+<jtok eid="4" type="parameter_type" span="140:3:140:9">String</jtok>
+<jtok eid="4" type="parameter_name" span="140:10:140:18">hashChar</jtok>
+<jtok eid="4" type="parameter_name" span="140:24:140:32">posMatch</jtok>
+<jtok eid="4" type="parameter_type" span="140:34:140:40">String</jtok>
+<jtok eid="4" type="parameter_name" span="140:41:140:44">seq</jtok>
+<jtok eid="4" type="parameter_type" span="141:3:141:16">ParserRuleSet</jtok>
+<jtok eid="4" type="parameter_name" span="141:17:141:25">delegate</jtok>
+<jtok eid="4" type="parameter_name" span="141:32:141:34">id</jtok>
+<jtok eid="4" type="parameter_name" span="141:44:141:54">ignoreCase</jtok>
+<jtok eid="4" type="throws" span="142:10:142:32">PatternSyntaxException</jtok>
+<jtok eid="4" type="constructor_call" span="144:14:144:24">ParserRule</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:25:144:28">SEQ</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:31:144:37">REGEXP</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:39:144:47">hashChar</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:49:144:57">posMatch</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:10:145:17">Pattern</jtok>
+<jtok eid="4" type="method_call" span="145:18:145:25">compile</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:26:145:29">seq</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:31:145:41">ignoreCase</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:44:145:51">Pattern</jtok>
+<jtok eid="4" type="qualified_name_ref" span="145:52:145:68">CASE_INSENSITIVE</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:13:146:21">delegate</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:23:146:25">id</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:27:146:45">MATCH_TYPE_CONTEXT</jtok>
+<jtok eid="1" type="line_comment" span="147:4:147:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="149:2:149:41">//{{{ createRegexpSequenceRule() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="150:22:150:32">ParserRule</jtok>
+<jtok eid="5" type="method_name" span="150:33:150:57">createRegexpSequenceRule</jtok>
+<jtok eid="5" type="parameter_name" span="151:7:151:15">posMatch</jtok>
+<jtok eid="5" type="parameter_name" span="151:24:151:33">hashChars</jtok>
+<jtok eid="5" type="parameter_type" span="151:35:151:41">String</jtok>
+<jtok eid="5" type="parameter_name" span="151:42:151:45">seq</jtok>
+<jtok eid="5" type="parameter_type" span="152:3:152:16">ParserRuleSet</jtok>
+<jtok eid="5" type="parameter_name" span="152:17:152:25">delegate</jtok>
+<jtok eid="5" type="parameter_name" span="152:32:152:34">id</jtok>
+<jtok eid="5" type="parameter_name" span="152:44:152:54">ignoreCase</jtok>
+<jtok eid="5" type="throws" span="153:10:153:32">PatternSyntaxException</jtok>
+<jtok eid="5" type="constructor_call" span="155:14:155:24">ParserRule</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:25:155:34">hashChars</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:36:155:39">SEQ</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:42:155:48">REGEXP</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:50:155:58">posMatch</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:10:156:17">Pattern</jtok>
+<jtok eid="5" type="method_call" span="156:18:156:25">compile</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:26:156:29">seq</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:31:156:41">ignoreCase</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:44:156:51">Pattern</jtok>
+<jtok eid="5" type="qualified_name_ref" span="156:52:156:68">CASE_INSENSITIVE</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:13:157:21">delegate</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:23:157:25">id</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:27:157:45">MATCH_TYPE_CONTEXT</jtok>
+<jtok eid="1" type="line_comment" span="158:4:158:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:31">//{{{ createSpanRule() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="161:22:161:32">ParserRule</jtok>
+<jtok eid="6" type="method_name" span="161:33:161:47">createSpanRule</jtok>
+<jtok eid="6" type="parameter_name" span="162:7:162:20">startPosMatch</jtok>
+<jtok eid="6" type="parameter_type" span="162:22:162:28">String</jtok>
+<jtok eid="6" type="parameter_name" span="162:29:162:34">start</jtok>
+<jtok eid="6" type="parameter_name" span="162:40:162:51">endPosMatch</jtok>
+<jtok eid="6" type="parameter_type" span="162:53:162:59">String</jtok>
+<jtok eid="6" type="parameter_name" span="162:60:162:63">end</jtok>
+<jtok eid="6" type="parameter_type" span="163:3:163:16">ParserRuleSet</jtok>
+<jtok eid="6" type="parameter_name" span="163:17:163:25">delegate</jtok>
+<jtok eid="6" type="parameter_name" span="163:32:163:34">id</jtok>
+<jtok eid="6" type="parameter_name" span="163:41:163:50">matchType</jtok>
+<jtok eid="6" type="parameter_name" span="164:11:164:22">noLineBreak</jtok>
+<jtok eid="6" type="parameter_name" span="164:32:164:43">noWordBreak</jtok>
+<jtok eid="6" type="parameter_type" span="164:45:164:51">String</jtok>
+<jtok eid="6" type="parameter_name" span="164:52:164:58">escape</jtok>
+<jtok eid="6" type="local_variable_name" span="166:7:166:17">ruleAction</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:20:166:24">SPAN</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:6:167:17">noLineBreak</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:21:167:34">NO_LINE_BREAK</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:6:168:17">noWordBreak</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:21:168:34">NO_WORD_BREAK</jtok>
+<jtok eid="6" type="constructor_call" span="170:14:170:24">ParserRule</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:25:170:35">ruleAction</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:37:170:42">start</jtok>
+<jtok eid="6" type="method_call" span="170:43:170:52">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:59:170:72">startPosMatch</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:4:171:9">start</jtok>
+<jtok eid="6" type="method_call" span="171:10:171:21">toCharArray</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:4:172:15">endPosMatch</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:17:172:20">end</jtok>
+<jtok eid="6" type="method_call" span="172:21:172:32">toCharArray</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:4:173:12">delegate</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:14:173:16">id</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:18:173:27">matchType</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:29:173:35">escape</jtok>
+<jtok eid="1" type="line_comment" span="174:4:174:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="176:2:176:37">//{{{ createRegexpSpanRule() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="177:22:177:32">ParserRule</jtok>
+<jtok eid="7" type="method_name" span="177:33:177:53">createRegexpSpanRule</jtok>
+<jtok eid="7" type="parameter_type" span="178:3:178:9">String</jtok>
+<jtok eid="7" type="parameter_name" span="178:10:178:18">hashChar</jtok>
+<jtok eid="7" type="parameter_name" span="178:24:178:37">startPosMatch</jtok>
+<jtok eid="7" type="parameter_type" span="178:39:178:45">String</jtok>
+<jtok eid="7" type="parameter_name" span="178:46:178:51">start</jtok>
+<jtok eid="7" type="parameter_name" span="179:7:179:18">endPosMatch</jtok>
+<jtok eid="7" type="parameter_type" span="179:20:179:26">String</jtok>
+<jtok eid="7" type="parameter_name" span="179:27:179:30">end</jtok>
+<jtok eid="7" type="parameter_type" span="179:32:179:45">ParserRuleSet</jtok>
+<jtok eid="7" type="parameter_name" span="179:46:179:54">delegate</jtok>
+<jtok eid="7" type="parameter_name" span="179:61:179:63">id</jtok>
+<jtok eid="7" type="parameter_name" span="180:8:180:17">matchType</jtok>
+<jtok eid="7" type="parameter_name" span="180:27:180:38">noLineBreak</jtok>
+<jtok eid="7" type="parameter_name" span="180:48:180:59">noWordBreak</jtok>
+<jtok eid="7" type="parameter_name" span="181:11:181:21">ignoreCase</jtok>
+<jtok eid="7" type="parameter_type" span="181:23:181:29">String</jtok>
+<jtok eid="7" type="parameter_name" span="181:30:181:36">escape</jtok>
+<jtok eid="7" type="throws" span="182:10:182:32">PatternSyntaxException</jtok>
+<jtok eid="7" type="local_variable_name" span="184:7:184:17">ruleAction</jtok>
+<jtok eid="7" type="primary_name_ref" span="184:20:184:24">SPAN</jtok>
+<jtok eid="7" type="primary_name_ref" span="184:27:184:33">REGEXP</jtok>
+<jtok eid="7" type="primary_name_ref" span="185:6:185:17">noLineBreak</jtok>
+<jtok eid="7" type="primary_name_ref" span="185:21:185:34">NO_LINE_BREAK</jtok>
+<jtok eid="7" type="primary_name_ref" span="186:6:186:17">noWordBreak</jtok>
+<jtok eid="7" type="primary_name_ref" span="186:21:186:34">NO_WORD_BREAK</jtok>
+<jtok eid="7" type="constructor_call" span="188:14:188:24">ParserRule</jtok>
+<jtok eid="7" type="primary_name_ref" span="188:25:188:35">ruleAction</jtok>
+<jtok eid="7" type="primary_name_ref" span="188:37:188:45">hashChar</jtok>
+<jtok eid="7" type="primary_name_ref" span="188:47:188:60">startPosMatch</jtok>
+<jtok eid="7" type="primary_name_ref" span="189:4:189:11">Pattern</jtok>
+<jtok eid="7" type="method_call" span="189:12:189:19">compile</jtok>
+<jtok eid="7" type="primary_name_ref" span="189:20:189:25">start</jtok>
+<jtok eid="7" type="primary_name_ref" span="189:27:189:37">ignoreCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="189:40:189:47">Pattern</jtok>
+<jtok eid="7" type="qualified_name_ref" span="189:48:189:64">CASE_INSENSITIVE</jtok>
+<jtok eid="7" type="primary_name_ref" span="190:4:190:15">endPosMatch</jtok>
+<jtok eid="7" type="primary_name_ref" span="190:17:190:20">end</jtok>
+<jtok eid="7" type="method_call" span="190:21:190:32">toCharArray</jtok>
+<jtok eid="7" type="primary_name_ref" span="190:36:190:44">delegate</jtok>
+<jtok eid="7" type="primary_name_ref" span="190:46:190:48">id</jtok>
+<jtok eid="7" type="primary_name_ref" span="190:50:190:59">matchType</jtok>
+<jtok eid="7" type="primary_name_ref" span="191:4:191:10">escape</jtok>
+<jtok eid="1" type="line_comment" span="192:4:192:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="194:2:194:37">//{{{ createRegexpSpanRule() method</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="195:22:195:32">ParserRule</jtok>
+<jtok eid="8" type="method_name" span="195:33:195:53">createRegexpSpanRule</jtok>
+<jtok eid="8" type="parameter_name" span="196:7:196:20">startPosMatch</jtok>
+<jtok eid="8" type="parameter_name" span="196:29:196:38">hashChars</jtok>
+<jtok eid="8" type="parameter_type" span="196:40:196:46">String</jtok>
+<jtok eid="8" type="parameter_name" span="196:47:196:52">start</jtok>
+<jtok eid="8" type="parameter_name" span="197:7:197:18">endPosMatch</jtok>
+<jtok eid="8" type="parameter_type" span="197:20:197:26">String</jtok>
+<jtok eid="8" type="parameter_name" span="197:27:197:30">end</jtok>
+<jtok eid="8" type="parameter_type" span="197:32:197:45">ParserRuleSet</jtok>
+<jtok eid="8" type="parameter_name" span="197:46:197:54">delegate</jtok>
+<jtok eid="8" type="parameter_name" span="197:61:197:63">id</jtok>
+<jtok eid="8" type="parameter_name" span="198:8:198:17">matchType</jtok>
+<jtok eid="8" type="parameter_name" span="198:27:198:38">noLineBreak</jtok>
+<jtok eid="8" type="parameter_name" span="198:48:198:59">noWordBreak</jtok>
+<jtok eid="8" type="parameter_name" span="199:11:199:21">ignoreCase</jtok>
+<jtok eid="8" type="parameter_type" span="199:23:199:29">String</jtok>
+<jtok eid="8" type="parameter_name" span="199:30:199:36">escape</jtok>
+<jtok eid="8" type="throws" span="200:10:200:32">PatternSyntaxException</jtok>
+<jtok eid="8" type="local_variable_name" span="202:7:202:17">ruleAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:20:202:24">SPAN</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:27:202:33">REGEXP</jtok>
+<jtok eid="8" type="primary_name_ref" span="203:6:203:17">noLineBreak</jtok>
+<jtok eid="8" type="primary_name_ref" span="203:21:203:34">NO_LINE_BREAK</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:6:204:17">noWordBreak</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:21:204:34">NO_WORD_BREAK</jtok>
+<jtok eid="8" type="constructor_call" span="206:14:206:24">ParserRule</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:25:206:34">hashChars</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:36:206:46">ruleAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:48:206:61">startPosMatch</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:4:207:11">Pattern</jtok>
+<jtok eid="8" type="method_call" span="207:12:207:19">compile</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:20:207:25">start</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:27:207:37">ignoreCase</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:40:207:47">Pattern</jtok>
+<jtok eid="8" type="qualified_name_ref" span="207:48:207:64">CASE_INSENSITIVE</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:4:208:15">endPosMatch</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:17:208:20">end</jtok>
+<jtok eid="8" type="method_call" span="208:21:208:32">toCharArray</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:36:208:44">delegate</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:46:208:48">id</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:4:209:13">matchType</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:15:209:21">escape</jtok>
+<jtok eid="1" type="line_comment" span="210:4:210:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="212:2:212:34">//{{{ createEOLSpanRule() method</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="213:22:213:32">ParserRule</jtok>
+<jtok eid="9" type="method_name" span="213:33:213:50">createEOLSpanRule</jtok>
+<jtok eid="9" type="parameter_name" span="214:7:214:15">posMatch</jtok>
+<jtok eid="9" type="parameter_type" span="214:17:214:23">String</jtok>
+<jtok eid="9" type="parameter_name" span="214:24:214:27">seq</jtok>
+<jtok eid="9" type="parameter_type" span="214:29:214:42">ParserRuleSet</jtok>
+<jtok eid="9" type="parameter_name" span="214:43:214:51">delegate</jtok>
+<jtok eid="9" type="parameter_name" span="214:58:214:60">id</jtok>
+<jtok eid="9" type="parameter_name" span="215:8:215:17">matchType</jtok>
+<jtok eid="9" type="local_variable_name" span="217:7:217:17">ruleAction</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:20:217:28">EOL_SPAN</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:31:217:44">NO_LINE_BREAK</jtok>
+<jtok eid="9" type="constructor_call" span="219:14:219:24">ParserRule</jtok>
+<jtok eid="9" type="primary_name_ref" span="219:25:219:35">ruleAction</jtok>
+<jtok eid="9" type="primary_name_ref" span="219:37:219:40">seq</jtok>
+<jtok eid="9" type="method_call" span="219:41:219:50">substring</jtok>
+<jtok eid="9" type="primary_name_ref" span="219:57:219:65">posMatch</jtok>
+<jtok eid="9" type="primary_name_ref" span="220:4:220:7">seq</jtok>
+<jtok eid="9" type="method_call" span="220:8:220:19">toCharArray</jtok>
+<jtok eid="9" type="primary_name_ref" span="221:4:221:12">delegate</jtok>
+<jtok eid="9" type="primary_name_ref" span="221:14:221:16">id</jtok>
+<jtok eid="9" type="primary_name_ref" span="221:18:221:27">matchType</jtok>
+<jtok eid="1" type="line_comment" span="222:4:222:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="224:2:224:40">//{{{ createRegexpEOLSpanRule() method</jtok>
+<jtok eid="1" type="block_comment" span="225:2:227:5">/**
+	 * @deprecated Use {@link #createRegexpEOLSpanRule(String,int,String,ParserRuleSet,byte,byte,boolean)} instead
+	 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="228:22:228:32">ParserRule</jtok>
+<jtok eid="10" type="method_name" span="228:33:228:56">createRegexpEOLSpanRule</jtok>
+<jtok eid="10" type="parameter_name" span="229:8:229:16">hashChar</jtok>
+<jtok eid="10" type="parameter_name" span="229:22:229:30">posMatch</jtok>
+<jtok eid="10" type="parameter_type" span="229:32:229:38">String</jtok>
+<jtok eid="10" type="parameter_name" span="229:39:229:42">seq</jtok>
+<jtok eid="10" type="parameter_type" span="229:44:229:57">ParserRuleSet</jtok>
+<jtok eid="10" type="parameter_name" span="229:58:229:66">delegate</jtok>
+<jtok eid="10" type="parameter_name" span="230:8:230:10">id</jtok>
+<jtok eid="10" type="parameter_name" span="230:17:230:26">matchType</jtok>
+<jtok eid="10" type="parameter_name" span="230:36:230:46">ignoreCase</jtok>
+<jtok eid="10" type="throws" span="231:10:231:32">PatternSyntaxException</jtok>
+<jtok eid="10" type="method_call" span="233:10:233:33">createRegexpEOLSpanRule</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:34:233:40">String</jtok>
+<jtok eid="10" type="method_call" span="233:41:233:48">valueOf</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:49:233:57">hashChar</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:4:234:12">posMatch</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:13:234:16">seq</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:17:234:25">delegate</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:26:234:28">id</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:29:234:38">matchType</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:39:234:49">ignoreCase</jtok>
+<jtok eid="1" type="line_comment" span="235:4:235:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="237:2:237:40">//{{{ createRegexpEOLSpanRule() method</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="238:22:238:32">ParserRule</jtok>
+<jtok eid="11" type="method_name" span="238:33:238:56">createRegexpEOLSpanRule</jtok>
+<jtok eid="11" type="parameter_type" span="239:3:239:9">String</jtok>
+<jtok eid="11" type="parameter_name" span="239:10:239:18">hashChar</jtok>
+<jtok eid="11" type="parameter_name" span="239:24:239:32">posMatch</jtok>
+<jtok eid="11" type="parameter_type" span="239:34:239:40">String</jtok>
+<jtok eid="11" type="parameter_name" span="239:41:239:44">seq</jtok>
+<jtok eid="11" type="parameter_type" span="239:46:239:59">ParserRuleSet</jtok>
+<jtok eid="11" type="parameter_name" span="239:60:239:68">delegate</jtok>
+<jtok eid="11" type="parameter_name" span="240:8:240:10">id</jtok>
+<jtok eid="11" type="parameter_name" span="240:17:240:26">matchType</jtok>
+<jtok eid="11" type="parameter_name" span="240:36:240:46">ignoreCase</jtok>
+<jtok eid="11" type="throws" span="241:10:241:32">PatternSyntaxException</jtok>
+<jtok eid="11" type="local_variable_name" span="243:7:243:17">ruleAction</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:20:243:28">EOL_SPAN</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:31:243:37">REGEXP</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:40:243:53">NO_LINE_BREAK</jtok>
+<jtok eid="11" type="constructor_call" span="245:14:245:24">ParserRule</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:25:245:35">ruleAction</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:37:245:45">hashChar</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:47:245:55">posMatch</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:10:246:17">Pattern</jtok>
+<jtok eid="11" type="method_call" span="246:18:246:25">compile</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:26:246:29">seq</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:31:246:41">ignoreCase</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:44:246:51">Pattern</jtok>
+<jtok eid="11" type="qualified_name_ref" span="246:52:246:68">CASE_INSENSITIVE</jtok>
+<jtok eid="11" type="primary_name_ref" span="247:13:247:21">delegate</jtok>
+<jtok eid="11" type="primary_name_ref" span="247:23:247:25">id</jtok>
+<jtok eid="11" type="primary_name_ref" span="247:27:247:36">matchType</jtok>
+<jtok eid="1" type="line_comment" span="248:4:248:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="250:2:250:40">//{{{ createRegexpEOLSpanRule() method</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="251:22:251:32">ParserRule</jtok>
+<jtok eid="12" type="method_name" span="251:33:251:56">createRegexpEOLSpanRule</jtok>
+<jtok eid="12" type="parameter_name" span="252:7:252:15">posMatch</jtok>
+<jtok eid="12" type="parameter_name" span="252:24:252:33">hashChars</jtok>
+<jtok eid="12" type="parameter_type" span="252:35:252:41">String</jtok>
+<jtok eid="12" type="parameter_name" span="252:42:252:45">seq</jtok>
+<jtok eid="12" type="parameter_type" span="252:47:252:60">ParserRuleSet</jtok>
+<jtok eid="12" type="parameter_name" span="252:61:252:69">delegate</jtok>
+<jtok eid="12" type="parameter_name" span="253:8:253:10">id</jtok>
+<jtok eid="12" type="parameter_name" span="253:17:253:26">matchType</jtok>
+<jtok eid="12" type="parameter_name" span="253:36:253:46">ignoreCase</jtok>
+<jtok eid="12" type="throws" span="254:10:254:32">PatternSyntaxException</jtok>
+<jtok eid="12" type="local_variable_name" span="256:7:256:17">ruleAction</jtok>
+<jtok eid="12" type="primary_name_ref" span="256:20:256:28">EOL_SPAN</jtok>
+<jtok eid="12" type="primary_name_ref" span="256:31:256:37">REGEXP</jtok>
+<jtok eid="12" type="primary_name_ref" span="256:40:256:53">NO_LINE_BREAK</jtok>
+<jtok eid="12" type="constructor_call" span="258:14:258:24">ParserRule</jtok>
+<jtok eid="12" type="primary_name_ref" span="258:25:258:34">hashChars</jtok>
+<jtok eid="12" type="primary_name_ref" span="258:36:258:46">ruleAction</jtok>
+<jtok eid="12" type="primary_name_ref" span="258:48:258:56">posMatch</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:10:259:17">Pattern</jtok>
+<jtok eid="12" type="method_call" span="259:18:259:25">compile</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:26:259:29">seq</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:31:259:41">ignoreCase</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:44:259:51">Pattern</jtok>
+<jtok eid="12" type="qualified_name_ref" span="259:52:259:68">CASE_INSENSITIVE</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:13:260:21">delegate</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:23:260:25">id</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:27:260:36">matchType</jtok>
+<jtok eid="1" type="line_comment" span="261:4:261:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="263:2:263:40">//{{{ createMarkFollowingRule() method</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="264:22:264:32">ParserRule</jtok>
+<jtok eid="13" type="method_name" span="264:33:264:56">createMarkFollowingRule</jtok>
+<jtok eid="13" type="parameter_name" span="265:7:265:15">posMatch</jtok>
+<jtok eid="13" type="parameter_type" span="265:17:265:23">String</jtok>
+<jtok eid="13" type="parameter_name" span="265:24:265:27">seq</jtok>
+<jtok eid="13" type="parameter_name" span="265:34:265:36">id</jtok>
+<jtok eid="13" type="parameter_name" span="265:43:265:52">matchType</jtok>
+<jtok eid="13" type="local_variable_name" span="267:7:267:17">ruleAction</jtok>
+<jtok eid="13" type="primary_name_ref" span="267:20:267:34">MARK_FOLLOWING</jtok>
+<jtok eid="13" type="constructor_call" span="269:14:269:24">ParserRule</jtok>
+<jtok eid="13" type="primary_name_ref" span="269:25:269:35">ruleAction</jtok>
+<jtok eid="13" type="primary_name_ref" span="269:37:269:40">seq</jtok>
+<jtok eid="13" type="method_call" span="269:41:269:50">substring</jtok>
+<jtok eid="13" type="primary_name_ref" span="269:57:269:65">posMatch</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:4:270:7">seq</jtok>
+<jtok eid="13" type="method_call" span="270:8:270:19">toCharArray</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:44:270:46">id</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:48:270:57">matchType</jtok>
+<jtok eid="1" type="line_comment" span="272:4:272:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="274:2:274:39">//{{{ createMarkPreviousRule() method</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="275:22:275:32">ParserRule</jtok>
+<jtok eid="14" type="method_name" span="275:33:275:55">createMarkPreviousRule</jtok>
+<jtok eid="14" type="parameter_name" span="276:7:276:15">posMatch</jtok>
+<jtok eid="14" type="parameter_type" span="276:17:276:23">String</jtok>
+<jtok eid="14" type="parameter_name" span="276:24:276:27">seq</jtok>
+<jtok eid="14" type="parameter_name" span="276:34:276:36">id</jtok>
+<jtok eid="14" type="parameter_name" span="276:43:276:52">matchType</jtok>
+<jtok eid="14" type="local_variable_name" span="278:7:278:17">ruleAction</jtok>
+<jtok eid="14" type="primary_name_ref" span="278:20:278:33">MARK_PREVIOUS</jtok>
+<jtok eid="14" type="constructor_call" span="280:14:280:24">ParserRule</jtok>
+<jtok eid="14" type="primary_name_ref" span="280:25:280:35">ruleAction</jtok>
+<jtok eid="14" type="primary_name_ref" span="280:37:280:40">seq</jtok>
+<jtok eid="14" type="method_call" span="280:41:280:50">substring</jtok>
+<jtok eid="14" type="primary_name_ref" span="280:57:280:65">posMatch</jtok>
+<jtok eid="14" type="primary_name_ref" span="281:4:281:7">seq</jtok>
+<jtok eid="14" type="method_call" span="281:8:281:19">toCharArray</jtok>
+<jtok eid="14" type="primary_name_ref" span="281:44:281:46">id</jtok>
+<jtok eid="14" type="primary_name_ref" span="281:48:281:57">matchType</jtok>
+<jtok eid="1" type="line_comment" span="283:4:283:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="285:2:285:33">//{{{ createEscapeRule() method</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="286:22:286:32">ParserRule</jtok>
+<jtok eid="15" type="method_name" span="286:33:286:49">createEscapeRule</jtok>
+<jtok eid="15" type="parameter_type" span="286:50:286:56">String</jtok>
+<jtok eid="15" type="parameter_name" span="286:57:286:60">seq</jtok>
+<jtok eid="15" type="local_variable_name" span="288:7:288:17">ruleAction</jtok>
+<jtok eid="15" type="primary_name_ref" span="288:20:288:29">IS_ESCAPE</jtok>
+<jtok eid="15" type="constructor_call" span="290:14:290:24">ParserRule</jtok>
+<jtok eid="15" type="primary_name_ref" span="290:25:290:35">ruleAction</jtok>
+<jtok eid="15" type="primary_name_ref" span="290:37:290:40">seq</jtok>
+<jtok eid="15" type="method_call" span="290:41:290:50">substring</jtok>
+<jtok eid="15" type="primary_name_ref" span="291:7:291:10">seq</jtok>
+<jtok eid="15" type="method_call" span="291:11:291:22">toCharArray</jtok>
+<jtok eid="15" type="primary_name_ref" span="292:10:292:15">Token</jtok>
+<jtok eid="15" type="qualified_name_ref" span="292:16:292:20">NULL</jtok>
+<jtok eid="15" type="primary_name_ref" span="292:22:292:40">MATCH_TYPE_CONTEXT</jtok>
+<jtok eid="1" type="line_comment" span="293:4:293:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="295:2:295:25">//{{{ toString() method</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="296:9:296:15">String</jtok>
+<jtok eid="16" type="method_name" span="296:16:296:24">toString</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="298:3:298:16">StringBuilder</jtok>
+<jtok eid="16" type="local_variable_name" span="298:17:298:23">result</jtok>
+<jtok eid="16" type="constructor_call" span="298:30:298:43">StringBuilder</jtok>
+<jtok eid="16" type="primary_name_ref" span="299:3:299:9">result</jtok>
+<jtok eid="16" type="method_call" span="299:10:299:16">append</jtok>
+<jtok eid="16" type="method_call" span="299:17:299:25">getClass</jtok>
+<jtok eid="16" type="method_call" span="299:28:299:35">getName</jtok>
+<jtok eid="16" type="method_call" span="299:39:299:45">append</jtok>
+<jtok eid="16" type="string_literal" span="299:46:299:56">"[action="</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:11:300:17">action</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:20:300:33">MAJOR_ACTIONS</jtok>
+<jtok eid="16" type="primary_name_ref" span="302:9:302:12">SEQ</jtok>
+<jtok eid="16" type="primary_name_ref" span="302:14:302:20">result</jtok>
+<jtok eid="16" type="method_call" span="302:21:302:27">append</jtok>
+<jtok eid="16" type="string_literal" span="302:28:302:33">"SEQ"</jtok>
+<jtok eid="16" type="primary_name_ref" span="303:9:303:13">SPAN</jtok>
+<jtok eid="16" type="primary_name_ref" span="303:15:303:21">result</jtok>
+<jtok eid="16" type="method_call" span="303:22:303:28">append</jtok>
+<jtok eid="16" type="string_literal" span="303:29:303:35">"SPAN"</jtok>
+<jtok eid="16" type="primary_name_ref" span="304:9:304:22">MARK_PREVIOUS</jtok>
+<jtok eid="16" type="primary_name_ref" span="304:24:304:30">result</jtok>
+<jtok eid="16" type="method_call" span="304:31:304:37">append</jtok>
+<jtok eid="16" type="string_literal" span="304:38:304:53">"MARK_PREVIOUS"</jtok>
+<jtok eid="16" type="primary_name_ref" span="305:9:305:23">MARK_FOLLOWING</jtok>
+<jtok eid="16" type="primary_name_ref" span="305:25:305:31">result</jtok>
+<jtok eid="16" type="method_call" span="305:32:305:38">append</jtok>
+<jtok eid="16" type="string_literal" span="305:39:305:55">"MARK_FOLLOWING"</jtok>
+<jtok eid="16" type="primary_name_ref" span="306:9:306:17">EOL_SPAN</jtok>
+<jtok eid="16" type="primary_name_ref" span="306:19:306:25">result</jtok>
+<jtok eid="16" type="method_call" span="306:26:306:32">append</jtok>
+<jtok eid="16" type="string_literal" span="306:33:306:43">"EOL_SPAN"</jtok>
+<jtok eid="16" type="primary_name_ref" span="307:13:307:19">result</jtok>
+<jtok eid="16" type="method_call" span="307:20:307:26">append</jtok>
+<jtok eid="16" type="string_literal" span="307:27:307:36">"UNKNOWN"</jtok>
+<jtok eid="16" type="local_variable_name" span="309:7:309:18">actionHints</jtok>
+<jtok eid="16" type="primary_name_ref" span="309:21:309:27">action</jtok>
+<jtok eid="16" type="primary_name_ref" span="309:30:309:42">ACTION_HINTS</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:3:310:9">result</jtok>
+<jtok eid="16" type="method_call" span="310:10:310:16">append</jtok>
+<jtok eid="16" type="string_literal" span="310:17:310:30">"[matchType="</jtok>
+<jtok eid="16" type="method_call" span="310:32:310:38">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:39:310:48">matchType</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:52:310:70">MATCH_TYPE_CONTEXT</jtok>
+<jtok eid="16" type="string_literal" span="310:73:310:93">"MATCH_TYPE_CONTEXT"</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:97:310:106">matchType</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:110:310:125">MATCH_TYPE_RULE</jtok>
+<jtok eid="16" type="string_literal" span="310:128:310:145">"MATCH_TYPE_RULE"</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:148:310:153">Token</jtok>
+<jtok eid="16" type="method_call" span="310:154:310:167">tokenToString</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:168:310:177">matchType</jtok>
+<jtok eid="16" type="primary_name_ref" span="311:3:311:9">result</jtok>
+<jtok eid="16" type="method_call" span="311:10:311:16">append</jtok>
+<jtok eid="16" type="string_literal" span="311:17:311:34">",NO_LINE_BREAK="</jtok>
+<jtok eid="16" type="method_call" span="311:36:311:42">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="311:44:311:55">actionHints</jtok>
+<jtok eid="16" type="primary_name_ref" span="311:58:311:71">NO_LINE_BREAK</jtok>
+<jtok eid="16" type="primary_name_ref" span="312:3:312:9">result</jtok>
+<jtok eid="16" type="method_call" span="312:10:312:16">append</jtok>
+<jtok eid="16" type="string_literal" span="312:17:312:34">",NO_WORD_BREAK="</jtok>
+<jtok eid="16" type="method_call" span="312:36:312:42">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="312:44:312:55">actionHints</jtok>
+<jtok eid="16" type="primary_name_ref" span="312:58:312:71">NO_WORD_BREAK</jtok>
+<jtok eid="16" type="primary_name_ref" span="313:3:313:9">result</jtok>
+<jtok eid="16" type="method_call" span="313:10:313:16">append</jtok>
+<jtok eid="16" type="string_literal" span="313:17:313:30">",IS_ESCAPE="</jtok>
+<jtok eid="16" type="method_call" span="313:32:313:38">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="313:40:313:51">actionHints</jtok>
+<jtok eid="16" type="primary_name_ref" span="313:54:313:63">IS_ESCAPE</jtok>
+<jtok eid="16" type="primary_name_ref" span="314:3:314:9">result</jtok>
+<jtok eid="16" type="method_call" span="314:10:314:16">append</jtok>
+<jtok eid="16" type="string_literal" span="314:17:314:27">",REGEXP="</jtok>
+<jtok eid="16" type="method_call" span="314:29:314:35">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="314:37:314:48">actionHints</jtok>
+<jtok eid="16" type="primary_name_ref" span="314:51:314:57">REGEXP</jtok>
+<jtok eid="16" type="primary_name_ref" span="315:3:315:9">result</jtok>
+<jtok eid="16" type="method_call" span="315:10:315:16">append</jtok>
+<jtok eid="16" type="string_literal" span="315:17:315:32">"],upHashChar="</jtok>
+<jtok eid="16" type="method_call" span="315:34:315:40">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="315:41:315:51">upHashChar</jtok>
+<jtok eid="16" type="primary_name_ref" span="316:3:316:9">result</jtok>
+<jtok eid="16" type="method_call" span="316:10:316:16">append</jtok>
+<jtok eid="16" type="string_literal" span="316:17:316:32">",upHashChars="</jtok>
+<jtok eid="16" type="method_call" span="316:34:316:40">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="316:41:316:47">Arrays</jtok>
+<jtok eid="16" type="method_call" span="316:48:316:56">toString</jtok>
+<jtok eid="16" type="primary_name_ref" span="316:57:316:68">upHashChars</jtok>
+<jtok eid="16" type="primary_name_ref" span="317:3:317:9">result</jtok>
+<jtok eid="16" type="method_call" span="317:10:317:16">append</jtok>
+<jtok eid="16" type="string_literal" span="317:17:317:34">",startPosMatch="</jtok>
+<jtok eid="16" type="primary_name_ref" span="318:3:318:9">result</jtok>
+<jtok eid="16" type="method_call" span="318:10:318:16">append</jtok>
+<jtok eid="16" type="string_literal" span="318:17:318:34">"[AT_LINE_START="</jtok>
+<jtok eid="16" type="method_call" span="318:36:318:42">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="318:44:318:57">startPosMatch</jtok>
+<jtok eid="16" type="primary_name_ref" span="318:60:318:73">AT_LINE_START</jtok>
+<jtok eid="16" type="primary_name_ref" span="319:3:319:9">result</jtok>
+<jtok eid="16" type="method_call" span="319:10:319:16">append</jtok>
+<jtok eid="16" type="string_literal" span="319:17:319:38">",AT_WHITESPACE_END="</jtok>
+<jtok eid="16" type="method_call" span="319:40:319:46">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="319:48:319:61">startPosMatch</jtok>
+<jtok eid="16" type="primary_name_ref" span="319:64:319:81">AT_WHITESPACE_END</jtok>
+<jtok eid="16" type="primary_name_ref" span="320:3:320:9">result</jtok>
+<jtok eid="16" type="method_call" span="320:10:320:16">append</jtok>
+<jtok eid="16" type="string_literal" span="320:17:320:34">",AT_WORD_START="</jtok>
+<jtok eid="16" type="method_call" span="320:36:320:42">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="320:44:320:57">startPosMatch</jtok>
+<jtok eid="16" type="primary_name_ref" span="320:60:320:73">AT_WORD_START</jtok>
+<jtok eid="16" type="primary_name_ref" span="321:3:321:9">result</jtok>
+<jtok eid="16" type="method_call" span="321:10:321:16">append</jtok>
+<jtok eid="16" type="string_literal" span="321:17:321:27">"],start="</jtok>
+<jtok eid="16" type="method_call" span="321:29:321:35">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="321:42:321:47">start</jtok>
+<jtok eid="16" type="primary_name_ref" span="321:53:321:59">String</jtok>
+<jtok eid="16" type="method_call" span="321:60:321:67">valueOf</jtok>
+<jtok eid="16" type="primary_name_ref" span="321:68:321:73">start</jtok>
+<jtok eid="16" type="primary_name_ref" span="322:3:322:9">result</jtok>
+<jtok eid="16" type="method_call" span="322:10:322:16">append</jtok>
+<jtok eid="16" type="string_literal" span="322:17:322:32">",startRegexp="</jtok>
+<jtok eid="16" type="method_call" span="322:34:322:40">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="322:41:322:52">startRegexp</jtok>
+<jtok eid="16" type="primary_name_ref" span="323:3:323:9">result</jtok>
+<jtok eid="16" type="method_call" span="323:10:323:16">append</jtok>
+<jtok eid="16" type="string_literal" span="323:17:323:32">",endPosMatch="</jtok>
+<jtok eid="16" type="primary_name_ref" span="324:3:324:9">result</jtok>
+<jtok eid="16" type="method_call" span="324:10:324:16">append</jtok>
+<jtok eid="16" type="string_literal" span="324:17:324:34">"[AT_LINE_START="</jtok>
+<jtok eid="16" type="method_call" span="324:36:324:42">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="324:44:324:55">endPosMatch</jtok>
+<jtok eid="16" type="primary_name_ref" span="324:58:324:71">AT_LINE_START</jtok>
+<jtok eid="16" type="primary_name_ref" span="325:3:325:9">result</jtok>
+<jtok eid="16" type="method_call" span="325:10:325:16">append</jtok>
+<jtok eid="16" type="string_literal" span="325:17:325:38">",AT_WHITESPACE_END="</jtok>
+<jtok eid="16" type="method_call" span="325:40:325:46">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="325:48:325:59">endPosMatch</jtok>
+<jtok eid="16" type="primary_name_ref" span="325:62:325:79">AT_WHITESPACE_END</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:3:326:9">result</jtok>
+<jtok eid="16" type="method_call" span="326:10:326:16">append</jtok>
+<jtok eid="16" type="string_literal" span="326:17:326:34">",AT_WORD_START="</jtok>
+<jtok eid="16" type="method_call" span="326:36:326:42">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:44:326:55">endPosMatch</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:58:326:71">AT_WORD_START</jtok>
+<jtok eid="16" type="primary_name_ref" span="327:3:327:9">result</jtok>
+<jtok eid="16" type="method_call" span="327:10:327:16">append</jtok>
+<jtok eid="16" type="string_literal" span="327:17:327:25">"],end="</jtok>
+<jtok eid="16" type="method_call" span="327:27:327:33">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="327:40:327:43">end</jtok>
+<jtok eid="16" type="primary_name_ref" span="327:49:327:55">String</jtok>
+<jtok eid="16" type="method_call" span="327:56:327:63">valueOf</jtok>
+<jtok eid="16" type="primary_name_ref" span="327:64:327:67">end</jtok>
+<jtok eid="16" type="primary_name_ref" span="328:3:328:9">result</jtok>
+<jtok eid="16" type="method_call" span="328:10:328:16">append</jtok>
+<jtok eid="16" type="string_literal" span="328:17:328:29">",delegate="</jtok>
+<jtok eid="16" type="method_call" span="328:31:328:37">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="328:38:328:46">delegate</jtok>
+<jtok eid="16" type="primary_name_ref" span="329:3:329:9">result</jtok>
+<jtok eid="16" type="method_call" span="329:10:329:16">append</jtok>
+<jtok eid="16" type="string_literal" span="329:17:329:31">",escapeRule="</jtok>
+<jtok eid="16" type="method_call" span="329:33:329:39">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="329:40:329:50">escapeRule</jtok>
+<jtok eid="16" type="primary_name_ref" span="330:3:330:9">result</jtok>
+<jtok eid="16" type="method_call" span="330:10:330:16">append</jtok>
+<jtok eid="16" type="string_literal" span="330:17:330:26">",token="</jtok>
+<jtok eid="16" type="method_call" span="330:28:330:34">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="330:35:330:40">Token</jtok>
+<jtok eid="16" type="method_call" span="330:41:330:54">tokenToString</jtok>
+<jtok eid="16" type="primary_name_ref" span="330:55:330:60">token</jtok>
+<jtok eid="16" type="method_call" span="330:63:330:69">append</jtok>
+<jtok eid="16" type="primary_name_ref" span="331:10:331:16">result</jtok>
+<jtok eid="16" type="method_call" span="331:17:331:25">toString</jtok>
+<jtok eid="1" type="line_comment" span="332:4:332:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="334:2:334:23">//{{{ Private members</jtok>
+<jtok eid="17" type="method_name" span="335:10:335:20">ParserRule</jtok>
+<jtok eid="17" type="parameter_name" span="335:25:335:31">action</jtok>
+<jtok eid="17" type="parameter_type" span="335:33:335:39">String</jtok>
+<jtok eid="17" type="parameter_name" span="335:40:335:48">hashChar</jtok>
+<jtok eid="17" type="parameter_name" span="336:7:336:20">startPosMatch</jtok>
+<jtok eid="17" type="parameter_name" span="336:29:336:34">start</jtok>
+<jtok eid="17" type="parameter_type" span="336:36:336:43">Pattern</jtok>
+<jtok eid="17" type="parameter_name" span="336:44:336:55">startRegexp</jtok>
+<jtok eid="17" type="parameter_name" span="337:7:337:18">endPosMatch</jtok>
+<jtok eid="17" type="parameter_name" span="337:27:337:30">end</jtok>
+<jtok eid="17" type="parameter_type" span="338:3:338:16">ParserRuleSet</jtok>
+<jtok eid="17" type="parameter_name" span="338:17:338:25">delegate</jtok>
+<jtok eid="17" type="parameter_name" span="338:32:338:37">token</jtok>
+<jtok eid="17" type="parameter_name" span="338:44:338:53">matchType</jtok>
+<jtok eid="17" type="parameter_type" span="339:3:339:9">String</jtok>
+<jtok eid="17" type="parameter_name" span="339:10:339:16">escape</jtok>
+<jtok eid="17" type="qualified_name_ref" span="341:8:341:14">action</jtok>
+<jtok eid="17" type="primary_name_ref" span="341:17:341:23">action</jtok>
+<jtok eid="17" type="qualified_name_ref" span="342:8:342:18">upHashChar</jtok>
+<jtok eid="17" type="primary_name_ref" span="342:29:342:37">hashChar</jtok>
+<jtok eid="17" type="primary_name_ref" span="342:47:342:55">hashChar</jtok>
+<jtok eid="17" type="method_call" span="342:56:342:67">toUpperCase</jtok>
+<jtok eid="17" type="qualified_name_ref" span="343:8:343:19">upHashChars</jtok>
+<jtok eid="17" type="qualified_name_ref" span="344:8:344:21">startPosMatch</jtok>
+<jtok eid="17" type="primary_name_ref" span="344:24:344:37">startPosMatch</jtok>
+<jtok eid="17" type="qualified_name_ref" span="345:8:345:13">start</jtok>
+<jtok eid="17" type="primary_name_ref" span="345:16:345:21">start</jtok>
+<jtok eid="17" type="qualified_name_ref" span="346:8:346:19">startRegexp</jtok>
+<jtok eid="17" type="primary_name_ref" span="346:22:346:33">startRegexp</jtok>
+<jtok eid="17" type="qualified_name_ref" span="347:8:347:19">endPosMatch</jtok>
+<jtok eid="17" type="primary_name_ref" span="347:22:347:33">endPosMatch</jtok>
+<jtok eid="17" type="qualified_name_ref" span="348:8:348:11">end</jtok>
+<jtok eid="17" type="primary_name_ref" span="348:14:348:17">end</jtok>
+<jtok eid="17" type="qualified_name_ref" span="349:8:349:16">delegate</jtok>
+<jtok eid="17" type="primary_name_ref" span="349:19:349:27">delegate</jtok>
+<jtok eid="17" type="qualified_name_ref" span="350:8:350:13">token</jtok>
+<jtok eid="17" type="primary_name_ref" span="350:16:350:21">token</jtok>
+<jtok eid="17" type="qualified_name_ref" span="351:8:351:17">matchType</jtok>
+<jtok eid="17" type="primary_name_ref" span="351:20:351:29">matchType</jtok>
+<jtok eid="17" type="qualified_name_ref" span="352:8:352:18">escapeRule</jtok>
+<jtok eid="17" type="primary_name_ref" span="352:22:352:28">escape</jtok>
+<jtok eid="17" type="primary_name_ref" span="352:40:352:46">escape</jtok>
+<jtok eid="17" type="method_call" span="352:47:352:53">length</jtok>
+<jtok eid="17" type="method_call" span="353:6:353:22">createEscapeRule</jtok>
+<jtok eid="17" type="primary_name_ref" span="353:23:353:29">escape</jtok>
+<jtok eid="17" type="qualified_name_ref" span="355:11:355:19">delegate</jtok>
+<jtok eid="17" type="primary_name_ref" span="357:8:357:14">action</jtok>
+<jtok eid="17" type="primary_name_ref" span="357:17:357:30">MAJOR_ACTIONS</jtok>
+<jtok eid="17" type="primary_name_ref" span="357:35:357:38">SEQ</jtok>
+<jtok eid="17" type="qualified_name_ref" span="359:10:359:18">delegate</jtok>
+<jtok eid="17" type="primary_name_ref" span="359:21:359:34">ParserRuleSet</jtok>
+<jtok eid="17" type="method_call" span="359:35:359:53">getStandardRuleSet</jtok>
+<jtok eid="17" type="primary_name_ref" span="359:54:359:59">token</jtok>
+<jtok eid="18" type="method_name" span="364:10:364:20">ParserRule</jtok>
+<jtok eid="18" type="parameter_name" span="364:28:364:37">hashChars</jtok>
+<jtok eid="18" type="parameter_name" span="364:43:364:49">action</jtok>
+<jtok eid="18" type="parameter_name" span="365:7:365:20">startPosMatch</jtok>
+<jtok eid="18" type="parameter_name" span="365:29:365:34">start</jtok>
+<jtok eid="18" type="parameter_type" span="365:36:365:43">Pattern</jtok>
+<jtok eid="18" type="parameter_name" span="365:44:365:55">startRegexp</jtok>
+<jtok eid="18" type="parameter_name" span="366:7:366:18">endPosMatch</jtok>
+<jtok eid="18" type="parameter_name" span="366:27:366:30">end</jtok>
+<jtok eid="18" type="parameter_type" span="367:3:367:16">ParserRuleSet</jtok>
+<jtok eid="18" type="parameter_name" span="367:17:367:25">delegate</jtok>
+<jtok eid="18" type="parameter_name" span="367:32:367:37">token</jtok>
+<jtok eid="18" type="parameter_name" span="367:44:367:53">matchType</jtok>
+<jtok eid="18" type="parameter_type" span="368:3:368:9">String</jtok>
+<jtok eid="18" type="parameter_name" span="368:10:368:16">escape</jtok>
+<jtok eid="18" type="qualified_name_ref" span="370:8:370:14">action</jtok>
+<jtok eid="18" type="primary_name_ref" span="370:17:370:23">action</jtok>
+<jtok eid="18" type="qualified_name_ref" span="371:8:371:18">upHashChar</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="372:3:372:6">Set</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="372:7:372:16">Character</jtok>
+<jtok eid="18" type="local_variable_name" span="372:18:372:30">hashCharsSet</jtok>
+<jtok eid="18" type="constructor_call" span="372:37:372:44">HashSet</jtok>
+<jtok eid="18" type="constructor_call" span="372:45:372:54">Character</jtok>
+<jtok eid="18" type="local_variable_name" span="373:13:373:14">c</jtok>
+<jtok eid="18" type="primary_name_ref" span="373:17:373:26">hashChars</jtok>
+<jtok eid="18" type="primary_name_ref" span="375:4:375:16">hashCharsSet</jtok>
+<jtok eid="18" type="method_call" span="375:17:375:20">add</jtok>
+<jtok eid="18" type="primary_name_ref" span="375:21:375:30">Character</jtok>
+<jtok eid="18" type="method_call" span="375:31:375:42">toUpperCase</jtok>
+<jtok eid="18" type="primary_name_ref" span="375:43:375:44">c</jtok>
+<jtok eid="18" type="qualified_name_ref" span="377:8:377:19">upHashChars</jtok>
+<jtok eid="18" type="primary_name_ref" span="377:31:377:43">hashCharsSet</jtok>
+<jtok eid="18" type="method_call" span="377:44:377:48">size</jtok>
+<jtok eid="18" type="local_variable_name" span="378:7:378:8">i</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="379:8:379:17">Character</jtok>
+<jtok eid="18" type="local_variable_name" span="379:18:379:19">c</jtok>
+<jtok eid="18" type="primary_name_ref" span="379:22:379:34">hashCharsSet</jtok>
+<jtok eid="18" type="qualified_name_ref" span="381:9:381:20">upHashChars</jtok>
+<jtok eid="18" type="primary_name_ref" span="381:21:381:22">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="381:28:381:29">c</jtok>
+<jtok eid="18" type="primary_name_ref" span="383:3:383:9">Arrays</jtok>
+<jtok eid="18" type="method_call" span="383:10:383:14">sort</jtok>
+<jtok eid="18" type="qualified_name_ref" span="383:20:383:31">upHashChars</jtok>
+<jtok eid="18" type="qualified_name_ref" span="384:8:384:21">startPosMatch</jtok>
+<jtok eid="18" type="primary_name_ref" span="384:24:384:37">startPosMatch</jtok>
+<jtok eid="18" type="qualified_name_ref" span="385:8:385:13">start</jtok>
+<jtok eid="18" type="primary_name_ref" span="385:16:385:21">start</jtok>
+<jtok eid="18" type="qualified_name_ref" span="386:8:386:19">startRegexp</jtok>
+<jtok eid="18" type="primary_name_ref" span="386:22:386:33">startRegexp</jtok>
+<jtok eid="18" type="qualified_name_ref" span="387:8:387:19">endPosMatch</jtok>
+<jtok eid="18" type="primary_name_ref" span="387:22:387:33">endPosMatch</jtok>
+<jtok eid="18" type="qualified_name_ref" span="388:8:388:11">end</jtok>
+<jtok eid="18" type="primary_name_ref" span="388:14:388:17">end</jtok>
+<jtok eid="18" type="qualified_name_ref" span="389:8:389:16">delegate</jtok>
+<jtok eid="18" type="primary_name_ref" span="389:19:389:27">delegate</jtok>
+<jtok eid="18" type="qualified_name_ref" span="390:8:390:13">token</jtok>
+<jtok eid="18" type="primary_name_ref" span="390:16:390:21">token</jtok>
+<jtok eid="18" type="qualified_name_ref" span="391:8:391:17">matchType</jtok>
+<jtok eid="18" type="primary_name_ref" span="391:20:391:29">matchType</jtok>
+<jtok eid="18" type="qualified_name_ref" span="392:8:392:18">escapeRule</jtok>
+<jtok eid="18" type="primary_name_ref" span="392:22:392:28">escape</jtok>
+<jtok eid="18" type="primary_name_ref" span="392:40:392:46">escape</jtok>
+<jtok eid="18" type="method_call" span="392:47:392:53">length</jtok>
+<jtok eid="18" type="method_call" span="393:6:393:22">createEscapeRule</jtok>
+<jtok eid="18" type="primary_name_ref" span="393:23:393:29">escape</jtok>
+<jtok eid="18" type="qualified_name_ref" span="395:11:395:19">delegate</jtok>
+<jtok eid="18" type="primary_name_ref" span="397:8:397:14">action</jtok>
+<jtok eid="18" type="primary_name_ref" span="397:17:397:30">MAJOR_ACTIONS</jtok>
+<jtok eid="18" type="primary_name_ref" span="397:35:397:38">SEQ</jtok>
+<jtok eid="18" type="qualified_name_ref" span="399:10:399:18">delegate</jtok>
+<jtok eid="18" type="primary_name_ref" span="399:21:399:34">ParserRuleSet</jtok>
+<jtok eid="18" type="method_call" span="399:35:399:53">getStandardRuleSet</jtok>
+<jtok eid="18" type="primary_name_ref" span="399:54:399:59">token</jtok>
+<jtok eid="1" type="line_comment" span="402:4:402:9">//}}}</jtok>
+</jdoc>

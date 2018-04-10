@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.util.WorkRequest" jls="java5">
+<jent id="0" type="file" span="0:0:131:2">Source/jEdit/org/gjt/sp/util/WorkRequest.java</jent>
+<jent id="1" pid="0" type="class" span="30:1:131:1">org.gjt.sp.util.WorkRequest</jent>
+<jent id="2" pid="1" type="method" span="42:2:47:2">org.gjt.sp.util.WorkRequest.setAbortable(boolean)</jent>
+<jent id="3" pid="1" type="method" span="53:2:58:2">org.gjt.sp.util.WorkRequest.setStatus(String)</jent>
+<jent id="4" pid="1" type="method" span="65:2:70:2">org.gjt.sp.util.WorkRequest.setProgressValue(int)</jent>
+<jent id="5" pid="1" type="method" span="77:2:82:2">org.gjt.sp.util.WorkRequest.setProgressMaximum(int)</jent>
+<jent id="6" pid="1" type="method" span="91:2:105:2">org.gjt.sp.util.WorkRequest.setValue(long)</jent>
+<jent id="7" pid="1" type="method" span="114:2:130:2">org.gjt.sp.util.WorkRequest.setMaximum(long)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * WorkRequest.java - Runnable subclass
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="25:1:29:4">/**
+ * A subclass of the Runnable interface.
+ * @since jEdit 2.6pre1
+ * @version $Id: WorkRequest.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="30:23:30:34">WorkRequest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="30:46:30:54">Runnable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="30:56:30:72">ProgressObserver</jtok>
+<jtok eid="1" type="block_comment" span="32:2:36:5">/**
+	 * If the max value is greater that &lt;code&gt;Integer.MAX_VALUE&lt;/code&gt; this 
+	 * will be true and all values will be divided by 1024.
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="1" type="field_name" span="37:18:37:29">largeValues</jtok>
+<jtok eid="1" type="block_comment" span="39:2:41:5">/**
+	 * Sets if the request can be aborted.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="42:14:42:26">setAbortable</jtok>
+<jtok eid="2" type="parameter_name" span="42:35:42:44">abortable</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="44:3:44:9">Thread</jtok>
+<jtok eid="2" type="local_variable_name" span="44:10:44:16">thread</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:19:44:25">Thread</jtok>
+<jtok eid="2" type="method_call" span="44:26:44:39">currentThread</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:6:45:12">thread</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:24:45:34">WorkThread</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:6:46:16">WorkThread</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:17:46:23">thread</jtok>
+<jtok eid="2" type="method_call" span="46:25:46:37">setAbortable</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:38:46:47">abortable</jtok>
+<jtok eid="1" type="block_comment" span="49:2:52:5">/**
+	 * Sets the status text.
+	 * @param status The status text
+	 */</jtok>
+<jtok eid="3" type="method_name" span="53:14:53:23">setStatus</jtok>
+<jtok eid="3" type="parameter_type" span="53:24:53:30">String</jtok>
+<jtok eid="3" type="parameter_name" span="53:31:53:37">status</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="55:3:55:9">Thread</jtok>
+<jtok eid="3" type="local_variable_name" span="55:10:55:16">thread</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:19:55:25">Thread</jtok>
+<jtok eid="3" type="method_call" span="55:26:55:39">currentThread</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:6:56:12">thread</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="56:24:56:34">WorkThread</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="57:6:57:16">WorkThread</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:17:57:23">thread</jtok>
+<jtok eid="3" type="method_call" span="57:25:57:34">setStatus</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:35:57:41">status</jtok>
+<jtok eid="1" type="block_comment" span="60:2:64:5">/**
+	 * Sets the progress value.
+	 * @param value The progress value.
+	 * @deprecated use {@link #setValue(long)}
+	 */</jtok>
+<jtok eid="4" type="method_name" span="65:14:65:30">setProgressValue</jtok>
+<jtok eid="4" type="parameter_name" span="65:35:65:40">value</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="67:3:67:9">Thread</jtok>
+<jtok eid="4" type="local_variable_name" span="67:10:67:16">thread</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:19:67:25">Thread</jtok>
+<jtok eid="4" type="method_call" span="67:26:67:39">currentThread</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:6:68:12">thread</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="68:24:68:34">WorkThread</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="69:6:69:16">WorkThread</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:17:69:23">thread</jtok>
+<jtok eid="4" type="method_call" span="69:25:69:41">setProgressValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:42:69:47">value</jtok>
+<jtok eid="1" type="block_comment" span="72:2:76:5">/**
+	 * Sets the maximum progress value.
+	 * @param value The progress value.
+	 * @deprecated use {@link #setMaximum(long)}
+	 */</jtok>
+<jtok eid="5" type="method_name" span="77:14:77:32">setProgressMaximum</jtok>
+<jtok eid="5" type="parameter_name" span="77:37:77:42">value</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="79:3:79:9">Thread</jtok>
+<jtok eid="5" type="local_variable_name" span="79:10:79:16">thread</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:19:79:25">Thread</jtok>
+<jtok eid="5" type="method_call" span="79:26:79:39">currentThread</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:6:80:12">thread</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="80:24:80:34">WorkThread</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="81:6:81:16">WorkThread</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:17:81:23">thread</jtok>
+<jtok eid="5" type="method_call" span="81:25:81:43">setProgressMaximum</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:44:81:49">value</jtok>
+<jtok eid="1" type="line_comment" span="84:2:84:25">//{{{ setValue() method</jtok>
+<jtok eid="1" type="block_comment" span="85:2:90:5">/**
+	 * Update the progress value.
+	 *
+	 * @param value the new value
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="6" type="method_name" span="91:14:91:22">setValue</jtok>
+<jtok eid="6" type="parameter_name" span="91:28:91:33">value</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="93:3:93:9">Thread</jtok>
+<jtok eid="6" type="local_variable_name" span="93:10:93:16">thread</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:19:93:25">Thread</jtok>
+<jtok eid="6" type="method_call" span="93:26:93:39">currentThread</jtok>
+<jtok eid="6" type="primary_name_ref" span="94:6:94:12">thread</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="94:24:94:34">WorkThread</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:8:96:19">largeValues</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="98:7:98:17">WorkThread</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:18:98:24">thread</jtok>
+<jtok eid="6" type="method_call" span="98:26:98:42">setProgressValue</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:50:98:55">value</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="102:7:102:17">WorkThread</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:18:102:24">thread</jtok>
+<jtok eid="6" type="method_call" span="102:26:102:42">setProgressValue</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:49:102:54">value</jtok>
+<jtok eid="1" type="line_comment" span="105:4:105:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="107:2:107:25">//{{{ setValue() method</jtok>
+<jtok eid="1" type="block_comment" span="108:2:113:5">/**
+	 * Update the maximum value.
+	 *
+	 * @param value the new maximum value
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="7" type="method_name" span="114:14:114:24">setMaximum</jtok>
+<jtok eid="7" type="parameter_name" span="114:30:114:35">value</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="116:3:116:9">Thread</jtok>
+<jtok eid="7" type="local_variable_name" span="116:10:116:16">thread</jtok>
+<jtok eid="7" type="primary_name_ref" span="116:19:116:25">Thread</jtok>
+<jtok eid="7" type="method_call" span="116:26:116:39">currentThread</jtok>
+<jtok eid="7" type="primary_name_ref" span="117:6:117:12">thread</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="117:24:117:34">WorkThread</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:8:119:13">value</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:16:119:23">Integer</jtok>
+<jtok eid="7" type="qualified_name_ref" span="119:24:119:33">MAX_VALUE</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:5:121:16">largeValues</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="122:7:122:17">WorkThread</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:18:122:24">thread</jtok>
+<jtok eid="7" type="method_call" span="122:26:122:44">setProgressMaximum</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:52:122:57">value</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:5:126:16">largeValues</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="127:7:127:17">WorkThread</jtok>
+<jtok eid="7" type="primary_name_ref" span="127:18:127:24">thread</jtok>
+<jtok eid="7" type="method_call" span="127:26:127:44">setProgressMaximum</jtok>
+<jtok eid="7" type="primary_name_ref" span="127:51:127:56">value</jtok>
+<jtok eid="1" type="line_comment" span="130:4:130:9">//}}}</jtok>
+</jdoc>

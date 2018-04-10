@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="wsi.ra.tool.ResourceLoader" jls="java5">
+<jent id="0" type="file" span="0:0:395:79">Source/jabref/src/java/wsi/ra/tool/ResourceLoader.java</jent>
+<jent id="1" pid="0" type="class" span="46:1:387:1">wsi.ra.tool.ResourceLoader</jent>
+<jent id="2" pid="1" type="method" span="66:5:68:5">wsi.ra.tool.ResourceLoader.ResourceLoader()</jent>
+<jent id="3" pid="1" type="method" span="81:5:89:5">wsi.ra.tool.ResourceLoader.instance()</jent>
+<jent id="4" pid="1" type="method" span="97:5:210:5">wsi.ra.tool.ResourceLoader.getBytesFromResourceLocation(String)</jent>
+<jent id="5" pid="1" type="method" span="218:5:221:5">wsi.ra.tool.ResourceLoader.readLines(String)</jent>
+<jent id="6" pid="1" type="method" span="230:5:277:5">wsi.ra.tool.ResourceLoader.readLines(String,boolean)</jent>
+<jent id="7" pid="1" type="method" span="289:5:344:5">wsi.ra.tool.ResourceLoader.getBytesFromFile(String)</jent>
+<jent id="8" pid="1" type="method" span="352:5:386:5">wsi.ra.tool.ResourceLoader.getBytesFromStream(InputStream)</jent>
+<jtok eid="0" type="line_comment" span="1:1:1:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="line_comment" span="2:1:2:24">//  Filename: $RCSfile$</jtok>
+<jtok eid="0" type="line_comment" span="3:1:3:35">//  Purpose:  Atom representation.</jtok>
+<jtok eid="0" type="line_comment" span="4:1:4:19">//  Language: Java</jtok>
+<jtok eid="0" type="line_comment" span="5:1:5:22">//  Compiler: JDK 1.4</jtok>
+<jtok eid="0" type="line_comment" span="6:1:6:44">//  Authors:  Joerg K. Wegner, Gerd Mueller</jtok>
+<jtok eid="0" type="line_comment" span="7:1:7:32">//  Version:  $Revision: 2488 $</jtok>
+<jtok eid="0" type="line_comment" span="8:1:8:68">//            $Date: 2007-11-14 01:25:31 +0100 (Wed, 14 Nov 2007) $</jtok>
+<jtok eid="0" type="line_comment" span="9:1:9:33">//            $Author: coezbek $</jtok>
+<jtok eid="0" type="line_comment" span="10:1:10:3">//</jtok>
+<jtok eid="0" type="line_comment" span="11:1:11:80">//  Copyright (c) Dept. Computer Architecture, University of Tuebingen, Germany</jtok>
+<jtok eid="0" type="line_comment" span="12:1:12:3">//</jtok>
+<jtok eid="0" type="line_comment" span="13:1:13:73">//  This program is free software; you can redistribute it and/or modify</jtok>
+<jtok eid="0" type="line_comment" span="14:1:14:73">//  it under the terms of the GNU General Public License as published by</jtok>
+<jtok eid="0" type="line_comment" span="15:1:15:59">//  the Free Software Foundation version 2 of the License.</jtok>
+<jtok eid="0" type="line_comment" span="16:1:16:3">//</jtok>
+<jtok eid="0" type="line_comment" span="17:1:17:68">//  This program is distributed in the hope that it will be useful,</jtok>
+<jtok eid="0" type="line_comment" span="18:1:18:67">//  but WITHOUT ANY WARRANTY; without even the implied warranty of</jtok>
+<jtok eid="0" type="line_comment" span="19:1:19:66">//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</jtok>
+<jtok eid="0" type="line_comment" span="20:1:20:49">//  GNU General Public License for more details.</jtok>
+<jtok eid="0" type="line_comment" span="21:1:21:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="block_comment" span="27:1:29:79">/*==========================================================================*
+ * IMPORTS
+ *==========================================================================*/</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:29">//import org.apache.log4j.*;</jtok>
+<jtok eid="0" type="block_comment" span="32:1:34:79">/*==========================================================================*
+ * CLASS DECLARATION
+ *==========================================================================*/</jtok>
+<jtok eid="0" type="block_comment" span="36:1:45:4">/**
+ *  Loads resource file from directory OR jar file. Now it is easier possible to
+ *  access resource files in a directory structure or a .jar/.zip file.
+ *
+ * @author     wegnerj
+ * @author     Robin Friedman, rfriedman@TriadTherapeutics.com
+ * @author     Gerd Mueller
+ * @license GPL
+ * @cvsversion    $Revision: 2488 $, $Date: 2007-11-14 01:25:31 +0100 (Wed, 14 Nov 2007) $
+ */</jtok>
+<jtok eid="1" type="class_name" span="46:14:46:28">ResourceLoader</jtok>
+<jtok eid="1" type="line_comment" span="48:5:48:81">//~ Static fields/initializers /////////////////////////////////////////////</jtok>
+<jtok eid="1" type="block_comment" span="50:5:52:8">/**
+     *  Obtain a suitable logger.
+     */</jtok>
+<jtok eid="1" type="line_comment" span="53:1:53:61">//    private static Category logger = Category.getInstance(</jtok>
+<jtok eid="1" type="line_comment" span="54:1:54:45">//            "wsi.ra.tool.ResourceLoader");</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:20:55:34">ResourceLoader</jtok>
+<jtok eid="1" type="field_name" span="55:35:55:49">resourceLoader</jtok>
+<jtok eid="1" type="line_comment" span="57:5:57:81">//~ Constructors ///////////////////////////////////////////////////////////</jtok>
+<jtok eid="1" type="block_comment" span="59:5:61:83">/*------------------------------------------------------------------------*
+     * constructor
+     *------------------------------------------------------------------------  */</jtok>
+<jtok eid="1" type="block_comment" span="63:5:65:8">/**
+     *  Constructor for the ResourceLoader object
+     */</jtok>
+<jtok eid="2" type="method_name" span="66:13:66:27">ResourceLoader</jtok>
+<jtok eid="1" type="line_comment" span="70:5:70:81">//~ Methods ////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="1" type="block_comment" span="72:5:74:84">/*-------------------------------------------------------------------------*
+     * public methods
+     *-------------------------------------------------------------------------  */</jtok>
+<jtok eid="1" type="block_comment" span="76:5:80:8">/**
+     *  Description of the Method
+     *
+     * @return    Description of the Return Value
+     */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="81:32:81:46">ResourceLoader</jtok>
+<jtok eid="3" type="method_name" span="81:47:81:55">instance</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:13:83:27">resourceLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:13:85:27">resourceLoader</jtok>
+<jtok eid="3" type="constructor_call" span="85:34:85:48">ResourceLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:16:88:30">resourceLoader</jtok>
+<jtok eid="1" type="block_comment" span="91:5:96:8">/**
+     *  Gets the byte data from a file at the given resource location.
+     *
+     * @param  resourceLocation  Description of the Parameter
+     * @return                   the byte array of file.
+     */</jtok>
+<jtok eid="4" type="method_name" span="97:19:97:47">getBytesFromResourceLocation</jtok>
+<jtok eid="4" type="parameter_type" span="97:48:97:54">String</jtok>
+<jtok eid="4" type="parameter_name" span="97:55:97:71">resourceLocation</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:13:99:29">resourceLocation</jtok>
+<jtok eid="4" type="line_comment" span="103:3:103:66">// to avoid hours of debugging non-found-files under linux with</jtok>
+<jtok eid="4" type="line_comment" span="104:6:104:72">// some f... special characters at the end which will not be shown</jtok>
+<jtok eid="4" type="line_comment" span="105:6:105:34">// at the console output !!!</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:6:106:22">resourceLocation</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:25:106:41">resourceLocation</jtok>
+<jtok eid="4" type="method_call" span="106:42:106:46">trim</jtok>
+<jtok eid="4" type="line_comment" span="108:9:108:40">// is a relative path defined ?</jtok>
+<jtok eid="4" type="line_comment" span="109:9:109:75">// this can only be possible, if this is a file resource loacation</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:13:110:29">resourceLocation</jtok>
+<jtok eid="4" type="method_call" span="110:30:110:40">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="110:41:110:45">".."</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:17:111:33">resourceLocation</jtok>
+<jtok eid="4" type="method_call" span="111:34:111:44">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="111:45:111:48">"/"</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:17:112:33">resourceLocation</jtok>
+<jtok eid="4" type="method_call" span="112:34:112:44">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="112:45:112:49">"\\"</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:19:113:35">resourceLocation</jtok>
+<jtok eid="4" type="method_call" span="113:36:113:42">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:18:114:34">resourceLocation</jtok>
+<jtok eid="4" type="method_call" span="114:35:114:41">charAt</jtok>
+<jtok eid="4" type="method_call" span="116:20:116:36">getBytesFromFile</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:37:116:53">resourceLocation</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="119:9:119:20">InputStream</jtok>
+<jtok eid="4" type="local_variable_name" span="119:21:119:23">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:26:119:37">ClassLoader</jtok>
+<jtok eid="4" type="method_call" span="120:31:120:56">getSystemResourceAsStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:57:120:73">resourceLocation</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:13:122:15">in</jtok>
+<jtok eid="4" type="line_comment" span="124:13:124:52">// try again for web start applications</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:13:125:15">in</jtok>
+<jtok eid="4" type="method_call" span="125:23:125:31">getClass</jtok>
+<jtok eid="4" type="method_call" span="125:34:125:48">getClassLoader</jtok>
+<jtok eid="4" type="method_call" span="125:51:125:70">getResourceAsStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:71:125:87">resourceLocation</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:13:128:15">in</jtok>
+<jtok eid="4" type="local_variable_name" span="133:14:133:19">bytes</jtok>
+<jtok eid="4" type="method_call" span="133:22:133:40">getBytesFromStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:41:133:43">in</jtok>
+<jtok eid="4" type="line_comment" span="135:1:135:20">//		if(bytes==null)</jtok>
+<jtok eid="4" type="line_comment" span="136:1:136:6">//		{</jtok>
+<jtok eid="4" type="line_comment" span="137:1:137:90">//			URL location = this.getClass().getClassLoader().getSystemResource(resourceLocation);</jtok>
+<jtok eid="4" type="line_comment" span="138:1:138:47">//			String fileLocation = location.getFile();</jtok>
+<jtok eid="4" type="line_comment" span="139:1:139:43">//			bytes=getBytesFromFile(fileLocation);</jtok>
+<jtok eid="4" type="line_comment" span="140:1:140:6">//		}</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:16:142:21">bytes</jtok>
+<jtok eid="4" type="line_comment" span="144:9:144:110">//        //System.out.println(this.getClass().getClassLoader().getSystemResource(resourceLocation));</jtok>
+<jtok eid="4" type="line_comment" span="145:9:145:103">//        URL location = this.getClass().getClassLoader().getSystemResource(resourceLocation);</jtok>
+<jtok eid="4" type="line_comment" span="146:9:146:11">//</jtok>
+<jtok eid="4" type="line_comment" span="147:9:147:40">//        if (location == null)</jtok>
+<jtok eid="4" type="line_comment" span="148:9:148:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="149:9:149:62">//            // try again for web start applications</jtok>
+<jtok eid="4" type="line_comment" span="150:9:150:97">//            location = this.getClass().getClassLoader().getResource(resourceLocation);</jtok>
+<jtok eid="4" type="line_comment" span="151:9:151:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="152:9:152:11">//</jtok>
+<jtok eid="4" type="line_comment" span="153:9:153:47">//        if (logger.isDebugEnabled())</jtok>
+<jtok eid="4" type="line_comment" span="154:9:154:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="155:9:155:89">//            logger.debug("Trying to get " + resourceLocation + " from URL: " +</jtok>
+<jtok eid="4" type="line_comment" span="156:9:156:37">//                location);</jtok>
+<jtok eid="4" type="line_comment" span="157:9:157:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="158:9:158:11">//</jtok>
+<jtok eid="4" type="line_comment" span="159:9:159:40">//        if (location == null)</jtok>
+<jtok eid="4" type="line_comment" span="160:9:160:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="161:9:161:35">//            return null;</jtok>
+<jtok eid="4" type="line_comment" span="162:9:162:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="163:9:163:11">//</jtok>
+<jtok eid="4" type="line_comment" span="164:9:164:84">//        String locationString = URLDecoder.decode( location.toString() );</jtok>
+<jtok eid="4" type="line_comment" span="165:9:165:11">//</jtok>
+<jtok eid="4" type="line_comment" span="166:9:166:64">//        int posJAR = locationString.indexOf(".jar!");</jtok>
+<jtok eid="4" type="line_comment" span="167:9:167:64">//        int posZIP = locationString.indexOf(".zip!");</jtok>
+<jtok eid="4" type="line_comment" span="168:9:168:32">//        int pos = -1;</jtok>
+<jtok eid="4" type="line_comment" span="169:9:169:11">//</jtok>
+<jtok eid="4" type="line_comment" span="170:9:170:54">//        if ((posJAR &gt; -1) &amp;&amp; (posZIP &gt; -1))</jtok>
+<jtok eid="4" type="line_comment" span="171:9:171:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="172:9:172:54">//            pos = Math.min(posJAR, posZIP);</jtok>
+<jtok eid="4" type="line_comment" span="173:9:173:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="174:9:174:40">//        else if (posJAR &gt; -1)</jtok>
+<jtok eid="4" type="line_comment" span="175:9:175:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="176:9:176:36">//            pos = posJAR;</jtok>
+<jtok eid="4" type="line_comment" span="177:9:177:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="178:9:178:40">//        else if (posZIP &gt; -1)</jtok>
+<jtok eid="4" type="line_comment" span="179:9:179:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="180:9:180:36">//            pos = posZIP;</jtok>
+<jtok eid="4" type="line_comment" span="181:9:181:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="182:9:182:11">//</jtok>
+<jtok eid="4" type="line_comment" span="183:9:183:65">//        // is the resource file in a zip or a jar file</jtok>
+<jtok eid="4" type="line_comment" span="184:9:184:32">//        if (pos &gt; -1)</jtok>
+<jtok eid="4" type="line_comment" span="185:9:185:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="186:9:186:54">//            // load it from zip or jar file</jtok>
+<jtok eid="4" type="line_comment" span="187:9:187:78">//            String urlToZip = locationString.substring(4, pos + 4);</jtok>
+<jtok eid="4" type="line_comment" span="188:9:188:86">//            String internalArchivePath = locationString.substring(pos + 6);</jtok>
+<jtok eid="4" type="line_comment" span="189:9:189:11">//</jtok>
+<jtok eid="4" type="line_comment" span="190:9:190:51">//            if (logger.isDebugEnabled())</jtok>
+<jtok eid="4" type="line_comment" span="191:9:191:24">//            {</jtok>
+<jtok eid="4" type="line_comment" span="192:9:192:74">//                logger.debug("Loading " + internalArchivePath +</jtok>
+<jtok eid="4" type="line_comment" span="193:9:193:66">//                    " from archive " + urlToZip + ".");</jtok>
+<jtok eid="4" type="line_comment" span="194:9:194:24">//            }</jtok>
+<jtok eid="4" type="line_comment" span="195:9:195:11">//</jtok>
+<jtok eid="4" type="line_comment" span="196:9:196:81">//            return getBytesFromArchive(urlToZip, internalArchivePath);</jtok>
+<jtok eid="4" type="line_comment" span="197:9:197:20">//        }</jtok>
+<jtok eid="4" type="line_comment" span="198:9:198:23">//        else</jtok>
+<jtok eid="4" type="line_comment" span="199:9:199:20">//        {</jtok>
+<jtok eid="4" type="line_comment" span="200:9:200:64">//            String fileLocation = location.getFile();</jtok>
+<jtok eid="4" type="line_comment" span="201:9:201:11">//</jtok>
+<jtok eid="4" type="line_comment" span="202:9:202:55">//            // load it from an unpacked file</jtok>
+<jtok eid="4" type="line_comment" span="203:9:203:51">//            if (logger.isDebugEnabled())</jtok>
+<jtok eid="4" type="line_comment" span="204:9:204:24">//            {</jtok>
+<jtok eid="4" type="line_comment" span="205:9:205:83">//                logger.debug("Loading from file " + fileLocation + ".");</jtok>
+<jtok eid="4" type="line_comment" span="206:9:206:24">//            }</jtok>
+<jtok eid="4" type="line_comment" span="207:9:207:11">//</jtok>
+<jtok eid="4" type="line_comment" span="208:9:208:61">//            return getBytesFromFile(fileLocation);</jtok>
+<jtok eid="4" type="line_comment" span="209:9:209:20">//        }</jtok>
+<jtok eid="1" type="block_comment" span="212:5:217:8">/**
+     *  Description of the Method
+     *
+     * @param  resourceFile  Description of the Parameter
+     * @return               Description of the Return Value
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="218:19:218:25">Vector</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="218:26:218:32">String</jtok>
+<jtok eid="5" type="method_name" span="218:34:218:43">readLines</jtok>
+<jtok eid="5" type="parameter_type" span="218:44:218:50">String</jtok>
+<jtok eid="5" type="parameter_name" span="218:51:218:63">resourceFile</jtok>
+<jtok eid="5" type="method_call" span="220:16:220:25">readLines</jtok>
+<jtok eid="5" type="primary_name_ref" span="220:26:220:38">resourceFile</jtok>
+<jtok eid="1" type="block_comment" span="223:5:229:8">/**
+     *  Description of the Method
+     *
+     * @param  resourceFile    Description of the Parameter
+     * @param  ignoreComments  Description of the Parameter
+     * @return                 Description of the Return Value
+     */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="230:19:230:25">Vector</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="230:26:230:32">String</jtok>
+<jtok eid="6" type="method_name" span="230:34:230:43">readLines</jtok>
+<jtok eid="6" type="parameter_type" span="230:44:230:50">String</jtok>
+<jtok eid="6" type="parameter_name" span="230:51:230:63">resourceFile</jtok>
+<jtok eid="6" type="parameter_name" span="231:17:231:37">ignoreCommentedLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:13:233:25">resourceFile</jtok>
+<jtok eid="6" type="local_variable_name" span="238:16:238:21">bytes</jtok>
+<jtok eid="6" type="primary_name_ref" span="238:24:238:38">ResourceLoader</jtok>
+<jtok eid="6" type="method_call" span="238:39:238:47">instance</jtok>
+<jtok eid="6" type="method_call" span="238:50:238:78">getBytesFromResourceLocation</jtok>
+<jtok eid="6" type="primary_name_ref" span="238:79:238:91">resourceFile</jtok>
+<jtok eid="6" type="primary_name_ref" span="240:13:240:18">bytes</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="245:9:245:29">ByteArrayInputStream</jtok>
+<jtok eid="6" type="local_variable_name" span="245:30:245:37">sReader</jtok>
+<jtok eid="6" type="constructor_call" span="245:44:245:64">ByteArrayInputStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="245:65:245:70">bytes</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="246:9:246:25">LineNumberReader</jtok>
+<jtok eid="6" type="local_variable_name" span="246:26:246:29">lnr</jtok>
+<jtok eid="6" type="constructor_call" span="246:36:246:52">LineNumberReader</jtok>
+<jtok eid="6" type="constructor_call" span="246:57:246:74">InputStreamReader</jtok>
+<jtok eid="6" type="primary_name_ref" span="247:21:247:28">sReader</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="249:9:249:15">String</jtok>
+<jtok eid="6" type="local_variable_name" span="249:16:249:20">line</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="250:9:250:15">Vector</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="250:16:250:22">String</jtok>
+<jtok eid="6" type="local_variable_name" span="250:24:250:30">vector</jtok>
+<jtok eid="6" type="constructor_call" span="250:37:250:43">Vector</jtok>
+<jtok eid="6" type="constructor_call" span="250:44:250:50">String</jtok>
+<jtok eid="6" type="primary_name_ref" span="254:21:254:25">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="254:28:254:31">lnr</jtok>
+<jtok eid="6" type="method_call" span="254:32:254:40">readLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="256:22:256:42">ignoreCommentedLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="258:27:258:31">line</jtok>
+<jtok eid="6" type="method_call" span="258:32:258:38">charAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="260:25:260:31">vector</jtok>
+<jtok eid="6" type="method_call" span="260:32:260:35">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="260:36:260:40">line</jtok>
+<jtok eid="6" type="line_comment" span="262:25:262:63">//		  System.out.println("ADD:"+line);</jtok>
+<jtok eid="6" type="primary_name_ref" span="267:21:267:27">vector</jtok>
+<jtok eid="6" type="method_call" span="267:28:267:31">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="267:32:267:36">line</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="271:17:271:28">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="271:29:271:31">ex</jtok>
+<jtok eid="6" type="primary_name_ref" span="273:13:273:15">ex</jtok>
+<jtok eid="6" type="method_call" span="273:16:273:31">printStackTrace</jtok>
+<jtok eid="6" type="primary_name_ref" span="276:16:276:22">vector</jtok>
+<jtok eid="1" type="block_comment" span="279:5:281:84">/*-------------------------------------------------------------------------*
+     * private methods
+     *-------------------------------------------------------------------------  */</jtok>
+<jtok eid="1" type="block_comment" span="283:5:288:8">/**
+     *  Gets the byte data from a file.
+     *
+     * @param  fileName  Description of the Parameter
+     * @return           the byte array of the file.
+     */</jtok>
+<jtok eid="7" type="method_name" span="289:20:289:36">getBytesFromFile</jtok>
+<jtok eid="7" type="parameter_type" span="289:37:289:43">String</jtok>
+<jtok eid="7" type="parameter_name" span="289:44:289:52">fileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="291:13:291:21">fileName</jtok>
+<jtok eid="7" type="method_call" span="291:22:291:32">startsWith</jtok>
+<jtok eid="7" type="string_literal" span="291:33:291:45">"/cygdrive/"</jtok>
+<jtok eid="7" type="local_variable_name" span="293:17:293:23">length</jtok>
+<jtok eid="7" type="string_literal" span="293:26:293:38">"/cygdrive/"</jtok>
+<jtok eid="7" type="method_call" span="293:39:293:45">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:13:294:21">fileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:24:294:32">fileName</jtok>
+<jtok eid="7" type="method_call" span="294:33:294:42">substring</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:43:294:49">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:51:294:57">length</jtok>
+<jtok eid="7" type="string_literal" span="294:65:294:68">":"</jtok>
+<jtok eid="7" type="primary_name_ref" span="295:17:295:25">fileName</jtok>
+<jtok eid="7" type="method_call" span="295:26:295:35">substring</jtok>
+<jtok eid="7" type="primary_name_ref" span="295:36:295:42">length</jtok>
+<jtok eid="7" type="line_comment" span="298:9:298:39">//if (logger.isDebugEnabled())</jtok>
+<jtok eid="7" type="line_comment" span="299:9:299:12">//{</jtok>
+<jtok eid="7" type="line_comment" span="300:9:300:67">//    logger.debug("Trying to get file from " + fileName);</jtok>
+<jtok eid="7" type="line_comment" span="301:9:301:12">//}</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="303:9:303:13">File</jtok>
+<jtok eid="7" type="local_variable_name" span="303:14:303:18">file</jtok>
+<jtok eid="7" type="constructor_call" span="303:25:303:29">File</jtok>
+<jtok eid="7" type="primary_name_ref" span="303:30:303:38">fileName</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="304:9:304:24">FileInputStream</jtok>
+<jtok eid="7" type="local_variable_name" span="304:25:304:28">fis</jtok>
+<jtok eid="7" type="primary_name_ref" span="308:13:308:16">fis</jtok>
+<jtok eid="7" type="constructor_call" span="308:23:308:38">FileInputStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="308:39:308:43">file</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="310:17:310:26">Exception</jtok>
+<jtok eid="7" type="local_variable_name" span="310:27:310:28">e</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="315:9:315:28">BufferedInputStream</jtok>
+<jtok eid="7" type="local_variable_name" span="315:29:315:32">bis</jtok>
+<jtok eid="7" type="constructor_call" span="315:39:315:58">BufferedInputStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="315:59:315:62">fis</jtok>
+<jtok eid="7" type="line_comment" span="317:9:317:52">// only files with &lt;65536 bytes are allowed</jtok>
+<jtok eid="7" type="line_comment" span="318:9:318:114">//if( file.length() &gt; 65536 ) System.out.println("Resource files should be smaller than 65536 bytes...");</jtok>
+<jtok eid="7" type="local_variable_name" span="319:13:319:17">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="319:26:319:30">file</jtok>
+<jtok eid="7" type="method_call" span="319:31:319:37">length</jtok>
+<jtok eid="7" type="local_variable_name" span="320:16:320:17">b</jtok>
+<jtok eid="7" type="primary_name_ref" span="320:29:320:33">size</jtok>
+<jtok eid="7" type="local_variable_name" span="321:13:321:15">rb</jtok>
+<jtok eid="7" type="local_variable_name" span="322:13:322:18">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="326:21:326:25">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="326:28:326:30">rb</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:17:328:22">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:25:328:28">bis</jtok>
+<jtok eid="7" type="method_call" span="328:29:328:33">read</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:34:328:35">b</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:37:328:39">rb</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:41:328:45">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:48:328:50">rb</jtok>
+<jtok eid="7" type="primary_name_ref" span="330:21:330:26">chunk</jtok>
+<jtok eid="7" type="primary_name_ref" span="335:17:335:19">rb</jtok>
+<jtok eid="7" type="primary_name_ref" span="335:23:335:28">chunk</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="338:17:338:26">Exception</jtok>
+<jtok eid="7" type="local_variable_name" span="338:27:338:28">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="343:16:343:17">b</jtok>
+<jtok eid="1" type="block_comment" span="346:5:351:8">/**
+     *  Gets the byte data from a file.
+     *
+     * @param  fileName  Description of the Parameter
+     * @return           the byte array of the file.
+     */</jtok>
+<jtok eid="8" type="method_name" span="352:20:352:38">getBytesFromStream</jtok>
+<jtok eid="8" type="parameter_type" span="352:39:352:50">InputStream</jtok>
+<jtok eid="8" type="parameter_name" span="352:51:352:57">stream</jtok>
+<jtok eid="8" type="line_comment" span="354:9:354:39">//if (logger.isDebugEnabled())</jtok>
+<jtok eid="8" type="line_comment" span="355:9:355:12">//{</jtok>
+<jtok eid="8" type="line_comment" span="356:9:356:62">//    logger.debug("Trying to get file from stream");</jtok>
+<jtok eid="8" type="line_comment" span="357:9:357:12">//}</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="359:9:359:28">BufferedInputStream</jtok>
+<jtok eid="8" type="local_variable_name" span="359:29:359:32">bis</jtok>
+<jtok eid="8" type="constructor_call" span="359:39:359:58">BufferedInputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="359:59:359:65">stream</jtok>
+<jtok eid="8" type="local_variable_name" span="363:17:363:21">size</jtok>
+<jtok eid="8" type="primary_name_ref" span="363:24:363:27">bis</jtok>
+<jtok eid="8" type="method_call" span="363:28:363:37">available</jtok>
+<jtok eid="8" type="local_variable_name" span="364:20:364:21">b</jtok>
+<jtok eid="8" type="primary_name_ref" span="364:33:364:37">size</jtok>
+<jtok eid="8" type="local_variable_name" span="365:17:365:19">rb</jtok>
+<jtok eid="8" type="local_variable_name" span="366:17:366:22">chunk</jtok>
+<jtok eid="8" type="primary_name_ref" span="368:21:368:25">size</jtok>
+<jtok eid="8" type="primary_name_ref" span="368:28:368:30">rb</jtok>
+<jtok eid="8" type="primary_name_ref" span="370:17:370:22">chunk</jtok>
+<jtok eid="8" type="primary_name_ref" span="370:25:370:28">bis</jtok>
+<jtok eid="8" type="method_call" span="370:29:370:33">read</jtok>
+<jtok eid="8" type="primary_name_ref" span="370:34:370:35">b</jtok>
+<jtok eid="8" type="primary_name_ref" span="370:37:370:39">rb</jtok>
+<jtok eid="8" type="primary_name_ref" span="370:41:370:45">size</jtok>
+<jtok eid="8" type="primary_name_ref" span="370:48:370:50">rb</jtok>
+<jtok eid="8" type="primary_name_ref" span="372:21:372:26">chunk</jtok>
+<jtok eid="8" type="primary_name_ref" span="377:17:377:19">rb</jtok>
+<jtok eid="8" type="primary_name_ref" span="377:23:377:28">chunk</jtok>
+<jtok eid="8" type="primary_name_ref" span="380:20:380:21">b</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="382:17:382:26">Exception</jtok>
+<jtok eid="8" type="local_variable_name" span="382:27:382:28">e</jtok>
+<jtok eid="0" type="block_comment" span="389:1:391:78">/*-------------------------------------------------------------------------*
+ * END
+ *-------------------------------------------------------------------------*/</jtok>
+<jtok eid="0" type="line_comment" span="393:1:393:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="line_comment" span="394:1:394:17">//  END OF FILE.</jtok>
+<jtok eid="0" type="line_comment" span="395:1:395:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+</jdoc>

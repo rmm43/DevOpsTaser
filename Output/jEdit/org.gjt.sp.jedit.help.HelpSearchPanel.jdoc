@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.help.HelpSearchPanel" jls="java5">
+<jent id="0" type="file" span="0:0:298:2">Source/jEdit/org/gjt/sp/jedit/help/HelpSearchPanel.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:298:1">org.gjt.sp.jedit.help.HelpSearchPanel</jent>
+<jent id="2" pid="1" type="method" span="39:2:58:2">org.gjt.sp.jedit.help.HelpSearchPanel.HelpSearchPanel(HelpViewerInterface)</jent>
+<jent id="3" pid="1" type="method" span="66:2:85:2">org.gjt.sp.jedit.help.HelpSearchPanel.getHelpIndex()</jent>
+<jent id="4" pid="1" type="class" span="88:2:133:2">org.gjt.sp.jedit.help.HelpSearchPanel.ResultIcon</jent>
+<jent id="5" pid="4" type="method" span="104:3:107:3">org.gjt.sp.jedit.help.HelpSearchPanel.ResultIcon.ResultIcon(int)</jent>
+<jent id="6" pid="4" type="method" span="109:3:112:3">org.gjt.sp.jedit.help.HelpSearchPanel.ResultIcon.getIconWidth()</jent>
+<jent id="7" pid="4" type="method" span="114:3:117:3">org.gjt.sp.jedit.help.HelpSearchPanel.ResultIcon.getIconHeight()</jent>
+<jent id="8" pid="4" type="method" span="119:3:132:3">org.gjt.sp.jedit.help.HelpSearchPanel.ResultIcon.paintIcon(Component,Graphics,int,int)</jent>
+<jent id="9" pid="1" type="class" span="136:2:162:2">org.gjt.sp.jedit.help.HelpSearchPanel.ResultRenderer</jent>
+<jent id="10" pid="9" type="method" span="138:3:161:3">org.gjt.sp.jedit.help.HelpSearchPanel.ResultRenderer.getListCellRendererComponent(JList,Object,int,boolean,boolean)</jent>
+<jent id="11" pid="1" type="class" span="165:2:177:2">org.gjt.sp.jedit.help.HelpSearchPanel.Result</jent>
+<jent id="12" pid="11" type="method" span="171:3:176:3">org.gjt.sp.jedit.help.HelpSearchPanel.Result.Result(HelpIndex.HelpFile,int)</jent>
+<jent id="13" pid="1" type="class" span="180:2:189:2">org.gjt.sp.jedit.help.HelpSearchPanel.ResultCompare</jent>
+<jent id="14" pid="13" type="method" span="182:3:188:3">org.gjt.sp.jedit.help.HelpSearchPanel.ResultCompare.compare(Result,Result)</jent>
+<jent id="15" pid="1" type="class" span="192:2:282:2">org.gjt.sp.jedit.help.HelpSearchPanel.ActionHandler</jent>
+<jent id="16" pid="15" type="method" span="194:3:281:3">org.gjt.sp.jedit.help.HelpSearchPanel.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="17" pid="16" type="class" span="207:4:262:4">org.gjt.sp.jedit.help.HelpSearchPanel.ActionHandler.actionPerformed(ActionEvent).$1</jent>
+<jent id="18" pid="17" type="method" span="208:5:261:5">org.gjt.sp.jedit.help.HelpSearchPanel.ActionHandler.actionPerformed(ActionEvent).$1.run()</jent>
+<jent id="19" pid="16" type="class" span="265:4:279:4">org.gjt.sp.jedit.help.HelpSearchPanel.ActionHandler.actionPerformed(ActionEvent).$2</jent>
+<jent id="20" pid="19" type="method" span="266:5:278:5">org.gjt.sp.jedit.help.HelpSearchPanel.ActionHandler.actionPerformed(ActionEvent).$2.run()</jent>
+<jent id="21" pid="1" type="class" span="285:2:297:2">org.gjt.sp.jedit.help.HelpSearchPanel.MouseHandler</jent>
+<jent id="22" pid="21" type="method" span="287:3:296:3">org.gjt.sp.jedit.help.HelpSearchPanel.MouseHandler.mouseReleased(MouseEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * HelpSearchPanel.java - Help search GUI
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="36:14:36:29">HelpSearchPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:38:36:44">JPanel</jtok>
+<jtok eid="1" type="line_comment" span="38:2:38:35">//{{{ HelpSearchPanel constructor</jtok>
+<jtok eid="2" type="method_name" span="39:9:39:24">HelpSearchPanel</jtok>
+<jtok eid="2" type="parameter_type" span="39:25:39:44">HelpViewerInterface</jtok>
+<jtok eid="2" type="parameter_name" span="39:45:39:55">helpViewer</jtok>
+<jtok eid="2" type="constructor_call" span="41:13:41:25">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="43:8:43:18">helpViewer</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:21:43:31">helpViewer</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:3:45:6">Box</jtok>
+<jtok eid="2" type="local_variable_name" span="45:7:45:10">box</jtok>
+<jtok eid="2" type="constructor_call" span="45:17:45:20">Box</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:21:45:30">BoxLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="45:31:45:37">X_AXIS</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:3:46:6">box</jtok>
+<jtok eid="2" type="method_call" span="46:7:46:10">add</jtok>
+<jtok eid="2" type="constructor_call" span="46:15:46:21">JLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:22:46:27">jEdit</jtok>
+<jtok eid="2" type="method_call" span="46:28:46:39">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="46:40:46:67">"helpviewer.search.caption"</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:3:47:6">box</jtok>
+<jtok eid="2" type="method_call" span="47:7:47:10">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:11:47:14">Box</jtok>
+<jtok eid="2" type="method_call" span="47:15:47:36">createHorizontalStrut</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:6">box</jtok>
+<jtok eid="2" type="method_call" span="48:7:48:10">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:11:48:22">searchField</jtok>
+<jtok eid="2" type="constructor_call" span="48:29:48:45">HistoryTextField</jtok>
+<jtok eid="2" type="string_literal" span="48:46:48:65">"helpviewer.search"</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:14">searchField</jtok>
+<jtok eid="2" type="method_call" span="49:15:49:32">addActionListener</jtok>
+<jtok eid="2" type="constructor_call" span="49:37:49:50">ActionHandler</jtok>
+<jtok eid="2" type="method_call" span="51:3:51:6">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:7:51:19">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="51:20:51:25">NORTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:26:51:29">box</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:3:53:10">results</jtok>
+<jtok eid="2" type="constructor_call" span="53:17:53:22">JList</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:3:54:10">results</jtok>
+<jtok eid="2" type="method_call" span="54:11:54:27">addMouseListener</jtok>
+<jtok eid="2" type="constructor_call" span="54:32:54:44">MouseHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:10">results</jtok>
+<jtok eid="2" type="method_call" span="55:11:55:27">setSelectionMode</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:28:55:46">ListSelectionModel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:47:55:63">SINGLE_SELECTION</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:3:56:10">results</jtok>
+<jtok eid="2" type="method_call" span="56:11:56:26">setCellRenderer</jtok>
+<jtok eid="2" type="constructor_call" span="56:31:56:45">ResultRenderer</jtok>
+<jtok eid="2" type="method_call" span="57:3:57:6">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:7:57:19">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="57:20:57:26">CENTER</jtok>
+<jtok eid="2" type="constructor_call" span="57:31:57:42">JScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:43:57:50">results</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="61:10:61:29">HelpViewerInterface</jtok>
+<jtok eid="1" type="field_name" span="61:30:61:40">helpViewer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="62:10:62:26">HistoryTextField</jtok>
+<jtok eid="1" type="field_name" span="62:27:62:38">searchField</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="63:10:63:15">JList</jtok>
+<jtok eid="1" type="field_name" span="63:16:63:23">results</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:10:64:19">HelpIndex</jtok>
+<jtok eid="1" type="field_name" span="64:20:64:25">index</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:10:66:19">HelpIndex</jtok>
+<jtok eid="3" type="method_name" span="66:20:66:32">getHelpIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:6:68:11">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:4:70:9">index</jtok>
+<jtok eid="3" type="constructor_call" span="70:16:70:25">HelpIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:5:73:10">index</jtok>
+<jtok eid="3" type="method_call" span="73:11:73:26">indexEditorHelp</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="75:10:75:19">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="75:20:75:21">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:5:77:10">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:5:78:8">Log</jtok>
+<jtok eid="3" type="method_call" span="78:9:78:12">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:13:78:16">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="78:17:78:22">ERROR</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:28:78:29">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:5:79:17">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="79:18:79:23">error</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:24:79:34">helpViewer</jtok>
+<jtok eid="3" type="method_call" span="79:35:79:47">getComponent</jtok>
+<jtok eid="3" type="string_literal" span="79:50:79:75">"helpviewer.search.error"</jtok>
+<jtok eid="3" type="constructor_call" span="80:10:80:16">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:21:80:22">e</jtok>
+<jtok eid="3" type="method_call" span="80:23:80:31">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:10:84:15">index</jtok>
+<jtok eid="1" type="line_comment" span="85:4:85:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:24">//{{{ ResultIcon class</jtok>
+<jtok eid="4" type="class_name" span="88:15:88:25">ResultIcon</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="88:37:88:41">Icon</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="90:18:90:32">RenderingHints</jtok>
+<jtok eid="4" type="field_name" span="90:33:90:47">renderingHints</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="94:4:94:7">Map</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="94:8:94:22">RenderingHints</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="94:23:94:26">Key</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="94:28:94:34">Object</jtok>
+<jtok eid="4" type="field_name" span="94:36:94:41">hints</jtok>
+<jtok eid="4" type="constructor_call" span="94:48:94:55">HashMap</jtok>
+<jtok eid="4" type="constructor_call" span="94:56:94:70">RenderingHints</jtok>
+<jtok eid="4" type="constructor_call" span="94:71:94:74">Key</jtok>
+<jtok eid="4" type="constructor_call" span="94:76:94:82">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:4:96:9">hints</jtok>
+<jtok eid="4" type="method_call" span="96:10:96:13">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:14:96:28">RenderingHints</jtok>
+<jtok eid="4" type="qualified_name_ref" span="96:29:96:42">KEY_RENDERING</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:44:96:58">RenderingHints</jtok>
+<jtok eid="4" type="qualified_name_ref" span="96:59:96:79">VALUE_RENDER_QUALITY</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:4:97:9">hints</jtok>
+<jtok eid="4" type="method_call" span="97:10:97:13">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:14:97:28">RenderingHints</jtok>
+<jtok eid="4" type="qualified_name_ref" span="97:29:97:45">KEY_ANTIALIASING</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:47:97:61">RenderingHints</jtok>
+<jtok eid="4" type="qualified_name_ref" span="97:62:97:80">VALUE_ANTIALIAS_ON</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:4:99:18">renderingHints</jtok>
+<jtok eid="4" type="constructor_call" span="99:25:99:39">RenderingHints</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:40:99:45">hints</jtok>
+<jtok eid="4" type="field_name" span="102:15:102:19">rank</jtok>
+<jtok eid="5" type="method_name" span="104:3:104:13">ResultIcon</jtok>
+<jtok eid="5" type="parameter_name" span="104:18:104:22">rank</jtok>
+<jtok eid="5" type="qualified_name_ref" span="106:9:106:13">rank</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:16:106:20">rank</jtok>
+<jtok eid="6" type="method_name" span="109:14:109:26">getIconWidth</jtok>
+<jtok eid="7" type="method_name" span="114:14:114:27">getIconHeight</jtok>
+<jtok eid="8" type="method_name" span="119:15:119:24">paintIcon</jtok>
+<jtok eid="8" type="parameter_type" span="119:25:119:34">Component</jtok>
+<jtok eid="8" type="parameter_name" span="119:35:119:36">c</jtok>
+<jtok eid="8" type="parameter_type" span="119:38:119:46">Graphics</jtok>
+<jtok eid="8" type="parameter_name" span="119:47:119:48">g</jtok>
+<jtok eid="8" type="parameter_name" span="119:54:119:55">x</jtok>
+<jtok eid="8" type="parameter_name" span="119:61:119:62">y</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="121:4:121:14">Graphics2D</jtok>
+<jtok eid="8" type="local_variable_name" span="121:15:121:18">g2d</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="121:22:121:32">Graphics2D</jtok>
+<jtok eid="8" type="primary_name_ref" span="121:33:121:34">g</jtok>
+<jtok eid="8" type="method_call" span="121:35:121:41">create</jtok>
+<jtok eid="8" type="primary_name_ref" span="122:4:122:7">g2d</jtok>
+<jtok eid="8" type="method_call" span="122:8:122:25">setRenderingHints</jtok>
+<jtok eid="8" type="primary_name_ref" span="122:26:122:40">renderingHints</jtok>
+<jtok eid="8" type="local_variable_name" span="124:12:124:13">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="124:19:124:20">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="124:26:124:27">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:8:126:12">rank</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:15:126:16">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="127:6:127:9">g2d</jtok>
+<jtok eid="8" type="method_call" span="127:10:127:18">setColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="127:19:127:28">UIManager</jtok>
+<jtok eid="8" type="method_call" span="127:29:127:37">getColor</jtok>
+<jtok eid="8" type="string_literal" span="127:38:127:56">"Label.foreground"</jtok>
+<jtok eid="8" type="primary_name_ref" span="129:6:129:9">g2d</jtok>
+<jtok eid="8" type="method_call" span="129:10:129:18">setColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="129:19:129:28">UIManager</jtok>
+<jtok eid="8" type="method_call" span="129:29:129:37">getColor</jtok>
+<jtok eid="8" type="string_literal" span="129:38:129:64">"Label.disabledForeground"</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:5:130:8">g2d</jtok>
+<jtok eid="8" type="method_call" span="130:9:130:17">fillOval</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:18:130:19">x</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:20:130:21">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:25:130:26">y</jtok>
+<jtok eid="1" type="line_comment" span="133:4:133:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="135:2:135:28">//{{{ ResultRenderer class</jtok>
+<jtok eid="9" type="class_name" span="136:15:136:29">ResultRenderer</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="136:38:136:61">DefaultListCellRenderer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="138:10:138:19">Component</jtok>
+<jtok eid="10" type="method_name" span="138:20:138:48">getListCellRendererComponent</jtok>
+<jtok eid="10" type="parameter_type" span="139:4:139:9">JList</jtok>
+<jtok eid="10" type="parameter_name" span="139:10:139:14">list</jtok>
+<jtok eid="10" type="parameter_type" span="140:4:140:10">Object</jtok>
+<jtok eid="10" type="parameter_name" span="140:11:140:16">value</jtok>
+<jtok eid="10" type="parameter_name" span="141:8:141:13">index</jtok>
+<jtok eid="10" type="parameter_name" span="142:12:142:22">isSelected</jtok>
+<jtok eid="10" type="parameter_name" span="143:12:143:24">cellHasFocus</jtok>
+<jtok eid="10" type="method_call" span="145:10:145:38">getListCellRendererComponent</jtok>
+<jtok eid="10" type="primary_name_ref" span="145:39:145:43">list</jtok>
+<jtok eid="10" type="primary_name_ref" span="145:49:145:54">index</jtok>
+<jtok eid="10" type="primary_name_ref" span="146:5:146:15">isSelected</jtok>
+<jtok eid="10" type="primary_name_ref" span="146:16:146:28">cellHasFocus</jtok>
+<jtok eid="10" type="primary_name_ref" span="148:7:148:12">value</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="148:24:148:30">String</jtok>
+<jtok eid="10" type="method_call" span="150:5:150:12">setIcon</jtok>
+<jtok eid="10" type="method_call" span="151:5:151:12">setText</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="151:14:151:20">String</jtok>
+<jtok eid="10" type="primary_name_ref" span="151:21:151:26">value</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="155:5:155:11">Result</jtok>
+<jtok eid="10" type="local_variable_name" span="155:12:155:18">result</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="155:22:155:28">Result</jtok>
+<jtok eid="10" type="primary_name_ref" span="155:29:155:34">value</jtok>
+<jtok eid="10" type="method_call" span="156:5:156:12">setIcon</jtok>
+<jtok eid="10" type="constructor_call" span="156:17:156:27">ResultIcon</jtok>
+<jtok eid="10" type="primary_name_ref" span="156:28:156:34">result</jtok>
+<jtok eid="10" type="qualified_name_ref" span="156:35:156:39">rank</jtok>
+<jtok eid="10" type="method_call" span="157:5:157:12">setText</jtok>
+<jtok eid="10" type="primary_name_ref" span="157:13:157:19">result</jtok>
+<jtok eid="10" type="qualified_name_ref" span="157:20:157:25">title</jtok>
+<jtok eid="1" type="line_comment" span="162:4:162:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="164:2:164:20">//{{{ Result class</jtok>
+<jtok eid="11" type="class_name" span="165:15:165:21">Result</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="167:3:167:9">String</jtok>
+<jtok eid="11" type="field_name" span="167:10:167:14">file</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="168:3:168:9">String</jtok>
+<jtok eid="11" type="field_name" span="168:10:168:15">title</jtok>
+<jtok eid="11" type="field_name" span="169:7:169:11">rank</jtok>
+<jtok eid="12" type="method_name" span="171:3:171:9">Result</jtok>
+<jtok eid="12" type="parameter_type" span="171:10:171:19">HelpIndex</jtok>
+<jtok eid="12" type="parameter_type" span="171:20:171:28">HelpFile</jtok>
+<jtok eid="12" type="parameter_name" span="171:29:171:33">file</jtok>
+<jtok eid="12" type="parameter_name" span="171:39:171:44">count</jtok>
+<jtok eid="12" type="qualified_name_ref" span="173:9:173:13">file</jtok>
+<jtok eid="12" type="primary_name_ref" span="173:16:173:20">file</jtok>
+<jtok eid="12" type="qualified_name_ref" span="173:21:173:25">file</jtok>
+<jtok eid="12" type="qualified_name_ref" span="174:9:174:14">title</jtok>
+<jtok eid="12" type="primary_name_ref" span="174:17:174:21">file</jtok>
+<jtok eid="12" type="qualified_name_ref" span="174:22:174:27">title</jtok>
+<jtok eid="12" type="primary_name_ref" span="175:4:175:8">rank</jtok>
+<jtok eid="12" type="primary_name_ref" span="175:11:175:16">count</jtok>
+<jtok eid="1" type="line_comment" span="177:4:177:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="179:2:179:27">//{{{ ResultCompare class</jtok>
+<jtok eid="13" type="class_name" span="180:15:180:28">ResultCompare</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="180:40:180:50">Comparator</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="180:51:180:57">Result</jtok>
+<jtok eid="14" type="method_name" span="182:14:182:21">compare</jtok>
+<jtok eid="14" type="parameter_type" span="182:22:182:28">Result</jtok>
+<jtok eid="14" type="parameter_name" span="182:29:182:31">r1</jtok>
+<jtok eid="14" type="parameter_type" span="182:33:182:39">Result</jtok>
+<jtok eid="14" type="parameter_name" span="182:40:182:42">r2</jtok>
+<jtok eid="14" type="primary_name_ref" span="184:7:184:9">r1</jtok>
+<jtok eid="14" type="qualified_name_ref" span="184:10:184:14">rank</jtok>
+<jtok eid="14" type="primary_name_ref" span="184:18:184:20">r2</jtok>
+<jtok eid="14" type="qualified_name_ref" span="184:21:184:25">rank</jtok>
+<jtok eid="14" type="primary_name_ref" span="185:12:185:14">r1</jtok>
+<jtok eid="14" type="qualified_name_ref" span="185:15:185:20">title</jtok>
+<jtok eid="14" type="method_call" span="185:21:185:30">compareTo</jtok>
+<jtok eid="14" type="primary_name_ref" span="185:31:185:33">r2</jtok>
+<jtok eid="14" type="qualified_name_ref" span="185:34:185:39">title</jtok>
+<jtok eid="14" type="primary_name_ref" span="187:12:187:14">r2</jtok>
+<jtok eid="14" type="qualified_name_ref" span="187:15:187:19">rank</jtok>
+<jtok eid="14" type="primary_name_ref" span="187:22:187:24">r1</jtok>
+<jtok eid="14" type="qualified_name_ref" span="187:25:187:29">rank</jtok>
+<jtok eid="1" type="line_comment" span="189:4:189:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="191:2:191:27">//{{{ ActionHandler class</jtok>
+<jtok eid="15" type="class_name" span="192:8:192:21">ActionHandler</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="192:33:192:47">ActionListener</jtok>
+<jtok eid="16" type="method_name" span="194:15:194:30">actionPerformed</jtok>
+<jtok eid="16" type="parameter_type" span="194:31:194:42">ActionEvent</jtok>
+<jtok eid="16" type="parameter_name" span="194:43:194:46">evt</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="196:10:196:19">HelpIndex</jtok>
+<jtok eid="16" type="local_variable_name" span="196:20:196:25">index</jtok>
+<jtok eid="16" type="method_call" span="196:28:196:40">getHelpIndex</jtok>
+<jtok eid="16" type="primary_name_ref" span="197:7:197:12">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="200:4:200:11">results</jtok>
+<jtok eid="16" type="method_call" span="200:12:200:23">setListData</jtok>
+<jtok eid="16" type="constructor_call" span="200:28:200:34">String</jtok>
+<jtok eid="16" type="primary_name_ref" span="200:39:200:44">jEdit</jtok>
+<jtok eid="16" type="method_call" span="200:45:200:56">getProperty</jtok>
+<jtok eid="16" type="string_literal" span="201:5:201:27">"helpviewer.searching"</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="203:10:203:16">String</jtok>
+<jtok eid="16" type="local_variable_name" span="203:17:203:21">text</jtok>
+<jtok eid="16" type="primary_name_ref" span="203:24:203:35">searchField</jtok>
+<jtok eid="16" type="method_call" span="203:36:203:43">getText</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="204:10:204:16">Vector</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="204:17:204:23">Result</jtok>
+<jtok eid="16" type="local_variable_name" span="204:25:204:36">resultModel</jtok>
+<jtok eid="16" type="constructor_call" span="204:43:204:49">Vector</jtok>
+<jtok eid="16" type="constructor_call" span="204:50:204:56">Result</jtok>
+<jtok eid="16" type="primary_name_ref" span="206:4:206:14">VFSManager</jtok>
+<jtok eid="16" type="method_call" span="206:15:206:30">runInWorkThread</jtok>
+<jtok eid="16" type="constructor_call" span="206:35:206:43">Runnable</jtok>
+<jtok eid="18" type="method_name" span="208:17:208:20">run</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="210:6:210:21">StringTokenizer</jtok>
+<jtok eid="18" type="local_variable_name" span="210:22:210:24">st</jtok>
+<jtok eid="18" type="constructor_call" span="210:31:210:46">StringTokenizer</jtok>
+<jtok eid="18" type="primary_name_ref" span="210:47:210:51">text</jtok>
+<jtok eid="18" type="string_literal" span="210:52:210:61">",.;:-? "</jtok>
+<jtok eid="18" type="line_comment" span="212:6:212:56">// we later use this to compute a relative ranking</jtok>
+<jtok eid="18" type="local_variable_name" span="213:10:213:17">maxRank</jtok>
+<jtok eid="18" type="primary_name_ref" span="215:12:215:14">st</jtok>
+<jtok eid="18" type="method_call" span="215:15:215:28">hasMoreTokens</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="217:7:217:13">String</jtok>
+<jtok eid="18" type="local_variable_name" span="217:14:217:18">word</jtok>
+<jtok eid="18" type="primary_name_ref" span="217:21:217:23">st</jtok>
+<jtok eid="18" type="method_call" span="217:24:217:33">nextToken</jtok>
+<jtok eid="18" type="method_call" span="217:36:217:47">toLowerCase</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="218:7:218:16">HelpIndex</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="218:17:218:21">Word</jtok>
+<jtok eid="18" type="local_variable_name" span="218:22:218:28">lookup</jtok>
+<jtok eid="18" type="primary_name_ref" span="218:31:218:36">index</jtok>
+<jtok eid="18" type="method_call" span="218:37:218:47">lookupWord</jtok>
+<jtok eid="18" type="primary_name_ref" span="218:48:218:52">word</jtok>
+<jtok eid="18" type="primary_name_ref" span="219:10:219:16">lookup</jtok>
+<jtok eid="18" type="local_variable_name" span="222:15:222:16">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="222:22:222:23">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="222:26:222:32">lookup</jtok>
+<jtok eid="18" type="qualified_name_ref" span="222:33:222:43">occurCount</jtok>
+<jtok eid="18" type="primary_name_ref" span="222:45:222:46">i</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="224:8:224:17">HelpIndex</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="224:18:224:22">Word</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="224:23:224:33">Occurrence</jtok>
+<jtok eid="18" type="local_variable_name" span="224:34:224:39">occur</jtok>
+<jtok eid="18" type="primary_name_ref" span="224:42:224:48">lookup</jtok>
+<jtok eid="18" type="qualified_name_ref" span="224:49:224:60">occurrences</jtok>
+<jtok eid="18" type="primary_name_ref" span="224:61:224:62">i</jtok>
+<jtok eid="18" type="local_variable_name" span="226:16:226:18">ok</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="228:8:228:17">HelpIndex</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="228:18:228:26">HelpFile</jtok>
+<jtok eid="18" type="local_variable_name" span="228:27:228:31">file</jtok>
+<jtok eid="18" type="primary_name_ref" span="228:34:228:39">index</jtok>
+<jtok eid="18" type="method_call" span="228:40:228:47">getFile</jtok>
+<jtok eid="18" type="primary_name_ref" span="228:48:228:53">occur</jtok>
+<jtok eid="18" type="qualified_name_ref" span="228:54:228:58">file</jtok>
+<jtok eid="18" type="local_variable_name" span="229:16:229:17">j</jtok>
+<jtok eid="18" type="primary_name_ref" span="229:23:229:24">j</jtok>
+<jtok eid="18" type="primary_name_ref" span="229:27:229:38">resultModel</jtok>
+<jtok eid="18" type="method_call" span="229:39:229:43">size</jtok>
+<jtok eid="18" type="primary_name_ref" span="229:47:229:48">j</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="231:9:231:15">Result</jtok>
+<jtok eid="18" type="local_variable_name" span="231:16:231:22">result</jtok>
+<jtok eid="18" type="primary_name_ref" span="231:25:231:36">resultModel</jtok>
+<jtok eid="18" type="method_call" span="231:37:231:46">elementAt</jtok>
+<jtok eid="18" type="primary_name_ref" span="231:47:231:48">j</jtok>
+<jtok eid="18" type="primary_name_ref" span="232:12:232:18">result</jtok>
+<jtok eid="18" type="qualified_name_ref" span="232:19:232:23">file</jtok>
+<jtok eid="18" type="method_call" span="232:24:232:30">equals</jtok>
+<jtok eid="18" type="primary_name_ref" span="232:31:232:35">file</jtok>
+<jtok eid="18" type="qualified_name_ref" span="232:36:232:40">file</jtok>
+<jtok eid="18" type="primary_name_ref" span="234:10:234:16">result</jtok>
+<jtok eid="18" type="qualified_name_ref" span="234:17:234:21">rank</jtok>
+<jtok eid="18" type="primary_name_ref" span="234:25:234:30">occur</jtok>
+<jtok eid="18" type="qualified_name_ref" span="234:31:234:36">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="235:10:235:16">result</jtok>
+<jtok eid="18" type="qualified_name_ref" span="235:17:235:21">rank</jtok>
+<jtok eid="18" type="line_comment" span="235:29:235:60">// multiple files w/ word bonus</jtok>
+<jtok eid="18" type="primary_name_ref" span="236:10:236:17">maxRank</jtok>
+<jtok eid="18" type="primary_name_ref" span="236:20:236:24">Math</jtok>
+<jtok eid="18" type="method_call" span="236:25:236:28">max</jtok>
+<jtok eid="18" type="primary_name_ref" span="236:29:236:35">result</jtok>
+<jtok eid="18" type="qualified_name_ref" span="236:36:236:40">rank</jtok>
+<jtok eid="18" type="primary_name_ref" span="236:41:236:48">maxRank</jtok>
+<jtok eid="18" type="primary_name_ref" span="237:10:237:12">ok</jtok>
+<jtok eid="18" type="primary_name_ref" span="242:12:242:14">ok</jtok>
+<jtok eid="18" type="primary_name_ref" span="244:9:244:16">maxRank</jtok>
+<jtok eid="18" type="primary_name_ref" span="244:19:244:23">Math</jtok>
+<jtok eid="18" type="method_call" span="244:24:244:27">max</jtok>
+<jtok eid="18" type="primary_name_ref" span="244:28:244:33">occur</jtok>
+<jtok eid="18" type="qualified_name_ref" span="244:34:244:39">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="244:40:244:47">maxRank</jtok>
+<jtok eid="18" type="primary_name_ref" span="245:9:245:20">resultModel</jtok>
+<jtok eid="18" type="method_call" span="245:21:245:31">addElement</jtok>
+<jtok eid="18" type="constructor_call" span="245:36:245:42">Result</jtok>
+<jtok eid="18" type="primary_name_ref" span="245:43:245:47">file</jtok>
+<jtok eid="18" type="primary_name_ref" span="245:48:245:53">occur</jtok>
+<jtok eid="18" type="qualified_name_ref" span="245:54:245:59">count</jtok>
+<jtok eid="18" type="primary_name_ref" span="250:9:250:16">maxRank</jtok>
+<jtok eid="18" type="line_comment" span="252:7:252:63">// turn the rankings into relative rankings, from 1 to 4</jtok>
+<jtok eid="18" type="local_variable_name" span="253:15:253:16">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="253:22:253:23">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="253:26:253:37">resultModel</jtok>
+<jtok eid="18" type="method_call" span="253:38:253:42">size</jtok>
+<jtok eid="18" type="primary_name_ref" span="253:46:253:47">i</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="255:8:255:14">Result</jtok>
+<jtok eid="18" type="local_variable_name" span="255:15:255:21">result</jtok>
+<jtok eid="18" type="primary_name_ref" span="255:24:255:35">resultModel</jtok>
+<jtok eid="18" type="method_call" span="255:36:255:45">elementAt</jtok>
+<jtok eid="18" type="primary_name_ref" span="255:46:255:47">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="256:8:256:14">result</jtok>
+<jtok eid="18" type="qualified_name_ref" span="256:15:256:19">rank</jtok>
+<jtok eid="18" type="primary_name_ref" span="256:27:256:31">Math</jtok>
+<jtok eid="18" type="method_call" span="256:32:256:36">ceil</jtok>
+<jtok eid="18" type="primary_name_ref" span="256:45:256:51">result</jtok>
+<jtok eid="18" type="qualified_name_ref" span="256:52:256:56">rank</jtok>
+<jtok eid="18" type="primary_name_ref" span="256:63:256:70">maxRank</jtok>
+<jtok eid="18" type="primary_name_ref" span="259:7:259:18">Collections</jtok>
+<jtok eid="18" type="method_call" span="259:19:259:23">sort</jtok>
+<jtok eid="18" type="primary_name_ref" span="259:24:259:35">resultModel</jtok>
+<jtok eid="18" type="constructor_call" span="259:40:259:53">ResultCompare</jtok>
+<jtok eid="16" type="primary_name_ref" span="264:4:264:14">VFSManager</jtok>
+<jtok eid="16" type="method_call" span="264:15:264:29">runInAWTThread</jtok>
+<jtok eid="16" type="constructor_call" span="264:34:264:42">Runnable</jtok>
+<jtok eid="20" type="method_name" span="266:17:266:20">run</jtok>
+<jtok eid="20" type="primary_name_ref" span="268:9:268:20">resultModel</jtok>
+<jtok eid="20" type="method_call" span="268:21:268:28">isEmpty</jtok>
+<jtok eid="20" type="primary_name_ref" span="270:7:270:14">results</jtok>
+<jtok eid="20" type="method_call" span="270:15:270:26">setListData</jtok>
+<jtok eid="20" type="constructor_call" span="270:31:270:37">String</jtok>
+<jtok eid="20" type="primary_name_ref" span="271:8:271:13">jEdit</jtok>
+<jtok eid="20" type="method_call" span="271:14:271:25">getProperty</jtok>
+<jtok eid="20" type="string_literal" span="272:8:272:31">"helpviewer.no-results"</jtok>
+<jtok eid="20" type="method_call" span="274:7:274:17">getToolkit</jtok>
+<jtok eid="20" type="method_call" span="274:20:274:24">beep</jtok>
+<jtok eid="20" type="primary_name_ref" span="277:7:277:14">results</jtok>
+<jtok eid="20" type="method_call" span="277:15:277:26">setListData</jtok>
+<jtok eid="20" type="primary_name_ref" span="277:27:277:38">resultModel</jtok>
+<jtok eid="1" type="line_comment" span="282:4:282:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="284:2:284:26">//{{{ MouseHandler class</jtok>
+<jtok eid="21" type="class_name" span="285:15:285:27">MouseHandler</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="285:36:285:48">MouseAdapter</jtok>
+<jtok eid="22" type="method_name" span="287:15:287:28">mouseReleased</jtok>
+<jtok eid="22" type="parameter_type" span="287:29:287:39">MouseEvent</jtok>
+<jtok eid="22" type="parameter_name" span="287:40:287:43">evt</jtok>
+<jtok eid="22" type="local_variable_name" span="289:8:289:11">row</jtok>
+<jtok eid="22" type="primary_name_ref" span="289:14:289:21">results</jtok>
+<jtok eid="22" type="method_call" span="289:22:289:37">locationToIndex</jtok>
+<jtok eid="22" type="primary_name_ref" span="289:38:289:41">evt</jtok>
+<jtok eid="22" type="method_call" span="289:42:289:50">getPoint</jtok>
+<jtok eid="22" type="primary_name_ref" span="290:7:290:10">row</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="292:5:292:11">Result</jtok>
+<jtok eid="22" type="local_variable_name" span="292:12:292:18">result</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="292:22:292:28">Result</jtok>
+<jtok eid="22" type="primary_name_ref" span="292:29:292:36">results</jtok>
+<jtok eid="22" type="method_call" span="292:37:292:45">getModel</jtok>
+<jtok eid="22" type="method_call" span="293:7:293:19">getElementAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="293:20:293:23">row</jtok>
+<jtok eid="22" type="primary_name_ref" span="294:5:294:15">helpViewer</jtok>
+<jtok eid="22" type="method_call" span="294:16:294:23">gotoURL</jtok>
+<jtok eid="22" type="primary_name_ref" span="294:24:294:30">result</jtok>
+<jtok eid="22" type="qualified_name_ref" span="294:31:294:35">file</jtok>
+<jtok eid="1" type="line_comment" span="297:4:297:9">//}}}</jtok>
+</jdoc>

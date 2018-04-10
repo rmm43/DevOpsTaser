@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.DockablePanel" jls="java5">
+<jent id="0" type="file" span="0:0:317:2">Source/jEdit/org/gjt/sp/jedit/gui/DockablePanel.java</jent>
+<jent id="1" pid="0" type="class" span="44:1:317:1">org.gjt.sp.jedit.gui.DockablePanel</jent>
+<jent id="2" pid="1" type="method" span="50:2:60:2">org.gjt.sp.jedit.gui.DockablePanel.DockablePanel(PanelWindowContainer)</jent>
+<jent id="3" pid="1" type="method" span="63:2:66:2">org.gjt.sp.jedit.gui.DockablePanel.getWindowContainer()</jent>
+<jent id="4" pid="1" type="method" span="69:2:72:2">org.gjt.sp.jedit.gui.DockablePanel.showDockable(String)</jent>
+<jent id="5" pid="1" type="method" span="75:2:78:2">org.gjt.sp.jedit.gui.DockablePanel.getMinimumSize()</jent>
+<jent id="6" pid="1" type="method" span="81:2:114:2">org.gjt.sp.jedit.gui.DockablePanel.getPreferredSize()</jent>
+<jent id="7" pid="1" type="method" span="117:2:139:2">org.gjt.sp.jedit.gui.DockablePanel.setBounds(int,int,int,int)</jent>
+<jent id="8" pid="1" type="class" span="145:2:316:2">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler</jent>
+<jent id="9" pid="8" type="method" span="151:3:159:3">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler.mousePressed(MouseEvent)</jent>
+<jent id="10" pid="8" type="method" span="162:3:176:3">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler.mouseReleased(MouseEvent)</jent>
+<jent id="11" pid="8" type="method" span="179:3:230:3">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler.mouseMoved(MouseEvent)</jent>
+<jent id="12" pid="8" type="method" span="233:3:286:3">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler.mouseDragged(MouseEvent)</jent>
+<jent id="13" pid="8" type="method" span="289:3:296:3">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler.mouseExited(MouseEvent)</jent>
+<jent id="14" pid="8" type="method" span="299:3:313:3">org.gjt.sp.jedit.gui.DockablePanel.ResizeMouseHandler.getAppropriateCursor()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * PanelWindowContainer.java - holds dockable windows
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="41:1:43:4">/**
+ * @version $Id: DockablePanel.java 13259 2008-08-10 20:54:46Z shlomy $
+ */</jtok>
+<jtok eid="1" type="class_name" span="44:7:44:20">DockablePanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:29:44:35">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:10:46:30">PanelWindowContainer</jtok>
+<jtok eid="1" type="field_name" span="46:31:46:36">panel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:10:47:35">DockableWindowManagerImpl</jtok>
+<jtok eid="1" type="field_name" span="47:36:47:38">wm</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:33">//{{{ DockablePanel constructor</jtok>
+<jtok eid="2" type="method_name" span="50:2:50:15">DockablePanel</jtok>
+<jtok eid="2" type="parameter_type" span="50:16:50:36">PanelWindowContainer</jtok>
+<jtok eid="2" type="parameter_name" span="50:37:50:42">panel</jtok>
+<jtok eid="2" type="constructor_call" span="52:13:52:23">CardLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:8:54:13">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:16:54:21">panel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:8:55:10">wm</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:13:55:18">panel</jtok>
+<jtok eid="2" type="method_call" span="55:19:55:43">getDockableWindowManager</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:3:57:21">ResizeMouseHandler</jtok>
+<jtok eid="2" type="local_variable_name" span="57:22:57:40">resizeMouseHandler</jtok>
+<jtok eid="2" type="constructor_call" span="57:47:57:65">ResizeMouseHandler</jtok>
+<jtok eid="2" type="method_call" span="58:3:58:19">addMouseListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:20:58:38">resizeMouseHandler</jtok>
+<jtok eid="2" type="method_call" span="59:3:59:25">addMouseMotionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:26:59:44">resizeMouseHandler</jtok>
+<jtok eid="1" type="line_comment" span="60:4:60:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="62:2:62:35">//{{{ getWindowContainer() method</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="63:2:63:22">PanelWindowContainer</jtok>
+<jtok eid="3" type="method_name" span="63:23:63:41">getWindowContainer</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:10:65:15">panel</jtok>
+<jtok eid="1" type="line_comment" span="66:4:66:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="68:2:68:29">//{{{ showDockable() method</jtok>
+<jtok eid="4" type="method_name" span="69:7:69:19">showDockable</jtok>
+<jtok eid="4" type="parameter_type" span="69:20:69:26">String</jtok>
+<jtok eid="4" type="parameter_name" span="69:27:69:31">name</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="71:5:71:15">CardLayout</jtok>
+<jtok eid="4" type="method_call" span="71:16:71:25">getLayout</jtok>
+<jtok eid="4" type="method_call" span="71:29:71:33">show</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:39:71:43">name</jtok>
+<jtok eid="1" type="line_comment" span="72:4:72:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="74:2:74:31">//{{{ getMinimumSize() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="75:9:75:18">Dimension</jtok>
+<jtok eid="5" type="method_name" span="75:19:75:33">getMinimumSize</jtok>
+<jtok eid="5" type="constructor_call" span="77:14:77:23">Dimension</jtok>
+<jtok eid="1" type="line_comment" span="78:4:78:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="80:2:80:33">//{{{ getPreferredSize() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="81:9:81:18">Dimension</jtok>
+<jtok eid="6" type="method_name" span="81:19:81:35">getPreferredSize</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="83:9:83:15">String</jtok>
+<jtok eid="6" type="local_variable_name" span="83:16:83:24">position</jtok>
+<jtok eid="6" type="primary_name_ref" span="83:27:83:32">panel</jtok>
+<jtok eid="6" type="method_call" span="83:33:83:44">getPosition</jtok>
+<jtok eid="6" type="local_variable_name" span="84:13:84:22">dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="84:25:84:30">panel</jtok>
+<jtok eid="6" type="method_call" span="84:31:84:43">getDimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:6:86:11">panel</jtok>
+<jtok eid="6" type="method_call" span="86:12:86:22">getCurrent</jtok>
+<jtok eid="6" type="constructor_call" span="87:15:87:24">Dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:7:90:15">position</jtok>
+<jtok eid="6" type="method_call" span="90:16:90:22">equals</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:23:90:44">DockableWindowManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="90:45:90:48">TOP</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:8:91:16">position</jtok>
+<jtok eid="6" type="method_call" span="91:17:91:23">equals</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:24:91:45">DockableWindowManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="91:46:91:52">BOTTOM</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:8:93:17">dimension</jtok>
+<jtok eid="6" type="local_variable_name" span="95:10:95:16">height</jtok>
+<jtok eid="6" type="method_call" span="95:25:95:41">getPreferredSize</jtok>
+<jtok eid="6" type="qualified_name_ref" span="95:44:95:50">height</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:6:96:11">panel</jtok>
+<jtok eid="6" type="method_call" span="96:12:96:24">setDimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:25:96:31">height</jtok>
+<jtok eid="6" type="constructor_call" span="98:16:98:25">Dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:6:99:15">dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:18:99:38">PanelWindowContainer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="100:7:100:21">SPLITTER_WIDTH</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:8:104:17">dimension</jtok>
+<jtok eid="6" type="local_variable_name" span="106:10:106:15">width</jtok>
+<jtok eid="6" type="method_call" span="106:24:106:40">getPreferredSize</jtok>
+<jtok eid="6" type="qualified_name_ref" span="106:43:106:48">width</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:6:107:11">panel</jtok>
+<jtok eid="6" type="method_call" span="107:12:107:24">setDimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:25:107:30">width</jtok>
+<jtok eid="6" type="constructor_call" span="109:16:109:25">Dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:26:109:35">dimension</jtok>
+<jtok eid="6" type="primary_name_ref" span="110:6:110:26">PanelWindowContainer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="110:27:110:41">SPLITTER_WIDTH</jtok>
+<jtok eid="1" type="line_comment" span="114:4:114:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:26">//{{{ setBounds() method</jtok>
+<jtok eid="7" type="method_name" span="117:14:117:23">setBounds</jtok>
+<jtok eid="7" type="parameter_name" span="117:28:117:29">x</jtok>
+<jtok eid="7" type="parameter_name" span="117:35:117:36">y</jtok>
+<jtok eid="7" type="parameter_name" span="117:42:117:47">width</jtok>
+<jtok eid="7" type="parameter_name" span="117:53:117:59">height</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="119:9:119:15">String</jtok>
+<jtok eid="7" type="local_variable_name" span="119:16:119:24">position</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:27:119:32">panel</jtok>
+<jtok eid="7" type="method_call" span="119:33:119:44">getPosition</jtok>
+<jtok eid="7" type="local_variable_name" span="120:13:120:22">dimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="120:25:120:30">panel</jtok>
+<jtok eid="7" type="method_call" span="120:31:120:43">getDimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:6:122:14">position</jtok>
+<jtok eid="7" type="method_call" span="122:15:122:21">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:22:122:43">DockableWindowManager</jtok>
+<jtok eid="7" type="qualified_name_ref" span="122:44:122:47">TOP</jtok>
+<jtok eid="7" type="primary_name_ref" span="123:4:123:12">position</jtok>
+<jtok eid="7" type="method_call" span="123:13:123:19">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="123:20:123:41">DockableWindowManager</jtok>
+<jtok eid="7" type="qualified_name_ref" span="123:42:123:48">BOTTOM</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:7:125:16">dimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:25:125:31">height</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:35:125:55">PanelWindowContainer</jtok>
+<jtok eid="7" type="qualified_name_ref" span="125:56:125:70">SPLITTER_WIDTH</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:5:126:10">panel</jtok>
+<jtok eid="7" type="method_call" span="126:11:126:15">show</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="126:17:126:42">DockableWindowManagerImpl</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="126:43:126:48">Entry</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:5:128:10">panel</jtok>
+<jtok eid="7" type="method_call" span="128:11:128:23">setDimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:24:128:30">height</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:7:132:16">dimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:25:132:30">width</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:34:132:54">PanelWindowContainer</jtok>
+<jtok eid="7" type="qualified_name_ref" span="132:55:132:69">SPLITTER_WIDTH</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:5:133:10">panel</jtok>
+<jtok eid="7" type="method_call" span="133:11:133:15">show</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="133:17:133:42">DockableWindowManagerImpl</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="133:43:133:48">Entry</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:5:135:10">panel</jtok>
+<jtok eid="7" type="method_call" span="135:11:135:23">setDimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:24:135:29">width</jtok>
+<jtok eid="7" type="method_call" span="138:9:138:18">setBounds</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:19:138:20">x</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:21:138:22">y</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:23:138:28">width</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:29:138:35">height</jtok>
+<jtok eid="1" type="line_comment" span="139:4:139:9">//}}}</jtok>
+<jtok eid="1" type="block_comment" span="141:2:141:69">/** This belong to ResizeMouseHandler but requires to be static. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="142:9:142:14">Point</jtok>
+<jtok eid="1" type="field_name" span="142:15:142:24">dragStart</jtok>
+<jtok eid="1" type="line_comment" span="144:2:144:32">//{{{ ResizeMouseHandler class</jtok>
+<jtok eid="8" type="class_name" span="145:8:145:26">ResizeMouseHandler</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="145:35:145:47">MouseAdapter</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="145:59:145:78">MouseMotionListener</jtok>
+<jtok eid="8" type="block_comment" span="147:3:147:56">/** This is true if the mouse is on the split bar. */</jtok>
+<jtok eid="8" type="field_name" span="148:11:148:18">canDrag</jtok>
+<jtok eid="8" type="line_comment" span="150:3:150:30">//{{{ mousePressed() method</jtok>
+<jtok eid="9" type="method_name" span="151:15:151:27">mousePressed</jtok>
+<jtok eid="9" type="parameter_type" span="151:28:151:38">MouseEvent</jtok>
+<jtok eid="9" type="parameter_name" span="151:39:151:42">evt</jtok>
+<jtok eid="9" type="primary_name_ref" span="153:7:153:14">canDrag</jtok>
+<jtok eid="9" type="primary_name_ref" span="155:5:155:21">continuousLayout</jtok>
+<jtok eid="9" type="primary_name_ref" span="155:24:155:29">jEdit</jtok>
+<jtok eid="9" type="method_call" span="155:30:155:48">getBooleanProperty</jtok>
+<jtok eid="9" type="string_literal" span="155:49:155:78">"appearance.continuousLayout"</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:5:156:7">wm</jtok>
+<jtok eid="9" type="method_call" span="156:8:156:20">setResizePos</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:21:156:26">panel</jtok>
+<jtok eid="9" type="method_call" span="156:27:156:39">getDimension</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:42:156:47">panel</jtok>
+<jtok eid="9" type="primary_name_ref" span="157:5:157:14">dragStart</jtok>
+<jtok eid="9" type="primary_name_ref" span="157:17:157:20">evt</jtok>
+<jtok eid="9" type="method_call" span="157:21:157:29">getPoint</jtok>
+<jtok eid="8" type="line_comment" span="159:5:159:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="161:3:161:31">//{{{ mouseReleased() method</jtok>
+<jtok eid="10" type="method_name" span="162:15:162:28">mouseReleased</jtok>
+<jtok eid="10" type="parameter_type" span="162:29:162:39">MouseEvent</jtok>
+<jtok eid="10" type="parameter_name" span="162:40:162:43">evt</jtok>
+<jtok eid="10" type="primary_name_ref" span="164:7:164:14">canDrag</jtok>
+<jtok eid="10" type="primary_name_ref" span="166:10:166:26">continuousLayout</jtok>
+<jtok eid="10" type="primary_name_ref" span="168:6:168:11">panel</jtok>
+<jtok eid="10" type="method_call" span="168:12:168:24">setDimension</jtok>
+<jtok eid="10" type="primary_name_ref" span="168:25:168:27">wm</jtok>
+<jtok eid="10" type="qualified_name_ref" span="168:28:168:37">resizePos</jtok>
+<jtok eid="10" type="primary_name_ref" span="169:13:169:33">PanelWindowContainer</jtok>
+<jtok eid="10" type="qualified_name_ref" span="170:8:170:22">SPLITTER_WIDTH</jtok>
+<jtok eid="10" type="primary_name_ref" span="172:5:172:7">wm</jtok>
+<jtok eid="10" type="method_call" span="172:8:172:22">finishResizing</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:5:173:14">dragStart</jtok>
+<jtok eid="10" type="primary_name_ref" span="174:5:174:7">wm</jtok>
+<jtok eid="10" type="method_call" span="174:8:174:18">revalidate</jtok>
+<jtok eid="8" type="line_comment" span="176:5:176:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="178:3:178:28">//{{{ mouseMoved() method</jtok>
+<jtok eid="11" type="method_name" span="179:15:179:25">mouseMoved</jtok>
+<jtok eid="11" type="parameter_type" span="179:26:179:36">MouseEvent</jtok>
+<jtok eid="11" type="parameter_name" span="179:37:179:40">evt</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="181:4:181:10">Border</jtok>
+<jtok eid="11" type="local_variable_name" span="181:11:181:17">border</jtok>
+<jtok eid="11" type="method_call" span="181:20:181:29">getBorder</jtok>
+<jtok eid="11" type="primary_name_ref" span="182:7:182:13">border</jtok>
+<jtok eid="11" type="line_comment" span="184:5:184:17">// collapsed</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="188:4:188:10">String</jtok>
+<jtok eid="11" type="local_variable_name" span="188:11:188:19">position</jtok>
+<jtok eid="11" type="primary_name_ref" span="188:22:188:27">panel</jtok>
+<jtok eid="11" type="method_call" span="188:28:188:39">getPosition</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="190:4:190:10">Insets</jtok>
+<jtok eid="11" type="local_variable_name" span="190:11:190:17">insets</jtok>
+<jtok eid="11" type="primary_name_ref" span="190:20:190:26">border</jtok>
+<jtok eid="11" type="method_call" span="190:27:190:42">getBorderInsets</jtok>
+<jtok eid="11" type="primary_name_ref" span="190:43:190:56">DockablePanel</jtok>
+<jtok eid="11" type="primary_name_ref" span="191:4:191:11">canDrag</jtok>
+<jtok eid="11" type="line_comment" span="192:4:192:16">//{{{ Top...</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:7:193:15">position</jtok>
+<jtok eid="11" type="method_call" span="193:16:193:22">equals</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:23:193:44">DockableWindowManager</jtok>
+<jtok eid="11" type="qualified_name_ref" span="193:45:193:48">TOP</jtok>
+<jtok eid="11" type="primary_name_ref" span="195:8:195:11">evt</jtok>
+<jtok eid="11" type="method_call" span="195:12:195:16">getY</jtok>
+<jtok eid="11" type="method_call" span="195:22:195:31">getHeight</jtok>
+<jtok eid="11" type="primary_name_ref" span="195:36:195:42">insets</jtok>
+<jtok eid="11" type="qualified_name_ref" span="195:43:195:49">bottom</jtok>
+<jtok eid="11" type="primary_name_ref" span="196:6:196:13">canDrag</jtok>
+<jtok eid="11" type="line_comment" span="197:6:197:11">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="198:4:198:17">//{{{ Left...</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:12:199:20">position</jtok>
+<jtok eid="11" type="method_call" span="199:21:199:27">equals</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:28:199:49">DockableWindowManager</jtok>
+<jtok eid="11" type="qualified_name_ref" span="199:50:199:54">LEFT</jtok>
+<jtok eid="11" type="primary_name_ref" span="201:8:201:11">evt</jtok>
+<jtok eid="11" type="method_call" span="201:12:201:16">getX</jtok>
+<jtok eid="11" type="method_call" span="201:22:201:30">getWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="201:35:201:41">insets</jtok>
+<jtok eid="11" type="qualified_name_ref" span="201:42:201:47">right</jtok>
+<jtok eid="11" type="primary_name_ref" span="202:6:202:13">canDrag</jtok>
+<jtok eid="11" type="line_comment" span="203:6:203:11">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="204:4:204:19">//{{{ Bottom...</jtok>
+<jtok eid="11" type="primary_name_ref" span="205:12:205:20">position</jtok>
+<jtok eid="11" type="method_call" span="205:21:205:27">equals</jtok>
+<jtok eid="11" type="primary_name_ref" span="205:28:205:49">DockableWindowManager</jtok>
+<jtok eid="11" type="qualified_name_ref" span="205:50:205:56">BOTTOM</jtok>
+<jtok eid="11" type="primary_name_ref" span="207:8:207:11">evt</jtok>
+<jtok eid="11" type="method_call" span="207:12:207:16">getY</jtok>
+<jtok eid="11" type="primary_name_ref" span="207:22:207:28">insets</jtok>
+<jtok eid="11" type="qualified_name_ref" span="207:29:207:32">top</jtok>
+<jtok eid="11" type="primary_name_ref" span="208:6:208:13">canDrag</jtok>
+<jtok eid="11" type="line_comment" span="209:6:209:11">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="210:4:210:18">//{{{ Right...</jtok>
+<jtok eid="11" type="primary_name_ref" span="211:12:211:20">position</jtok>
+<jtok eid="11" type="method_call" span="211:21:211:27">equals</jtok>
+<jtok eid="11" type="primary_name_ref" span="211:28:211:49">DockableWindowManager</jtok>
+<jtok eid="11" type="qualified_name_ref" span="211:50:211:55">RIGHT</jtok>
+<jtok eid="11" type="primary_name_ref" span="213:8:213:11">evt</jtok>
+<jtok eid="11" type="method_call" span="213:12:213:16">getX</jtok>
+<jtok eid="11" type="primary_name_ref" span="213:22:213:28">insets</jtok>
+<jtok eid="11" type="qualified_name_ref" span="213:29:213:33">left</jtok>
+<jtok eid="11" type="primary_name_ref" span="214:6:214:13">canDrag</jtok>
+<jtok eid="11" type="line_comment" span="215:6:215:11">//}}}</jtok>
+<jtok eid="11" type="primary_name_ref" span="217:8:217:17">dragStart</jtok>
+<jtok eid="11" type="primary_name_ref" span="219:8:219:15">canDrag</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:6:221:8">wm</jtok>
+<jtok eid="11" type="method_call" span="221:9:221:18">setCursor</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:19:221:25">Cursor</jtok>
+<jtok eid="11" type="method_call" span="221:26:221:45">getPredefinedCursor</jtok>
+<jtok eid="11" type="method_call" span="222:7:222:27">getAppropriateCursor</jtok>
+<jtok eid="11" type="primary_name_ref" span="226:6:226:8">wm</jtok>
+<jtok eid="11" type="method_call" span="226:9:226:18">setCursor</jtok>
+<jtok eid="11" type="primary_name_ref" span="226:19:226:25">Cursor</jtok>
+<jtok eid="11" type="method_call" span="226:26:226:45">getPredefinedCursor</jtok>
+<jtok eid="11" type="primary_name_ref" span="227:7:227:13">Cursor</jtok>
+<jtok eid="11" type="qualified_name_ref" span="227:14:227:28">DEFAULT_CURSOR</jtok>
+<jtok eid="8" type="line_comment" span="230:5:230:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="232:3:232:30">//{{{ mouseDragged() method</jtok>
+<jtok eid="12" type="method_name" span="233:15:233:27">mouseDragged</jtok>
+<jtok eid="12" type="parameter_type" span="233:28:233:38">MouseEvent</jtok>
+<jtok eid="12" type="parameter_name" span="233:39:233:42">evt</jtok>
+<jtok eid="12" type="primary_name_ref" span="235:8:235:15">canDrag</jtok>
+<jtok eid="12" type="primary_name_ref" span="238:7:238:16">dragStart</jtok>
+<jtok eid="12" type="line_comment" span="238:26:238:42">// can't happen?</jtok>
+<jtok eid="12" type="local_variable_name" span="241:8:241:17">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="241:20:241:25">panel</jtok>
+<jtok eid="12" type="method_call" span="241:26:241:38">getDimension</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="243:4:243:10">String</jtok>
+<jtok eid="12" type="local_variable_name" span="243:11:243:19">position</jtok>
+<jtok eid="12" type="primary_name_ref" span="243:22:243:27">panel</jtok>
+<jtok eid="12" type="method_call" span="243:28:243:39">getPosition</jtok>
+<jtok eid="12" type="local_variable_name" span="245:8:245:15">newSize</jtok>
+<jtok eid="12" type="line_comment" span="246:4:246:16">//{{{ Top...</jtok>
+<jtok eid="12" type="primary_name_ref" span="247:7:247:15">position</jtok>
+<jtok eid="12" type="method_call" span="247:16:247:22">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="247:23:247:44">DockableWindowManager</jtok>
+<jtok eid="12" type="qualified_name_ref" span="247:45:247:48">TOP</jtok>
+<jtok eid="12" type="primary_name_ref" span="249:5:249:12">newSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="249:15:249:18">evt</jtok>
+<jtok eid="12" type="method_call" span="249:19:249:23">getY</jtok>
+<jtok eid="12" type="primary_name_ref" span="250:5:250:7">wm</jtok>
+<jtok eid="12" type="method_call" span="250:8:250:20">setResizePos</jtok>
+<jtok eid="12" type="primary_name_ref" span="251:6:251:9">evt</jtok>
+<jtok eid="12" type="method_call" span="251:10:251:14">getY</jtok>
+<jtok eid="12" type="primary_name_ref" span="251:19:251:28">dragStart</jtok>
+<jtok eid="12" type="qualified_name_ref" span="251:29:251:30">y</jtok>
+<jtok eid="12" type="primary_name_ref" span="252:8:252:17">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="253:6:253:11">panel</jtok>
+<jtok eid="12" type="line_comment" span="254:6:254:11">//}}}</jtok>
+<jtok eid="12" type="line_comment" span="255:4:255:17">//{{{ Left...</jtok>
+<jtok eid="12" type="primary_name_ref" span="256:12:256:20">position</jtok>
+<jtok eid="12" type="method_call" span="256:21:256:27">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="256:28:256:49">DockableWindowManager</jtok>
+<jtok eid="12" type="qualified_name_ref" span="256:50:256:54">LEFT</jtok>
+<jtok eid="12" type="primary_name_ref" span="258:5:258:12">newSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="258:15:258:18">evt</jtok>
+<jtok eid="12" type="method_call" span="258:19:258:23">getX</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:5:259:7">wm</jtok>
+<jtok eid="12" type="method_call" span="259:8:259:20">setResizePos</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:21:259:24">evt</jtok>
+<jtok eid="12" type="method_call" span="259:25:259:29">getX</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:34:259:43">dragStart</jtok>
+<jtok eid="12" type="qualified_name_ref" span="259:44:259:45">x</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:8:260:17">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="261:6:261:11">panel</jtok>
+<jtok eid="12" type="line_comment" span="262:6:262:11">//}}}</jtok>
+<jtok eid="12" type="line_comment" span="263:4:263:19">//{{{ Bottom...</jtok>
+<jtok eid="12" type="primary_name_ref" span="264:12:264:20">position</jtok>
+<jtok eid="12" type="method_call" span="264:21:264:27">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="264:28:264:49">DockableWindowManager</jtok>
+<jtok eid="12" type="qualified_name_ref" span="264:50:264:56">BOTTOM</jtok>
+<jtok eid="12" type="primary_name_ref" span="266:5:266:12">newSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="266:15:266:24">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="266:27:266:30">evt</jtok>
+<jtok eid="12" type="method_call" span="266:31:266:35">getY</jtok>
+<jtok eid="12" type="primary_name_ref" span="267:5:267:7">wm</jtok>
+<jtok eid="12" type="method_call" span="267:8:267:20">setResizePos</jtok>
+<jtok eid="12" type="primary_name_ref" span="267:21:267:30">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="267:33:267:36">evt</jtok>
+<jtok eid="12" type="method_call" span="267:37:267:41">getY</jtok>
+<jtok eid="12" type="primary_name_ref" span="268:8:268:17">dragStart</jtok>
+<jtok eid="12" type="qualified_name_ref" span="268:18:268:19">y</jtok>
+<jtok eid="12" type="primary_name_ref" span="269:6:269:11">panel</jtok>
+<jtok eid="12" type="line_comment" span="270:6:270:11">//}}}</jtok>
+<jtok eid="12" type="line_comment" span="271:4:271:18">//{{{ Right...</jtok>
+<jtok eid="12" type="primary_name_ref" span="272:12:272:20">position</jtok>
+<jtok eid="12" type="method_call" span="272:21:272:27">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="272:28:272:49">DockableWindowManager</jtok>
+<jtok eid="12" type="qualified_name_ref" span="272:50:272:55">RIGHT</jtok>
+<jtok eid="12" type="primary_name_ref" span="274:5:274:12">newSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="274:15:274:24">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="274:27:274:30">evt</jtok>
+<jtok eid="12" type="method_call" span="274:31:274:35">getX</jtok>
+<jtok eid="12" type="primary_name_ref" span="275:5:275:7">wm</jtok>
+<jtok eid="12" type="method_call" span="275:8:275:20">setResizePos</jtok>
+<jtok eid="12" type="primary_name_ref" span="275:21:275:30">dimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="275:33:275:36">evt</jtok>
+<jtok eid="12" type="method_call" span="275:37:275:41">getX</jtok>
+<jtok eid="12" type="primary_name_ref" span="276:8:276:17">dragStart</jtok>
+<jtok eid="12" type="qualified_name_ref" span="276:18:276:19">x</jtok>
+<jtok eid="12" type="primary_name_ref" span="277:6:277:11">panel</jtok>
+<jtok eid="12" type="line_comment" span="278:6:278:11">//}}}</jtok>
+<jtok eid="12" type="primary_name_ref" span="280:8:280:24">continuousLayout</jtok>
+<jtok eid="12" type="primary_name_ref" span="282:5:282:10">panel</jtok>
+<jtok eid="12" type="method_call" span="282:11:282:23">setDimension</jtok>
+<jtok eid="12" type="primary_name_ref" span="282:24:282:31">newSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="283:12:283:32">PanelWindowContainer</jtok>
+<jtok eid="12" type="qualified_name_ref" span="283:33:283:47">SPLITTER_WIDTH</jtok>
+<jtok eid="12" type="primary_name_ref" span="284:5:284:7">wm</jtok>
+<jtok eid="12" type="method_call" span="284:8:284:18">revalidate</jtok>
+<jtok eid="8" type="line_comment" span="286:5:286:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="288:3:288:29">//{{{ mouseExited() method</jtok>
+<jtok eid="13" type="method_name" span="289:15:289:26">mouseExited</jtok>
+<jtok eid="13" type="parameter_type" span="289:27:289:37">MouseEvent</jtok>
+<jtok eid="13" type="parameter_name" span="289:38:289:41">evt</jtok>
+<jtok eid="13" type="primary_name_ref" span="291:8:291:17">dragStart</jtok>
+<jtok eid="13" type="primary_name_ref" span="293:5:293:7">wm</jtok>
+<jtok eid="13" type="method_call" span="293:8:293:17">setCursor</jtok>
+<jtok eid="13" type="primary_name_ref" span="293:18:293:24">Cursor</jtok>
+<jtok eid="13" type="method_call" span="293:25:293:44">getPredefinedCursor</jtok>
+<jtok eid="13" type="primary_name_ref" span="294:6:294:12">Cursor</jtok>
+<jtok eid="13" type="qualified_name_ref" span="294:13:294:27">DEFAULT_CURSOR</jtok>
+<jtok eid="8" type="line_comment" span="296:5:296:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="298:3:298:27">//{{{ getCursor() method</jtok>
+<jtok eid="14" type="method_name" span="299:15:299:35">getAppropriateCursor</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="301:4:301:10">String</jtok>
+<jtok eid="14" type="local_variable_name" span="301:11:301:19">position</jtok>
+<jtok eid="14" type="primary_name_ref" span="301:22:301:27">panel</jtok>
+<jtok eid="14" type="method_call" span="301:28:301:39">getPosition</jtok>
+<jtok eid="14" type="primary_name_ref" span="303:7:303:15">position</jtok>
+<jtok eid="14" type="method_call" span="303:16:303:22">equals</jtok>
+<jtok eid="14" type="primary_name_ref" span="303:23:303:44">DockableWindowManager</jtok>
+<jtok eid="14" type="qualified_name_ref" span="303:45:303:48">TOP</jtok>
+<jtok eid="14" type="primary_name_ref" span="304:12:304:18">Cursor</jtok>
+<jtok eid="14" type="qualified_name_ref" span="304:19:304:34">N_RESIZE_CURSOR</jtok>
+<jtok eid="14" type="primary_name_ref" span="305:12:305:20">position</jtok>
+<jtok eid="14" type="method_call" span="305:21:305:27">equals</jtok>
+<jtok eid="14" type="primary_name_ref" span="305:28:305:49">DockableWindowManager</jtok>
+<jtok eid="14" type="qualified_name_ref" span="305:50:305:54">LEFT</jtok>
+<jtok eid="14" type="primary_name_ref" span="306:12:306:18">Cursor</jtok>
+<jtok eid="14" type="qualified_name_ref" span="306:19:306:34">W_RESIZE_CURSOR</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:12:307:20">position</jtok>
+<jtok eid="14" type="method_call" span="307:21:307:27">equals</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:28:307:49">DockableWindowManager</jtok>
+<jtok eid="14" type="qualified_name_ref" span="307:50:307:56">BOTTOM</jtok>
+<jtok eid="14" type="primary_name_ref" span="308:12:308:18">Cursor</jtok>
+<jtok eid="14" type="qualified_name_ref" span="308:19:308:34">S_RESIZE_CURSOR</jtok>
+<jtok eid="14" type="primary_name_ref" span="309:12:309:20">position</jtok>
+<jtok eid="14" type="method_call" span="309:21:309:27">equals</jtok>
+<jtok eid="14" type="primary_name_ref" span="309:28:309:49">DockableWindowManager</jtok>
+<jtok eid="14" type="qualified_name_ref" span="309:50:309:55">RIGHT</jtok>
+<jtok eid="14" type="primary_name_ref" span="310:12:310:18">Cursor</jtok>
+<jtok eid="14" type="qualified_name_ref" span="310:19:310:34">E_RESIZE_CURSOR</jtok>
+<jtok eid="14" type="constructor_call" span="312:15:312:28">InternalError</jtok>
+<jtok eid="8" type="line_comment" span="313:5:313:10">//}}}</jtok>
+<jtok eid="8" type="field_name" span="315:19:315:35">continuousLayout</jtok>
+<jtok eid="1" type="line_comment" span="316:4:316:9">//}}}</jtok>
+</jdoc>

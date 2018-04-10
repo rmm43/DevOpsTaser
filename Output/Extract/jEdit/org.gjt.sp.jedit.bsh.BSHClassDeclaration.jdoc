@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHClassDeclaration" jls="java5">
+<jent id="0" type="file" span="0:0:104:2">Source/jEdit/org/gjt/sp/jedit/bsh/BSHClassDeclaration.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:104:1">org.gjt.sp.jedit.bsh.BSHClassDeclaration</jent>
+<jent id="2" pid="1" type="method" span="56:2:56:43">org.gjt.sp.jedit.bsh.BSHClassDeclaration.BSHClassDeclaration(int)</jent>
+<jent id="3" pid="1" type="method" span="60:2:99:2">org.gjt.sp.jedit.bsh.BSHClassDeclaration.eval(CallStack,Interpreter)</jent>
+<jent id="4" pid="1" type="method" span="101:2:103:2">org.gjt.sp.jedit.bsh.BSHClassDeclaration.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="36:1:37:3">/**
+*/</jtok>
+<jtok eid="1" type="class_name" span="38:7:38:26">BSHClassDeclaration</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:35:38:45">SimpleNode</jtok>
+<jtok eid="1" type="block_comment" span="40:2:47:4">/**
+		The class instance initializer method name.
+		A BshMethod by this name is installed by the class delcaration into 
+		the static class body namespace.  
+		It is called once to initialize the static members of the class space 
+		and each time an instances is created to initialize the instance
+		members.
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:15:48:21">String</jtok>
+<jtok eid="1" type="field_name" span="48:22:48:35">CLASSINITNAME</jtok>
+<jtok eid="1" type="string_literal" span="48:38:48:53">"_bshClassInit"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:2:50:8">String</jtok>
+<jtok eid="1" type="field_name" span="50:9:50:13">name</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="51:2:51:11">Modifiers</jtok>
+<jtok eid="1" type="field_name" span="51:12:51:21">modifiers</jtok>
+<jtok eid="1" type="field_name" span="52:6:52:19">numInterfaces</jtok>
+<jtok eid="1" type="field_name" span="53:10:53:16">extend</jtok>
+<jtok eid="1" type="field_name" span="54:10:54:21">isInterface</jtok>
+<jtok eid="2" type="method_name" span="56:2:56:21">BSHClassDeclaration</jtok>
+<jtok eid="2" type="parameter_name" span="56:26:56:28">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:38:56:40">id</jtok>
+<jtok eid="1" type="block_comment" span="58:2:59:4">/**
+	*/</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="60:9:60:15">Object</jtok>
+<jtok eid="3" type="method_name" span="60:16:60:20">eval</jtok>
+<jtok eid="3" type="parameter_type" span="60:22:60:31">CallStack</jtok>
+<jtok eid="3" type="parameter_name" span="60:32:60:41">callstack</jtok>
+<jtok eid="3" type="parameter_type" span="60:43:60:54">Interpreter</jtok>
+<jtok eid="3" type="parameter_name" span="60:55:60:66">interpreter</jtok>
+<jtok eid="3" type="throws" span="61:10:61:19">EvalError</jtok>
+<jtok eid="3" type="local_variable_name" span="63:7:63:12">child</jtok>
+<jtok eid="3" type="line_comment" span="65:3:65:31">// resolve superclass if any</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:3:66:8">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="66:9:66:19">superClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:8:67:14">extend</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:4:69:20">BSHAmbiguousName</jtok>
+<jtok eid="3" type="local_variable_name" span="69:21:69:30">superNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:34:69:50">BSHAmbiguousName</jtok>
+<jtok eid="3" type="method_call" span="69:51:69:62">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:63:69:68">child</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:4:70:14">superClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:17:70:26">superNode</jtok>
+<jtok eid="3" type="method_call" span="70:27:70:34">toClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:36:70:45">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:47:70:58">interpreter</jtok>
+<jtok eid="3" type="line_comment" span="73:3:73:20">// Get interfaces</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:3:74:8">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="74:12:74:22">interfaces</jtok>
+<jtok eid="3" type="constructor_call" span="74:29:74:34">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:35:74:48">numInterfaces</jtok>
+<jtok eid="3" type="local_variable_name" span="75:12:75:13">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:17:75:18">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:19:75:32">numInterfaces</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:34:75:35">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="76:4:76:20">BSHAmbiguousName</jtok>
+<jtok eid="3" type="local_variable_name" span="76:21:76:25">node</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="76:29:76:45">BSHAmbiguousName</jtok>
+<jtok eid="3" type="method_call" span="76:46:76:57">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:58:76:63">child</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:4:77:14">interfaces</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:15:77:16">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:20:77:24">node</jtok>
+<jtok eid="3" type="method_call" span="77:25:77:32">toClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:33:77:42">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:44:77:55">interpreter</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:10:78:20">interfaces</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:21:78:22">i</jtok>
+<jtok eid="3" type="method_call" span="78:24:78:35">isInterface</jtok>
+<jtok eid="3" type="constructor_call" span="79:15:79:24">EvalError</jtok>
+<jtok eid="3" type="string_literal" span="80:6:80:14">"Type: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:15:80:19">node</jtok>
+<jtok eid="3" type="qualified_name_ref" span="80:20:80:24">text</jtok>
+<jtok eid="3" type="string_literal" span="80:25:80:48">" is not an interface!"</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:12:81:21">callstack</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="84:3:84:11">BSHBlock</jtok>
+<jtok eid="3" type="local_variable_name" span="84:12:84:17">block</jtok>
+<jtok eid="3" type="line_comment" span="85:3:85:33">// Get the class body BSHBlock</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:8:86:13">child</jtok>
+<jtok eid="3" type="method_call" span="86:16:86:33">jjtGetNumChildren</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:4:87:9">block</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="87:13:87:21">BSHBlock</jtok>
+<jtok eid="3" type="method_call" span="87:22:87:33">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:34:87:39">child</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:4:89:9">block</jtok>
+<jtok eid="3" type="constructor_call" span="89:16:89:24">BSHBlock</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:26:89:45">ParserTreeConstants</jtok>
+<jtok eid="3" type="qualified_name_ref" span="89:46:89:54">JJTBLOCK</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:11:92:25">ClassGenerator</jtok>
+<jtok eid="3" type="method_call" span="92:26:92:43">getClassGenerator</jtok>
+<jtok eid="3" type="method_call" span="92:46:92:59">generateClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:5:93:9">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:11:93:20">modifiers</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:22:93:32">interfaces</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:34:93:44">superClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:46:93:51">block</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:53:93:64">isInterface</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:5:94:14">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:16:94:27">interpreter</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="95:13:95:26">UtilEvalError</jtok>
+<jtok eid="3" type="local_variable_name" span="95:27:95:28">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:10:96:11">e</jtok>
+<jtok eid="3" type="method_call" span="96:12:96:23">toEvalError</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:31:96:40">callstack</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="101:9:101:15">String</jtok>
+<jtok eid="4" type="method_name" span="101:16:101:24">toString</jtok>
+<jtok eid="4" type="string_literal" span="102:10:102:30">"ClassDeclaration: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:31:102:35">name</jtok>
+</jdoc>

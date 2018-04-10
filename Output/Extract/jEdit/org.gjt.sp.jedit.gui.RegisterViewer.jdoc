@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.RegisterViewer" jls="java5">
+<jent id="0" type="file" span="0:0:405:2">Source/jEdit/org/gjt/sp/jedit/gui/RegisterViewer.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:405:1">org.gjt.sp.jedit.gui.RegisterViewer</jent>
+<jent id="2" pid="1" type="method" span="41:2:96:2">org.gjt.sp.jedit.gui.RegisterViewer.RegisterViewer(View,String)</jent>
+<jent id="3" pid="1" type="method" span="99:2:106:2">org.gjt.sp.jedit.gui.RegisterViewer.actionPerformed(ActionEvent)</jent>
+<jent id="4" pid="1" type="method" span="109:2:121:2">org.gjt.sp.jedit.gui.RegisterViewer.handleMessage(EBMessage)</jent>
+<jent id="5" pid="1" type="method" span="125:2:129:2">org.gjt.sp.jedit.gui.RegisterViewer.addNotify()</jent>
+<jent id="6" pid="1" type="method" span="133:2:137:2">org.gjt.sp.jedit.gui.RegisterViewer.removeNotify()</jent>
+<jent id="7" pid="1" type="method" span="140:2:148:2">org.gjt.sp.jedit.gui.RegisterViewer.move(String)</jent>
+<jent id="8" pid="1" type="method" span="153:2:161:2">org.gjt.sp.jedit.gui.RegisterViewer.clearSelectedIndex()</jent>
+<jent id="9" pid="1" type="method" span="174:2:210:2">org.gjt.sp.jedit.gui.RegisterViewer.refreshList()</jent>
+<jent id="10" pid="1" type="method" span="213:2:221:2">org.gjt.sp.jedit.gui.RegisterViewer.insertRegister()</jent>
+<jent id="11" pid="1" type="class" span="228:2:276:2">org.gjt.sp.jedit.gui.RegisterViewer.Renderer</jent>
+<jent id="12" pid="11" type="method" span="231:3:275:3">org.gjt.sp.jedit.gui.RegisterViewer.Renderer.getListCellRendererComponent(JList,Object,int,boolean,boolean)</jent>
+<jent id="13" pid="1" type="class" span="279:2:315:2">org.gjt.sp.jedit.gui.RegisterViewer.ListHandler</jent>
+<jent id="14" pid="13" type="method" span="281:3:314:3">org.gjt.sp.jedit.gui.RegisterViewer.ListHandler.valueChanged(ListSelectionEvent)</jent>
+<jent id="15" pid="1" type="class" span="318:2:348:2">org.gjt.sp.jedit.gui.RegisterViewer.MouseHandler</jent>
+<jent id="16" pid="15" type="method" span="321:3:347:3">org.gjt.sp.jedit.gui.RegisterViewer.MouseHandler.mouseClicked(MouseEvent)</jent>
+<jent id="17" pid="16" type="class" span="335:6:340:6">org.gjt.sp.jedit.gui.RegisterViewer.MouseHandler.mouseClicked(MouseEvent).$1</jent>
+<jent id="18" pid="17" type="method" span="336:7:339:7">org.gjt.sp.jedit.gui.RegisterViewer.MouseHandler.mouseClicked(MouseEvent).$1.actionPerformed(ActionEvent)</jent>
+<jent id="19" pid="1" type="class" span="351:2:389:2">org.gjt.sp.jedit.gui.RegisterViewer.DocumentHandler</jent>
+<jent id="20" pid="19" type="method" span="353:3:356:3">org.gjt.sp.jedit.gui.RegisterViewer.DocumentHandler.changedUpdate(DocumentEvent)</jent>
+<jent id="21" pid="19" type="method" span="358:3:361:3">org.gjt.sp.jedit.gui.RegisterViewer.DocumentHandler.insertUpdate(DocumentEvent)</jent>
+<jent id="22" pid="19" type="method" span="363:3:366:3">org.gjt.sp.jedit.gui.RegisterViewer.DocumentHandler.removeUpdate(DocumentEvent)</jent>
+<jent id="23" pid="19" type="method" span="368:3:379:3">org.gjt.sp.jedit.gui.RegisterViewer.DocumentHandler.updateRegisterSafely()</jent>
+<jent id="24" pid="19" type="method" span="381:3:388:3">org.gjt.sp.jedit.gui.RegisterViewer.DocumentHandler.updateRegister()</jent>
+<jent id="25" pid="1" type="class" span="392:2:402:2">org.gjt.sp.jedit.gui.RegisterViewer.FocusHandler</jent>
+<jent id="26" pid="25" type="method" span="394:3:397:3">org.gjt.sp.jedit.gui.RegisterViewer.FocusHandler.focusGained(FocusEvent)</jent>
+<jent id="27" pid="25" type="method" span="398:3:401:3">org.gjt.sp.jedit.gui.RegisterViewer.FocusHandler.focusLost(FocusEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * RegisterViewer.java - Dockable view of register contents
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2004, 2005 Nicholas O'Leary
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="35:1:35:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:28">RegisterViewer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:37:37:43">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:55:37:66">EBComponent</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:68:37:82">ActionListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:2:38:16">DockableWindow</jtok>
+<jtok eid="1" type="line_comment" span="40:2:40:34">//{{{ RegisterViewer constructor</jtok>
+<jtok eid="2" type="method_name" span="41:9:41:23">RegisterViewer</jtok>
+<jtok eid="2" type="parameter_type" span="41:24:41:28">View</jtok>
+<jtok eid="2" type="parameter_name" span="41:29:41:33">view</jtok>
+<jtok eid="2" type="parameter_type" span="41:35:41:41">String</jtok>
+<jtok eid="2" type="parameter_name" span="41:42:41:50">position</jtok>
+<jtok eid="2" type="constructor_call" span="43:13:43:25">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="44:8:44:12">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:15:44:19">view</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:3:45:6">Box</jtok>
+<jtok eid="2" type="local_variable_name" span="45:7:45:14">toolBar</jtok>
+<jtok eid="2" type="constructor_call" span="45:21:45:24">Box</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:25:45:34">BoxLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="45:35:45:41">X_AXIS</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:3:46:9">JLabel</jtok>
+<jtok eid="2" type="local_variable_name" span="46:10:46:15">label</jtok>
+<jtok eid="2" type="constructor_call" span="46:22:46:28">JLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:4:47:9">jEdit</jtok>
+<jtok eid="2" type="method_call" span="47:10:47:21">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="47:22:47:44">"view-registers.title"</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:8">label</jtok>
+<jtok eid="2" type="method_call" span="48:9:48:18">setBorder</jtok>
+<jtok eid="2" type="constructor_call" span="48:23:48:34">EmptyBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:10">toolBar</jtok>
+<jtok eid="2" type="method_call" span="49:11:49:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:15:49:20">label</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:3:51:10">toolBar</jtok>
+<jtok eid="2" type="method_call" span="51:11:51:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:15:51:18">Box</jtok>
+<jtok eid="2" type="method_call" span="51:19:51:29">createGlue</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="53:3:53:17">RolloverButton</jtok>
+<jtok eid="2" type="local_variable_name" span="53:18:53:31">pasteRegister</jtok>
+<jtok eid="2" type="constructor_call" span="53:38:53:52">RolloverButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:4:54:16">GUIUtilities</jtok>
+<jtok eid="2" type="method_call" span="54:17:54:25">loadIcon</jtok>
+<jtok eid="2" type="string_literal" span="54:26:54:37">"Paste.png"</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:16">pasteRegister</jtok>
+<jtok eid="2" type="method_call" span="55:17:55:31">setToolTipText</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:32:55:44">GUIUtilities</jtok>
+<jtok eid="2" type="method_call" span="55:45:55:62">prettifyMenuLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:4:56:9">jEdit</jtok>
+<jtok eid="2" type="method_call" span="56:10:56:21">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="56:22:56:51">"paste-string-register.label"</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:3:57:16">pasteRegister</jtok>
+<jtok eid="2" type="method_call" span="57:17:57:34">addActionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:3:58:16">pasteRegister</jtok>
+<jtok eid="2" type="method_call" span="58:17:58:33">setActionCommand</jtok>
+<jtok eid="2" type="string_literal" span="58:34:58:57">"paste-string-register"</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:3:59:10">toolBar</jtok>
+<jtok eid="2" type="method_call" span="59:11:59:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:15:59:28">pasteRegister</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="61:3:61:17">RolloverButton</jtok>
+<jtok eid="2" type="local_variable_name" span="61:18:61:31">clearRegister</jtok>
+<jtok eid="2" type="constructor_call" span="61:38:61:52">RolloverButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:4:62:16">GUIUtilities</jtok>
+<jtok eid="2" type="method_call" span="62:17:62:25">loadIcon</jtok>
+<jtok eid="2" type="string_literal" span="62:26:62:37">"Clear.png"</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:3:63:16">clearRegister</jtok>
+<jtok eid="2" type="method_call" span="63:17:63:31">setToolTipText</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:32:63:44">GUIUtilities</jtok>
+<jtok eid="2" type="method_call" span="63:45:63:62">prettifyMenuLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:4:64:9">jEdit</jtok>
+<jtok eid="2" type="method_call" span="64:10:64:21">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="64:22:64:51">"clear-string-register.label"</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:3:65:16">clearRegister</jtok>
+<jtok eid="2" type="method_call" span="65:17:65:34">addActionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:16">clearRegister</jtok>
+<jtok eid="2" type="method_call" span="66:17:66:33">setActionCommand</jtok>
+<jtok eid="2" type="string_literal" span="66:34:66:57">"clear-string-register"</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:3:67:10">toolBar</jtok>
+<jtok eid="2" type="method_call" span="67:11:67:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:15:67:28">clearRegister</jtok>
+<jtok eid="2" type="method_call" span="70:3:70:6">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:7:70:19">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="70:20:70:25">NORTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:26:70:33">toolBar</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="72:3:72:19">DefaultListModel</jtok>
+<jtok eid="2" type="local_variable_name" span="72:20:72:33">registerModel</jtok>
+<jtok eid="2" type="constructor_call" span="72:40:72:56">DefaultListModel</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:3:73:15">registerList</jtok>
+<jtok eid="2" type="constructor_call" span="73:22:73:27">JList</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:28:73:41">registerModel</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:3:74:15">registerList</jtok>
+<jtok eid="2" type="method_call" span="74:16:74:32">setSelectionMode</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:33:74:51">ListSelectionModel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="74:52:74:68">SINGLE_SELECTION</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:3:75:15">registerList</jtok>
+<jtok eid="2" type="method_call" span="75:16:75:31">setCellRenderer</jtok>
+<jtok eid="2" type="constructor_call" span="75:36:75:44">Renderer</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:3:76:15">registerList</jtok>
+<jtok eid="2" type="method_call" span="76:16:76:40">addListSelectionListener</jtok>
+<jtok eid="2" type="constructor_call" span="76:45:76:56">ListHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:3:77:15">registerList</jtok>
+<jtok eid="2" type="method_call" span="77:16:77:32">addMouseListener</jtok>
+<jtok eid="2" type="constructor_call" span="77:37:77:49">MouseHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:3:79:18">contentTextArea</jtok>
+<jtok eid="2" type="constructor_call" span="79:25:79:34">JTextArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:3:80:18">contentTextArea</jtok>
+<jtok eid="2" type="method_call" span="80:19:80:30">setEditable</jtok>
+<jtok eid="2" type="primary_name_ref" span="81:3:81:18">documentHandler</jtok>
+<jtok eid="2" type="constructor_call" span="81:25:81:40">DocumentHandler</jtok>
+<jtok eid="2" type="line_comment" span="82:3:82:72">//contentTextArea.getDocument().addDocumentListener(documentHandler);</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:3:83:18">contentTextArea</jtok>
+<jtok eid="2" type="method_call" span="83:19:83:35">addFocusListener</jtok>
+<jtok eid="2" type="constructor_call" span="83:40:83:52">FocusHandler</jtok>
+<jtok eid="2" type="local_variable_name" span="85:7:85:18">orientation</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:21:85:31">JSplitPane</jtok>
+<jtok eid="2" type="qualified_name_ref" span="85:32:85:48">HORIZONTAL_SPLIT</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:7:86:15">position</jtok>
+<jtok eid="2" type="method_call" span="86:16:86:22">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:23:86:44">DockableWindowManager</jtok>
+<jtok eid="2" type="qualified_name_ref" span="86:45:86:49">LEFT</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:4:87:12">position</jtok>
+<jtok eid="2" type="method_call" span="87:13:87:19">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:20:87:41">DockableWindowManager</jtok>
+<jtok eid="2" type="qualified_name_ref" span="87:42:87:47">RIGHT</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:4:88:15">orientation</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:18:88:28">JSplitPane</jtok>
+<jtok eid="2" type="qualified_name_ref" span="88:29:88:43">VERTICAL_SPLIT</jtok>
+<jtok eid="2" type="method_call" span="90:3:90:6">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:7:90:19">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="90:20:90:26">CENTER</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:27:90:36">splitPane</jtok>
+<jtok eid="2" type="constructor_call" span="90:43:90:53">JSplitPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:54:90:65">orientation</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:4:91:9">jEdit</jtok>
+<jtok eid="2" type="method_call" span="91:10:91:28">getBooleanProperty</jtok>
+<jtok eid="2" type="string_literal" span="91:29:91:58">"appearance.continuousLayout"</jtok>
+<jtok eid="2" type="constructor_call" span="92:8:92:19">JScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:20:92:32">registerList</jtok>
+<jtok eid="2" type="constructor_call" span="93:8:93:19">JScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:20:93:35">contentTextArea</jtok>
+<jtok eid="2" type="method_call" span="95:3:95:14">refreshList</jtok>
+<jtok eid="1" type="line_comment" span="96:4:96:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="98:2:98:32">//{{{ actionPerformed() method</jtok>
+<jtok eid="3" type="method_name" span="99:14:99:29">actionPerformed</jtok>
+<jtok eid="3" type="parameter_type" span="99:30:99:41">ActionEvent</jtok>
+<jtok eid="3" type="parameter_name" span="99:42:99:45">evt</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="101:3:101:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="101:10:101:13">cmd</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:16:101:19">evt</jtok>
+<jtok eid="3" type="method_call" span="101:20:101:36">getActionCommand</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:7:102:10">cmd</jtok>
+<jtok eid="3" type="method_call" span="102:11:102:17">equals</jtok>
+<jtok eid="3" type="string_literal" span="102:18:102:41">"paste-string-register"</jtok>
+<jtok eid="3" type="method_call" span="103:4:103:18">insertRegister</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:12:104:15">cmd</jtok>
+<jtok eid="3" type="method_call" span="104:16:104:22">equals</jtok>
+<jtok eid="3" type="string_literal" span="104:23:104:46">"clear-string-register"</jtok>
+<jtok eid="3" type="method_call" span="105:4:105:22">clearSelectedIndex</jtok>
+<jtok eid="1" type="line_comment" span="106:4:106:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="108:2:108:21">//{{{ handleMessage</jtok>
+<jtok eid="4" type="method_name" span="109:14:109:27">handleMessage</jtok>
+<jtok eid="4" type="parameter_type" span="109:28:109:37">EBMessage</jtok>
+<jtok eid="4" type="parameter_name" span="109:38:109:41">msg</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:7:111:10">msg</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="111:22:111:37">RegisterChanged</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="113:10:113:25">RegisterChanged</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:26:113:29">msg</jtok>
+<jtok eid="4" type="method_call" span="113:31:113:46">getRegisterName</jtok>
+<jtok eid="4" type="method_call" span="114:5:114:16">refreshList</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:12:116:15">msg</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="116:27:116:44">PropertiesChanged</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:4:118:16">GUIUtilities</jtok>
+<jtok eid="4" type="method_call" span="118:17:118:37">initContinuousLayout</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:38:118:47">splitPane</jtok>
+<jtok eid="1" type="line_comment" span="121:3:121:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="123:2:123:26">//{{{ addNotify() method</jtok>
+<jtok eid="1" type="annotation_ref" span="124:3:124:11">Override</jtok>
+<jtok eid="5" type="method_name" span="125:14:125:23">addNotify</jtok>
+<jtok eid="5" type="method_call" span="127:9:127:18">addNotify</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:3:128:10">EditBus</jtok>
+<jtok eid="5" type="method_call" span="128:11:128:19">addToBus</jtok>
+<jtok eid="1" type="line_comment" span="129:4:129:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="131:2:131:29">//{{{ removeNotify() method</jtok>
+<jtok eid="1" type="annotation_ref" span="132:3:132:11">Override</jtok>
+<jtok eid="6" type="method_name" span="133:14:133:26">removeNotify</jtok>
+<jtok eid="6" type="method_call" span="135:9:135:21">removeNotify</jtok>
+<jtok eid="6" type="primary_name_ref" span="136:3:136:10">EditBus</jtok>
+<jtok eid="6" type="method_call" span="136:11:136:24">removeFromBus</jtok>
+<jtok eid="1" type="line_comment" span="137:4:137:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="139:2:139:21">//{{{ move() method</jtok>
+<jtok eid="7" type="method_name" span="140:14:140:18">move</jtok>
+<jtok eid="7" type="parameter_type" span="140:19:140:25">String</jtok>
+<jtok eid="7" type="parameter_name" span="140:26:140:37">newPosition</jtok>
+<jtok eid="7" type="local_variable_name" span="142:7:142:18">orientation</jtok>
+<jtok eid="7" type="primary_name_ref" span="142:21:142:31">JSplitPane</jtok>
+<jtok eid="7" type="qualified_name_ref" span="142:32:142:48">HORIZONTAL_SPLIT</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:7:143:18">newPosition</jtok>
+<jtok eid="7" type="method_call" span="143:19:143:25">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:26:143:47">DockableWindowManager</jtok>
+<jtok eid="7" type="qualified_name_ref" span="143:48:143:52">LEFT</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:4:144:15">newPosition</jtok>
+<jtok eid="7" type="method_call" span="144:16:144:22">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:23:144:44">DockableWindowManager</jtok>
+<jtok eid="7" type="qualified_name_ref" span="144:45:144:50">RIGHT</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:4:145:15">orientation</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:18:145:28">JSplitPane</jtok>
+<jtok eid="7" type="qualified_name_ref" span="145:29:145:43">VERTICAL_SPLIT</jtok>
+<jtok eid="7" type="primary_name_ref" span="146:3:146:12">splitPane</jtok>
+<jtok eid="7" type="method_call" span="146:13:146:27">setOrientation</jtok>
+<jtok eid="7" type="primary_name_ref" span="146:28:146:39">orientation</jtok>
+<jtok eid="7" type="method_call" span="147:3:147:13">revalidate</jtok>
+<jtok eid="1" type="line_comment" span="148:4:148:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="150:2:150:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="152:2:152:35">//{{{ clearSelectedIndex() method</jtok>
+<jtok eid="8" type="method_name" span="153:15:153:33">clearSelectedIndex</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="155:3:155:9">Object</jtok>
+<jtok eid="8" type="local_variable_name" span="155:10:155:11">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:14:155:26">registerList</jtok>
+<jtok eid="8" type="method_call" span="155:27:155:43">getSelectedValue</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:7:156:8">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:20:156:21">o</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="156:33:156:42">Character</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:4:158:13">Registers</jtok>
+<jtok eid="8" type="method_call" span="158:14:158:27">clearRegister</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="158:30:158:39">Character</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:40:158:41">o</jtok>
+<jtok eid="8" type="method_call" span="158:43:158:52">charValue</jtok>
+<jtok eid="8" type="method_call" span="159:4:159:15">refreshList</jtok>
+<jtok eid="1" type="line_comment" span="161:4:161:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="163:2:163:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="164:10:164:15">JList</jtok>
+<jtok eid="1" type="field_name" span="164:16:164:28">registerList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="165:10:165:19">JTextArea</jtok>
+<jtok eid="1" type="field_name" span="165:20:165:35">contentTextArea</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="166:10:166:25">DocumentHandler</jtok>
+<jtok eid="1" type="field_name" span="166:26:166:41">documentHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="167:10:167:14">View</jtok>
+<jtok eid="1" type="field_name" span="167:15:167:19">view</jtok>
+<jtok eid="1" type="field_name" span="168:18:168:25">editing</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="169:10:169:20">JSplitPane</jtok>
+<jtok eid="1" type="field_name" span="169:21:169:30">splitPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="170:10:170:20">JPopupMenu</jtok>
+<jtok eid="1" type="field_name" span="170:21:170:26">popup</jtok>
+<jtok eid="1" type="line_comment" span="171:2:171:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="173:2:173:19">//{{{ refreshList</jtok>
+<jtok eid="9" type="method_name" span="174:15:174:26">refreshList</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="176:3:176:19">DefaultListModel</jtok>
+<jtok eid="9" type="local_variable_name" span="176:20:176:33">registerModel</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="176:37:176:53">DefaultListModel</jtok>
+<jtok eid="9" type="primary_name_ref" span="176:54:176:66">registerList</jtok>
+<jtok eid="9" type="method_call" span="176:67:176:75">getModel</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="177:3:177:9">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="177:10:177:11">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:14:177:26">registerList</jtok>
+<jtok eid="9" type="method_call" span="177:27:177:43">getSelectedValue</jtok>
+<jtok eid="9" type="local_variable_name" span="178:7:178:15">selected</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:7:179:8">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:20:179:21">o</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="179:33:179:42">Character</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:4:180:12">selected</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="180:17:180:26">Character</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:27:180:28">o</jtok>
+<jtok eid="9" type="method_call" span="180:30:180:39">charValue</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:3:182:16">registerModel</jtok>
+<jtok eid="9" type="method_call" span="182:17:182:34">removeAllElements</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="183:3:183:12">Registers</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="183:13:183:21">Register</jtok>
+<jtok eid="9" type="local_variable_name" span="183:24:183:33">registers</jtok>
+<jtok eid="9" type="primary_name_ref" span="183:36:183:45">Registers</jtok>
+<jtok eid="9" type="method_call" span="183:46:183:58">getRegisters</jtok>
+<jtok eid="9" type="local_variable_name" span="185:7:185:12">index</jtok>
+<jtok eid="9" type="local_variable_name" span="186:11:186:12">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:18:186:19">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:22:186:31">registers</jtok>
+<jtok eid="9" type="qualified_name_ref" span="186:32:186:38">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:40:186:41">i</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="188:4:188:13">Registers</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="188:14:188:22">Register</jtok>
+<jtok eid="9" type="local_variable_name" span="188:23:188:26">reg</jtok>
+<jtok eid="9" type="primary_name_ref" span="188:29:188:38">registers</jtok>
+<jtok eid="9" type="primary_name_ref" span="188:39:188:40">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="189:7:189:10">reg</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:8:191:9">i</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="194:4:194:10">String</jtok>
+<jtok eid="9" type="local_variable_name" span="194:11:194:16">value</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:19:194:22">reg</jtok>
+<jtok eid="9" type="method_call" span="194:23:194:31">toString</jtok>
+<jtok eid="9" type="primary_name_ref" span="195:7:195:12">value</jtok>
+<jtok eid="9" type="line_comment" span="195:22:195:48">// || value.length() == 0)</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:8:197:9">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="197:13:197:21">selected</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:5:198:10">index</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:13:198:26">registerModel</jtok>
+<jtok eid="9" type="method_call" span="198:27:198:31">size</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:4:199:17">registerModel</jtok>
+<jtok eid="9" type="method_call" span="199:18:199:28">addElement</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:29:199:38">Character</jtok>
+<jtok eid="9" type="method_call" span="199:39:199:46">valueOf</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:53:199:54">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="202:6:202:19">registerModel</jtok>
+<jtok eid="9" type="method_call" span="202:20:202:27">getSize</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:4:204:17">registerModel</jtok>
+<jtok eid="9" type="method_call" span="204:18:204:28">addElement</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:29:204:34">jEdit</jtok>
+<jtok eid="9" type="method_call" span="204:35:204:46">getProperty</jtok>
+<jtok eid="9" type="string_literal" span="204:47:204:68">"view-registers.none"</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:4:205:16">registerList</jtok>
+<jtok eid="9" type="method_call" span="205:17:205:27">setEnabled</jtok>
+<jtok eid="9" type="primary_name_ref" span="208:4:208:16">registerList</jtok>
+<jtok eid="9" type="method_call" span="208:17:208:27">setEnabled</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:3:209:15">registerList</jtok>
+<jtok eid="9" type="method_call" span="209:16:209:32">setSelectedIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:33:209:38">index</jtok>
+<jtok eid="1" type="line_comment" span="210:4:210:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="212:2:212:22">//{{{ insertRegister</jtok>
+<jtok eid="10" type="method_name" span="213:15:213:29">insertRegister</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="215:3:215:9">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="215:10:215:11">o</jtok>
+<jtok eid="10" type="primary_name_ref" span="215:14:215:26">registerList</jtok>
+<jtok eid="10" type="method_call" span="215:27:215:43">getSelectedValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="216:7:216:8">o</jtok>
+<jtok eid="10" type="primary_name_ref" span="216:22:216:23">o</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="216:35:216:44">Character</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="218:3:218:12">Registers</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="218:13:218:21">Register</jtok>
+<jtok eid="10" type="local_variable_name" span="218:22:218:25">reg</jtok>
+<jtok eid="10" type="primary_name_ref" span="218:28:218:37">Registers</jtok>
+<jtok eid="10" type="method_call" span="218:38:218:49">getRegister</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="218:52:218:61">Character</jtok>
+<jtok eid="10" type="primary_name_ref" span="218:62:218:63">o</jtok>
+<jtok eid="10" type="method_call" span="218:65:218:74">charValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="219:3:219:7">view</jtok>
+<jtok eid="10" type="method_call" span="219:8:219:19">getTextArea</jtok>
+<jtok eid="10" type="method_call" span="219:22:219:37">setSelectedText</jtok>
+<jtok eid="10" type="primary_name_ref" span="219:38:219:41">reg</jtok>
+<jtok eid="10" type="method_call" span="219:42:219:50">toString</jtok>
+<jtok eid="10" type="primary_name_ref" span="220:3:220:7">view</jtok>
+<jtok eid="10" type="method_call" span="220:8:220:19">getTextArea</jtok>
+<jtok eid="10" type="method_call" span="220:22:220:34">requestFocus</jtok>
+<jtok eid="1" type="line_comment" span="221:4:221:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="223:2:223:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="225:2:225:21">//{{{ Inner classes</jtok>
+<jtok eid="1" type="line_comment" span="227:2:227:22">//{{{ Renderer Class</jtok>
+<jtok eid="11" type="class_name" span="228:15:228:23">Renderer</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="228:32:228:55">DefaultListCellRenderer</jtok>
+<jtok eid="11" type="annotation_ref" span="230:4:230:12">Override</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="231:10:231:19">Component</jtok>
+<jtok eid="12" type="method_name" span="231:20:231:48">getListCellRendererComponent</jtok>
+<jtok eid="12" type="parameter_type" span="232:4:232:9">JList</jtok>
+<jtok eid="12" type="parameter_name" span="232:10:232:14">list</jtok>
+<jtok eid="12" type="parameter_type" span="232:16:232:22">Object</jtok>
+<jtok eid="12" type="parameter_name" span="232:23:232:28">value</jtok>
+<jtok eid="12" type="parameter_name" span="232:34:232:39">index</jtok>
+<jtok eid="12" type="parameter_name" span="233:12:233:22">isSelected</jtok>
+<jtok eid="12" type="parameter_name" span="233:32:233:44">cellHasFocus</jtok>
+<jtok eid="12" type="method_call" span="235:10:235:38">getListCellRendererComponent</jtok>
+<jtok eid="12" type="primary_name_ref" span="235:39:235:43">list</jtok>
+<jtok eid="12" type="primary_name_ref" span="235:44:235:49">value</jtok>
+<jtok eid="12" type="primary_name_ref" span="236:4:236:9">index</jtok>
+<jtok eid="12" type="primary_name_ref" span="236:10:236:20">isSelected</jtok>
+<jtok eid="12" type="primary_name_ref" span="236:21:236:33">cellHasFocus</jtok>
+<jtok eid="12" type="primary_name_ref" span="238:7:238:12">value</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="238:24:238:33">Character</jtok>
+<jtok eid="12" type="local_variable_name" span="240:10:240:14">name</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="240:19:240:28">Character</jtok>
+<jtok eid="12" type="primary_name_ref" span="240:29:240:34">value</jtok>
+<jtok eid="12" type="method_call" span="240:36:240:45">charValue</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="242:5:242:11">String</jtok>
+<jtok eid="12" type="local_variable_name" span="242:12:242:17">label</jtok>
+<jtok eid="12" type="primary_name_ref" span="244:8:244:12">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="245:6:245:11">label</jtok>
+<jtok eid="12" type="string_literal" span="245:14:245:18">"\n"</jtok>
+<jtok eid="12" type="primary_name_ref" span="246:13:246:17">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="247:6:247:11">label</jtok>
+<jtok eid="12" type="string_literal" span="247:14:247:18">"\t"</jtok>
+<jtok eid="12" type="primary_name_ref" span="248:13:248:17">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="249:6:249:11">label</jtok>
+<jtok eid="12" type="primary_name_ref" span="249:14:249:19">jEdit</jtok>
+<jtok eid="12" type="method_call" span="249:20:249:31">getProperty</jtok>
+<jtok eid="12" type="string_literal" span="249:32:249:58">"view-registers.clipboard"</jtok>
+<jtok eid="12" type="primary_name_ref" span="250:13:250:17">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="251:6:251:11">label</jtok>
+<jtok eid="12" type="primary_name_ref" span="251:14:251:19">jEdit</jtok>
+<jtok eid="12" type="method_call" span="251:20:251:31">getProperty</jtok>
+<jtok eid="12" type="string_literal" span="251:32:251:58">"view-registers.selection"</jtok>
+<jtok eid="12" type="primary_name_ref" span="253:6:253:11">label</jtok>
+<jtok eid="12" type="primary_name_ref" span="253:14:253:20">String</jtok>
+<jtok eid="12" type="method_call" span="253:21:253:28">valueOf</jtok>
+<jtok eid="12" type="primary_name_ref" span="253:29:253:33">name</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="254:5:254:13">Register</jtok>
+<jtok eid="12" type="local_variable_name" span="254:14:254:22">register</jtok>
+<jtok eid="12" type="primary_name_ref" span="254:25:254:34">Registers</jtok>
+<jtok eid="12" type="method_call" span="254:35:254:46">getRegister</jtok>
+<jtok eid="12" type="primary_name_ref" span="254:47:254:51">name</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="255:5:255:11">String</jtok>
+<jtok eid="12" type="local_variable_name" span="255:12:255:25">registerValue</jtok>
+<jtok eid="12" type="primary_name_ref" span="256:9:256:17">register</jtok>
+<jtok eid="12" type="line_comment" span="258:6:258:72">// The register is not defined anymore, it has been removed before</jtok>
+<jtok eid="12" type="line_comment" span="259:6:259:27">// the painting event</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:6:260:19">registerValue</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:22:260:27">jEdit</jtok>
+<jtok eid="12" type="method_call" span="260:28:260:39">getProperty</jtok>
+<jtok eid="12" type="string_literal" span="260:40:260:66">"view-registers.undefined"</jtok>
+<jtok eid="12" type="primary_name_ref" span="264:6:264:19">registerValue</jtok>
+<jtok eid="12" type="primary_name_ref" span="264:22:264:30">register</jtok>
+<jtok eid="12" type="method_call" span="264:31:264:39">toString</jtok>
+<jtok eid="12" type="primary_name_ref" span="265:10:265:23">registerValue</jtok>
+<jtok eid="12" type="method_call" span="265:24:265:30">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="266:7:266:20">registerValue</jtok>
+<jtok eid="12" type="primary_name_ref" span="266:23:266:36">registerValue</jtok>
+<jtok eid="12" type="method_call" span="266:37:266:46">substring</jtok>
+<jtok eid="12" type="string_literal" span="266:54:266:59">"..."</jtok>
+<jtok eid="12" type="primary_name_ref" span="267:6:267:19">registerValue</jtok>
+<jtok eid="12" type="primary_name_ref" span="267:22:267:35">registerValue</jtok>
+<jtok eid="12" type="method_call" span="267:36:267:46">replaceAll</jtok>
+<jtok eid="12" type="string_literal" span="267:47:267:51">"\n"</jtok>
+<jtok eid="12" type="string_literal" span="267:52:267:55">" "</jtok>
+<jtok eid="12" type="primary_name_ref" span="268:6:268:19">registerValue</jtok>
+<jtok eid="12" type="primary_name_ref" span="268:22:268:35">registerValue</jtok>
+<jtok eid="12" type="method_call" span="268:36:268:46">replaceAll</jtok>
+<jtok eid="12" type="string_literal" span="268:47:268:51">"\t"</jtok>
+<jtok eid="12" type="string_literal" span="268:52:268:55">" "</jtok>
+<jtok eid="12" type="method_call" span="270:5:270:12">setText</jtok>
+<jtok eid="12" type="primary_name_ref" span="270:13:270:18">label</jtok>
+<jtok eid="12" type="string_literal" span="270:21:270:26">" : "</jtok>
+<jtok eid="12" type="primary_name_ref" span="270:29:270:42">registerValue</jtok>
+<jtok eid="1" type="line_comment" span="276:4:276:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:25">//{{{ ListHandler Class</jtok>
+<jtok eid="13" type="class_name" span="279:8:279:19">ListHandler</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="279:31:279:52">ListSelectionListener</jtok>
+<jtok eid="14" type="method_name" span="281:15:281:27">valueChanged</jtok>
+<jtok eid="14" type="parameter_type" span="281:28:281:46">ListSelectionEvent</jtok>
+<jtok eid="14" type="parameter_name" span="281:47:281:50">evt</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="283:4:283:10">Object</jtok>
+<jtok eid="14" type="local_variable_name" span="283:11:283:16">value</jtok>
+<jtok eid="14" type="primary_name_ref" span="283:19:283:31">registerList</jtok>
+<jtok eid="14" type="method_call" span="283:32:283:48">getSelectedValue</jtok>
+<jtok eid="14" type="primary_name_ref" span="284:9:284:14">value</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="284:26:284:35">Character</jtok>
+<jtok eid="14" type="primary_name_ref" span="286:10:286:17">editing</jtok>
+<jtok eid="14" type="primary_name_ref" span="288:6:288:21">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="288:22:288:29">setText</jtok>
+<jtok eid="14" type="string_literal" span="288:30:288:32">""</jtok>
+<jtok eid="14" type="primary_name_ref" span="289:6:289:21">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="289:22:289:33">setEditable</jtok>
+<jtok eid="14" type="local_variable_name" span="294:9:294:13">name</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="294:18:294:27">Character</jtok>
+<jtok eid="14" type="primary_name_ref" span="294:28:294:33">value</jtok>
+<jtok eid="14" type="method_call" span="294:35:294:44">charValue</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="296:4:296:13">Registers</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="296:14:296:22">Register</jtok>
+<jtok eid="14" type="local_variable_name" span="296:23:296:26">reg</jtok>
+<jtok eid="14" type="primary_name_ref" span="296:29:296:38">Registers</jtok>
+<jtok eid="14" type="method_call" span="296:39:296:50">getRegister</jtok>
+<jtok eid="14" type="primary_name_ref" span="296:51:296:55">name</jtok>
+<jtok eid="14" type="primary_name_ref" span="297:7:297:10">reg</jtok>
+<jtok eid="14" type="primary_name_ref" span="299:10:299:17">editing</jtok>
+<jtok eid="14" type="primary_name_ref" span="301:6:301:21">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="301:22:301:29">setText</jtok>
+<jtok eid="14" type="string_literal" span="301:30:301:32">""</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:6:302:21">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="302:22:302:33">setEditable</jtok>
+<jtok eid="14" type="primary_name_ref" span="308:9:308:16">editing</jtok>
+<jtok eid="14" type="primary_name_ref" span="310:5:310:20">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="310:21:310:28">setText</jtok>
+<jtok eid="14" type="primary_name_ref" span="310:29:310:32">reg</jtok>
+<jtok eid="14" type="method_call" span="310:33:310:41">toString</jtok>
+<jtok eid="14" type="primary_name_ref" span="311:5:311:20">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="311:21:311:32">setEditable</jtok>
+<jtok eid="14" type="primary_name_ref" span="312:5:312:20">contentTextArea</jtok>
+<jtok eid="14" type="method_call" span="312:21:312:37">setCaretPosition</jtok>
+<jtok eid="1" type="line_comment" span="315:4:315:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="317:2:317:26">//{{{ MouseHandler Class</jtok>
+<jtok eid="15" type="class_name" span="318:8:318:20">MouseHandler</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="318:29:318:41">MouseAdapter</jtok>
+<jtok eid="15" type="annotation_ref" span="320:4:320:12">Override</jtok>
+<jtok eid="16" type="method_name" span="321:15:321:27">mouseClicked</jtok>
+<jtok eid="16" type="parameter_type" span="321:28:321:38">MouseEvent</jtok>
+<jtok eid="16" type="parameter_name" span="321:39:321:42">evt</jtok>
+<jtok eid="16" type="local_variable_name" span="323:8:323:9">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="323:12:323:24">registerList</jtok>
+<jtok eid="16" type="method_call" span="323:25:323:40">locationToIndex</jtok>
+<jtok eid="16" type="primary_name_ref" span="323:41:323:44">evt</jtok>
+<jtok eid="16" type="method_call" span="323:45:323:53">getPoint</jtok>
+<jtok eid="16" type="primary_name_ref" span="324:8:324:9">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="325:5:325:17">registerList</jtok>
+<jtok eid="16" type="method_call" span="325:18:325:34">setSelectedIndex</jtok>
+<jtok eid="16" type="primary_name_ref" span="325:35:325:36">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:8:326:20">GUIUtilities</jtok>
+<jtok eid="16" type="method_call" span="326:21:326:35">isPopupTrigger</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:36:326:39">evt</jtok>
+<jtok eid="16" type="primary_name_ref" span="328:9:328:14">popup</jtok>
+<jtok eid="16" type="primary_name_ref" span="330:6:330:11">popup</jtok>
+<jtok eid="16" type="constructor_call" span="330:18:330:28">JPopupMenu</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="331:6:331:15">JMenuItem</jtok>
+<jtok eid="16" type="local_variable_name" span="331:16:331:20">item</jtok>
+<jtok eid="16" type="primary_name_ref" span="331:23:331:35">GUIUtilities</jtok>
+<jtok eid="16" type="method_call" span="331:36:331:48">loadMenuItem</jtok>
+<jtok eid="16" type="string_literal" span="331:49:331:56">"paste"</jtok>
+<jtok eid="16" type="primary_name_ref" span="332:6:332:11">popup</jtok>
+<jtok eid="16" type="method_call" span="332:12:332:15">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="332:16:332:20">item</jtok>
+<jtok eid="16" type="primary_name_ref" span="333:6:333:10">item</jtok>
+<jtok eid="16" type="constructor_call" span="333:17:333:26">JMenuItem</jtok>
+<jtok eid="16" type="primary_name_ref" span="333:27:333:32">jEdit</jtok>
+<jtok eid="16" type="method_call" span="333:33:333:44">getProperty</jtok>
+<jtok eid="16" type="string_literal" span="333:45:333:74">"clear-string-register.label"</jtok>
+<jtok eid="16" type="primary_name_ref" span="334:6:334:10">item</jtok>
+<jtok eid="16" type="method_call" span="334:11:334:28">addActionListener</jtok>
+<jtok eid="16" type="constructor_call" span="334:33:334:47">ActionListener</jtok>
+<jtok eid="18" type="method_name" span="336:19:336:34">actionPerformed</jtok>
+<jtok eid="18" type="parameter_type" span="336:35:336:46">ActionEvent</jtok>
+<jtok eid="18" type="parameter_name" span="336:47:336:48">e</jtok>
+<jtok eid="18" type="method_call" span="338:8:338:26">clearSelectedIndex</jtok>
+<jtok eid="16" type="primary_name_ref" span="341:6:341:11">popup</jtok>
+<jtok eid="16" type="method_call" span="341:12:341:15">add</jtok>
+<jtok eid="16" type="primary_name_ref" span="341:16:341:20">item</jtok>
+<jtok eid="16" type="primary_name_ref" span="343:5:343:17">GUIUtilities</jtok>
+<jtok eid="16" type="method_call" span="343:18:343:31">showPopupMenu</jtok>
+<jtok eid="16" type="primary_name_ref" span="343:32:343:37">popup</jtok>
+<jtok eid="16" type="primary_name_ref" span="343:39:343:51">registerList</jtok>
+<jtok eid="16" type="primary_name_ref" span="343:53:343:56">evt</jtok>
+<jtok eid="16" type="method_call" span="343:57:343:61">getX</jtok>
+<jtok eid="16" type="primary_name_ref" span="343:65:343:68">evt</jtok>
+<jtok eid="16" type="method_call" span="343:69:343:73">getY</jtok>
+<jtok eid="16" type="primary_name_ref" span="345:13:345:16">evt</jtok>
+<jtok eid="16" type="method_call" span="345:17:345:30">getClickCount</jtok>
+<jtok eid="16" type="method_call" span="346:5:346:19">insertRegister</jtok>
+<jtok eid="1" type="line_comment" span="348:4:348:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="350:2:350:29">//{{{ DocumentHandler Class</jtok>
+<jtok eid="19" type="class_name" span="351:8:351:23">DocumentHandler</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="351:35:351:51">DocumentListener</jtok>
+<jtok eid="20" type="method_name" span="353:15:353:28">changedUpdate</jtok>
+<jtok eid="20" type="parameter_type" span="353:29:353:42">DocumentEvent</jtok>
+<jtok eid="20" type="parameter_name" span="353:43:353:44">e</jtok>
+<jtok eid="20" type="method_call" span="355:4:355:24">updateRegisterSafely</jtok>
+<jtok eid="21" type="method_name" span="358:15:358:27">insertUpdate</jtok>
+<jtok eid="21" type="parameter_type" span="358:28:358:41">DocumentEvent</jtok>
+<jtok eid="21" type="parameter_name" span="358:42:358:43">e</jtok>
+<jtok eid="21" type="method_call" span="360:4:360:24">updateRegisterSafely</jtok>
+<jtok eid="22" type="method_name" span="363:15:363:27">removeUpdate</jtok>
+<jtok eid="22" type="parameter_type" span="363:28:363:41">DocumentEvent</jtok>
+<jtok eid="22" type="parameter_name" span="363:42:363:43">e</jtok>
+<jtok eid="22" type="method_call" span="365:4:365:24">updateRegisterSafely</jtok>
+<jtok eid="23" type="method_name" span="368:16:368:36">updateRegisterSafely</jtok>
+<jtok eid="23" type="primary_name_ref" span="372:5:372:12">editing</jtok>
+<jtok eid="23" type="method_call" span="373:5:373:19">updateRegister</jtok>
+<jtok eid="23" type="primary_name_ref" span="377:5:377:12">editing</jtok>
+<jtok eid="24" type="method_name" span="381:16:381:30">updateRegister</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="383:4:383:10">Object</jtok>
+<jtok eid="24" type="local_variable_name" span="383:11:383:16">value</jtok>
+<jtok eid="24" type="primary_name_ref" span="383:19:383:31">registerList</jtok>
+<jtok eid="24" type="method_call" span="383:32:383:48">getSelectedValue</jtok>
+<jtok eid="24" type="primary_name_ref" span="384:9:384:14">value</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="384:26:384:35">Character</jtok>
+<jtok eid="24" type="local_variable_name" span="386:9:386:13">name</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="386:18:386:27">Character</jtok>
+<jtok eid="24" type="primary_name_ref" span="386:28:386:33">value</jtok>
+<jtok eid="24" type="method_call" span="386:35:386:44">charValue</jtok>
+<jtok eid="24" type="primary_name_ref" span="387:4:387:13">Registers</jtok>
+<jtok eid="24" type="method_call" span="387:14:387:25">setRegister</jtok>
+<jtok eid="24" type="primary_name_ref" span="387:26:387:30">name</jtok>
+<jtok eid="24" type="primary_name_ref" span="387:31:387:46">contentTextArea</jtok>
+<jtok eid="24" type="method_call" span="387:47:387:54">getText</jtok>
+<jtok eid="1" type="line_comment" span="389:4:389:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="391:2:391:26">//{{{ FocusHandler Class</jtok>
+<jtok eid="25" type="class_name" span="392:8:392:20">FocusHandler</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="392:32:392:45">FocusListener</jtok>
+<jtok eid="26" type="method_name" span="394:15:394:26">focusGained</jtok>
+<jtok eid="26" type="parameter_type" span="394:27:394:37">FocusEvent</jtok>
+<jtok eid="26" type="parameter_name" span="394:38:394:39">e</jtok>
+<jtok eid="26" type="primary_name_ref" span="396:4:396:19">contentTextArea</jtok>
+<jtok eid="26" type="method_call" span="396:20:396:31">getDocument</jtok>
+<jtok eid="26" type="method_call" span="396:34:396:53">addDocumentListener</jtok>
+<jtok eid="26" type="primary_name_ref" span="396:54:396:69">documentHandler</jtok>
+<jtok eid="27" type="method_name" span="398:15:398:24">focusLost</jtok>
+<jtok eid="27" type="parameter_type" span="398:25:398:35">FocusEvent</jtok>
+<jtok eid="27" type="parameter_name" span="398:36:398:37">e</jtok>
+<jtok eid="27" type="primary_name_ref" span="400:4:400:19">contentTextArea</jtok>
+<jtok eid="27" type="method_call" span="400:20:400:31">getDocument</jtok>
+<jtok eid="27" type="method_call" span="400:34:400:56">removeDocumentListener</jtok>
+<jtok eid="27" type="primary_name_ref" span="400:57:400:72">documentHandler</jtok>
+<jtok eid="1" type="line_comment" span="402:3:402:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="404:2:404:7">//}}}</jtok>
+</jdoc>

@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.LHS" jls="java5">
+<jent id="0" type="file" span="0:0:269:1">Source/jEdit/org/gjt/sp/jedit/bsh/LHS.java</jent>
+<jent id="1" pid="0" type="class" span="52:1:268:1">org.gjt.sp.jedit.bsh.LHS</jent>
+<jent id="2" pid="1" type="method" span="79:2:87:2">org.gjt.sp.jedit.bsh.LHS.LHS(NameSpace,String)</jent>
+<jent id="3" pid="1" type="method" span="95:2:101:2">org.gjt.sp.jedit.bsh.LHS.LHS(NameSpace,String,boolean)</jent>
+<jent id="4" pid="1" type="method" span="107:2:112:2">org.gjt.sp.jedit.bsh.LHS.LHS(Field)</jent>
+<jent id="5" pid="1" type="method" span="117:2:125:2">org.gjt.sp.jedit.bsh.LHS.LHS(Object,Field)</jent>
+<jent id="6" pid="1" type="method" span="130:2:138:2">org.gjt.sp.jedit.bsh.LHS.LHS(Object,String)</jent>
+<jent id="7" pid="1" type="method" span="143:2:151:2">org.gjt.sp.jedit.bsh.LHS.LHS(Object,int)</jent>
+<jent id="8" pid="1" type="method" span="153:2:184:2">org.gjt.sp.jedit.bsh.LHS.getValue()</jent>
+<jent id="9" pid="1" type="method" span="189:2:260:2">org.gjt.sp.jedit.bsh.LHS.assign(Object,boolean)</jent>
+<jent id="10" pid="1" type="method" span="262:2:267:2">org.gjt.sp.jedit.bsh.LHS.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="39:1:51:3">/**
+	An LHS is a wrapper for an variable, field, or property.  It ordinarily 
+	holds the "left hand side" of an assignment and may be either resolved to 
+	a value or assigned a value.
+	&lt;p&gt;
+	
+	There is one special case here termed METHOD_EVAL where the LHS is used
+	in an intermediate evaluation of a chain of suffixes and wraps a method
+	invocation.  In this case it may only be resolved to a value and cannot be 
+	assigned.  (You can't assign a value to the result of a method call e.g.
+	"foo() = 5;").
+	&lt;p&gt;
+*/</jtok>
+<jtok eid="1" type="class_name" span="52:7:52:10">LHS</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:22:52:37">ParserConstants</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:39:52:43">java</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:44:52:46">io</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:47:52:59">Serializable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="54:2:54:11">NameSpace</jtok>
+<jtok eid="1" type="field_name" span="54:12:54:21">nameSpace</jtok>
+<jtok eid="1" type="block_comment" span="55:2:55:53">/** The assignment should be to a local variable */</jtok>
+<jtok eid="1" type="field_name" span="56:10:56:18">localVar</jtok>
+<jtok eid="1" type="block_comment" span="58:2:60:4">/**
+		Identifiers for the various types of LHS.
+	*/</jtok>
+<jtok eid="1" type="field_name" span="62:3:62:11">VARIABLE</jtok>
+<jtok eid="1" type="field_name" span="63:3:63:8">FIELD</jtok>
+<jtok eid="1" type="field_name" span="64:3:64:11">PROPERTY</jtok>
+<jtok eid="1" type="field_name" span="65:3:65:8">INDEX</jtok>
+<jtok eid="1" type="field_name" span="66:3:66:14">METHOD_EVAL</jtok>
+<jtok eid="1" type="field_name" span="68:6:68:10">type</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="70:2:70:8">String</jtok>
+<jtok eid="1" type="field_name" span="70:9:70:16">varName</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:2:71:8">String</jtok>
+<jtok eid="1" type="field_name" span="71:9:71:17">propName</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:2:72:7">Field</jtok>
+<jtok eid="1" type="field_name" span="72:8:72:13">field</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="73:2:73:8">Object</jtok>
+<jtok eid="1" type="field_name" span="73:9:73:15">object</jtok>
+<jtok eid="1" type="field_name" span="74:6:74:11">index</jtok>
+<jtok eid="1" type="block_comment" span="76:1:78:3">/**
+		Variable LHS constructor.
+*/</jtok>
+<jtok eid="2" type="method_name" span="79:2:79:5">LHS</jtok>
+<jtok eid="2" type="parameter_type" span="79:7:79:16">NameSpace</jtok>
+<jtok eid="2" type="parameter_name" span="79:17:79:26">nameSpace</jtok>
+<jtok eid="2" type="parameter_type" span="79:28:79:34">String</jtok>
+<jtok eid="2" type="parameter_name" span="79:35:79:42">varName</jtok>
+<jtok eid="2" type="constructor_call" span="81:11:81:16">Error</jtok>
+<jtok eid="2" type="string_literal" span="81:17:81:32">"namespace lhs"</jtok>
+<jtok eid="2" type="block_comment" span="82:1:86:3">/*
+		type = VARIABLE;
+		this.varName = varName;
+		this.nameSpace = nameSpace;
+*/</jtok>
+<jtok eid="1" type="block_comment" span="89:2:94:4">/**
+		@param localVar if true the variable is set directly in the This
+		reference's local scope.  If false recursion to look for the variable
+		definition in parent's scope is allowed. (e.g. the default case for
+		undefined vars going to global).
+	*/</jtok>
+<jtok eid="3" type="method_name" span="95:2:95:5">LHS</jtok>
+<jtok eid="3" type="parameter_type" span="95:7:95:16">NameSpace</jtok>
+<jtok eid="3" type="parameter_name" span="95:17:95:26">nameSpace</jtok>
+<jtok eid="3" type="parameter_type" span="95:28:95:34">String</jtok>
+<jtok eid="3" type="parameter_name" span="95:35:95:42">varName</jtok>
+<jtok eid="3" type="parameter_name" span="95:52:95:60">localVar</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:3:97:7">type</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:10:97:18">VARIABLE</jtok>
+<jtok eid="3" type="qualified_name_ref" span="98:8:98:16">localVar</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:19:98:27">localVar</jtok>
+<jtok eid="3" type="qualified_name_ref" span="99:8:99:15">varName</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:18:99:25">varName</jtok>
+<jtok eid="3" type="qualified_name_ref" span="100:8:100:17">nameSpace</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:20:100:29">nameSpace</jtok>
+<jtok eid="1" type="block_comment" span="103:2:106:4">/**
+		Static field LHS Constructor.
+		This simply calls Object field constructor with null object.
+	*/</jtok>
+<jtok eid="4" type="method_name" span="107:2:107:5">LHS</jtok>
+<jtok eid="4" type="parameter_type" span="107:7:107:12">Field</jtok>
+<jtok eid="4" type="parameter_name" span="107:13:107:18">field</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:3:109:7">type</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:10:109:15">FIELD</jtok>
+<jtok eid="4" type="qualified_name_ref" span="110:8:110:14">object</jtok>
+<jtok eid="4" type="qualified_name_ref" span="111:8:111:13">field</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:16:111:21">field</jtok>
+<jtok eid="1" type="block_comment" span="114:2:116:4">/**
+		Object field LHS Constructor.
+	*/</jtok>
+<jtok eid="5" type="method_name" span="117:2:117:5">LHS</jtok>
+<jtok eid="5" type="parameter_type" span="117:7:117:13">Object</jtok>
+<jtok eid="5" type="parameter_name" span="117:14:117:20">object</jtok>
+<jtok eid="5" type="parameter_type" span="117:22:117:27">Field</jtok>
+<jtok eid="5" type="parameter_name" span="117:28:117:33">field</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:8:119:14">object</jtok>
+<jtok eid="5" type="constructor_call" span="120:14:120:34">NullPointerException</jtok>
+<jtok eid="5" type="string_literal" span="120:35:120:58">"constructed empty LHS"</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:3:122:7">type</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:10:122:15">FIELD</jtok>
+<jtok eid="5" type="qualified_name_ref" span="123:8:123:14">object</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:17:123:23">object</jtok>
+<jtok eid="5" type="qualified_name_ref" span="124:8:124:13">field</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:16:124:21">field</jtok>
+<jtok eid="1" type="block_comment" span="127:2:129:4">/**
+		Object property LHS Constructor.
+	*/</jtok>
+<jtok eid="6" type="method_name" span="130:2:130:5">LHS</jtok>
+<jtok eid="6" type="parameter_type" span="130:7:130:13">Object</jtok>
+<jtok eid="6" type="parameter_name" span="130:14:130:20">object</jtok>
+<jtok eid="6" type="parameter_type" span="130:22:130:28">String</jtok>
+<jtok eid="6" type="parameter_name" span="130:29:130:37">propName</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:6:132:12">object</jtok>
+<jtok eid="6" type="constructor_call" span="133:14:133:34">NullPointerException</jtok>
+<jtok eid="6" type="string_literal" span="133:35:133:58">"constructed empty LHS"</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:3:135:7">type</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:10:135:18">PROPERTY</jtok>
+<jtok eid="6" type="qualified_name_ref" span="136:8:136:14">object</jtok>
+<jtok eid="6" type="primary_name_ref" span="136:17:136:23">object</jtok>
+<jtok eid="6" type="qualified_name_ref" span="137:8:137:16">propName</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:19:137:27">propName</jtok>
+<jtok eid="1" type="block_comment" span="140:2:142:4">/**
+		Array index LHS Constructor.
+	*/</jtok>
+<jtok eid="7" type="method_name" span="143:2:143:5">LHS</jtok>
+<jtok eid="7" type="parameter_type" span="143:7:143:13">Object</jtok>
+<jtok eid="7" type="parameter_name" span="143:14:143:19">array</jtok>
+<jtok eid="7" type="parameter_name" span="143:25:143:30">index</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:6:145:11">array</jtok>
+<jtok eid="7" type="constructor_call" span="146:14:146:34">NullPointerException</jtok>
+<jtok eid="7" type="string_literal" span="146:35:146:58">"constructed empty LHS"</jtok>
+<jtok eid="7" type="primary_name_ref" span="148:3:148:7">type</jtok>
+<jtok eid="7" type="primary_name_ref" span="148:10:148:15">INDEX</jtok>
+<jtok eid="7" type="qualified_name_ref" span="149:8:149:14">object</jtok>
+<jtok eid="7" type="primary_name_ref" span="149:17:149:22">array</jtok>
+<jtok eid="7" type="qualified_name_ref" span="150:8:150:13">index</jtok>
+<jtok eid="7" type="primary_name_ref" span="150:16:150:21">index</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="153:9:153:15">Object</jtok>
+<jtok eid="8" type="method_name" span="153:16:153:24">getValue</jtok>
+<jtok eid="8" type="throws" span="153:34:153:47">UtilEvalError</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:8:155:12">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:16:155:24">VARIABLE</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:11:156:20">nameSpace</jtok>
+<jtok eid="8" type="method_call" span="156:21:156:32">getVariable</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:34:156:41">varName</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:7:158:11">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:15:158:20">FIELD</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="160:5:160:11">Object</jtok>
+<jtok eid="8" type="local_variable_name" span="160:12:160:13">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="160:16:160:21">field</jtok>
+<jtok eid="8" type="method_call" span="160:22:160:25">get</jtok>
+<jtok eid="8" type="primary_name_ref" span="160:27:160:33">object</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:12:161:21">Primitive</jtok>
+<jtok eid="8" type="method_call" span="161:22:161:26">wrap</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:28:161:29">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:31:161:36">field</jtok>
+<jtok eid="8" type="method_call" span="161:37:161:44">getType</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="162:12:162:34">IllegalAccessException</jtok>
+<jtok eid="8" type="local_variable_name" span="162:35:162:37">e2</jtok>
+<jtok eid="8" type="constructor_call" span="163:15:163:28">UtilEvalError</jtok>
+<jtok eid="8" type="string_literal" span="163:29:163:49">"Can't read field: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:52:163:57">field</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:8:166:12">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:16:166:24">PROPERTY</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:12:168:19">Reflect</jtok>
+<jtok eid="8" type="method_call" span="168:20:168:37">getObjectProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:38:168:44">object</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:46:168:54">propName</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="170:10:170:22">ReflectError</jtok>
+<jtok eid="8" type="local_variable_name" span="170:23:170:24">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="171:5:171:16">Interpreter</jtok>
+<jtok eid="8" type="method_call" span="171:17:171:22">debug</jtok>
+<jtok eid="8" type="primary_name_ref" span="171:23:171:24">e</jtok>
+<jtok eid="8" type="method_call" span="171:25:171:35">getMessage</jtok>
+<jtok eid="8" type="constructor_call" span="172:15:172:28">UtilEvalError</jtok>
+<jtok eid="8" type="string_literal" span="172:29:172:49">"No such property: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="172:52:172:60">propName</jtok>
+<jtok eid="8" type="primary_name_ref" span="175:8:175:12">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="175:16:175:21">INDEX</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:12:177:19">Reflect</jtok>
+<jtok eid="8" type="method_call" span="177:20:177:28">getIndex</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:29:177:35">object</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:37:177:42">index</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="179:10:179:19">Exception</jtok>
+<jtok eid="8" type="local_variable_name" span="179:20:179:21">e</jtok>
+<jtok eid="8" type="constructor_call" span="180:15:180:28">UtilEvalError</jtok>
+<jtok eid="8" type="string_literal" span="180:29:180:45">"Array access: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="180:48:180:49">e</jtok>
+<jtok eid="8" type="constructor_call" span="183:13:183:29">InterpreterError</jtok>
+<jtok eid="8" type="string_literal" span="183:30:183:40">"LHS type"</jtok>
+<jtok eid="1" type="block_comment" span="186:2:188:4">/**
+		Assign a value to the LHS.
+	*/</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="189:9:189:15">Object</jtok>
+<jtok eid="9" type="method_name" span="189:16:189:22">assign</jtok>
+<jtok eid="9" type="parameter_type" span="189:24:189:30">Object</jtok>
+<jtok eid="9" type="parameter_name" span="189:31:189:34">val</jtok>
+<jtok eid="9" type="parameter_name" span="189:44:189:54">strictJava</jtok>
+<jtok eid="9" type="throws" span="190:10:190:23">UtilEvalError</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:8:192:12">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:16:192:24">VARIABLE</jtok>
+<jtok eid="9" type="line_comment" span="194:4:194:63">// Set the variable in namespace according to localVar flag</jtok>
+<jtok eid="9" type="primary_name_ref" span="195:9:195:17">localVar</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:5:196:14">nameSpace</jtok>
+<jtok eid="9" type="method_call" span="196:15:196:31">setLocalVariable</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:33:196:40">varName</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:42:196:45">val</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:47:196:57">strictJava</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:5:198:14">nameSpace</jtok>
+<jtok eid="9" type="method_call" span="198:15:198:26">setVariable</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:28:198:35">varName</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:37:198:40">val</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:42:198:52">strictJava</jtok>
+<jtok eid="9" type="primary_name_ref" span="200:8:200:12">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="200:16:200:21">FIELD</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="203:5:203:11">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="203:12:203:20">fieldVal</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:23:203:26">val</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="203:38:203:47">Primitive</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="204:8:204:17">Primitive</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:18:204:21">val</jtok>
+<jtok eid="9" type="method_call" span="204:23:204:31">getValue</jtok>
+<jtok eid="9" type="primary_name_ref" span="204:36:204:39">val</jtok>
+<jtok eid="9" type="line_comment" span="206:5:206:47">// This should probably be in Reflect.java</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:5:207:19">ReflectManager</jtok>
+<jtok eid="9" type="method_call" span="207:20:207:35">RMSetAccessible</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:37:207:42">field</jtok>
+<jtok eid="9" type="primary_name_ref" span="208:5:208:10">field</jtok>
+<jtok eid="9" type="method_call" span="208:11:208:14">set</jtok>
+<jtok eid="9" type="primary_name_ref" span="208:16:208:22">object</jtok>
+<jtok eid="9" type="primary_name_ref" span="208:24:208:32">fieldVal</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:12:209:15">val</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="211:11:211:31">NullPointerException</jtok>
+<jtok eid="9" type="local_variable_name" span="211:32:211:33">e</jtok>
+<jtok eid="9" type="constructor_call" span="212:18:212:31">UtilEvalError</jtok>
+<jtok eid="9" type="string_literal" span="213:6:213:13">"LHS ("</jtok>
+<jtok eid="9" type="primary_name_ref" span="213:14:213:19">field</jtok>
+<jtok eid="9" type="method_call" span="213:20:213:27">getName</jtok>
+<jtok eid="9" type="string_literal" span="213:30:213:53">") not a static field."</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="215:14:215:36">IllegalAccessException</jtok>
+<jtok eid="9" type="local_variable_name" span="215:37:215:39">e2</jtok>
+<jtok eid="9" type="constructor_call" span="216:15:216:28">UtilEvalError</jtok>
+<jtok eid="9" type="string_literal" span="217:6:217:13">"LHS ("</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:14:217:19">field</jtok>
+<jtok eid="9" type="method_call" span="217:20:217:27">getName</jtok>
+<jtok eid="9" type="string_literal" span="217:30:217:54">") can't access field: "</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:55:217:57">e2</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="219:11:219:35">IllegalArgumentException</jtok>
+<jtok eid="9" type="local_variable_name" span="219:36:219:38">e3</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="221:5:221:11">String</jtok>
+<jtok eid="9" type="local_variable_name" span="221:12:221:16">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="221:19:221:22">val</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="221:34:221:43">Primitive</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="222:8:222:17">Primitive</jtok>
+<jtok eid="9" type="primary_name_ref" span="222:18:222:21">val</jtok>
+<jtok eid="9" type="method_call" span="222:23:222:30">getType</jtok>
+<jtok eid="9" type="method_call" span="222:33:222:40">getName</jtok>
+<jtok eid="9" type="primary_name_ref" span="223:8:223:11">val</jtok>
+<jtok eid="9" type="method_call" span="223:12:223:20">getClass</jtok>
+<jtok eid="9" type="method_call" span="223:23:223:30">getName</jtok>
+<jtok eid="9" type="constructor_call" span="224:15:224:28">UtilEvalError</jtok>
+<jtok eid="9" type="string_literal" span="225:6:225:32">"Argument type mismatch. "</jtok>
+<jtok eid="9" type="primary_name_ref" span="225:36:225:39">val</jtok>
+<jtok eid="9" type="string_literal" span="225:50:225:56">"null"</jtok>
+<jtok eid="9" type="primary_name_ref" span="225:59:225:63">type</jtok>
+<jtok eid="9" type="string_literal" span="226:8:226:35">" not assignable to field "</jtok>
+<jtok eid="9" type="primary_name_ref" span="226:36:226:41">field</jtok>
+<jtok eid="9" type="method_call" span="226:42:226:49">getName</jtok>
+<jtok eid="9" type="primary_name_ref" span="230:8:230:12">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="230:16:230:24">PROPERTY</jtok>
+<jtok eid="9" type="block_comment" span="232:4:235:6">/*
+			if ( object instanceof Hashtable )
+				((Hashtable)object).put(propName, val);
+			*/</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="236:4:236:21">CollectionManager</jtok>
+<jtok eid="9" type="local_variable_name" span="236:22:236:24">cm</jtok>
+<jtok eid="9" type="primary_name_ref" span="236:27:236:44">CollectionManager</jtok>
+<jtok eid="9" type="method_call" span="236:45:236:65">getCollectionManager</jtok>
+<jtok eid="9" type="primary_name_ref" span="237:9:237:11">cm</jtok>
+<jtok eid="9" type="method_call" span="237:12:237:17">isMap</jtok>
+<jtok eid="9" type="primary_name_ref" span="237:19:237:25">object</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:5:238:7">cm</jtok>
+<jtok eid="9" type="method_call" span="238:8:238:16">putInMap</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:18:238:24">object</jtok>
+<jtok eid="9" type="block_comment" span="238:24:238:31">/*map*/</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:33:238:41">propName</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:43:238:46">val</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:6:241:13">Reflect</jtok>
+<jtok eid="9" type="method_call" span="241:14:241:31">setObjectProperty</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:32:241:38">object</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:40:241:48">propName</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:50:241:53">val</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="243:11:243:23">ReflectError</jtok>
+<jtok eid="9" type="local_variable_name" span="243:24:243:25">e</jtok>
+<jtok eid="9" type="primary_name_ref" span="244:6:244:17">Interpreter</jtok>
+<jtok eid="9" type="method_call" span="244:18:244:23">debug</jtok>
+<jtok eid="9" type="string_literal" span="244:24:244:38">"Assignment: "</jtok>
+<jtok eid="9" type="primary_name_ref" span="244:41:244:42">e</jtok>
+<jtok eid="9" type="method_call" span="244:43:244:53">getMessage</jtok>
+<jtok eid="9" type="constructor_call" span="245:16:245:29">UtilEvalError</jtok>
+<jtok eid="9" type="string_literal" span="245:30:245:50">"No such property: "</jtok>
+<jtok eid="9" type="primary_name_ref" span="245:53:245:61">propName</jtok>
+<jtok eid="9" type="primary_name_ref" span="248:8:248:12">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="248:16:248:21">INDEX</jtok>
+<jtok eid="9" type="primary_name_ref" span="250:5:250:12">Reflect</jtok>
+<jtok eid="9" type="method_call" span="250:13:250:21">setIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="250:22:250:28">object</jtok>
+<jtok eid="9" type="primary_name_ref" span="250:30:250:35">index</jtok>
+<jtok eid="9" type="primary_name_ref" span="250:37:250:40">val</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="251:14:251:29">UtilTargetError</jtok>
+<jtok eid="9" type="local_variable_name" span="251:30:251:32">e1</jtok>
+<jtok eid="9" type="line_comment" span="251:37:251:63">// pass along target error</jtok>
+<jtok eid="9" type="primary_name_ref" span="252:11:252:13">e1</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="253:14:253:23">Exception</jtok>
+<jtok eid="9" type="local_variable_name" span="253:24:253:25">e</jtok>
+<jtok eid="9" type="constructor_call" span="254:15:254:28">UtilEvalError</jtok>
+<jtok eid="9" type="string_literal" span="254:29:254:43">"Assignment: "</jtok>
+<jtok eid="9" type="primary_name_ref" span="254:46:254:47">e</jtok>
+<jtok eid="9" type="method_call" span="254:48:254:58">getMessage</jtok>
+<jtok eid="9" type="constructor_call" span="257:14:257:30">InterpreterError</jtok>
+<jtok eid="9" type="string_literal" span="257:31:257:44">"unknown lhs"</jtok>
+<jtok eid="9" type="primary_name_ref" span="259:10:259:13">val</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="262:9:262:15">String</jtok>
+<jtok eid="10" type="method_name" span="262:16:262:24">toString</jtok>
+<jtok eid="10" type="string_literal" span="263:10:263:17">"LHS: "</jtok>
+<jtok eid="10" type="primary_name_ref" span="264:7:264:12">field</jtok>
+<jtok eid="10" type="string_literal" span="264:21:264:31">"field = "</jtok>
+<jtok eid="10" type="primary_name_ref" span="264:32:264:37">field</jtok>
+<jtok eid="10" type="method_call" span="264:38:264:46">toString</jtok>
+<jtok eid="10" type="string_literal" span="264:49:264:51">""</jtok>
+<jtok eid="10" type="primary_name_ref" span="265:6:265:13">varName</jtok>
+<jtok eid="10" type="string_literal" span="265:22:265:35">" varName = "</jtok>
+<jtok eid="10" type="primary_name_ref" span="265:36:265:43">varName</jtok>
+<jtok eid="10" type="string_literal" span="265:45:265:47">""</jtok>
+<jtok eid="10" type="primary_name_ref" span="266:6:266:15">nameSpace</jtok>
+<jtok eid="10" type="string_literal" span="266:24:266:39">" nameSpace = "</jtok>
+<jtok eid="10" type="primary_name_ref" span="266:40:266:49">nameSpace</jtok>
+<jtok eid="10" type="method_call" span="266:50:266:58">toString</jtok>
+<jtok eid="10" type="string_literal" span="266:62:266:64">""</jtok>
+</jdoc>

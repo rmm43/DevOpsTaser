@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints" jls="java5">
+<jent id="0" type="file" span="0:0:476:2">Source/jEdit/org/gjt/sp/jedit/gui/ExtendedGridLayoutConstraints.java</jent>
+<jent id="1" pid="0" type="class" span="29:1:476:1">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints</jent>
+<jent id="2" pid="1" type="method" span="131:2:134:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.ExtendedGridLayoutConstraints(Component)</jent>
+<jent id="3" pid="1" type="method" span="147:2:150:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.ExtendedGridLayoutConstraints(int,Component)</jent>
+<jent id="4" pid="1" type="method" span="171:2:174:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.ExtendedGridLayoutConstraints(int,int,int,Component)</jent>
+<jent id="5" pid="1" type="method" span="201:2:228:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.ExtendedGridLayoutConstraints(int,int,int,int,Component,boolean,ExtendedGridLayoutConstraints)</jent>
+<jent id="6" pid="1" type="method" span="240:2:252:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getColspanPlaceholder(boolean)</jent>
+<jent id="7" pid="1" type="method" span="264:2:276:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getRowspanPlaceholder(boolean)</jent>
+<jent id="8" pid="1" type="method" span="281:2:284:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getRow()</jent>
+<jent id="9" pid="1" type="method" span="289:2:292:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getCol()</jent>
+<jent id="10" pid="1" type="method" span="297:2:304:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.setCol(int)</jent>
+<jent id="11" pid="1" type="method" span="311:2:314:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getColspan()</jent>
+<jent id="12" pid="1" type="method" span="319:2:322:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getEffectiveColspan()</jent>
+<jent id="13" pid="1" type="method" span="329:2:332:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getRowspan()</jent>
+<jent id="14" pid="1" type="method" span="337:2:340:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getEffectiveRowspan()</jent>
+<jent id="15" pid="1" type="method" span="345:2:348:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getComponent()</jent>
+<jent id="16" pid="1" type="method" span="353:2:356:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.isPlaceholder()</jent>
+<jent id="17" pid="1" type="method" span="364:2:367:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.getWorkCopy()</jent>
+<jent id="18" pid="1" type="method" span="407:2:419:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.equals(Object)</jent>
+<jent id="19" pid="1" type="method" span="450:2:457:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.hashCode()</jent>
+<jent id="20" pid="1" type="method" span="468:2:475:2">org.gjt.sp.jedit.gui.ExtendedGridLayoutConstraints.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:14:4">/*
+ * ExtendedGridLayoutConstraints.java - a constraints clss for the ExtendedGridLayout
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Originally written by Björn Kautler for the jEdit project. This work has been
+ * placed into the public domain. You may use this work in any way and for any
+ * purpose you wish.
+ *
+ * THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND, NOT EVEN THE
+ * IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR OF THIS SOFTWARE, ASSUMES
+ * _NO_ RESPONSIBILITY FOR ANY CONSEQUENCE RESULTING FROM THE USE, MODIFICATION,
+ * OR REDISTRIBUTION OF THIS SOFTWARE.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="20:1:28:4">/**
+ * Specifies constraints for components
+ * that are laid out using the {@code ExtendedGridLayout} class.
+ *
+ * @version 1.0
+ * @author  Björn "Vampire" Kautler
+ * @see     ExtendedGridLayout
+ * @since   jEdit 4.3pre10
+ */</jtok>
+<jtok eid="1" type="class_name" span="29:14:29:43">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="1" type="block_comment" span="31:2:35:6">/**
+	  * Specifies that this component is the
+	  * last component in its column or row
+	  * and takes up the remaining space.
+	  */</jtok>
+<jtok eid="1" type="field_name" span="36:26:36:35">REMAINDER</jtok>
+<jtok eid="1" type="primary_name_ref" span="36:38:36:45">Integer</jtok>
+<jtok eid="1" type="qualified_name_ref" span="36:46:36:55">MAX_VALUE</jtok>
+<jtok eid="1" type="block_comment" span="38:2:42:6">/**
+	  * Specifies the row in which a component starts its display area.
+	  * {@code row} has to be non-negative and the default
+	  * value is 0.
+	  */</jtok>
+<jtok eid="1" type="field_name" span="43:14:43:17">row</jtok>
+<jtok eid="1" type="block_comment" span="45:2:48:6">/**
+	  * Specifies the column in which a component starts its display area.
+	  * {@code col} has to be non-negative.
+	  */</jtok>
+<jtok eid="1" type="field_name" span="49:14:49:17">col</jtok>
+<jtok eid="1" type="block_comment" span="51:2:64:6">/**
+	  * Specifies the number of cells in a row for the
+	  * component's display area.
+	  * &lt;p&gt;
+	  * Use {@code REMAINDER} to specify that the component's
+	  * display area will be from its grid position to the last
+	  * cell in the row.
+	  * &lt;p&gt;
+	  * {@code colspan} has to be {@literal &gt;= 1} and the default
+	  * value is 1.
+	  * 
+	  * @see #REMAINDER
+	  * @see #rowspan
+	  */</jtok>
+<jtok eid="1" type="field_name" span="65:14:65:21">colspan</jtok>
+<jtok eid="1" type="block_comment" span="67:2:75:6">/**
+	  * Specifies the effective number of cells in a row for the
+	  * component's display area. This is used internally
+	  * to get the effective number of cells in a row in cases
+	  * where {@code REMAINDER} is used for colspan.
+	  * 
+	  * @see #REMAINDER
+	  * @see #colspan
+	  */</jtok>
+<jtok eid="1" type="field_name" span="76:14:76:30">effectiveColspan</jtok>
+<jtok eid="1" type="block_comment" span="78:2:91:6">/**
+	  * Specifies the number of cells in a column for the
+	  * component's display area.
+	  * &lt;p&gt;
+	  * Use {@code REMAINDER} to specify that the component's
+	  * display area will be from its grid position to the last
+	  * cell in the column.
+	  * &lt;p&gt;
+	  * {@code rowspan} has to be {@literal &gt;= 1} and the default
+	  * value is 1.
+	  * 
+	  * @see #REMAINDER
+	  * @see #colspan
+	  */</jtok>
+<jtok eid="1" type="field_name" span="92:14:92:21">rowspan</jtok>
+<jtok eid="1" type="block_comment" span="94:2:102:6">/**
+	  * Specifies the effective number of cells in a column for the
+	  * component's display area. This is used internally
+	  * to get the effective number of cells in a column in cases
+	  * where {@code REMAINDER} is used for rowspan.
+	  * 
+	  * @see #REMAINDER
+	  * @see #rowspan
+	  */</jtok>
+<jtok eid="1" type="field_name" span="103:14:103:30">effectiveRowspan</jtok>
+<jtok eid="1" type="block_comment" span="105:2:108:6">/**
+	  * Specifies if this Constraint is used as placeholder to build the grid.
+	  * This is used internally and the default value is {@code false}.
+	  */</jtok>
+<jtok eid="1" type="field_name" span="109:18:109:29">placeholder</jtok>
+<jtok eid="1" type="block_comment" span="111:2:115:6">/**
+	  * Specifies the mainConstraints object for which this constraints
+	  * object is a placeholder. If this constraints object is no placeholder,
+	  * mainConstraints is set to {@code null}.
+	  */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="116:10:116:39">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="1" type="field_name" span="116:40:116:55">mainConstraints</jtok>
+<jtok eid="1" type="block_comment" span="118:2:120:6">/**
+	  * Specifies the {@code Component} this constraints object describes.
+	  */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="121:10:121:19">Component</jtok>
+<jtok eid="1" type="field_name" span="121:20:121:29">component</jtok>
+<jtok eid="1" type="block_comment" span="123:2:130:6">/**
+	  * Creates an {@code ExtendedGridLayoutConstraints} object with
+	  * all of its fields set to their default value. For further information
+	  * about the default values see
+	  * {@link #ExtendedGridLayoutConstraints(int, int, int, java.awt.Component)}.
+	  * 
+	  * @param component The {@code Component} this constraints object describes
+	  */</jtok>
+<jtok eid="2" type="method_name" span="131:9:131:38">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="2" type="parameter_type" span="131:39:131:48">Component</jtok>
+<jtok eid="2" type="parameter_name" span="131:49:131:58">component</jtok>
+<jtok eid="2" type="primary_name_ref" span="133:16:133:25">component</jtok>
+<jtok eid="1" type="block_comment" span="136:2:146:6">/**
+	  * Creates an {@code ExtendedGridLayoutConstraints} object with
+	  * all of its fields set to their default value
+	  * except of the row which is specified. For further information
+	  * about the default values see
+	  * {@link #ExtendedGridLayoutConstraints(int, int, int, java.awt.Component)}.
+	  * 
+	  * @param row       The row in which a component starts its display area. First row is 0
+	  * @param component The {@code Component} this constraints object d describes
+	  * @throws IllegalArgumentException If row {@literal &lt; 0}
+	  */</jtok>
+<jtok eid="3" type="method_name" span="147:9:147:38">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="3" type="parameter_name" span="147:43:147:46">row</jtok>
+<jtok eid="3" type="parameter_type" span="147:48:147:57">Component</jtok>
+<jtok eid="3" type="parameter_name" span="147:58:147:67">component</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:8:149:11">row</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:18:149:27">component</jtok>
+<jtok eid="1" type="block_comment" span="152:2:170:6">/**
+	  * Creates an {@code ExtendedGridLayoutConstraints} object with
+	  * all of its fields set to the passed-in arguments.
+	  * 
+	  * @param row       The row in which a component starts its display area.
+	  *                  First row is 0. Default value is 0.
+	  * @param colspan   The number of cells in a row for the component's display area.
+	  *                  Use {@code REMAINDER} to specify that the component's
+	  *                  display area will be from its grid position to the last
+	  *                  cell in the row. Default value is 1.
+	  * @param rowspan   The number of cells in a column for the component's display area.
+	  *                  Use {@code REMAINDER} to specify that the component's
+	  *                  display area will be from its grid position to the last
+	  *                  cell in the column. Default value is 1.
+	  * @param component The {@code Component} this constraints object describes
+	  * @throws IllegalArgumentException If row {@literal &lt; 0}
+	  * @throws IllegalArgumentException If colspan {@literal &lt; 1}
+	  * @throws IllegalArgumentException If rowspan {@literal &lt; 1}
+	  */</jtok>
+<jtok eid="4" type="method_name" span="171:9:171:38">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="4" type="parameter_name" span="171:43:171:46">row</jtok>
+<jtok eid="4" type="parameter_name" span="171:52:171:59">colspan</jtok>
+<jtok eid="4" type="parameter_name" span="171:65:171:72">rowspan</jtok>
+<jtok eid="4" type="parameter_type" span="171:74:171:83">Component</jtok>
+<jtok eid="4" type="parameter_name" span="171:84:171:93">component</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:8:173:11">row</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:14:173:21">colspan</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:22:173:29">rowspan</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:30:173:39">component</jtok>
+<jtok eid="1" type="block_comment" span="176:2:200:6">/**
+	  * Creates an {@code ExtendedGridLayoutConstraints} object with
+	  * all of its fields set to the passed-in arguments.
+	  * 
+	  * @param row             The row in which a component starts its display area.
+	  *                        First row is 0.
+	  * @param col             The col in which a component starts its display area.
+	  *                        First col is 0.
+	  * @param colspan         The number of cells in a row for the component's display area.
+	  *                        Use {@code REMAINDER} to specify that the component's
+	  *                        display area will be from its grid position to the last
+	  *                        cell in the row.
+	  * @param rowspan         The number of cells in a column for the component's display area.
+	  *                        Use {@code REMAINDER} to specify that the component's
+	  *                        display area will be from its grid position to the last
+	  *                        cell in the column.
+	  * @param component       The {@code Component} this constraints object describes
+	  * @param placeholder     If this constraints are used as placeholder to build the grid
+	  * @param mainConstraints The mainConstraints object for which this constraints
+	  *                        object is a placeholder
+	  * @throws IllegalArgumentException If row {@literal &lt; 0}
+	  * @throws IllegalArgumentException If col {@literal &lt; 0}
+	  * @throws IllegalArgumentException If colspan {@literal &lt; 1}
+	  * @throws IllegalArgumentException If rowspan {@literal &lt; 1}
+	  */</jtok>
+<jtok eid="5" type="method_name" span="201:10:201:39">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="5" type="parameter_name" span="201:44:201:47">row</jtok>
+<jtok eid="5" type="parameter_name" span="201:53:201:56">col</jtok>
+<jtok eid="5" type="parameter_name" span="201:62:201:69">colspan</jtok>
+<jtok eid="5" type="parameter_name" span="201:75:201:82">rowspan</jtok>
+<jtok eid="5" type="parameter_type" span="201:84:201:93">Component</jtok>
+<jtok eid="5" type="parameter_name" span="201:94:201:103">component</jtok>
+<jtok eid="5" type="parameter_name" span="201:113:201:124">placeholder</jtok>
+<jtok eid="5" type="parameter_type" span="201:126:201:155">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="5" type="parameter_name" span="201:156:201:171">mainConstraints</jtok>
+<jtok eid="5" type="primary_name_ref" span="203:7:203:10">row</jtok>
+<jtok eid="5" type="constructor_call" span="205:14:205:38">IllegalArgumentException</jtok>
+<jtok eid="5" type="string_literal" span="205:39:205:67">"row must be non-negative ("</jtok>
+<jtok eid="5" type="primary_name_ref" span="205:70:205:73">row</jtok>
+<jtok eid="5" type="primary_name_ref" span="207:7:207:10">col</jtok>
+<jtok eid="5" type="constructor_call" span="209:14:209:38">IllegalArgumentException</jtok>
+<jtok eid="5" type="string_literal" span="209:39:209:67">"col must be non-negative ("</jtok>
+<jtok eid="5" type="primary_name_ref" span="209:70:209:73">col</jtok>
+<jtok eid="5" type="primary_name_ref" span="211:7:211:14">colspan</jtok>
+<jtok eid="5" type="constructor_call" span="213:14:213:38">IllegalArgumentException</jtok>
+<jtok eid="5" type="string_literal" span="213:39:213:69">"colspan must be at least 1 ("</jtok>
+<jtok eid="5" type="primary_name_ref" span="213:72:213:79">colspan</jtok>
+<jtok eid="5" type="primary_name_ref" span="215:7:215:14">rowspan</jtok>
+<jtok eid="5" type="constructor_call" span="217:14:217:38">IllegalArgumentException</jtok>
+<jtok eid="5" type="string_literal" span="217:39:217:69">"rowspan must be at least 1 ("</jtok>
+<jtok eid="5" type="primary_name_ref" span="217:72:217:79">rowspan</jtok>
+<jtok eid="5" type="qualified_name_ref" span="219:8:219:11">row</jtok>
+<jtok eid="5" type="primary_name_ref" span="219:14:219:17">row</jtok>
+<jtok eid="5" type="qualified_name_ref" span="220:8:220:11">col</jtok>
+<jtok eid="5" type="primary_name_ref" span="220:14:220:17">col</jtok>
+<jtok eid="5" type="qualified_name_ref" span="221:8:221:15">colspan</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:18:221:25">colspan</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:3:222:19">effectiveColspan</jtok>
+<jtok eid="5" type="qualified_name_ref" span="223:8:223:15">rowspan</jtok>
+<jtok eid="5" type="primary_name_ref" span="223:18:223:25">rowspan</jtok>
+<jtok eid="5" type="primary_name_ref" span="224:3:224:19">effectiveRowspan</jtok>
+<jtok eid="5" type="qualified_name_ref" span="225:8:225:17">component</jtok>
+<jtok eid="5" type="primary_name_ref" span="225:20:225:29">component</jtok>
+<jtok eid="5" type="qualified_name_ref" span="226:8:226:19">placeholder</jtok>
+<jtok eid="5" type="primary_name_ref" span="226:22:226:33">placeholder</jtok>
+<jtok eid="5" type="qualified_name_ref" span="227:8:227:23">mainConstraints</jtok>
+<jtok eid="5" type="primary_name_ref" span="227:26:227:41">mainConstraints</jtok>
+<jtok eid="1" type="block_comment" span="230:2:239:6">/**
+	  * Creates an {@code ExtendedGridLayoutConstraints} object which can be
+	  * used as placeholder for building a grid with colspans.
+	  * 
+	  * @param forUsage If the returned object will be used in the grid
+	  *                 and therefor the effectiveColspan should be raised by one
+	  * @return The newly created {@code ExtendedGridLayoutConstraints}
+	  *         object or {@code null} if no colspan is applicable
+	  * @see #getRowspanPlaceholder(boolean)
+	  */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="240:2:240:31">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="6" type="method_name" span="240:32:240:53">getColspanPlaceholder</jtok>
+<jtok eid="6" type="parameter_name" span="240:62:240:70">forUsage</jtok>
+<jtok eid="6" type="primary_name_ref" span="242:12:242:19">colspan</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="246:3:246:32">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="6" type="local_variable_name" span="246:33:246:39">result</jtok>
+<jtok eid="6" type="constructor_call" span="246:46:246:75">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:76:246:79">row</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:80:246:83">col</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:86:246:93">colspan</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:95:246:104">REMAINDER</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:107:246:116">REMAINDER</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:119:246:126">colspan</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:129:246:136">rowspan</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:137:246:146">component</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:160:246:175">mainConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:185:246:200">mainConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="247:7:247:15">forUsage</jtok>
+<jtok eid="6" type="primary_name_ref" span="247:20:247:26">result</jtok>
+<jtok eid="6" type="qualified_name_ref" span="247:27:247:42">mainConstraints</jtok>
+<jtok eid="6" type="qualified_name_ref" span="247:43:247:46">row</jtok>
+<jtok eid="6" type="primary_name_ref" span="247:50:247:53">row</jtok>
+<jtok eid="6" type="primary_name_ref" span="249:4:249:10">result</jtok>
+<jtok eid="6" type="qualified_name_ref" span="249:11:249:26">mainConstraints</jtok>
+<jtok eid="6" type="qualified_name_ref" span="249:27:249:43">effectiveColspan</jtok>
+<jtok eid="6" type="primary_name_ref" span="251:10:251:16">result</jtok>
+<jtok eid="1" type="block_comment" span="254:2:263:6">/**
+	  * Creates an {@code ExtendedGridLayoutConstraints} object which can be
+	  * used as placeholder for building a grid with rowspans.
+	  * 
+	  * @param forUsage If the returned object will be used in the grid
+	  *                 and therefor the effectiveRowspan should be raised by one
+	  * @return The newly created {@code ExtendedGridLayoutConstraints}
+	  *         object or {@code null} if no rowspan is applicable
+	  * @see #getColspanPlaceholder(boolean)
+	  */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="264:2:264:31">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="7" type="method_name" span="264:32:264:53">getRowspanPlaceholder</jtok>
+<jtok eid="7" type="parameter_name" span="264:62:264:70">forUsage</jtok>
+<jtok eid="7" type="primary_name_ref" span="266:12:266:19">rowspan</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="270:3:270:32">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="7" type="local_variable_name" span="270:33:270:39">result</jtok>
+<jtok eid="7" type="constructor_call" span="270:46:270:75">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:76:270:79">row</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:82:270:85">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:86:270:93">colspan</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:94:270:101">rowspan</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:103:270:112">REMAINDER</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:115:270:124">REMAINDER</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:127:270:134">rowspan</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:137:270:146">component</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:160:270:175">mainConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:185:270:200">mainConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:7:271:15">forUsage</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:20:271:26">result</jtok>
+<jtok eid="7" type="qualified_name_ref" span="271:27:271:42">mainConstraints</jtok>
+<jtok eid="7" type="qualified_name_ref" span="271:43:271:46">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:50:271:53">col</jtok>
+<jtok eid="7" type="primary_name_ref" span="273:4:273:10">result</jtok>
+<jtok eid="7" type="qualified_name_ref" span="273:11:273:26">mainConstraints</jtok>
+<jtok eid="7" type="qualified_name_ref" span="273:27:273:43">effectiveRowspan</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:10:275:16">result</jtok>
+<jtok eid="1" type="block_comment" span="278:2:280:6">/**
+	  * @return The row in which the component starts its display area.
+	  */</jtok>
+<jtok eid="8" type="method_name" span="281:13:281:19">getRow</jtok>
+<jtok eid="8" type="primary_name_ref" span="283:10:283:13">row</jtok>
+<jtok eid="1" type="block_comment" span="286:2:288:6">/**
+	  * @return The column in which the component starts its display area.
+	  */</jtok>
+<jtok eid="9" type="method_name" span="289:13:289:19">getCol</jtok>
+<jtok eid="9" type="primary_name_ref" span="291:10:291:13">col</jtok>
+<jtok eid="1" type="block_comment" span="294:2:296:6">/**
+	  * @param col The column in which the component starts its display area.
+	  */</jtok>
+<jtok eid="10" type="method_name" span="297:7:297:13">setCol</jtok>
+<jtok eid="10" type="parameter_name" span="297:18:297:21">col</jtok>
+<jtok eid="10" type="primary_name_ref" span="299:7:299:10">col</jtok>
+<jtok eid="10" type="constructor_call" span="301:14:301:38">IllegalArgumentException</jtok>
+<jtok eid="10" type="string_literal" span="301:39:301:67">"col must be non-negative ("</jtok>
+<jtok eid="10" type="primary_name_ref" span="301:70:301:73">col</jtok>
+<jtok eid="10" type="qualified_name_ref" span="303:8:303:11">col</jtok>
+<jtok eid="10" type="primary_name_ref" span="303:14:303:17">col</jtok>
+<jtok eid="1" type="block_comment" span="306:2:310:6">/**
+	  * @return The number of cells in a row for the component's display area
+	  *         or {@code REMAINDER} if the component's display area will be
+	  *         from its grid position to the last cell in the row.
+	  */</jtok>
+<jtok eid="11" type="method_name" span="311:13:311:23">getColspan</jtok>
+<jtok eid="11" type="primary_name_ref" span="313:10:313:17">colspan</jtok>
+<jtok eid="1" type="block_comment" span="316:2:318:6">/**
+	  * @return The effective number of cells in a row for the component's display area.
+	  */</jtok>
+<jtok eid="12" type="method_name" span="319:6:319:25">getEffectiveColspan</jtok>
+<jtok eid="12" type="primary_name_ref" span="321:18:321:33">mainConstraints</jtok>
+<jtok eid="12" type="primary_name_ref" span="321:36:321:52">effectiveColspan</jtok>
+<jtok eid="12" type="primary_name_ref" span="321:55:321:70">mainConstraints</jtok>
+<jtok eid="12" type="qualified_name_ref" span="321:71:321:87">effectiveColspan</jtok>
+<jtok eid="1" type="block_comment" span="324:2:328:6">/**
+	  * @return The number of cells in a column for the component's display area
+	  *         or {@code REMAINDER} if the component's display area will be
+	  *         from its grid position to the last cell in the column.
+	  */</jtok>
+<jtok eid="13" type="method_name" span="329:13:329:23">getRowspan</jtok>
+<jtok eid="13" type="primary_name_ref" span="331:10:331:17">rowspan</jtok>
+<jtok eid="1" type="block_comment" span="334:2:336:6">/**
+	  * @return The effective number of cells in a column for the component's display area.
+	  */</jtok>
+<jtok eid="14" type="method_name" span="337:6:337:25">getEffectiveRowspan</jtok>
+<jtok eid="14" type="primary_name_ref" span="339:18:339:33">mainConstraints</jtok>
+<jtok eid="14" type="primary_name_ref" span="339:36:339:52">effectiveRowspan</jtok>
+<jtok eid="14" type="primary_name_ref" span="339:55:339:70">mainConstraints</jtok>
+<jtok eid="14" type="qualified_name_ref" span="339:71:339:87">effectiveRowspan</jtok>
+<jtok eid="1" type="block_comment" span="342:2:344:6">/**
+	  * @return The {@code Component} this constraints object describes
+	  */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="345:2:345:11">Component</jtok>
+<jtok eid="15" type="method_name" span="345:12:345:24">getComponent</jtok>
+<jtok eid="15" type="primary_name_ref" span="347:10:347:19">component</jtok>
+<jtok eid="1" type="block_comment" span="350:2:352:6">/**
+	  * @return Whether this constraints object is a placeholder or not
+	  */</jtok>
+<jtok eid="16" type="method_name" span="353:17:353:30">isPlaceholder</jtok>
+<jtok eid="16" type="primary_name_ref" span="355:10:355:21">placeholder</jtok>
+<jtok eid="1" type="block_comment" span="358:2:363:6">/**
+	  * @return A work copy if this constraints object. This is a flat copy
+	  *         which means that the reference to the component stays the same.
+	  *         The returned object could be used without modifying this
+	  *         constraints object.
+	  */</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="364:2:364:31">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="17" type="method_name" span="364:32:364:43">getWorkCopy</jtok>
+<jtok eid="17" type="constructor_call" span="366:14:366:43">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:44:366:47">row</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:48:366:51">col</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:52:366:59">colspan</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:60:366:67">rowspan</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:68:366:77">component</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:78:366:89">placeholder</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:99:366:114">mainConstraints</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:124:366:139">mainConstraints</jtok>
+<jtok eid="17" type="method_call" span="366:140:366:151">getWorkCopy</jtok>
+<jtok eid="1" type="block_comment" span="369:2:406:6">/**
+	  * Indicates whether some other object is "equal to" this one.
+	  * &lt;p&gt;
+	  * The {@code equals} method implements an equivalence relation
+	  * on non-null object references:
+	  * &lt;ul&gt;
+	  * &lt;li&gt;It is &lt;i&gt;reflexive&lt;/i&gt;: for any non-null reference value
+	  *     {@code x}, {@code x.equals(x)} returns
+	  *     {@code true}.
+	  * &lt;li&gt;It is &lt;i&gt;symmetric&lt;/i&gt;: for any non-null reference values
+	  *     {@code x} and {@code y}, {@code x.equals(y)}
+	  *     returns {@code true} if and only if
+	  *     {@code y.equals(x)} returns {@code true}.
+	  * &lt;li&gt;It is &lt;i&gt;transitive&lt;/i&gt;: for any non-null reference values
+	  *     {@code x}, {@code y}, and {@code z}, if
+	  *     {@code x.equals(y)} returns {@code true} and
+	  *     {@code y.equals(z)} returns {@code true}, then
+	  *     {@code x.equals(z)} returns {@code true}.
+	  * &lt;li&gt;It is &lt;i&gt;consistent&lt;/i&gt;: for any non-null reference values
+	  *     {@code x} and {@code y}, multiple invocations of
+	  *     &lt;tt&gt;x.equals(y)&lt;/tt&gt; consistently return {@code true}
+	  *     or consistently return {@code false}, provided no
+	  *     information used in {@code equals} comparisons on the
+	  *     objects is modified.
+	  * &lt;li&gt;For any non-null reference value {@code x},
+	  *     {@code x.equals(null)} returns {@code false}.
+	  * &lt;/ul&gt;
+	  * &lt;p&gt;
+	  * The &lt;tt&gt;equals&lt;/tt&gt; method for class
+	  * {@code ExtendedGridLayoutConstraints} returns {@code true}
+	  * if and only if the constraints objects describe the same {@code Component}
+	  * 
+	  * @param o the reference object with which to compare.
+	  * @return {@code true} if this object is the same as the o
+	  *         argument; {@code false} otherwise.
+	  * @see #hashCode()
+	  * @see &lt;a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Hashtable.html"&gt;&lt;code&gt;java.util.Hashtable&lt;/code&gt;&lt;/a&gt;
+	  */</jtok>
+<jtok eid="18" type="method_name" span="407:17:407:23">equals</jtok>
+<jtok eid="18" type="parameter_type" span="407:24:407:30">Object</jtok>
+<jtok eid="18" type="parameter_name" span="407:31:407:32">o</jtok>
+<jtok eid="18" type="primary_name_ref" span="409:8:409:9">o</jtok>
+<jtok eid="18" type="primary_name_ref" span="410:10:410:11">o</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="410:23:410:52">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="18" type="primary_name_ref" span="414:7:414:16">component</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="416:13:416:42">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="18" type="primary_name_ref" span="416:43:416:44">o</jtok>
+<jtok eid="18" type="qualified_name_ref" span="416:46:416:55">component</jtok>
+<jtok eid="18" type="primary_name_ref" span="418:10:418:19">component</jtok>
+<jtok eid="18" type="method_call" span="418:20:418:26">equals</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="418:29:418:58">ExtendedGridLayoutConstraints</jtok>
+<jtok eid="18" type="primary_name_ref" span="418:59:418:60">o</jtok>
+<jtok eid="18" type="qualified_name_ref" span="418:62:418:71">component</jtok>
+<jtok eid="1" type="block_comment" span="421:2:449:6">/**
+	  * Returns a hash code value for the object. This method is
+	  * supported for the benefit of hashtables such as those provided by
+	  * {@code java.util.Hashtable}.
+	  * &lt;p&gt;
+	  * The general contract of {@code hashCode} is:
+	  * &lt;ul&gt;
+	  * &lt;li&gt;Whenever it is invoked on the same object more than once during
+	  *     an execution of a Java application, the &lt;tt&gt;hashCode&lt;/tt&gt; method
+	  *     must consistently return the same integer, provided no information
+	  *     used in &lt;tt&gt;equals&lt;/tt&gt; comparisons on the object is modified.
+	  *     This integer need not remain consistent from one execution of an
+	  *     application to another execution of the same application.
+	  * &lt;li&gt;If two objects are equal according to the &lt;tt&gt;equals(Object)&lt;/tt&gt;
+	  *     method, then calling the {@code hashCode} method on each of
+	  *     the two objects must produce the same integer result.
+	  * &lt;li&gt;It is &lt;em&gt;not&lt;/em&gt; required that if two objects are unequal
+	  *     according to the
+	  *     &lt;a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html#equals(java.lang.Object)"&gt;{@code java.lang.Object#equals(java.lang.Object)}&lt;/a&gt;
+	  *     method, then calling the &lt;tt&gt;hashCode&lt;/tt&gt; method on each of the
+	  *     two objects must produce distinct integer results.  However, the
+	  *     programmer should be aware that producing distinct integer results
+	  *     for unequal objects may improve the performance of hashtables.
+	  * &lt;/ul&gt;
+	  * 
+	  * @return a hash code value for this object.
+	  * @see #equals(java.lang.Object)
+	  * @see &lt;a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/Hashtable.html"&gt;&lt;code&gt;java.util.Hashtable&lt;/code&gt;&lt;/a&gt;
+	  */</jtok>
+<jtok eid="19" type="method_name" span="450:13:450:21">hashCode</jtok>
+<jtok eid="19" type="primary_name_ref" span="452:15:452:24">component</jtok>
+<jtok eid="19" type="primary_name_ref" span="456:10:456:19">component</jtok>
+<jtok eid="19" type="method_call" span="456:20:456:28">hashCode</jtok>
+<jtok eid="1" type="block_comment" span="459:2:467:6">/**
+	  * Returns a string representation of the object. In general, the
+	  * {@code toString} method returns a string that
+	  * "textually represents" this object. The result should
+	  * be a concise but informative representation that is easy for a
+	  * person to read.
+	  * 
+	  * @return  a string representation of the object.
+	  */</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="468:9:468:15">String</jtok>
+<jtok eid="20" type="method_name" span="468:16:468:24">toString</jtok>
+<jtok eid="20" type="method_call" span="470:10:470:18">getClass</jtok>
+<jtok eid="20" type="method_call" span="470:21:470:28">getName</jtok>
+<jtok eid="20" type="string_literal" span="470:33:470:40">"[row="</jtok>
+<jtok eid="20" type="primary_name_ref" span="470:43:470:46">row</jtok>
+<jtok eid="20" type="string_literal" span="470:49:470:56">",col="</jtok>
+<jtok eid="20" type="primary_name_ref" span="470:59:470:62">col</jtok>
+<jtok eid="20" type="string_literal" span="471:6:471:17">",colspan="</jtok>
+<jtok eid="20" type="primary_name_ref" span="471:20:471:27">colspan</jtok>
+<jtok eid="20" type="string_literal" span="471:30:471:50">",effectiveColspan="</jtok>
+<jtok eid="20" type="primary_name_ref" span="471:53:471:69">effectiveColspan</jtok>
+<jtok eid="20" type="string_literal" span="472:6:472:17">",rowspan="</jtok>
+<jtok eid="20" type="primary_name_ref" span="472:20:472:27">rowspan</jtok>
+<jtok eid="20" type="string_literal" span="472:30:472:50">",effectiveRowspan="</jtok>
+<jtok eid="20" type="primary_name_ref" span="472:53:472:69">effectiveRowspan</jtok>
+<jtok eid="20" type="string_literal" span="473:6:473:21">",placeholder="</jtok>
+<jtok eid="20" type="primary_name_ref" span="473:24:473:35">placeholder</jtok>
+<jtok eid="20" type="string_literal" span="473:38:473:51">",component="</jtok>
+<jtok eid="20" type="primary_name_ref" span="473:54:473:63">component</jtok>
+<jtok eid="20" type="string_literal" span="474:6:474:25">",mainConstraints="</jtok>
+<jtok eid="20" type="primary_name_ref" span="474:28:474:43">mainConstraints</jtok>
+<jtok eid="20" type="string_literal" span="474:46:474:49">"]"</jtok>
+</jdoc>

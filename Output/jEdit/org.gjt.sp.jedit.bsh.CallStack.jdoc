@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.CallStack" jls="java5">
+<jent id="0" type="file" span="0:0:150:2">Source/jEdit/org/gjt/sp/jedit/bsh/CallStack.java</jent>
+<jent id="1" pid="0" type="class" span="62:1:150:1">org.gjt.sp.jedit.bsh.CallStack</jent>
+<jent id="2" pid="1" type="method" span="66:2:66:23">org.gjt.sp.jedit.bsh.CallStack.CallStack()</jent>
+<jent id="3" pid="1" type="method" span="68:2:70:2">org.gjt.sp.jedit.bsh.CallStack.CallStack(NameSpace)</jent>
+<jent id="4" pid="1" type="method" span="72:2:74:2">org.gjt.sp.jedit.bsh.CallStack.clear()</jent>
+<jent id="5" pid="1" type="method" span="76:2:78:2">org.gjt.sp.jedit.bsh.CallStack.push(NameSpace)</jent>
+<jent id="6" pid="1" type="method" span="80:2:82:2">org.gjt.sp.jedit.bsh.CallStack.top()</jent>
+<jent id="7" pid="1" type="method" span="87:2:92:2">org.gjt.sp.jedit.bsh.CallStack.get(int)</jent>
+<jent id="8" pid="1" type="method" span="98:2:100:2">org.gjt.sp.jedit.bsh.CallStack.set(int,NameSpace)</jent>
+<jent id="9" pid="1" type="method" span="102:2:108:2">org.gjt.sp.jedit.bsh.CallStack.pop()</jent>
+<jent id="10" pid="1" type="method" span="114:2:118:2">org.gjt.sp.jedit.bsh.CallStack.swap(NameSpace)</jent>
+<jent id="11" pid="1" type="method" span="120:2:122:2">org.gjt.sp.jedit.bsh.CallStack.depth()</jent>
+<jent id="12" pid="1" type="method" span="124:2:128:2">org.gjt.sp.jedit.bsh.CallStack.toArray()</jent>
+<jent id="13" pid="1" type="method" span="130:2:138:2">org.gjt.sp.jedit.bsh.CallStack.toString()</jent>
+<jent id="14" pid="1" type="method" span="145:2:149:2">org.gjt.sp.jedit.bsh.CallStack.copy()</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="38:1:61:3">/**
+	A stack of NameSpaces representing the call path.
+	Each method invocation, for example, pushes a new NameSpace onto the stack.
+	The top of the stack is always the current namespace of evaluation.
+	&lt;p&gt;
+
+	This is used to support the this.caller magic reference and to print
+	script "stack traces" when evaluation errors occur.
+	&lt;p&gt;
+
+	Note: it would be awefully nice to use the java.util.Stack here.
+	Sigh... have to stay 1.1 compatible.
+	&lt;p&gt;
+
+	Note: How can this be thread safe, you might ask?  Wouldn't a thread 
+	executing various beanshell methods be mutating the callstack?  Don't we 
+	need one CallStack per Thread in the interpreter?  The answer is that we do.
+	Any java.lang.Thread enters our script via an external (hard) Java 
+	reference via a This type interface, e.g.  the Runnable interface 
+	implemented by This or an arbitrary interface implemented by XThis.  
+	In that case the This invokeMethod() method (called by any interface that 
+	it exposes) creates a new CallStack for each external call.
+	&lt;p&gt;
+*/</jtok>
+<jtok eid="1" type="class_name" span="62:14:62:23">CallStack</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:10:64:16">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:17:64:26">NameSpace</jtok>
+<jtok eid="1" type="field_name" span="64:28:64:33">stack</jtok>
+<jtok eid="1" type="constructor_call" span="64:40:64:46">Vector</jtok>
+<jtok eid="1" type="constructor_call" span="64:47:64:56">NameSpace</jtok>
+<jtok eid="2" type="method_name" span="66:9:66:18">CallStack</jtok>
+<jtok eid="3" type="method_name" span="68:9:68:18">CallStack</jtok>
+<jtok eid="3" type="parameter_type" span="68:20:68:29">NameSpace</jtok>
+<jtok eid="3" type="parameter_name" span="68:30:68:39">namespace</jtok>
+<jtok eid="3" type="method_call" span="69:3:69:7">push</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:9:69:18">namespace</jtok>
+<jtok eid="4" type="method_name" span="72:14:72:19">clear</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:3:73:8">stack</jtok>
+<jtok eid="4" type="method_call" span="73:9:73:26">removeAllElements</jtok>
+<jtok eid="5" type="method_name" span="76:14:76:18">push</jtok>
+<jtok eid="5" type="parameter_type" span="76:20:76:29">NameSpace</jtok>
+<jtok eid="5" type="parameter_name" span="76:30:76:32">ns</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:3:77:8">stack</jtok>
+<jtok eid="5" type="method_call" span="77:9:77:24">insertElementAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:26:77:28">ns</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="80:9:80:18">NameSpace</jtok>
+<jtok eid="6" type="method_name" span="80:19:80:22">top</jtok>
+<jtok eid="6" type="method_call" span="81:10:81:13">get</jtok>
+<jtok eid="1" type="block_comment" span="84:2:86:4">/**
+		zero based.
+	*/</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="87:9:87:18">NameSpace</jtok>
+<jtok eid="7" type="method_name" span="87:19:87:22">get</jtok>
+<jtok eid="7" type="parameter_name" span="87:27:87:32">depth</jtok>
+<jtok eid="7" type="primary_name_ref" span="88:8:88:13">depth</jtok>
+<jtok eid="7" type="method_call" span="88:17:88:22">depth</jtok>
+<jtok eid="7" type="primary_name_ref" span="89:11:89:20">NameSpace</jtok>
+<jtok eid="7" type="qualified_name_ref" span="89:21:89:29">JAVACODE</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="91:12:91:21">NameSpace</jtok>
+<jtok eid="7" type="primary_name_ref" span="91:23:91:28">stack</jtok>
+<jtok eid="7" type="method_call" span="91:29:91:38">elementAt</jtok>
+<jtok eid="7" type="primary_name_ref" span="91:39:91:44">depth</jtok>
+<jtok eid="1" type="block_comment" span="94:2:97:4">/**
+		This is kind of crazy, but used by the setNameSpace command.
+		zero based.
+	*/</jtok>
+<jtok eid="8" type="method_name" span="98:14:98:17">set</jtok>
+<jtok eid="8" type="parameter_name" span="98:22:98:27">depth</jtok>
+<jtok eid="8" type="parameter_type" span="98:29:98:38">NameSpace</jtok>
+<jtok eid="8" type="parameter_name" span="98:39:98:41">ns</jtok>
+<jtok eid="8" type="primary_name_ref" span="99:3:99:8">stack</jtok>
+<jtok eid="8" type="method_call" span="99:9:99:21">setElementAt</jtok>
+<jtok eid="8" type="primary_name_ref" span="99:22:99:24">ns</jtok>
+<jtok eid="8" type="primary_name_ref" span="99:26:99:31">depth</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="102:9:102:18">NameSpace</jtok>
+<jtok eid="9" type="method_name" span="102:19:102:22">pop</jtok>
+<jtok eid="9" type="method_call" span="103:8:103:13">depth</jtok>
+<jtok eid="9" type="constructor_call" span="104:14:104:30">InterpreterError</jtok>
+<jtok eid="9" type="string_literal" span="104:31:104:55">"pop on empty CallStack"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="105:3:105:12">NameSpace</jtok>
+<jtok eid="9" type="local_variable_name" span="105:13:105:16">top</jtok>
+<jtok eid="9" type="method_call" span="105:19:105:22">top</jtok>
+<jtok eid="9" type="primary_name_ref" span="106:3:106:8">stack</jtok>
+<jtok eid="9" type="method_call" span="106:9:106:24">removeElementAt</jtok>
+<jtok eid="9" type="primary_name_ref" span="107:10:107:13">top</jtok>
+<jtok eid="1" type="block_comment" span="110:2:113:4">/**
+		Swap in the value as the new top of the stack and return the old
+		value.
+	*/</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="114:9:114:18">NameSpace</jtok>
+<jtok eid="10" type="method_name" span="114:19:114:23">swap</jtok>
+<jtok eid="10" type="parameter_type" span="114:25:114:34">NameSpace</jtok>
+<jtok eid="10" type="parameter_name" span="114:35:114:41">newTop</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="115:3:115:12">NameSpace</jtok>
+<jtok eid="10" type="local_variable_name" span="115:13:115:19">oldTop</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="115:23:115:32">NameSpace</jtok>
+<jtok eid="10" type="primary_name_ref" span="115:34:115:39">stack</jtok>
+<jtok eid="10" type="method_call" span="115:40:115:49">elementAt</jtok>
+<jtok eid="10" type="primary_name_ref" span="116:3:116:8">stack</jtok>
+<jtok eid="10" type="method_call" span="116:9:116:21">setElementAt</jtok>
+<jtok eid="10" type="primary_name_ref" span="116:23:116:29">newTop</jtok>
+<jtok eid="10" type="primary_name_ref" span="117:10:117:16">oldTop</jtok>
+<jtok eid="11" type="method_name" span="120:13:120:18">depth</jtok>
+<jtok eid="11" type="primary_name_ref" span="121:10:121:15">stack</jtok>
+<jtok eid="11" type="method_call" span="121:16:121:20">size</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="124:9:124:18">NameSpace</jtok>
+<jtok eid="12" type="method_name" span="124:22:124:29">toArray</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="125:3:125:12">NameSpace</jtok>
+<jtok eid="12" type="local_variable_name" span="125:16:125:19">nsa</jtok>
+<jtok eid="12" type="constructor_call" span="125:26:125:35">NameSpace</jtok>
+<jtok eid="12" type="method_call" span="125:38:125:43">depth</jtok>
+<jtok eid="12" type="primary_name_ref" span="126:3:126:8">stack</jtok>
+<jtok eid="12" type="method_call" span="126:9:126:17">copyInto</jtok>
+<jtok eid="12" type="primary_name_ref" span="126:19:126:22">nsa</jtok>
+<jtok eid="12" type="primary_name_ref" span="127:10:127:13">nsa</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="130:9:130:15">String</jtok>
+<jtok eid="13" type="method_name" span="130:16:130:24">toString</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="131:3:131:16">StringBuilder</jtok>
+<jtok eid="13" type="local_variable_name" span="131:17:131:19">sb</jtok>
+<jtok eid="13" type="constructor_call" span="131:26:131:39">StringBuilder</jtok>
+<jtok eid="13" type="primary_name_ref" span="132:3:132:5">sb</jtok>
+<jtok eid="13" type="method_call" span="132:6:132:12">append</jtok>
+<jtok eid="13" type="string_literal" span="132:13:132:27">"CallStack:\n"</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="133:3:133:12">NameSpace</jtok>
+<jtok eid="13" type="local_variable_name" span="133:16:133:19">nsa</jtok>
+<jtok eid="13" type="method_call" span="133:22:133:29">toArray</jtok>
+<jtok eid="13" type="local_variable_name" span="134:11:134:12">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="134:16:134:17">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="134:18:134:21">nsa</jtok>
+<jtok eid="13" type="qualified_name_ref" span="134:22:134:28">length</jtok>
+<jtok eid="13" type="primary_name_ref" span="134:30:134:31">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="135:4:135:6">sb</jtok>
+<jtok eid="13" type="method_call" span="135:7:135:13">append</jtok>
+<jtok eid="13" type="string_literal" span="135:14:135:18">"\t"</jtok>
+<jtok eid="13" type="primary_name_ref" span="135:19:135:22">nsa</jtok>
+<jtok eid="13" type="primary_name_ref" span="135:23:135:24">i</jtok>
+<jtok eid="13" type="string_literal" span="135:26:135:30">"\n"</jtok>
+<jtok eid="13" type="primary_name_ref" span="137:10:137:12">sb</jtok>
+<jtok eid="13" type="method_call" span="137:13:137:21">toString</jtok>
+<jtok eid="1" type="block_comment" span="140:2:143:4">/**
+		Occasionally we need to freeze the callstack for error reporting
+		purposes, etc.
+	*/</jtok>
+<jtok eid="1" type="annotation_ref" span="144:3:144:19">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="144:20:144:31">"unchecked"</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="145:9:145:18">CallStack</jtok>
+<jtok eid="14" type="method_name" span="145:19:145:23">copy</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="146:3:146:12">CallStack</jtok>
+<jtok eid="14" type="local_variable_name" span="146:13:146:15">cs</jtok>
+<jtok eid="14" type="constructor_call" span="146:22:146:31">CallStack</jtok>
+<jtok eid="14" type="primary_name_ref" span="147:3:147:5">cs</jtok>
+<jtok eid="14" type="qualified_name_ref" span="147:6:147:11">stack</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="147:15:147:21">Vector</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="147:22:147:31">NameSpace</jtok>
+<jtok eid="14" type="primary_name_ref" span="147:34:147:39">stack</jtok>
+<jtok eid="14" type="method_call" span="147:40:147:45">clone</jtok>
+<jtok eid="14" type="primary_name_ref" span="148:10:148:12">cs</jtok>
+</jdoc>

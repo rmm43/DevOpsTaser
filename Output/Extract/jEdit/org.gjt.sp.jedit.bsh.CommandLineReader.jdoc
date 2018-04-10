@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.CommandLineReader" jls="java5">
+<jent id="0" type="file" span="0:0:107:1">Source/jEdit/org/gjt/sp/jedit/bsh/CommandLineReader.java</jent>
+<jent id="1" pid="0" type="class" span="47:1:106:1">org.gjt.sp.jedit.bsh.CommandLineReader</jent>
+<jent id="2" pid="1" type="method" span="49:5:51:5">org.gjt.sp.jedit.bsh.CommandLineReader.CommandLineReader(Reader)</jent>
+<jent id="3" pid="1" type="method" span="60:5:81:5">org.gjt.sp.jedit.bsh.CommandLineReader.read()</jent>
+<jent id="4" pid="1" type="method" span="88:5:97:5">org.gjt.sp.jedit.bsh.CommandLineReader.read(char,int,int)</jent>
+<jent id="5" pid="1" type="method" span="100:2:105:2">org.gjt.sp.jedit.bsh.CommandLineReader.main(String[])</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="39:1:46:3">/**
+	This is a quick hack to turn empty lines entered interactively on the 
+	command line into ';\n' empty lines for the interpreter.  It's just more 
+	pleasant to be able to hit return on an empty line and see the prompt 
+	reappear.
+		
+	This is *not* used when text is sourced from a file non-interactively.
+*/</jtok>
+<jtok eid="1" type="class_name" span="47:7:47:24">CommandLineReader</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:33:47:45">FilterReader</jtok>
+<jtok eid="2" type="method_name" span="49:12:49:29">CommandLineReader</jtok>
+<jtok eid="2" type="parameter_type" span="49:31:49:37">Reader</jtok>
+<jtok eid="2" type="parameter_name" span="49:38:49:40">in</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:9:50:11">in</jtok>
+<jtok eid="1" type="field_name" span="54:3:54:9">normal</jtok>
+<jtok eid="1" type="field_name" span="55:3:55:13">lastCharNL</jtok>
+<jtok eid="1" type="field_name" span="56:3:56:11">sentSemi</jtok>
+<jtok eid="1" type="field_name" span="58:6:58:11">state</jtok>
+<jtok eid="1" type="primary_name_ref" span="58:14:58:24">lastCharNL</jtok>
+<jtok eid="3" type="method_name" span="60:16:60:20">read</jtok>
+<jtok eid="3" type="throws" span="60:30:60:41">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="61:7:61:8">b</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:8:63:13">state</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:17:63:25">sentSemi</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:4:64:9">state</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:12:64:22">lastCharNL</jtok>
+<jtok eid="3" type="line_comment" span="68:3:68:13">// skip CR</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:18:69:19">b</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:22:69:24">in</jtok>
+<jtok eid="3" type="method_call" span="69:25:69:29">read</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:8:71:9">b</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:9:72:14">state</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:18:72:28">lastCharNL</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:5:73:6">b</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:5:74:10">state</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:13:74:21">sentSemi</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:5:76:10">state</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:13:76:23">lastCharNL</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:4:78:9">state</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:12:78:18">normal</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:10:80:11">b</jtok>
+<jtok eid="1" type="block_comment" span="83:2:87:4">/**
+		This is a degenerate implementation.
+		I don't know how to keep this from blocking if we try to read more
+		than one char...  There is no available() for Readers ??
+	*/</jtok>
+<jtok eid="4" type="method_name" span="88:16:88:20">read</jtok>
+<jtok eid="4" type="parameter_name" span="88:26:88:30">buff</jtok>
+<jtok eid="4" type="parameter_name" span="88:38:88:41">off</jtok>
+<jtok eid="4" type="parameter_name" span="88:47:88:50">len</jtok>
+<jtok eid="4" type="throws" span="88:59:88:70">IOException</jtok>
+<jtok eid="4" type="local_variable_name" span="90:7:90:8">b</jtok>
+<jtok eid="4" type="method_call" span="90:11:90:15">read</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:8:91:9">b</jtok>
+<jtok eid="4" type="line_comment" span="92:16:92:48">// EOF, not zero read apparently</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:4:94:8">buff</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:9:94:12">off</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:20:94:21">b</jtok>
+<jtok eid="1" type="line_comment" span="99:2:99:12">// Test it</jtok>
+<jtok eid="5" type="method_name" span="100:21:100:25">main</jtok>
+<jtok eid="5" type="parameter_type" span="100:27:100:33">String</jtok>
+<jtok eid="5" type="parameter_name" span="100:37:100:41">args</jtok>
+<jtok eid="5" type="throws" span="100:51:100:60">Exception</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="101:3:101:9">Reader</jtok>
+<jtok eid="5" type="local_variable_name" span="101:10:101:12">in</jtok>
+<jtok eid="5" type="constructor_call" span="101:19:101:36">CommandLineReader</jtok>
+<jtok eid="5" type="constructor_call" span="101:42:101:59">InputStreamReader</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:60:101:66">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="101:67:101:69">in</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:4:103:10">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="103:11:103:14">out</jtok>
+<jtok eid="5" type="method_call" span="103:15:103:22">println</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:24:103:26">in</jtok>
+<jtok eid="5" type="method_call" span="103:27:103:31">read</jtok>
+</jdoc>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHVariableDeclarator" jls="java5">
+<jent id="0" type="file" span="0:0:96:2">Source/jEdit/org/gjt/sp/jedit/bsh/BSHVariableDeclarator.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:96:1">org.gjt.sp.jedit.bsh.BSHVariableDeclarator</jent>
+<jent id="2" pid="1" type="method" span="46:5:46:48">org.gjt.sp.jedit.bsh.BSHVariableDeclarator.BSHVariableDeclarator(int)</jent>
+<jent id="3" pid="1" type="method" span="62:5:93:5">org.gjt.sp.jedit.bsh.BSHVariableDeclarator.eval(BSHType,CallStack,Interpreter)</jent>
+<jent id="4" pid="1" type="method" span="95:2:95:67">org.gjt.sp.jedit.bsh.BSHVariableDeclarator.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="37:1:40:3">/**
+	name [ = initializer ]
+	evaluate name and return optional initializer
+*/</jtok>
+<jtok eid="1" type="class_name" span="41:7:41:28">BSHVariableDeclarator</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:37:41:47">SimpleNode</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:55">// The token.image text of the name... never changes.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:12:44:18">String</jtok>
+<jtok eid="1" type="field_name" span="44:19:44:23">name</jtok>
+<jtok eid="2" type="method_name" span="46:5:46:26">BSHVariableDeclarator</jtok>
+<jtok eid="2" type="parameter_name" span="46:31:46:33">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:43:46:45">id</jtok>
+<jtok eid="1" type="block_comment" span="48:2:61:4">/**
+		Evaluate the optional initializer value.  
+		(The name was set at parse time.)
+
+		A variable declarator can be evaluated with or without preceding
+		type information. Currently the type info is only used by array 
+		initializers in the case where there is no explicitly declared type.
+
+		@param typeNode is the BSHType node.  Its info is passed through to any
+		variable intializer children for the case where the array initializer
+		does not declare the type explicitly. e.g.
+			int [] a = { 1, 2 };
+		typeNode may be null to indicate no type information available.
+	*/</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="62:12:62:18">Object</jtok>
+<jtok eid="3" type="method_name" span="62:19:62:23">eval</jtok>
+<jtok eid="3" type="parameter_type" span="63:3:63:10">BSHType</jtok>
+<jtok eid="3" type="parameter_name" span="63:11:63:19">typeNode</jtok>
+<jtok eid="3" type="parameter_type" span="63:21:63:30">CallStack</jtok>
+<jtok eid="3" type="parameter_name" span="63:31:63:40">callstack</jtok>
+<jtok eid="3" type="parameter_type" span="63:42:63:53">Interpreter</jtok>
+<jtok eid="3" type="parameter_name" span="63:54:63:65">interpreter</jtok>
+<jtok eid="3" type="throws" span="64:10:64:19">EvalError</jtok>
+<jtok eid="3" type="line_comment" span="66:3:66:31">// null value means no value</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="67:3:67:9">Object</jtok>
+<jtok eid="3" type="local_variable_name" span="67:10:67:15">value</jtok>
+<jtok eid="3" type="method_call" span="69:14:69:31">jjtGetNumChildren</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:13:71:23">SimpleNode</jtok>
+<jtok eid="3" type="local_variable_name" span="71:24:71:35">initializer</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:39:71:49">SimpleNode</jtok>
+<jtok eid="3" type="method_call" span="71:50:71:61">jjtGetChild</jtok>
+<jtok eid="3" type="block_comment" span="73:4:78:6">/*
+				If we have type info and the child is an array initializer
+				pass it along...  Else use the default eval style.
+				(This allows array initializer to handle the problem... 
+				allowing for future enhancements in loosening types there).	
+			*/</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:10:79:18">typeNode</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:8:80:19">initializer</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="80:31:80:50">BSHArrayInitializer</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:14:82:19">value</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="82:24:82:43">BSHArrayInitializer</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:44:82:55">initializer</jtok>
+<jtok eid="3" type="method_call" span="82:57:82:61">eval</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:6:83:14">typeNode</jtok>
+<jtok eid="3" type="method_call" span="83:15:83:26">getBaseType</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:30:83:38">typeNode</jtok>
+<jtok eid="3" type="method_call" span="83:39:83:51">getArrayDims</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:6:84:15">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:17:84:28">interpreter</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:5:86:10">value</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:13:86:24">initializer</jtok>
+<jtok eid="3" type="method_call" span="86:25:86:29">eval</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:31:86:40">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:42:86:53">interpreter</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:8:89:13">value</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:17:89:26">Primitive</jtok>
+<jtok eid="3" type="qualified_name_ref" span="89:27:89:31">VOID</jtok>
+<jtok eid="3" type="constructor_call" span="90:23:90:32">EvalError</jtok>
+<jtok eid="3" type="string_literal" span="90:33:90:52">"Void initializer."</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:60:90:69">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:16:92:21">value</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="95:9:95:15">String</jtok>
+<jtok eid="4" type="method_name" span="95:16:95:24">toString</jtok>
+<jtok eid="4" type="string_literal" span="95:36:95:60">"BSHVariableDeclarator "</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:61:95:65">name</jtok>
+</jdoc>

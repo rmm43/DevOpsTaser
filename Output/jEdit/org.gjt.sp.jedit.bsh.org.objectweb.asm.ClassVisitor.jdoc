@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor" jls="java5">
+<jent id="0" type="file" span="0:0:126:2">Source/jEdit/org/gjt/sp/jedit/bsh/org/objectweb/asm/ClassVisitor.java</jent>
+<jent id="1" pid="0" type="interface" span="33:1:126:1">org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor</jent>
+<jent id="2" pid="1" type="method" span="52:3:57:23">org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor.visit(int,String,String,String[],String)</jent>
+<jent id="3" pid="1" type="method" span="74:3:78:16">org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor.visitInnerClass(String,String,String,int)</jent>
+<jent id="4" pid="1" type="method" span="94:3:94:71">org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor.visitField(int,String,String,Object)</jent>
+<jent id="5" pid="1" type="method" span="113:3:117:25">org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor.visitMethod(int,String,String,String[])</jent>
+<jent id="6" pid="1" type="method" span="125:3:125:19">org.gjt.sp.jedit.bsh.org.objectweb.asm.ClassVisitor.visitEnd()</jent>
+<jtok eid="0" type="block_comment" span="1:1:23:4">/***
+ * ASM: a very small and fast Java bytecode manipulation framework
+ * Copyright (C) 2000 INRIA, France Telecom
+ * Copyright (C) 2002 France Telecom
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Contact: Eric.Bruneton@rd.francetelecom.com
+ *
+ * Author: Eric Bruneton
+ */</jtok>
+<jtok eid="0" type="block_comment" span="27:1:31:4">/**
+ * A visitor to visit a Java class. The methods of this interface must be called
+ * in the following order: &lt;tt&gt;visit&lt;/tt&gt; (&lt;tt&gt;visitField&lt;/tt&gt; |
+ * &lt;tt&gt;visitMethod&lt;/tt&gt; | &lt;tt&gt;visitInnerClass&lt;/tt&gt;)* &lt;tt&gt;visitEnd&lt;/tt&gt;.
+ */</jtok>
+<jtok eid="1" type="interface_name" span="33:18:33:30">ClassVisitor</jtok>
+<jtok eid="1" type="block_comment" span="35:3:50:6">/**
+   * Visits the header of the class.
+   *
+   * @param access the class's access flags (see {@link Constants}). This
+   *      parameter also indicates if the class is deprecated.
+   * @param name the internal name of the class (see {@link Type#getInternalName
+   *      getInternalName}).
+   * @param superName the internal of name of the super class (see {@link
+   *      Type#getInternalName getInternalName}). For interfaces, the super
+   *      class is {@link Object}. May be &lt;tt&gt;null&lt;/tt&gt;, but only for the {@link
+   *      Object java.lang.Object} class.
+   * @param interfaces the internal names of the class's interfaces (see {@link
+   *      Type#getInternalName getInternalName}). May be &lt;tt&gt;null&lt;/tt&gt;.
+   * @param sourceFile the name of the source file from which this class was
+   *      compiled. May be &lt;tt&gt;null&lt;/tt&gt;.
+   */</jtok>
+<jtok eid="2" type="method_name" span="52:8:52:13">visit</jtok>
+<jtok eid="2" type="parameter_name" span="53:9:53:15">access</jtok>
+<jtok eid="2" type="parameter_type" span="54:5:54:11">String</jtok>
+<jtok eid="2" type="parameter_name" span="54:12:54:16">name</jtok>
+<jtok eid="2" type="parameter_type" span="55:5:55:11">String</jtok>
+<jtok eid="2" type="parameter_name" span="55:12:55:21">superName</jtok>
+<jtok eid="2" type="parameter_type" span="56:5:56:11">String</jtok>
+<jtok eid="2" type="parameter_name" span="56:14:56:24">interfaces</jtok>
+<jtok eid="2" type="parameter_type" span="57:5:57:11">String</jtok>
+<jtok eid="2" type="parameter_name" span="57:12:57:22">sourceFile</jtok>
+<jtok eid="1" type="block_comment" span="59:3:72:6">/**
+   * Visits information about an inner class. This inner class is not
+   * necessarily a member of the class being visited.
+   *
+   * @param name the internal name of an inner class (see {@link
+   *      Type#getInternalName getInternalName}).
+   * @param outerName the internal name of the class to which the inner class
+   *      belongs (see {@link Type#getInternalName getInternalName}). May be
+   *      &lt;tt&gt;null&lt;/tt&gt;.
+   * @param innerName the (simple) name of the inner class inside its enclosing
+   *      class. May be &lt;tt&gt;null&lt;/tt&gt; for anonymous inner classes.
+   * @param access the access flags of the inner class as originally declared
+   *      in the enclosing class.
+   */</jtok>
+<jtok eid="3" type="method_name" span="74:8:74:23">visitInnerClass</jtok>
+<jtok eid="3" type="parameter_type" span="75:5:75:11">String</jtok>
+<jtok eid="3" type="parameter_name" span="75:12:75:16">name</jtok>
+<jtok eid="3" type="parameter_type" span="76:5:76:11">String</jtok>
+<jtok eid="3" type="parameter_name" span="76:12:76:21">outerName</jtok>
+<jtok eid="3" type="parameter_type" span="77:5:77:11">String</jtok>
+<jtok eid="3" type="parameter_name" span="77:12:77:21">innerName</jtok>
+<jtok eid="3" type="parameter_name" span="78:9:78:15">access</jtok>
+<jtok eid="1" type="block_comment" span="80:3:92:6">/**
+   * Visits a field of the class.
+   *
+   * @param access the field's access flags (see {@link Constants}). This
+   *      parameter also indicates if the field is synthetic and/or deprecated.
+   * @param name the field's name.
+   * @param desc the field's descriptor (see {@link Type Type}).
+   * @param value the field's initial value. This parameter, which may be
+   *      &lt;tt&gt;null&lt;/tt&gt; if the field does not have an initial value, must be an
+   *      {@link java.lang.Integer Integer}, a {@link java.lang.Float Float}, a
+   *      {@link java.lang.Long Long}, a {@link java.lang.Double Double} or a
+   *      {@link String String}.
+   */</jtok>
+<jtok eid="4" type="method_name" span="94:8:94:18">visitField</jtok>
+<jtok eid="4" type="parameter_name" span="94:24:94:30">access</jtok>
+<jtok eid="4" type="parameter_type" span="94:32:94:38">String</jtok>
+<jtok eid="4" type="parameter_name" span="94:39:94:43">name</jtok>
+<jtok eid="4" type="parameter_type" span="94:45:94:51">String</jtok>
+<jtok eid="4" type="parameter_name" span="94:52:94:56">desc</jtok>
+<jtok eid="4" type="parameter_type" span="94:58:94:64">Object</jtok>
+<jtok eid="4" type="parameter_name" span="94:65:94:70">value</jtok>
+<jtok eid="1" type="block_comment" span="96:3:111:6">/**
+   * Visits a method of the class. This method &lt;i&gt;must&lt;/i&gt; return a new
+   * {@link CodeVisitor CodeVisitor} instance (or &lt;tt&gt;null&lt;/tt&gt;) each time it
+   * is called, i.e., it should not return a previously returned visitor.
+   *
+   * @param access the method's access flags (see {@link Constants}). This
+   *      parameter also indicates if the method is synthetic and/or deprecated.
+   * @param name the method's name.
+   * @param desc the method's descriptor (see {@link Type Type}).
+   * @param exceptions the internal names of the method's exception
+   *      classes (see {@link Type#getInternalName getInternalName}). May be
+   *      &lt;tt&gt;null&lt;/tt&gt;.
+   * @return an object to visit the byte code of the method, or &lt;tt&gt;null&lt;/tt&gt; if
+   *      this class visitor is not interested in visiting the code of this
+   *      method.
+   */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="113:3:113:14">CodeVisitor</jtok>
+<jtok eid="5" type="method_name" span="113:15:113:26">visitMethod</jtok>
+<jtok eid="5" type="parameter_name" span="114:9:114:15">access</jtok>
+<jtok eid="5" type="parameter_type" span="115:5:115:11">String</jtok>
+<jtok eid="5" type="parameter_name" span="115:12:115:16">name</jtok>
+<jtok eid="5" type="parameter_type" span="116:5:116:11">String</jtok>
+<jtok eid="5" type="parameter_name" span="116:12:116:16">desc</jtok>
+<jtok eid="5" type="parameter_type" span="117:5:117:11">String</jtok>
+<jtok eid="5" type="parameter_name" span="117:14:117:24">exceptions</jtok>
+<jtok eid="1" type="block_comment" span="119:3:123:6">/**
+   * Visits the end of the class. This method, which is the last one to be
+   * called, is used to inform the visitor that all the fields and methods of
+   * the class have been visited.
+   */</jtok>
+<jtok eid="6" type="method_name" span="125:8:125:16">visitEnd</jtok>
+</jdoc>

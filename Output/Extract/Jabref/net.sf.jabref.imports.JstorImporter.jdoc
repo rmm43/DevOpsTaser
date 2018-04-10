@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.JstorImporter" jls="java5">
+<jent id="0" type="file" span="0:0:92:0">Source/jabref/src/java/net/sf/jabref/imports/JstorImporter.java</jent>
+<jent id="1" pid="0" type="class" span="19:1:90:1">net.sf.jabref.imports.JstorImporter</jent>
+<jent id="2" pid="1" type="method" span="24:5:26:5">net.sf.jabref.imports.JstorImporter.getFormatName()</jent>
+<jent id="3" pid="1" type="method" span="32:5:34:5">net.sf.jabref.imports.JstorImporter.getCLIId()</jent>
+<jent id="4" pid="1" type="method" span="39:5:41:5">net.sf.jabref.imports.JstorImporter.isRecognizedFormat(InputStream)</jent>
+<jent id="5" pid="1" type="method" span="47:5:89:5">net.sf.jabref.imports.JstorImporter.importEntries(InputStream)</jent>
+<jtok eid="0" type="block_comment" span="13:1:18:4">/**
+ * Imports a Biblioscape Tag File. The format is described on
+ * http://www.biblioscape.com/manual_bsp/Biblioscape_Tag_File.htm Several
+ * Biblioscape field types are ignored. Others are only included in the BibTeX
+ * field "comment".
+ */</jtok>
+<jtok eid="1" type="class_name" span="19:14:19:27">JstorImporter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="19:36:19:48">ImportFormat</jtok>
+<jtok eid="1" type="block_comment" span="21:5:23:8">/**
+     * Return the name of this import format.
+     */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="24:12:24:18">String</jtok>
+<jtok eid="2" type="method_name" span="24:19:24:32">getFormatName</jtok>
+<jtok eid="2" type="string_literal" span="25:12:25:35">"JStor (tab delimited)"</jtok>
+<jtok eid="1" type="block_comment" span="28:5:31:8">/*
+     *  (non-Javadoc)
+     * @see net.sf.jabref.imports.ImportFormat#getCLIId()
+     */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="32:12:32:18">String</jtok>
+<jtok eid="3" type="method_name" span="32:19:32:27">getCLIId</jtok>
+<jtok eid="3" type="string_literal" span="33:14:33:21">"jstor"</jtok>
+<jtok eid="1" type="block_comment" span="36:5:38:8">/**
+     * Check whether the source is in the correct format for this importer.
+     */</jtok>
+<jtok eid="4" type="method_name" span="39:20:39:38">isRecognizedFormat</jtok>
+<jtok eid="4" type="parameter_type" span="39:39:39:50">InputStream</jtok>
+<jtok eid="4" type="parameter_name" span="39:51:39:53">in</jtok>
+<jtok eid="4" type="throws" span="39:62:39:73">IOException</jtok>
+<jtok eid="1" type="block_comment" span="43:5:46:8">/**
+     * Parse the entries in the source, and return a List of BibtexEntry
+     * objects.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="47:12:47:16">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="47:17:47:28">BibtexEntry</jtok>
+<jtok eid="5" type="method_name" span="47:30:47:43">importEntries</jtok>
+<jtok eid="5" type="parameter_type" span="47:44:47:55">InputStream</jtok>
+<jtok eid="5" type="parameter_name" span="47:56:47:62">stream</jtok>
+<jtok eid="5" type="throws" span="47:71:47:82">IOException</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="48:5:48:14">ArrayList</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="48:15:48:26">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="48:28:48:36">bibitems</jtok>
+<jtok eid="5" type="constructor_call" span="48:43:48:52">ArrayList</jtok>
+<jtok eid="5" type="constructor_call" span="48:53:48:64">BibtexEntry</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="49:5:49:11">String</jtok>
+<jtok eid="5" type="local_variable_name" span="49:12:49:13">s</jtok>
+<jtok eid="5" type="string_literal" span="49:16:49:18">""</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="50:5:50:19">BufferedReader</jtok>
+<jtok eid="5" type="local_variable_name" span="50:20:50:22">in</jtok>
+<jtok eid="5" type="constructor_call" span="50:29:50:43">BufferedReader</jtok>
+<jtok eid="5" type="primary_name_ref" span="50:44:50:62">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="50:63:50:87">getReaderDefaultEncoding</jtok>
+<jtok eid="5" type="primary_name_ref" span="50:88:50:94">stream</jtok>
+<jtok eid="5" type="primary_name_ref" span="51:13:51:14">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="51:28:51:29">s</jtok>
+<jtok eid="5" type="method_call" span="51:30:51:40">startsWith</jtok>
+<jtok eid="5" type="string_literal" span="51:41:51:52">"Item Type"</jtok>
+<jtok eid="5" type="primary_name_ref" span="52:9:52:10">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="52:13:52:15">in</jtok>
+<jtok eid="5" type="method_call" span="52:16:52:24">readLine</jtok>
+<jtok eid="5" type="label_name" span="54:5:54:13">mainloop</jtok>
+<jtok eid="5" type="primary_name_ref" span="54:23:54:24">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="54:27:54:29">in</jtok>
+<jtok eid="5" type="method_call" span="54:30:54:38">readLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="55:13:55:14">s</jtok>
+<jtok eid="5" type="method_call" span="55:15:55:21">equals</jtok>
+<jtok eid="5" type="string_literal" span="55:22:55:24">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="56:13:56:14">s</jtok>
+<jtok eid="5" type="method_call" span="56:15:56:25">startsWith</jtok>
+<jtok eid="5" type="string_literal" span="56:26:56:57">"-----------------------------"</jtok>
+<jtok eid="5" type="label_ref" span="56:66:56:74">mainloop</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="57:9:57:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="57:18:57:24">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="57:27:57:28">s</jtok>
+<jtok eid="5" type="method_call" span="57:29:57:34">split</jtok>
+<jtok eid="5" type="string_literal" span="57:35:57:39">"\t"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="58:9:58:20">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="58:21:58:23">be</jtok>
+<jtok eid="5" type="constructor_call" span="58:30:58:41">BibtexEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="58:42:58:46">Util</jtok>
+<jtok eid="5" type="method_call" span="58:47:58:62">createNeutralId</jtok>
+<jtok eid="5" type="primary_name_ref" span="60:13:60:19">fields</jtok>
+<jtok eid="5" type="method_call" span="60:23:60:29">equals</jtok>
+<jtok eid="5" type="string_literal" span="60:30:60:35">"FLA"</jtok>
+<jtok eid="5" type="primary_name_ref" span="60:38:60:40">be</jtok>
+<jtok eid="5" type="method_call" span="60:41:60:48">setType</jtok>
+<jtok eid="5" type="primary_name_ref" span="60:49:60:64">BibtexEntryType</jtok>
+<jtok eid="5" type="method_call" span="61:30:61:37">getType</jtok>
+<jtok eid="5" type="string_literal" span="61:38:61:47">"article"</jtok>
+<jtok eid="5" type="primary_name_ref" span="62:9:62:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="62:28:62:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="62:43:62:45">be</jtok>
+<jtok eid="5" type="string_literal" span="62:47:62:54">"title"</jtok>
+<jtok eid="5" type="primary_name_ref" span="62:56:62:62">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="63:9:63:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="63:28:63:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="63:43:63:45">be</jtok>
+<jtok eid="5" type="string_literal" span="63:47:63:55">"author"</jtok>
+<jtok eid="5" type="primary_name_ref" span="63:57:63:67">AuthorList</jtok>
+<jtok eid="5" type="method_call" span="63:68:63:91">fixAuthor_lastNameFirst</jtok>
+<jtok eid="5" type="primary_name_ref" span="63:92:63:98">fields</jtok>
+<jtok eid="5" type="method_call" span="63:102:63:112">replaceAll</jtok>
+<jtok eid="5" type="string_literal" span="63:113:63:117">"; "</jtok>
+<jtok eid="5" type="string_literal" span="63:119:63:126">" and "</jtok>
+<jtok eid="5" type="primary_name_ref" span="64:9:64:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="64:28:64:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="64:43:64:45">be</jtok>
+<jtok eid="5" type="string_literal" span="64:47:64:56">"journal"</jtok>
+<jtok eid="5" type="primary_name_ref" span="64:58:64:64">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="65:9:65:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="65:28:65:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="65:43:65:45">be</jtok>
+<jtok eid="5" type="string_literal" span="65:47:65:55">"volume"</jtok>
+<jtok eid="5" type="primary_name_ref" span="65:57:65:63">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="66:9:66:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="66:28:66:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="66:43:66:45">be</jtok>
+<jtok eid="5" type="string_literal" span="66:47:66:55">"number"</jtok>
+<jtok eid="5" type="primary_name_ref" span="66:57:66:63">fields</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="67:9:67:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="67:18:67:27">datefield</jtok>
+<jtok eid="5" type="primary_name_ref" span="67:30:67:36">fields</jtok>
+<jtok eid="5" type="method_call" span="67:41:67:46">split</jtok>
+<jtok eid="5" type="string_literal" span="67:47:67:50">" "</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:9:68:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="68:28:68:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:43:68:45">be</jtok>
+<jtok eid="5" type="string_literal" span="68:47:68:53">"year"</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:55:68:64">datefield</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:65:68:74">datefield</jtok>
+<jtok eid="5" type="qualified_name_ref" span="68:75:68:81">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="69:13:69:22">datefield</jtok>
+<jtok eid="5" type="qualified_name_ref" span="69:23:69:29">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="70:17:70:26">datefield</jtok>
+<jtok eid="5" type="method_call" span="70:30:70:38">endsWith</jtok>
+<jtok eid="5" type="string_literal" span="70:39:70:42">","</jtok>
+<jtok eid="5" type="primary_name_ref" span="71:17:71:26">datefield</jtok>
+<jtok eid="5" type="primary_name_ref" span="71:32:71:41">datefield</jtok>
+<jtok eid="5" type="method_call" span="71:45:71:54">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="71:58:71:67">datefield</jtok>
+<jtok eid="5" type="method_call" span="71:71:71:77">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="72:13:72:31">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="72:32:72:46">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="72:47:72:49">be</jtok>
+<jtok eid="5" type="string_literal" span="72:51:72:58">"month"</jtok>
+<jtok eid="5" type="primary_name_ref" span="72:60:72:69">datefield</jtok>
+<jtok eid="5" type="line_comment" span="74:9:74:46">//for (int i=0; i&lt;fields.length; i++)</jtok>
+<jtok eid="5" type="line_comment" span="75:9:75:39">//  Util.pr(i+": "+fields[i]);</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:9:76:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="76:28:76:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:43:76:45">be</jtok>
+<jtok eid="5" type="string_literal" span="76:47:76:54">"pages"</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:56:76:62">fields</jtok>
+<jtok eid="5" type="method_call" span="76:67:76:77">replaceAll</jtok>
+<jtok eid="5" type="string_literal" span="76:78:76:81">"-"</jtok>
+<jtok eid="5" type="string_literal" span="76:83:76:87">"--"</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:9:77:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="77:28:77:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:43:77:45">be</jtok>
+<jtok eid="5" type="string_literal" span="77:47:77:52">"url"</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:54:77:60">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:9:78:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="78:28:78:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:43:78:45">be</jtok>
+<jtok eid="5" type="string_literal" span="78:47:78:53">"issn"</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:55:78:61">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:9:79:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="79:28:79:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:43:79:45">be</jtok>
+<jtok eid="5" type="string_literal" span="79:47:79:57">"abstract"</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:59:79:65">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:9:80:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="80:28:80:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:43:80:45">be</jtok>
+<jtok eid="5" type="string_literal" span="80:47:80:57">"keywords"</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:59:80:65">fields</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:9:81:27">ImportFormatReader</jtok>
+<jtok eid="5" type="method_call" span="81:28:81:42">setIfNecessary</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:43:81:45">be</jtok>
+<jtok eid="5" type="string_literal" span="81:47:81:58">"copyright"</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:60:81:66">fields</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="82:17:82:47">ArrayIndexOutOfBoundsException</jtok>
+<jtok eid="5" type="local_variable_name" span="82:48:82:50">ex</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:9:84:17">bibitems</jtok>
+<jtok eid="5" type="method_call" span="84:18:84:21">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:22:84:24">be</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:12:87:20">bibitems</jtok>
+</jdoc>

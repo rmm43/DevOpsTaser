@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.PropertyManager" jls="java5">
+<jent id="0" type="file" span="0:0:190:2">Source/jEdit/org/gjt/sp/jedit/PropertyManager.java</jent>
+<jent id="1" pid="0" type="class" span="28:1:190:1">org.gjt.sp.jedit.PropertyManager</jent>
+<jent id="2" pid="1" type="method" span="31:2:40:2">org.gjt.sp.jedit.PropertyManager.getProperties()</jent>
+<jent id="3" pid="1" type="method" span="43:2:47:2">org.gjt.sp.jedit.PropertyManager.loadSystemProps(InputStream)</jent>
+<jent id="4" pid="1" type="method" span="50:2:54:2">org.gjt.sp.jedit.PropertyManager.loadSiteProps(InputStream)</jent>
+<jent id="5" pid="1" type="method" span="57:2:61:2">org.gjt.sp.jedit.PropertyManager.loadUserProps(InputStream)</jent>
+<jent id="6" pid="1" type="method" span="64:2:68:2">org.gjt.sp.jedit.PropertyManager.saveUserProps(OutputStream)</jent>
+<jent id="7" pid="1" type="method" span="71:2:78:2">org.gjt.sp.jedit.PropertyManager.loadPluginProps(InputStream)</jent>
+<jent id="8" pid="1" type="method" span="81:2:84:2">org.gjt.sp.jedit.PropertyManager.addPluginProps(Properties)</jent>
+<jent id="9" pid="1" type="method" span="87:2:90:2">org.gjt.sp.jedit.PropertyManager.removePluginProps(Properties)</jent>
+<jent id="10" pid="1" type="method" span="93:2:100:2">org.gjt.sp.jedit.PropertyManager.getProperty(String)</jent>
+<jent id="11" pid="1" type="method" span="103:2:128:2">org.gjt.sp.jedit.PropertyManager.setProperty(String,String)</jent>
+<jent id="12" pid="1" type="method" span="131:2:135:2">org.gjt.sp.jedit.PropertyManager.setTemporaryProperty(String,String)</jent>
+<jent id="13" pid="1" type="method" span="138:2:144:2">org.gjt.sp.jedit.PropertyManager.unsetProperty(String)</jent>
+<jent id="14" pid="1" type="method" span="147:2:150:2">org.gjt.sp.jedit.PropertyManager.resetProperty(String)</jent>
+<jent id="15" pid="1" type="method" span="159:2:173:2">org.gjt.sp.jedit.PropertyManager.getDefaultProperty(String)</jent>
+<jent id="16" pid="1" type="method" span="176:2:187:2">org.gjt.sp.jedit.PropertyManager.loadProps(Properties,InputStream)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * PropertyManager.java - Manages property files
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="1" type="class_name" span="28:7:28:22">PropertyManager</jtok>
+<jtok eid="1" type="line_comment" span="30:2:30:30">//{{{ getProperties() method</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="31:2:31:12">Properties</jtok>
+<jtok eid="2" type="method_name" span="31:13:31:26">getProperties</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="33:3:33:13">Properties</jtok>
+<jtok eid="2" type="local_variable_name" span="33:14:33:19">total</jtok>
+<jtok eid="2" type="constructor_call" span="33:26:33:36">Properties</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:3:34:8">total</jtok>
+<jtok eid="2" type="method_call" span="34:9:34:15">putAll</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:16:34:22">system</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="35:8:35:18">Properties</jtok>
+<jtok eid="2" type="local_variable_name" span="35:19:35:25">plugin</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:28:35:35">plugins</jtok>
+<jtok eid="2" type="primary_name_ref" span="36:4:36:9">total</jtok>
+<jtok eid="2" type="method_call" span="36:10:36:16">putAll</jtok>
+<jtok eid="2" type="primary_name_ref" span="36:17:36:23">plugin</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:3:37:8">total</jtok>
+<jtok eid="2" type="method_call" span="37:9:37:15">putAll</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:16:37:20">site</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:3:38:8">total</jtok>
+<jtok eid="2" type="method_call" span="38:9:38:15">putAll</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:16:38:20">user</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:10:39:15">total</jtok>
+<jtok eid="1" type="line_comment" span="40:4:40:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="42:2:42:32">//{{{ loadSystemProps() method</jtok>
+<jtok eid="3" type="method_name" span="43:7:43:22">loadSystemProps</jtok>
+<jtok eid="3" type="parameter_type" span="43:23:43:34">InputStream</jtok>
+<jtok eid="3" type="parameter_name" span="43:35:43:37">in</jtok>
+<jtok eid="3" type="throws" span="44:10:44:21">IOException</jtok>
+<jtok eid="3" type="method_call" span="46:3:46:12">loadProps</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:13:46:19">system</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:20:46:22">in</jtok>
+<jtok eid="1" type="line_comment" span="47:4:47:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:30">//{{{ loadSiteProps() method</jtok>
+<jtok eid="4" type="method_name" span="50:7:50:20">loadSiteProps</jtok>
+<jtok eid="4" type="parameter_type" span="50:21:50:32">InputStream</jtok>
+<jtok eid="4" type="parameter_name" span="50:33:50:35">in</jtok>
+<jtok eid="4" type="throws" span="51:10:51:21">IOException</jtok>
+<jtok eid="4" type="method_call" span="53:3:53:12">loadProps</jtok>
+<jtok eid="4" type="primary_name_ref" span="53:13:53:17">site</jtok>
+<jtok eid="4" type="primary_name_ref" span="53:18:53:20">in</jtok>
+<jtok eid="1" type="line_comment" span="54:4:54:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="56:2:56:30">//{{{ loadUserProps() method</jtok>
+<jtok eid="5" type="method_name" span="57:7:57:20">loadUserProps</jtok>
+<jtok eid="5" type="parameter_type" span="57:21:57:32">InputStream</jtok>
+<jtok eid="5" type="parameter_name" span="57:33:57:35">in</jtok>
+<jtok eid="5" type="throws" span="58:10:58:21">IOException</jtok>
+<jtok eid="5" type="method_call" span="60:3:60:12">loadProps</jtok>
+<jtok eid="5" type="primary_name_ref" span="60:13:60:17">user</jtok>
+<jtok eid="5" type="primary_name_ref" span="60:18:60:20">in</jtok>
+<jtok eid="1" type="line_comment" span="61:4:61:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:30">//{{{ saveUserProps() method</jtok>
+<jtok eid="6" type="method_name" span="64:7:64:20">saveUserProps</jtok>
+<jtok eid="6" type="parameter_type" span="64:21:64:33">OutputStream</jtok>
+<jtok eid="6" type="parameter_name" span="64:34:64:37">out</jtok>
+<jtok eid="6" type="throws" span="65:10:65:21">IOException</jtok>
+<jtok eid="6" type="primary_name_ref" span="67:3:67:7">user</jtok>
+<jtok eid="6" type="method_call" span="67:8:67:13">store</jtok>
+<jtok eid="6" type="primary_name_ref" span="67:14:67:17">out</jtok>
+<jtok eid="6" type="string_literal" span="67:18:67:36">"jEdit properties"</jtok>
+<jtok eid="1" type="line_comment" span="68:4:68:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="70:2:70:32">//{{{ loadPluginProps() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="71:2:71:12">Properties</jtok>
+<jtok eid="7" type="method_name" span="71:13:71:28">loadPluginProps</jtok>
+<jtok eid="7" type="parameter_type" span="71:29:71:40">InputStream</jtok>
+<jtok eid="7" type="parameter_name" span="71:41:71:43">in</jtok>
+<jtok eid="7" type="throws" span="72:10:72:21">IOException</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="74:3:74:13">Properties</jtok>
+<jtok eid="7" type="local_variable_name" span="74:14:74:20">plugin</jtok>
+<jtok eid="7" type="constructor_call" span="74:27:74:37">Properties</jtok>
+<jtok eid="7" type="method_call" span="75:3:75:12">loadProps</jtok>
+<jtok eid="7" type="primary_name_ref" span="75:13:75:19">plugin</jtok>
+<jtok eid="7" type="primary_name_ref" span="75:20:75:22">in</jtok>
+<jtok eid="7" type="primary_name_ref" span="76:3:76:10">plugins</jtok>
+<jtok eid="7" type="method_call" span="76:11:76:14">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="76:15:76:21">plugin</jtok>
+<jtok eid="7" type="primary_name_ref" span="77:10:77:16">plugin</jtok>
+<jtok eid="1" type="line_comment" span="78:4:78:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="80:2:80:31">//{{{ addPluginProps() method</jtok>
+<jtok eid="8" type="method_name" span="81:7:81:21">addPluginProps</jtok>
+<jtok eid="8" type="parameter_type" span="81:22:81:32">Properties</jtok>
+<jtok eid="8" type="parameter_name" span="81:33:81:38">props</jtok>
+<jtok eid="8" type="primary_name_ref" span="83:3:83:10">plugins</jtok>
+<jtok eid="8" type="method_call" span="83:11:83:14">add</jtok>
+<jtok eid="8" type="primary_name_ref" span="83:15:83:20">props</jtok>
+<jtok eid="1" type="line_comment" span="84:4:84:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="86:2:86:34">//{{{ removePluginProps() method</jtok>
+<jtok eid="9" type="method_name" span="87:7:87:24">removePluginProps</jtok>
+<jtok eid="9" type="parameter_type" span="87:25:87:35">Properties</jtok>
+<jtok eid="9" type="parameter_name" span="87:36:87:41">props</jtok>
+<jtok eid="9" type="primary_name_ref" span="89:3:89:10">plugins</jtok>
+<jtok eid="9" type="method_call" span="89:11:89:17">remove</jtok>
+<jtok eid="9" type="primary_name_ref" span="89:18:89:23">props</jtok>
+<jtok eid="1" type="line_comment" span="90:4:90:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="92:2:92:28">//{{{ getProperty() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="93:2:93:8">String</jtok>
+<jtok eid="10" type="method_name" span="93:9:93:20">getProperty</jtok>
+<jtok eid="10" type="parameter_type" span="93:21:93:27">String</jtok>
+<jtok eid="10" type="parameter_name" span="93:28:93:32">name</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="95:3:95:9">String</jtok>
+<jtok eid="10" type="local_variable_name" span="95:10:95:15">value</jtok>
+<jtok eid="10" type="primary_name_ref" span="95:18:95:22">user</jtok>
+<jtok eid="10" type="method_call" span="95:23:95:34">getProperty</jtok>
+<jtok eid="10" type="primary_name_ref" span="95:35:95:39">name</jtok>
+<jtok eid="10" type="primary_name_ref" span="96:6:96:11">value</jtok>
+<jtok eid="10" type="primary_name_ref" span="97:11:97:16">value</jtok>
+<jtok eid="10" type="method_call" span="99:11:99:29">getDefaultProperty</jtok>
+<jtok eid="10" type="primary_name_ref" span="99:30:99:34">name</jtok>
+<jtok eid="1" type="line_comment" span="100:4:100:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="102:2:102:28">//{{{ setProperty() method</jtok>
+<jtok eid="11" type="method_name" span="103:7:103:18">setProperty</jtok>
+<jtok eid="11" type="parameter_type" span="103:19:103:25">String</jtok>
+<jtok eid="11" type="parameter_name" span="103:26:103:30">name</jtok>
+<jtok eid="11" type="parameter_type" span="103:32:103:38">String</jtok>
+<jtok eid="11" type="parameter_name" span="103:39:103:44">value</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="105:3:105:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="105:10:105:14">prop</jtok>
+<jtok eid="11" type="method_call" span="105:17:105:35">getDefaultProperty</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:36:105:40">name</jtok>
+<jtok eid="11" type="block_comment" span="107:3:113:6">/* if value is null:
+		 * - if default is null, unset user prop
+		 * - else set user prop to ""
+		 * else
+		 * - if default equals value, ignore
+		 * - if default doesn't equal value, set user
+		 */</jtok>
+<jtok eid="11" type="primary_name_ref" span="114:6:114:11">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="116:7:116:11">prop</jtok>
+<jtok eid="11" type="primary_name_ref" span="116:23:116:27">prop</jtok>
+<jtok eid="11" type="method_call" span="116:28:116:34">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="117:5:117:9">user</jtok>
+<jtok eid="11" type="method_call" span="117:10:117:16">remove</jtok>
+<jtok eid="11" type="primary_name_ref" span="117:17:117:21">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="119:5:119:9">user</jtok>
+<jtok eid="11" type="method_call" span="119:10:119:21">setProperty</jtok>
+<jtok eid="11" type="primary_name_ref" span="119:22:119:26">name</jtok>
+<jtok eid="11" type="string_literal" span="119:27:119:29">""</jtok>
+<jtok eid="11" type="primary_name_ref" span="123:7:123:12">value</jtok>
+<jtok eid="11" type="method_call" span="123:13:123:19">equals</jtok>
+<jtok eid="11" type="primary_name_ref" span="123:20:123:24">prop</jtok>
+<jtok eid="11" type="primary_name_ref" span="124:5:124:9">user</jtok>
+<jtok eid="11" type="method_call" span="124:10:124:16">remove</jtok>
+<jtok eid="11" type="primary_name_ref" span="124:17:124:21">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="126:5:126:9">user</jtok>
+<jtok eid="11" type="method_call" span="126:10:126:21">setProperty</jtok>
+<jtok eid="11" type="primary_name_ref" span="126:22:126:26">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="126:27:126:32">value</jtok>
+<jtok eid="1" type="line_comment" span="128:4:128:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="130:2:130:37">//{{{ setTemporaryProperty() method</jtok>
+<jtok eid="12" type="method_name" span="131:14:131:34">setTemporaryProperty</jtok>
+<jtok eid="12" type="parameter_type" span="131:35:131:41">String</jtok>
+<jtok eid="12" type="parameter_name" span="131:42:131:46">name</jtok>
+<jtok eid="12" type="parameter_type" span="131:48:131:54">String</jtok>
+<jtok eid="12" type="parameter_name" span="131:55:131:60">value</jtok>
+<jtok eid="12" type="primary_name_ref" span="133:3:133:7">user</jtok>
+<jtok eid="12" type="method_call" span="133:8:133:14">remove</jtok>
+<jtok eid="12" type="primary_name_ref" span="133:15:133:19">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="134:3:134:9">system</jtok>
+<jtok eid="12" type="method_call" span="134:10:134:21">setProperty</jtok>
+<jtok eid="12" type="primary_name_ref" span="134:22:134:26">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="134:27:134:32">value</jtok>
+<jtok eid="1" type="line_comment" span="135:4:135:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="137:2:137:30">//{{{ unsetProperty() method</jtok>
+<jtok eid="13" type="method_name" span="138:7:138:20">unsetProperty</jtok>
+<jtok eid="13" type="parameter_type" span="138:21:138:27">String</jtok>
+<jtok eid="13" type="parameter_name" span="138:28:138:32">name</jtok>
+<jtok eid="13" type="method_call" span="140:6:140:24">getDefaultProperty</jtok>
+<jtok eid="13" type="primary_name_ref" span="140:25:140:29">name</jtok>
+<jtok eid="13" type="primary_name_ref" span="141:4:141:8">user</jtok>
+<jtok eid="13" type="method_call" span="141:9:141:20">setProperty</jtok>
+<jtok eid="13" type="primary_name_ref" span="141:21:141:25">name</jtok>
+<jtok eid="13" type="string_literal" span="141:26:141:28">""</jtok>
+<jtok eid="13" type="primary_name_ref" span="143:4:143:8">user</jtok>
+<jtok eid="13" type="method_call" span="143:9:143:15">remove</jtok>
+<jtok eid="13" type="primary_name_ref" span="143:16:143:20">name</jtok>
+<jtok eid="1" type="line_comment" span="144:4:144:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:30">//{{{ resetProperty() method</jtok>
+<jtok eid="14" type="method_name" span="147:14:147:27">resetProperty</jtok>
+<jtok eid="14" type="parameter_type" span="147:28:147:34">String</jtok>
+<jtok eid="14" type="parameter_name" span="147:35:147:39">name</jtok>
+<jtok eid="14" type="primary_name_ref" span="149:3:149:7">user</jtok>
+<jtok eid="14" type="method_call" span="149:8:149:14">remove</jtok>
+<jtok eid="14" type="primary_name_ref" span="149:15:149:19">name</jtok>
+<jtok eid="1" type="line_comment" span="150:4:150:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="152:2:152:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="153:10:153:20">Properties</jtok>
+<jtok eid="1" type="field_name" span="153:21:153:27">system</jtok>
+<jtok eid="1" type="constructor_call" span="153:34:153:44">Properties</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="154:10:154:14">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="154:15:154:25">Properties</jtok>
+<jtok eid="1" type="field_name" span="154:27:154:34">plugins</jtok>
+<jtok eid="1" type="constructor_call" span="154:41:154:51">LinkedList</jtok>
+<jtok eid="1" type="constructor_call" span="154:52:154:62">Properties</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="155:10:155:20">Properties</jtok>
+<jtok eid="1" type="field_name" span="155:21:155:25">site</jtok>
+<jtok eid="1" type="constructor_call" span="155:32:155:42">Properties</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="156:10:156:20">Properties</jtok>
+<jtok eid="1" type="field_name" span="156:21:156:25">user</jtok>
+<jtok eid="1" type="constructor_call" span="156:32:156:42">Properties</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:35">//{{{ getDefaultProperty() method</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="159:10:159:16">String</jtok>
+<jtok eid="15" type="method_name" span="159:17:159:35">getDefaultProperty</jtok>
+<jtok eid="15" type="parameter_type" span="159:36:159:42">String</jtok>
+<jtok eid="15" type="parameter_name" span="159:43:159:47">name</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="161:3:161:9">String</jtok>
+<jtok eid="15" type="local_variable_name" span="161:10:161:15">value</jtok>
+<jtok eid="15" type="primary_name_ref" span="161:18:161:22">site</jtok>
+<jtok eid="15" type="method_call" span="161:23:161:34">getProperty</jtok>
+<jtok eid="15" type="primary_name_ref" span="161:35:161:39">name</jtok>
+<jtok eid="15" type="primary_name_ref" span="162:6:162:11">value</jtok>
+<jtok eid="15" type="primary_name_ref" span="163:11:163:16">value</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="165:8:165:18">Properties</jtok>
+<jtok eid="15" type="local_variable_name" span="165:19:165:25">plugin</jtok>
+<jtok eid="15" type="primary_name_ref" span="165:28:165:35">plugins</jtok>
+<jtok eid="15" type="primary_name_ref" span="167:4:167:9">value</jtok>
+<jtok eid="15" type="primary_name_ref" span="167:12:167:18">plugin</jtok>
+<jtok eid="15" type="method_call" span="167:19:167:30">getProperty</jtok>
+<jtok eid="15" type="primary_name_ref" span="167:31:167:35">name</jtok>
+<jtok eid="15" type="primary_name_ref" span="168:8:168:13">value</jtok>
+<jtok eid="15" type="primary_name_ref" span="169:12:169:17">value</jtok>
+<jtok eid="15" type="primary_name_ref" span="172:10:172:16">system</jtok>
+<jtok eid="15" type="method_call" span="172:17:172:28">getProperty</jtok>
+<jtok eid="15" type="primary_name_ref" span="172:29:172:33">name</jtok>
+<jtok eid="1" type="line_comment" span="173:4:173:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="175:2:175:26">//{{{ loadProps() method</jtok>
+<jtok eid="16" type="method_name" span="176:22:176:31">loadProps</jtok>
+<jtok eid="16" type="parameter_type" span="176:32:176:42">Properties</jtok>
+<jtok eid="16" type="parameter_name" span="176:43:176:47">into</jtok>
+<jtok eid="16" type="parameter_type" span="176:49:176:60">InputStream</jtok>
+<jtok eid="16" type="parameter_name" span="176:61:176:63">in</jtok>
+<jtok eid="16" type="throws" span="177:10:177:21">IOException</jtok>
+<jtok eid="16" type="primary_name_ref" span="181:4:181:8">into</jtok>
+<jtok eid="16" type="method_call" span="181:9:181:13">load</jtok>
+<jtok eid="16" type="primary_name_ref" span="181:14:181:16">in</jtok>
+<jtok eid="16" type="primary_name_ref" span="185:4:185:6">in</jtok>
+<jtok eid="16" type="method_call" span="185:7:185:12">close</jtok>
+<jtok eid="1" type="line_comment" span="187:4:187:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="189:2:189:7">//}}}</jtok>
+</jdoc>

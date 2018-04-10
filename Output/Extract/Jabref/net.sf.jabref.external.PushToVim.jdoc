@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.external.PushToVim" jls="java5">
+<jent id="0" type="file" span="0:0:148:1">Source/jabref/src/java/net/sf/jabref/external/PushToVim.java</jent>
+<jent id="1" pid="0" type="class" span="18:1:148:1">net.sf.jabref.external.PushToVim</jent>
+<jent id="2" pid="1" type="method" span="27:5:29:5">net.sf.jabref.external.PushToVim.getName()</jent>
+<jent id="3" pid="1" type="method" span="31:5:33:5">net.sf.jabref.external.PushToVim.getApplicationName()</jent>
+<jent id="4" pid="1" type="method" span="35:5:37:5">net.sf.jabref.external.PushToVim.getTooltip()</jent>
+<jent id="5" pid="1" type="method" span="39:5:41:5">net.sf.jabref.external.PushToVim.getIcon()</jent>
+<jent id="6" pid="1" type="method" span="43:5:45:5">net.sf.jabref.external.PushToVim.getKeyStrokeName()</jent>
+<jent id="7" pid="1" type="method" span="47:5:54:5">net.sf.jabref.external.PushToVim.getSettingsPanel()</jent>
+<jent id="8" pid="1" type="method" span="56:5:60:5">net.sf.jabref.external.PushToVim.storeSettings()</jent>
+<jent id="9" pid="1" type="method" span="62:5:79:5">net.sf.jabref.external.PushToVim.initSettingsPanel()</jent>
+<jent id="10" pid="1" type="method" span="81:5:123:5">net.sf.jabref.external.PushToVim.pushEntries(BibtexDatabase,BibtexEntry[],String,MetaData)</jent>
+<jent id="11" pid="10" type="class" span="93:53:111:13">net.sf.jabref.external.PushToVim.pushEntries(BibtexDatabase,BibtexEntry[],String,MetaData).$1</jent>
+<jent id="12" pid="11" type="method" span="94:17:110:17">net.sf.jabref.external.PushToVim.pushEntries(BibtexDatabase,BibtexEntry[],String,MetaData).$1.run()</jent>
+<jent id="13" pid="1" type="method" span="126:5:143:5">net.sf.jabref.external.PushToVim.operationCompleted(BasePanel)</jent>
+<jent id="14" pid="1" type="method" span="145:5:147:5">net.sf.jabref.external.PushToVim.requiresBibtexKeys()</jent>
+<jtok eid="0" type="block_comment" span="11:1:17:4">/**
+ * Created by IntelliJ IDEA.
+ * User: alver
+ * Date: Mar 7, 2007
+ * Time: 6:55:56 PM
+ * To change this template use File | Settings | File Templates.
+ */</jtok>
+<jtok eid="1" type="class_name" span="18:14:18:23">PushToVim</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="18:35:18:52">PushToApplication</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="20:13:20:19">JPanel</jtok>
+<jtok eid="1" type="field_name" span="20:20:20:28">settings</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="21:13:21:23">JTextField</jtok>
+<jtok eid="1" type="field_name" span="21:24:21:31">vimPath</jtok>
+<jtok eid="1" type="constructor_call" span="21:38:21:48">JTextField</jtok>
+<jtok eid="1" type="field_name" span="22:9:22:18">vimServer</jtok>
+<jtok eid="1" type="constructor_call" span="22:25:22:35">JTextField</jtok>
+<jtok eid="1" type="field_name" span="23:9:23:20">citeCommand</jtok>
+<jtok eid="1" type="constructor_call" span="23:27:23:37">JTextField</jtok>
+<jtok eid="1" type="field_name" span="25:21:25:36">couldNotConnect</jtok>
+<jtok eid="1" type="field_name" span="25:44:25:61">couldNotRunClient</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="27:12:27:18">String</jtok>
+<jtok eid="2" type="method_name" span="27:19:27:26">getName</jtok>
+<jtok eid="2" type="primary_name_ref" span="28:16:28:23">Globals</jtok>
+<jtok eid="2" type="method_call" span="28:24:28:28">lang</jtok>
+<jtok eid="2" type="string_literal" span="28:29:28:65">"Insert selected citations into Vim"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="31:12:31:18">String</jtok>
+<jtok eid="3" type="method_name" span="31:19:31:37">getApplicationName</jtok>
+<jtok eid="3" type="string_literal" span="32:16:32:21">"Vim"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="35:12:35:18">String</jtok>
+<jtok eid="4" type="method_name" span="35:19:35:29">getTooltip</jtok>
+<jtok eid="4" type="primary_name_ref" span="36:16:36:23">Globals</jtok>
+<jtok eid="4" type="method_call" span="36:24:36:28">lang</jtok>
+<jtok eid="4" type="string_literal" span="36:29:36:52">"Push selection to Vim"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="39:12:39:16">Icon</jtok>
+<jtok eid="5" type="method_name" span="39:17:39:24">getIcon</jtok>
+<jtok eid="5" type="primary_name_ref" span="40:16:40:26">GUIGlobals</jtok>
+<jtok eid="5" type="method_call" span="40:27:40:35">getImage</jtok>
+<jtok eid="5" type="string_literal" span="40:36:40:41">"vim"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="43:12:43:18">String</jtok>
+<jtok eid="6" type="method_name" span="43:19:43:35">getKeyStrokeName</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="47:12:47:18">JPanel</jtok>
+<jtok eid="7" type="method_name" span="47:19:47:35">getSettingsPanel</jtok>
+<jtok eid="7" type="primary_name_ref" span="48:13:48:21">settings</jtok>
+<jtok eid="7" type="method_call" span="49:13:49:30">initSettingsPanel</jtok>
+<jtok eid="7" type="primary_name_ref" span="50:9:50:16">vimPath</jtok>
+<jtok eid="7" type="method_call" span="50:17:50:24">setText</jtok>
+<jtok eid="7" type="primary_name_ref" span="50:25:50:32">Globals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="50:33:50:38">prefs</jtok>
+<jtok eid="7" type="method_call" span="50:39:50:42">get</jtok>
+<jtok eid="7" type="string_literal" span="50:43:50:48">"vim"</jtok>
+<jtok eid="7" type="primary_name_ref" span="51:9:51:18">vimServer</jtok>
+<jtok eid="7" type="method_call" span="51:19:51:26">setText</jtok>
+<jtok eid="7" type="primary_name_ref" span="51:27:51:34">Globals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="51:35:51:40">prefs</jtok>
+<jtok eid="7" type="method_call" span="51:41:51:44">get</jtok>
+<jtok eid="7" type="string_literal" span="51:45:51:56">"vimServer"</jtok>
+<jtok eid="7" type="primary_name_ref" span="52:9:52:20">citeCommand</jtok>
+<jtok eid="7" type="method_call" span="52:21:52:28">setText</jtok>
+<jtok eid="7" type="primary_name_ref" span="52:29:52:36">Globals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="52:37:52:42">prefs</jtok>
+<jtok eid="7" type="method_call" span="52:43:52:46">get</jtok>
+<jtok eid="7" type="string_literal" span="52:47:52:63">"citeCommandVim"</jtok>
+<jtok eid="7" type="primary_name_ref" span="53:16:53:24">settings</jtok>
+<jtok eid="8" type="method_name" span="56:17:56:30">storeSettings</jtok>
+<jtok eid="8" type="primary_name_ref" span="57:9:57:16">Globals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="57:17:57:22">prefs</jtok>
+<jtok eid="8" type="method_call" span="57:23:57:26">put</jtok>
+<jtok eid="8" type="string_literal" span="57:27:57:32">"vim"</jtok>
+<jtok eid="8" type="primary_name_ref" span="57:34:57:41">vimPath</jtok>
+<jtok eid="8" type="method_call" span="57:42:57:49">getText</jtok>
+<jtok eid="8" type="primary_name_ref" span="58:9:58:16">Globals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="58:17:58:22">prefs</jtok>
+<jtok eid="8" type="method_call" span="58:23:58:26">put</jtok>
+<jtok eid="8" type="string_literal" span="58:27:58:38">"vimServer"</jtok>
+<jtok eid="8" type="primary_name_ref" span="58:40:58:49">vimServer</jtok>
+<jtok eid="8" type="method_call" span="58:50:58:57">getText</jtok>
+<jtok eid="8" type="primary_name_ref" span="59:9:59:16">Globals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="59:17:59:22">prefs</jtok>
+<jtok eid="8" type="method_call" span="59:23:59:26">put</jtok>
+<jtok eid="8" type="string_literal" span="59:27:59:43">"citeCommandVim"</jtok>
+<jtok eid="8" type="primary_name_ref" span="59:45:59:56">citeCommand</jtok>
+<jtok eid="8" type="method_call" span="59:57:59:64">getText</jtok>
+<jtok eid="9" type="method_name" span="62:18:62:35">initSettingsPanel</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="63:9:63:27">DefaultFormBuilder</jtok>
+<jtok eid="9" type="local_variable_name" span="63:28:63:35">builder</jtok>
+<jtok eid="9" type="constructor_call" span="63:42:63:60">DefaultFormBuilder</jtok>
+<jtok eid="9" type="constructor_call" span="64:21:64:31">FormLayout</jtok>
+<jtok eid="9" type="string_literal" span="64:32:64:77">"left:pref, 4dlu, fill:pref, 4dlu, fill:pref"</jtok>
+<jtok eid="9" type="string_literal" span="64:79:64:81">""</jtok>
+<jtok eid="9" type="primary_name_ref" span="66:9:66:16">builder</jtok>
+<jtok eid="9" type="method_call" span="66:17:66:23">append</jtok>
+<jtok eid="9" type="constructor_call" span="66:28:66:34">JLabel</jtok>
+<jtok eid="9" type="primary_name_ref" span="66:35:66:42">Globals</jtok>
+<jtok eid="9" type="method_call" span="66:43:66:47">lang</jtok>
+<jtok eid="9" type="string_literal" span="66:48:66:61">"Path to Vim"</jtok>
+<jtok eid="9" type="string_literal" span="66:65:66:68">":"</jtok>
+<jtok eid="9" type="primary_name_ref" span="67:9:67:16">builder</jtok>
+<jtok eid="9" type="method_call" span="67:17:67:23">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="67:24:67:31">vimPath</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="68:9:68:21">BrowseAction</jtok>
+<jtok eid="9" type="local_variable_name" span="68:22:68:28">action</jtok>
+<jtok eid="9" type="constructor_call" span="68:35:68:47">BrowseAction</jtok>
+<jtok eid="9" type="primary_name_ref" span="68:54:68:61">vimPath</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="69:9:69:16">JButton</jtok>
+<jtok eid="9" type="local_variable_name" span="69:17:69:23">browse</jtok>
+<jtok eid="9" type="constructor_call" span="69:30:69:37">JButton</jtok>
+<jtok eid="9" type="primary_name_ref" span="69:38:69:45">Globals</jtok>
+<jtok eid="9" type="method_call" span="69:46:69:50">lang</jtok>
+<jtok eid="9" type="string_literal" span="69:51:69:59">"Browse"</jtok>
+<jtok eid="9" type="primary_name_ref" span="70:9:70:15">browse</jtok>
+<jtok eid="9" type="method_call" span="70:16:70:33">addActionListener</jtok>
+<jtok eid="9" type="primary_name_ref" span="70:34:70:40">action</jtok>
+<jtok eid="9" type="primary_name_ref" span="71:9:71:16">builder</jtok>
+<jtok eid="9" type="method_call" span="71:17:71:23">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="71:24:71:30">browse</jtok>
+<jtok eid="9" type="primary_name_ref" span="72:9:72:16">builder</jtok>
+<jtok eid="9" type="method_call" span="72:17:72:25">nextLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="73:9:73:16">builder</jtok>
+<jtok eid="9" type="method_call" span="73:17:73:23">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="73:24:73:31">Globals</jtok>
+<jtok eid="9" type="method_call" span="73:32:73:36">lang</jtok>
+<jtok eid="9" type="string_literal" span="73:37:73:54">"Vim Server Name"</jtok>
+<jtok eid="9" type="string_literal" span="73:58:73:61">":"</jtok>
+<jtok eid="9" type="primary_name_ref" span="74:9:74:16">builder</jtok>
+<jtok eid="9" type="method_call" span="74:17:74:23">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="74:24:74:33">vimServer</jtok>
+<jtok eid="9" type="primary_name_ref" span="75:9:75:16">builder</jtok>
+<jtok eid="9" type="method_call" span="75:17:75:25">nextLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="76:9:76:16">builder</jtok>
+<jtok eid="9" type="method_call" span="76:17:76:23">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="76:24:76:31">Globals</jtok>
+<jtok eid="9" type="method_call" span="76:32:76:36">lang</jtok>
+<jtok eid="9" type="string_literal" span="76:37:76:51">"Cite command"</jtok>
+<jtok eid="9" type="string_literal" span="76:55:76:58">":"</jtok>
+<jtok eid="9" type="primary_name_ref" span="77:9:77:16">builder</jtok>
+<jtok eid="9" type="method_call" span="77:17:77:23">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="77:24:77:35">citeCommand</jtok>
+<jtok eid="9" type="primary_name_ref" span="78:9:78:17">settings</jtok>
+<jtok eid="9" type="primary_name_ref" span="78:20:78:27">builder</jtok>
+<jtok eid="9" type="method_call" span="78:28:78:36">getPanel</jtok>
+<jtok eid="10" type="method_name" span="81:17:81:28">pushEntries</jtok>
+<jtok eid="10" type="parameter_type" span="81:29:81:43">BibtexDatabase</jtok>
+<jtok eid="10" type="parameter_name" span="81:44:81:52">database</jtok>
+<jtok eid="10" type="parameter_type" span="81:54:81:65">BibtexEntry</jtok>
+<jtok eid="10" type="parameter_name" span="81:68:81:75">entries</jtok>
+<jtok eid="10" type="parameter_type" span="81:77:81:83">String</jtok>
+<jtok eid="10" type="parameter_name" span="81:84:81:88">keys</jtok>
+<jtok eid="10" type="parameter_type" span="82:29:82:37">MetaData</jtok>
+<jtok eid="10" type="parameter_name" span="82:38:82:46">metaData</jtok>
+<jtok eid="10" type="primary_name_ref" span="84:9:84:24">couldNotConnect</jtok>
+<jtok eid="10" type="primary_name_ref" span="85:9:85:26">couldNotRunClient</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="87:17:87:23">String</jtok>
+<jtok eid="10" type="local_variable_name" span="87:26:87:29">com</jtok>
+<jtok eid="10" type="constructor_call" span="87:36:87:42">String</jtok>
+<jtok eid="10" type="primary_name_ref" span="87:46:87:53">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="87:54:87:59">prefs</jtok>
+<jtok eid="10" type="method_call" span="87:60:87:63">get</jtok>
+<jtok eid="10" type="string_literal" span="87:64:87:69">"vim"</jtok>
+<jtok eid="10" type="string_literal" span="87:72:87:86">"--servername"</jtok>
+<jtok eid="10" type="primary_name_ref" span="87:88:87:95">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="87:96:87:101">prefs</jtok>
+<jtok eid="10" type="method_call" span="87:102:87:105">get</jtok>
+<jtok eid="10" type="string_literal" span="87:106:87:117">"vimServer"</jtok>
+<jtok eid="10" type="string_literal" span="87:120:87:135">"--remote-send"</jtok>
+<jtok eid="10" type="string_literal" span="88:17:88:31">"&lt;C-\\&gt;&lt;C-N&gt;a"</jtok>
+<jtok eid="10" type="primary_name_ref" span="88:34:88:41">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="88:42:88:47">prefs</jtok>
+<jtok eid="10" type="method_call" span="88:48:88:51">get</jtok>
+<jtok eid="10" type="string_literal" span="88:52:88:68">"citeCommandVim"</jtok>
+<jtok eid="10" type="string_literal" span="89:24:89:27">"{"</jtok>
+<jtok eid="10" type="primary_name_ref" span="89:30:89:34">keys</jtok>
+<jtok eid="10" type="string_literal" span="89:37:89:40">"}"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="91:19:91:26">Process</jtok>
+<jtok eid="10" type="local_variable_name" span="91:27:91:28">p</jtok>
+<jtok eid="10" type="primary_name_ref" span="91:31:91:38">Runtime</jtok>
+<jtok eid="10" type="method_call" span="91:39:91:49">getRuntime</jtok>
+<jtok eid="10" type="method_call" span="91:52:91:56">exec</jtok>
+<jtok eid="10" type="primary_name_ref" span="91:57:91:60">com</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="93:13:93:21">Runnable</jtok>
+<jtok eid="10" type="local_variable_name" span="93:22:93:35">errorListener</jtok>
+<jtok eid="10" type="constructor_call" span="93:42:93:50">Runnable</jtok>
+<jtok eid="12" type="method_name" span="94:29:94:32">run</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="95:21:95:32">InputStream</jtok>
+<jtok eid="12" type="local_variable_name" span="95:33:95:36">out</jtok>
+<jtok eid="12" type="primary_name_ref" span="95:39:95:40">p</jtok>
+<jtok eid="12" type="method_call" span="95:41:95:55">getErrorStream</jtok>
+<jtok eid="12" type="local_variable_name" span="96:25:96:26">c</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="97:21:97:33">StringBuffer</jtok>
+<jtok eid="12" type="local_variable_name" span="97:34:97:36">sb</jtok>
+<jtok eid="12" type="constructor_call" span="97:43:97:55">StringBuffer</jtok>
+<jtok eid="12" type="primary_name_ref" span="99:33:99:34">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="99:37:99:40">out</jtok>
+<jtok eid="12" type="method_call" span="99:41:99:45">read</jtok>
+<jtok eid="12" type="primary_name_ref" span="100:29:100:31">sb</jtok>
+<jtok eid="12" type="method_call" span="100:32:100:38">append</jtok>
+<jtok eid="12" type="primary_name_ref" span="100:46:100:47">c</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="101:30:101:41">IOException</jtok>
+<jtok eid="12" type="local_variable_name" span="101:42:101:43">e</jtok>
+<jtok eid="12" type="primary_name_ref" span="102:25:102:26">e</jtok>
+<jtok eid="12" type="method_call" span="102:27:102:42">printStackTrace</jtok>
+<jtok eid="12" type="line_comment" span="104:21:104:83">// Error stream has been closed. See if there were any errors:</jtok>
+<jtok eid="12" type="primary_name_ref" span="105:25:105:27">sb</jtok>
+<jtok eid="12" type="method_call" span="105:28:105:36">toString</jtok>
+<jtok eid="12" type="method_call" span="105:39:105:43">trim</jtok>
+<jtok eid="12" type="method_call" span="105:46:105:52">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="106:4:106:10">System</jtok>
+<jtok eid="12" type="qualified_name_ref" span="106:11:106:14">out</jtok>
+<jtok eid="12" type="method_call" span="106:15:106:22">println</jtok>
+<jtok eid="12" type="primary_name_ref" span="106:23:106:25">sb</jtok>
+<jtok eid="12" type="method_call" span="106:26:106:34">toString</jtok>
+<jtok eid="12" type="primary_name_ref" span="107:25:107:40">couldNotConnect</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="112:13:112:19">Thread</jtok>
+<jtok eid="10" type="local_variable_name" span="112:20:112:21">t</jtok>
+<jtok eid="10" type="constructor_call" span="112:28:112:34">Thread</jtok>
+<jtok eid="10" type="primary_name_ref" span="112:35:112:48">errorListener</jtok>
+<jtok eid="10" type="primary_name_ref" span="113:13:113:14">t</jtok>
+<jtok eid="10" type="method_call" span="113:15:113:20">start</jtok>
+<jtok eid="10" type="primary_name_ref" span="114:13:114:14">t</jtok>
+<jtok eid="10" type="method_call" span="114:15:114:19">join</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="116:16:116:27">IOException</jtok>
+<jtok eid="10" type="local_variable_name" span="116:28:116:33">excep</jtok>
+<jtok eid="10" type="primary_name_ref" span="117:13:117:30">couldNotRunClient</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="119:18:119:38">InterruptedException</jtok>
+<jtok eid="10" type="local_variable_name" span="119:39:119:40">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="120:13:120:14">e</jtok>
+<jtok eid="10" type="method_call" span="120:15:120:30">printStackTrace</jtok>
+<jtok eid="13" type="method_name" span="126:17:126:35">operationCompleted</jtok>
+<jtok eid="13" type="parameter_type" span="126:36:126:45">BasePanel</jtok>
+<jtok eid="13" type="parameter_name" span="126:46:126:51">panel</jtok>
+<jtok eid="13" type="primary_name_ref" span="127:13:127:28">couldNotConnect</jtok>
+<jtok eid="13" type="primary_name_ref" span="128:13:128:24">JOptionPane</jtok>
+<jtok eid="13" type="method_call" span="128:25:128:42">showMessageDialog</jtok>
+<jtok eid="13" type="primary_name_ref" span="129:17:129:22">panel</jtok>
+<jtok eid="13" type="method_call" span="129:23:129:28">frame</jtok>
+<jtok eid="13" type="string_literal" span="130:17:130:25">"&lt;HTML&gt;"</jtok>
+<jtok eid="13" type="primary_name_ref" span="131:17:131:24">Globals</jtok>
+<jtok eid="13" type="method_call" span="131:25:131:29">lang</jtok>
+<jtok eid="13" type="string_literal" span="131:30:131:80">"Could not connect to Vim server. Make sure that "</jtok>
+<jtok eid="13" type="string_literal" span="132:18:132:63">"Vim is running&lt;BR&gt;with correct server name."</jtok>
+<jtok eid="13" type="string_literal" span="133:18:133:27">"&lt;/HTML&gt;"</jtok>
+<jtok eid="13" type="primary_name_ref" span="134:17:134:24">Globals</jtok>
+<jtok eid="13" type="method_call" span="134:25:134:29">lang</jtok>
+<jtok eid="13" type="string_literal" span="134:30:134:37">"Error"</jtok>
+<jtok eid="13" type="primary_name_ref" span="134:40:134:51">JOptionPane</jtok>
+<jtok eid="13" type="qualified_name_ref" span="134:52:134:65">ERROR_MESSAGE</jtok>
+<jtok eid="13" type="primary_name_ref" span="135:18:135:35">couldNotRunClient</jtok>
+<jtok eid="13" type="primary_name_ref" span="136:13:136:24">JOptionPane</jtok>
+<jtok eid="13" type="method_call" span="136:25:136:42">showMessageDialog</jtok>
+<jtok eid="13" type="primary_name_ref" span="137:17:137:22">panel</jtok>
+<jtok eid="13" type="method_call" span="137:23:137:28">frame</jtok>
+<jtok eid="13" type="primary_name_ref" span="138:17:138:24">Globals</jtok>
+<jtok eid="13" type="method_call" span="138:25:138:29">lang</jtok>
+<jtok eid="13" type="string_literal" span="138:30:138:64">"Could not run the 'vim' program."</jtok>
+<jtok eid="13" type="primary_name_ref" span="139:17:139:24">Globals</jtok>
+<jtok eid="13" type="method_call" span="139:25:139:29">lang</jtok>
+<jtok eid="13" type="string_literal" span="139:30:139:37">"Error"</jtok>
+<jtok eid="13" type="primary_name_ref" span="139:40:139:51">JOptionPane</jtok>
+<jtok eid="13" type="qualified_name_ref" span="139:52:139:65">ERROR_MESSAGE</jtok>
+<jtok eid="13" type="primary_name_ref" span="141:13:141:18">panel</jtok>
+<jtok eid="13" type="method_call" span="141:19:141:25">output</jtok>
+<jtok eid="13" type="primary_name_ref" span="141:26:141:33">Globals</jtok>
+<jtok eid="13" type="method_call" span="141:34:141:38">lang</jtok>
+<jtok eid="13" type="string_literal" span="141:39:141:64">"Pushed citations to Vim"</jtok>
+<jtok eid="14" type="method_name" span="145:20:145:38">requiresBibtexKeys</jtok>
+</jdoc>

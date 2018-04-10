@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.XThis" jls="java5">
+<jent id="0" type="file" span="0:0:201:1">Source/jEdit/org/gjt/sp/jedit/bsh/XThis.java</jent>
+<jent id="1" pid="0" type="class" span="60:1:198:1">org.gjt.sp.jedit.bsh.XThis</jent>
+<jent id="2" pid="1" type="method" span="70:5:72:5">org.gjt.sp.jedit.bsh.XThis.XThis(NameSpace,Interpreter)</jent>
+<jent id="3" pid="1" type="method" span="74:5:76:5">org.gjt.sp.jedit.bsh.XThis.toString()</jent>
+<jent id="4" pid="1" type="method" span="81:5:84:5">org.gjt.sp.jedit.bsh.XThis.getInterface(Class)</jent>
+<jent id="5" pid="1" type="method" span="89:5:111:5">org.gjt.sp.jedit.bsh.XThis.getInterface(Class[])</jent>
+<jent id="6" pid="1" type="class" span="125:5:197:5">org.gjt.sp.jedit.bsh.XThis.Handler</jent>
+<jent id="7" pid="6" type="method" span="127:9:145:9">org.gjt.sp.jedit.bsh.XThis.Handler.invoke(Object,Method,Object[])</jent>
+<jent id="8" pid="6" type="method" span="147:9:196:9">org.gjt.sp.jedit.bsh.XThis.Handler.invokeImpl(Object,Method,Object[])</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    *
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="41:1:59:3">/**
+    XThis is a dynamically loaded extension which extends This.java and adds
+    support for the generalized interface proxy mechanism introduced in
+    JDK1.3.  XThis allows bsh scripted objects to implement arbitrary
+    interfaces (be arbitrary event listener types).
+
+    Note: This module relies on new features of JDK1.3 and will not compile
+    with JDK1.2 or lower.  For those environments simply do not compile this
+    class.
+
+    Eventually XThis should become simply This, but for backward compatability
+    we will maintain This without requiring support for the proxy mechanism.
+
+    XThis stands for "eXtended This" (I had to call it something).
+
+    @see org.gjt.sp.jedit.bsh.JThis	JThis
+    See also JThis with explicit JFC support for compatability.
+    @see org.gjt.sp.jedit.bsh.This This
+*/</jtok>
+<jtok eid="1" type="class_name" span="60:14:60:19">XThis</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="60:28:60:32">This</jtok>
+<jtok eid="1" type="block_comment" span="62:5:65:7">/**
+        A cache of proxy interface handlers.
+        Currently just one per interface.
+    */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:5:66:14">Hashtable</jtok>
+<jtok eid="1" type="field_name" span="66:15:66:25">interfaces</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="68:5:68:22">InvocationHandler</jtok>
+<jtok eid="1" type="field_name" span="68:23:68:40">invocationHandler</jtok>
+<jtok eid="1" type="constructor_call" span="68:47:68:54">Handler</jtok>
+<jtok eid="2" type="method_name" span="70:12:70:17">XThis</jtok>
+<jtok eid="2" type="parameter_type" span="70:19:70:28">NameSpace</jtok>
+<jtok eid="2" type="parameter_name" span="70:29:70:38">namespace</jtok>
+<jtok eid="2" type="parameter_type" span="70:40:70:51">Interpreter</jtok>
+<jtok eid="2" type="parameter_name" span="70:52:70:67">declaringInterp</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:16:71:25">namespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:27:71:42">declaringInterp</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:12:74:18">String</jtok>
+<jtok eid="3" type="method_name" span="74:19:74:27">toString</jtok>
+<jtok eid="3" type="string_literal" span="75:16:75:58">"'this' reference (XThis) to Bsh object: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:61:75:70">namespace</jtok>
+<jtok eid="1" type="block_comment" span="78:5:80:7">/**
+        Get dynamic proxy for interface, caching those it creates.
+    */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="81:12:81:18">Object</jtok>
+<jtok eid="4" type="method_name" span="81:19:81:31">getInterface</jtok>
+<jtok eid="4" type="parameter_type" span="81:33:81:38">Class</jtok>
+<jtok eid="4" type="parameter_name" span="81:39:81:43">clas</jtok>
+<jtok eid="4" type="method_call" span="83:16:83:28">getInterface</jtok>
+<jtok eid="4" type="constructor_call" span="83:34:83:39">Class</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:44:83:48">clas</jtok>
+<jtok eid="1" type="block_comment" span="86:5:88:7">/**
+        Get dynamic proxy for interface, caching those it creates.
+    */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="89:12:89:18">Object</jtok>
+<jtok eid="5" type="method_name" span="89:19:89:31">getInterface</jtok>
+<jtok eid="5" type="parameter_type" span="89:33:89:38">Class</jtok>
+<jtok eid="5" type="parameter_name" span="89:42:89:44">ca</jtok>
+<jtok eid="5" type="primary_name_ref" span="91:14:91:24">interfaces</jtok>
+<jtok eid="5" type="primary_name_ref" span="92:13:92:23">interfaces</jtok>
+<jtok eid="5" type="constructor_call" span="92:30:92:39">Hashtable</jtok>
+<jtok eid="5" type="line_comment" span="94:9:94:73">// Make a hash of the interface hashcodes in order to cache them</jtok>
+<jtok eid="5" type="local_variable_name" span="95:13:95:17">hash</jtok>
+<jtok eid="5" type="local_variable_name" span="96:17:96:18">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:22:96:23">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:24:96:26">ca</jtok>
+<jtok eid="5" type="qualified_name_ref" span="96:27:96:33">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:35:96:36">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:13:97:17">hash</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:21:97:23">ca</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:24:97:25">i</jtok>
+<jtok eid="5" type="method_call" span="97:27:97:35">hashCode</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="98:9:98:15">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="98:16:98:23">hashKey</jtok>
+<jtok eid="5" type="constructor_call" span="98:30:98:37">Integer</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:38:98:42">hash</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="100:9:100:15">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="100:16:100:22">interf</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:25:100:35">interfaces</jtok>
+<jtok eid="5" type="method_call" span="100:36:100:39">get</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:41:100:48">hashKey</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:14:102:20">interf</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="104:13:104:24">ClassLoader</jtok>
+<jtok eid="5" type="local_variable_name" span="104:25:104:36">classLoader</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:39:104:41">ca</jtok>
+<jtok eid="5" type="method_call" span="104:45:104:59">getClassLoader</jtok>
+<jtok eid="5" type="line_comment" span="104:63:104:67">// ?</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:13:105:19">interf</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:22:105:27">Proxy</jtok>
+<jtok eid="5" type="method_call" span="105:28:105:44">newProxyInstance</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:17:106:28">classLoader</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:30:106:32">ca</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:34:106:51">invocationHandler</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:13:107:23">interfaces</jtok>
+<jtok eid="5" type="method_call" span="107:24:107:27">put</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:29:107:36">hashKey</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:38:107:44">interf</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:16:110:22">interf</jtok>
+<jtok eid="1" type="block_comment" span="113:5:124:7">/**
+        This is the invocation handler for the dynamic proxy.
+        &lt;p&gt;
+
+        Notes:
+        Inner class for the invocation handler seems to shield this unavailable
+        interface from JDK1.2 VM...
+
+        I don't understand this.  JThis works just fine even if those
+        classes aren't there (doesn't it?)  This class shouldn't be loaded
+        if an XThis isn't instantiated in NameSpace.java, should it?
+    */</jtok>
+<jtok eid="6" type="class_name" span="125:11:125:18">Handler</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="125:30:125:47">InvocationHandler</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="125:49:125:53">java</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="125:54:125:56">io</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="125:57:125:69">Serializable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="127:16:127:22">Object</jtok>
+<jtok eid="7" type="method_name" span="127:23:127:29">invoke</jtok>
+<jtok eid="7" type="parameter_type" span="127:31:127:37">Object</jtok>
+<jtok eid="7" type="parameter_name" span="127:38:127:43">proxy</jtok>
+<jtok eid="7" type="parameter_type" span="127:45:127:51">Method</jtok>
+<jtok eid="7" type="parameter_name" span="127:52:127:58">method</jtok>
+<jtok eid="7" type="parameter_type" span="127:60:127:66">Object</jtok>
+<jtok eid="7" type="parameter_name" span="127:69:127:73">args</jtok>
+<jtok eid="7" type="throws" span="128:20:128:29">Throwable</jtok>
+<jtok eid="7" type="method_call" span="131:24:131:34">invokeImpl</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:36:131:41">proxy</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:43:131:49">method</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:51:131:55">args</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="132:23:132:34">TargetError</jtok>
+<jtok eid="7" type="local_variable_name" span="132:35:132:37">te</jtok>
+<jtok eid="7" type="line_comment" span="133:17:133:76">// Unwrap target exception.  If the interface declares that</jtok>
+<jtok eid="7" type="line_comment" span="134:17:134:77">// it throws the ex it will be delivered.  If not it will be</jtok>
+<jtok eid="7" type="line_comment" span="135:17:135:53">// wrapped in an UndeclaredThrowable</jtok>
+<jtok eid="7" type="primary_name_ref" span="136:23:136:25">te</jtok>
+<jtok eid="7" type="method_call" span="136:26:136:35">getTarget</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="137:23:137:32">EvalError</jtok>
+<jtok eid="7" type="local_variable_name" span="137:33:137:35">ee</jtok>
+<jtok eid="7" type="line_comment" span="138:17:138:37">// Ease debugging...</jtok>
+<jtok eid="7" type="line_comment" span="139:17:139:69">// XThis.this refers to the enclosing class instance</jtok>
+<jtok eid="7" type="primary_name_ref" span="140:22:140:33">Interpreter</jtok>
+<jtok eid="7" type="qualified_name_ref" span="140:34:140:39">DEBUG</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:21:141:32">Interpreter</jtok>
+<jtok eid="7" type="method_call" span="141:33:141:38">debug</jtok>
+<jtok eid="7" type="string_literal" span="141:40:141:75">"EvalError in scripted interface: "</jtok>
+<jtok eid="7" type="primary_name_ref" span="142:23:142:28">XThis</jtok>
+<jtok eid="7" type="method_call" span="142:34:142:42">toString</jtok>
+<jtok eid="7" type="string_literal" span="142:47:142:51">": "</jtok>
+<jtok eid="7" type="primary_name_ref" span="142:53:142:55">ee</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:23:143:25">ee</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="147:16:147:22">Object</jtok>
+<jtok eid="8" type="method_name" span="147:23:147:33">invokeImpl</jtok>
+<jtok eid="8" type="parameter_type" span="147:35:147:41">Object</jtok>
+<jtok eid="8" type="parameter_name" span="147:42:147:47">proxy</jtok>
+<jtok eid="8" type="parameter_type" span="147:49:147:55">Method</jtok>
+<jtok eid="8" type="parameter_name" span="147:56:147:62">method</jtok>
+<jtok eid="8" type="parameter_type" span="147:64:147:70">Object</jtok>
+<jtok eid="8" type="parameter_name" span="147:73:147:77">args</jtok>
+<jtok eid="8" type="throws" span="148:20:148:29">EvalError</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="150:13:150:19">String</jtok>
+<jtok eid="8" type="local_variable_name" span="150:20:150:30">methodName</jtok>
+<jtok eid="8" type="primary_name_ref" span="150:33:150:39">method</jtok>
+<jtok eid="8" type="method_call" span="150:40:150:47">getName</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="151:13:151:22">CallStack</jtok>
+<jtok eid="8" type="local_variable_name" span="151:23:151:32">callstack</jtok>
+<jtok eid="8" type="constructor_call" span="151:39:151:48">CallStack</jtok>
+<jtok eid="8" type="primary_name_ref" span="151:50:151:59">namespace</jtok>
+<jtok eid="8" type="block_comment" span="153:13:160:15">/*
+                If equals() is not explicitly defined we must override the
+                default implemented by the This object protocol for scripted
+                object.  To support XThis equals() must test for equality with
+                the generated proxy object, not the scripted bsh This object;
+                otherwise callers from outside in Java will not see a the
+                proxy object as equal to itself.
+            */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="161:13:161:22">BshMethod</jtok>
+<jtok eid="8" type="local_variable_name" span="161:23:161:35">equalsMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:17:163:29">equalsMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:32:163:41">namespace</jtok>
+<jtok eid="8" type="method_call" span="163:42:163:51">getMethod</jtok>
+<jtok eid="8" type="string_literal" span="164:21:164:29">"equals"</jtok>
+<jtok eid="8" type="constructor_call" span="164:35:164:40">Class</jtok>
+<jtok eid="8" type="primary_name_ref" span="164:46:164:52">Object</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="165:23:165:36">UtilEvalError</jtok>
+<jtok eid="8" type="local_variable_name" span="165:37:165:38">e</jtok>
+<jtok eid="8" type="block_comment" span="165:42:165:56">/*leave null*/</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:18:166:28">methodName</jtok>
+<jtok eid="8" type="method_call" span="166:29:166:35">equals</jtok>
+<jtok eid="8" type="string_literal" span="166:36:166:44">"equals"</jtok>
+<jtok eid="8" type="primary_name_ref" span="166:50:166:62">equalsMethod</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="167:17:167:23">Object</jtok>
+<jtok eid="8" type="local_variable_name" span="167:24:167:27">obj</jtok>
+<jtok eid="8" type="primary_name_ref" span="167:30:167:34">args</jtok>
+<jtok eid="8" type="constructor_call" span="168:28:168:35">Boolean</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:37:168:42">proxy</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:46:168:49">obj</jtok>
+<jtok eid="8" type="block_comment" span="171:13:174:15">/*
+                If toString() is not explicitly defined override the default
+                to show the proxy interfaces.
+            */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="175:13:175:22">BshMethod</jtok>
+<jtok eid="8" type="local_variable_name" span="175:23:175:37">toStringMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:17:177:31">toStringMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="178:21:178:30">namespace</jtok>
+<jtok eid="8" type="method_call" span="178:31:178:40">getMethod</jtok>
+<jtok eid="8" type="string_literal" span="178:42:178:52">"toString"</jtok>
+<jtok eid="8" type="constructor_call" span="178:58:178:63">Class</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="179:23:179:36">UtilEvalError</jtok>
+<jtok eid="8" type="local_variable_name" span="179:37:179:38">e</jtok>
+<jtok eid="8" type="block_comment" span="179:42:179:56">/*leave null*/</jtok>
+<jtok eid="8" type="primary_name_ref" span="181:18:181:28">methodName</jtok>
+<jtok eid="8" type="method_call" span="181:29:181:35">equals</jtok>
+<jtok eid="8" type="string_literal" span="181:36:181:46">"toString"</jtok>
+<jtok eid="8" type="primary_name_ref" span="181:52:181:66">toStringMethod</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="183:17:183:22">Class</jtok>
+<jtok eid="8" type="local_variable_name" span="183:26:183:30">ints</jtok>
+<jtok eid="8" type="primary_name_ref" span="183:33:183:38">proxy</jtok>
+<jtok eid="8" type="method_call" span="183:39:183:47">getClass</jtok>
+<jtok eid="8" type="method_call" span="183:50:183:63">getInterfaces</jtok>
+<jtok eid="8" type="line_comment" span="184:17:184:69">// XThis.this refers to the enclosing class instance</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="185:17:185:30">StringBuilder</jtok>
+<jtok eid="8" type="local_variable_name" span="185:31:185:33">sb</jtok>
+<jtok eid="8" type="constructor_call" span="185:40:185:53">StringBuilder</jtok>
+<jtok eid="8" type="primary_name_ref" span="186:21:186:26">XThis</jtok>
+<jtok eid="8" type="method_call" span="186:32:186:40">toString</jtok>
+<jtok eid="8" type="string_literal" span="186:45:186:60">"\nimplements:"</jtok>
+<jtok eid="8" type="local_variable_name" span="187:25:187:26">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="187:30:187:31">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="187:32:187:36">ints</jtok>
+<jtok eid="8" type="qualified_name_ref" span="187:37:187:43">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="187:45:187:46">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="188:21:188:23">sb</jtok>
+<jtok eid="8" type="method_call" span="188:24:188:30">append</jtok>
+<jtok eid="8" type="string_literal" span="188:32:188:35">" "</jtok>
+<jtok eid="8" type="primary_name_ref" span="188:37:188:41">ints</jtok>
+<jtok eid="8" type="primary_name_ref" span="188:42:188:43">i</jtok>
+<jtok eid="8" type="method_call" span="188:45:188:52">getName</jtok>
+<jtok eid="8" type="primary_name_ref" span="189:29:189:33">ints</jtok>
+<jtok eid="8" type="qualified_name_ref" span="189:34:189:40">length</jtok>
+<jtok eid="8" type="string_literal" span="189:46:189:49">","</jtok>
+<jtok eid="8" type="string_literal" span="189:50:189:52">""</jtok>
+<jtok eid="8" type="primary_name_ref" span="190:24:190:26">sb</jtok>
+<jtok eid="8" type="method_call" span="190:27:190:35">toString</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="193:13:193:18">Class</jtok>
+<jtok eid="8" type="local_variable_name" span="193:22:193:32">paramTypes</jtok>
+<jtok eid="8" type="primary_name_ref" span="193:35:193:41">method</jtok>
+<jtok eid="8" type="method_call" span="193:42:193:59">getParameterTypes</jtok>
+<jtok eid="8" type="primary_name_ref" span="194:20:194:29">Primitive</jtok>
+<jtok eid="8" type="method_call" span="194:30:194:36">unwrap</jtok>
+<jtok eid="8" type="method_call" span="195:17:195:29">invokeMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:31:195:41">methodName</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:43:195:52">Primitive</jtok>
+<jtok eid="8" type="method_call" span="195:53:195:57">wrap</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:58:195:62">args</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:64:195:74">paramTypes</jtok>
+</jdoc>

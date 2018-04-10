@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl" jls="java5">
+<jent id="0" type="file" span="0:0:575:2">Source/jEdit/org/gjt/sp/jedit/bsh/classpath/ClassManagerImpl.java</jent>
+<jent id="1" pid="0" type="class" span="95:1:575:1">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl</jent>
+<jent id="2" pid="1" type="method" span="142:2:144:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.ClassManagerImpl()</jent>
+<jent id="3" pid="1" type="method" span="149:2:238:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.classForName(String)</jent>
+<jent id="4" pid="1" type="method" span="244:2:253:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.getResource(String)</jent>
+<jent id="5" pid="1" type="method" span="259:2:272:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.getResourceAsStream(String)</jent>
+<jent id="6" pid="1" type="method" span="274:2:276:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.getLoaderForClass(String)</jent>
+<jent id="7" pid="1" type="method" span="282:2:293:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.addClassPath(URL)</jent>
+<jent id="8" pid="1" type="method" span="299:2:305:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.reset()</jent>
+<jent id="9" pid="1" type="method" span="311:2:316:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.setClassPath(URL[])</jent>
+<jent id="10" pid="1" type="method" span="324:2:330:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.reloadAllClasses()</jent>
+<jent id="11" pid="1" type="method" span="335:2:337:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.initBaseLoader()</jent>
+<jent id="12" pid="1" type="method" span="346:2:397:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.reloadClasses(String[])</jent>
+<jent id="13" pid="1" type="method" span="405:2:421:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.reloadPackage(String)</jent>
+<jent id="14" pid="1" type="method" span="437:2:452:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.getClassPath()</jent>
+<jent id="15" pid="1" type="method" span="458:2:476:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.doSuperImport()</jent>
+<jent id="16" pid="1" type="method" span="478:2:478:59">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.hasSuperImport()</jent>
+<jent id="17" pid="1" type="method" span="484:2:488:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.getClassNameByUnqName(String)</jent>
+<jent id="18" pid="1" type="method" span="490:2:504:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.addListener(Listener)</jent>
+<jent id="19" pid="1" type="method" span="506:2:508:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.removeListener(Listener)</jent>
+<jent id="20" pid="1" type="method" span="510:2:512:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.getBaseLoader()</jent>
+<jent id="21" pid="1" type="method" span="528:2:537:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.defineClass(String,byte[])</jent>
+<jent id="22" pid="1" type="method" span="546:2:563:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.classLoaderChanged()</jent>
+<jent id="23" pid="1" type="method" span="565:2:573:2">org.gjt.sp.jedit.bsh.classpath.ClassManagerImpl.dump(PrintWriter)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="line_comment" span="46:43:46:57">// for debug()</jtok>
+<jtok eid="0" type="block_comment" span="49:1:94:3">/**
+	&lt;pre&gt;
+	Manage all classloading in BeanShell.
+	Allows classpath extension and class file reloading.
+
+	This class holds the implementation of the BshClassManager so that it
+	can be separated from the core package.
+
+	This class currently relies on 1.2 for BshClassLoader and weak references.
+	Is there a workaround for weak refs?  If so we could make this work
+	with 1.1 by supplying our own classloader code...
+
+	See "http://www.beanshell.org/manual/classloading.html" for details
+	on the bsh classloader architecture.
+
+	Bsh has a multi-tiered class loading architecture.  No class loader is
+	created unless/until a class is generated, the classpath is modified, 
+	or a class is reloaded.
+
+	Note: we may need some synchronization in here
+
+	Note on jdk1.2 dependency:
+
+	We are forced to use weak references here to accomodate all of the 
+	fleeting namespace listeners.  (NameSpaces must be informed if the class 
+	space changes so that they can un-cache names).  I had the interesting 
+	thought that a way around this would be to implement BeanShell's own 
+	garbage collector...  Then I came to my senses and said - screw it, 
+	class re-loading will require 1.2.
+
+	---------------------
+
+	Classloading precedence:
+
+	in-script evaluated class (scripted class)
+	in-script added / modified classpath
+
+	optionally, external classloader
+	optionally, thread context classloader
+
+	plain Class.forName()
+	source class (.java file in classpath)
+
+	&lt;/pre&gt;
+
+*/</jtok>
+<jtok eid="1" type="class_name" span="95:14:95:30">ClassManagerImpl</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="95:39:95:54">BshClassManager</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="97:15:97:21">String</jtok>
+<jtok eid="1" type="field_name" span="97:22:97:33">BSH_PACKAGE</jtok>
+<jtok eid="1" type="string_literal" span="97:36:97:58">"org.gjt.sp.jedit.bsh"</jtok>
+<jtok eid="1" type="block_comment" span="98:2:104:4">/**
+		The classpath of the base loader.  Initially and upon reset() this is
+		an empty instance of BshClassPath.  It grows as paths are added or is
+		reset when the classpath is explicitly set.  This could also be called
+		the "extension" class path, but is not strictly confined to added path
+		(could be set arbitrarily by setClassPath())
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="105:10:105:22">BshClassPath</jtok>
+<jtok eid="1" type="field_name" span="105:23:105:36">baseClassPath</jtok>
+<jtok eid="1" type="field_name" span="106:18:106:29">superImport</jtok>
+<jtok eid="1" type="block_comment" span="108:2:119:4">/**
+		This is the full blown classpath including baseClassPath (extensions),
+		user path, and java bootstrap path (rt.jar)
+
+		This is lazily constructed and further (and more importantly) lazily
+		intialized in components because mapping the full path could be
+		expensive.
+
+		The full class path is a composite of:
+			baseClassPath (user extension) : userClassPath : bootClassPath
+		in that order.
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="120:10:120:22">BshClassPath</jtok>
+<jtok eid="1" type="field_name" span="120:23:120:36">fullClassPath</jtok>
+<jtok eid="1" type="line_comment" span="122:2:122:31">// ClassPath Change listeners</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="123:10:123:16">Vector</jtok>
+<jtok eid="1" type="field_name" span="123:17:123:26">listeners</jtok>
+<jtok eid="1" type="constructor_call" span="123:33:123:39">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="124:10:124:24">ReferenceQueue</jtok>
+<jtok eid="1" type="field_name" span="124:25:124:33">refQueue</jtok>
+<jtok eid="1" type="constructor_call" span="124:40:124:54">ReferenceQueue</jtok>
+<jtok eid="1" type="block_comment" span="126:2:131:4">/**
+		This handles extension / modification of the base classpath
+		The loader to use where no mapping of reloaded classes exists.
+
+		The baseLoader is initially null meaning no class loader is used.
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="132:10:132:24">BshClassLoader</jtok>
+<jtok eid="1" type="field_name" span="132:25:132:35">baseLoader</jtok>
+<jtok eid="1" type="block_comment" span="134:2:136:4">/**
+		Map by classname of loaders to use for reloaded classes
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="137:10:137:13">Map</jtok>
+<jtok eid="1" type="field_name" span="137:14:137:23">loaderMap</jtok>
+<jtok eid="1" type="block_comment" span="139:2:141:4">/**
+		Used by BshClassManager singleton constructor
+	*/</jtok>
+<jtok eid="2" type="method_name" span="142:9:142:25">ClassManagerImpl</jtok>
+<jtok eid="2" type="method_call" span="143:3:143:8">reset</jtok>
+<jtok eid="1" type="block_comment" span="146:2:148:4">/**
+		@return the class or null
+	*/</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="149:9:149:14">Class</jtok>
+<jtok eid="3" type="method_name" span="149:15:149:27">classForName</jtok>
+<jtok eid="3" type="parameter_type" span="149:29:149:35">String</jtok>
+<jtok eid="3" type="parameter_name" span="149:36:149:40">name</jtok>
+<jtok eid="3" type="line_comment" span="151:3:151:26">// check positive cache</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="152:3:152:8">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="152:9:152:10">c</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="152:14:152:19">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:20:152:38">absoluteClassCache</jtok>
+<jtok eid="3" type="method_call" span="152:39:152:42">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:43:152:47">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="153:7:153:8">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:11:154:12">c</jtok>
+<jtok eid="3" type="line_comment" span="156:3:156:26">// check negative cache</jtok>
+<jtok eid="3" type="primary_name_ref" span="157:8:157:26">absoluteNonClasses</jtok>
+<jtok eid="3" type="method_call" span="157:27:157:30">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="157:31:157:35">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="158:9:158:20">Interpreter</jtok>
+<jtok eid="3" type="qualified_name_ref" span="158:21:158:26">DEBUG</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:5:159:16">Interpreter</jtok>
+<jtok eid="3" type="method_call" span="159:17:159:22">debug</jtok>
+<jtok eid="3" type="string_literal" span="159:23:159:52">"absoluteNonClass list hit: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:53:159:57">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="163:8:163:19">Interpreter</jtok>
+<jtok eid="3" type="qualified_name_ref" span="163:20:163:25">DEBUG</jtok>
+<jtok eid="3" type="primary_name_ref" span="164:4:164:15">Interpreter</jtok>
+<jtok eid="3" type="method_call" span="164:16:164:21">debug</jtok>
+<jtok eid="3" type="string_literal" span="164:22:164:46">"Trying to load class: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="164:47:164:51">name</jtok>
+<jtok eid="3" type="line_comment" span="166:3:166:49">// Check explicitly mapped (reloaded) class...</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="167:3:167:14">ClassLoader</jtok>
+<jtok eid="3" type="local_variable_name" span="167:15:167:28">overlayLoader</jtok>
+<jtok eid="3" type="method_call" span="167:31:167:48">getLoaderForClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="167:50:167:54">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:8:168:21">overlayLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:5:171:6">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:9:171:22">overlayLoader</jtok>
+<jtok eid="3" type="method_call" span="171:23:171:32">loadClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:33:171:37">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="172:14:172:23">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="172:24:172:25">e</jtok>
+<jtok eid="3" type="line_comment" span="173:4:173:47">// used to squeltch this... changed for 1.3</jtok>
+<jtok eid="3" type="line_comment" span="174:4:174:26">// see BshClassManager</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="175:14:175:34">NoClassDefFoundError</jtok>
+<jtok eid="3" type="local_variable_name" span="175:35:175:37">e2</jtok>
+<jtok eid="3" type="method_call" span="176:11:176:26">noClassDefFound</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:28:176:32">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:34:176:36">e2</jtok>
+<jtok eid="3" type="line_comment" span="179:4:179:53">// Should be there since it was explicitly mapped</jtok>
+<jtok eid="3" type="line_comment" span="180:4:180:22">// throw an error?</jtok>
+<jtok eid="3" type="line_comment" span="183:3:183:62">// insure that core classes are loaded from the same loader</jtok>
+<jtok eid="3" type="primary_name_ref" span="184:8:184:9">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="185:9:185:13">name</jtok>
+<jtok eid="3" type="method_call" span="185:14:185:24">startsWith</jtok>
+<jtok eid="3" type="primary_name_ref" span="185:26:185:37">BSH_PACKAGE</jtok>
+<jtok eid="3" type="primary_name_ref" span="187:6:187:7">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="187:10:187:21">Interpreter</jtok>
+<jtok eid="3" type="method_call" span="187:28:187:42">getClassLoader</jtok>
+<jtok eid="3" type="method_call" span="187:45:187:54">loadClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="187:56:187:60">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="188:15:188:37">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="188:38:188:39">e</jtok>
+<jtok eid="3" type="line_comment" span="191:3:191:50">// Check classpath extension / reloaded classes</jtok>
+<jtok eid="3" type="primary_name_ref" span="192:8:192:9">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="193:9:193:19">baseLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="195:6:195:7">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="195:10:195:20">baseLoader</jtok>
+<jtok eid="3" type="method_call" span="195:21:195:30">loadClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="195:32:195:36">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="196:15:196:37">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="196:38:196:39">e</jtok>
+<jtok eid="3" type="line_comment" span="199:3:199:41">// Optionally try external classloader</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:8:200:9">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="201:9:201:28">externalClassLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="203:6:203:7">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="203:10:203:29">externalClassLoader</jtok>
+<jtok eid="3" type="method_call" span="203:30:203:39">loadClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="203:41:203:45">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="204:15:204:37">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="204:38:204:39">e</jtok>
+<jtok eid="3" type="line_comment" span="207:3:207:40">// Optionally try context classloader</jtok>
+<jtok eid="3" type="line_comment" span="208:3:208:50">// Note that this might be a security violation</jtok>
+<jtok eid="3" type="line_comment" span="209:3:209:72">// is catching the SecurityException sufficient for all environments?</jtok>
+<jtok eid="3" type="line_comment" span="210:3:210:54">// or do we need a way to turn this off completely?</jtok>
+<jtok eid="3" type="primary_name_ref" span="211:8:211:9">c</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="214:5:214:16">ClassLoader</jtok>
+<jtok eid="3" type="local_variable_name" span="214:17:214:35">contextClassLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="215:6:215:12">Thread</jtok>
+<jtok eid="3" type="method_call" span="215:13:215:26">currentThread</jtok>
+<jtok eid="3" type="method_call" span="215:29:215:50">getContextClassLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="216:10:216:28">contextClassLoader</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:6:217:7">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:10:217:15">Class</jtok>
+<jtok eid="3" type="method_call" span="217:16:217:23">forName</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:25:217:29">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:37:217:55">contextClassLoader</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="218:14:218:36">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="218:37:218:38">e</jtok>
+<jtok eid="3" type="line_comment" span="218:43:218:58">// fall through</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="219:14:219:31">SecurityException</jtok>
+<jtok eid="3" type="local_variable_name" span="219:32:219:33">e</jtok>
+<jtok eid="3" type="line_comment" span="219:40:219:55">// fall through</jtok>
+<jtok eid="3" type="line_comment" span="222:3:222:31">// try plain class forName()</jtok>
+<jtok eid="3" type="primary_name_ref" span="223:8:223:9">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="225:5:225:6">c</jtok>
+<jtok eid="3" type="method_call" span="225:9:225:26">plainClassForName</jtok>
+<jtok eid="3" type="primary_name_ref" span="225:28:225:32">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="226:14:226:36">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="226:37:226:38">e</jtok>
+<jtok eid="3" type="line_comment" span="228:3:228:24">// Try scripted class</jtok>
+<jtok eid="3" type="primary_name_ref" span="229:8:229:9">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="230:4:230:5">c</jtok>
+<jtok eid="3" type="method_call" span="230:8:230:23">loadSourceClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="230:25:230:29">name</jtok>
+<jtok eid="3" type="line_comment" span="232:3:232:42">// Cache result (or null for not found)</jtok>
+<jtok eid="3" type="line_comment" span="233:3:233:69">// Note: plainClassForName already caches, so it will be redundant</jtok>
+<jtok eid="3" type="line_comment" span="234:3:234:58">// in that case, however this process only happens once</jtok>
+<jtok eid="3" type="method_call" span="235:3:235:17">cacheClassInfo</jtok>
+<jtok eid="3" type="primary_name_ref" span="235:19:235:23">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="235:25:235:26">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="237:10:237:11">c</jtok>
+<jtok eid="1" type="block_comment" span="240:2:243:4">/**
+		Get a resource URL using the BeanShell classpath
+		@param path should be an absolute path
+	*/</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="244:9:244:12">URL</jtok>
+<jtok eid="4" type="method_name" span="244:13:244:24">getResource</jtok>
+<jtok eid="4" type="parameter_type" span="244:26:244:32">String</jtok>
+<jtok eid="4" type="parameter_name" span="244:33:244:37">path</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="246:3:246:6">URL</jtok>
+<jtok eid="4" type="local_variable_name" span="246:7:246:10">url</jtok>
+<jtok eid="4" type="primary_name_ref" span="247:8:247:18">baseLoader</jtok>
+<jtok eid="4" type="line_comment" span="248:4:248:41">// classloader wants no leading slash</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:4:249:7">url</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:10:249:20">baseLoader</jtok>
+<jtok eid="4" type="method_call" span="249:21:249:32">getResource</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:34:249:38">path</jtok>
+<jtok eid="4" type="method_call" span="249:39:249:48">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="250:8:250:11">url</jtok>
+<jtok eid="4" type="primary_name_ref" span="251:4:251:7">url</jtok>
+<jtok eid="4" type="method_call" span="251:16:251:27">getResource</jtok>
+<jtok eid="4" type="primary_name_ref" span="251:29:251:33">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="252:10:252:13">url</jtok>
+<jtok eid="1" type="block_comment" span="255:2:258:4">/**
+		Get a resource stream using the BeanShell classpath
+		@param path should be an absolute path
+	*/</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="259:9:259:20">InputStream</jtok>
+<jtok eid="5" type="method_name" span="259:21:259:40">getResourceAsStream</jtok>
+<jtok eid="5" type="parameter_type" span="259:42:259:48">String</jtok>
+<jtok eid="5" type="parameter_name" span="259:49:259:53">path</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="261:3:261:14">InputStream</jtok>
+<jtok eid="5" type="local_variable_name" span="261:15:261:17">in</jtok>
+<jtok eid="5" type="primary_name_ref" span="262:8:262:18">baseLoader</jtok>
+<jtok eid="5" type="line_comment" span="264:4:264:41">// classloader wants no leading slash</jtok>
+<jtok eid="5" type="primary_name_ref" span="265:4:265:6">in</jtok>
+<jtok eid="5" type="primary_name_ref" span="265:9:265:19">baseLoader</jtok>
+<jtok eid="5" type="method_call" span="265:20:265:39">getResourceAsStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="265:41:265:45">path</jtok>
+<jtok eid="5" type="method_call" span="265:46:265:55">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="267:8:267:10">in</jtok>
+<jtok eid="5" type="primary_name_ref" span="269:4:269:6">in</jtok>
+<jtok eid="5" type="method_call" span="269:15:269:34">getResourceAsStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="269:36:269:40">path</jtok>
+<jtok eid="5" type="primary_name_ref" span="271:10:271:12">in</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="274:2:274:13">ClassLoader</jtok>
+<jtok eid="6" type="method_name" span="274:14:274:31">getLoaderForClass</jtok>
+<jtok eid="6" type="parameter_type" span="274:33:274:39">String</jtok>
+<jtok eid="6" type="parameter_name" span="274:40:274:44">name</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="275:11:275:22">ClassLoader</jtok>
+<jtok eid="6" type="primary_name_ref" span="275:23:275:32">loaderMap</jtok>
+<jtok eid="6" type="method_call" span="275:33:275:36">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="275:38:275:42">name</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:23">// Classpath mutators</jtok>
+<jtok eid="1" type="block_comment" span="280:2:281:4">/**
+	*/</jtok>
+<jtok eid="7" type="method_name" span="282:14:282:26">addClassPath</jtok>
+<jtok eid="7" type="parameter_type" span="282:28:282:31">URL</jtok>
+<jtok eid="7" type="parameter_name" span="282:32:282:36">path</jtok>
+<jtok eid="7" type="throws" span="283:10:283:21">IOException</jtok>
+<jtok eid="7" type="primary_name_ref" span="285:8:285:18">baseLoader</jtok>
+<jtok eid="7" type="method_call" span="286:4:286:16">setClassPath</jtok>
+<jtok eid="7" type="constructor_call" span="286:22:286:25">URL</jtok>
+<jtok eid="7" type="primary_name_ref" span="286:31:286:35">path</jtok>
+<jtok eid="7" type="line_comment" span="288:4:288:49">// opportunity here for listener in classpath</jtok>
+<jtok eid="7" type="primary_name_ref" span="289:4:289:14">baseLoader</jtok>
+<jtok eid="7" type="method_call" span="289:15:289:21">addURL</jtok>
+<jtok eid="7" type="primary_name_ref" span="289:23:289:27">path</jtok>
+<jtok eid="7" type="primary_name_ref" span="290:4:290:17">baseClassPath</jtok>
+<jtok eid="7" type="method_call" span="290:18:290:21">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="290:23:290:27">path</jtok>
+<jtok eid="7" type="method_call" span="291:4:291:22">classLoaderChanged</jtok>
+<jtok eid="1" type="block_comment" span="295:2:298:4">/**
+		Clear all classloading behavior and class caches and reset to 
+		initial state.
+	*/</jtok>
+<jtok eid="8" type="method_name" span="299:14:299:19">reset</jtok>
+<jtok eid="8" type="primary_name_ref" span="301:3:301:16">baseClassPath</jtok>
+<jtok eid="8" type="constructor_call" span="301:23:301:35">BshClassPath</jtok>
+<jtok eid="8" type="string_literal" span="301:36:301:51">"baseClassPath"</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:3:302:13">baseLoader</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:3:303:12">loaderMap</jtok>
+<jtok eid="8" type="constructor_call" span="303:19:303:26">HashMap</jtok>
+<jtok eid="8" type="method_call" span="304:3:304:21">classLoaderChanged</jtok>
+<jtok eid="8" type="line_comment" span="304:25:304:55">// calls clearCaches() for us.</jtok>
+<jtok eid="1" type="block_comment" span="307:2:310:4">/**
+		Set a new base classpath and create a new base classloader.
+		This means all types change. 
+	*/</jtok>
+<jtok eid="9" type="method_name" span="311:14:311:26">setClassPath</jtok>
+<jtok eid="9" type="parameter_type" span="311:28:311:31">URL</jtok>
+<jtok eid="9" type="parameter_name" span="311:35:311:37">cp</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:3:312:16">baseClassPath</jtok>
+<jtok eid="9" type="method_call" span="312:17:312:24">setPath</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:26:312:28">cp</jtok>
+<jtok eid="9" type="method_call" span="313:3:313:17">initBaseLoader</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:3:314:12">loaderMap</jtok>
+<jtok eid="9" type="constructor_call" span="314:19:314:26">HashMap</jtok>
+<jtok eid="9" type="method_call" span="315:3:315:21">classLoaderChanged</jtok>
+<jtok eid="1" type="block_comment" span="318:2:323:4">/**
+		Overlay the entire path with a new class loader.
+		Set the base path to the user path + base path.
+
+		No point in including the boot class path (can't reload thos).
+	*/</jtok>
+<jtok eid="10" type="method_name" span="324:14:324:30">reloadAllClasses</jtok>
+<jtok eid="10" type="throws" span="324:40:324:58">ClassPathException</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="326:3:326:15">BshClassPath</jtok>
+<jtok eid="10" type="local_variable_name" span="326:16:326:19">bcp</jtok>
+<jtok eid="10" type="constructor_call" span="326:26:326:38">BshClassPath</jtok>
+<jtok eid="10" type="string_literal" span="326:39:326:45">"temp"</jtok>
+<jtok eid="10" type="primary_name_ref" span="327:3:327:6">bcp</jtok>
+<jtok eid="10" type="method_call" span="327:7:327:19">addComponent</jtok>
+<jtok eid="10" type="primary_name_ref" span="327:21:327:34">baseClassPath</jtok>
+<jtok eid="10" type="primary_name_ref" span="328:3:328:6">bcp</jtok>
+<jtok eid="10" type="method_call" span="328:7:328:19">addComponent</jtok>
+<jtok eid="10" type="primary_name_ref" span="328:21:328:33">BshClassPath</jtok>
+<jtok eid="10" type="method_call" span="328:34:328:50">getUserClassPath</jtok>
+<jtok eid="10" type="method_call" span="329:3:329:15">setClassPath</jtok>
+<jtok eid="10" type="primary_name_ref" span="329:17:329:20">bcp</jtok>
+<jtok eid="10" type="method_call" span="329:21:329:38">getPathComponents</jtok>
+<jtok eid="1" type="block_comment" span="332:2:334:4">/**
+		init the baseLoader from the baseClassPath
+	*/</jtok>
+<jtok eid="11" type="method_name" span="335:15:335:29">initBaseLoader</jtok>
+<jtok eid="11" type="primary_name_ref" span="336:3:336:13">baseLoader</jtok>
+<jtok eid="11" type="constructor_call" span="336:20:336:34">BshClassLoader</jtok>
+<jtok eid="11" type="primary_name_ref" span="336:42:336:55">baseClassPath</jtok>
+<jtok eid="1" type="line_comment" span="339:2:339:20">// class reloading</jtok>
+<jtok eid="1" type="block_comment" span="341:2:345:4">/**
+		Reloading classes means creating a new classloader and using it
+		whenever we are asked for classes in the appropriate space.
+		For this we use a DiscreteFilesClassLoader
+	*/</jtok>
+<jtok eid="12" type="method_name" span="346:14:346:27">reloadClasses</jtok>
+<jtok eid="12" type="parameter_type" span="346:29:346:35">String</jtok>
+<jtok eid="12" type="parameter_name" span="346:39:346:49">classNames</jtok>
+<jtok eid="12" type="throws" span="347:10:347:28">ClassPathException</jtok>
+<jtok eid="12" type="line_comment" span="349:3:349:39">// validate that it is a class here?</jtok>
+<jtok eid="12" type="line_comment" span="351:3:351:48">// init base class loader if there is none...</jtok>
+<jtok eid="12" type="primary_name_ref" span="352:8:352:18">baseLoader</jtok>
+<jtok eid="12" type="method_call" span="353:4:353:18">initBaseLoader</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="355:3:355:27">DiscreteFilesClassLoader</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="355:28:355:42">ClassSourceMap</jtok>
+<jtok eid="12" type="local_variable_name" span="355:43:355:46">map</jtok>
+<jtok eid="12" type="constructor_call" span="356:8:356:32">DiscreteFilesClassLoader</jtok>
+<jtok eid="12" type="constructor_call" span="356:33:356:47">ClassSourceMap</jtok>
+<jtok eid="12" type="local_variable_name" span="358:12:358:13">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="358:17:358:18">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="358:20:358:30">classNames</jtok>
+<jtok eid="12" type="qualified_name_ref" span="358:31:358:37">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="358:39:358:40">i</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="359:4:359:10">String</jtok>
+<jtok eid="12" type="local_variable_name" span="359:11:359:15">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="359:18:359:28">classNames</jtok>
+<jtok eid="12" type="primary_name_ref" span="359:29:359:30">i</jtok>
+<jtok eid="12" type="line_comment" span="361:4:361:36">// look in baseLoader class path</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="362:4:362:15">ClassSource</jtok>
+<jtok eid="12" type="local_variable_name" span="362:16:362:27">classSource</jtok>
+<jtok eid="12" type="primary_name_ref" span="362:30:362:43">baseClassPath</jtok>
+<jtok eid="12" type="method_call" span="362:44:362:58">getClassSource</jtok>
+<jtok eid="12" type="primary_name_ref" span="362:60:362:64">name</jtok>
+<jtok eid="12" type="line_comment" span="364:4:364:30">// look in user class path</jtok>
+<jtok eid="12" type="primary_name_ref" span="365:9:365:20">classSource</jtok>
+<jtok eid="12" type="primary_name_ref" span="366:5:366:17">BshClassPath</jtok>
+<jtok eid="12" type="method_call" span="366:18:366:34">getUserClassPath</jtok>
+<jtok eid="12" type="method_call" span="366:37:366:54">insureInitialized</jtok>
+<jtok eid="12" type="primary_name_ref" span="367:5:367:16">classSource</jtok>
+<jtok eid="12" type="primary_name_ref" span="367:19:367:31">BshClassPath</jtok>
+<jtok eid="12" type="method_call" span="367:32:367:48">getUserClassPath</jtok>
+<jtok eid="12" type="method_call" span="367:51:367:65">getClassSource</jtok>
+<jtok eid="12" type="primary_name_ref" span="368:6:368:10">name</jtok>
+<jtok eid="12" type="line_comment" span="371:4:371:64">// No point in checking boot class path, can't reload those.</jtok>
+<jtok eid="12" type="line_comment" span="372:4:372:51">// else we could have used fullClassPath above.</jtok>
+<jtok eid="12" type="primary_name_ref" span="374:9:374:20">classSource</jtok>
+<jtok eid="12" type="constructor_call" span="375:15:375:33">ClassPathException</jtok>
+<jtok eid="12" type="string_literal" span="375:34:375:63">"Nothing known about class: "</jtok>
+<jtok eid="12" type="primary_name_ref" span="376:7:376:11">name</jtok>
+<jtok eid="12" type="line_comment" span="378:4:378:67">// JarClassSource is not working... just need to implement it's</jtok>
+<jtok eid="12" type="line_comment" span="379:4:379:70">// getCode() method or, if we decide to, allow the BshClassManager</jtok>
+<jtok eid="12" type="line_comment" span="380:4:380:71">// to handle it... since it is a URLClassLoader and can handle JARs</jtok>
+<jtok eid="12" type="primary_name_ref" span="381:9:381:20">classSource</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="381:32:381:46">JarClassSource</jtok>
+<jtok eid="12" type="constructor_call" span="382:15:382:33">ClassPathException</jtok>
+<jtok eid="12" type="string_literal" span="382:34:382:57">"Cannot reload class: "</jtok>
+<jtok eid="12" type="primary_name_ref" span="382:58:382:62">name</jtok>
+<jtok eid="12" type="string_literal" span="383:6:383:22">" from source: "</jtok>
+<jtok eid="12" type="primary_name_ref" span="383:24:383:35">classSource</jtok>
+<jtok eid="12" type="primary_name_ref" span="385:4:385:7">map</jtok>
+<jtok eid="12" type="method_call" span="385:8:385:11">put</jtok>
+<jtok eid="12" type="primary_name_ref" span="385:13:385:17">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="385:19:385:30">classSource</jtok>
+<jtok eid="12" type="line_comment" span="388:3:388:47">// Create classloader for the set of classes</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="389:3:389:14">ClassLoader</jtok>
+<jtok eid="12" type="local_variable_name" span="389:15:389:17">cl</jtok>
+<jtok eid="12" type="constructor_call" span="389:24:389:48">DiscreteFilesClassLoader</jtok>
+<jtok eid="12" type="primary_name_ref" span="389:56:389:59">map</jtok>
+<jtok eid="12" type="line_comment" span="391:3:391:53">// map those classes the loader in the overlay map</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="392:3:392:11">Iterator</jtok>
+<jtok eid="12" type="local_variable_name" span="392:12:392:14">it</jtok>
+<jtok eid="12" type="primary_name_ref" span="392:17:392:20">map</jtok>
+<jtok eid="12" type="method_call" span="392:21:392:27">keySet</jtok>
+<jtok eid="12" type="method_call" span="392:30:392:38">iterator</jtok>
+<jtok eid="12" type="primary_name_ref" span="393:11:393:13">it</jtok>
+<jtok eid="12" type="method_call" span="393:14:393:21">hasNext</jtok>
+<jtok eid="12" type="primary_name_ref" span="394:4:394:13">loaderMap</jtok>
+<jtok eid="12" type="method_call" span="394:14:394:17">put</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="394:20:394:26">String</jtok>
+<jtok eid="12" type="primary_name_ref" span="394:27:394:29">it</jtok>
+<jtok eid="12" type="method_call" span="394:30:394:34">next</jtok>
+<jtok eid="12" type="primary_name_ref" span="394:38:394:40">cl</jtok>
+<jtok eid="12" type="method_call" span="396:3:396:21">classLoaderChanged</jtok>
+<jtok eid="1" type="block_comment" span="399:2:404:4">/**
+		Reload all classes in the specified package: e.g. "com.sun.tools"
+
+		The special package name "&lt;unpackaged&gt;" can be used to refer 
+		to unpackaged classes.
+	*/</jtok>
+<jtok eid="13" type="method_name" span="405:14:405:27">reloadPackage</jtok>
+<jtok eid="13" type="parameter_type" span="405:29:405:35">String</jtok>
+<jtok eid="13" type="parameter_name" span="405:36:405:40">pack</jtok>
+<jtok eid="13" type="throws" span="406:10:406:28">ClassPathException</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="408:3:408:13">Collection</jtok>
+<jtok eid="13" type="local_variable_name" span="408:14:408:21">classes</jtok>
+<jtok eid="13" type="primary_name_ref" span="409:4:409:17">baseClassPath</jtok>
+<jtok eid="13" type="method_call" span="409:18:409:38">getClassesForPackage</jtok>
+<jtok eid="13" type="primary_name_ref" span="409:40:409:44">pack</jtok>
+<jtok eid="13" type="primary_name_ref" span="411:8:411:15">classes</jtok>
+<jtok eid="13" type="primary_name_ref" span="412:4:412:11">classes</jtok>
+<jtok eid="13" type="primary_name_ref" span="413:5:413:17">BshClassPath</jtok>
+<jtok eid="13" type="method_call" span="413:18:413:34">getUserClassPath</jtok>
+<jtok eid="13" type="method_call" span="413:37:413:57">getClassesForPackage</jtok>
+<jtok eid="13" type="primary_name_ref" span="413:59:413:63">pack</jtok>
+<jtok eid="13" type="line_comment" span="415:3:415:62">// no point in checking boot class path, can't reload those</jtok>
+<jtok eid="13" type="primary_name_ref" span="417:8:417:15">classes</jtok>
+<jtok eid="13" type="constructor_call" span="418:14:418:32">ClassPathException</jtok>
+<jtok eid="13" type="string_literal" span="418:33:418:65">"No classes found for package: "</jtok>
+<jtok eid="13" type="primary_name_ref" span="418:66:418:70">pack</jtok>
+<jtok eid="13" type="method_call" span="420:3:420:16">reloadClasses</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="420:19:420:25">String</jtok>
+<jtok eid="13" type="primary_name_ref" span="420:28:420:35">classes</jtok>
+<jtok eid="13" type="method_call" span="420:36:420:43">toArray</jtok>
+<jtok eid="13" type="constructor_call" span="420:49:420:55">String</jtok>
+<jtok eid="1" type="block_comment" span="423:2:430:4">/**
+		Unimplemented
+		For this we'd have to store a map by location as well as name...
+
+	public void reloadPathComponent( URL pc ) throws ClassPathException {
+		throw new ClassPathException("Unimplemented!");
+	}
+	*/</jtok>
+<jtok eid="1" type="line_comment" span="432:2:432:18">// end reloading</jtok>
+<jtok eid="1" type="block_comment" span="434:2:436:4">/**
+		Get the full blown classpath.
+	*/</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="437:9:437:21">BshClassPath</jtok>
+<jtok eid="14" type="method_name" span="437:22:437:34">getClassPath</jtok>
+<jtok eid="14" type="throws" span="437:44:437:62">ClassPathException</jtok>
+<jtok eid="14" type="primary_name_ref" span="439:8:439:21">fullClassPath</jtok>
+<jtok eid="14" type="primary_name_ref" span="440:11:440:24">fullClassPath</jtok>
+<jtok eid="14" type="primary_name_ref" span="442:3:442:16">fullClassPath</jtok>
+<jtok eid="14" type="constructor_call" span="442:23:442:35">BshClassPath</jtok>
+<jtok eid="14" type="string_literal" span="442:36:442:63">"BeanShell Full Class Path"</jtok>
+<jtok eid="14" type="primary_name_ref" span="443:3:443:16">fullClassPath</jtok>
+<jtok eid="14" type="method_call" span="443:17:443:29">addComponent</jtok>
+<jtok eid="14" type="primary_name_ref" span="443:31:443:43">BshClassPath</jtok>
+<jtok eid="14" type="method_call" span="443:44:443:60">getUserClassPath</jtok>
+<jtok eid="14" type="primary_name_ref" span="445:4:445:17">fullClassPath</jtok>
+<jtok eid="14" type="method_call" span="445:18:445:30">addComponent</jtok>
+<jtok eid="14" type="primary_name_ref" span="445:32:445:44">BshClassPath</jtok>
+<jtok eid="14" type="method_call" span="445:45:445:61">getBootClassPath</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="446:13:446:31">ClassPathException</jtok>
+<jtok eid="14" type="local_variable_name" span="446:32:446:33">e</jtok>
+<jtok eid="14" type="primary_name_ref" span="447:4:447:10">System</jtok>
+<jtok eid="14" type="qualified_name_ref" span="447:11:447:14">err</jtok>
+<jtok eid="14" type="method_call" span="447:15:447:22">println</jtok>
+<jtok eid="14" type="string_literal" span="447:23:447:59">"Warning: can't get boot class path"</jtok>
+<jtok eid="14" type="primary_name_ref" span="449:3:449:16">fullClassPath</jtok>
+<jtok eid="14" type="method_call" span="449:17:449:29">addComponent</jtok>
+<jtok eid="14" type="primary_name_ref" span="449:31:449:44">baseClassPath</jtok>
+<jtok eid="14" type="primary_name_ref" span="451:10:451:23">fullClassPath</jtok>
+<jtok eid="1" type="block_comment" span="454:2:457:4">/**
+		Support for "import *;"
+		Hide details in here as opposed to NameSpace.
+	*/</jtok>
+<jtok eid="15" type="method_name" span="458:14:458:27">doSuperImport</jtok>
+<jtok eid="15" type="throws" span="459:10:459:23">UtilEvalError</jtok>
+<jtok eid="15" type="line_comment" span="461:3:461:48">// Should we prevent it from happening twice?</jtok>
+<jtok eid="15" type="method_call" span="464:4:464:16">getClassPath</jtok>
+<jtok eid="15" type="method_call" span="464:19:464:36">insureInitialized</jtok>
+<jtok eid="15" type="line_comment" span="465:4:465:29">// prime the lookup table</jtok>
+<jtok eid="15" type="method_call" span="466:4:466:25">getClassNameByUnqName</jtok>
+<jtok eid="15" type="string_literal" span="466:27:466:29">""</jtok>
+<jtok eid="15" type="line_comment" span="468:4:468:22">// always true now</jtok>
+<jtok eid="15" type="line_comment" span="469:4:469:60">//getClassPath().setNameCompletionIncludeUnqNames(true);</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="471:13:471:31">ClassPathException</jtok>
+<jtok eid="15" type="local_variable_name" span="471:32:471:33">e</jtok>
+<jtok eid="15" type="constructor_call" span="472:14:472:27">UtilEvalError</jtok>
+<jtok eid="15" type="string_literal" span="472:28:472:56">"Error importing classpath "</jtok>
+<jtok eid="15" type="primary_name_ref" span="472:58:472:59">e</jtok>
+<jtok eid="15" type="primary_name_ref" span="475:3:475:14">superImport</jtok>
+<jtok eid="16" type="method_name" span="478:20:478:34">hasSuperImport</jtok>
+<jtok eid="16" type="primary_name_ref" span="478:46:478:57">superImport</jtok>
+<jtok eid="1" type="block_comment" span="480:2:483:4">/**
+		Return the name or null if none is found,
+		Throw an ClassPathException containing detail if name is ambigous.
+	*/</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="484:9:484:15">String</jtok>
+<jtok eid="17" type="method_name" span="484:16:484:37">getClassNameByUnqName</jtok>
+<jtok eid="17" type="parameter_type" span="484:39:484:45">String</jtok>
+<jtok eid="17" type="parameter_name" span="484:46:484:50">name</jtok>
+<jtok eid="17" type="throws" span="485:10:485:28">ClassPathException</jtok>
+<jtok eid="17" type="method_call" span="487:10:487:22">getClassPath</jtok>
+<jtok eid="17" type="method_call" span="487:25:487:46">getClassNameByUnqName</jtok>
+<jtok eid="17" type="primary_name_ref" span="487:48:487:52">name</jtok>
+<jtok eid="18" type="method_name" span="490:14:490:25">addListener</jtok>
+<jtok eid="18" type="parameter_type" span="490:27:490:35">Listener</jtok>
+<jtok eid="18" type="parameter_name" span="490:36:490:37">l</jtok>
+<jtok eid="18" type="primary_name_ref" span="491:3:491:12">listeners</jtok>
+<jtok eid="18" type="method_call" span="491:13:491:23">addElement</jtok>
+<jtok eid="18" type="constructor_call" span="491:29:491:42">WeakReference</jtok>
+<jtok eid="18" type="primary_name_ref" span="491:44:491:45">l</jtok>
+<jtok eid="18" type="primary_name_ref" span="491:47:491:55">refQueue</jtok>
+<jtok eid="18" type="line_comment" span="493:3:493:28">// clean up old listeners</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="494:3:494:12">Reference</jtok>
+<jtok eid="18" type="local_variable_name" span="494:13:494:20">deadref</jtok>
+<jtok eid="18" type="primary_name_ref" span="495:12:495:19">deadref</jtok>
+<jtok eid="18" type="primary_name_ref" span="495:22:495:30">refQueue</jtok>
+<jtok eid="18" type="method_call" span="495:31:495:35">poll</jtok>
+<jtok eid="18" type="local_variable_name" span="496:12:496:14">ok</jtok>
+<jtok eid="18" type="primary_name_ref" span="496:17:496:26">listeners</jtok>
+<jtok eid="18" type="method_call" span="496:27:496:40">removeElement</jtok>
+<jtok eid="18" type="primary_name_ref" span="496:42:496:49">deadref</jtok>
+<jtok eid="18" type="primary_name_ref" span="497:9:497:11">ok</jtok>
+<jtok eid="18" type="line_comment" span="498:5:498:59">//System.err.println("cleaned up weak ref: "+deadref);</jtok>
+<jtok eid="18" type="primary_name_ref" span="500:10:500:21">Interpreter</jtok>
+<jtok eid="18" type="qualified_name_ref" span="500:22:500:27">DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="500:30:500:41">Interpreter</jtok>
+<jtok eid="18" type="method_call" span="500:42:500:47">debug</jtok>
+<jtok eid="18" type="string_literal" span="501:6:501:47">"tried to remove non-existent weak ref: "</jtok>
+<jtok eid="18" type="primary_name_ref" span="501:48:501:55">deadref</jtok>
+<jtok eid="19" type="method_name" span="506:14:506:28">removeListener</jtok>
+<jtok eid="19" type="parameter_type" span="506:30:506:38">Listener</jtok>
+<jtok eid="19" type="parameter_name" span="506:39:506:40">l</jtok>
+<jtok eid="19" type="constructor_call" span="507:13:507:18">Error</jtok>
+<jtok eid="19" type="string_literal" span="507:19:507:34">"unimplemented"</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="510:9:510:20">ClassLoader</jtok>
+<jtok eid="20" type="method_name" span="510:21:510:34">getBaseLoader</jtok>
+<jtok eid="20" type="primary_name_ref" span="511:10:511:20">baseLoader</jtok>
+<jtok eid="1" type="block_comment" span="514:2:518:4">/**
+		Get the BeanShell classloader.
+	public ClassLoader getClassLoader() {
+	}
+	*/</jtok>
+<jtok eid="1" type="block_comment" span="520:2:527:4">/*
+		Impl Notes:
+		We add the bytecode source and the "reload" the class, which causes the
+		BshClassLoader to be initialized and create a DiscreteFilesClassLoader
+		for the bytecode.
+
+		@exception ClassPathException can be thrown by reloadClasses
+	*/</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="528:9:528:14">Class</jtok>
+<jtok eid="21" type="method_name" span="528:15:528:26">defineClass</jtok>
+<jtok eid="21" type="parameter_type" span="528:28:528:34">String</jtok>
+<jtok eid="21" type="parameter_name" span="528:35:528:39">name</jtok>
+<jtok eid="21" type="parameter_name" span="528:49:528:53">code</jtok>
+<jtok eid="21" type="primary_name_ref" span="530:3:530:16">baseClassPath</jtok>
+<jtok eid="21" type="method_call" span="530:17:530:31">setClassSource</jtok>
+<jtok eid="21" type="primary_name_ref" span="530:33:530:37">name</jtok>
+<jtok eid="21" type="constructor_call" span="530:43:530:63">GeneratedClassSource</jtok>
+<jtok eid="21" type="primary_name_ref" span="530:65:530:69">code</jtok>
+<jtok eid="21" type="method_call" span="532:4:532:17">reloadClasses</jtok>
+<jtok eid="21" type="constructor_call" span="532:23:532:29">String</jtok>
+<jtok eid="21" type="primary_name_ref" span="532:35:532:39">name</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="533:13:533:31">ClassPathException</jtok>
+<jtok eid="21" type="local_variable_name" span="533:32:533:33">e</jtok>
+<jtok eid="21" type="constructor_call" span="534:14:534:17">org</jtok>
+<jtok eid="21" type="constructor_call" span="534:18:534:21">gjt</jtok>
+<jtok eid="21" type="constructor_call" span="534:22:534:24">sp</jtok>
+<jtok eid="21" type="constructor_call" span="534:25:534:30">jedit</jtok>
+<jtok eid="21" type="constructor_call" span="534:31:534:34">bsh</jtok>
+<jtok eid="21" type="constructor_call" span="534:35:534:51">InterpreterError</jtok>
+<jtok eid="21" type="string_literal" span="534:52:534:67">"defineClass: "</jtok>
+<jtok eid="21" type="primary_name_ref" span="534:68:534:69">e</jtok>
+<jtok eid="21" type="method_call" span="536:10:536:22">classForName</jtok>
+<jtok eid="21" type="primary_name_ref" span="536:24:536:28">name</jtok>
+<jtok eid="1" type="block_comment" span="539:2:545:4">/**
+		Clear global class cache and notify namespaces to clear their 
+		class caches.
+
+		The listener list is implemented with weak references so that we 
+		will not keep every namespace in existence forever.
+	*/</jtok>
+<jtok eid="22" type="method_name" span="546:17:546:35">classLoaderChanged</jtok>
+<jtok eid="22" type="line_comment" span="548:3:548:48">// clear the static caches in BshClassManager</jtok>
+<jtok eid="22" type="method_call" span="549:3:549:14">clearCaches</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="551:3:551:9">Vector</jtok>
+<jtok eid="22" type="local_variable_name" span="551:10:551:18">toRemove</jtok>
+<jtok eid="22" type="constructor_call" span="551:25:551:31">Vector</jtok>
+<jtok eid="22" type="line_comment" span="551:35:551:51">// safely remove</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="552:9:552:20">Enumeration</jtok>
+<jtok eid="22" type="local_variable_name" span="552:21:552:22">e</jtok>
+<jtok eid="22" type="primary_name_ref" span="552:25:552:34">listeners</jtok>
+<jtok eid="22" type="method_call" span="552:35:552:43">elements</jtok>
+<jtok eid="22" type="primary_name_ref" span="552:47:552:48">e</jtok>
+<jtok eid="22" type="method_call" span="552:49:552:64">hasMoreElements</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="554:4:554:17">WeakReference</jtok>
+<jtok eid="22" type="local_variable_name" span="554:18:554:20">wr</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="554:24:554:37">WeakReference</jtok>
+<jtok eid="22" type="primary_name_ref" span="554:38:554:39">e</jtok>
+<jtok eid="22" type="method_call" span="554:40:554:51">nextElement</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="555:4:555:12">Listener</jtok>
+<jtok eid="22" type="local_variable_name" span="555:13:555:14">l</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="555:18:555:26">Listener</jtok>
+<jtok eid="22" type="primary_name_ref" span="555:27:555:29">wr</jtok>
+<jtok eid="22" type="method_call" span="555:30:555:33">get</jtok>
+<jtok eid="22" type="primary_name_ref" span="556:9:556:10">l</jtok>
+<jtok eid="22" type="line_comment" span="556:22:556:42">// garbage collected</jtok>
+<jtok eid="22" type="primary_name_ref" span="557:6:557:14">toRemove</jtok>
+<jtok eid="22" type="method_call" span="557:15:557:18">add</jtok>
+<jtok eid="22" type="primary_name_ref" span="557:20:557:22">wr</jtok>
+<jtok eid="22" type="primary_name_ref" span="559:6:559:7">l</jtok>
+<jtok eid="22" type="method_call" span="559:8:559:26">classLoaderChanged</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="561:8:561:19">Enumeration</jtok>
+<jtok eid="22" type="local_variable_name" span="561:20:561:21">e</jtok>
+<jtok eid="22" type="primary_name_ref" span="561:24:561:32">toRemove</jtok>
+<jtok eid="22" type="method_call" span="561:33:561:41">elements</jtok>
+<jtok eid="22" type="primary_name_ref" span="561:45:561:46">e</jtok>
+<jtok eid="22" type="method_call" span="561:47:561:62">hasMoreElements</jtok>
+<jtok eid="22" type="primary_name_ref" span="562:4:562:13">listeners</jtok>
+<jtok eid="22" type="method_call" span="562:14:562:27">removeElement</jtok>
+<jtok eid="22" type="primary_name_ref" span="562:29:562:30">e</jtok>
+<jtok eid="22" type="method_call" span="562:31:562:42">nextElement</jtok>
+<jtok eid="23" type="method_name" span="565:14:565:18">dump</jtok>
+<jtok eid="23" type="parameter_type" span="565:20:565:31">PrintWriter</jtok>
+<jtok eid="23" type="parameter_name" span="565:32:565:33">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="567:3:567:4">i</jtok>
+<jtok eid="23" type="method_call" span="567:5:567:12">println</jtok>
+<jtok eid="23" type="string_literal" span="567:13:567:39">"Bsh Class Manager Dump: "</jtok>
+<jtok eid="23" type="primary_name_ref" span="568:3:568:4">i</jtok>
+<jtok eid="23" type="method_call" span="568:5:568:12">println</jtok>
+<jtok eid="23" type="string_literal" span="568:13:568:39">"----------------------- "</jtok>
+<jtok eid="23" type="primary_name_ref" span="569:3:569:4">i</jtok>
+<jtok eid="23" type="method_call" span="569:5:569:12">println</jtok>
+<jtok eid="23" type="string_literal" span="569:13:569:28">"baseLoader = "</jtok>
+<jtok eid="23" type="primary_name_ref" span="569:29:569:39">baseLoader</jtok>
+<jtok eid="23" type="primary_name_ref" span="570:3:570:4">i</jtok>
+<jtok eid="23" type="method_call" span="570:5:570:12">println</jtok>
+<jtok eid="23" type="string_literal" span="570:13:570:26">"loaderMap= "</jtok>
+<jtok eid="23" type="primary_name_ref" span="570:27:570:36">loaderMap</jtok>
+<jtok eid="23" type="primary_name_ref" span="571:3:571:4">i</jtok>
+<jtok eid="23" type="method_call" span="571:5:571:12">println</jtok>
+<jtok eid="23" type="string_literal" span="571:13:571:39">"----------------------- "</jtok>
+<jtok eid="23" type="primary_name_ref" span="572:3:572:4">i</jtok>
+<jtok eid="23" type="method_call" span="572:5:572:12">println</jtok>
+<jtok eid="23" type="string_literal" span="572:13:572:31">"baseClassPath = "</jtok>
+<jtok eid="23" type="primary_name_ref" span="572:32:572:45">baseClassPath</jtok>
+</jdoc>

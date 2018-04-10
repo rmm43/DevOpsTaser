@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.menu.DirectoryProvider" jls="java5">
+<jent id="0" type="file" span="0:0:177:2">Source/jEdit/org/gjt/sp/jedit/menu/DirectoryProvider.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:177:1">org.gjt.sp.jedit.menu.DirectoryProvider</jent>
+<jent id="2" pid="1" type="method" span="44:2:47:2">org.gjt.sp.jedit.menu.DirectoryProvider.DirectoryProvider(String)</jent>
+<jent id="3" pid="1" type="method" span="50:2:53:2">org.gjt.sp.jedit.menu.DirectoryProvider.updateEveryTime()</jent>
+<jent id="4" pid="1" type="method" span="56:2:172:2">org.gjt.sp.jedit.menu.DirectoryProvider.update(JMenu)</jent>
+<jent id="5" pid="4" type="class" span="74:3:79:3">org.gjt.sp.jedit.menu.DirectoryProvider.update(JMenu).$1</jent>
+<jent id="6" pid="5" type="method" span="75:4:78:4">org.gjt.sp.jedit.menu.DirectoryProvider.update(JMenu).$1.actionPerformed(ActionEvent)</jent>
+<jent id="7" pid="4" type="class" span="82:3:88:3">org.gjt.sp.jedit.menu.DirectoryProvider.update(JMenu).$2</jent>
+<jent id="8" pid="7" type="method" span="83:4:87:4">org.gjt.sp.jedit.menu.DirectoryProvider.update(JMenu).$2.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * DirectoryProvider.java - File list menu
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="35:1:35:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="37:1:40:4">/**
+ * @author Slava Pestov
+ * @version $Id: DirectoryProvider.java 16207 2009-09-17 17:54:14Z shlomy $
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:14:41:31">DirectoryProvider</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:43:41:62">DynamicMenuProvider</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:37">//{{{ DirectoryProvider constructor</jtok>
+<jtok eid="2" type="method_name" span="44:9:44:26">DirectoryProvider</jtok>
+<jtok eid="2" type="parameter_type" span="44:27:44:33">String</jtok>
+<jtok eid="2" type="parameter_name" span="44:34:44:37">dir</jtok>
+<jtok eid="2" type="qualified_name_ref" span="46:8:46:11">dir</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:14:46:17">dir</jtok>
+<jtok eid="1" type="line_comment" span="47:4:47:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:32">//{{{ updateEveryTime() method</jtok>
+<jtok eid="3" type="method_name" span="50:17:50:32">updateEveryTime</jtok>
+<jtok eid="1" type="line_comment" span="53:4:53:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="55:2:55:23">//{{{ update() method</jtok>
+<jtok eid="4" type="method_name" span="56:14:56:20">update</jtok>
+<jtok eid="4" type="parameter_type" span="56:21:56:26">JMenu</jtok>
+<jtok eid="4" type="parameter_name" span="56:27:56:31">menu</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="58:9:58:13">View</jtok>
+<jtok eid="4" type="local_variable_name" span="58:14:58:18">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:21:58:33">GUIUtilities</jtok>
+<jtok eid="4" type="method_call" span="58:34:58:41">getView</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:42:58:46">menu</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="60:3:60:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="60:10:60:14">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:6:61:9">dir</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:4:63:8">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:11:63:15">view</jtok>
+<jtok eid="4" type="method_call" span="63:16:63:25">getBuffer</jtok>
+<jtok eid="4" type="method_call" span="63:28:63:40">getDirectory</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:4:66:8">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:11:66:14">dir</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="68:3:68:12">JMenuItem</jtok>
+<jtok eid="4" type="local_variable_name" span="68:13:68:15">mi</jtok>
+<jtok eid="4" type="constructor_call" span="68:22:68:31">JMenuItem</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:32:68:36">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:3:69:5">mi</jtok>
+<jtok eid="4" type="method_call" span="69:6:69:22">setActionCommand</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:23:69:27">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:3:70:5">mi</jtok>
+<jtok eid="4" type="method_call" span="70:6:70:13">setIcon</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:14:70:30">FileCellRenderer</jtok>
+<jtok eid="4" type="qualified_name_ref" span="70:31:70:42">openDirIcon</jtok>
+<jtok eid="4" type="line_comment" span="72:3:72:24">//{{{ ActionListeners</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="73:3:73:17">ActionListener</jtok>
+<jtok eid="4" type="local_variable_name" span="73:18:73:30">fileListener</jtok>
+<jtok eid="4" type="constructor_call" span="73:37:73:51">ActionListener</jtok>
+<jtok eid="6" type="method_name" span="75:16:75:31">actionPerformed</jtok>
+<jtok eid="6" type="parameter_type" span="75:32:75:43">ActionEvent</jtok>
+<jtok eid="6" type="parameter_name" span="75:44:75:47">evt</jtok>
+<jtok eid="6" type="primary_name_ref" span="77:5:77:10">jEdit</jtok>
+<jtok eid="6" type="method_call" span="77:11:77:19">openFile</jtok>
+<jtok eid="6" type="primary_name_ref" span="77:20:77:24">view</jtok>
+<jtok eid="6" type="primary_name_ref" span="77:25:77:28">evt</jtok>
+<jtok eid="6" type="method_call" span="77:29:77:45">getActionCommand</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="81:3:81:17">ActionListener</jtok>
+<jtok eid="4" type="local_variable_name" span="81:18:81:29">dirListener</jtok>
+<jtok eid="4" type="constructor_call" span="81:36:81:50">ActionListener</jtok>
+<jtok eid="8" type="method_name" span="83:16:83:31">actionPerformed</jtok>
+<jtok eid="8" type="parameter_type" span="83:32:83:43">ActionEvent</jtok>
+<jtok eid="8" type="parameter_name" span="83:44:83:47">evt</jtok>
+<jtok eid="8" type="primary_name_ref" span="85:5:85:15">VFSBrowser</jtok>
+<jtok eid="8" type="method_call" span="85:16:85:31">browseDirectory</jtok>
+<jtok eid="8" type="primary_name_ref" span="85:32:85:36">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="86:6:86:9">evt</jtok>
+<jtok eid="8" type="method_call" span="86:10:86:26">getActionCommand</jtok>
+<jtok eid="4" type="line_comment" span="88:6:88:11">//}}}</jtok>
+<jtok eid="4" type="primary_name_ref" span="90:3:90:5">mi</jtok>
+<jtok eid="4" type="method_call" span="90:6:90:23">addActionListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="90:24:90:35">dirListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:3:92:7">menu</jtok>
+<jtok eid="4" type="method_call" span="92:8:92:11">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:12:92:14">mi</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:3:93:7">menu</jtok>
+<jtok eid="4" type="method_call" span="93:8:93:20">addSeparator</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:6:95:9">dir</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:23:95:27">view</jtok>
+<jtok eid="4" type="method_call" span="95:28:95:37">getBuffer</jtok>
+<jtok eid="4" type="method_call" span="95:40:95:46">getVFS</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="95:60:95:67">FileVFS</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:4:97:6">mi</jtok>
+<jtok eid="4" type="constructor_call" span="97:13:97:22">JMenuItem</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:23:97:28">jEdit</jtok>
+<jtok eid="4" type="method_call" span="97:29:97:40">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="98:5:98:26">"directory.not-local"</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:4:99:6">mi</jtok>
+<jtok eid="4" type="method_call" span="99:7:99:17">setEnabled</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:4:100:8">menu</jtok>
+<jtok eid="4" type="method_call" span="100:9:100:12">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:13:100:15">mi</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="104:3:104:7">File</jtok>
+<jtok eid="4" type="local_variable_name" span="104:8:104:17">directory</jtok>
+<jtok eid="4" type="constructor_call" span="104:24:104:28">File</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:29:104:33">path</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="106:3:106:8">JMenu</jtok>
+<jtok eid="4" type="local_variable_name" span="106:9:106:16">current</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:19:106:23">menu</jtok>
+<jtok eid="4" type="line_comment" span="108:3:108:31">// for filtering out backups</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="109:3:109:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="109:10:109:22">backupPrefix</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:25:109:30">jEdit</jtok>
+<jtok eid="4" type="method_call" span="109:31:109:42">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="109:43:109:58">"backup.prefix"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="110:3:110:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="110:10:110:22">backupSuffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:25:110:30">jEdit</jtok>
+<jtok eid="4" type="method_call" span="110:31:110:42">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="110:43:110:58">"backup.suffix"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="112:3:112:7">File</jtok>
+<jtok eid="4" type="local_variable_name" span="112:10:112:14">list</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:17:112:26">directory</jtok>
+<jtok eid="4" type="method_call" span="112:27:112:36">listFiles</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:6:113:10">list</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:22:113:26">list</jtok>
+<jtok eid="4" type="qualified_name_ref" span="113:27:113:33">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:4:115:6">mi</jtok>
+<jtok eid="4" type="constructor_call" span="115:13:115:22">JMenuItem</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:23:115:28">jEdit</jtok>
+<jtok eid="4" type="method_call" span="115:29:115:40">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="116:5:116:25">"directory.no-files"</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:4:117:6">mi</jtok>
+<jtok eid="4" type="method_call" span="117:7:117:17">setEnabled</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:4:118:8">menu</jtok>
+<jtok eid="4" type="method_call" span="118:9:118:12">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:13:118:15">mi</jtok>
+<jtok eid="4" type="local_variable_name" span="122:8:122:16">maxItems</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:19:122:24">jEdit</jtok>
+<jtok eid="4" type="method_call" span="122:25:122:43">getIntegerProperty</jtok>
+<jtok eid="4" type="string_literal" span="122:44:122:60">"menu.spillover"</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:4:124:10">Arrays</jtok>
+<jtok eid="4" type="method_call" span="124:11:124:15">sort</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:16:124:20">list</jtok>
+<jtok eid="4" type="constructor_call" span="125:9:125:26">StandardUtilities</jtok>
+<jtok eid="4" type="constructor_call" span="125:27:125:40">StringCompare</jtok>
+<jtok eid="4" type="constructor_call" span="125:41:125:45">File</jtok>
+<jtok eid="4" type="local_variable_name" span="126:12:126:13">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:19:126:20">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:23:126:27">list</jtok>
+<jtok eid="4" type="qualified_name_ref" span="126:28:126:34">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:36:126:37">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="128:5:128:9">File</jtok>
+<jtok eid="4" type="local_variable_name" span="128:10:128:14">file</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:17:128:21">list</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:22:128:23">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="130:5:130:11">String</jtok>
+<jtok eid="4" type="local_variable_name" span="130:12:130:16">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:19:130:23">file</jtok>
+<jtok eid="4" type="method_call" span="130:24:130:31">getName</jtok>
+<jtok eid="4" type="line_comment" span="132:5:132:25">// skip marker files</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:8:133:12">name</jtok>
+<jtok eid="4" type="method_call" span="133:13:133:21">endsWith</jtok>
+<jtok eid="4" type="string_literal" span="133:22:133:30">".marks"</jtok>
+<jtok eid="4" type="line_comment" span="136:5:136:27">// skip autosave files</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:8:137:12">name</jtok>
+<jtok eid="4" type="method_call" span="137:13:137:23">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="137:24:137:27">"#"</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:32:137:36">name</jtok>
+<jtok eid="4" type="method_call" span="137:37:137:45">endsWith</jtok>
+<jtok eid="4" type="string_literal" span="137:46:137:49">"#"</jtok>
+<jtok eid="4" type="line_comment" span="140:5:140:25">// skip backup files</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:9:141:21">backupPrefix</jtok>
+<jtok eid="4" type="method_call" span="141:22:141:28">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:9:142:13">name</jtok>
+<jtok eid="4" type="method_call" span="142:14:142:24">startsWith</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:25:142:37">backupPrefix</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:10:143:22">backupSuffix</jtok>
+<jtok eid="4" type="method_call" span="143:23:143:29">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:9:144:13">name</jtok>
+<jtok eid="4" type="method_call" span="144:14:144:22">endsWith</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:23:144:35">backupSuffix</jtok>
+<jtok eid="4" type="line_comment" span="147:5:147:24">// skip directories</jtok>
+<jtok eid="4" type="line_comment" span="148:5:148:29">//if(file.isDirectory())</jtok>
+<jtok eid="4" type="line_comment" span="149:5:149:17">//	continue;</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:5:151:7">mi</jtok>
+<jtok eid="4" type="constructor_call" span="151:14:151:23">JMenuItem</jtok>
+<jtok eid="4" type="primary_name_ref" span="151:24:151:28">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:5:152:7">mi</jtok>
+<jtok eid="4" type="method_call" span="152:8:152:24">setActionCommand</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:25:152:29">file</jtok>
+<jtok eid="4" type="method_call" span="152:30:152:37">getPath</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:5:153:7">mi</jtok>
+<jtok eid="4" type="method_call" span="153:8:153:25">addActionListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:26:153:30">file</jtok>
+<jtok eid="4" type="method_call" span="153:31:153:42">isDirectory</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:8:154:19">dirListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:8:155:20">fileListener</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:5:156:7">mi</jtok>
+<jtok eid="4" type="method_call" span="156:8:156:15">setIcon</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:16:156:20">file</jtok>
+<jtok eid="4" type="method_call" span="156:21:156:32">isDirectory</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:8:157:24">FileCellRenderer</jtok>
+<jtok eid="4" type="qualified_name_ref" span="157:25:157:32">dirIcon</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:8:158:24">FileCellRenderer</jtok>
+<jtok eid="4" type="qualified_name_ref" span="158:25:158:33">fileIcon</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:8:160:15">current</jtok>
+<jtok eid="4" type="method_call" span="160:16:160:28">getItemCount</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:34:160:42">maxItems</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:46:160:47">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:51:160:55">list</jtok>
+<jtok eid="4" type="qualified_name_ref" span="160:56:160:62">length</jtok>
+<jtok eid="4" type="line_comment" span="162:6:162:31">//current.addSeparator();</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="163:6:163:11">JMenu</jtok>
+<jtok eid="4" type="local_variable_name" span="163:12:163:22">newCurrent</jtok>
+<jtok eid="4" type="constructor_call" span="163:29:163:34">JMenu</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:7:164:12">jEdit</jtok>
+<jtok eid="4" type="method_call" span="164:13:164:24">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="165:7:165:20">"common.more"</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:6:166:13">current</jtok>
+<jtok eid="4" type="method_call" span="166:14:166:17">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:18:166:28">newCurrent</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:6:167:13">current</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:16:167:26">newCurrent</jtok>
+<jtok eid="4" type="primary_name_ref" span="169:5:169:12">current</jtok>
+<jtok eid="4" type="method_call" span="169:13:169:16">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="169:17:169:19">mi</jtok>
+<jtok eid="1" type="line_comment" span="172:4:172:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="175:16:175:22">String</jtok>
+<jtok eid="1" type="field_name" span="175:23:175:26">dir</jtok>
+<jtok eid="1" type="line_comment" span="176:2:176:7">//}}}</jtok>
+</jdoc>

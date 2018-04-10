@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.layout.Layout" jls="java5">
+<jent id="0" type="file" span="0:0:234:79">Source/jabref/src/java/net/sf/jabref/export/layout/Layout.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:231:1">net.sf.jabref.export.layout.Layout</jent>
+<jent id="2" pid="1" type="method" span="53:5:143:5">net.sf.jabref.export.layout.Layout.Layout(Vector&lt;StringInt&gt;,String)</jent>
+<jent id="3" pid="1" type="method" span="145:5:150:5">net.sf.jabref.export.layout.Layout.setPostFormatter(LayoutFormatter)</jent>
+<jent id="4" pid="1" type="method" span="158:5:177:5">net.sf.jabref.export.layout.Layout.doLayout(BibtexEntry,BibtexDatabase)</jent>
+<jent id="5" pid="1" type="method" span="185:5:225:5">net.sf.jabref.export.layout.Layout.doLayout(BibtexDatabase,String)</jent>
+<jent id="6" pid="1" type="method" span="228:5:230:5">net.sf.jabref.export.layout.Layout.getMissingFormatters()</jent>
+<jtok eid="0" type="block_comment" span="1:1:25:3">/*
+Copyright (C) 2003 Morten O. Alver
+All programs in this directory and
+subdirectories are published under the GNU General Public License as
+described below.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Further information about the GNU GPL is available at:
+http://www.gnu.org/copyleft/gpl.ja.html
+
+*/</jtok>
+<jtok eid="0" type="block_comment" span="37:1:42:4">/**
+ * Main class for formatting DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision: 3092 $
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:14:43:20">Layout</jtok>
+<jtok eid="1" type="line_comment" span="45:5:45:81">//~ Instance fields ////////////////////////////////////////////////////////</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:13:47:24">LayoutEntry</jtok>
+<jtok eid="1" type="field_name" span="47:27:47:40">layoutEntries</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:13:49:22">ArrayList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:23:49:29">String</jtok>
+<jtok eid="1" type="field_name" span="49:31:49:48">missingFormatters</jtok>
+<jtok eid="1" type="constructor_call" span="49:55:49:64">ArrayList</jtok>
+<jtok eid="1" type="constructor_call" span="49:65:49:71">String</jtok>
+<jtok eid="1" type="line_comment" span="51:5:51:81">//~ Constructors ///////////////////////////////////////////////////////////</jtok>
+<jtok eid="2" type="method_name" span="53:12:53:18">Layout</jtok>
+<jtok eid="2" type="parameter_type" span="53:19:53:25">Vector</jtok>
+<jtok eid="2" type="parameter_type" span="53:26:53:35">StringInt</jtok>
+<jtok eid="2" type="parameter_name" span="53:37:53:50">parsedEntries</jtok>
+<jtok eid="2" type="parameter_type" span="53:52:53:58">String</jtok>
+<jtok eid="2" type="parameter_name" span="53:59:53:70">classPrefix</jtok>
+<jtok eid="2" type="throws" span="53:80:53:89">Exception</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="55:9:55:18">StringInt</jtok>
+<jtok eid="2" type="local_variable_name" span="55:19:55:21">si</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:9:56:15">Vector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:16:56:27">LayoutEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="56:29:56:39">tmpEntries</jtok>
+<jtok eid="2" type="constructor_call" span="56:46:56:52">Vector</jtok>
+<jtok eid="2" type="constructor_call" span="56:53:56:64">LayoutEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:66:56:79">parsedEntries</jtok>
+<jtok eid="2" type="method_call" span="56:80:56:84">size</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:9:58:15">Vector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:16:58:25">StringInt</jtok>
+<jtok eid="2" type="local_variable_name" span="58:27:58:39">blockEntries</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="59:9:59:20">LayoutEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="59:21:59:23">le</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="60:9:60:15">String</jtok>
+<jtok eid="2" type="local_variable_name" span="60:16:60:26">blockStart</jtok>
+<jtok eid="2" type="local_variable_name" span="62:18:62:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:25:62:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:29:62:42">parsedEntries</jtok>
+<jtok eid="2" type="method_call" span="62:43:62:47">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:51:62:52">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:13:64:15">si</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:18:64:31">parsedEntries</jtok>
+<jtok eid="2" type="method_call" span="64:32:64:35">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:36:64:37">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:17:66:19">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:20:66:21">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:25:66:37">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:38:66:52">IS_LAYOUT_TEXT</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:22:69:24">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="69:25:69:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:30:69:42">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="69:43:69:58">IS_SIMPLE_FIELD</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:22:72:24">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="72:25:72:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:30:72:42">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="72:43:72:57">IS_FIELD_START</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:17:74:29">blockEntries</jtok>
+<jtok eid="2" type="constructor_call" span="74:36:74:42">Vector</jtok>
+<jtok eid="2" type="constructor_call" span="74:43:74:52">StringInt</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:17:75:27">blockStart</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:30:75:32">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="75:33:75:34">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:22:77:24">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="77:25:77:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:30:77:42">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="77:43:77:55">IS_FIELD_END</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:21:79:31">blockStart</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:43:79:55">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:25:80:35">blockStart</jtok>
+<jtok eid="2" type="method_call" span="80:36:80:42">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:43:80:45">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="80:46:80:47">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:25:82:37">blockEntries</jtok>
+<jtok eid="2" type="method_call" span="82:38:82:41">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:42:82:44">si</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:25:83:27">le</jtok>
+<jtok eid="2" type="constructor_call" span="83:34:83:45">LayoutEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:46:83:58">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:60:83:71">classPrefix</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:73:83:85">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="83:86:83:100">IS_FIELD_START</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:25:84:35">tmpEntries</jtok>
+<jtok eid="2" type="method_call" span="84:36:84:39">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:40:84:42">le</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:25:85:37">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:25:89:31">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="89:32:89:35">out</jtok>
+<jtok eid="2" type="method_call" span="89:36:89:43">println</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:44:89:54">blockStart</jtok>
+<jtok eid="2" type="string_literal" span="89:55:89:59">"\n"</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:60:89:62">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="89:63:89:64">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:25:90:31">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="90:32:90:35">out</jtok>
+<jtok eid="2" type="method_call" span="90:36:90:43">println</jtok>
+<jtok eid="2" type="string_literal" span="91:29:91:75">"Nested field entries are not implemented !!!"</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:25:92:31">Thread</jtok>
+<jtok eid="2" type="method_call" span="92:32:92:41">dumpStack</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:22:96:24">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="96:25:96:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:30:96:42">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="96:43:96:57">IS_GROUP_START</jtok>
+<jtok eid="2" type="primary_name_ref" span="98:17:98:29">blockEntries</jtok>
+<jtok eid="2" type="constructor_call" span="98:36:98:42">Vector</jtok>
+<jtok eid="2" type="constructor_call" span="98:43:98:52">StringInt</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:17:99:27">blockStart</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:30:99:32">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="99:33:99:34">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:22:101:24">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="101:25:101:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:30:101:42">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="101:43:101:55">IS_GROUP_END</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:21:103:31">blockStart</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:43:103:55">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:25:104:35">blockStart</jtok>
+<jtok eid="2" type="method_call" span="104:36:104:42">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:43:104:45">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="104:46:104:47">s</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:25:105:37">blockEntries</jtok>
+<jtok eid="2" type="method_call" span="105:38:105:41">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:42:105:44">si</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:25:106:27">le</jtok>
+<jtok eid="2" type="constructor_call" span="106:34:106:45">LayoutEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:46:106:58">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:60:106:71">classPrefix</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:29:107:41">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="107:42:107:56">IS_GROUP_START</jtok>
+<jtok eid="2" type="primary_name_ref" span="108:25:108:35">tmpEntries</jtok>
+<jtok eid="2" type="method_call" span="108:36:108:39">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="108:40:108:42">le</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:25:109:37">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:25:111:31">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="111:32:111:35">out</jtok>
+<jtok eid="2" type="method_call" span="112:30:112:37">println</jtok>
+<jtok eid="2" type="string_literal" span="112:38:112:84">"Nested field entries are not implemented !!!"</jtok>
+<jtok eid="2" type="primary_name_ref" span="113:25:113:31">Thread</jtok>
+<jtok eid="2" type="method_call" span="113:32:113:41">dumpStack</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:22:117:24">si</jtok>
+<jtok eid="2" type="qualified_name_ref" span="117:25:117:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:30:117:42">LayoutHelper</jtok>
+<jtok eid="2" type="qualified_name_ref" span="117:43:117:58">IS_OPTION_FIELD</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:17:121:29">blockEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="123:17:123:27">tmpEntries</jtok>
+<jtok eid="2" type="method_call" span="123:28:123:31">add</jtok>
+<jtok eid="2" type="constructor_call" span="123:36:123:47">LayoutEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="123:48:123:50">si</jtok>
+<jtok eid="2" type="primary_name_ref" span="123:52:123:63">classPrefix</jtok>
+<jtok eid="2" type="primary_name_ref" span="127:17:127:29">blockEntries</jtok>
+<jtok eid="2" type="method_call" span="127:30:127:33">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="127:34:127:36">si</jtok>
+<jtok eid="2" type="primary_name_ref" span="131:9:131:22">layoutEntries</jtok>
+<jtok eid="2" type="constructor_call" span="131:29:131:40">LayoutEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="131:41:131:51">tmpEntries</jtok>
+<jtok eid="2" type="method_call" span="131:52:131:56">size</jtok>
+<jtok eid="2" type="local_variable_name" span="133:18:133:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="133:25:133:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="133:29:133:39">tmpEntries</jtok>
+<jtok eid="2" type="method_call" span="133:40:133:44">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="133:48:133:49">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:13:135:26">layoutEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:27:135:28">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:32:135:42">tmpEntries</jtok>
+<jtok eid="2" type="method_call" span="135:43:135:46">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:47:135:48">i</jtok>
+<jtok eid="2" type="line_comment" span="136:13:136:68">// Note if one of the entries has an invalid formatter:</jtok>
+<jtok eid="2" type="primary_name_ref" span="137:17:137:30">layoutEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="137:31:137:32">i</jtok>
+<jtok eid="2" type="method_call" span="137:34:137:52">isInvalidFormatter</jtok>
+<jtok eid="2" type="primary_name_ref" span="138:17:138:34">missingFormatters</jtok>
+<jtok eid="2" type="method_call" span="138:35:138:41">addAll</jtok>
+<jtok eid="2" type="primary_name_ref" span="138:42:138:55">layoutEntries</jtok>
+<jtok eid="2" type="primary_name_ref" span="138:56:138:57">i</jtok>
+<jtok eid="2" type="method_call" span="138:59:138:79">getInvalidFormatters</jtok>
+<jtok eid="2" type="line_comment" span="141:13:141:57">//System.out.println(layoutEntries[i].text);</jtok>
+<jtok eid="3" type="method_name" span="145:17:145:33">setPostFormatter</jtok>
+<jtok eid="3" type="parameter_type" span="145:34:145:49">LayoutFormatter</jtok>
+<jtok eid="3" type="parameter_name" span="145:50:145:59">formatter</jtok>
+<jtok eid="3" type="local_variable_name" span="146:18:146:19">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:25:146:26">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:29:146:42">layoutEntries</jtok>
+<jtok eid="3" type="qualified_name_ref" span="146:43:146:49">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:51:146:52">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="147:13:147:24">LayoutEntry</jtok>
+<jtok eid="3" type="local_variable_name" span="147:25:147:36">layoutEntry</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:39:147:52">layoutEntries</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:53:147:54">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="148:13:148:24">layoutEntry</jtok>
+<jtok eid="3" type="method_call" span="148:25:148:41">setPostFormatter</jtok>
+<jtok eid="3" type="primary_name_ref" span="148:42:148:51">formatter</jtok>
+<jtok eid="1" type="block_comment" span="152:5:157:8">/**
+     * Returns the processed bibtex entry. If the database argument is
+     * null, no string references will be resolved. Otherwise all valid
+     * string references will be replaced by the strings' contents. Even
+     * recursive string references are resolved.
+     */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="158:12:158:18">String</jtok>
+<jtok eid="4" type="method_name" span="158:19:158:27">doLayout</jtok>
+<jtok eid="4" type="parameter_type" span="158:28:158:39">BibtexEntry</jtok>
+<jtok eid="4" type="parameter_name" span="158:40:158:46">bibtex</jtok>
+<jtok eid="4" type="parameter_type" span="158:48:158:62">BibtexDatabase</jtok>
+<jtok eid="4" type="parameter_name" span="158:63:158:71">database</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="160:9:160:21">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="160:22:160:24">sb</jtok>
+<jtok eid="4" type="constructor_call" span="160:31:160:43">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="162:18:162:19">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:25:162:26">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:29:162:42">layoutEntries</jtok>
+<jtok eid="4" type="qualified_name_ref" span="162:43:162:49">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:51:162:52">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="164:13:164:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="164:20:164:29">fieldText</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:32:164:45">layoutEntries</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:46:164:47">i</jtok>
+<jtok eid="4" type="method_call" span="164:49:164:57">doLayout</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:58:164:64">bibtex</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:66:164:74">database</jtok>
+<jtok eid="4" type="line_comment" span="166:13:166:35">// 2005.05.05 M. Alver</jtok>
+<jtok eid="4" type="line_comment" span="167:13:167:89">// The following change means we treat null fields as "". This is to fix the</jtok>
+<jtok eid="4" type="line_comment" span="168:13:168:89">// problem of whitespace disappearing after missing fields. Hoping there are</jtok>
+<jtok eid="4" type="line_comment" span="169:13:169:32">// no side effects.</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:17:170:26">fieldText</jtok>
+<jtok eid="4" type="primary_name_ref" span="171:17:171:26">fieldText</jtok>
+<jtok eid="4" type="string_literal" span="171:29:171:31">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:13:173:15">sb</jtok>
+<jtok eid="4" type="method_call" span="173:16:173:22">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:23:173:32">fieldText</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:16:176:18">sb</jtok>
+<jtok eid="4" type="method_call" span="176:19:176:27">toString</jtok>
+<jtok eid="1" type="block_comment" span="179:5:184:8">/**
+     * Returns the processed text. If the database argument is
+     * null, no string references will be resolved. Otherwise all valid
+     * string references will be replaced by the strings' contents. Even
+     * recursive string references are resolved.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="185:12:185:18">String</jtok>
+<jtok eid="5" type="method_name" span="185:19:185:27">doLayout</jtok>
+<jtok eid="5" type="parameter_type" span="185:28:185:42">BibtexDatabase</jtok>
+<jtok eid="5" type="parameter_name" span="185:43:185:51">database</jtok>
+<jtok eid="5" type="parameter_type" span="185:53:185:59">String</jtok>
+<jtok eid="5" type="parameter_name" span="185:60:185:68">encoding</jtok>
+<jtok eid="5" type="line_comment" span="187:9:187:59">//System.out.println("LAYOUT: " + bibtex.getId());</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="188:9:188:21">StringBuffer</jtok>
+<jtok eid="5" type="local_variable_name" span="188:22:188:24">sb</jtok>
+<jtok eid="5" type="constructor_call" span="188:31:188:43">StringBuffer</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="189:9:189:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="189:16:189:25">fieldText</jtok>
+<jtok eid="5" type="local_variable_name" span="190:17:190:32">previousSkipped</jtok>
+<jtok eid="5" type="local_variable_name" span="192:18:192:19">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="192:25:192:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="192:29:192:42">layoutEntries</jtok>
+<jtok eid="5" type="qualified_name_ref" span="192:43:192:49">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="192:51:192:52">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:13:194:22">fieldText</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:25:194:38">layoutEntries</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:39:194:40">i</jtok>
+<jtok eid="5" type="method_call" span="194:42:194:50">doLayout</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:51:194:59">database</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:61:194:69">encoding</jtok>
+<jtok eid="5" type="primary_name_ref" span="196:17:196:26">fieldText</jtok>
+<jtok eid="5" type="primary_name_ref" span="198:17:198:26">fieldText</jtok>
+<jtok eid="5" type="string_literal" span="198:29:198:31">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="199:21:199:36">previousSkipped</jtok>
+<jtok eid="5" type="local_variable_name" span="201:25:201:28">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="203:29:203:32">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="203:35:203:44">fieldText</jtok>
+<jtok eid="5" type="method_call" span="203:45:203:51">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="204:31:204:40">fieldText</jtok>
+<jtok eid="5" type="method_call" span="204:41:204:47">charAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="204:48:204:51">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="205:30:205:39">fieldText</jtok>
+<jtok eid="5" type="method_call" span="205:40:205:46">charAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="205:47:205:50">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="207:25:207:28">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="210:25:210:28">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="210:31:210:40">fieldText</jtok>
+<jtok eid="5" type="method_call" span="210:41:210:47">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:25:212:27">sb</jtok>
+<jtok eid="5" type="method_call" span="212:28:212:34">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:35:212:44">fieldText</jtok>
+<jtok eid="5" type="method_call" span="212:45:212:54">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:55:212:58">eol</jtok>
+<jtok eid="5" type="primary_name_ref" span="218:17:218:19">sb</jtok>
+<jtok eid="5" type="method_call" span="218:20:218:26">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="218:27:218:36">fieldText</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:13:221:28">previousSkipped</jtok>
+<jtok eid="5" type="primary_name_ref" span="224:16:224:18">sb</jtok>
+<jtok eid="5" type="method_call" span="224:19:224:27">toString</jtok>
+<jtok eid="1" type="line_comment" span="226:5:226:37">// added section - end (arudert)</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="228:12:228:21">ArrayList</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="228:22:228:28">String</jtok>
+<jtok eid="6" type="method_name" span="228:30:228:50">getMissingFormatters</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:16:229:33">missingFormatters</jtok>
+<jtok eid="0" type="line_comment" span="232:1:232:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="line_comment" span="233:1:233:17">//  END OF FILE.</jtok>
+<jtok eid="0" type="line_comment" span="234:1:234:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+</jdoc>

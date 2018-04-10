@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.MedlineImporter" jls="java5">
+<jent id="0" type="file" span="0:0:125:1">Source/jabref/src/java/net/sf/jabref/imports/MedlineImporter.java</jent>
+<jent id="1" pid="0" type="class" span="20:1:125:1">net.sf.jabref.imports.MedlineImporter</jent>
+<jent id="2" pid="1" type="method" span="25:5:27:5">net.sf.jabref.imports.MedlineImporter.getFormatName()</jent>
+<jent id="3" pid="1" type="method" span="34:5:36:5">net.sf.jabref.imports.MedlineImporter.getCLIId()</jent>
+<jent id="4" pid="1" type="method" span="41:5:55:5">net.sf.jabref.imports.MedlineImporter.isRecognizedFormat(InputStream)</jent>
+<jent id="5" pid="1" type="method" span="64:5:74:5">net.sf.jabref.imports.MedlineImporter.fetchMedline(String)</jent>
+<jent id="6" pid="1" type="method" span="80:5:123:5">net.sf.jabref.imports.MedlineImporter.importEntries(InputStream)</jent>
+<jtok eid="0" type="block_comment" span="14:1:19:4">/**
+ * Importer for the Refer/Endnote format.
+ * 
+ * check here for details on the format
+ * http://www.ecst.csuchico.edu/~jacobsd/bib/formats/endnote.html
+ */</jtok>
+<jtok eid="1" type="class_name" span="20:14:20:29">MedlineImporter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="20:38:20:50">ImportFormat</jtok>
+<jtok eid="1" type="block_comment" span="22:5:24:8">/**
+     * Return the name of this import format.
+     */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="25:12:25:18">String</jtok>
+<jtok eid="2" type="method_name" span="25:19:25:32">getFormatName</jtok>
+<jtok eid="2" type="string_literal" span="26:16:26:25">"Medline"</jtok>
+<jtok eid="1" type="block_comment" span="29:5:33:8">/*
+     * (non-Javadoc)
+     * 
+     * @see net.sf.jabref.imports.ImportFormat#getCLIId()
+     */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="34:12:34:18">String</jtok>
+<jtok eid="3" type="method_name" span="34:19:34:27">getCLIId</jtok>
+<jtok eid="3" type="string_literal" span="35:16:35:25">"medline"</jtok>
+<jtok eid="1" type="block_comment" span="38:5:40:8">/**
+     * Check whether the source is in the correct format for this importer.
+     */</jtok>
+<jtok eid="4" type="method_name" span="41:20:41:38">isRecognizedFormat</jtok>
+<jtok eid="4" type="parameter_type" span="41:39:41:50">InputStream</jtok>
+<jtok eid="4" type="parameter_name" span="41:51:41:57">stream</jtok>
+<jtok eid="4" type="throws" span="41:66:41:77">IOException</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="43:9:43:23">BufferedReader</jtok>
+<jtok eid="4" type="local_variable_name" span="43:24:43:26">in</jtok>
+<jtok eid="4" type="constructor_call" span="43:33:43:47">BufferedReader</jtok>
+<jtok eid="4" type="primary_name_ref" span="43:48:43:66">ImportFormatReader</jtok>
+<jtok eid="4" type="method_call" span="43:67:43:91">getReaderDefaultEncoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="43:92:43:98">stream</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="44:9:44:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="44:16:44:19">str</jtok>
+<jtok eid="4" type="local_variable_name" span="45:13:45:14">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="46:18:46:21">str</jtok>
+<jtok eid="4" type="primary_name_ref" span="46:24:46:26">in</jtok>
+<jtok eid="4" type="method_call" span="46:27:46:35">readLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="46:52:46:53">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="48:8:48:11">str</jtok>
+<jtok eid="4" type="method_call" span="48:12:48:23">toLowerCase</jtok>
+<jtok eid="4" type="method_call" span="48:26:48:33">indexOf</jtok>
+<jtok eid="4" type="string_literal" span="48:34:48:51">"&lt;pubmedarticle&gt;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="51:13:51:14">i</jtok>
+<jtok eid="1" type="block_comment" span="57:5:63:8">/**
+     * Fetch and parse an medline item from eutils.ncbi.nlm.nih.gov.
+     * 
+     * @param id One or several ids, separated by ","
+     * 
+     * @return Will return an empty list on error.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="64:19:64:23">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="64:24:64:35">BibtexEntry</jtok>
+<jtok eid="5" type="method_name" span="64:37:64:49">fetchMedline</jtok>
+<jtok eid="5" type="parameter_type" span="64:50:64:56">String</jtok>
+<jtok eid="5" type="parameter_name" span="64:57:64:59">id</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="65:9:65:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="65:16:65:23">baseUrl</jtok>
+<jtok eid="5" type="string_literal" span="65:26:65:127">"http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&amp;retmode=xml&amp;rettype=citation&amp;id="</jtok>
+<jtok eid="5" type="primary_name_ref" span="66:13:66:15">id</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="68:13:68:16">URL</jtok>
+<jtok eid="5" type="local_variable_name" span="68:17:68:20">url</jtok>
+<jtok eid="5" type="constructor_call" span="68:27:68:30">URL</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:31:68:38">baseUrl</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="69:13:69:26">URLConnection</jtok>
+<jtok eid="5" type="local_variable_name" span="69:27:69:31">data</jtok>
+<jtok eid="5" type="primary_name_ref" span="69:34:69:37">url</jtok>
+<jtok eid="5" type="method_call" span="69:38:69:52">openConnection</jtok>
+<jtok eid="5" type="constructor_call" span="70:24:70:39">MedlineImporter</jtok>
+<jtok eid="5" type="method_call" span="70:42:70:55">importEntries</jtok>
+<jtok eid="5" type="primary_name_ref" span="70:56:70:60">data</jtok>
+<jtok eid="5" type="method_call" span="70:61:70:75">getInputStream</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="71:18:71:29">IOException</jtok>
+<jtok eid="5" type="local_variable_name" span="71:30:71:31">e</jtok>
+<jtok eid="5" type="constructor_call" span="72:24:72:33">ArrayList</jtok>
+<jtok eid="5" type="constructor_call" span="72:34:72:45">BibtexEntry</jtok>
+<jtok eid="1" type="block_comment" span="76:5:79:8">/**
+     * Parse the entries in the source, and return a List of BibtexEntry
+     * objects.
+     */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="80:12:80:16">List</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="80:17:80:28">BibtexEntry</jtok>
+<jtok eid="6" type="method_name" span="80:30:80:43">importEntries</jtok>
+<jtok eid="6" type="parameter_type" span="80:44:80:55">InputStream</jtok>
+<jtok eid="6" type="parameter_name" span="80:56:80:62">stream</jtok>
+<jtok eid="6" type="throws" span="80:71:80:82">IOException</jtok>
+<jtok eid="6" type="line_comment" span="82:9:82:60">// Obtain a factory object for creating SAX parsers</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="83:9:83:25">SAXParserFactory</jtok>
+<jtok eid="6" type="local_variable_name" span="83:26:83:39">parserFactory</jtok>
+<jtok eid="6" type="primary_name_ref" span="83:42:83:58">SAXParserFactory</jtok>
+<jtok eid="6" type="method_call" span="83:59:83:70">newInstance</jtok>
+<jtok eid="6" type="line_comment" span="85:9:85:80">// Configure the factory object to specify attributes of the parsers it</jtok>
+<jtok eid="6" type="line_comment" span="86:9:86:19">// creates</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:9:87:22">parserFactory</jtok>
+<jtok eid="6" type="method_call" span="87:23:87:36">setValidating</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:9:88:22">parserFactory</jtok>
+<jtok eid="6" type="method_call" span="88:23:88:40">setNamespaceAware</jtok>
+<jtok eid="6" type="line_comment" span="90:9:90:41">// Now create a SAXParser object</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="91:9:91:18">ArrayList</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="91:19:91:30">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="91:32:91:40">bibItems</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="93:13:93:22">SAXParser</jtok>
+<jtok eid="6" type="local_variable_name" span="93:23:93:29">parser</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:32:93:45">parserFactory</jtok>
+<jtok eid="6" type="method_call" span="93:46:93:58">newSAXParser</jtok>
+<jtok eid="6" type="line_comment" span="93:62:93:74">// May throw</jtok>
+<jtok eid="6" type="line_comment" span="94:13:94:26">// exceptions</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="95:13:95:27">MedlineHandler</jtok>
+<jtok eid="6" type="local_variable_name" span="95:28:95:35">handler</jtok>
+<jtok eid="6" type="constructor_call" span="95:42:95:56">MedlineHandler</jtok>
+<jtok eid="6" type="line_comment" span="96:13:96:76">// Start the parser. It reads the file and calls methods of the</jtok>
+<jtok eid="6" type="line_comment" span="97:13:97:24">// handler.</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:13:98:19">parser</jtok>
+<jtok eid="6" type="method_call" span="98:20:98:25">parse</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:26:98:32">stream</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:34:98:41">handler</jtok>
+<jtok eid="6" type="line_comment" span="100:13:100:81">// Switch this to true if you want to make a local copy for testing.</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:17:102:23">stream</jtok>
+<jtok eid="6" type="method_call" span="102:24:102:29">reset</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="103:17:103:33">FileOutputStream</jtok>
+<jtok eid="6" type="local_variable_name" span="103:34:103:37">out</jtok>
+<jtok eid="6" type="constructor_call" span="103:44:103:60">FileOutputStream</jtok>
+<jtok eid="6" type="constructor_call" span="103:65:103:69">File</jtok>
+<jtok eid="6" type="string_literal" span="103:70:103:90">"/home/alver/ut.txt"</jtok>
+<jtok eid="6" type="local_variable_name" span="104:21:104:22">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:25:105:26">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:29:105:35">stream</jtok>
+<jtok eid="6" type="method_call" span="105:36:105:40">read</jtok>
+<jtok eid="6" type="primary_name_ref" span="106:21:106:24">out</jtok>
+<jtok eid="6" type="method_call" span="106:25:106:30">write</jtok>
+<jtok eid="6" type="primary_name_ref" span="106:38:106:39">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="108:17:108:20">out</jtok>
+<jtok eid="6" type="method_call" span="108:21:108:26">close</jtok>
+<jtok eid="6" type="line_comment" span="111:13:111:75">// When you're done, report the results stored by your handler</jtok>
+<jtok eid="6" type="line_comment" span="112:13:112:22">// object</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:13:113:21">bibItems</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:24:113:31">handler</jtok>
+<jtok eid="6" type="method_call" span="113:32:113:40">getItems</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="114:18:114:23">javax</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="114:24:114:27">xml</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="114:28:114:35">parsers</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="114:36:114:64">ParserConfigurationException</jtok>
+<jtok eid="6" type="local_variable_name" span="114:65:114:67">e1</jtok>
+<jtok eid="6" type="primary_name_ref" span="115:13:115:15">e1</jtok>
+<jtok eid="6" type="method_call" span="115:16:115:31">printStackTrace</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="116:18:116:21">org</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="116:22:116:25">xml</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="116:26:116:29">sax</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="116:30:116:42">SAXException</jtok>
+<jtok eid="6" type="local_variable_name" span="116:43:116:45">e2</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:13:117:15">e2</jtok>
+<jtok eid="6" type="method_call" span="117:16:117:31">printStackTrace</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="118:18:118:22">java</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="118:23:118:25">io</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="118:26:118:37">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="118:38:118:40">e3</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:13:119:15">e3</jtok>
+<jtok eid="6" type="method_call" span="119:16:119:31">printStackTrace</jtok>
+<jtok eid="6" type="primary_name_ref" span="122:16:122:24">bibItems</jtok>
+</jdoc>

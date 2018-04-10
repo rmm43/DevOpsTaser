@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.util.ReadWriteLock" jls="java5">
+<jent id="0" type="file" span="0:0:96:2">Source/jEdit/org/gjt/sp/util/ReadWriteLock.java</jent>
+<jent id="1" pid="0" type="class" span="61:1:96:1">org.gjt.sp.util.ReadWriteLock</jent>
+<jent id="2" pid="1" type="method" span="64:2:67:2">org.gjt.sp.util.ReadWriteLock.readLock()</jent>
+<jent id="3" pid="1" type="method" span="70:2:73:2">org.gjt.sp.util.ReadWriteLock.readUnlock()</jent>
+<jent id="4" pid="1" type="method" span="76:2:79:2">org.gjt.sp.util.ReadWriteLock.writeLock()</jent>
+<jent id="5" pid="1" type="method" span="82:2:85:2">org.gjt.sp.util.ReadWriteLock.writeUnlock()</jent>
+<jent id="6" pid="1" type="method" span="88:2:91:2">org.gjt.sp.util.ReadWriteLock.isWriteLocked()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ReadWriteLock.java
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001 Peter Graves
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="27:1:60:4">/**
+ * Implements consumer/producer locking scemantics.
+ * @author Peter Graves
+ * @version $Id: ReadWriteLock.java 12504 2008-04-22 23:12:43Z ezust $
+ * The lock tries to be re-entrant when called from the same thread in some
+ * cases.
+ * 
+ * The following is ok:
+ * read lock
+ * read lock
+ * read unlock
+ * read unlock
+ * 
+ * write lock
+ * read lock
+ * read unlock
+ * write unlock
+ * 
+ * The following is not ok:
+ * 
+ * read lock
+ * write lock
+ * write unlock
+ * read unlock
+ * 
+ * write lock
+ * write lock
+ * write unlock
+ * write unlock
+ *
+ * @deprecated Use java.util.concurrent.locks.ReentrantReadWriteLock which
+ * is available since J2SE 5.0 (1.5). This class was written for J2SE 1.4,
+ * and is still here only for compatibility.
+ */</jtok>
+<jtok eid="1" type="class_name" span="61:14:61:27">ReadWriteLock</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:25">//{{{ readLock() method</jtok>
+<jtok eid="2" type="method_name" span="64:14:64:22">readLock</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:7">body</jtok>
+<jtok eid="2" type="method_call" span="66:8:66:16">readLock</jtok>
+<jtok eid="2" type="method_call" span="66:19:66:23">lock</jtok>
+<jtok eid="1" type="line_comment" span="67:4:67:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="69:2:69:27">//{{{ readUnlock() method</jtok>
+<jtok eid="3" type="method_name" span="70:14:70:24">readUnlock</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:3:72:7">body</jtok>
+<jtok eid="3" type="method_call" span="72:8:72:16">readLock</jtok>
+<jtok eid="3" type="method_call" span="72:19:72:25">unlock</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:26">//{{{ writeLock() method</jtok>
+<jtok eid="4" type="method_name" span="76:14:76:23">writeLock</jtok>
+<jtok eid="4" type="primary_name_ref" span="78:3:78:7">body</jtok>
+<jtok eid="4" type="method_call" span="78:8:78:17">writeLock</jtok>
+<jtok eid="4" type="method_call" span="78:20:78:24">lock</jtok>
+<jtok eid="1" type="line_comment" span="79:4:79:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="81:2:81:28">//{{{ writeUnlock() method</jtok>
+<jtok eid="5" type="method_name" span="82:14:82:25">writeUnlock</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:3:84:7">body</jtok>
+<jtok eid="5" type="method_call" span="84:8:84:17">writeLock</jtok>
+<jtok eid="5" type="method_call" span="84:20:84:26">unlock</jtok>
+<jtok eid="1" type="line_comment" span="85:4:85:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:30">//{{{ isWriteLocked() method</jtok>
+<jtok eid="6" type="method_name" span="88:17:88:30">isWriteLocked</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:10:90:14">body</jtok>
+<jtok eid="6" type="method_call" span="90:15:90:28">isWriteLocked</jtok>
+<jtok eid="1" type="line_comment" span="91:4:91:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="93:2:93:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="94:16:94:38">ReentrantReadWriteLock</jtok>
+<jtok eid="1" type="field_name" span="94:39:94:43">body</jtok>
+<jtok eid="1" type="constructor_call" span="94:50:94:72">ReentrantReadWriteLock</jtok>
+<jtok eid="1" type="line_comment" span="95:2:95:7">//}}}</jtok>
+</jdoc>

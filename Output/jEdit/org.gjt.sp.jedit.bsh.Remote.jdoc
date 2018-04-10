@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.Remote" jls="java5">
+<jent id="0" type="file" span="0:0:215:2">Source/jEdit/org/gjt/sp/jedit/bsh/Remote.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:215:1">org.gjt.sp.jedit.bsh.Remote</jent>
+<jent id="2" pid="1" type="method" span="47:5:59:3">org.gjt.sp.jedit.bsh.Remote.main(String)</jent>
+<jent id="3" pid="1" type="method" span="65:2:83:2">org.gjt.sp.jedit.bsh.Remote.eval(String,String)</jent>
+<jent id="4" pid="1" type="method" span="85:2:129:2">org.gjt.sp.jedit.bsh.Remote.doBsh(String,String)</jent>
+<jent id="5" pid="1" type="method" span="131:5:136:5">org.gjt.sp.jedit.bsh.Remote.sendLine(String,OutputStream)</jent>
+<jent id="6" pid="1" type="method" span="146:2:199:2">org.gjt.sp.jedit.bsh.Remote.doHttp(String,String)</jent>
+<jent id="7" pid="1" type="method" span="204:2:213:2">org.gjt.sp.jedit.bsh.Remote.getFile(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="39:1:44:3">/**
+	Remote executor class. Posts a script from the command line to a BshServlet
+ 	or embedded  interpreter using (respectively) HTTP or the bsh telnet
+	service. Output is printed to stdout and a numeric return value is scraped
+	from the result.
+*/</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:20">Remote</jtok>
+<jtok eid="2" type="method_name" span="47:24:47:28">main</jtok>
+<jtok eid="2" type="parameter_type" span="47:30:47:36">String</jtok>
+<jtok eid="2" type="parameter_name" span="47:37:47:41">args</jtok>
+<jtok eid="2" type="throws" span="48:10:48:19">Exception</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:8:50:12">args</jtok>
+<jtok eid="2" type="qualified_name_ref" span="50:13:50:19">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:4:51:10">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="51:11:51:14">out</jtok>
+<jtok eid="2" type="method_call" span="51:15:51:22">println</jtok>
+<jtok eid="2" type="string_literal" span="52:5:52:53">"usage: Remote URL(http|bsh) file [ file ] ... "</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:4:53:10">System</jtok>
+<jtok eid="2" type="method_call" span="53:11:53:15">exit</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="55:3:55:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="55:10:55:13">url</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:16:55:20">args</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:3:56:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="56:10:56:14">text</jtok>
+<jtok eid="2" type="method_call" span="56:17:56:24">getFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:25:56:29">args</jtok>
+<jtok eid="2" type="local_variable_name" span="57:7:57:10">ret</jtok>
+<jtok eid="2" type="method_call" span="57:13:57:17">eval</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:19:57:22">url</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:24:57:28">text</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:3:58:9">System</jtok>
+<jtok eid="2" type="method_call" span="58:10:58:14">exit</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:16:58:19">ret</jtok>
+<jtok eid="1" type="block_comment" span="61:2:64:4">/**
+		Evaluate text in the interpreter at url, returning a possible integer
+	 	return value.
+	*/</jtok>
+<jtok eid="3" type="method_name" span="65:20:65:24">eval</jtok>
+<jtok eid="3" type="parameter_type" span="65:26:65:32">String</jtok>
+<jtok eid="3" type="parameter_name" span="65:33:65:36">url</jtok>
+<jtok eid="3" type="parameter_type" span="65:38:65:44">String</jtok>
+<jtok eid="3" type="parameter_name" span="65:45:65:49">text</jtok>
+<jtok eid="3" type="throws" span="66:10:66:21">IOException</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="68:3:68:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="68:10:68:21">returnValue</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:8:69:11">url</jtok>
+<jtok eid="3" type="method_call" span="69:12:69:22">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="69:24:69:31">"http:"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:4:70:15">returnValue</jtok>
+<jtok eid="3" type="method_call" span="70:18:70:24">doHttp</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:26:70:29">url</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:31:70:35">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:15:71:18">url</jtok>
+<jtok eid="3" type="method_call" span="71:19:71:29">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="71:31:71:37">"bsh:"</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:4:72:15">returnValue</jtok>
+<jtok eid="3" type="method_call" span="72:18:72:23">doBsh</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:25:72:28">url</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:30:72:34">text</jtok>
+<jtok eid="3" type="constructor_call" span="74:14:74:25">IOException</jtok>
+<jtok eid="3" type="string_literal" span="74:27:74:51">"Unrecognized URL type."</jtok>
+<jtok eid="3" type="string_literal" span="75:6:75:40">"Scheme must be http:// or bsh://"</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:11:78:18">Integer</jtok>
+<jtok eid="3" type="method_call" span="78:19:78:27">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:29:78:40">returnValue</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="79:13:79:22">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="79:23:79:24">e</jtok>
+<jtok eid="3" type="line_comment" span="80:4:80:36">// this convention may change...</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="85:9:85:15">String</jtok>
+<jtok eid="4" type="method_name" span="85:16:85:21">doBsh</jtok>
+<jtok eid="4" type="parameter_type" span="85:23:85:29">String</jtok>
+<jtok eid="4" type="parameter_name" span="85:30:85:33">url</jtok>
+<jtok eid="4" type="parameter_type" span="85:35:85:41">String</jtok>
+<jtok eid="4" type="parameter_name" span="85:42:85:46">text</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="87:6:87:18">OutputStream</jtok>
+<jtok eid="4" type="local_variable_name" span="87:19:87:22">out</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="88:6:88:17">InputStream</jtok>
+<jtok eid="4" type="local_variable_name" span="88:18:88:20">in</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="89:6:89:12">String</jtok>
+<jtok eid="4" type="local_variable_name" span="89:13:89:17">host</jtok>
+<jtok eid="4" type="string_literal" span="89:20:89:22">""</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="90:6:90:12">String</jtok>
+<jtok eid="4" type="local_variable_name" span="90:13:90:17">port</jtok>
+<jtok eid="4" type="string_literal" span="90:20:90:22">""</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="91:6:91:12">String</jtok>
+<jtok eid="4" type="local_variable_name" span="91:13:91:24">returnValue</jtok>
+<jtok eid="4" type="string_literal" span="91:27:91:31">"-1"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="92:3:92:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="92:10:92:16">orgURL</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:19:92:22">url</jtok>
+<jtok eid="4" type="line_comment" span="94:3:94:36">// Need some format checking here</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:4:96:7">url</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:10:96:13">url</jtok>
+<jtok eid="4" type="method_call" span="96:14:96:23">substring</jtok>
+<jtok eid="4" type="line_comment" span="96:28:96:48">// remove the bsh://</jtok>
+<jtok eid="4" type="line_comment" span="97:4:97:70">// get the index of the : between the host and the port is located</jtok>
+<jtok eid="4" type="local_variable_name" span="98:8:98:13">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:16:98:19">url</jtok>
+<jtok eid="4" type="method_call" span="98:20:98:27">indexOf</jtok>
+<jtok eid="4" type="string_literal" span="98:28:98:31">":"</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:4:99:8">host</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:11:99:14">url</jtok>
+<jtok eid="4" type="method_call" span="99:15:99:24">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:27:99:32">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:4:100:8">port</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:11:100:14">url</jtok>
+<jtok eid="4" type="method_call" span="100:15:100:24">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:25:100:30">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:33:100:36">url</jtok>
+<jtok eid="4" type="method_call" span="100:37:100:43">length</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="101:13:101:22">Exception</jtok>
+<jtok eid="4" type="local_variable_name" span="101:23:101:25">ex</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:4:102:10">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="102:11:102:14">err</jtok>
+<jtok eid="4" type="method_call" span="102:15:102:22">println</jtok>
+<jtok eid="4" type="string_literal" span="102:23:102:34">"Bad URL: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:35:102:41">orgURL</jtok>
+<jtok eid="4" type="string_literal" span="102:42:102:46">": "</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:47:102:49">ex</jtok>
+<jtok eid="4" type="primary_name_ref" span="103:11:103:22">returnValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:4:107:10">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="107:11:107:14">out</jtok>
+<jtok eid="4" type="method_call" span="107:15:107:22">println</jtok>
+<jtok eid="4" type="string_literal" span="107:23:107:46">"Connecting to host : "</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:7:108:11">host</jtok>
+<jtok eid="4" type="string_literal" span="108:14:108:27">" at port : "</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:30:108:34">port</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="109:4:109:10">Socket</jtok>
+<jtok eid="4" type="local_variable_name" span="109:11:109:12">s</jtok>
+<jtok eid="4" type="constructor_call" span="109:19:109:25">Socket</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:26:109:30">host</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:32:109:39">Integer</jtok>
+<jtok eid="4" type="method_call" span="109:40:109:48">parseInt</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:49:109:53">port</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:4:111:7">out</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:10:111:11">s</jtok>
+<jtok eid="4" type="method_call" span="111:12:111:27">getOutputStream</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:4:112:6">in</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:9:112:10">s</jtok>
+<jtok eid="4" type="method_call" span="112:11:112:25">getInputStream</jtok>
+<jtok eid="4" type="method_call" span="114:4:114:12">sendLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:14:114:18">text</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:20:114:23">out</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="116:4:116:18">BufferedReader</jtok>
+<jtok eid="4" type="local_variable_name" span="116:19:116:22">bin</jtok>
+<jtok eid="4" type="constructor_call" span="116:29:116:43">BufferedReader</jtok>
+<jtok eid="4" type="constructor_call" span="117:9:117:26">InputStreamReader</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:27:117:29">in</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="118:6:118:12">String</jtok>
+<jtok eid="4" type="local_variable_name" span="118:13:118:17">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:15:119:19">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:20:119:23">bin</jtok>
+<jtok eid="4" type="method_call" span="119:24:119:32">readLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:5:120:11">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="120:12:120:15">out</jtok>
+<jtok eid="4" type="method_call" span="120:16:120:23">println</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:25:120:29">line</jtok>
+<jtok eid="4" type="line_comment" span="122:4:122:49">// Need to scrape a value from the last line?</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:4:123:15">returnValue</jtok>
+<jtok eid="4" type="string_literal" span="123:16:123:19">"1"</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:11:124:22">returnValue</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="125:14:125:23">Exception</jtok>
+<jtok eid="4" type="local_variable_name" span="125:24:125:26">ex</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:4:126:10">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="126:11:126:14">err</jtok>
+<jtok eid="4" type="method_call" span="126:15:126:22">println</jtok>
+<jtok eid="4" type="string_literal" span="126:23:126:58">"Error communicating with server: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:59:126:61">ex</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:11:127:22">returnValue</jtok>
+<jtok eid="5" type="method_name" span="131:25:131:33">sendLine</jtok>
+<jtok eid="5" type="parameter_type" span="131:35:131:41">String</jtok>
+<jtok eid="5" type="parameter_name" span="131:42:131:46">line</jtok>
+<jtok eid="5" type="parameter_type" span="131:48:131:60">OutputStream</jtok>
+<jtok eid="5" type="parameter_name" span="131:61:131:68">outPipe</jtok>
+<jtok eid="5" type="throws" span="132:10:132:21">IOException</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:3:134:10">outPipe</jtok>
+<jtok eid="5" type="method_call" span="134:11:134:16">write</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:18:134:22">line</jtok>
+<jtok eid="5" type="method_call" span="134:23:134:31">getBytes</jtok>
+<jtok eid="5" type="primary_name_ref" span="135:3:135:10">outPipe</jtok>
+<jtok eid="5" type="method_call" span="135:11:135:16">flush</jtok>
+<jtok eid="1" type="block_comment" span="139:2:145:4">/*
+		TODO: this is not unicode friendly, nor is getFile()
+		The output is urlencoded 8859_1 text.
+		should probably be urlencoded UTF-8... how does the servlet determine
+		the encoded charset?  I guess we're supposed to add a ";charset" clause
+		to the content type?
+	*/</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="146:9:146:15">String</jtok>
+<jtok eid="6" type="method_name" span="146:16:146:22">doHttp</jtok>
+<jtok eid="6" type="parameter_type" span="146:24:146:30">String</jtok>
+<jtok eid="6" type="parameter_name" span="146:31:146:38">postURL</jtok>
+<jtok eid="6" type="parameter_type" span="146:40:146:46">String</jtok>
+<jtok eid="6" type="parameter_name" span="146:47:146:51">text</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="148:3:148:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="148:10:148:21">returnValue</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="149:3:149:16">StringBuilder</jtok>
+<jtok eid="6" type="local_variable_name" span="149:17:149:19">sb</jtok>
+<jtok eid="6" type="constructor_call" span="149:26:149:39">StringBuilder</jtok>
+<jtok eid="6" type="primary_name_ref" span="150:3:150:5">sb</jtok>
+<jtok eid="6" type="method_call" span="150:6:150:12">append</jtok>
+<jtok eid="6" type="string_literal" span="150:14:150:33">"bsh.client=Remote"</jtok>
+<jtok eid="6" type="primary_name_ref" span="151:3:151:5">sb</jtok>
+<jtok eid="6" type="method_call" span="151:6:151:12">append</jtok>
+<jtok eid="6" type="string_literal" span="151:14:151:28">"&amp;bsh.script="</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:3:152:5">sb</jtok>
+<jtok eid="6" type="method_call" span="152:6:152:12">append</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:14:152:24">URLEncoder</jtok>
+<jtok eid="6" type="method_call" span="152:25:152:31">encode</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:33:152:37">text</jtok>
+<jtok eid="6" type="block_comment" span="153:3:160:5">/*
+		// This requires Java 1.3
+		try {
+			sb.append( URLEncoder.encode( text, "8859_1" ) );
+		} catch ( UnsupportedEncodingException e ) {
+			e.printStackTrace();
+		}
+		*/</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="161:3:161:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="161:10:161:18">formData</jtok>
+<jtok eid="6" type="primary_name_ref" span="161:21:161:23">sb</jtok>
+<jtok eid="6" type="method_call" span="161:24:161:32">toString</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="164:5:164:8">URL</jtok>
+<jtok eid="6" type="local_variable_name" span="164:9:164:12">url</jtok>
+<jtok eid="6" type="constructor_call" span="164:19:164:22">URL</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:24:164:31">postURL</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="165:5:165:22">HttpURLConnection</jtok>
+<jtok eid="6" type="local_variable_name" span="165:23:165:29">urlcon</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="166:7:166:24">HttpURLConnection</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:26:166:29">url</jtok>
+<jtok eid="6" type="method_call" span="166:30:166:44">openConnection</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:5:167:11">urlcon</jtok>
+<jtok eid="6" type="method_call" span="167:12:167:28">setRequestMethod</jtok>
+<jtok eid="6" type="string_literal" span="167:29:167:35">"POST"</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:5:168:11">urlcon</jtok>
+<jtok eid="6" type="method_call" span="168:12:168:30">setRequestProperty</jtok>
+<jtok eid="6" type="string_literal" span="168:31:168:45">"Content-type"</jtok>
+<jtok eid="6" type="string_literal" span="169:6:169:41">"application/x-www-form-urlencoded"</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:5:170:11">urlcon</jtok>
+<jtok eid="6" type="method_call" span="170:12:170:23">setDoOutput</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:5:171:11">urlcon</jtok>
+<jtok eid="6" type="method_call" span="171:12:171:22">setDoInput</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="172:5:172:16">PrintWriter</jtok>
+<jtok eid="6" type="local_variable_name" span="172:17:172:21">pout</jtok>
+<jtok eid="6" type="constructor_call" span="172:28:172:39">PrintWriter</jtok>
+<jtok eid="6" type="constructor_call" span="172:45:172:63">OutputStreamWriter</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:6:173:12">urlcon</jtok>
+<jtok eid="6" type="method_call" span="173:13:173:28">getOutputStream</jtok>
+<jtok eid="6" type="string_literal" span="173:32:173:40">"8859_1"</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:5:174:9">pout</jtok>
+<jtok eid="6" type="method_call" span="174:10:174:15">print</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:17:174:25">formData</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:5:175:9">pout</jtok>
+<jtok eid="6" type="method_call" span="175:10:175:15">flush</jtok>
+<jtok eid="6" type="line_comment" span="177:5:177:23">// read results...</jtok>
+<jtok eid="6" type="local_variable_name" span="178:9:178:11">rc</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:14:178:20">urlcon</jtok>
+<jtok eid="6" type="method_call" span="178:21:178:36">getResponseCode</jtok>
+<jtok eid="6" type="primary_name_ref" span="179:10:179:12">rc</jtok>
+<jtok eid="6" type="primary_name_ref" span="179:16:179:33">HttpURLConnection</jtok>
+<jtok eid="6" type="qualified_name_ref" span="179:34:179:41">HTTP_OK</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:4:180:10">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="180:11:180:14">out</jtok>
+<jtok eid="6" type="method_call" span="180:15:180:22">println</jtok>
+<jtok eid="6" type="string_literal" span="180:23:180:47">"Error, HTTP response: "</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:48:180:50">rc</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:5:182:16">returnValue</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:19:182:25">urlcon</jtok>
+<jtok eid="6" type="method_call" span="182:26:182:40">getHeaderField</jtok>
+<jtok eid="6" type="string_literal" span="182:41:182:53">"Bsh-Return"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="184:5:184:19">BufferedReader</jtok>
+<jtok eid="6" type="local_variable_name" span="184:20:184:23">bin</jtok>
+<jtok eid="6" type="constructor_call" span="184:30:184:44">BufferedReader</jtok>
+<jtok eid="6" type="constructor_call" span="185:8:185:25">InputStreamReader</jtok>
+<jtok eid="6" type="primary_name_ref" span="185:27:185:33">urlcon</jtok>
+<jtok eid="6" type="method_call" span="185:34:185:48">getInputStream</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="186:5:186:11">String</jtok>
+<jtok eid="6" type="local_variable_name" span="186:12:186:16">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="187:14:187:18">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="187:19:187:22">bin</jtok>
+<jtok eid="6" type="method_call" span="187:23:187:31">readLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:4:188:10">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="188:11:188:14">out</jtok>
+<jtok eid="6" type="method_call" span="188:15:188:22">println</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:24:188:28">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:5:190:11">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="190:12:190:15">out</jtok>
+<jtok eid="6" type="method_call" span="190:16:190:23">println</jtok>
+<jtok eid="6" type="string_literal" span="190:25:190:41">"Return Value: "</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:42:190:53">returnValue</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="192:12:192:33">MalformedURLException</jtok>
+<jtok eid="6" type="local_variable_name" span="192:34:192:35">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:5:193:11">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="193:12:193:15">out</jtok>
+<jtok eid="6" type="method_call" span="193:16:193:23">println</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:24:193:25">e</jtok>
+<jtok eid="6" type="line_comment" span="193:32:193:46">// bad postURL</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="194:12:194:23">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="194:24:194:26">e2</jtok>
+<jtok eid="6" type="primary_name_ref" span="195:5:195:11">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="195:12:195:15">out</jtok>
+<jtok eid="6" type="method_call" span="195:16:195:23">println</jtok>
+<jtok eid="6" type="primary_name_ref" span="195:24:195:26">e2</jtok>
+<jtok eid="6" type="line_comment" span="195:32:195:44">// I/O error</jtok>
+<jtok eid="6" type="primary_name_ref" span="198:10:198:21">returnValue</jtok>
+<jtok eid="1" type="block_comment" span="201:2:203:4">/*
+		Note: assumes default character encoding
+	*/</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="204:9:204:15">String</jtok>
+<jtok eid="7" type="method_name" span="204:16:204:23">getFile</jtok>
+<jtok eid="7" type="parameter_type" span="204:25:204:31">String</jtok>
+<jtok eid="7" type="parameter_name" span="204:32:204:36">name</jtok>
+<jtok eid="7" type="throws" span="205:10:205:31">FileNotFoundException</jtok>
+<jtok eid="7" type="throws" span="205:33:205:44">IOException</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="207:3:207:16">StringBuilder</jtok>
+<jtok eid="7" type="local_variable_name" span="207:17:207:19">sb</jtok>
+<jtok eid="7" type="constructor_call" span="207:26:207:39">StringBuilder</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="208:3:208:17">BufferedReader</jtok>
+<jtok eid="7" type="local_variable_name" span="208:18:208:21">bin</jtok>
+<jtok eid="7" type="constructor_call" span="208:28:208:42">BufferedReader</jtok>
+<jtok eid="7" type="constructor_call" span="208:48:208:58">FileReader</jtok>
+<jtok eid="7" type="primary_name_ref" span="208:60:208:64">name</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="209:3:209:9">String</jtok>
+<jtok eid="7" type="local_variable_name" span="209:10:209:14">line</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:12:210:16">line</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:17:210:20">bin</jtok>
+<jtok eid="7" type="method_call" span="210:21:210:29">readLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="211:4:211:6">sb</jtok>
+<jtok eid="7" type="method_call" span="211:7:211:13">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="211:15:211:19">line</jtok>
+<jtok eid="7" type="method_call" span="211:22:211:28">append</jtok>
+<jtok eid="7" type="string_literal" span="211:30:211:34">"\n"</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:10:212:12">sb</jtok>
+<jtok eid="7" type="method_call" span="212:13:212:21">toString</jtok>
+</jdoc>

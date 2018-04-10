@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.about.AboutPanel" jls="java5">
+<jent id="0" type="file" span="0:0:477:0">Source/jabref/src/java/net/sf/jabref/about/AboutPanel.java</jent>
+<jent id="1" pid="0" type="class" span="61:1:476:1">net.sf.jabref.about.AboutPanel</jent>
+<jent id="2" pid="1" type="method" span="87:3:130:3">net.sf.jabref.about.AboutPanel.AboutPanel()</jent>
+<jent id="3" pid="1" type="method" span="133:3:136:3">net.sf.jabref.about.AboutPanel.addAnimationListener(AnimationListener)</jent>
+<jent id="4" pid="1" type="method" span="141:3:145:3">net.sf.jabref.about.AboutPanel.getMiddleX(String,Font)</jent>
+<jent id="5" pid="1" type="method" span="149:3:160:3">net.sf.jabref.about.AboutPanel.loadFont(String)</jent>
+<jent id="6" pid="1" type="method" span="164:3:242:3">net.sf.jabref.about.AboutPanel.loadAboutText()</jent>
+<jent id="7" pid="1" type="method" span="246:3:296:3">net.sf.jabref.about.AboutPanel.paintComponent(Graphics)</jent>
+<jent id="8" pid="1" type="method" span="299:3:313:3">net.sf.jabref.about.AboutPanel.drawLine(AboutTextLine,Graphics)</jent>
+<jent id="9" pid="1" type="method" span="317:3:320:3">net.sf.jabref.about.AboutPanel.getPreferredSize()</jent>
+<jent id="10" pid="1" type="method" span="322:3:326:3">net.sf.jabref.about.AboutPanel.removeNotify()</jent>
+<jent id="11" pid="1" type="method" span="328:3:332:3">net.sf.jabref.about.AboutPanel.skipAnimation()</jent>
+<jent id="12" pid="1" type="class" span="337:3:474:3">net.sf.jabref.about.AboutPanel.AnimationThread</jent>
+<jent id="13" pid="12" type="method" span="346:5:350:5">net.sf.jabref.about.AboutPanel.AnimationThread.AnimationThread()</jent>
+<jent id="14" pid="12" type="method" span="352:5:355:5">net.sf.jabref.about.AboutPanel.AnimationThread.kill()</jent>
+<jent id="15" pid="12" type="method" span="357:5:357:63">net.sf.jabref.about.AboutPanel.AnimationThread.setEnabled(boolean)</jent>
+<jent id="16" pid="12" type="method" span="359:5:359:70">net.sf.jabref.about.AboutPanel.AnimationThread.setMode(int)</jent>
+<jent id="17" pid="12" type="method" span="361:5:414:5">net.sf.jabref.about.AboutPanel.AnimationThread.run()</jent>
+<jent id="18" pid="12" type="method" span="416:5:473:5">net.sf.jabref.about.AboutPanel.AnimationThread.performStep(AboutTextLine)</jent>
+<jtok eid="0" type="block_comment" span="1:1:30:3">/*
+ animated about dialog
+
+Copyright (C) 2005 Raik Nagel &lt;kiar@users.sourceforge.net&gt;
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name of the author nor the names of its contributors may be
+  used to endorse or promote products derived from this software without
+  specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:35">// created by : r.nagel 05.05.2005</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:3">//</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:14">// modified :</jtok>
+<jtok eid="0" type="line_comment" span="60:1:60:20">// AboutPanel class</jtok>
+<jtok eid="1" type="class_name" span="61:14:61:24">AboutPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="61:33:61:43">JComponent</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="63:11:63:17">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="63:18:63:27">TextBlock</jtok>
+<jtok eid="1" type="field_name" span="63:29:63:39">textBlocks</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:11:64:17">String</jtok>
+<jtok eid="1" type="field_name" span="64:18:64:28">versionStr</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:11:65:17">String</jtok>
+<jtok eid="1" type="field_name" span="65:18:65:26">buildStr</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:11:66:26">AnimationThread</jtok>
+<jtok eid="1" type="field_name" span="66:27:66:33">thread</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="67:11:67:20">ImageIcon</jtok>
+<jtok eid="1" type="field_name" span="67:21:67:26">image</jtok>
+<jtok eid="1" type="line_comment" span="70:3:70:29">// animated text positions</jtok>
+<jtok eid="1" type="field_name" span="71:14:71:17">TOP</jtok>
+<jtok eid="1" type="line_comment" span="71:26:71:51">// offset from top - hide</jtok>
+<jtok eid="1" type="field_name" span="72:14:72:20">BOTTOM</jtok>
+<jtok eid="1" type="line_comment" span="72:27:72:34">// show</jtok>
+<jtok eid="1" type="field_name" span="74:14:74:20">HEIGHT</jtok>
+<jtok eid="1" type="field_name" span="75:14:75:19">WIDTH</jtok>
+<jtok eid="1" type="field_name" span="77:15:77:22">borders</jtok>
+<jtok eid="1" type="line_comment" span="77:28:77:93">// Border-Coordinates of paintarea (xLeft, xRight, yTop, yBottom)</jtok>
+<jtok eid="1" type="field_name" span="78:15:78:25">paintWidth</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="80:11:80:15">Font</jtok>
+<jtok eid="1" type="field_name" span="80:16:80:21">font1</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:11:81:15">Font</jtok>
+<jtok eid="1" type="field_name" span="81:16:81:21">font2</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="82:11:82:15">Font</jtok>
+<jtok eid="1" type="field_name" span="82:16:82:21">font3</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="84:11:84:28">AnimationListener</jtok>
+<jtok eid="1" type="field_name" span="84:29:84:40">aniListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="85:11:85:24">ImageProducer</jtok>
+<jtok eid="1" type="field_name" span="85:25:85:34">iProducer</jtok>
+<jtok eid="2" type="method_name" span="87:3:87:13">AboutPanel</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="89:5:89:9">Font</jtok>
+<jtok eid="2" type="local_variable_name" span="89:10:89:14">font</jtok>
+<jtok eid="2" type="method_call" span="89:17:89:25">loadFont</jtok>
+<jtok eid="2" type="string_literal" span="89:26:89:40">"ASTROLYT.TTF"</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:5:90:10">font1</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:13:90:17">font</jtok>
+<jtok eid="2" type="method_call" span="90:18:90:28">deriveFont</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:29:90:33">Font</jtok>
+<jtok eid="2" type="qualified_name_ref" span="90:34:90:38">BOLD</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:5:91:10">font2</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:13:91:17">font</jtok>
+<jtok eid="2" type="method_call" span="91:18:91:28">deriveFont</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:29:91:33">Font</jtok>
+<jtok eid="2" type="qualified_name_ref" span="91:34:91:38">BOLD</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:5:93:9">font</jtok>
+<jtok eid="2" type="method_call" span="93:12:93:20">loadFont</jtok>
+<jtok eid="2" type="string_literal" span="93:21:93:32">"AUGIE.TTF"</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:5:94:10">font3</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:13:94:17">font</jtok>
+<jtok eid="2" type="method_call" span="94:18:94:28">deriveFont</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:29:94:33">Font</jtok>
+<jtok eid="2" type="qualified_name_ref" span="94:34:94:38">BOLD</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:5:96:15">versionStr</jtok>
+<jtok eid="2" type="string_literal" span="96:18:96:28">"Version "</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:31:96:38">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="96:39:96:46">VERSION</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:5:97:13">buildStr</jtok>
+<jtok eid="2" type="string_literal" span="97:16:97:25">" build "</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:28:97:35">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="97:36:97:41">BUILD</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:5:99:10">image</jtok>
+<jtok eid="2" type="constructor_call" span="99:17:99:26">ImageIcon</jtok>
+<jtok eid="2" type="method_call" span="99:27:99:35">getClass</jtok>
+<jtok eid="2" type="method_call" span="99:38:99:49">getResource</jtok>
+<jtok eid="2" type="string_literal" span="99:50:99:70">"/images/autumn.png"</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:5:101:11">HEIGHT</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:14:101:19">image</jtok>
+<jtok eid="2" type="method_call" span="101:20:101:33">getIconHeight</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:5:102:10">WIDTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:13:102:18">image</jtok>
+<jtok eid="2" type="method_call" span="102:19:102:31">getIconWidth</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="104:5:104:16">FontMetrics</jtok>
+<jtok eid="2" type="local_variable_name" span="104:17:104:19">fm</jtok>
+<jtok eid="2" type="method_call" span="104:22:104:36">getFontMetrics</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:38:104:43">font2</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:5:105:8">TOP</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:13:105:15">fm</jtok>
+<jtok eid="2" type="method_call" span="105:16:105:25">getHeight</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:5:106:7">fm</jtok>
+<jtok eid="2" type="method_call" span="106:10:106:24">getFontMetrics</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:26:106:31">font1</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:5:107:11">BOTTOM</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:16:107:18">fm</jtok>
+<jtok eid="2" type="method_call" span="107:19:107:28">getHeight</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:5:109:12">borders</jtok>
+<jtok eid="2" type="primary_name_ref" span="110:5:110:12">borders</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:5:111:12">borders</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:18:111:23">WIDTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="112:5:112:12">borders</jtok>
+<jtok eid="2" type="primary_name_ref" span="112:18:112:21">TOP</jtok>
+<jtok eid="2" type="primary_name_ref" span="113:5:113:12">borders</jtok>
+<jtok eid="2" type="primary_name_ref" span="113:18:113:24">HEIGHT</jtok>
+<jtok eid="2" type="primary_name_ref" span="113:27:113:30">TOP</jtok>
+<jtok eid="2" type="primary_name_ref" span="113:33:113:39">BOTTOM</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:5:116:15">paintWidth</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:18:116:25">borders</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:31:116:38">borders</jtok>
+<jtok eid="2" type="method_call" span="118:5:118:18">setForeground</jtok>
+<jtok eid="2" type="primary_name_ref" span="118:20:118:25">Color</jtok>
+<jtok eid="2" type="qualified_name_ref" span="118:26:118:31">black</jtok>
+<jtok eid="2" type="method_call" span="119:5:119:18">setBackground</jtok>
+<jtok eid="2" type="primary_name_ref" span="119:20:119:25">Color</jtok>
+<jtok eid="2" type="qualified_name_ref" span="119:26:119:31">white</jtok>
+<jtok eid="2" type="method_call" span="121:5:121:14">setBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:17:121:30">BorderFactory</jtok>
+<jtok eid="2" type="method_call" span="121:31:121:48">createBevelBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="121:50:121:61">BevelBorder</jtok>
+<jtok eid="2" type="qualified_name_ref" span="121:62:121:68">RAISED</jtok>
+<jtok eid="2" type="primary_name_ref" span="123:5:123:15">textBlocks</jtok>
+<jtok eid="2" type="constructor_call" span="123:22:123:28">Vector</jtok>
+<jtok eid="2" type="constructor_call" span="123:29:123:38">TextBlock</jtok>
+<jtok eid="2" type="method_call" span="125:5:125:18">loadAboutText</jtok>
+<jtok eid="2" type="method_call" span="127:10:127:27">setDoubleBuffered</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:5:129:11">thread</jtok>
+<jtok eid="2" type="constructor_call" span="129:18:129:33">AnimationThread</jtok>
+<jtok eid="1" type="line_comment" span="131:1:131:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="3" type="method_name" span="133:15:133:35">addAnimationListener</jtok>
+<jtok eid="3" type="parameter_type" span="133:36:133:53">AnimationListener</jtok>
+<jtok eid="3" type="parameter_name" span="133:54:133:62">listener</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:5:135:16">aniListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:19:135:27">listener</jtok>
+<jtok eid="1" type="line_comment" span="138:1:138:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="140:3:140:13">// returns</jtok>
+<jtok eid="4" type="method_name" span="141:15:141:25">getMiddleX</jtok>
+<jtok eid="4" type="parameter_type" span="141:26:141:32">String</jtok>
+<jtok eid="4" type="parameter_name" span="141:33:141:37">text</jtok>
+<jtok eid="4" type="parameter_type" span="141:39:141:43">Font</jtok>
+<jtok eid="4" type="parameter_name" span="141:44:141:48">font</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="143:5:143:16">FontMetrics</jtok>
+<jtok eid="4" type="local_variable_name" span="143:17:143:19">fm</jtok>
+<jtok eid="4" type="method_call" span="143:22:143:36">getFontMetrics</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:37:143:41">font</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:14:144:24">paintWidth</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:31:144:33">fm</jtok>
+<jtok eid="4" type="method_call" span="144:34:144:45">stringWidth</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:46:144:50">text</jtok>
+<jtok eid="1" type="line_comment" span="147:1:147:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="149:11:149:15">Font</jtok>
+<jtok eid="5" type="method_name" span="149:16:149:24">loadFont</jtok>
+<jtok eid="5" type="parameter_type" span="149:25:149:31">String</jtok>
+<jtok eid="5" type="parameter_name" span="149:32:149:40">fontName</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="151:5:151:9">Font</jtok>
+<jtok eid="5" type="local_variable_name" span="151:10:151:14">back</jtok>
+<jtok eid="5" type="primary_name_ref" span="151:17:151:26">UIManager</jtok>
+<jtok eid="5" type="method_call" span="151:27:151:34">getFont</jtok>
+<jtok eid="5" type="string_literal" span="151:35:151:47">"Label.font"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="154:7:154:18">InputStream</jtok>
+<jtok eid="5" type="local_variable_name" span="154:19:154:27">myStream</jtok>
+<jtok eid="5" type="method_call" span="154:30:154:38">getClass</jtok>
+<jtok eid="5" type="method_call" span="154:41:154:60">getResourceAsStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:61:154:71">GUIGlobals</jtok>
+<jtok eid="5" type="qualified_name_ref" span="154:72:154:80">fontPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:83:154:91">fontName</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:7:155:11">back</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:14:155:18">Font</jtok>
+<jtok eid="5" type="method_call" span="155:19:155:29">createFont</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:30:155:34">Font</jtok>
+<jtok eid="5" type="qualified_name_ref" span="155:35:155:48">TRUETYPE_FONT</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:50:155:58">myStream</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="157:12:157:21">Exception</jtok>
+<jtok eid="5" type="local_variable_name" span="157:22:157:23">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:27:157:33">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="157:34:157:37">out</jtok>
+<jtok eid="5" type="method_call" span="157:38:157:45">println</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:46:157:47">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:12:159:16">back</jtok>
+<jtok eid="1" type="line_comment" span="162:1:162:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="6" type="method_name" span="164:22:164:35">loadAboutText</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="166:5:166:14">TextBlock</jtok>
+<jtok eid="6" type="local_variable_name" span="166:15:166:20">block</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="167:5:167:18">AboutTextLine</jtok>
+<jtok eid="6" type="local_variable_name" span="167:19:167:24">aLine</jtok>
+<jtok eid="6" type="local_variable_name" span="169:9:169:14">index</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="170:5:170:16">FontMetrics</jtok>
+<jtok eid="6" type="local_variable_name" span="170:17:170:19">fm</jtok>
+<jtok eid="6" type="method_call" span="170:22:170:36">getFontMetrics</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:37:170:42">font3</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="173:7:173:18">InputStream</jtok>
+<jtok eid="6" type="local_variable_name" span="173:19:173:25">stream</jtok>
+<jtok eid="6" type="method_call" span="173:28:173:36">getClass</jtok>
+<jtok eid="6" type="method_call" span="173:39:173:58">getResourceAsStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:59:173:69">GUIGlobals</jtok>
+<jtok eid="6" type="method_call" span="173:70:173:87">getLocaleHelpPath</jtok>
+<jtok eid="6" type="string_literal" span="173:92:173:105">"credits.txt"</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:11:174:17">stream</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:9:176:15">stream</jtok>
+<jtok eid="6" type="method_call" span="176:18:176:26">getClass</jtok>
+<jtok eid="6" type="method_call" span="176:29:176:48">getResourceAsStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:50:176:60">GUIGlobals</jtok>
+<jtok eid="6" type="qualified_name_ref" span="176:61:176:68">helpPre</jtok>
+<jtok eid="6" type="string_literal" span="177:50:177:63">"credits.txt"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="179:7:179:24">InputStreamReader</jtok>
+<jtok eid="6" type="local_variable_name" span="179:25:179:31">reader</jtok>
+<jtok eid="6" type="constructor_call" span="179:38:179:55">InputStreamReader</jtok>
+<jtok eid="6" type="primary_name_ref" span="179:57:179:63">stream</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="180:7:180:21">BufferedReader</jtok>
+<jtok eid="6" type="local_variable_name" span="180:22:180:27">input</jtok>
+<jtok eid="6" type="constructor_call" span="180:34:180:48">BufferedReader</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:49:180:55">reader</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:15:182:20">input</jtok>
+<jtok eid="6" type="method_call" span="182:21:182:26">ready</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="184:9:184:15">String</jtok>
+<jtok eid="6" type="local_variable_name" span="184:16:184:20">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="184:23:184:28">input</jtok>
+<jtok eid="6" type="method_call" span="184:29:184:37">readLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="186:13:186:17">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:11:188:15">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:18:188:22">line</jtok>
+<jtok eid="6" type="method_call" span="188:23:188:27">trim</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:15:190:19">line</jtok>
+<jtok eid="6" type="method_call" span="190:20:190:26">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="192:17:192:21">line</jtok>
+<jtok eid="6" type="method_call" span="192:22:192:28">charAt</jtok>
+<jtok eid="6" type="line_comment" span="192:41:192:57">// new Block....</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:19:194:24">block</jtok>
+<jtok eid="6" type="line_comment" span="194:35:194:58">//insert previous block</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:17:196:27">textBlocks</jtok>
+<jtok eid="6" type="method_call" span="196:28:196:31">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:32:196:37">block</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:17:197:22">index</jtok>
+<jtok eid="6" type="primary_name_ref" span="200:15:200:20">aLine</jtok>
+<jtok eid="6" type="constructor_call" span="200:27:200:40">AboutTextLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="200:42:200:46">line</jtok>
+<jtok eid="6" type="method_call" span="200:47:200:56">substring</jtok>
+<jtok eid="6" type="method_call" span="200:60:200:64">trim</jtok>
+<jtok eid="6" type="primary_name_ref" span="201:15:201:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="201:21:201:27">setTag</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:15:202:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="202:21:202:27">setPos</jtok>
+<jtok eid="6" type="method_call" span="202:28:202:38">getMiddleX</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:39:202:44">aLine</jtok>
+<jtok eid="6" type="method_call" span="202:45:202:52">getText</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:56:202:61">font2</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:64:202:71">borders</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:76:202:78">fm</jtok>
+<jtok eid="6" type="method_call" span="202:79:202:88">getHeight</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:92:202:97">index</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:15:203:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="203:21:203:33">setDirection</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:15:204:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="204:21:204:28">setFont</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:29:204:34">font2</jtok>
+<jtok eid="6" type="primary_name_ref" span="206:15:206:20">block</jtok>
+<jtok eid="6" type="constructor_call" span="206:27:206:36">TextBlock</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:15:207:20">block</jtok>
+<jtok eid="6" type="method_call" span="207:21:207:31">setHeading</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:32:207:37">aLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="208:15:208:20">block</jtok>
+<jtok eid="6" type="method_call" span="208:21:208:31">setVisible</jtok>
+<jtok eid="6" type="line_comment" span="211:19:211:32">// Blocklines</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:15:213:20">aLine</jtok>
+<jtok eid="6" type="constructor_call" span="213:27:213:40">AboutTextLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:42:213:46">line</jtok>
+<jtok eid="6" type="method_call" span="213:47:213:51">trim</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:15:214:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="214:21:214:27">setPos</jtok>
+<jtok eid="6" type="method_call" span="214:29:214:39">getMiddleX</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:41:214:45">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:47:214:52">font3</jtok>
+<jtok eid="6" type="primary_name_ref" span="215:29:215:36">borders</jtok>
+<jtok eid="6" type="primary_name_ref" span="215:44:215:49">index</jtok>
+<jtok eid="6" type="primary_name_ref" span="215:52:215:54">fm</jtok>
+<jtok eid="6" type="method_call" span="215:55:215:64">getHeight</jtok>
+<jtok eid="6" type="primary_name_ref" span="216:15:216:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="216:21:216:27">setTag</jtok>
+<jtok eid="6" type="primary_name_ref" span="217:15:217:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="217:21:217:33">setDirection</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:15:218:20">aLine</jtok>
+<jtok eid="6" type="method_call" span="218:21:218:28">setFont</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:30:218:35">font3</jtok>
+<jtok eid="6" type="primary_name_ref" span="220:15:220:20">block</jtok>
+<jtok eid="6" type="constructor_call" span="220:27:220:36">TextBlock</jtok>
+<jtok eid="6" type="primary_name_ref" span="221:15:221:20">block</jtok>
+<jtok eid="6" type="method_call" span="221:21:221:24">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="221:26:221:31">aLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="222:15:222:20">block</jtok>
+<jtok eid="6" type="method_call" span="222:21:222:31">setVisible</jtok>
+<jtok eid="6" type="primary_name_ref" span="224:15:224:20">index</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:7:229:12">input</jtok>
+<jtok eid="6" type="method_call" span="229:13:229:18">close</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="232:13:232:22">Exception</jtok>
+<jtok eid="6" type="local_variable_name" span="232:23:232:24">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="234:7:234:12">block</jtok>
+<jtok eid="6" type="constructor_call" span="234:19:234:28">TextBlock</jtok>
+<jtok eid="6" type="primary_name_ref" span="235:7:235:12">block</jtok>
+<jtok eid="6" type="method_call" span="235:13:235:23">setHeading</jtok>
+<jtok eid="6" type="constructor_call" span="235:29:235:42">AboutTextLine</jtok>
+<jtok eid="6" type="string_literal" span="235:43:235:52">"failure"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="236:7:236:13">String</jtok>
+<jtok eid="6" type="local_variable_name" span="236:14:236:18">line</jtok>
+<jtok eid="6" type="string_literal" span="236:21:236:41">"no infos available"</jtok>
+<jtok eid="6" type="primary_name_ref" span="237:7:237:12">aLine</jtok>
+<jtok eid="6" type="constructor_call" span="237:19:237:32">AboutTextLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="237:34:237:38">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="238:7:238:12">block</jtok>
+<jtok eid="6" type="method_call" span="238:13:238:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="238:18:238:23">aLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="241:5:241:15">textBlocks</jtok>
+<jtok eid="6" type="method_call" span="241:16:241:19">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="241:20:241:25">block</jtok>
+<jtok eid="6" type="line_comment" span="241:29:241:49">// insert last block</jtok>
+<jtok eid="1" type="line_comment" span="244:1:244:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="7" type="method_name" span="246:15:246:29">paintComponent</jtok>
+<jtok eid="7" type="parameter_type" span="246:31:246:39">Graphics</jtok>
+<jtok eid="7" type="parameter_name" span="246:40:246:41">g</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:9:248:15">thread</jtok>
+<jtok eid="7" type="qualified_name_ref" span="248:16:248:20">mode</jtok>
+<jtok eid="7" type="primary_name_ref" span="250:7:250:13">thread</jtok>
+<jtok eid="7" type="method_call" span="250:14:250:19">start</jtok>
+<jtok eid="7" type="line_comment" span="251:1:251:33">//      thread.setEnabled(true);</jtok>
+<jtok eid="7" type="primary_name_ref" span="254:9:254:15">thread</jtok>
+<jtok eid="7" type="qualified_name_ref" span="254:16:254:20">mode</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:7:256:12">image</jtok>
+<jtok eid="7" type="method_call" span="256:13:256:22">paintIcon</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:29:256:30">g</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="258:7:258:18">FontMetrics</jtok>
+<jtok eid="7" type="local_variable_name" span="258:19:258:21">fm</jtok>
+<jtok eid="7" type="primary_name_ref" span="258:24:258:25">g</jtok>
+<jtok eid="7" type="method_call" span="258:26:258:40">getFontMetrics</jtok>
+<jtok eid="7" type="primary_name_ref" span="258:42:258:47">font1</jtok>
+<jtok eid="7" type="local_variable_name" span="260:11:260:13">x1</jtok>
+<jtok eid="7" type="method_call" span="260:18:260:26">getWidth</jtok>
+<jtok eid="7" type="primary_name_ref" span="260:31:260:33">fm</jtok>
+<jtok eid="7" type="method_call" span="260:34:260:45">stringWidth</jtok>
+<jtok eid="7" type="primary_name_ref" span="260:47:260:57">versionStr</jtok>
+<jtok eid="7" type="local_variable_name" span="261:11:261:13">y1</jtok>
+<jtok eid="7" type="method_call" span="261:16:261:25">getHeight</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:30:261:32">fm</jtok>
+<jtok eid="7" type="method_call" span="261:33:261:42">getHeight</jtok>
+<jtok eid="7" type="local_variable_name" span="262:11:262:13">y2</jtok>
+<jtok eid="7" type="method_call" span="262:16:262:25">getHeight</jtok>
+<jtok eid="7" type="block_comment" span="263:1:267:3">/*
+      int x1 = ( getWidth() - fm.stringWidth( versionStr ) ) / 2 ;
+      int y1 = 4 ;
+      int y2 = fm.getHeight() +4 ;
+*/</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:7:268:8">g</jtok>
+<jtok eid="7" type="method_call" span="268:9:268:16">setFont</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:18:268:23">font1</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:7:270:8">g</jtok>
+<jtok eid="7" type="method_call" span="270:9:270:17">setColor</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:19:270:24">Color</jtok>
+<jtok eid="7" type="qualified_name_ref" span="270:25:270:30">black</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:7:271:8">g</jtok>
+<jtok eid="7" type="method_call" span="271:9:271:19">drawString</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:21:271:31">versionStr</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:33:271:35">x1</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:37:271:39">y1</jtok>
+<jtok eid="7" type="primary_name_ref" span="272:7:272:8">g</jtok>
+<jtok eid="7" type="method_call" span="272:9:272:19">drawString</jtok>
+<jtok eid="7" type="primary_name_ref" span="272:21:272:29">buildStr</jtok>
+<jtok eid="7" type="primary_name_ref" span="272:31:272:33">x1</jtok>
+<jtok eid="7" type="primary_name_ref" span="272:35:272:37">y2</jtok>
+<jtok eid="7" type="primary_name_ref" span="274:7:274:8">g</jtok>
+<jtok eid="7" type="method_call" span="274:9:274:16">setFont</jtok>
+<jtok eid="7" type="primary_name_ref" span="274:18:274:23">font2</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:7:275:9">fm</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:12:275:13">g</jtok>
+<jtok eid="7" type="method_call" span="275:14:275:28">getFontMetrics</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:30:275:35">font2</jtok>
+<jtok eid="7" type="primary_name_ref" span="276:7:276:8">g</jtok>
+<jtok eid="7" type="method_call" span="276:9:276:19">drawString</jtok>
+<jtok eid="7" type="string_literal" span="276:21:276:29">"JabRef"</jtok>
+<jtok eid="7" type="method_call" span="276:32:276:40">getWidth</jtok>
+<jtok eid="7" type="primary_name_ref" span="276:45:276:47">fm</jtok>
+<jtok eid="7" type="method_call" span="276:48:276:59">stringWidth</jtok>
+<jtok eid="7" type="string_literal" span="276:60:276:68">"JabRef"</jtok>
+<jtok eid="7" type="primary_name_ref" span="276:75:276:77">fm</jtok>
+<jtok eid="7" type="method_call" span="276:78:276:87">getHeight</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="279:13:279:22">TextBlock</jtok>
+<jtok eid="7" type="local_variable_name" span="279:23:279:28">block</jtok>
+<jtok eid="7" type="primary_name_ref" span="279:31:279:41">textBlocks</jtok>
+<jtok eid="7" type="primary_name_ref" span="280:13:280:18">block</jtok>
+<jtok eid="7" type="method_call" span="280:19:280:28">isVisible</jtok>
+<jtok eid="7" type="line_comment" span="280:32:280:69">// only if Block is marked as visible</jtok>
+<jtok eid="7" type="line_comment" span="282:11:282:27">// print Heading</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="283:11:283:24">AboutTextLine</jtok>
+<jtok eid="7" type="local_variable_name" span="283:25:283:29">head</jtok>
+<jtok eid="7" type="primary_name_ref" span="283:32:283:37">block</jtok>
+<jtok eid="7" type="method_call" span="283:38:283:48">getHeading</jtok>
+<jtok eid="7" type="method_call" span="284:11:284:19">drawLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="284:20:284:24">head</jtok>
+<jtok eid="7" type="primary_name_ref" span="284:26:284:27">g</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="286:16:286:29">AboutTextLine</jtok>
+<jtok eid="7" type="local_variable_name" span="286:30:286:34">line</jtok>
+<jtok eid="7" type="primary_name_ref" span="286:37:286:42">block</jtok>
+<jtok eid="7" type="method_call" span="287:13:287:21">drawLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:22:287:26">line</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:28:287:29">g</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:7:294:12">image</jtok>
+<jtok eid="7" type="method_call" span="294:13:294:22">paintIcon</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:29:294:30">g</jtok>
+<jtok eid="1" type="line_comment" span="297:1:297:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="8" type="method_name" span="299:16:299:24">drawLine</jtok>
+<jtok eid="8" type="parameter_type" span="299:25:299:38">AboutTextLine</jtok>
+<jtok eid="8" type="parameter_name" span="299:39:299:43">line</jtok>
+<jtok eid="8" type="parameter_type" span="299:45:299:53">Graphics</jtok>
+<jtok eid="8" type="parameter_name" span="299:54:299:55">g</jtok>
+<jtok eid="8" type="local_variable_name" span="301:9:301:10">x</jtok>
+<jtok eid="8" type="primary_name_ref" span="301:13:301:17">line</jtok>
+<jtok eid="8" type="method_call" span="301:18:301:25">getPosX</jtok>
+<jtok eid="8" type="local_variable_name" span="302:9:302:10">y</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:13:302:17">line</jtok>
+<jtok eid="8" type="method_call" span="302:18:302:25">getPosY</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:12:303:13">x</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:16:303:23">borders</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:39:303:40">x</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:43:303:50">borders</jtok>
+<jtok eid="8" type="primary_name_ref" span="304:12:304:13">y</jtok>
+<jtok eid="8" type="primary_name_ref" span="304:16:304:23">borders</jtok>
+<jtok eid="8" type="primary_name_ref" span="304:39:304:40">y</jtok>
+<jtok eid="8" type="primary_name_ref" span="304:43:304:50">borders</jtok>
+<jtok eid="8" type="primary_name_ref" span="306:12:306:16">line</jtok>
+<jtok eid="8" type="method_call" span="306:17:306:27">getVisible</jtok>
+<jtok eid="8" type="primary_name_ref" span="308:9:308:10">g</jtok>
+<jtok eid="8" type="method_call" span="308:11:308:18">setFont</jtok>
+<jtok eid="8" type="primary_name_ref" span="308:20:308:24">line</jtok>
+<jtok eid="8" type="method_call" span="308:25:308:32">getFont</jtok>
+<jtok eid="8" type="primary_name_ref" span="309:9:309:10">g</jtok>
+<jtok eid="8" type="method_call" span="309:11:309:19">setColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="309:21:309:25">line</jtok>
+<jtok eid="8" type="method_call" span="309:26:309:34">getColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:9:310:10">g</jtok>
+<jtok eid="8" type="method_call" span="310:11:310:21">drawString</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:23:310:27">line</jtok>
+<jtok eid="8" type="method_call" span="310:28:310:35">getText</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:39:310:43">line</jtok>
+<jtok eid="8" type="method_call" span="310:44:310:51">getPosX</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:55:310:59">line</jtok>
+<jtok eid="8" type="method_call" span="310:60:310:67">getPosY</jtok>
+<jtok eid="1" type="line_comment" span="314:1:314:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="315:1:315:80">// ----------------------------------------------------------------------------</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="317:10:317:19">Dimension</jtok>
+<jtok eid="9" type="method_name" span="317:20:317:36">getPreferredSize</jtok>
+<jtok eid="9" type="constructor_call" span="319:16:319:25">Dimension</jtok>
+<jtok eid="9" type="primary_name_ref" span="319:27:319:32">WIDTH</jtok>
+<jtok eid="9" type="primary_name_ref" span="319:34:319:40">HEIGHT</jtok>
+<jtok eid="10" type="method_name" span="322:15:322:27">removeNotify</jtok>
+<jtok eid="10" type="method_call" span="324:11:324:23">removeNotify</jtok>
+<jtok eid="10" type="primary_name_ref" span="325:5:325:11">thread</jtok>
+<jtok eid="10" type="method_call" span="325:12:325:16">kill</jtok>
+<jtok eid="11" type="method_name" span="328:15:328:28">skipAnimation</jtok>
+<jtok eid="11" type="primary_name_ref" span="330:5:330:11">thread</jtok>
+<jtok eid="11" type="method_call" span="330:12:330:16">kill</jtok>
+<jtok eid="11" type="primary_name_ref" span="331:9:331:20">aniListener</jtok>
+<jtok eid="11" type="primary_name_ref" span="331:30:331:41">aniListener</jtok>
+<jtok eid="11" type="method_call" span="331:42:331:56">animationReady</jtok>
+<jtok eid="1" type="line_comment" span="334:1:334:79">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="335:1:335:79">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="12" type="class_name" span="337:9:337:24">AnimationThread</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="337:33:337:39">Thread</jtok>
+<jtok eid="12" type="field_name" span="339:21:339:28">running</jtok>
+<jtok eid="12" type="field_name" span="340:20:340:26">help01</jtok>
+<jtok eid="12" type="field_name" span="341:17:341:21">mode</jtok>
+<jtok eid="12" type="field_name" span="342:16:342:25">sleepTime</jtok>
+<jtok eid="12" type="field_name" span="343:17:343:29">zone2Counter</jtok>
+<jtok eid="12" type="field_name" span="344:21:344:28">runMode</jtok>
+<jtok eid="13" type="method_name" span="346:5:346:20">AnimationThread</jtok>
+<jtok eid="13" type="string_literal" span="348:14:348:42">"About box animation thread"</jtok>
+<jtok eid="13" type="method_call" span="349:7:349:18">setPriority</jtok>
+<jtok eid="13" type="primary_name_ref" span="349:20:349:26">Thread</jtok>
+<jtok eid="13" type="qualified_name_ref" span="349:27:349:39">MIN_PRIORITY</jtok>
+<jtok eid="14" type="method_name" span="352:17:352:21">kill</jtok>
+<jtok eid="14" type="primary_name_ref" span="354:7:354:14">running</jtok>
+<jtok eid="15" type="method_name" span="357:17:357:27">setEnabled</jtok>
+<jtok eid="15" type="parameter_name" span="357:36:357:41">onOff</jtok>
+<jtok eid="15" type="primary_name_ref" span="357:45:357:52">runMode</jtok>
+<jtok eid="15" type="primary_name_ref" span="357:55:357:60">onOff</jtok>
+<jtok eid="16" type="method_name" span="359:30:359:37">setMode</jtok>
+<jtok eid="16" type="parameter_name" span="359:42:359:49">newMode</jtok>
+<jtok eid="16" type="primary_name_ref" span="359:53:359:57">mode</jtok>
+<jtok eid="16" type="primary_name_ref" span="359:60:359:67">newMode</jtok>
+<jtok eid="17" type="method_name" span="361:17:361:20">run</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="363:7:363:13">Object</jtok>
+<jtok eid="17" type="local_variable_name" span="363:14:363:19">mutex</jtok>
+<jtok eid="17" type="constructor_call" span="363:26:363:32">Object</jtok>
+<jtok eid="17" type="primary_name_ref" span="365:7:365:11">mode</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:7:366:14">runMode</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:15:367:22">running</jtok>
+<jtok eid="17" type="primary_name_ref" span="370:22:370:27">mutex</jtok>
+<jtok eid="17" type="primary_name_ref" span="376:15:376:20">mutex</jtok>
+<jtok eid="17" type="method_call" span="376:21:376:25">wait</jtok>
+<jtok eid="17" type="primary_name_ref" span="376:27:376:36">sleepTime</jtok>
+<jtok eid="17" type="primary_name_ref" span="377:23:377:30">runMode</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="379:19:379:28">Exception</jtok>
+<jtok eid="17" type="local_variable_name" span="379:29:379:30">e</jtok>
+<jtok eid="17" type="primary_name_ref" span="383:13:383:17">mode</jtok>
+<jtok eid="17" type="line_comment" span="383:25:383:41">// Textanimation</jtok>
+<jtok eid="17" type="local_variable_name" span="385:15:385:22">counter</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="387:17:387:28">Enumeration</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="387:29:387:38">TextBlock</jtok>
+<jtok eid="17" type="local_variable_name" span="387:40:387:43">myE</jtok>
+<jtok eid="17" type="primary_name_ref" span="387:46:387:56">textBlocks</jtok>
+<jtok eid="17" type="method_call" span="387:57:387:65">elements</jtok>
+<jtok eid="17" type="primary_name_ref" span="387:70:387:73">myE</jtok>
+<jtok eid="17" type="method_call" span="387:74:387:89">hasMoreElements</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="389:13:389:22">TextBlock</jtok>
+<jtok eid="17" type="local_variable_name" span="389:23:389:28">block</jtok>
+<jtok eid="17" type="primary_name_ref" span="389:31:389:34">myE</jtok>
+<jtok eid="17" type="method_call" span="389:35:389:46">nextElement</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="390:13:390:26">AboutTextLine</jtok>
+<jtok eid="17" type="local_variable_name" span="390:27:390:31">head</jtok>
+<jtok eid="17" type="primary_name_ref" span="390:34:390:39">block</jtok>
+<jtok eid="17" type="method_call" span="390:40:390:50">getHeading</jtok>
+<jtok eid="17" type="primary_name_ref" span="391:13:391:20">counter</jtok>
+<jtok eid="17" type="method_call" span="391:23:391:34">performStep</jtok>
+<jtok eid="17" type="primary_name_ref" span="391:35:391:39">head</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="393:18:393:31">AboutTextLine</jtok>
+<jtok eid="17" type="local_variable_name" span="393:32:393:36">line</jtok>
+<jtok eid="17" type="primary_name_ref" span="393:39:393:44">block</jtok>
+<jtok eid="17" type="primary_name_ref" span="394:14:394:21">counter</jtok>
+<jtok eid="17" type="method_call" span="394:25:394:36">performStep</jtok>
+<jtok eid="17" type="primary_name_ref" span="394:38:394:42">line</jtok>
+<jtok eid="17" type="primary_name_ref" span="397:15:397:22">counter</jtok>
+<jtok eid="17" type="primary_name_ref" span="399:13:399:17">mode</jtok>
+<jtok eid="17" type="method_call" span="401:11:401:18">repaint</jtok>
+<jtok eid="17" type="primary_name_ref" span="401:19:401:26">borders</jtok>
+<jtok eid="17" type="primary_name_ref" span="401:34:401:41">borders</jtok>
+<jtok eid="17" type="primary_name_ref" span="401:49:401:56">borders</jtok>
+<jtok eid="17" type="primary_name_ref" span="401:64:401:71">borders</jtok>
+<jtok eid="17" type="primary_name_ref" span="403:18:403:22">mode</jtok>
+<jtok eid="17" type="line_comment" span="403:30:403:50">// Picture animation</jtok>
+<jtok eid="17" type="primary_name_ref" span="405:15:405:24">sleepTime</jtok>
+<jtok eid="17" type="primary_name_ref" span="406:13:406:22">sleepTime</jtok>
+<jtok eid="17" type="primary_name_ref" span="408:13:408:22">sleepTime</jtok>
+<jtok eid="17" type="primary_name_ref" span="408:26:408:35">sleepTime</jtok>
+<jtok eid="17" type="primary_name_ref" span="410:11:410:16">image</jtok>
+<jtok eid="17" type="method_call" span="410:17:410:25">setImage</jtok>
+<jtok eid="17" type="method_call" span="410:27:410:38">createImage</jtok>
+<jtok eid="17" type="primary_name_ref" span="410:40:410:49">iProducer</jtok>
+<jtok eid="17" type="method_call" span="411:11:411:18">repaint</jtok>
+<jtok eid="17" type="primary_name_ref" span="411:25:411:30">WIDTH</jtok>
+<jtok eid="17" type="primary_name_ref" span="411:32:411:38">HEIGHT</jtok>
+<jtok eid="18" type="method_name" span="416:17:416:28">performStep</jtok>
+<jtok eid="18" type="parameter_type" span="416:29:416:42">AboutTextLine</jtok>
+<jtok eid="18" type="parameter_name" span="416:43:416:47">line</jtok>
+<jtok eid="18" type="local_variable_name" span="418:11:418:15">back</jtok>
+<jtok eid="18" type="primary_name_ref" span="420:7:420:11">line</jtok>
+<jtok eid="18" type="method_call" span="420:12:420:27">performTimeStep</jtok>
+<jtok eid="18" type="primary_name_ref" span="422:12:422:16">line</jtok>
+<jtok eid="18" type="method_call" span="422:17:422:23">getTag</jtok>
+<jtok eid="18" type="line_comment" span="422:34:422:44">// Heading</jtok>
+<jtok eid="18" type="local_variable_name" span="424:13:424:17">zone</jtok>
+<jtok eid="18" type="primary_name_ref" span="424:27:424:33">HEIGHT</jtok>
+<jtok eid="18" type="primary_name_ref" span="425:14:425:18">line</jtok>
+<jtok eid="18" type="method_call" span="425:19:425:26">getPosY</jtok>
+<jtok eid="18" type="primary_name_ref" span="425:31:425:35">zone</jtok>
+<jtok eid="18" type="primary_name_ref" span="427:11:427:15">line</jtok>
+<jtok eid="18" type="method_call" span="427:16:427:24">setSpeed</jtok>
+<jtok eid="18" type="primary_name_ref" span="428:11:428:15">line</jtok>
+<jtok eid="18" type="method_call" span="428:16:428:22">setTag</jtok>
+<jtok eid="18" type="primary_name_ref" span="429:11:429:23">zone2Counter</jtok>
+<jtok eid="18" type="primary_name_ref" span="431:14:431:18">line</jtok>
+<jtok eid="18" type="method_call" span="431:19:431:26">getPosY</jtok>
+<jtok eid="18" type="primary_name_ref" span="431:33:431:37">zone</jtok>
+<jtok eid="18" type="primary_name_ref" span="433:11:433:23">zone2Counter</jtok>
+<jtok eid="18" type="primary_name_ref" span="435:9:435:13">back</jtok>
+<jtok eid="18" type="primary_name_ref" span="437:17:437:21">line</jtok>
+<jtok eid="18" type="method_call" span="437:22:437:28">getTag</jtok>
+<jtok eid="18" type="line_comment" span="437:37:437:55">// Heading Blender</jtok>
+<jtok eid="18" type="primary_name_ref" span="439:13:439:25">zone2Counter</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="441:11:441:16">Color</jtok>
+<jtok eid="18" type="local_variable_name" span="441:17:441:20">col</jtok>
+<jtok eid="18" type="primary_name_ref" span="441:23:441:27">line</jtok>
+<jtok eid="18" type="method_call" span="441:28:441:36">getColor</jtok>
+<jtok eid="18" type="local_variable_name" span="442:15:442:18">rgb</jtok>
+<jtok eid="18" type="primary_name_ref" span="442:21:442:24">col</jtok>
+<jtok eid="18" type="method_call" span="442:25:442:31">getRGB</jtok>
+<jtok eid="18" type="primary_name_ref" span="443:11:443:15">line</jtok>
+<jtok eid="18" type="method_call" span="443:16:443:24">setColor</jtok>
+<jtok eid="18" type="constructor_call" span="443:30:443:35">Color</jtok>
+<jtok eid="18" type="primary_name_ref" span="443:37:443:40">rgb</jtok>
+<jtok eid="18" type="primary_name_ref" span="447:11:447:15">line</jtok>
+<jtok eid="18" type="method_call" span="447:16:447:26">setVisible</jtok>
+<jtok eid="18" type="primary_name_ref" span="448:11:448:15">line</jtok>
+<jtok eid="18" type="method_call" span="448:16:448:22">setTag</jtok>
+<jtok eid="18" type="primary_name_ref" span="451:17:451:21">line</jtok>
+<jtok eid="18" type="method_call" span="451:22:451:28">getTag</jtok>
+<jtok eid="18" type="line_comment" span="451:40:451:57">// scrolling text</jtok>
+<jtok eid="18" type="primary_name_ref" span="453:14:453:18">line</jtok>
+<jtok eid="18" type="method_call" span="453:19:453:26">getPosY</jtok>
+<jtok eid="18" type="primary_name_ref" span="453:33:453:39">HEIGHT</jtok>
+<jtok eid="18" type="primary_name_ref" span="455:11:455:15">line</jtok>
+<jtok eid="18" type="method_call" span="455:16:455:28">setDirection</jtok>
+<jtok eid="18" type="primary_name_ref" span="455:30:455:36">help01</jtok>
+<jtok eid="18" type="primary_name_ref" span="456:11:456:15">line</jtok>
+<jtok eid="18" type="method_call" span="456:16:456:24">setAccel</jtok>
+<jtok eid="18" type="primary_name_ref" span="457:11:457:15">line</jtok>
+<jtok eid="18" type="method_call" span="457:16:457:22">setTag</jtok>
+<jtok eid="18" type="primary_name_ref" span="458:11:458:17">help01</jtok>
+<jtok eid="18" type="primary_name_ref" span="458:20:458:26">help01</jtok>
+<jtok eid="18" type="primary_name_ref" span="460:9:460:13">back</jtok>
+<jtok eid="18" type="primary_name_ref" span="462:16:462:20">line</jtok>
+<jtok eid="18" type="method_call" span="462:21:462:27">getTag</jtok>
+<jtok eid="18" type="line_comment" span="462:37:462:53">// text line out</jtok>
+<jtok eid="18" type="primary_name_ref" span="464:15:464:19">line</jtok>
+<jtok eid="18" type="method_call" span="464:20:464:27">getPosX</jtok>
+<jtok eid="18" type="primary_name_ref" span="464:42:464:46">line</jtok>
+<jtok eid="18" type="method_call" span="464:47:464:54">getPosX</jtok>
+<jtok eid="18" type="primary_name_ref" span="464:59:464:64">WIDTH</jtok>
+<jtok eid="18" type="primary_name_ref" span="466:12:466:16">line</jtok>
+<jtok eid="18" type="method_call" span="466:17:466:23">setTag</jtok>
+<jtok eid="18" type="primary_name_ref" span="467:12:467:16">line</jtok>
+<jtok eid="18" type="method_call" span="467:17:467:27">setVisible</jtok>
+<jtok eid="18" type="primary_name_ref" span="469:10:469:14">back</jtok>
+<jtok eid="18" type="primary_name_ref" span="472:14:472:18">back</jtok>
+</jdoc>

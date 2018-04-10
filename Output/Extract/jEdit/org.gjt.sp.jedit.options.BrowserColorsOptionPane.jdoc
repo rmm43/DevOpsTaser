@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.options.BrowserColorsOptionPane" jls="java5">
+<jent id="0" type="file" span="0:0:407:7">Source/jEdit/org/gjt/sp/jedit/options/BrowserColorsOptionPane.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:207:1">org.gjt.sp.jedit.options.BrowserColorsOptionPane</jent>
+<jent id="2" pid="1" type="method" span="48:2:51:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane.BrowserColorsOptionPane()</jent>
+<jent id="3" pid="1" type="method" span="56:2:103:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane._init()</jent>
+<jent id="4" pid="1" type="method" span="106:2:109:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane._save()</jent>
+<jent id="5" pid="1" type="method" span="122:2:129:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane.updateEnabled()</jent>
+<jent id="6" pid="1" type="method" span="132:2:136:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane.setSelectedRow(int)</jent>
+<jent id="7" pid="1" type="class" span="141:2:147:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane.SelectionHandler</jent>
+<jent id="8" pid="7" type="method" span="143:3:146:3">org.gjt.sp.jedit.options.BrowserColorsOptionPane.SelectionHandler.valueChanged(ListSelectionEvent)</jent>
+<jent id="9" pid="1" type="class" span="150:2:186:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane.ActionHandler</jent>
+<jent id="10" pid="9" type="method" span="152:3:185:3">org.gjt.sp.jedit.options.BrowserColorsOptionPane.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="11" pid="1" type="class" span="189:2:206:2">org.gjt.sp.jedit.options.BrowserColorsOptionPane.MouseHandler</jent>
+<jent id="12" pid="11" type="method" span="191:3:205:3">org.gjt.sp.jedit.options.BrowserColorsOptionPane.MouseHandler.mouseClicked(MouseEvent)</jent>
+<jent id="13" pid="0" type="class" span="210:1:407:1">org.gjt.sp.jedit.options.BrowserColorsModel</jent>
+<jent id="14" pid="13" type="method" span="213:2:227:2">org.gjt.sp.jedit.options.BrowserColorsModel.BrowserColorsModel()</jent>
+<jent id="15" pid="13" type="method" span="230:2:234:2">org.gjt.sp.jedit.options.BrowserColorsModel.add()</jent>
+<jent id="16" pid="13" type="method" span="237:2:241:2">org.gjt.sp.jedit.options.BrowserColorsModel.remove(int)</jent>
+<jent id="17" pid="13" type="method" span="244:2:250:2">org.gjt.sp.jedit.options.BrowserColorsModel.moveUp(int)</jent>
+<jent id="18" pid="13" type="method" span="253:2:259:2">org.gjt.sp.jedit.options.BrowserColorsModel.moveDown(int)</jent>
+<jent id="19" pid="13" type="method" span="262:2:275:2">org.gjt.sp.jedit.options.BrowserColorsModel.save()</jent>
+<jent id="20" pid="13" type="method" span="278:2:281:2">org.gjt.sp.jedit.options.BrowserColorsModel.getColumnCount()</jent>
+<jent id="21" pid="13" type="method" span="284:2:287:2">org.gjt.sp.jedit.options.BrowserColorsModel.getRowCount()</jent>
+<jent id="22" pid="13" type="method" span="290:2:303:2">org.gjt.sp.jedit.options.BrowserColorsModel.getValueAt(int,int)</jent>
+<jent id="23" pid="13" type="method" span="306:2:309:2">org.gjt.sp.jedit.options.BrowserColorsModel.isCellEditable(int,int)</jent>
+<jent id="24" pid="13" type="method" span="312:2:322:2">org.gjt.sp.jedit.options.BrowserColorsModel.setValueAt(Object,int,int)</jent>
+<jent id="25" pid="13" type="method" span="325:2:336:2">org.gjt.sp.jedit.options.BrowserColorsModel.getColumnName(int)</jent>
+<jent id="26" pid="13" type="method" span="339:2:350:2">org.gjt.sp.jedit.options.BrowserColorsModel.getColumnClass(int)</jent>
+<jent id="27" pid="13" type="class" span="355:2:365:2">org.gjt.sp.jedit.options.BrowserColorsModel.Entry</jent>
+<jent id="28" pid="27" type="method" span="360:3:364:3">org.gjt.sp.jedit.options.BrowserColorsModel.Entry.Entry(String,Color)</jent>
+<jent id="29" pid="13" type="class" span="368:2:406:2">org.gjt.sp.jedit.options.BrowserColorsModel.ColorRenderer</jent>
+<jent id="30" pid="29" type="method" span="372:3:376:3">org.gjt.sp.jedit.options.BrowserColorsModel.ColorRenderer.ColorRenderer()</jent>
+<jent id="31" pid="29" type="method" span="379:3:405:3">org.gjt.sp.jedit.options.BrowserColorsModel.ColorRenderer.getTableCellRendererComponent(JTable,Object,boolean,boolean,int,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BrowserColorsOptionPane.java - Browser colors options panel
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="37:1:37:6">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:36">//{{{ BrowserColorsOptionPane class</jtok>
+<jtok eid="0" type="block_comment" span="40:1:44:4">/**
+ * Browser color editor.
+ * @author Slava Pestov
+ * @version $Id: BrowserColorsOptionPane.java 14468 2009-01-25 13:26:51Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:37">BrowserColorsOptionPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:46:45:64">AbstractOptionPane</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:43">//{{{ BrowserColorsOptionPane constructor</jtok>
+<jtok eid="2" type="method_name" span="48:9:48:32">BrowserColorsOptionPane</jtok>
+<jtok eid="2" type="string_literal" span="50:9:50:25">"browser.colors"</jtok>
+<jtok eid="1" type="line_comment" span="51:4:51:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="53:2:53:25">//{{{ Protected members</jtok>
+<jtok eid="1" type="line_comment" span="55:2:55:22">//{{{ _init() method</jtok>
+<jtok eid="3" type="method_name" span="56:17:56:22">_init</jtok>
+<jtok eid="3" type="method_call" span="58:3:58:12">setLayout</jtok>
+<jtok eid="3" type="constructor_call" span="58:17:58:29">BorderLayout</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:3:60:14">colorsModel</jtok>
+<jtok eid="3" type="constructor_call" span="60:21:60:39">BrowserColorsModel</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:3:61:14">colorsTable</jtok>
+<jtok eid="3" type="constructor_call" span="61:21:61:27">JTable</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:28:61:39">colorsModel</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:3:62:14">colorsTable</jtok>
+<jtok eid="3" type="method_call" span="62:15:62:32">setAutoResizeMode</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:33:62:39">JTable</jtok>
+<jtok eid="3" type="qualified_name_ref" span="62:40:62:63">AUTO_RESIZE_ALL_COLUMNS</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:3:63:14">colorsTable</jtok>
+<jtok eid="3" type="method_call" span="63:15:63:29">getTableHeader</jtok>
+<jtok eid="3" type="method_call" span="63:32:63:52">setReorderingAllowed</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:3:64:14">colorsTable</jtok>
+<jtok eid="3" type="method_call" span="64:15:64:31">addMouseListener</jtok>
+<jtok eid="3" type="constructor_call" span="64:36:64:48">MouseHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:3:65:14">colorsTable</jtok>
+<jtok eid="3" type="method_call" span="65:15:65:32">getSelectionModel</jtok>
+<jtok eid="3" type="method_call" span="65:35:65:59">addListSelectionListener</jtok>
+<jtok eid="3" type="constructor_call" span="66:8:66:24">SelectionHandler</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="67:3:67:19">TableColumnModel</jtok>
+<jtok eid="3" type="local_variable_name" span="67:20:67:23">tcm</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:26:67:37">colorsTable</jtok>
+<jtok eid="3" type="method_call" span="67:38:67:52">getColumnModel</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:3:68:6">tcm</jtok>
+<jtok eid="3" type="method_call" span="68:7:68:16">getColumn</jtok>
+<jtok eid="3" type="method_call" span="68:20:68:35">setCellRenderer</jtok>
+<jtok eid="3" type="constructor_call" span="68:40:68:58">BrowserColorsModel</jtok>
+<jtok eid="3" type="constructor_call" span="68:59:68:72">ColorRenderer</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:3:69:12">Dimension</jtok>
+<jtok eid="3" type="local_variable_name" span="69:13:69:14">d</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:17:69:28">colorsTable</jtok>
+<jtok eid="3" type="method_call" span="69:29:69:45">getPreferredSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:3:70:4">d</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:5:70:11">height</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:14:70:18">Math</jtok>
+<jtok eid="3" type="method_call" span="70:19:70:22">min</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:23:70:24">d</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:25:70:31">height</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:3:71:14">JScrollPane</jtok>
+<jtok eid="3" type="local_variable_name" span="71:15:71:23">scroller</jtok>
+<jtok eid="3" type="constructor_call" span="71:30:71:41">JScrollPane</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:42:71:53">colorsTable</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:3:72:11">scroller</jtok>
+<jtok eid="3" type="method_call" span="72:12:72:28">setPreferredSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:29:72:30">d</jtok>
+<jtok eid="3" type="method_call" span="73:3:73:6">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:7:73:19">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="73:20:73:26">CENTER</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:27:73:35">scroller</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="75:3:75:9">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="75:10:75:17">buttons</jtok>
+<jtok eid="3" type="constructor_call" span="75:24:75:30">JPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:3:76:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="76:11:76:20">setBorder</jtok>
+<jtok eid="3" type="constructor_call" span="76:25:76:36">EmptyBorder</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:3:77:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="77:11:77:20">setLayout</jtok>
+<jtok eid="3" type="constructor_call" span="77:25:77:34">BoxLayout</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:35:77:42">buttons</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:43:77:52">BoxLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="77:53:77:59">X_AXIS</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="78:3:78:16">ActionHandler</jtok>
+<jtok eid="3" type="local_variable_name" span="78:17:78:30">actionHandler</jtok>
+<jtok eid="3" type="constructor_call" span="78:37:78:50">ActionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:3:79:6">add</jtok>
+<jtok eid="3" type="constructor_call" span="79:13:79:27">RolloverButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:28:79:40">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="79:41:79:49">loadIcon</jtok>
+<jtok eid="3" type="string_literal" span="79:50:79:60">"Plus.png"</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:3:80:6">add</jtok>
+<jtok eid="3" type="method_call" span="80:7:80:21">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:22:80:27">jEdit</jtok>
+<jtok eid="3" type="method_call" span="80:28:80:39">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="80:40:80:52">"common.add"</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:3:81:6">add</jtok>
+<jtok eid="3" type="method_call" span="81:7:81:24">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:25:81:38">actionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:3:82:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="82:11:82:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:15:82:18">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:3:83:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="83:11:83:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:15:83:18">Box</jtok>
+<jtok eid="3" type="method_call" span="83:19:83:40">createHorizontalStrut</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:3:84:9">remove</jtok>
+<jtok eid="3" type="constructor_call" span="84:16:84:30">RolloverButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:31:84:43">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="84:44:84:52">loadIcon</jtok>
+<jtok eid="3" type="string_literal" span="84:53:84:64">"Minus.png"</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:3:85:9">remove</jtok>
+<jtok eid="3" type="method_call" span="85:10:85:24">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:25:85:30">jEdit</jtok>
+<jtok eid="3" type="method_call" span="85:31:85:42">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="85:43:85:58">"common.remove"</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:3:86:9">remove</jtok>
+<jtok eid="3" type="method_call" span="86:10:86:27">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:28:86:41">actionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:3:87:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="87:11:87:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:15:87:21">remove</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:3:88:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="88:11:88:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:15:88:18">Box</jtok>
+<jtok eid="3" type="method_call" span="88:19:88:40">createHorizontalStrut</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:3:89:9">moveUp</jtok>
+<jtok eid="3" type="constructor_call" span="89:16:89:30">RolloverButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:31:89:43">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="89:44:89:52">loadIcon</jtok>
+<jtok eid="3" type="string_literal" span="89:53:89:65">"ArrowU.png"</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:3:90:9">moveUp</jtok>
+<jtok eid="3" type="method_call" span="90:10:90:24">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:25:90:30">jEdit</jtok>
+<jtok eid="3" type="method_call" span="90:31:90:42">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="90:43:90:58">"common.moveUp"</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:3:91:9">moveUp</jtok>
+<jtok eid="3" type="method_call" span="91:10:91:27">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:28:91:41">actionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:3:92:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="92:11:92:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:15:92:21">moveUp</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:3:93:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="93:11:93:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:15:93:18">Box</jtok>
+<jtok eid="3" type="method_call" span="93:19:93:40">createHorizontalStrut</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:3:94:11">moveDown</jtok>
+<jtok eid="3" type="constructor_call" span="94:18:94:32">RolloverButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:33:94:45">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="94:46:94:54">loadIcon</jtok>
+<jtok eid="3" type="string_literal" span="94:55:94:67">"ArrowD.png"</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:3:95:11">moveDown</jtok>
+<jtok eid="3" type="method_call" span="95:12:95:26">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:27:95:32">jEdit</jtok>
+<jtok eid="3" type="method_call" span="95:33:95:44">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="95:45:95:62">"common.moveDown"</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:3:96:11">moveDown</jtok>
+<jtok eid="3" type="method_call" span="96:12:96:29">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:30:96:43">actionHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:3:97:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="97:11:97:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:15:97:23">moveDown</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:3:98:10">buttons</jtok>
+<jtok eid="3" type="method_call" span="98:11:98:14">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:15:98:18">Box</jtok>
+<jtok eid="3" type="method_call" span="98:19:98:29">createGlue</jtok>
+<jtok eid="3" type="method_call" span="100:3:100:6">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:7:100:19">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="100:20:100:25">SOUTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:26:100:33">buttons</jtok>
+<jtok eid="3" type="method_call" span="102:3:102:16">updateEnabled</jtok>
+<jtok eid="1" type="line_comment" span="103:4:103:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="105:2:105:22">//{{{ _save() method</jtok>
+<jtok eid="4" type="method_name" span="106:17:106:22">_save</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:3:108:14">colorsModel</jtok>
+<jtok eid="4" type="method_call" span="108:15:108:19">save</jtok>
+<jtok eid="1" type="line_comment" span="109:4:109:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="111:2:111:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="113:2:113:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="114:10:114:28">BrowserColorsModel</jtok>
+<jtok eid="1" type="field_name" span="114:29:114:40">colorsModel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="115:10:115:16">JTable</jtok>
+<jtok eid="1" type="field_name" span="115:17:115:28">colorsTable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="116:10:116:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="116:18:116:21">add</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="117:10:117:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="117:18:117:24">remove</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="118:10:118:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="118:18:118:24">moveUp</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="119:10:119:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="119:18:119:26">moveDown</jtok>
+<jtok eid="1" type="line_comment" span="121:2:121:30">//{{{ updateEnabled() method</jtok>
+<jtok eid="5" type="method_name" span="122:15:122:28">updateEnabled</jtok>
+<jtok eid="5" type="local_variable_name" span="124:7:124:18">selectedRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:21:124:32">colorsTable</jtok>
+<jtok eid="5" type="method_call" span="124:33:124:47">getSelectedRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:3:125:9">remove</jtok>
+<jtok eid="5" type="method_call" span="125:10:125:20">setEnabled</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:21:125:32">selectedRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:3:126:9">moveUp</jtok>
+<jtok eid="5" type="method_call" span="126:10:126:20">setEnabled</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:21:126:32">selectedRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:3:127:9">moveUp</jtok>
+<jtok eid="5" type="method_call" span="127:10:127:20">setEnabled</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:21:127:32">selectedRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:42:127:53">selectedRow</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:4:128:15">colorsModel</jtok>
+<jtok eid="5" type="method_call" span="128:16:128:27">getRowCount</jtok>
+<jtok eid="1" type="line_comment" span="129:4:129:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="131:2:131:31">//{{{ setSelectedRow() method</jtok>
+<jtok eid="6" type="method_name" span="132:15:132:29">setSelectedRow</jtok>
+<jtok eid="6" type="parameter_name" span="132:34:132:37">row</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:3:134:14">colorsTable</jtok>
+<jtok eid="6" type="method_call" span="134:15:134:32">getSelectionModel</jtok>
+<jtok eid="6" type="method_call" span="134:35:134:55">setSelectionInterval</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:56:134:59">row</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:60:134:63">row</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:3:135:14">colorsTable</jtok>
+<jtok eid="6" type="method_call" span="135:15:135:34">scrollRectToVisible</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:35:135:46">colorsTable</jtok>
+<jtok eid="6" type="method_call" span="135:47:135:58">getCellRect</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:59:135:62">row</jtok>
+<jtok eid="1" type="line_comment" span="136:4:136:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="138:2:138:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="140:2:140:30">//{{{ SelectionHandler class</jtok>
+<jtok eid="7" type="class_name" span="141:8:141:24">SelectionHandler</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="141:36:141:57">ListSelectionListener</jtok>
+<jtok eid="8" type="method_name" span="143:15:143:27">valueChanged</jtok>
+<jtok eid="8" type="parameter_type" span="143:28:143:46">ListSelectionEvent</jtok>
+<jtok eid="8" type="parameter_name" span="143:47:143:50">evt</jtok>
+<jtok eid="8" type="method_call" span="145:4:145:17">updateEnabled</jtok>
+<jtok eid="1" type="line_comment" span="147:4:147:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="149:2:149:27">//{{{ ActionHandler class</jtok>
+<jtok eid="9" type="class_name" span="150:8:150:21">ActionHandler</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="150:33:150:47">ActionListener</jtok>
+<jtok eid="10" type="method_name" span="152:15:152:30">actionPerformed</jtok>
+<jtok eid="10" type="parameter_type" span="152:31:152:42">ActionEvent</jtok>
+<jtok eid="10" type="parameter_name" span="152:43:152:46">evt</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="154:4:154:10">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="154:11:154:17">source</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:20:154:23">evt</jtok>
+<jtok eid="10" type="method_call" span="154:24:154:33">getSource</jtok>
+<jtok eid="10" type="primary_name_ref" span="155:7:155:13">source</jtok>
+<jtok eid="10" type="primary_name_ref" span="155:17:155:20">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="157:5:157:16">colorsModel</jtok>
+<jtok eid="10" type="method_call" span="157:17:157:20">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="159:12:159:18">source</jtok>
+<jtok eid="10" type="primary_name_ref" span="159:22:159:28">remove</jtok>
+<jtok eid="10" type="local_variable_name" span="161:9:161:20">selectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="161:23:161:34">colorsTable</jtok>
+<jtok eid="10" type="method_call" span="161:35:161:49">getSelectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="162:5:162:16">colorsModel</jtok>
+<jtok eid="10" type="method_call" span="162:17:162:23">remove</jtok>
+<jtok eid="10" type="primary_name_ref" span="162:24:162:35">selectedRow</jtok>
+<jtok eid="10" type="method_call" span="163:5:163:18">updateEnabled</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:12:165:18">source</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:22:165:28">moveUp</jtok>
+<jtok eid="10" type="local_variable_name" span="167:9:167:20">selectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="167:23:167:34">colorsTable</jtok>
+<jtok eid="10" type="method_call" span="167:35:167:49">getSelectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="168:8:168:19">selectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="170:6:170:17">colorsModel</jtok>
+<jtok eid="10" type="method_call" span="170:18:170:24">moveUp</jtok>
+<jtok eid="10" type="primary_name_ref" span="170:25:170:36">selectedRow</jtok>
+<jtok eid="10" type="method_call" span="171:6:171:20">setSelectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="171:21:171:32">selectedRow</jtok>
+<jtok eid="10" type="method_call" span="173:5:173:18">updateEnabled</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:12:175:18">source</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:22:175:30">moveDown</jtok>
+<jtok eid="10" type="local_variable_name" span="177:9:177:20">selectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="177:23:177:34">colorsTable</jtok>
+<jtok eid="10" type="method_call" span="177:35:177:49">getSelectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="178:8:178:19">selectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="178:23:178:34">colorsTable</jtok>
+<jtok eid="10" type="method_call" span="178:35:178:46">getRowCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="180:6:180:17">colorsModel</jtok>
+<jtok eid="10" type="method_call" span="180:18:180:26">moveDown</jtok>
+<jtok eid="10" type="primary_name_ref" span="180:27:180:38">selectedRow</jtok>
+<jtok eid="10" type="method_call" span="181:6:181:20">setSelectedRow</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:21:181:32">selectedRow</jtok>
+<jtok eid="10" type="method_call" span="183:5:183:18">updateEnabled</jtok>
+<jtok eid="1" type="line_comment" span="186:4:186:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="188:2:188:26">//{{{ MouseHandler class</jtok>
+<jtok eid="11" type="class_name" span="189:8:189:20">MouseHandler</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="189:29:189:41">MouseAdapter</jtok>
+<jtok eid="12" type="method_name" span="191:15:191:27">mouseClicked</jtok>
+<jtok eid="12" type="parameter_type" span="191:28:191:38">MouseEvent</jtok>
+<jtok eid="12" type="parameter_name" span="191:39:191:42">evt</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="193:4:193:9">Point</jtok>
+<jtok eid="12" type="local_variable_name" span="193:10:193:11">p</jtok>
+<jtok eid="12" type="primary_name_ref" span="193:14:193:17">evt</jtok>
+<jtok eid="12" type="method_call" span="193:18:193:26">getPoint</jtok>
+<jtok eid="12" type="local_variable_name" span="194:8:194:11">row</jtok>
+<jtok eid="12" type="primary_name_ref" span="194:14:194:25">colorsTable</jtok>
+<jtok eid="12" type="method_call" span="194:26:194:36">rowAtPoint</jtok>
+<jtok eid="12" type="primary_name_ref" span="194:37:194:38">p</jtok>
+<jtok eid="12" type="local_variable_name" span="195:8:195:14">column</jtok>
+<jtok eid="12" type="primary_name_ref" span="195:17:195:28">colorsTable</jtok>
+<jtok eid="12" type="method_call" span="195:29:195:42">columnAtPoint</jtok>
+<jtok eid="12" type="primary_name_ref" span="195:43:195:44">p</jtok>
+<jtok eid="12" type="primary_name_ref" span="196:7:196:10">row</jtok>
+<jtok eid="12" type="primary_name_ref" span="196:20:196:26">column</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="199:4:199:9">Color</jtok>
+<jtok eid="12" type="local_variable_name" span="199:10:199:15">color</jtok>
+<jtok eid="12" type="primary_name_ref" span="199:18:199:31">JColorChooser</jtok>
+<jtok eid="12" type="method_call" span="199:32:199:42">showDialog</jtok>
+<jtok eid="12" type="primary_name_ref" span="200:5:200:28">BrowserColorsOptionPane</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:5:201:10">jEdit</jtok>
+<jtok eid="12" type="method_call" span="201:11:201:22">getProperty</jtok>
+<jtok eid="12" type="string_literal" span="201:23:201:43">"colorChooser.title"</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="202:6:202:11">Color</jtok>
+<jtok eid="12" type="primary_name_ref" span="202:12:202:23">colorsModel</jtok>
+<jtok eid="12" type="method_call" span="202:24:202:34">getValueAt</jtok>
+<jtok eid="12" type="primary_name_ref" span="202:35:202:38">row</jtok>
+<jtok eid="12" type="primary_name_ref" span="203:7:203:12">color</jtok>
+<jtok eid="12" type="primary_name_ref" span="204:5:204:16">colorsModel</jtok>
+<jtok eid="12" type="method_call" span="204:17:204:27">setValueAt</jtok>
+<jtok eid="12" type="primary_name_ref" span="204:28:204:33">color</jtok>
+<jtok eid="12" type="primary_name_ref" span="204:34:204:37">row</jtok>
+<jtok eid="1" type="line_comment" span="206:4:206:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="207:3:207:8">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="209:1:209:31">//{{{ BrowserColorsModel class</jtok>
+<jtok eid="13" type="class_name" span="210:7:210:25">BrowserColorsModel</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="210:34:210:52">AbstractTableModel</jtok>
+<jtok eid="13" type="line_comment" span="212:2:212:38">//{{{ BrowserColorsModel constructor</jtok>
+<jtok eid="14" type="method_name" span="213:2:213:20">BrowserColorsModel</jtok>
+<jtok eid="14" type="primary_name_ref" span="215:3:215:10">entries</jtok>
+<jtok eid="14" type="constructor_call" span="215:17:215:26">ArrayList</jtok>
+<jtok eid="14" type="constructor_call" span="215:27:215:32">Entry</jtok>
+<jtok eid="14" type="local_variable_name" span="217:7:217:8">i</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="218:3:218:9">String</jtok>
+<jtok eid="14" type="local_variable_name" span="218:10:218:14">glob</jtok>
+<jtok eid="14" type="primary_name_ref" span="219:10:219:14">glob</jtok>
+<jtok eid="14" type="primary_name_ref" span="219:17:219:22">jEdit</jtok>
+<jtok eid="14" type="method_call" span="219:23:219:34">getProperty</jtok>
+<jtok eid="14" type="string_literal" span="219:35:219:56">"vfs.browser.colors."</jtok>
+<jtok eid="14" type="primary_name_ref" span="219:59:219:60">i</jtok>
+<jtok eid="14" type="string_literal" span="219:63:219:70">".glob"</jtok>
+<jtok eid="14" type="primary_name_ref" span="221:4:221:11">entries</jtok>
+<jtok eid="14" type="method_call" span="221:12:221:15">add</jtok>
+<jtok eid="14" type="constructor_call" span="221:20:221:25">Entry</jtok>
+<jtok eid="14" type="primary_name_ref" span="221:26:221:30">glob</jtok>
+<jtok eid="14" type="primary_name_ref" span="222:5:222:10">jEdit</jtok>
+<jtok eid="14" type="method_call" span="222:11:222:27">getColorProperty</jtok>
+<jtok eid="14" type="string_literal" span="223:5:223:26">"vfs.browser.colors."</jtok>
+<jtok eid="14" type="primary_name_ref" span="223:29:223:30">i</jtok>
+<jtok eid="14" type="string_literal" span="223:33:223:41">".color"</jtok>
+<jtok eid="14" type="primary_name_ref" span="224:5:224:10">Color</jtok>
+<jtok eid="14" type="qualified_name_ref" span="224:11:224:16">black</jtok>
+<jtok eid="14" type="primary_name_ref" span="225:4:225:5">i</jtok>
+<jtok eid="13" type="line_comment" span="227:4:227:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="229:2:229:20">//{{{ add() method</jtok>
+<jtok eid="15" type="method_name" span="230:7:230:10">add</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:3:232:10">entries</jtok>
+<jtok eid="15" type="method_call" span="232:11:232:14">add</jtok>
+<jtok eid="15" type="constructor_call" span="232:19:232:24">Entry</jtok>
+<jtok eid="15" type="string_literal" span="232:25:232:27">""</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:28:232:37">UIManager</jtok>
+<jtok eid="15" type="method_call" span="232:38:232:46">getColor</jtok>
+<jtok eid="15" type="string_literal" span="232:47:232:64">"Tree.foreground"</jtok>
+<jtok eid="15" type="method_call" span="233:3:233:24">fireTableRowsInserted</jtok>
+<jtok eid="15" type="primary_name_ref" span="233:25:233:32">entries</jtok>
+<jtok eid="15" type="method_call" span="233:33:233:37">size</jtok>
+<jtok eid="15" type="primary_name_ref" span="233:44:233:51">entries</jtok>
+<jtok eid="15" type="method_call" span="233:52:233:56">size</jtok>
+<jtok eid="13" type="line_comment" span="234:4:234:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="236:2:236:23">//{{{ remove() method</jtok>
+<jtok eid="16" type="method_name" span="237:7:237:13">remove</jtok>
+<jtok eid="16" type="parameter_name" span="237:18:237:23">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="239:3:239:10">entries</jtok>
+<jtok eid="16" type="method_call" span="239:11:239:17">remove</jtok>
+<jtok eid="16" type="primary_name_ref" span="239:18:239:23">index</jtok>
+<jtok eid="16" type="method_call" span="240:3:240:23">fireTableRowsDeleted</jtok>
+<jtok eid="16" type="primary_name_ref" span="240:24:240:31">entries</jtok>
+<jtok eid="16" type="method_call" span="240:32:240:36">size</jtok>
+<jtok eid="16" type="primary_name_ref" span="240:39:240:46">entries</jtok>
+<jtok eid="16" type="method_call" span="240:47:240:51">size</jtok>
+<jtok eid="13" type="line_comment" span="241:4:241:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="243:2:243:23">//{{{ moveUp() method</jtok>
+<jtok eid="17" type="method_name" span="244:14:244:20">moveUp</jtok>
+<jtok eid="17" type="parameter_name" span="244:25:244:30">index</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="246:3:246:8">Entry</jtok>
+<jtok eid="17" type="local_variable_name" span="246:9:246:14">entry</jtok>
+<jtok eid="17" type="primary_name_ref" span="246:17:246:24">entries</jtok>
+<jtok eid="17" type="method_call" span="246:25:246:28">get</jtok>
+<jtok eid="17" type="primary_name_ref" span="246:29:246:34">index</jtok>
+<jtok eid="17" type="primary_name_ref" span="247:3:247:10">entries</jtok>
+<jtok eid="17" type="method_call" span="247:11:247:17">remove</jtok>
+<jtok eid="17" type="primary_name_ref" span="247:18:247:23">index</jtok>
+<jtok eid="17" type="primary_name_ref" span="248:3:248:10">entries</jtok>
+<jtok eid="17" type="method_call" span="248:11:248:14">add</jtok>
+<jtok eid="17" type="primary_name_ref" span="248:15:248:20">index</jtok>
+<jtok eid="17" type="primary_name_ref" span="248:25:248:30">entry</jtok>
+<jtok eid="17" type="method_call" span="249:3:249:23">fireTableRowsUpdated</jtok>
+<jtok eid="17" type="primary_name_ref" span="249:24:249:29">index</jtok>
+<jtok eid="17" type="primary_name_ref" span="249:34:249:39">index</jtok>
+<jtok eid="13" type="line_comment" span="250:4:250:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="252:2:252:25">//{{{ moveDown() method</jtok>
+<jtok eid="18" type="method_name" span="253:14:253:22">moveDown</jtok>
+<jtok eid="18" type="parameter_name" span="253:27:253:32">index</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="255:3:255:8">Entry</jtok>
+<jtok eid="18" type="local_variable_name" span="255:9:255:14">entry</jtok>
+<jtok eid="18" type="primary_name_ref" span="255:17:255:24">entries</jtok>
+<jtok eid="18" type="method_call" span="255:25:255:28">get</jtok>
+<jtok eid="18" type="primary_name_ref" span="255:29:255:34">index</jtok>
+<jtok eid="18" type="primary_name_ref" span="256:3:256:10">entries</jtok>
+<jtok eid="18" type="method_call" span="256:11:256:17">remove</jtok>
+<jtok eid="18" type="primary_name_ref" span="256:18:256:23">index</jtok>
+<jtok eid="18" type="primary_name_ref" span="257:3:257:10">entries</jtok>
+<jtok eid="18" type="method_call" span="257:11:257:14">add</jtok>
+<jtok eid="18" type="primary_name_ref" span="257:15:257:20">index</jtok>
+<jtok eid="18" type="primary_name_ref" span="257:25:257:30">entry</jtok>
+<jtok eid="18" type="method_call" span="258:3:258:23">fireTableRowsUpdated</jtok>
+<jtok eid="18" type="primary_name_ref" span="258:24:258:29">index</jtok>
+<jtok eid="18" type="primary_name_ref" span="258:30:258:35">index</jtok>
+<jtok eid="13" type="line_comment" span="259:4:259:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="261:2:261:21">//{{{ save() method</jtok>
+<jtok eid="19" type="method_name" span="262:7:262:11">save</jtok>
+<jtok eid="19" type="local_variable_name" span="264:7:264:8">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="265:7:265:8">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="265:14:265:15">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="265:18:265:25">entries</jtok>
+<jtok eid="19" type="method_call" span="265:26:265:30">size</jtok>
+<jtok eid="19" type="primary_name_ref" span="265:34:265:35">i</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="267:4:267:9">Entry</jtok>
+<jtok eid="19" type="local_variable_name" span="267:10:267:15">entry</jtok>
+<jtok eid="19" type="primary_name_ref" span="267:18:267:25">entries</jtok>
+<jtok eid="19" type="method_call" span="267:26:267:29">get</jtok>
+<jtok eid="19" type="primary_name_ref" span="267:30:267:31">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="268:4:268:9">jEdit</jtok>
+<jtok eid="19" type="method_call" span="268:10:268:21">setProperty</jtok>
+<jtok eid="19" type="string_literal" span="268:22:268:43">"vfs.browser.colors."</jtok>
+<jtok eid="19" type="primary_name_ref" span="268:46:268:47">i</jtok>
+<jtok eid="19" type="string_literal" span="268:50:268:57">".glob"</jtok>
+<jtok eid="19" type="primary_name_ref" span="269:5:269:10">entry</jtok>
+<jtok eid="19" type="qualified_name_ref" span="269:11:269:15">glob</jtok>
+<jtok eid="19" type="primary_name_ref" span="270:4:270:9">jEdit</jtok>
+<jtok eid="19" type="method_call" span="270:10:270:26">setColorProperty</jtok>
+<jtok eid="19" type="string_literal" span="270:27:270:48">"vfs.browser.colors."</jtok>
+<jtok eid="19" type="primary_name_ref" span="270:51:270:52">i</jtok>
+<jtok eid="19" type="string_literal" span="270:55:270:63">".color"</jtok>
+<jtok eid="19" type="primary_name_ref" span="271:5:271:10">entry</jtok>
+<jtok eid="19" type="qualified_name_ref" span="271:11:271:16">color</jtok>
+<jtok eid="19" type="primary_name_ref" span="273:3:273:8">jEdit</jtok>
+<jtok eid="19" type="method_call" span="273:9:273:22">unsetProperty</jtok>
+<jtok eid="19" type="string_literal" span="273:23:273:44">"vfs.browser.colors."</jtok>
+<jtok eid="19" type="primary_name_ref" span="273:47:273:48">i</jtok>
+<jtok eid="19" type="string_literal" span="273:51:273:58">".glob"</jtok>
+<jtok eid="19" type="primary_name_ref" span="274:3:274:8">jEdit</jtok>
+<jtok eid="19" type="method_call" span="274:9:274:22">unsetProperty</jtok>
+<jtok eid="19" type="string_literal" span="274:23:274:44">"vfs.browser.colors."</jtok>
+<jtok eid="19" type="primary_name_ref" span="274:47:274:48">i</jtok>
+<jtok eid="19" type="string_literal" span="274:51:274:59">".color"</jtok>
+<jtok eid="13" type="line_comment" span="275:4:275:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="277:2:277:31">//{{{ getColumnCount() method</jtok>
+<jtok eid="20" type="method_name" span="278:13:278:27">getColumnCount</jtok>
+<jtok eid="13" type="line_comment" span="281:4:281:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="283:2:283:28">//{{{ getRowCount() method</jtok>
+<jtok eid="21" type="method_name" span="284:13:284:24">getRowCount</jtok>
+<jtok eid="21" type="primary_name_ref" span="286:10:286:17">entries</jtok>
+<jtok eid="21" type="method_call" span="286:18:286:22">size</jtok>
+<jtok eid="13" type="line_comment" span="287:4:287:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="289:2:289:27">//{{{ getValueAt() method</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="290:9:290:15">Object</jtok>
+<jtok eid="22" type="method_name" span="290:16:290:26">getValueAt</jtok>
+<jtok eid="22" type="parameter_name" span="290:31:290:34">row</jtok>
+<jtok eid="22" type="parameter_name" span="290:40:290:43">col</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="292:3:292:8">Entry</jtok>
+<jtok eid="22" type="local_variable_name" span="292:9:292:14">entry</jtok>
+<jtok eid="22" type="primary_name_ref" span="292:17:292:24">entries</jtok>
+<jtok eid="22" type="method_call" span="292:25:292:28">get</jtok>
+<jtok eid="22" type="primary_name_ref" span="292:29:292:32">row</jtok>
+<jtok eid="22" type="primary_name_ref" span="294:10:294:13">col</jtok>
+<jtok eid="22" type="primary_name_ref" span="297:11:297:16">entry</jtok>
+<jtok eid="22" type="qualified_name_ref" span="297:17:297:21">glob</jtok>
+<jtok eid="22" type="primary_name_ref" span="299:11:299:16">entry</jtok>
+<jtok eid="22" type="qualified_name_ref" span="299:17:299:22">color</jtok>
+<jtok eid="13" type="line_comment" span="303:4:303:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="305:2:305:31">//{{{ isCellEditable() method</jtok>
+<jtok eid="23" type="method_name" span="306:17:306:31">isCellEditable</jtok>
+<jtok eid="23" type="parameter_name" span="306:36:306:39">row</jtok>
+<jtok eid="23" type="parameter_name" span="306:45:306:48">col</jtok>
+<jtok eid="23" type="primary_name_ref" span="308:10:308:13">col</jtok>
+<jtok eid="13" type="line_comment" span="309:4:309:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="311:2:311:27">//{{{ setValueAt() method</jtok>
+<jtok eid="24" type="method_name" span="312:14:312:24">setValueAt</jtok>
+<jtok eid="24" type="parameter_type" span="312:25:312:31">Object</jtok>
+<jtok eid="24" type="parameter_name" span="312:32:312:37">value</jtok>
+<jtok eid="24" type="parameter_name" span="312:43:312:46">row</jtok>
+<jtok eid="24" type="parameter_name" span="312:52:312:55">col</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="314:3:314:8">Entry</jtok>
+<jtok eid="24" type="local_variable_name" span="314:9:314:14">entry</jtok>
+<jtok eid="24" type="primary_name_ref" span="314:17:314:24">entries</jtok>
+<jtok eid="24" type="method_call" span="314:25:314:28">get</jtok>
+<jtok eid="24" type="primary_name_ref" span="314:29:314:32">row</jtok>
+<jtok eid="24" type="primary_name_ref" span="316:6:316:9">col</jtok>
+<jtok eid="24" type="primary_name_ref" span="317:4:317:9">entry</jtok>
+<jtok eid="24" type="qualified_name_ref" span="317:10:317:14">glob</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="317:18:317:24">String</jtok>
+<jtok eid="24" type="primary_name_ref" span="317:25:317:30">value</jtok>
+<jtok eid="24" type="primary_name_ref" span="319:4:319:9">entry</jtok>
+<jtok eid="24" type="qualified_name_ref" span="319:10:319:15">color</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="319:19:319:24">Color</jtok>
+<jtok eid="24" type="primary_name_ref" span="319:25:319:30">value</jtok>
+<jtok eid="24" type="method_call" span="321:3:321:23">fireTableRowsUpdated</jtok>
+<jtok eid="24" type="primary_name_ref" span="321:24:321:27">row</jtok>
+<jtok eid="24" type="primary_name_ref" span="321:28:321:31">row</jtok>
+<jtok eid="13" type="line_comment" span="322:4:322:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="324:2:324:30">//{{{ getColumnName() method</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="325:9:325:15">String</jtok>
+<jtok eid="25" type="method_name" span="325:16:325:29">getColumnName</jtok>
+<jtok eid="25" type="parameter_name" span="325:34:325:39">index</jtok>
+<jtok eid="25" type="primary_name_ref" span="327:10:327:15">index</jtok>
+<jtok eid="25" type="primary_name_ref" span="330:11:330:16">jEdit</jtok>
+<jtok eid="25" type="method_call" span="330:17:330:28">getProperty</jtok>
+<jtok eid="25" type="string_literal" span="330:29:330:58">"options.browser.colors.glob"</jtok>
+<jtok eid="25" type="primary_name_ref" span="332:11:332:16">jEdit</jtok>
+<jtok eid="25" type="method_call" span="332:17:332:28">getProperty</jtok>
+<jtok eid="25" type="string_literal" span="332:29:332:59">"options.browser.colors.color"</jtok>
+<jtok eid="13" type="line_comment" span="336:4:336:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="338:2:338:31">//{{{ getColumnClass() method</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="339:9:339:14">Class</jtok>
+<jtok eid="26" type="method_name" span="339:15:339:29">getColumnClass</jtok>
+<jtok eid="26" type="parameter_name" span="339:34:339:37">col</jtok>
+<jtok eid="26" type="primary_name_ref" span="341:10:341:13">col</jtok>
+<jtok eid="26" type="primary_name_ref" span="344:11:344:17">String</jtok>
+<jtok eid="26" type="primary_name_ref" span="346:11:346:16">Color</jtok>
+<jtok eid="26" type="constructor_call" span="348:14:348:27">InternalError</jtok>
+<jtok eid="13" type="line_comment" span="350:4:350:9">//}}}</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="352:10:352:14">List</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="352:15:352:20">Entry</jtok>
+<jtok eid="13" type="field_name" span="352:22:352:29">entries</jtok>
+<jtok eid="13" type="line_comment" span="354:2:354:19">//{{{ Entry class</jtok>
+<jtok eid="27" type="class_name" span="355:23:355:28">Entry</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="357:3:357:9">String</jtok>
+<jtok eid="27" type="field_name" span="357:10:357:14">glob</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="358:3:358:8">Color</jtok>
+<jtok eid="27" type="field_name" span="358:9:358:14">color</jtok>
+<jtok eid="28" type="method_name" span="360:3:360:8">Entry</jtok>
+<jtok eid="28" type="parameter_type" span="360:9:360:15">String</jtok>
+<jtok eid="28" type="parameter_name" span="360:16:360:20">glob</jtok>
+<jtok eid="28" type="parameter_type" span="360:22:360:27">Color</jtok>
+<jtok eid="28" type="parameter_name" span="360:28:360:33">color</jtok>
+<jtok eid="28" type="qualified_name_ref" span="362:9:362:13">glob</jtok>
+<jtok eid="28" type="primary_name_ref" span="362:16:362:20">glob</jtok>
+<jtok eid="28" type="qualified_name_ref" span="363:9:363:14">color</jtok>
+<jtok eid="28" type="primary_name_ref" span="363:17:363:22">color</jtok>
+<jtok eid="13" type="line_comment" span="365:4:365:9">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="367:2:367:27">//{{{ ColorRenderer class</jtok>
+<jtok eid="29" type="class_name" span="368:15:368:28">ColorRenderer</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="368:37:368:43">JLabel</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="369:14:369:31">TableCellRenderer</jtok>
+<jtok eid="29" type="line_comment" span="371:3:371:34">//{{{ ColorRenderer constructor</jtok>
+<jtok eid="30" type="method_name" span="372:3:372:16">ColorRenderer</jtok>
+<jtok eid="30" type="method_call" span="374:4:374:13">setOpaque</jtok>
+<jtok eid="30" type="method_call" span="375:4:375:13">setBorder</jtok>
+<jtok eid="30" type="primary_name_ref" span="375:14:375:36">SyntaxHiliteOptionPane</jtok>
+<jtok eid="30" type="qualified_name_ref" span="375:37:375:50">noFocusBorder</jtok>
+<jtok eid="29" type="line_comment" span="376:5:376:10">//}}}</jtok>
+<jtok eid="29" type="line_comment" span="378:3:378:47">//{{{ getTableCellRendererComponent() method</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="379:10:379:19">Component</jtok>
+<jtok eid="31" type="method_name" span="379:20:379:49">getTableCellRendererComponent</jtok>
+<jtok eid="31" type="parameter_type" span="380:4:380:10">JTable</jtok>
+<jtok eid="31" type="parameter_name" span="380:11:380:16">table</jtok>
+<jtok eid="31" type="parameter_type" span="381:4:381:10">Object</jtok>
+<jtok eid="31" type="parameter_name" span="381:11:381:16">value</jtok>
+<jtok eid="31" type="parameter_name" span="382:12:382:22">isSelected</jtok>
+<jtok eid="31" type="parameter_name" span="383:12:383:24">cellHasFocus</jtok>
+<jtok eid="31" type="parameter_name" span="384:8:384:11">row</jtok>
+<jtok eid="31" type="parameter_name" span="385:8:385:11">col</jtok>
+<jtok eid="31" type="primary_name_ref" span="387:8:387:18">isSelected</jtok>
+<jtok eid="31" type="method_call" span="389:5:389:18">setBackground</jtok>
+<jtok eid="31" type="primary_name_ref" span="389:19:389:24">table</jtok>
+<jtok eid="31" type="method_call" span="389:25:389:47">getSelectionBackground</jtok>
+<jtok eid="31" type="method_call" span="390:5:390:18">setForeground</jtok>
+<jtok eid="31" type="primary_name_ref" span="390:19:390:24">table</jtok>
+<jtok eid="31" type="method_call" span="390:25:390:47">getSelectionForeground</jtok>
+<jtok eid="31" type="method_call" span="394:5:394:18">setBackground</jtok>
+<jtok eid="31" type="primary_name_ref" span="394:19:394:24">table</jtok>
+<jtok eid="31" type="method_call" span="394:25:394:38">getBackground</jtok>
+<jtok eid="31" type="method_call" span="395:5:395:18">setForeground</jtok>
+<jtok eid="31" type="primary_name_ref" span="395:19:395:24">table</jtok>
+<jtok eid="31" type="method_call" span="395:25:395:38">getForeground</jtok>
+<jtok eid="31" type="primary_name_ref" span="398:8:398:13">value</jtok>
+<jtok eid="31" type="method_call" span="399:5:399:18">setBackground</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="399:20:399:25">Color</jtok>
+<jtok eid="31" type="primary_name_ref" span="399:26:399:31">value</jtok>
+<jtok eid="31" type="method_call" span="401:4:401:13">setBorder</jtok>
+<jtok eid="31" type="primary_name_ref" span="401:14:401:26">cellHasFocus</jtok>
+<jtok eid="31" type="primary_name_ref" span="401:29:401:38">UIManager</jtok>
+<jtok eid="31" type="method_call" span="401:39:401:48">getBorder</jtok>
+<jtok eid="31" type="string_literal" span="402:5:402:37">"Table.focusCellHighlightBorder"</jtok>
+<jtok eid="31" type="primary_name_ref" span="403:7:403:29">SyntaxHiliteOptionPane</jtok>
+<jtok eid="31" type="qualified_name_ref" span="403:30:403:43">noFocusBorder</jtok>
+<jtok eid="29" type="line_comment" span="405:5:405:10">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="406:4:406:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="407:3:407:8">//}}}</jtok>
+</jdoc>

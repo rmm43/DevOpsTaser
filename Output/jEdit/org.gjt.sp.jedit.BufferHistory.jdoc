@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.BufferHistory" jls="java5">
+<jent id="0" type="file" span="0:0:463:2">Source/jEdit/org/gjt/sp/jedit/BufferHistory.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:463:1">org.gjt.sp.jedit.BufferHistory</jent>
+<jent id="2" pid="1" type="class" span="51:2:77:2">org.gjt.sp.jedit.BufferHistory.Entry</jent>
+<jent id="3" pid="2" type="method" span="59:3:62:3">org.gjt.sp.jedit.BufferHistory.Entry.getSelection()</jent>
+<jent id="4" pid="2" type="method" span="64:3:71:3">org.gjt.sp.jedit.BufferHistory.Entry.Entry(String,int,String,String,String)</jent>
+<jent id="5" pid="2" type="method" span="73:3:76:3">org.gjt.sp.jedit.BufferHistory.Entry.toString()</jent>
+<jent id="6" pid="1" type="method" span="80:2:97:2">org.gjt.sp.jedit.BufferHistory.getEntry(String)</jent>
+<jent id="7" pid="1" type="method" span="100:2:116:2">org.gjt.sp.jedit.BufferHistory.setEntry(String,int,Selection[],String,String)</jent>
+<jent id="8" pid="1" type="method" span="123:2:135:2">org.gjt.sp.jedit.BufferHistory.clear()</jent>
+<jent id="9" pid="1" type="method" span="143:2:159:2">org.gjt.sp.jedit.BufferHistory.getHistory()</jent>
+<jent id="10" pid="1" type="method" span="162:2:183:2">org.gjt.sp.jedit.BufferHistory.load()</jent>
+<jent id="11" pid="1" type="method" span="186:2:276:2">org.gjt.sp.jedit.BufferHistory.save()</jent>
+<jent id="12" pid="1" type="method" span="296:2:308:2">org.gjt.sp.jedit.BufferHistory.addEntry(Entry)</jent>
+<jent id="13" pid="1" type="method" span="311:2:331:2">org.gjt.sp.jedit.BufferHistory.removeEntry(String)</jent>
+<jent id="14" pid="1" type="method" span="334:2:357:2">org.gjt.sp.jedit.BufferHistory.selectionToString(Selection[])</jent>
+<jent id="15" pid="1" type="method" span="360:2:393:2">org.gjt.sp.jedit.BufferHistory.stringToSelection(String)</jent>
+<jent id="16" pid="1" type="method" span="396:2:401:2">org.gjt.sp.jedit.BufferHistory.trimToLimit(LinkedList&lt;Entry&gt;)</jent>
+<jent id="17" pid="1" type="method" span="404:2:407:2">org.gjt.sp.jedit.BufferHistory.notifyChange()</jent>
+<jent id="18" pid="1" type="class" span="410:2:460:2">org.gjt.sp.jedit.BufferHistory.RecentHandler</jent>
+<jent id="19" pid="18" type="method" span="414:3:417:3">org.gjt.sp.jedit.BufferHistory.RecentHandler.resolveEntity(String,String)</jent>
+<jent id="20" pid="18" type="method" span="419:3:444:3">org.gjt.sp.jedit.BufferHistory.RecentHandler.endElement(String,String,String)</jent>
+<jent id="21" pid="18" type="method" span="446:3:449:3">org.gjt.sp.jedit.BufferHistory.RecentHandler.characters(char[],int,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BufferHistory.java - Remembers caret positions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="38:1:38:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="40:1:44:4">/**
+ * Recent file list.
+ * @author Slava Pestov
+ * @version $Id: BufferHistory.java 14455 2009-01-25 10:10:56Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:27">BufferHistory</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:19">//{{{ Entry class</jtok>
+<jtok eid="1" type="block_comment" span="48:2:50:5">/**
+	 * Recent file list entry.
+	 */</jtok>
+<jtok eid="2" type="class_name" span="51:22:51:27">Entry</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="53:10:53:16">String</jtok>
+<jtok eid="2" type="field_name" span="53:17:53:21">path</jtok>
+<jtok eid="2" type="field_name" span="54:14:54:19">caret</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="55:10:55:16">String</jtok>
+<jtok eid="2" type="field_name" span="55:17:55:26">selection</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:10:56:16">String</jtok>
+<jtok eid="2" type="field_name" span="56:17:56:25">encoding</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:10:57:16">String</jtok>
+<jtok eid="2" type="field_name" span="57:17:57:21">mode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="59:10:59:19">Selection</jtok>
+<jtok eid="3" type="method_name" span="59:22:59:34">getSelection</jtok>
+<jtok eid="3" type="method_call" span="61:11:61:28">stringToSelection</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:29:61:38">selection</jtok>
+<jtok eid="4" type="method_name" span="64:10:64:15">Entry</jtok>
+<jtok eid="4" type="parameter_type" span="64:16:64:22">String</jtok>
+<jtok eid="4" type="parameter_name" span="64:23:64:27">path</jtok>
+<jtok eid="4" type="parameter_name" span="64:33:64:38">caret</jtok>
+<jtok eid="4" type="parameter_type" span="64:40:64:46">String</jtok>
+<jtok eid="4" type="parameter_name" span="64:47:64:56">selection</jtok>
+<jtok eid="4" type="parameter_type" span="64:58:64:64">String</jtok>
+<jtok eid="4" type="parameter_name" span="64:65:64:73">encoding</jtok>
+<jtok eid="4" type="parameter_type" span="64:75:64:81">String</jtok>
+<jtok eid="4" type="parameter_name" span="64:82:64:86">mode</jtok>
+<jtok eid="4" type="qualified_name_ref" span="66:9:66:13">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:16:66:20">path</jtok>
+<jtok eid="4" type="qualified_name_ref" span="67:9:67:14">caret</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:17:67:22">caret</jtok>
+<jtok eid="4" type="qualified_name_ref" span="68:9:68:18">selection</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:21:68:30">selection</jtok>
+<jtok eid="4" type="qualified_name_ref" span="69:9:69:17">encoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:20:69:28">encoding</jtok>
+<jtok eid="4" type="qualified_name_ref" span="70:9:70:13">mode</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:16:70:20">mode</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="73:10:73:16">String</jtok>
+<jtok eid="5" type="method_name" span="73:17:73:25">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="75:11:75:15">path</jtok>
+<jtok eid="5" type="string_literal" span="75:18:75:22">": "</jtok>
+<jtok eid="5" type="primary_name_ref" span="75:25:75:30">caret</jtok>
+<jtok eid="1" type="line_comment" span="77:4:77:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="79:2:79:25">//{{{ getEntry() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="80:16:80:21">Entry</jtok>
+<jtok eid="6" type="method_name" span="80:22:80:30">getEntry</jtok>
+<jtok eid="6" type="parameter_type" span="80:31:80:37">String</jtok>
+<jtok eid="6" type="parameter_name" span="80:38:80:42">path</jtok>
+<jtok eid="6" type="primary_name_ref" span="82:3:82:14">historyLock</jtok>
+<jtok eid="6" type="method_call" span="82:15:82:23">readLock</jtok>
+<jtok eid="6" type="method_call" span="82:26:82:30">lock</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="85:9:85:14">Entry</jtok>
+<jtok eid="6" type="local_variable_name" span="85:15:85:20">entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="85:23:85:30">history</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:8:87:21">MiscUtilities</jtok>
+<jtok eid="6" type="method_call" span="87:22:87:32">pathsEqual</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:33:87:38">entry</jtok>
+<jtok eid="6" type="qualified_name_ref" span="87:39:87:43">path</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:44:87:48">path</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:13:88:18">entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:4:93:15">historyLock</jtok>
+<jtok eid="6" type="method_call" span="93:16:93:24">readLock</jtok>
+<jtok eid="6" type="method_call" span="93:27:93:33">unlock</jtok>
+<jtok eid="1" type="line_comment" span="97:4:97:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="99:2:99:25">//{{{ setEntry() method</jtok>
+<jtok eid="7" type="method_name" span="100:21:100:29">setEntry</jtok>
+<jtok eid="7" type="parameter_type" span="100:30:100:36">String</jtok>
+<jtok eid="7" type="parameter_name" span="100:37:100:41">path</jtok>
+<jtok eid="7" type="parameter_name" span="100:47:100:52">caret</jtok>
+<jtok eid="7" type="parameter_type" span="100:54:100:63">Selection</jtok>
+<jtok eid="7" type="parameter_name" span="100:66:100:75">selection</jtok>
+<jtok eid="7" type="parameter_type" span="101:3:101:9">String</jtok>
+<jtok eid="7" type="parameter_name" span="101:10:101:18">encoding</jtok>
+<jtok eid="7" type="parameter_type" span="101:20:101:26">String</jtok>
+<jtok eid="7" type="parameter_name" span="101:27:101:31">mode</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="103:3:103:8">Entry</jtok>
+<jtok eid="7" type="local_variable_name" span="103:9:103:14">entry</jtok>
+<jtok eid="7" type="constructor_call" span="103:21:103:26">Entry</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:27:103:31">path</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:32:103:37">caret</jtok>
+<jtok eid="7" type="method_call" span="104:4:104:21">selectionToString</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:22:104:31">selection</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:34:104:42">encoding</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:44:104:48">mode</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:3:105:14">historyLock</jtok>
+<jtok eid="7" type="method_call" span="105:15:105:24">writeLock</jtok>
+<jtok eid="7" type="method_call" span="105:27:105:31">lock</jtok>
+<jtok eid="7" type="method_call" span="108:4:108:15">removeEntry</jtok>
+<jtok eid="7" type="primary_name_ref" span="108:16:108:20">path</jtok>
+<jtok eid="7" type="method_call" span="109:4:109:12">addEntry</jtok>
+<jtok eid="7" type="primary_name_ref" span="109:13:109:18">entry</jtok>
+<jtok eid="7" type="primary_name_ref" span="113:4:113:15">historyLock</jtok>
+<jtok eid="7" type="method_call" span="113:16:113:25">writeLock</jtok>
+<jtok eid="7" type="method_call" span="113:28:113:34">unlock</jtok>
+<jtok eid="7" type="method_call" span="115:3:115:15">notifyChange</jtok>
+<jtok eid="1" type="line_comment" span="116:4:116:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="118:2:118:22">//{{{ clear() method</jtok>
+<jtok eid="1" type="block_comment" span="119:2:122:5">/**
+	 * Clear the BufferHistory.
+	 * @since 4.3pre6
+	 */</jtok>
+<jtok eid="8" type="method_name" span="123:21:123:26">clear</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:3:125:14">historyLock</jtok>
+<jtok eid="8" type="method_call" span="125:15:125:24">writeLock</jtok>
+<jtok eid="8" type="method_call" span="125:27:125:31">lock</jtok>
+<jtok eid="8" type="primary_name_ref" span="128:4:128:11">history</jtok>
+<jtok eid="8" type="method_call" span="128:12:128:17">clear</jtok>
+<jtok eid="8" type="primary_name_ref" span="132:4:132:15">historyLock</jtok>
+<jtok eid="8" type="method_call" span="132:16:132:25">writeLock</jtok>
+<jtok eid="8" type="method_call" span="132:28:132:34">unlock</jtok>
+<jtok eid="8" type="method_call" span="134:3:134:15">notifyChange</jtok>
+<jtok eid="1" type="line_comment" span="135:4:135:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="137:2:137:27">//{{{ getHistory() method</jtok>
+<jtok eid="1" type="block_comment" span="138:2:142:5">/**
+	 * Returns the Buffer list.
+	 * @return the buffer history list
+	 * @since jEdit 4.2pre2
+	 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="143:16:143:20">List</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="143:21:143:26">Entry</jtok>
+<jtok eid="9" type="method_name" span="143:28:143:38">getHistory</jtok>
+<jtok eid="9" type="line_comment" span="145:3:145:58">// Returns a snapshot to avoid concurrent access to the</jtok>
+<jtok eid="9" type="line_comment" span="146:3:146:59">// history. This requires O(n) time, but it should be ok</jtok>
+<jtok eid="9" type="line_comment" span="147:3:147:57">// because this method should be used only by external</jtok>
+<jtok eid="9" type="line_comment" span="148:3:148:21">// O(n) operation.</jtok>
+<jtok eid="9" type="primary_name_ref" span="150:3:150:14">historyLock</jtok>
+<jtok eid="9" type="method_call" span="150:15:150:23">readLock</jtok>
+<jtok eid="9" type="method_call" span="150:26:150:30">lock</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="153:12:153:16">List</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="153:17:153:22">Entry</jtok>
+<jtok eid="9" type="primary_name_ref" span="153:24:153:31">history</jtok>
+<jtok eid="9" type="method_call" span="153:32:153:37">clone</jtok>
+<jtok eid="9" type="primary_name_ref" span="157:4:157:15">historyLock</jtok>
+<jtok eid="9" type="method_call" span="157:16:157:24">readLock</jtok>
+<jtok eid="9" type="method_call" span="157:27:157:33">unlock</jtok>
+<jtok eid="1" type="line_comment" span="159:4:159:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="161:2:161:21">//{{{ load() method</jtok>
+<jtok eid="10" type="method_name" span="162:21:162:25">load</jtok>
+<jtok eid="10" type="primary_name_ref" span="164:6:164:15">recentXML</jtok>
+<jtok eid="10" type="primary_name_ref" span="167:7:167:16">recentXML</jtok>
+<jtok eid="10" type="method_call" span="167:17:167:27">fileExists</jtok>
+<jtok eid="10" type="primary_name_ref" span="170:3:170:6">Log</jtok>
+<jtok eid="10" type="method_call" span="170:7:170:10">log</jtok>
+<jtok eid="10" type="primary_name_ref" span="170:11:170:14">Log</jtok>
+<jtok eid="10" type="qualified_name_ref" span="170:15:170:22">MESSAGE</jtok>
+<jtok eid="10" type="primary_name_ref" span="170:23:170:36">BufferHistory</jtok>
+<jtok eid="10" type="string_literal" span="170:43:170:53">"Loading "</jtok>
+<jtok eid="10" type="primary_name_ref" span="170:56:170:65">recentXML</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="172:3:172:16">RecentHandler</jtok>
+<jtok eid="10" type="local_variable_name" span="172:17:172:24">handler</jtok>
+<jtok eid="10" type="constructor_call" span="172:31:172:44">RecentHandler</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:4:175:13">recentXML</jtok>
+<jtok eid="10" type="method_call" span="175:14:175:18">load</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:19:175:26">handler</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="177:9:177:20">IOException</jtok>
+<jtok eid="10" type="local_variable_name" span="177:21:177:22">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:4:179:7">Log</jtok>
+<jtok eid="10" type="method_call" span="179:8:179:11">log</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:12:179:15">Log</jtok>
+<jtok eid="10" type="qualified_name_ref" span="179:16:179:21">ERROR</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:22:179:35">BufferHistory</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:42:179:43">e</jtok>
+<jtok eid="10" type="method_call" span="181:3:181:14">trimToLimit</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:15:181:22">handler</jtok>
+<jtok eid="10" type="qualified_name_ref" span="181:23:181:29">result</jtok>
+<jtok eid="10" type="primary_name_ref" span="182:3:182:10">history</jtok>
+<jtok eid="10" type="primary_name_ref" span="182:13:182:20">handler</jtok>
+<jtok eid="10" type="qualified_name_ref" span="182:21:182:27">result</jtok>
+<jtok eid="1" type="line_comment" span="183:4:183:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="185:2:185:21">//{{{ save() method</jtok>
+<jtok eid="11" type="method_name" span="186:21:186:25">save</jtok>
+<jtok eid="11" type="primary_name_ref" span="188:6:188:15">recentXML</jtok>
+<jtok eid="11" type="primary_name_ref" span="191:6:191:15">recentXML</jtok>
+<jtok eid="11" type="method_call" span="191:16:191:32">hasChangedOnDisk</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:4:193:7">Log</jtok>
+<jtok eid="11" type="method_call" span="193:8:193:11">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:12:193:15">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="193:16:193:23">WARNING</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:24:193:37">BufferHistory</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:44:193:53">recentXML</jtok>
+<jtok eid="11" type="string_literal" span="194:7:194:47">" changed on disk; will not save recent"</jtok>
+<jtok eid="11" type="string_literal" span="195:7:195:15">" files"</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:3:199:6">Log</jtok>
+<jtok eid="11" type="method_call" span="199:7:199:10">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:11:199:14">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="199:15:199:22">MESSAGE</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:23:199:36">BufferHistory</jtok>
+<jtok eid="11" type="string_literal" span="199:43:199:52">"Saving "</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:55:199:64">recentXML</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="201:3:201:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="201:10:201:17">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="201:20:201:26">System</jtok>
+<jtok eid="11" type="method_call" span="201:27:201:38">getProperty</jtok>
+<jtok eid="11" type="string_literal" span="201:39:201:55">"line.separator"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="203:3:203:14">SettingsXML</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="203:15:203:20">Saver</jtok>
+<jtok eid="11" type="local_variable_name" span="203:21:203:24">out</jtok>
+<jtok eid="11" type="primary_name_ref" span="207:4:207:7">out</jtok>
+<jtok eid="11" type="primary_name_ref" span="207:10:207:19">recentXML</jtok>
+<jtok eid="11" type="method_call" span="207:20:207:29">openSaver</jtok>
+<jtok eid="11" type="primary_name_ref" span="208:4:208:7">out</jtok>
+<jtok eid="11" type="method_call" span="208:8:208:27">writeXMLDeclaration</jtok>
+<jtok eid="11" type="primary_name_ref" span="210:4:210:7">out</jtok>
+<jtok eid="11" type="method_call" span="210:8:210:13">write</jtok>
+<jtok eid="11" type="string_literal" span="210:14:210:55">"&lt;!DOCTYPE RECENT SYSTEM \"recent.dtd\"&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="211:4:211:7">out</jtok>
+<jtok eid="11" type="method_call" span="211:8:211:13">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="211:14:211:21">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="212:4:212:7">out</jtok>
+<jtok eid="11" type="method_call" span="212:8:212:13">write</jtok>
+<jtok eid="11" type="string_literal" span="212:14:212:24">"&lt;RECENT&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="213:4:213:7">out</jtok>
+<jtok eid="11" type="method_call" span="213:8:213:13">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="213:14:213:21">lineSep</jtok>
+<jtok eid="11" type="line_comment" span="215:4:215:51">// Make a snapshot to avoid long locking period</jtok>
+<jtok eid="11" type="line_comment" span="216:4:216:41">// which may be required by file I/O.</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="217:4:217:8">List</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="217:9:217:14">Entry</jtok>
+<jtok eid="11" type="local_variable_name" span="217:16:217:24">snapshot</jtok>
+<jtok eid="11" type="method_call" span="217:27:217:37">getHistory</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="219:9:219:14">Entry</jtok>
+<jtok eid="11" type="local_variable_name" span="219:15:219:20">entry</jtok>
+<jtok eid="11" type="primary_name_ref" span="219:23:219:31">snapshot</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:5:221:8">out</jtok>
+<jtok eid="11" type="method_call" span="221:9:221:14">write</jtok>
+<jtok eid="11" type="string_literal" span="221:15:221:24">"&lt;ENTRY&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="222:5:222:8">out</jtok>
+<jtok eid="11" type="method_call" span="222:9:222:14">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="222:15:222:22">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="224:5:224:8">out</jtok>
+<jtok eid="11" type="method_call" span="224:9:224:14">write</jtok>
+<jtok eid="11" type="string_literal" span="224:15:224:23">"&lt;PATH&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="225:5:225:8">out</jtok>
+<jtok eid="11" type="method_call" span="225:9:225:14">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="225:15:225:27">XMLUtilities</jtok>
+<jtok eid="11" type="method_call" span="225:28:225:43">charsToEntities</jtok>
+<jtok eid="11" type="primary_name_ref" span="225:44:225:49">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="225:50:225:54">path</jtok>
+<jtok eid="11" type="primary_name_ref" span="226:5:226:8">out</jtok>
+<jtok eid="11" type="method_call" span="226:9:226:14">write</jtok>
+<jtok eid="11" type="string_literal" span="226:15:226:24">"&lt;/PATH&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="227:5:227:8">out</jtok>
+<jtok eid="11" type="method_call" span="227:9:227:14">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="227:15:227:22">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="229:5:229:8">out</jtok>
+<jtok eid="11" type="method_call" span="229:9:229:14">write</jtok>
+<jtok eid="11" type="string_literal" span="229:15:229:24">"&lt;CARET&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="230:5:230:8">out</jtok>
+<jtok eid="11" type="method_call" span="230:9:230:14">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="230:15:230:21">String</jtok>
+<jtok eid="11" type="method_call" span="230:22:230:29">valueOf</jtok>
+<jtok eid="11" type="primary_name_ref" span="230:30:230:35">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="230:36:230:41">caret</jtok>
+<jtok eid="11" type="primary_name_ref" span="231:5:231:8">out</jtok>
+<jtok eid="11" type="method_call" span="231:9:231:14">write</jtok>
+<jtok eid="11" type="string_literal" span="231:15:231:25">"&lt;/CARET&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="232:5:232:8">out</jtok>
+<jtok eid="11" type="method_call" span="232:9:232:14">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="232:15:232:22">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="234:8:234:13">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="234:14:234:23">selection</jtok>
+<jtok eid="11" type="primary_name_ref" span="235:9:235:14">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="235:15:235:24">selection</jtok>
+<jtok eid="11" type="method_call" span="235:25:235:31">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="237:6:237:9">out</jtok>
+<jtok eid="11" type="method_call" span="237:10:237:15">write</jtok>
+<jtok eid="11" type="string_literal" span="237:16:237:29">"&lt;SELECTION&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="238:6:238:9">out</jtok>
+<jtok eid="11" type="method_call" span="238:10:238:15">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="238:16:238:21">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="238:22:238:31">selection</jtok>
+<jtok eid="11" type="primary_name_ref" span="239:6:239:9">out</jtok>
+<jtok eid="11" type="method_call" span="239:10:239:15">write</jtok>
+<jtok eid="11" type="string_literal" span="239:16:239:30">"&lt;/SELECTION&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="240:6:240:9">out</jtok>
+<jtok eid="11" type="method_call" span="240:10:240:15">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="240:16:240:23">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="243:8:243:13">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="243:14:243:22">encoding</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:6:245:9">out</jtok>
+<jtok eid="11" type="method_call" span="245:10:245:15">write</jtok>
+<jtok eid="11" type="string_literal" span="245:16:245:28">"&lt;ENCODING&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:6:246:9">out</jtok>
+<jtok eid="11" type="method_call" span="246:10:246:15">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:16:246:21">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="246:22:246:30">encoding</jtok>
+<jtok eid="11" type="primary_name_ref" span="247:6:247:9">out</jtok>
+<jtok eid="11" type="method_call" span="247:10:247:15">write</jtok>
+<jtok eid="11" type="string_literal" span="247:16:247:29">"&lt;/ENCODING&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="248:6:248:9">out</jtok>
+<jtok eid="11" type="method_call" span="248:10:248:15">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="248:16:248:23">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="251:9:251:14">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="251:15:251:19">mode</jtok>
+<jtok eid="11" type="primary_name_ref" span="253:6:253:9">out</jtok>
+<jtok eid="11" type="method_call" span="253:10:253:15">write</jtok>
+<jtok eid="11" type="string_literal" span="253:16:253:24">"&lt;MODE&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="254:6:254:9">out</jtok>
+<jtok eid="11" type="method_call" span="254:10:254:15">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="254:16:254:21">entry</jtok>
+<jtok eid="11" type="qualified_name_ref" span="254:22:254:26">mode</jtok>
+<jtok eid="11" type="primary_name_ref" span="255:6:255:9">out</jtok>
+<jtok eid="11" type="method_call" span="255:10:255:15">write</jtok>
+<jtok eid="11" type="string_literal" span="255:16:255:25">"&lt;/MODE&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="256:6:256:9">out</jtok>
+<jtok eid="11" type="method_call" span="256:10:256:15">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="256:16:256:23">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="259:5:259:8">out</jtok>
+<jtok eid="11" type="method_call" span="259:9:259:14">write</jtok>
+<jtok eid="11" type="string_literal" span="259:15:259:25">"&lt;/ENTRY&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="260:5:260:8">out</jtok>
+<jtok eid="11" type="method_call" span="260:9:260:14">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="260:15:260:22">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="263:4:263:7">out</jtok>
+<jtok eid="11" type="method_call" span="263:8:263:13">write</jtok>
+<jtok eid="11" type="string_literal" span="263:14:263:25">"&lt;/RECENT&gt;"</jtok>
+<jtok eid="11" type="primary_name_ref" span="264:4:264:7">out</jtok>
+<jtok eid="11" type="method_call" span="264:8:264:13">write</jtok>
+<jtok eid="11" type="primary_name_ref" span="264:14:264:21">lineSep</jtok>
+<jtok eid="11" type="primary_name_ref" span="266:4:266:7">out</jtok>
+<jtok eid="11" type="method_call" span="266:8:266:14">finish</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="268:9:268:18">Exception</jtok>
+<jtok eid="11" type="local_variable_name" span="268:19:268:20">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="270:4:270:7">Log</jtok>
+<jtok eid="11" type="method_call" span="270:8:270:11">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="270:12:270:15">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="270:16:270:21">ERROR</jtok>
+<jtok eid="11" type="primary_name_ref" span="270:22:270:35">BufferHistory</jtok>
+<jtok eid="11" type="primary_name_ref" span="270:42:270:43">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:4:274:15">IOUtilities</jtok>
+<jtok eid="11" type="method_call" span="274:16:274:28">closeQuietly</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:29:274:32">out</jtok>
+<jtok eid="1" type="line_comment" span="276:4:276:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="279:17:279:27">LinkedList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="279:28:279:33">Entry</jtok>
+<jtok eid="1" type="field_name" span="279:35:279:42">history</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="280:17:280:39">ReentrantReadWriteLock</jtok>
+<jtok eid="1" type="field_name" span="280:40:280:51">historyLock</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="281:17:281:28">SettingsXML</jtok>
+<jtok eid="1" type="field_name" span="281:29:281:38">recentXML</jtok>
+<jtok eid="1" type="line_comment" span="283:2:283:25">//{{{ Class initializer</jtok>
+<jtok eid="1" type="primary_name_ref" span="286:3:286:10">history</jtok>
+<jtok eid="1" type="constructor_call" span="286:17:286:27">LinkedList</jtok>
+<jtok eid="1" type="constructor_call" span="286:28:286:33">Entry</jtok>
+<jtok eid="1" type="primary_name_ref" span="287:3:287:14">historyLock</jtok>
+<jtok eid="1" type="constructor_call" span="287:21:287:43">ReentrantReadWriteLock</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="288:3:288:9">String</jtok>
+<jtok eid="1" type="field_name" span="288:10:288:27">settingsDirectory</jtok>
+<jtok eid="1" type="primary_name_ref" span="288:30:288:35">jEdit</jtok>
+<jtok eid="1" type="method_call" span="288:36:288:56">getSettingsDirectory</jtok>
+<jtok eid="1" type="primary_name_ref" span="289:6:289:23">settingsDirectory</jtok>
+<jtok eid="1" type="primary_name_ref" span="291:4:291:13">recentXML</jtok>
+<jtok eid="1" type="constructor_call" span="291:20:291:31">SettingsXML</jtok>
+<jtok eid="1" type="primary_name_ref" span="291:32:291:49">settingsDirectory</jtok>
+<jtok eid="1" type="string_literal" span="291:51:291:59">"recent"</jtok>
+<jtok eid="1" type="line_comment" span="293:4:293:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="295:2:295:25">//{{{ addEntry() method</jtok>
+<jtok eid="12" type="method_name" span="296:22:296:30">addEntry</jtok>
+<jtok eid="12" type="parameter_type" span="296:31:296:36">Entry</jtok>
+<jtok eid="12" type="parameter_name" span="296:37:296:42">entry</jtok>
+<jtok eid="12" type="primary_name_ref" span="298:3:298:14">historyLock</jtok>
+<jtok eid="12" type="method_call" span="298:15:298:24">writeLock</jtok>
+<jtok eid="12" type="method_call" span="298:27:298:31">lock</jtok>
+<jtok eid="12" type="primary_name_ref" span="301:4:301:11">history</jtok>
+<jtok eid="12" type="method_call" span="301:12:301:20">addFirst</jtok>
+<jtok eid="12" type="primary_name_ref" span="301:21:301:26">entry</jtok>
+<jtok eid="12" type="method_call" span="302:4:302:15">trimToLimit</jtok>
+<jtok eid="12" type="primary_name_ref" span="302:16:302:23">history</jtok>
+<jtok eid="12" type="primary_name_ref" span="306:4:306:15">historyLock</jtok>
+<jtok eid="12" type="method_call" span="306:16:306:25">writeLock</jtok>
+<jtok eid="12" type="method_call" span="306:28:306:34">unlock</jtok>
+<jtok eid="1" type="line_comment" span="308:4:308:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="310:2:310:28">//{{{ removeEntry() method</jtok>
+<jtok eid="13" type="method_name" span="311:22:311:33">removeEntry</jtok>
+<jtok eid="13" type="parameter_type" span="311:34:311:40">String</jtok>
+<jtok eid="13" type="parameter_name" span="311:41:311:45">path</jtok>
+<jtok eid="13" type="primary_name_ref" span="313:3:313:14">historyLock</jtok>
+<jtok eid="13" type="method_call" span="313:15:313:24">writeLock</jtok>
+<jtok eid="13" type="method_call" span="313:27:313:31">lock</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="316:4:316:12">Iterator</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="316:13:316:18">Entry</jtok>
+<jtok eid="13" type="local_variable_name" span="316:20:316:24">iter</jtok>
+<jtok eid="13" type="primary_name_ref" span="316:27:316:34">history</jtok>
+<jtok eid="13" type="method_call" span="316:35:316:43">iterator</jtok>
+<jtok eid="13" type="primary_name_ref" span="317:10:317:14">iter</jtok>
+<jtok eid="13" type="method_call" span="317:15:317:22">hasNext</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="319:5:319:10">Entry</jtok>
+<jtok eid="13" type="local_variable_name" span="319:11:319:16">entry</jtok>
+<jtok eid="13" type="primary_name_ref" span="319:19:319:23">iter</jtok>
+<jtok eid="13" type="method_call" span="319:24:319:28">next</jtok>
+<jtok eid="13" type="primary_name_ref" span="320:8:320:21">MiscUtilities</jtok>
+<jtok eid="13" type="method_call" span="320:22:320:32">pathsEqual</jtok>
+<jtok eid="13" type="primary_name_ref" span="320:33:320:37">path</jtok>
+<jtok eid="13" type="primary_name_ref" span="320:38:320:43">entry</jtok>
+<jtok eid="13" type="qualified_name_ref" span="320:44:320:48">path</jtok>
+<jtok eid="13" type="primary_name_ref" span="322:6:322:10">iter</jtok>
+<jtok eid="13" type="method_call" span="322:11:322:17">remove</jtok>
+<jtok eid="13" type="primary_name_ref" span="329:4:329:15">historyLock</jtok>
+<jtok eid="13" type="method_call" span="329:16:329:25">writeLock</jtok>
+<jtok eid="13" type="method_call" span="329:28:329:34">unlock</jtok>
+<jtok eid="1" type="line_comment" span="331:4:331:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="333:2:333:34">//{{{ selectionToString() method</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="334:17:334:23">String</jtok>
+<jtok eid="14" type="method_name" span="334:24:334:41">selectionToString</jtok>
+<jtok eid="14" type="parameter_type" span="334:42:334:51">Selection</jtok>
+<jtok eid="14" type="parameter_name" span="334:54:334:55">s</jtok>
+<jtok eid="14" type="primary_name_ref" span="336:6:336:7">s</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="339:3:339:16">StringBuilder</jtok>
+<jtok eid="14" type="local_variable_name" span="339:17:339:20">buf</jtok>
+<jtok eid="14" type="constructor_call" span="339:27:339:40">StringBuilder</jtok>
+<jtok eid="14" type="local_variable_name" span="341:11:341:12">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="341:18:341:19">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="341:22:341:23">s</jtok>
+<jtok eid="14" type="qualified_name_ref" span="341:24:341:30">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="341:32:341:33">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="343:7:343:8">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="344:5:344:8">buf</jtok>
+<jtok eid="14" type="method_call" span="344:9:344:15">append</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="346:4:346:13">Selection</jtok>
+<jtok eid="14" type="local_variable_name" span="346:14:346:17">sel</jtok>
+<jtok eid="14" type="primary_name_ref" span="346:20:346:21">s</jtok>
+<jtok eid="14" type="primary_name_ref" span="346:22:346:23">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="347:7:347:10">sel</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="347:22:347:31">Selection</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="347:32:347:37">Range</jtok>
+<jtok eid="14" type="primary_name_ref" span="348:5:348:8">buf</jtok>
+<jtok eid="14" type="method_call" span="348:9:348:15">append</jtok>
+<jtok eid="14" type="string_literal" span="348:16:348:24">"range "</jtok>
+<jtok eid="14" type="line_comment" span="349:9:349:44">//if(sel instanceof Selection.Rect)</jtok>
+<jtok eid="14" type="primary_name_ref" span="350:5:350:8">buf</jtok>
+<jtok eid="14" type="method_call" span="350:9:350:15">append</jtok>
+<jtok eid="14" type="string_literal" span="350:16:350:23">"rect "</jtok>
+<jtok eid="14" type="primary_name_ref" span="351:4:351:7">buf</jtok>
+<jtok eid="14" type="method_call" span="351:8:351:14">append</jtok>
+<jtok eid="14" type="primary_name_ref" span="351:15:351:18">sel</jtok>
+<jtok eid="14" type="method_call" span="351:19:351:27">getStart</jtok>
+<jtok eid="14" type="primary_name_ref" span="352:4:352:7">buf</jtok>
+<jtok eid="14" type="method_call" span="352:8:352:14">append</jtok>
+<jtok eid="14" type="primary_name_ref" span="353:4:353:7">buf</jtok>
+<jtok eid="14" type="method_call" span="353:8:353:14">append</jtok>
+<jtok eid="14" type="primary_name_ref" span="353:15:353:18">sel</jtok>
+<jtok eid="14" type="method_call" span="353:19:353:25">getEnd</jtok>
+<jtok eid="14" type="primary_name_ref" span="356:10:356:13">buf</jtok>
+<jtok eid="14" type="method_call" span="356:14:356:22">toString</jtok>
+<jtok eid="1" type="line_comment" span="357:4:357:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="359:2:359:34">//{{{ stringToSelection() method</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="360:17:360:26">Selection</jtok>
+<jtok eid="15" type="method_name" span="360:29:360:46">stringToSelection</jtok>
+<jtok eid="15" type="parameter_type" span="360:47:360:53">String</jtok>
+<jtok eid="15" type="parameter_name" span="360:54:360:55">s</jtok>
+<jtok eid="15" type="primary_name_ref" span="362:6:362:7">s</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="365:3:365:7">List</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="365:8:365:17">Selection</jtok>
+<jtok eid="15" type="local_variable_name" span="365:19:365:28">selection</jtok>
+<jtok eid="15" type="constructor_call" span="365:35:365:44">ArrayList</jtok>
+<jtok eid="15" type="constructor_call" span="365:45:365:54">Selection</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="366:3:366:18">StringTokenizer</jtok>
+<jtok eid="15" type="local_variable_name" span="366:19:366:21">st</jtok>
+<jtok eid="15" type="constructor_call" span="366:28:366:43">StringTokenizer</jtok>
+<jtok eid="15" type="primary_name_ref" span="366:44:366:45">s</jtok>
+<jtok eid="15" type="primary_name_ref" span="368:9:368:11">st</jtok>
+<jtok eid="15" type="method_call" span="368:12:368:25">hasMoreTokens</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="370:4:370:10">String</jtok>
+<jtok eid="15" type="local_variable_name" span="370:11:370:15">type</jtok>
+<jtok eid="15" type="primary_name_ref" span="370:18:370:20">st</jtok>
+<jtok eid="15" type="method_call" span="370:21:370:30">nextToken</jtok>
+<jtok eid="15" type="local_variable_name" span="371:8:371:13">start</jtok>
+<jtok eid="15" type="primary_name_ref" span="371:16:371:23">Integer</jtok>
+<jtok eid="15" type="method_call" span="371:24:371:32">parseInt</jtok>
+<jtok eid="15" type="primary_name_ref" span="371:33:371:35">st</jtok>
+<jtok eid="15" type="method_call" span="371:36:371:45">nextToken</jtok>
+<jtok eid="15" type="local_variable_name" span="372:8:372:11">end</jtok>
+<jtok eid="15" type="primary_name_ref" span="372:14:372:21">Integer</jtok>
+<jtok eid="15" type="method_call" span="372:22:372:30">parseInt</jtok>
+<jtok eid="15" type="primary_name_ref" span="372:31:372:33">st</jtok>
+<jtok eid="15" type="method_call" span="372:34:372:43">nextToken</jtok>
+<jtok eid="15" type="primary_name_ref" span="373:7:373:10">end</jtok>
+<jtok eid="15" type="primary_name_ref" span="373:13:373:18">start</jtok>
+<jtok eid="15" type="line_comment" span="375:5:375:42">// I'm not sure when this can happen,</jtok>
+<jtok eid="15" type="line_comment" span="376:5:376:42">// but it does sometimes, witness the</jtok>
+<jtok eid="15" type="line_comment" span="377:5:377:26">// jEdit bug tracker.</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="381:4:381:13">Selection</jtok>
+<jtok eid="15" type="local_variable_name" span="381:14:381:17">sel</jtok>
+<jtok eid="15" type="primary_name_ref" span="382:7:382:11">type</jtok>
+<jtok eid="15" type="method_call" span="382:12:382:18">equals</jtok>
+<jtok eid="15" type="string_literal" span="382:19:382:26">"range"</jtok>
+<jtok eid="15" type="primary_name_ref" span="383:5:383:8">sel</jtok>
+<jtok eid="15" type="constructor_call" span="383:15:383:24">Selection</jtok>
+<jtok eid="15" type="constructor_call" span="383:25:383:30">Range</jtok>
+<jtok eid="15" type="primary_name_ref" span="383:31:383:36">start</jtok>
+<jtok eid="15" type="primary_name_ref" span="383:37:383:40">end</jtok>
+<jtok eid="15" type="line_comment" span="384:9:384:34">//if(type.equals("rect"))</jtok>
+<jtok eid="15" type="primary_name_ref" span="385:5:385:8">sel</jtok>
+<jtok eid="15" type="constructor_call" span="385:15:385:24">Selection</jtok>
+<jtok eid="15" type="constructor_call" span="385:25:385:29">Rect</jtok>
+<jtok eid="15" type="primary_name_ref" span="385:30:385:35">start</jtok>
+<jtok eid="15" type="primary_name_ref" span="385:36:385:39">end</jtok>
+<jtok eid="15" type="primary_name_ref" span="387:4:387:13">selection</jtok>
+<jtok eid="15" type="method_call" span="387:14:387:17">add</jtok>
+<jtok eid="15" type="primary_name_ref" span="387:18:387:21">sel</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="390:3:390:12">Selection</jtok>
+<jtok eid="15" type="local_variable_name" span="390:15:390:26">returnValue</jtok>
+<jtok eid="15" type="constructor_call" span="390:33:390:42">Selection</jtok>
+<jtok eid="15" type="primary_name_ref" span="390:43:390:52">selection</jtok>
+<jtok eid="15" type="method_call" span="390:53:390:57">size</jtok>
+<jtok eid="15" type="primary_name_ref" span="391:3:391:14">returnValue</jtok>
+<jtok eid="15" type="primary_name_ref" span="391:17:391:26">selection</jtok>
+<jtok eid="15" type="method_call" span="391:27:391:34">toArray</jtok>
+<jtok eid="15" type="primary_name_ref" span="391:35:391:46">returnValue</jtok>
+<jtok eid="15" type="primary_name_ref" span="392:10:392:21">returnValue</jtok>
+<jtok eid="1" type="line_comment" span="393:4:393:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="395:2:395:28">//{{{ trimToLimit() method</jtok>
+<jtok eid="16" type="method_name" span="396:22:396:33">trimToLimit</jtok>
+<jtok eid="16" type="parameter_type" span="396:34:396:44">LinkedList</jtok>
+<jtok eid="16" type="parameter_type" span="396:45:396:50">Entry</jtok>
+<jtok eid="16" type="parameter_name" span="396:52:396:56">list</jtok>
+<jtok eid="16" type="local_variable_name" span="398:7:398:10">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="398:13:398:18">jEdit</jtok>
+<jtok eid="16" type="method_call" span="398:19:398:37">getIntegerProperty</jtok>
+<jtok eid="16" type="string_literal" span="398:38:398:51">"recentFiles"</jtok>
+<jtok eid="16" type="primary_name_ref" span="399:9:399:13">list</jtok>
+<jtok eid="16" type="method_call" span="399:14:399:18">size</jtok>
+<jtok eid="16" type="primary_name_ref" span="399:23:399:26">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="400:4:400:8">list</jtok>
+<jtok eid="16" type="method_call" span="400:9:400:19">removeLast</jtok>
+<jtok eid="1" type="line_comment" span="401:4:401:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="403:2:403:29">//{{{ notifyChange() method</jtok>
+<jtok eid="17" type="method_name" span="404:22:404:34">notifyChange</jtok>
+<jtok eid="17" type="primary_name_ref" span="406:3:406:10">EditBus</jtok>
+<jtok eid="17" type="method_call" span="406:11:406:15">send</jtok>
+<jtok eid="17" type="constructor_call" span="406:20:406:38">DynamicMenuChanged</jtok>
+<jtok eid="17" type="string_literal" span="406:39:406:53">"recent-files"</jtok>
+<jtok eid="1" type="line_comment" span="407:4:407:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="409:2:409:27">//{{{ RecentHandler class</jtok>
+<jtok eid="18" type="class_name" span="410:23:410:36">RecentHandler</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="410:45:410:59">DefaultHandler</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="412:10:412:20">LinkedList</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="412:21:412:26">Entry</jtok>
+<jtok eid="18" type="field_name" span="412:28:412:34">result</jtok>
+<jtok eid="18" type="constructor_call" span="412:41:412:51">LinkedList</jtok>
+<jtok eid="18" type="constructor_call" span="412:52:412:57">Entry</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="414:10:414:21">InputSource</jtok>
+<jtok eid="19" type="method_name" span="414:22:414:35">resolveEntity</jtok>
+<jtok eid="19" type="parameter_type" span="414:36:414:42">String</jtok>
+<jtok eid="19" type="parameter_name" span="414:43:414:51">publicId</jtok>
+<jtok eid="19" type="parameter_type" span="414:53:414:59">String</jtok>
+<jtok eid="19" type="parameter_name" span="414:60:414:68">systemId</jtok>
+<jtok eid="19" type="primary_name_ref" span="416:11:416:23">XMLUtilities</jtok>
+<jtok eid="19" type="method_call" span="416:24:416:34">findEntity</jtok>
+<jtok eid="19" type="primary_name_ref" span="416:35:416:43">systemId</jtok>
+<jtok eid="19" type="string_literal" span="416:45:416:57">"recent.dtd"</jtok>
+<jtok eid="19" type="method_call" span="416:59:416:67">getClass</jtok>
+<jtok eid="20" type="method_name" span="419:15:419:25">endElement</jtok>
+<jtok eid="20" type="parameter_type" span="419:26:419:32">String</jtok>
+<jtok eid="20" type="parameter_name" span="419:33:419:36">uri</jtok>
+<jtok eid="20" type="parameter_type" span="419:38:419:44">String</jtok>
+<jtok eid="20" type="parameter_name" span="419:45:419:54">localName</jtok>
+<jtok eid="20" type="parameter_type" span="419:56:419:62">String</jtok>
+<jtok eid="20" type="parameter_name" span="419:63:419:67">name</jtok>
+<jtok eid="20" type="primary_name_ref" span="421:7:421:11">name</jtok>
+<jtok eid="20" type="method_call" span="421:12:421:18">equals</jtok>
+<jtok eid="20" type="string_literal" span="421:19:421:26">"ENTRY"</jtok>
+<jtok eid="20" type="primary_name_ref" span="423:5:423:11">result</jtok>
+<jtok eid="20" type="method_call" span="423:12:423:19">addLast</jtok>
+<jtok eid="20" type="constructor_call" span="423:24:423:29">Entry</jtok>
+<jtok eid="20" type="primary_name_ref" span="424:6:424:10">path</jtok>
+<jtok eid="20" type="primary_name_ref" span="424:11:424:16">caret</jtok>
+<jtok eid="20" type="primary_name_ref" span="424:17:424:26">selection</jtok>
+<jtok eid="20" type="primary_name_ref" span="425:6:425:14">encoding</jtok>
+<jtok eid="20" type="primary_name_ref" span="426:6:426:10">mode</jtok>
+<jtok eid="20" type="primary_name_ref" span="427:5:427:9">path</jtok>
+<jtok eid="20" type="primary_name_ref" span="428:5:428:10">caret</jtok>
+<jtok eid="20" type="primary_name_ref" span="429:5:429:14">selection</jtok>
+<jtok eid="20" type="primary_name_ref" span="430:5:430:13">encoding</jtok>
+<jtok eid="20" type="primary_name_ref" span="431:5:431:9">mode</jtok>
+<jtok eid="20" type="primary_name_ref" span="433:12:433:16">name</jtok>
+<jtok eid="20" type="method_call" span="433:17:433:23">equals</jtok>
+<jtok eid="20" type="string_literal" span="433:24:433:30">"PATH"</jtok>
+<jtok eid="20" type="primary_name_ref" span="434:5:434:9">path</jtok>
+<jtok eid="20" type="primary_name_ref" span="434:12:434:20">charData</jtok>
+<jtok eid="20" type="method_call" span="434:21:434:29">toString</jtok>
+<jtok eid="20" type="primary_name_ref" span="435:12:435:16">name</jtok>
+<jtok eid="20" type="method_call" span="435:17:435:23">equals</jtok>
+<jtok eid="20" type="string_literal" span="435:24:435:31">"CARET"</jtok>
+<jtok eid="20" type="primary_name_ref" span="436:5:436:10">caret</jtok>
+<jtok eid="20" type="primary_name_ref" span="436:13:436:20">Integer</jtok>
+<jtok eid="20" type="method_call" span="436:21:436:29">parseInt</jtok>
+<jtok eid="20" type="primary_name_ref" span="436:30:436:38">charData</jtok>
+<jtok eid="20" type="method_call" span="436:39:436:47">toString</jtok>
+<jtok eid="20" type="primary_name_ref" span="437:12:437:16">name</jtok>
+<jtok eid="20" type="method_call" span="437:17:437:23">equals</jtok>
+<jtok eid="20" type="string_literal" span="437:24:437:35">"SELECTION"</jtok>
+<jtok eid="20" type="primary_name_ref" span="438:5:438:14">selection</jtok>
+<jtok eid="20" type="primary_name_ref" span="438:17:438:25">charData</jtok>
+<jtok eid="20" type="method_call" span="438:26:438:34">toString</jtok>
+<jtok eid="20" type="primary_name_ref" span="439:12:439:16">name</jtok>
+<jtok eid="20" type="method_call" span="439:17:439:23">equals</jtok>
+<jtok eid="20" type="string_literal" span="439:24:439:34">"ENCODING"</jtok>
+<jtok eid="20" type="primary_name_ref" span="440:5:440:13">encoding</jtok>
+<jtok eid="20" type="primary_name_ref" span="440:16:440:24">charData</jtok>
+<jtok eid="20" type="method_call" span="440:25:440:33">toString</jtok>
+<jtok eid="20" type="primary_name_ref" span="441:12:441:16">name</jtok>
+<jtok eid="20" type="method_call" span="441:17:441:23">equals</jtok>
+<jtok eid="20" type="string_literal" span="441:24:441:30">"MODE"</jtok>
+<jtok eid="20" type="primary_name_ref" span="442:5:442:9">mode</jtok>
+<jtok eid="20" type="primary_name_ref" span="442:12:442:20">charData</jtok>
+<jtok eid="20" type="method_call" span="442:21:442:29">toString</jtok>
+<jtok eid="20" type="primary_name_ref" span="443:4:443:12">charData</jtok>
+<jtok eid="20" type="method_call" span="443:13:443:22">setLength</jtok>
+<jtok eid="21" type="method_name" span="446:15:446:25">characters</jtok>
+<jtok eid="21" type="parameter_name" span="446:33:446:35">ch</jtok>
+<jtok eid="21" type="parameter_name" span="446:41:446:46">start</jtok>
+<jtok eid="21" type="parameter_name" span="446:52:446:58">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="448:4:448:12">charData</jtok>
+<jtok eid="21" type="method_call" span="448:13:448:19">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="448:20:448:22">ch</jtok>
+<jtok eid="21" type="primary_name_ref" span="448:23:448:28">start</jtok>
+<jtok eid="21" type="primary_name_ref" span="448:29:448:35">length</jtok>
+<jtok eid="18" type="line_comment" span="451:3:451:36">// end HandlerBase implementation</jtok>
+<jtok eid="18" type="line_comment" span="453:3:453:21">// private members</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="454:11:454:17">String</jtok>
+<jtok eid="18" type="field_name" span="454:18:454:22">path</jtok>
+<jtok eid="18" type="field_name" span="455:15:455:20">caret</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="456:11:456:17">String</jtok>
+<jtok eid="18" type="field_name" span="456:18:456:27">selection</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="457:11:457:17">String</jtok>
+<jtok eid="18" type="field_name" span="457:18:457:26">encoding</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="458:11:458:17">String</jtok>
+<jtok eid="18" type="field_name" span="458:18:458:22">mode</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="459:11:459:24">StringBuilder</jtok>
+<jtok eid="18" type="field_name" span="459:25:459:33">charData</jtok>
+<jtok eid="18" type="constructor_call" span="459:40:459:53">StringBuilder</jtok>
+<jtok eid="1" type="line_comment" span="460:4:460:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="462:2:462:7">//}}}</jtok>
+</jdoc>

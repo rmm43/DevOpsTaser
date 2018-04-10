@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.browser.VFSFileNameField" jls="java5">
+<jent id="0" type="file" span="0:0:286:2">Source/jEdit/org/gjt/sp/jedit/browser/VFSFileNameField.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:286:1">org.gjt.sp.jedit.browser.VFSFileNameField</jent>
+<jent id="2" pid="1" type="method" span="44:2:62:2">org.gjt.sp.jedit.browser.VFSFileNameField.VFSFileNameField(VFSBrowser,String)</jent>
+<jent id="3" pid="1" type="method" span="65:2:157:2">org.gjt.sp.jedit.browser.VFSFileNameField.processKeyEvent(KeyEvent)</jent>
+<jent id="4" pid="1" type="method" span="163:2:186:2">org.gjt.sp.jedit.browser.VFSFileNameField.doComplete(String,String,boolean)</jent>
+<jent id="5" pid="1" type="method" span="189:2:264:2">org.gjt.sp.jedit.browser.VFSFileNameField.doComplete(String)</jent>
+<jent id="6" pid="1" type="method" span="267:2:283:2">org.gjt.sp.jedit.browser.VFSFileNameField.goToParent()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * VFSFileNameField.java - File name field with completion
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="36:1:40:4">/**
+ * @author Slava Pestov
+ * @version $Id: VFSFileNameField.java 16348 2009-10-14 10:40:15Z kpouer $
+ * @since jEdit 4.2pre1
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:7:41:23">VFSFileNameField</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:32:41:48">HistoryTextField</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:36">//{{{ VFSFileNameField constructor</jtok>
+<jtok eid="2" type="method_name" span="44:2:44:18">VFSFileNameField</jtok>
+<jtok eid="2" type="parameter_type" span="44:19:44:29">VFSBrowser</jtok>
+<jtok eid="2" type="parameter_name" span="44:30:44:37">browser</jtok>
+<jtok eid="2" type="parameter_type" span="44:39:44:45">String</jtok>
+<jtok eid="2" type="parameter_name" span="44:46:44:51">model</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:9:46:14">model</jtok>
+<jtok eid="2" type="method_call" span="47:3:47:24">setEnterAddsToHistory</jtok>
+<jtok eid="2" type="qualified_name_ref" span="49:8:49:15">browser</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:18:49:25">browser</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="51:3:51:12">Dimension</jtok>
+<jtok eid="2" type="local_variable_name" span="51:13:51:16">dim</jtok>
+<jtok eid="2" type="method_call" span="51:19:51:35">getPreferredSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:3:52:6">dim</jtok>
+<jtok eid="2" type="qualified_name_ref" span="52:7:52:12">width</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:15:52:22">Integer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="52:23:52:32">MAX_VALUE</jtok>
+<jtok eid="2" type="method_call" span="53:3:53:17">setMaximumSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:18:53:21">dim</jtok>
+<jtok eid="2" type="line_comment" span="55:3:55:50">// Enable TAB pressed for completion instead of</jtok>
+<jtok eid="2" type="line_comment" span="56:3:56:22">// focas traversal.</jtok>
+<jtok eid="2" type="local_variable_name" span="57:13:57:20">FORWARD</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:23:57:43">KeyboardFocusManager</jtok>
+<jtok eid="2" type="qualified_name_ref" span="57:44:57:66">FORWARD_TRAVERSAL_KEYS</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:3:58:10">HashSet</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:11:58:23">AWTKeyStroke</jtok>
+<jtok eid="2" type="local_variable_name" span="58:25:58:29">keys</jtok>
+<jtok eid="2" type="constructor_call" span="58:36:58:43">HashSet</jtok>
+<jtok eid="2" type="constructor_call" span="58:44:58:56">AWTKeyStroke</jtok>
+<jtok eid="2" type="method_call" span="59:5:59:26">getFocusTraversalKeys</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:27:59:34">FORWARD</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:3:60:7">keys</jtok>
+<jtok eid="2" type="method_call" span="60:8:60:14">remove</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:15:60:27">AWTKeyStroke</jtok>
+<jtok eid="2" type="method_call" span="60:28:60:43">getAWTKeyStroke</jtok>
+<jtok eid="2" type="string_literal" span="60:44:60:57">"pressed TAB"</jtok>
+<jtok eid="2" type="method_call" span="61:3:61:24">setFocusTraversalKeys</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:25:61:32">FORWARD</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:34:61:38">keys</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:32">//{{{ processKeyEvent() method</jtok>
+<jtok eid="3" type="method_name" span="65:14:65:29">processKeyEvent</jtok>
+<jtok eid="3" type="parameter_type" span="65:30:65:38">KeyEvent</jtok>
+<jtok eid="3" type="parameter_name" span="65:39:65:42">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:6:67:9">evt</jtok>
+<jtok eid="3" type="method_call" span="67:10:67:15">getID</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:21:67:29">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="67:30:67:41">KEY_PRESSED</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:4:69:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="69:11:69:15">path</jtok>
+<jtok eid="3" type="method_call" span="69:18:69:25">getText</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:11:71:14">evt</jtok>
+<jtok eid="3" type="method_call" span="71:15:71:25">getKeyCode</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:9:73:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="73:18:73:24">VK_TAB</jtok>
+<jtok eid="3" type="method_call" span="74:5:74:15">doComplete</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:16:74:20">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:9:76:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="76:18:76:25">VK_LEFT</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:10:77:13">evt</jtok>
+<jtok eid="3" type="method_call" span="77:14:77:26">getModifiers</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:31:77:39">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="77:40:77:48">ALT_MASK</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:6:79:13">browser</jtok>
+<jtok eid="3" type="method_call" span="79:14:79:31">previousDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:6:80:9">evt</jtok>
+<jtok eid="3" type="method_call" span="80:10:80:17">consume</jtok>
+<jtok eid="3" type="line_comment" span="84:6:84:70">// 				browser.getBrowserView().getTable().processKeyEvent(evt);</jtok>
+<jtok eid="3" type="method_call" span="85:12:85:27">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:28:85:31">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:9:88:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="88:18:88:23">VK_UP</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:10:89:13">evt</jtok>
+<jtok eid="3" type="method_call" span="89:14:89:26">getModifiers</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:31:89:39">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="89:40:89:48">ALT_MASK</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="91:6:91:12">String</jtok>
+<jtok eid="3" type="local_variable_name" span="91:13:91:14">p</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:17:91:24">browser</jtok>
+<jtok eid="3" type="method_call" span="91:25:91:37">getDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:6:92:13">browser</jtok>
+<jtok eid="3" type="method_call" span="92:14:92:26">setDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:27:92:40">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="92:41:92:56">getParentOfPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:57:92:58">p</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:6:93:9">evt</jtok>
+<jtok eid="3" type="method_call" span="93:10:93:17">consume</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:6:97:13">browser</jtok>
+<jtok eid="3" type="method_call" span="97:14:97:28">getBrowserView</jtok>
+<jtok eid="3" type="method_call" span="97:31:97:39">getTable</jtok>
+<jtok eid="3" type="method_call" span="98:7:98:22">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:23:98:26">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:9:101:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="101:18:101:26">VK_RIGHT</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:10:102:13">evt</jtok>
+<jtok eid="3" type="method_call" span="102:14:102:26">getModifiers</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:31:102:39">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="102:40:102:48">ALT_MASK</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:6:104:9">evt</jtok>
+<jtok eid="3" type="method_call" span="104:10:104:17">consume</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:6:105:13">browser</jtok>
+<jtok eid="3" type="method_call" span="105:14:105:27">nextDirectory</jtok>
+<jtok eid="3" type="method_call" span="108:12:108:27">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:28:108:31">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:9:110:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="110:18:110:25">VK_DOWN</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:9:111:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="111:18:111:28">VK_PAGE_UP</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:9:112:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="112:18:112:30">VK_PAGE_DOWN</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:5:113:12">browser</jtok>
+<jtok eid="3" type="method_call" span="113:13:113:27">getBrowserView</jtok>
+<jtok eid="3" type="method_call" span="113:30:113:38">getTable</jtok>
+<jtok eid="3" type="method_call" span="114:7:114:22">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="114:23:114:26">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:9:116:17">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="116:18:116:26">VK_ENTER</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:5:117:12">browser</jtok>
+<jtok eid="3" type="method_call" span="117:13:117:27">filesActivated</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:7:118:10">evt</jtok>
+<jtok eid="3" type="method_call" span="118:11:118:22">isShiftDown</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:8:119:18">VFSBrowser</jtok>
+<jtok eid="3" type="qualified_name_ref" span="119:19:119:34">M_OPEN_NEW_VIEW</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:8:120:18">VFSBrowser</jtok>
+<jtok eid="3" type="qualified_name_ref" span="120:19:120:25">M_OPEN</jtok>
+<jtok eid="3" type="method_call" span="121:5:121:12">setText</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:5:122:8">evt</jtok>
+<jtok eid="3" type="method_call" span="122:9:122:16">consume</jtok>
+<jtok eid="3" type="method_call" span="125:11:125:26">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:27:125:30">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:11:129:14">evt</jtok>
+<jtok eid="3" type="method_call" span="129:15:129:20">getID</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:26:129:34">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="129:35:129:44">KEY_TYPED</jtok>
+<jtok eid="3" type="local_variable_name" span="131:9:131:11">ch</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:14:131:17">evt</jtok>
+<jtok eid="3" type="method_call" span="131:18:131:28">getKeyChar</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:7:132:9">ch</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:20:132:22">ch</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:34:132:36">ch</jtok>
+<jtok eid="3" type="method_call" span="134:11:134:26">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:27:134:30">evt</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="135:5:135:11">String</jtok>
+<jtok eid="3" type="local_variable_name" span="135:12:135:16">path</jtok>
+<jtok eid="3" type="method_call" span="135:19:135:26">getText</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="136:5:136:16">BrowserView</jtok>
+<jtok eid="3" type="local_variable_name" span="136:17:136:21">view</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:24:136:31">browser</jtok>
+<jtok eid="3" type="method_call" span="136:32:136:46">getBrowserView</jtok>
+<jtok eid="3" type="primary_name_ref" span="137:5:137:9">view</jtok>
+<jtok eid="3" type="method_call" span="137:10:137:20">selectNone</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:8:139:21">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="139:22:139:43">getLastSeparatorIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:44:139:48">path</jtok>
+<jtok eid="3" type="local_variable_name" span="141:10:141:14">mode</jtok>
+<jtok eid="3" type="primary_name_ref" span="141:17:141:24">browser</jtok>
+<jtok eid="3" type="method_call" span="141:25:141:32">getMode</jtok>
+<jtok eid="3" type="line_comment" span="142:6:142:28">// fix for bug #765507</jtok>
+<jtok eid="3" type="line_comment" span="143:6:143:46">// we don't type complete in save dialog</jtok>
+<jtok eid="3" type="line_comment" span="144:6:144:43">// boxes. Press TAB to do an explicit</jtok>
+<jtok eid="3" type="line_comment" span="145:6:145:17">// complete</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:6:146:10">view</jtok>
+<jtok eid="3" type="method_call" span="146:11:146:19">getTable</jtok>
+<jtok eid="3" type="method_call" span="146:22:146:34">doTypeSelect</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:35:146:39">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:7:147:11">mode</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:15:147:25">VFSBrowser</jtok>
+<jtok eid="3" type="qualified_name_ref" span="148:8:148:31">CHOOSE_DIRECTORY_DIALOG</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:7:150:11">mode</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:15:150:25">VFSBrowser</jtok>
+<jtok eid="3" type="qualified_name_ref" span="151:8:151:19">SAVE_DIALOG</jtok>
+<jtok eid="3" type="method_call" span="155:11:155:26">processKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:27:155:30">evt</jtok>
+<jtok eid="1" type="line_comment" span="157:4:157:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="159:2:159:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="160:10:160:20">VFSBrowser</jtok>
+<jtok eid="1" type="field_name" span="160:21:160:28">browser</jtok>
+<jtok eid="1" type="line_comment" span="162:2:162:27">//{{{ doComplete() method</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="163:9:163:15">String</jtok>
+<jtok eid="4" type="method_name" span="163:16:163:26">doComplete</jtok>
+<jtok eid="4" type="parameter_type" span="163:27:163:33">String</jtok>
+<jtok eid="4" type="parameter_name" span="163:34:163:38">path</jtok>
+<jtok eid="4" type="parameter_type" span="163:40:163:46">String</jtok>
+<jtok eid="4" type="parameter_name" span="163:47:163:55">complete</jtok>
+<jtok eid="4" type="parameter_name" span="163:65:163:73">dirsOnly</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:3:165:6">Log</jtok>
+<jtok eid="4" type="method_call" span="165:7:165:10">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:11:165:14">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="165:15:165:20">DEBUG</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:21:165:37">VFSFileNameField</jtok>
+<jtok eid="4" type="string_literal" span="166:4:166:17">"doComplete("</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:20:166:24">path</jtok>
+<jtok eid="4" type="string_literal" span="166:27:166:30">","</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:33:166:41">complete</jtok>
+<jtok eid="4" type="string_literal" span="167:6:167:9">","</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:12:167:20">dirsOnly</jtok>
+<jtok eid="4" type="primary_name_ref" span="171:7:171:15">complete</jtok>
+<jtok eid="4" type="method_call" span="171:16:171:22">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:12:172:16">path</jtok>
+<jtok eid="4" type="local_variable_name" span="173:8:173:13">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:16:173:29">MiscUtilities</jtok>
+<jtok eid="4" type="method_call" span="173:30:173:52">getFirstSeparatorIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="173:53:173:61">complete</jtok>
+<jtok eid="4" type="primary_name_ref" span="174:7:174:12">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:12:175:16">path</jtok>
+<jtok eid="4" type="block_comment" span="177:4:178:18">/* Until the very last path component, we only complete on
+			directories */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="179:4:179:10">String</jtok>
+<jtok eid="4" type="local_variable_name" span="179:11:179:18">newPath</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:21:179:28">VFSFile</jtok>
+<jtok eid="4" type="method_call" span="179:29:179:43">findCompletion</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:44:179:48">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:5:180:13">complete</jtok>
+<jtok eid="4" type="method_call" span="180:14:180:23">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:26:180:31">index</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:33:180:40">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="181:7:181:14">newPath</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:4:183:8">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:11:183:18">newPath</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:4:184:12">complete</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:15:184:23">complete</jtok>
+<jtok eid="4" type="method_call" span="184:24:184:33">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:34:184:39">index</jtok>
+<jtok eid="1" type="line_comment" span="186:4:186:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="188:2:188:27">//{{{ doComplete() method</jtok>
+<jtok eid="5" type="method_name" span="189:15:189:25">doComplete</jtok>
+<jtok eid="5" type="parameter_type" span="189:26:189:32">String</jtok>
+<jtok eid="5" type="parameter_name" span="189:33:189:44">currentText</jtok>
+<jtok eid="5" type="local_variable_name" span="191:7:191:12">index</jtok>
+<jtok eid="5" type="primary_name_ref" span="191:15:191:28">MiscUtilities</jtok>
+<jtok eid="5" type="method_call" span="191:29:191:50">getLastSeparatorIndex</jtok>
+<jtok eid="5" type="primary_name_ref" span="191:51:191:62">currentText</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="192:3:192:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="192:10:192:13">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="193:6:193:11">index</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:4:194:7">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:10:194:21">currentText</jtok>
+<jtok eid="5" type="method_call" span="194:22:194:31">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="194:34:194:39">index</jtok>
+<jtok eid="5" type="primary_name_ref" span="196:4:196:7">dir</jtok>
+<jtok eid="5" type="string_literal" span="196:10:196:12">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="198:6:198:19">MiscUtilities</jtok>
+<jtok eid="5" type="method_call" span="198:20:198:34">isAbsolutePath</jtok>
+<jtok eid="5" type="primary_name_ref" span="198:35:198:46">currentText</jtok>
+<jtok eid="5" type="primary_name_ref" span="200:7:200:10">dir</jtok>
+<jtok eid="5" type="method_call" span="200:11:200:21">startsWith</jtok>
+<jtok eid="5" type="string_literal" span="200:22:200:25">"/"</jtok>
+<jtok eid="5" type="primary_name_ref" span="201:5:201:8">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="201:11:201:14">dir</jtok>
+<jtok eid="5" type="method_call" span="201:15:201:24">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="202:4:202:7">dir</jtok>
+<jtok eid="5" type="method_call" span="202:10:202:20">doComplete</jtok>
+<jtok eid="5" type="primary_name_ref" span="202:21:202:31">VFSBrowser</jtok>
+<jtok eid="5" type="method_call" span="202:32:202:48">getRootDirectory</jtok>
+<jtok eid="5" type="primary_name_ref" span="202:51:202:54">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="203:7:203:10">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="206:4:206:11">browser</jtok>
+<jtok eid="5" type="method_call" span="206:12:206:24">setDirectory</jtok>
+<jtok eid="5" type="primary_name_ref" span="206:25:206:28">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="207:4:207:14">VFSManager</jtok>
+<jtok eid="5" type="method_call" span="207:15:207:30">waitForRequests</jtok>
+<jtok eid="5" type="primary_name_ref" span="209:7:209:12">index</jtok>
+<jtok eid="5" type="primary_name_ref" span="211:8:211:19">currentText</jtok>
+<jtok eid="5" type="method_call" span="211:20:211:30">startsWith</jtok>
+<jtok eid="5" type="string_literal" span="211:31:211:34">"/"</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:6:212:17">currentText</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:20:212:31">currentText</jtok>
+<jtok eid="5" type="method_call" span="212:32:212:41">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="215:5:215:16">currentText</jtok>
+<jtok eid="5" type="primary_name_ref" span="215:19:215:30">currentText</jtok>
+<jtok eid="5" type="method_call" span="215:31:215:40">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="215:41:215:46">index</jtok>
+<jtok eid="5" type="primary_name_ref" span="219:7:219:10">dir</jtok>
+<jtok eid="5" type="method_call" span="219:11:219:17">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:5:221:8">dir</jtok>
+<jtok eid="5" type="method_call" span="221:11:221:21">doComplete</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:22:221:29">browser</jtok>
+<jtok eid="5" type="method_call" span="221:30:221:42">getDirectory</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:45:221:48">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:8:222:11">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="225:5:225:12">browser</jtok>
+<jtok eid="5" type="method_call" span="225:13:225:25">setDirectory</jtok>
+<jtok eid="5" type="primary_name_ref" span="225:26:225:29">dir</jtok>
+<jtok eid="5" type="primary_name_ref" span="226:5:226:15">VFSManager</jtok>
+<jtok eid="5" type="method_call" span="226:16:226:31">waitForRequests</jtok>
+<jtok eid="5" type="primary_name_ref" span="228:5:228:16">currentText</jtok>
+<jtok eid="5" type="primary_name_ref" span="228:19:228:30">currentText</jtok>
+<jtok eid="5" type="method_call" span="228:31:228:40">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="228:41:228:46">index</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="232:3:232:14">BrowserView</jtok>
+<jtok eid="5" type="local_variable_name" span="232:15:232:19">view</jtok>
+<jtok eid="5" type="primary_name_ref" span="232:22:232:29">browser</jtok>
+<jtok eid="5" type="method_call" span="232:30:232:44">getBrowserView</jtok>
+<jtok eid="5" type="primary_name_ref" span="233:3:233:7">view</jtok>
+<jtok eid="5" type="method_call" span="233:8:233:18">selectNone</jtok>
+<jtok eid="5" type="primary_name_ref" span="234:3:234:7">view</jtok>
+<jtok eid="5" type="method_call" span="234:8:234:16">getTable</jtok>
+<jtok eid="5" type="method_call" span="234:19:234:31">doTypeSelect</jtok>
+<jtok eid="5" type="primary_name_ref" span="234:32:234:43">currentText</jtok>
+<jtok eid="5" type="primary_name_ref" span="235:4:235:11">browser</jtok>
+<jtok eid="5" type="method_call" span="235:12:235:19">getMode</jtok>
+<jtok eid="5" type="primary_name_ref" span="235:25:235:35">VFSBrowser</jtok>
+<jtok eid="5" type="qualified_name_ref" span="236:5:236:28">CHOOSE_DIRECTORY_DIALOG</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="238:3:238:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="238:10:238:17">newText</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="240:3:240:10">VFSFile</jtok>
+<jtok eid="5" type="local_variable_name" span="240:13:240:18">files</jtok>
+<jtok eid="5" type="primary_name_ref" span="240:21:240:25">view</jtok>
+<jtok eid="5" type="method_call" span="240:26:240:42">getSelectedFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:6:241:11">files</jtok>
+<jtok eid="5" type="qualified_name_ref" span="241:12:241:18">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="242:4:242:11">newText</jtok>
+<jtok eid="5" type="primary_name_ref" span="242:14:242:25">currentText</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="245:4:245:10">String</jtok>
+<jtok eid="5" type="local_variable_name" span="245:11:245:15">path</jtok>
+<jtok eid="5" type="primary_name_ref" span="245:18:245:23">files</jtok>
+<jtok eid="5" type="method_call" span="245:27:245:34">getPath</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="246:4:246:10">String</jtok>
+<jtok eid="5" type="local_variable_name" span="246:11:246:15">name</jtok>
+<jtok eid="5" type="primary_name_ref" span="246:18:246:23">files</jtok>
+<jtok eid="5" type="method_call" span="246:27:246:34">getName</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="247:4:247:10">String</jtok>
+<jtok eid="5" type="local_variable_name" span="247:11:247:17">parent</jtok>
+<jtok eid="5" type="primary_name_ref" span="247:20:247:33">MiscUtilities</jtok>
+<jtok eid="5" type="method_call" span="247:34:247:49">getParentOfPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="247:50:247:54">path</jtok>
+<jtok eid="5" type="primary_name_ref" span="249:7:249:20">MiscUtilities</jtok>
+<jtok eid="5" type="method_call" span="249:21:249:35">isAbsolutePath</jtok>
+<jtok eid="5" type="primary_name_ref" span="249:36:249:47">currentText</jtok>
+<jtok eid="5" type="primary_name_ref" span="250:9:250:20">currentText</jtok>
+<jtok eid="5" type="method_call" span="250:21:250:31">startsWith</jtok>
+<jtok eid="5" type="primary_name_ref" span="250:32:250:39">browser</jtok>
+<jtok eid="5" type="method_call" span="250:40:250:52">getDirectory</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:5:252:12">newText</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:15:252:19">path</jtok>
+<jtok eid="5" type="primary_name_ref" span="256:8:256:21">MiscUtilities</jtok>
+<jtok eid="5" type="method_call" span="256:22:256:32">pathsEqual</jtok>
+<jtok eid="5" type="primary_name_ref" span="256:33:256:39">parent</jtok>
+<jtok eid="5" type="primary_name_ref" span="256:40:256:47">browser</jtok>
+<jtok eid="5" type="method_call" span="256:48:256:60">getDirectory</jtok>
+<jtok eid="5" type="primary_name_ref" span="257:6:257:13">newText</jtok>
+<jtok eid="5" type="primary_name_ref" span="257:16:257:20">name</jtok>
+<jtok eid="5" type="primary_name_ref" span="259:6:259:13">newText</jtok>
+<jtok eid="5" type="primary_name_ref" span="259:16:259:20">path</jtok>
+<jtok eid="5" type="method_call" span="263:3:263:10">setText</jtok>
+<jtok eid="5" type="primary_name_ref" span="263:11:263:18">newText</jtok>
+<jtok eid="1" type="line_comment" span="264:4:264:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="266:2:266:27">//{{{ goToParent() method</jtok>
+<jtok eid="6" type="method_name" span="267:15:267:25">goToParent</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="269:3:269:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="269:10:269:14">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="269:17:269:30">MiscUtilities</jtok>
+<jtok eid="6" type="method_call" span="269:31:269:42">getFileName</jtok>
+<jtok eid="6" type="primary_name_ref" span="269:43:269:50">browser</jtok>
+<jtok eid="6" type="method_call" span="269:51:269:63">getDirectory</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="270:3:270:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="270:10:270:16">parent</jtok>
+<jtok eid="6" type="primary_name_ref" span="270:19:270:32">MiscUtilities</jtok>
+<jtok eid="6" type="method_call" span="270:33:270:48">getParentOfPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="271:4:271:11">browser</jtok>
+<jtok eid="6" type="method_call" span="271:12:271:24">getDirectory</jtok>
+<jtok eid="6" type="primary_name_ref" span="272:3:272:10">browser</jtok>
+<jtok eid="6" type="method_call" span="272:11:272:23">setDirectory</jtok>
+<jtok eid="6" type="primary_name_ref" span="272:24:272:30">parent</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="274:3:274:6">VFS</jtok>
+<jtok eid="6" type="local_variable_name" span="274:7:274:10">vfs</jtok>
+<jtok eid="6" type="primary_name_ref" span="274:13:274:23">VFSManager</jtok>
+<jtok eid="6" type="method_call" span="274:24:274:37">getVFSForPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="274:38:274:44">parent</jtok>
+<jtok eid="6" type="primary_name_ref" span="275:7:275:10">vfs</jtok>
+<jtok eid="6" type="method_call" span="275:11:275:26">getCapabilities</jtok>
+<jtok eid="6" type="primary_name_ref" span="275:31:275:34">VFS</jtok>
+<jtok eid="6" type="qualified_name_ref" span="275:35:275:50">LOW_LATENCY_CAP</jtok>
+<jtok eid="6" type="primary_name_ref" span="277:4:277:14">VFSManager</jtok>
+<jtok eid="6" type="method_call" span="277:15:277:30">waitForRequests</jtok>
+<jtok eid="6" type="method_call" span="278:4:278:11">setText</jtok>
+<jtok eid="6" type="primary_name_ref" span="278:12:278:16">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="279:4:279:11">browser</jtok>
+<jtok eid="6" type="method_call" span="279:12:279:26">getBrowserView</jtok>
+<jtok eid="6" type="method_call" span="279:29:279:37">getTable</jtok>
+<jtok eid="6" type="method_call" span="279:40:279:52">doTypeSelect</jtok>
+<jtok eid="6" type="primary_name_ref" span="280:5:280:9">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="280:10:280:17">browser</jtok>
+<jtok eid="6" type="method_call" span="280:18:280:25">getMode</jtok>
+<jtok eid="6" type="primary_name_ref" span="280:31:280:41">VFSBrowser</jtok>
+<jtok eid="6" type="qualified_name_ref" span="281:6:281:29">CHOOSE_DIRECTORY_DIALOG</jtok>
+<jtok eid="1" type="line_comment" span="283:4:283:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="285:2:285:7">//}}}</jtok>
+</jdoc>

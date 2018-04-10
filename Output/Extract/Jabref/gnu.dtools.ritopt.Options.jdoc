@@ -1,0 +1,1172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="gnu.dtools.ritopt.Options" jls="java5">
+<jent id="0" type="file" span="0:0:833:1">Source/jabref/src/java/gnu/dtools/ritopt/Options.java</jent>
+<jent id="1" pid="0" type="class" span="71:1:833:1">gnu.dtools.ritopt.Options</jent>
+<jent id="2" pid="1" type="method" span="186:5:188:5">gnu.dtools.ritopt.Options.Options()</jent>
+<jent id="3" pid="1" type="method" span="196:5:214:5">gnu.dtools.ritopt.Options.Options(String)</jent>
+<jent id="4" pid="1" type="method" span="222:5:234:5">gnu.dtools.ritopt.Options.getHelp()</jent>
+<jent id="5" pid="1" type="method" span="242:5:245:5">gnu.dtools.ritopt.Options.getUsage()</jent>
+<jent id="6" pid="1" type="method" span="253:5:255:5">gnu.dtools.ritopt.Options.getUsageProgram()</jent>
+<jent id="7" pid="1" type="method" span="263:5:265:5">gnu.dtools.ritopt.Options.getVersion()</jent>
+<jent id="8" pid="1" type="method" span="274:5:276:5">gnu.dtools.ritopt.Options.getDefaultOptionFilename()</jent>
+<jent id="9" pid="1" type="method" span="284:5:286:5">gnu.dtools.ritopt.Options.getDebugFlag()</jent>
+<jent id="10" pid="1" type="method" span="294:5:296:5">gnu.dtools.ritopt.Options.shouldDisplayUsage()</jent>
+<jent id="11" pid="1" type="method" span="305:5:307:5">gnu.dtools.ritopt.Options.shouldUseMenu()</jent>
+<jent id="12" pid="1" type="method" span="315:5:317:5">gnu.dtools.ritopt.Options.setDisplayUsage(boolean)</jent>
+<jent id="13" pid="1" type="method" span="326:5:328:5">gnu.dtools.ritopt.Options.setUseMenu(boolean)</jent>
+<jent id="14" pid="1" type="method" span="336:5:338:5">gnu.dtools.ritopt.Options.setUsageProgram(String)</jent>
+<jent id="15" pid="1" type="method" span="346:5:348:5">gnu.dtools.ritopt.Options.setVersion(String)</jent>
+<jent id="16" pid="1" type="method" span="356:5:358:5">gnu.dtools.ritopt.Options.setDefaultOptionFilename(String)</jent>
+<jent id="17" pid="1" type="method" span="366:5:368:5">gnu.dtools.ritopt.Options.displayHelp()</jent>
+<jent id="18" pid="1" type="method" span="374:5:376:5">gnu.dtools.ritopt.Options.displayVersion()</jent>
+<jent id="19" pid="1" type="method" span="385:5:387:5">gnu.dtools.ritopt.Options.register(String,Option)</jent>
+<jent id="20" pid="1" type="method" span="396:5:398:5">gnu.dtools.ritopt.Options.register(char,Option)</jent>
+<jent id="21" pid="1" type="method" span="408:5:411:5">gnu.dtools.ritopt.Options.register(String,char,Option)</jent>
+<jent id="22" pid="1" type="method" span="423:5:426:5">gnu.dtools.ritopt.Options.register(String,char,String,Option)</jent>
+<jent id="23" pid="1" type="method" span="440:5:445:5">gnu.dtools.ritopt.Options.register(String,char,String,Option,boolean)</jent>
+<jent id="24" pid="1" type="method" span="453:5:455:5">gnu.dtools.ritopt.Options.register(OptionModule)</jent>
+<jent id="25" pid="1" type="method" span="464:5:466:5">gnu.dtools.ritopt.Options.register(String,OptionModule)</jent>
+<jent id="26" pid="1" type="method" span="477:5:492:5">gnu.dtools.ritopt.Options.process(String)</jent>
+<jent id="27" pid="1" type="method" span="503:5:505:5">gnu.dtools.ritopt.Options.getModule(String)</jent>
+<jent id="28" pid="1" type="method" span="515:5:517:5">gnu.dtools.ritopt.Options.moduleExists(String)</jent>
+<jent id="29" pid="1" type="method" span="527:5:534:5">gnu.dtools.ritopt.Options.optionInvoked(OptionEvent)</jent>
+<jent id="30" pid="1" type="method" span="548:5:550:5">gnu.dtools.ritopt.Options.process(String)</jent>
+<jent id="31" pid="1" type="method" span="561:5:591:5">gnu.dtools.ritopt.Options.split(String)</jent>
+<jent id="32" pid="1" type="method" span="599:5:626:5">gnu.dtools.ritopt.Options.writeOptionFile(String)</jent>
+<jent id="33" pid="1" type="method" span="634:5:657:5">gnu.dtools.ritopt.Options.loadOptionFile(String)</jent>
+<jent id="34" pid="1" type="method" span="667:5:832:5">gnu.dtools.ritopt.Options.processOptions(String)</jent>
+<jtok eid="0" type="block_comment" span="3:1:9:4">/**
+ * Options.java
+ *
+ * Version:
+ *    $Id: Options.java 2488 2007-11-14 00:25:31Z coezbek $
+
+ */</jtok>
+<jtok eid="0" type="block_comment" span="17:1:69:4">/**
+ * This class functions as a repository for options and their modules. It
+ * facilitates registration of options and modules, as well as processing of
+ * arguments.&lt;p&gt;
+ *
+ * Information such as help, usage, and versions are displayed
+ * when the respective --help and --version options are specified.
+ * The --menu option will invoke the built-in menu.&lt;p&gt;
+ *
+ * In the example below, the program processes three simple options.
+ *
+ * &lt;pre&gt;
+ * public class AboutMe {
+ *
+ *    private static StringOption name = new StringOption( "Ryan" );
+ *    private static IntOption age = new IntOption( 19 );
+ *    private static DoubleOption bankBalance = new DoubleOption( 15.15 );
+ *
+ *    public static void main( String args[] ) {
+ *       Options repo = new Options( "java AboutMe" );
+ *       repo.register( "name", 'n', name, "The person's name." );
+ *       repo.register( "age", 'a', age, "The person's age." );
+ *       repo.register( "balance", 'b', "The person's bank balance.",
+ *                       bankBalance );
+ *       repo.process( args );
+g *       System.err.println( "" + name + ", age " + age + " has a " +
+ *                           " bank balance of " + bankBalance + "." );
+ *    }
+ * }
+ * &lt;/pre&gt;
+ *
+ * &lt;hr&gt;
+ *
+ * &lt;pre&gt;
+ * Copyright (C) Damian Ryan Eads, 2001. All Rights Reserved.
+ *
+ * ritopt is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ritopt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ritopt; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * &lt;/pre&gt;
+ *
+ * @author Damian Eads
+ */</jtok>
+<jtok eid="1" type="class_name" span="71:14:71:21">Options</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:33:71:48">OptionRegistrar</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:50:71:71">OptionModuleRegistrar</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:33:72:47">OptionListener</jtok>
+<jtok eid="1" type="block_comment" span="74:5:76:8">/**
+     * The default verbosity.
+     */</jtok>
+<jtok eid="1" type="field_name" span="78:29:78:46">DEFAULT_VERBOSITY</jtok>
+<jtok eid="1" type="block_comment" span="80:5:82:8">/**
+     * This boolean defines whether options are deprecated by default.
+     */</jtok>
+<jtok eid="1" type="field_name" span="84:33:84:51">DEFAULT_DEPRECATED</jtok>
+<jtok eid="1" type="block_comment" span="86:5:88:8">/**
+     * The default reason for deprecation.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="90:25:90:31">String</jtok>
+<jtok eid="1" type="field_name" span="90:32:90:46">DEFAULT_REASON</jtok>
+<jtok eid="1" type="string_literal" span="90:49:90:67">"No reason given."</jtok>
+<jtok eid="1" type="block_comment" span="92:5:94:8">/**
+     * The default general module name.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="96:25:96:31">String</jtok>
+<jtok eid="1" type="field_name" span="96:32:96:59">DEFAULT_GENERAL_MODULE_NAME</jtok>
+<jtok eid="1" type="string_literal" span="96:62:96:71">"General"</jtok>
+<jtok eid="1" type="block_comment" span="98:5:100:8">/**
+     * This boolean defines whether usage should be displayed.
+     */</jtok>
+<jtok eid="1" type="field_name" span="102:33:102:54">DEFAULT_DISPLAY_USAGE</jtok>
+<jtok eid="1" type="line_comment" span="102:64:102:81">// Mod. Morten A.</jtok>
+<jtok eid="1" type="block_comment" span="104:5:106:8">/**
+     * This boolean defines whether the menu should be used.
+     */</jtok>
+<jtok eid="1" type="field_name" span="108:33:108:49">DEFAULT_USE_MENU</jtok>
+<jtok eid="1" type="line_comment" span="108:59:108:76">// Mod. Morten A.</jtok>
+<jtok eid="1" type="block_comment" span="110:5:112:8">/**
+     * The default program name that is display in the usage.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="114:25:114:31">String</jtok>
+<jtok eid="1" type="field_name" span="114:32:114:52">DEFAULT_PROGRAM_NAME</jtok>
+<jtok eid="1" type="string_literal" span="114:55:114:69">"java program"</jtok>
+<jtok eid="1" type="block_comment" span="116:5:118:8">/**
+     * The default option file.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="120:25:120:31">String</jtok>
+<jtok eid="1" type="field_name" span="120:32:120:55">DEFAULT_OPTION_FILENAME</jtok>
+<jtok eid="1" type="string_literal" span="120:58:120:71">"default.opt"</jtok>
+<jtok eid="1" type="block_comment" span="122:5:124:8">/**
+     * The program to display in the usage.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="126:13:126:19">String</jtok>
+<jtok eid="1" type="field_name" span="126:20:126:32">usageProgram</jtok>
+<jtok eid="1" type="block_comment" span="128:5:130:8">/**
+     * The version to display in the usage.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="132:13:132:19">String</jtok>
+<jtok eid="1" type="field_name" span="132:20:132:27">version</jtok>
+<jtok eid="1" type="block_comment" span="134:5:136:8">/**
+     * The default option filename if an option file is not specified.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="138:13:138:19">String</jtok>
+<jtok eid="1" type="field_name" span="138:20:138:41">defaultOptionFilename</jtok>
+<jtok eid="1" type="block_comment" span="140:5:142:8">/**
+     * This flag defines whether to display usage when help is displayed.
+     */</jtok>
+<jtok eid="1" type="field_name" span="144:21:144:33">displayUsage</jtok>
+<jtok eid="1" type="block_comment" span="146:5:148:8">/**
+     * This boolean defines whether the menu should be used.
+     */</jtok>
+<jtok eid="1" type="field_name" span="150:21:150:28">useMenu</jtok>
+<jtok eid="1" type="block_comment" span="152:5:154:8">/**
+     * When this flag is true, debugging information is displayed.
+     */</jtok>
+<jtok eid="1" type="field_name" span="156:21:156:30">debugFlag</jtok>
+<jtok eid="1" type="block_comment" span="158:5:160:8">/**
+     * The current module being processed.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="162:13:162:25">OptionModule</jtok>
+<jtok eid="1" type="field_name" span="162:26:162:39">currentModule</jtok>
+<jtok eid="1" type="block_comment" span="164:5:166:8">/**
+     * The general option module.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="168:13:168:25">OptionModule</jtok>
+<jtok eid="1" type="field_name" span="168:26:168:39">generalModule</jtok>
+<jtok eid="1" type="block_comment" span="170:5:172:8">/**
+     * A map of option modules.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:13:174:17">java</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:18:174:22">util</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:23:174:30">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:31:174:37">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:39:174:51">OptionModule</jtok>
+<jtok eid="1" type="field_name" span="174:53:174:60">modules</jtok>
+<jtok eid="1" type="block_comment" span="176:5:178:8">/**
+     * Version information is displayed when this option is specified.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="180:13:180:25">NotifyOption</jtok>
+<jtok eid="1" type="field_name" span="180:26:180:39">versionOption</jtok>
+<jtok eid="1" type="block_comment" span="182:5:184:8">/**
+     * Create an option repository.
+     */</jtok>
+<jtok eid="2" type="method_name" span="186:12:186:19">Options</jtok>
+<jtok eid="2" type="primary_name_ref" span="187:15:187:35">DEFAULT_PROGRAM_NAME</jtok>
+<jtok eid="1" type="block_comment" span="190:5:194:8">/**
+     * Create an option repository and associated it with a program name.
+     *
+     * @param programName A program name like "java Balloons".
+     */</jtok>
+<jtok eid="3" type="method_name" span="196:12:196:19">Options</jtok>
+<jtok eid="3" type="parameter_type" span="196:21:196:27">String</jtok>
+<jtok eid="3" type="parameter_name" span="196:28:196:39">programName</jtok>
+<jtok eid="3" type="primary_name_ref" span="197:9:197:21">displayUsage</jtok>
+<jtok eid="3" type="primary_name_ref" span="197:24:197:45">DEFAULT_DISPLAY_USAGE</jtok>
+<jtok eid="3" type="primary_name_ref" span="198:9:198:16">useMenu</jtok>
+<jtok eid="3" type="primary_name_ref" span="198:19:198:35">DEFAULT_USE_MENU</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:9:199:30">defaultOptionFilename</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:33:199:56">DEFAULT_OPTION_FILENAME</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:9:200:21">usageProgram</jtok>
+<jtok eid="3" type="primary_name_ref" span="200:24:200:35">programName</jtok>
+<jtok eid="3" type="primary_name_ref" span="201:9:201:16">modules</jtok>
+<jtok eid="3" type="constructor_call" span="201:23:201:30">HashMap</jtok>
+<jtok eid="3" type="constructor_call" span="201:31:201:37">String</jtok>
+<jtok eid="3" type="constructor_call" span="201:39:201:51">OptionModule</jtok>
+<jtok eid="3" type="primary_name_ref" span="202:9:202:22">versionOption</jtok>
+<jtok eid="3" type="constructor_call" span="202:29:202:41">NotifyOption</jtok>
+<jtok eid="3" type="string_literal" span="202:49:202:58">"version"</jtok>
+<jtok eid="3" type="string_literal" span="202:60:202:62">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="203:9:203:16">version</jtok>
+<jtok eid="3" type="string_literal" span="203:19:203:32">"Version 1.0"</jtok>
+<jtok eid="3" type="primary_name_ref" span="204:9:204:22">generalModule</jtok>
+<jtok eid="3" type="constructor_call" span="204:29:204:41">OptionModule</jtok>
+<jtok eid="3" type="primary_name_ref" span="204:43:204:70">DEFAULT_GENERAL_MODULE_NAME</jtok>
+<jtok eid="3" type="primary_name_ref" span="205:9:205:22">currentModule</jtok>
+<jtok eid="3" type="primary_name_ref" span="205:25:205:38">generalModule</jtok>
+<jtok eid="3" type="line_comment" span="207:9:207:75">// Mod. Morten A. ------------------------------------------------</jtok>
+<jtok eid="3" type="method_call" span="208:9:208:17">register</jtok>
+<jtok eid="3" type="string_literal" span="208:19:208:28">"version"</jtok>
+<jtok eid="3" type="string_literal" span="209:19:209:50">"Displays version information."</jtok>
+<jtok eid="3" type="primary_name_ref" span="209:52:209:65">versionOption</jtok>
+<jtok eid="3" type="block_comment" span="210:9:212:34">/*register( "help", 'h', "Displays help for each option.", helpOption );
+        register( "menu", 'm', "Displays the built-in interactive menu.",
+                  menuOption );*/</jtok>
+<jtok eid="3" type="line_comment" span="213:9:213:79">// End mod. Morten A. ------------------------------------------------</jtok>
+<jtok eid="1" type="block_comment" span="216:5:220:8">/**
+     * Returns the help information as a string.
+     *
+     * @return The help information.
+     */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="222:12:222:18">String</jtok>
+<jtok eid="4" type="method_name" span="222:19:222:26">getHelp</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="223:9:223:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="223:16:223:22">retval</jtok>
+<jtok eid="4" type="primary_name_ref" span="223:26:223:38">displayUsage</jtok>
+<jtok eid="4" type="method_call" span="223:41:223:49">getUsage</jtok>
+<jtok eid="4" type="string_literal" span="223:54:223:60">"\n\n"</jtok>
+<jtok eid="4" type="string_literal" span="223:63:223:65">""</jtok>
+<jtok eid="4" type="line_comment" span="224:13:224:30">// Mod. Morten A.</jtok>
+<jtok eid="4" type="line_comment" span="225:13:225:74">//"Use --menu to invoke the interactive built-in menu.\n\n" +</jtok>
+<jtok eid="4" type="primary_name_ref" span="226:13:226:19">Option</jtok>
+<jtok eid="4" type="method_call" span="226:20:226:33">getHelpHeader</jtok>
+<jtok eid="4" type="string_literal" span="226:38:226:44">"\n\n"</jtok>
+<jtok eid="4" type="primary_name_ref" span="226:47:226:60">generalModule</jtok>
+<jtok eid="4" type="method_call" span="226:61:226:68">getHelp</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="227:9:227:17">Iterator</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="227:18:227:30">OptionModule</jtok>
+<jtok eid="4" type="local_variable_name" span="227:32:227:34">it</jtok>
+<jtok eid="4" type="primary_name_ref" span="227:37:227:44">modules</jtok>
+<jtok eid="4" type="method_call" span="227:45:227:51">values</jtok>
+<jtok eid="4" type="method_call" span="227:54:227:62">iterator</jtok>
+<jtok eid="4" type="primary_name_ref" span="228:17:228:19">it</jtok>
+<jtok eid="4" type="method_call" span="228:20:228:27">hasNext</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="229:13:229:25">OptionModule</jtok>
+<jtok eid="4" type="local_variable_name" span="229:26:229:32">module</jtok>
+<jtok eid="4" type="primary_name_ref" span="229:35:229:37">it</jtok>
+<jtok eid="4" type="method_call" span="229:38:229:42">next</jtok>
+<jtok eid="4" type="primary_name_ref" span="230:13:230:19">retval</jtok>
+<jtok eid="4" type="string_literal" span="230:23:230:48">"\n\nOption Listing for "</jtok>
+<jtok eid="4" type="primary_name_ref" span="230:51:230:57">module</jtok>
+<jtok eid="4" type="method_call" span="230:58:230:65">getName</jtok>
+<jtok eid="4" type="string_literal" span="230:70:230:74">"\n"</jtok>
+<jtok eid="4" type="primary_name_ref" span="231:13:231:19">retval</jtok>
+<jtok eid="4" type="primary_name_ref" span="231:23:231:29">module</jtok>
+<jtok eid="4" type="method_call" span="231:30:231:37">getHelp</jtok>
+<jtok eid="4" type="string_literal" span="231:42:231:46">"\n"</jtok>
+<jtok eid="4" type="primary_name_ref" span="233:16:233:22">retval</jtok>
+<jtok eid="1" type="block_comment" span="236:5:240:8">/**
+     * Returns usage information of this program.
+     *
+     * @return The usage information.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="242:12:242:18">String</jtok>
+<jtok eid="5" type="method_name" span="242:19:242:27">getUsage</jtok>
+<jtok eid="5" type="method_call" span="243:16:243:31">getUsageProgram</jtok>
+<jtok eid="5" type="string_literal" span="244:15:244:67">" @optionfile :module: OPTIONS ... :module: OPTIONS"</jtok>
+<jtok eid="1" type="block_comment" span="247:5:251:8">/**
+     * Returns the program name displayed in the usage.
+     *
+     * @returns The program name.
+     */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="253:12:253:18">String</jtok>
+<jtok eid="6" type="method_name" span="253:19:253:34">getUsageProgram</jtok>
+<jtok eid="6" type="primary_name_ref" span="254:16:254:28">usageProgram</jtok>
+<jtok eid="1" type="block_comment" span="257:5:261:8">/**
+     * Returns the version of the program.
+     *
+     * @returns The version.
+     */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="263:12:263:18">String</jtok>
+<jtok eid="7" type="method_name" span="263:19:263:29">getVersion</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:16:264:23">version</jtok>
+<jtok eid="1" type="block_comment" span="267:5:272:8">/**
+     * Returns the option filename to load or write to if one is not
+     * specified.
+     *
+     * @return The default option filename.
+     */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="274:12:274:18">String</jtok>
+<jtok eid="8" type="method_name" span="274:19:274:43">getDefaultOptionFilename</jtok>
+<jtok eid="8" type="primary_name_ref" span="275:16:275:37">defaultOptionFilename</jtok>
+<jtok eid="1" type="block_comment" span="278:5:282:8">/**
+     * Returns whether debugging information should be displayed.
+     *
+     * @return A boolean indicating whether to display help information.
+     */</jtok>
+<jtok eid="9" type="method_name" span="284:20:284:32">getDebugFlag</jtok>
+<jtok eid="9" type="primary_name_ref" span="285:16:285:25">debugFlag</jtok>
+<jtok eid="1" type="block_comment" span="288:5:292:8">/**
+     * Returns whether the help information should display usage.
+     *
+     * @return A boolean indicating whether help should display usage.
+     */</jtok>
+<jtok eid="10" type="method_name" span="294:20:294:38">shouldDisplayUsage</jtok>
+<jtok eid="10" type="primary_name_ref" span="295:16:295:28">displayUsage</jtok>
+<jtok eid="1" type="block_comment" span="298:5:303:8">/**
+     * Returns whether the built-in menu system can be invoked.
+     *
+     * @return A boolean indicating whether the build-in menu system
+     *         can be invoked.
+     */</jtok>
+<jtok eid="11" type="method_name" span="305:20:305:33">shouldUseMenu</jtok>
+<jtok eid="11" type="primary_name_ref" span="306:16:306:23">useMenu</jtok>
+<jtok eid="1" type="block_comment" span="309:5:313:8">/**
+     * Sets whether usage can be displayed.
+     *
+     * @param b     A boolean value indicating that usage can be displayed.
+     */</jtok>
+<jtok eid="12" type="method_name" span="315:17:315:32">setDisplayUsage</jtok>
+<jtok eid="12" type="parameter_name" span="315:42:315:43">b</jtok>
+<jtok eid="12" type="primary_name_ref" span="316:9:316:21">displayUsage</jtok>
+<jtok eid="12" type="primary_name_ref" span="316:24:316:25">b</jtok>
+<jtok eid="1" type="block_comment" span="319:5:324:8">/**
+     * Sets whether the built-in menu system can be used.
+     *
+     * @param b      A boolean value indicating whether the built-in menu
+     *               system can be used.
+     */</jtok>
+<jtok eid="13" type="method_name" span="326:17:326:27">setUseMenu</jtok>
+<jtok eid="13" type="parameter_name" span="326:37:326:38">b</jtok>
+<jtok eid="13" type="primary_name_ref" span="327:9:327:16">useMenu</jtok>
+<jtok eid="13" type="primary_name_ref" span="327:19:327:20">b</jtok>
+<jtok eid="1" type="block_comment" span="330:5:334:8">/**
+     * Sets the program to display when the usage is displayed.
+     *
+     * @param program The program displayed during usage.
+     */</jtok>
+<jtok eid="14" type="method_name" span="336:17:336:32">setUsageProgram</jtok>
+<jtok eid="14" type="parameter_type" span="336:34:336:40">String</jtok>
+<jtok eid="14" type="parameter_name" span="336:41:336:48">program</jtok>
+<jtok eid="14" type="primary_name_ref" span="337:9:337:21">usageProgram</jtok>
+<jtok eid="14" type="primary_name_ref" span="337:24:337:31">program</jtok>
+<jtok eid="1" type="block_comment" span="340:5:344:8">/**
+     * Sets the version of the program.
+     *
+     * @param version The version.
+     */</jtok>
+<jtok eid="15" type="method_name" span="346:17:346:27">setVersion</jtok>
+<jtok eid="15" type="parameter_type" span="346:29:346:35">String</jtok>
+<jtok eid="15" type="parameter_name" span="346:36:346:43">version</jtok>
+<jtok eid="15" type="qualified_name_ref" span="347:14:347:21">version</jtok>
+<jtok eid="15" type="primary_name_ref" span="347:24:347:31">version</jtok>
+<jtok eid="1" type="block_comment" span="350:5:354:8">/**
+     * Sets the option file to use when an option file is not specified.
+     *
+     * @param fn      The filename of the default option file.
+     */</jtok>
+<jtok eid="16" type="method_name" span="356:17:356:41">setDefaultOptionFilename</jtok>
+<jtok eid="16" type="parameter_type" span="356:43:356:49">String</jtok>
+<jtok eid="16" type="parameter_name" span="356:50:356:52">fn</jtok>
+<jtok eid="16" type="primary_name_ref" span="357:9:357:30">defaultOptionFilename</jtok>
+<jtok eid="16" type="primary_name_ref" span="357:33:357:35">fn</jtok>
+<jtok eid="1" type="block_comment" span="361:5:364:8">/**
+     * Displays the program's help which includes a description of each
+     * option. The usage is display if the usage flag is set to true.
+     */</jtok>
+<jtok eid="17" type="method_name" span="366:17:366:28">displayHelp</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:9:367:15">System</jtok>
+<jtok eid="17" type="qualified_name_ref" span="367:16:367:19">err</jtok>
+<jtok eid="17" type="method_call" span="367:20:367:27">println</jtok>
+<jtok eid="17" type="method_call" span="367:29:367:36">getHelp</jtok>
+<jtok eid="1" type="block_comment" span="370:5:372:8">/**
+     * Displays the version of the program.
+     */</jtok>
+<jtok eid="18" type="method_name" span="374:17:374:31">displayVersion</jtok>
+<jtok eid="18" type="primary_name_ref" span="375:9:375:15">System</jtok>
+<jtok eid="18" type="qualified_name_ref" span="375:16:375:19">err</jtok>
+<jtok eid="18" type="method_call" span="375:20:375:27">println</jtok>
+<jtok eid="18" type="method_call" span="375:29:375:39">getVersion</jtok>
+<jtok eid="18" type="string_literal" span="375:43:375:53">" (build "</jtok>
+<jtok eid="18" type="primary_name_ref" span="375:55:375:62">Globals</jtok>
+<jtok eid="18" type="qualified_name_ref" span="375:63:375:68">BUILD</jtok>
+<jtok eid="18" type="string_literal" span="375:70:375:73">")"</jtok>
+<jtok eid="1" type="block_comment" span="378:5:383:8">/**
+     * Register an option into the repository as a long option.
+     *
+     * @param longOption  The long option name.
+     * @param option      The option to register.
+     */</jtok>
+<jtok eid="19" type="method_name" span="385:17:385:25">register</jtok>
+<jtok eid="19" type="parameter_type" span="385:27:385:33">String</jtok>
+<jtok eid="19" type="parameter_name" span="385:34:385:44">longOption</jtok>
+<jtok eid="19" type="parameter_type" span="385:46:385:52">Option</jtok>
+<jtok eid="19" type="parameter_name" span="385:53:385:59">option</jtok>
+<jtok eid="19" type="primary_name_ref" span="386:9:386:22">generalModule</jtok>
+<jtok eid="19" type="method_call" span="386:23:386:31">register</jtok>
+<jtok eid="19" type="primary_name_ref" span="386:33:386:43">longOption</jtok>
+<jtok eid="19" type="primary_name_ref" span="386:45:386:51">option</jtok>
+<jtok eid="1" type="block_comment" span="389:5:394:8">/**
+     * Register an option into the repository as a short option.
+     *
+     * @param shortOption The short option name.
+     * @param option      The option to register.
+     */</jtok>
+<jtok eid="20" type="method_name" span="396:17:396:25">register</jtok>
+<jtok eid="20" type="parameter_name" span="396:32:396:43">shortOption</jtok>
+<jtok eid="20" type="parameter_type" span="396:45:396:51">Option</jtok>
+<jtok eid="20" type="parameter_name" span="396:52:396:58">option</jtok>
+<jtok eid="20" type="primary_name_ref" span="397:9:397:22">generalModule</jtok>
+<jtok eid="20" type="method_call" span="397:23:397:31">register</jtok>
+<jtok eid="20" type="primary_name_ref" span="397:33:397:44">shortOption</jtok>
+<jtok eid="20" type="primary_name_ref" span="397:46:397:52">option</jtok>
+<jtok eid="1" type="block_comment" span="400:5:406:8">/**
+     * Register an option into the repository both as a short and long option.
+     *
+     * @param longOption  The long option name.
+     * @param shortOption The short option name.
+     * @param option      The option to register.
+     */</jtok>
+<jtok eid="21" type="method_name" span="408:17:408:25">register</jtok>
+<jtok eid="21" type="parameter_type" span="408:27:408:33">String</jtok>
+<jtok eid="21" type="parameter_name" span="408:34:408:44">longOption</jtok>
+<jtok eid="21" type="parameter_name" span="408:51:408:62">shortOption</jtok>
+<jtok eid="21" type="parameter_type" span="409:27:409:33">Option</jtok>
+<jtok eid="21" type="parameter_name" span="409:34:409:40">option</jtok>
+<jtok eid="21" type="primary_name_ref" span="410:9:410:22">generalModule</jtok>
+<jtok eid="21" type="method_call" span="410:23:410:31">register</jtok>
+<jtok eid="21" type="primary_name_ref" span="410:33:410:43">longOption</jtok>
+<jtok eid="21" type="primary_name_ref" span="410:45:410:56">shortOption</jtok>
+<jtok eid="21" type="primary_name_ref" span="410:58:410:64">option</jtok>
+<jtok eid="1" type="block_comment" span="413:5:421:8">/**
+     * Register an option into the repository both as a short and long option.
+     * Initialize its description with the description passed.
+     *
+     * @param longOption  The long option name.
+     * @param shortOption The short option name.
+     * @param description The description of the option.
+     * @param option      The option to register.
+     */</jtok>
+<jtok eid="22" type="method_name" span="423:17:423:25">register</jtok>
+<jtok eid="22" type="parameter_type" span="423:27:423:33">String</jtok>
+<jtok eid="22" type="parameter_name" span="423:34:423:44">longOption</jtok>
+<jtok eid="22" type="parameter_name" span="423:51:423:62">shortOption</jtok>
+<jtok eid="22" type="parameter_type" span="424:27:424:33">String</jtok>
+<jtok eid="22" type="parameter_name" span="424:34:424:45">description</jtok>
+<jtok eid="22" type="parameter_type" span="424:47:424:53">Option</jtok>
+<jtok eid="22" type="parameter_name" span="424:54:424:60">option</jtok>
+<jtok eid="22" type="primary_name_ref" span="425:9:425:22">generalModule</jtok>
+<jtok eid="22" type="method_call" span="425:23:425:31">register</jtok>
+<jtok eid="22" type="primary_name_ref" span="425:33:425:43">longOption</jtok>
+<jtok eid="22" type="primary_name_ref" span="425:45:425:56">shortOption</jtok>
+<jtok eid="22" type="primary_name_ref" span="425:58:425:69">description</jtok>
+<jtok eid="22" type="primary_name_ref" span="425:71:425:77">option</jtok>
+<jtok eid="1" type="block_comment" span="428:5:438:8">/**
+     * Register an option into the repository both as a short and long option.
+     * Initialize its description with the description passed.
+     *
+     * @param longOption  The long option name.
+     * @param shortOption The short option name.
+     * @param description The description of the option.
+     * @param option      The option to register.
+     * @param deprecated  A boolean indicating whether an option should
+     *                    be deprecated.
+     */</jtok>
+<jtok eid="23" type="method_name" span="440:17:440:25">register</jtok>
+<jtok eid="23" type="parameter_type" span="440:27:440:33">String</jtok>
+<jtok eid="23" type="parameter_name" span="440:34:440:44">longOption</jtok>
+<jtok eid="23" type="parameter_name" span="440:51:440:62">shortOption</jtok>
+<jtok eid="23" type="parameter_type" span="441:27:441:33">String</jtok>
+<jtok eid="23" type="parameter_name" span="441:34:441:45">description</jtok>
+<jtok eid="23" type="parameter_type" span="441:47:441:53">Option</jtok>
+<jtok eid="23" type="parameter_name" span="441:54:441:60">option</jtok>
+<jtok eid="23" type="parameter_name" span="442:35:442:45">deprecated</jtok>
+<jtok eid="23" type="primary_name_ref" span="443:9:443:22">generalModule</jtok>
+<jtok eid="23" type="method_call" span="443:23:443:31">register</jtok>
+<jtok eid="23" type="primary_name_ref" span="443:33:443:43">longOption</jtok>
+<jtok eid="23" type="primary_name_ref" span="443:45:443:56">shortOption</jtok>
+<jtok eid="23" type="primary_name_ref" span="443:58:443:69">description</jtok>
+<jtok eid="23" type="primary_name_ref" span="443:71:443:77">option</jtok>
+<jtok eid="23" type="primary_name_ref" span="444:33:444:43">deprecated</jtok>
+<jtok eid="1" type="block_comment" span="447:5:451:8">/**
+     * Register an option module based on its name.
+     *
+     * @param module The option module to register.
+     */</jtok>
+<jtok eid="24" type="method_name" span="453:17:453:25">register</jtok>
+<jtok eid="24" type="parameter_type" span="453:27:453:39">OptionModule</jtok>
+<jtok eid="24" type="parameter_name" span="453:40:453:46">module</jtok>
+<jtok eid="24" type="method_call" span="454:9:454:17">register</jtok>
+<jtok eid="24" type="primary_name_ref" span="454:19:454:25">module</jtok>
+<jtok eid="24" type="method_call" span="454:26:454:33">getName</jtok>
+<jtok eid="24" type="primary_name_ref" span="454:37:454:43">module</jtok>
+<jtok eid="1" type="block_comment" span="457:5:462:8">/**
+     * Register an option module and associate it with the name passed.
+     *
+     * @param name   The name associated with the option module.
+     * @param module The option module to register.
+     */</jtok>
+<jtok eid="25" type="method_name" span="464:17:464:25">register</jtok>
+<jtok eid="25" type="parameter_type" span="464:27:464:33">String</jtok>
+<jtok eid="25" type="parameter_name" span="464:34:464:38">name</jtok>
+<jtok eid="25" type="parameter_type" span="464:40:464:52">OptionModule</jtok>
+<jtok eid="25" type="parameter_name" span="464:53:464:59">module</jtok>
+<jtok eid="25" type="primary_name_ref" span="465:9:465:16">modules</jtok>
+<jtok eid="25" type="method_call" span="465:17:465:20">put</jtok>
+<jtok eid="25" type="primary_name_ref" span="465:22:465:26">name</jtok>
+<jtok eid="25" type="method_call" span="465:27:465:38">toLowerCase</jtok>
+<jtok eid="25" type="primary_name_ref" span="465:42:465:48">module</jtok>
+<jtok eid="1" type="block_comment" span="468:5:475:8">/**
+     * Process a string of values representing the invoked options. After
+     * all the options are processed, any leftover arguments are returned.
+     *
+     * @param args The arguments to process.
+     *
+     * @return The leftover arguments.
+     */</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="477:12:477:18">String</jtok>
+<jtok eid="26" type="method_name" span="477:21:477:28">process</jtok>
+<jtok eid="26" type="parameter_type" span="477:30:477:36">String</jtok>
+<jtok eid="26" type="parameter_name" span="477:37:477:41">args</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="479:9:479:15">String</jtok>
+<jtok eid="26" type="local_variable_name" span="479:18:479:24">retval</jtok>
+<jtok eid="26" type="constructor_call" span="479:31:479:37">String</jtok>
+<jtok eid="26" type="primary_name_ref" span="481:13:481:19">retval</jtok>
+<jtok eid="26" type="method_call" span="481:22:481:36">processOptions</jtok>
+<jtok eid="26" type="primary_name_ref" span="481:38:481:42">args</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="483:17:483:32">OptionException</jtok>
+<jtok eid="26" type="local_variable_name" span="483:33:483:34">e</jtok>
+<jtok eid="26" type="primary_name_ref" span="484:13:484:19">System</jtok>
+<jtok eid="26" type="qualified_name_ref" span="484:20:484:23">err</jtok>
+<jtok eid="26" type="method_call" span="484:24:484:31">println</jtok>
+<jtok eid="26" type="string_literal" span="484:33:484:42">"Error: "</jtok>
+<jtok eid="26" type="primary_name_ref" span="484:45:484:46">e</jtok>
+<jtok eid="26" type="method_call" span="484:47:484:57">getMessage</jtok>
+<jtok eid="26" type="block_comment" span="486:9:490:37">/**
+        catch ( Exception e ) {
+            System.err.println( "Error: Unexpected Error in ritopt Processing." +
+                                "Check syntax." );
+                                }**/</jtok>
+<jtok eid="26" type="primary_name_ref" span="491:16:491:22">retval</jtok>
+<jtok eid="1" type="block_comment" span="494:5:501:8">/**
+     * Retrieves an option module based on the name passed.
+     *
+     * @param name The name referring to the option module.
+     *
+     * @return The option module. Null is returned if the module does not
+     *         exist.
+     */</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="503:12:503:24">OptionModule</jtok>
+<jtok eid="27" type="method_name" span="503:25:503:34">getModule</jtok>
+<jtok eid="27" type="parameter_type" span="503:36:503:42">String</jtok>
+<jtok eid="27" type="parameter_name" span="503:43:503:47">name</jtok>
+<jtok eid="27" type="primary_name_ref" span="504:16:504:23">modules</jtok>
+<jtok eid="27" type="method_call" span="504:24:504:27">get</jtok>
+<jtok eid="27" type="primary_name_ref" span="504:29:504:33">name</jtok>
+<jtok eid="27" type="method_call" span="504:34:504:45">toLowerCase</jtok>
+<jtok eid="1" type="block_comment" span="507:5:513:8">/**
+     * Returns a boolean indicating whether an option module exists.
+     *
+     * @param name The name referring to the option module.
+     *
+     * @return A boolean value indicating whether the module exists.
+     */</jtok>
+<jtok eid="28" type="method_name" span="515:20:515:32">moduleExists</jtok>
+<jtok eid="28" type="parameter_type" span="515:34:515:40">String</jtok>
+<jtok eid="28" type="parameter_name" span="515:41:515:45">name</jtok>
+<jtok eid="28" type="method_call" span="516:16:516:25">getModule</jtok>
+<jtok eid="28" type="primary_name_ref" span="516:27:516:31">name</jtok>
+<jtok eid="1" type="block_comment" span="519:5:525:8">/**
+     * Receives NotifyOption events. If the event command equals "help"
+     * or "version", the appropriate display methods are invoked.
+     *
+     * @param event         The event object containing information about the
+     *                      invocation.
+     */</jtok>
+<jtok eid="29" type="method_name" span="527:17:527:30">optionInvoked</jtok>
+<jtok eid="29" type="parameter_type" span="527:32:527:43">OptionEvent</jtok>
+<jtok eid="29" type="parameter_name" span="527:44:527:49">event</jtok>
+<jtok eid="29" type="primary_name_ref" span="528:14:528:19">event</jtok>
+<jtok eid="29" type="method_call" span="528:20:528:30">getCommand</jtok>
+<jtok eid="29" type="method_call" span="528:33:528:39">equals</jtok>
+<jtok eid="29" type="string_literal" span="528:41:528:47">"help"</jtok>
+<jtok eid="29" type="method_call" span="529:13:529:24">displayHelp</jtok>
+<jtok eid="29" type="primary_name_ref" span="531:19:531:24">event</jtok>
+<jtok eid="29" type="method_call" span="531:25:531:35">getCommand</jtok>
+<jtok eid="29" type="method_call" span="531:38:531:44">equals</jtok>
+<jtok eid="29" type="string_literal" span="531:46:531:55">"version"</jtok>
+<jtok eid="29" type="method_call" span="532:13:532:27">displayVersion</jtok>
+<jtok eid="1" type="block_comment" span="536:5:546:8">/**
+     * Process a string representing the invoked options. This string
+     * gets split according to how they would be split when passed to
+     * a main method. The split array of options gets passed to a
+     * private method for processing. After all the options are processed,
+     * any leftover arguments are returned.
+     *
+     * @param str The arguments to process.
+     *
+     * @return The leftover arguments.
+     */</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="548:12:548:18">String</jtok>
+<jtok eid="30" type="method_name" span="548:21:548:28">process</jtok>
+<jtok eid="30" type="parameter_type" span="548:30:548:36">String</jtok>
+<jtok eid="30" type="parameter_name" span="548:37:548:40">str</jtok>
+<jtok eid="30" type="method_call" span="549:16:549:23">process</jtok>
+<jtok eid="30" type="method_call" span="549:25:549:30">split</jtok>
+<jtok eid="30" type="primary_name_ref" span="549:32:549:35">str</jtok>
+<jtok eid="1" type="block_comment" span="552:5:559:8">/**
+     * Splits a string representing command line arguments into several
+     * strings.
+     *
+     * @param str   The string to split.
+     *
+     * @return  The splitted string.
+     */</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="561:12:561:18">String</jtok>
+<jtok eid="31" type="method_name" span="561:21:561:26">split</jtok>
+<jtok eid="31" type="parameter_type" span="561:28:561:34">String</jtok>
+<jtok eid="31" type="parameter_name" span="561:35:561:38">str</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="562:9:562:21">StringBuffer</jtok>
+<jtok eid="31" type="local_variable_name" span="562:22:562:25">buf</jtok>
+<jtok eid="31" type="constructor_call" span="562:32:562:44">StringBuffer</jtok>
+<jtok eid="31" type="primary_name_ref" span="562:46:562:49">str</jtok>
+<jtok eid="31" type="method_call" span="562:50:562:56">length</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="563:9:563:13">java</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="563:14:563:18">util</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="563:19:563:23">List</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="563:24:563:30">String</jtok>
+<jtok eid="31" type="local_variable_name" span="563:32:563:33">l</jtok>
+<jtok eid="31" type="constructor_call" span="563:40:563:44">java</jtok>
+<jtok eid="31" type="constructor_call" span="563:45:563:49">util</jtok>
+<jtok eid="31" type="constructor_call" span="563:50:563:59">ArrayList</jtok>
+<jtok eid="31" type="constructor_call" span="563:60:563:66">String</jtok>
+<jtok eid="31" type="local_variable_name" span="564:13:564:17">scnt</jtok>
+<jtok eid="31" type="primary_name_ref" span="564:20:564:27">Utility</jtok>
+<jtok eid="31" type="method_call" span="564:28:564:33">count</jtok>
+<jtok eid="31" type="primary_name_ref" span="564:35:564:38">str</jtok>
+<jtok eid="31" type="local_variable_name" span="565:17:565:18">q</jtok>
+<jtok eid="31" type="primary_name_ref" span="566:15:566:19">scnt</jtok>
+<jtok eid="31" type="primary_name_ref" span="566:31:566:35">scnt</jtok>
+<jtok eid="31" type="constructor_call" span="567:23:567:48">OptionProcessingException</jtok>
+<jtok eid="31" type="string_literal" span="567:50:567:75">"Expecting an end quote."</jtok>
+<jtok eid="31" type="local_variable_name" span="569:19:569:20">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="569:26:569:27">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="569:30:569:33">str</jtok>
+<jtok eid="31" type="method_call" span="569:34:569:40">length</jtok>
+<jtok eid="31" type="primary_name_ref" span="569:44:569:45">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="570:18:570:21">str</jtok>
+<jtok eid="31" type="method_call" span="570:22:570:28">charAt</jtok>
+<jtok eid="31" type="primary_name_ref" span="570:30:570:31">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="571:17:571:18">q</jtok>
+<jtok eid="31" type="primary_name_ref" span="571:22:571:23">q</jtok>
+<jtok eid="31" type="primary_name_ref" span="573:23:573:26">str</jtok>
+<jtok eid="31" type="method_call" span="573:27:573:33">charAt</jtok>
+<jtok eid="31" type="primary_name_ref" span="573:35:573:36">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="573:50:573:51">q</jtok>
+<jtok eid="31" type="primary_name_ref" span="574:17:574:18">l</jtok>
+<jtok eid="31" type="method_call" span="574:19:574:22">add</jtok>
+<jtok eid="31" type="primary_name_ref" span="574:24:574:27">buf</jtok>
+<jtok eid="31" type="method_call" span="574:28:574:36">toString</jtok>
+<jtok eid="31" type="primary_name_ref" span="575:17:575:20">buf</jtok>
+<jtok eid="31" type="constructor_call" span="575:27:575:39">StringBuffer</jtok>
+<jtok eid="31" type="primary_name_ref" span="575:41:575:44">str</jtok>
+<jtok eid="31" type="method_call" span="575:45:575:51">length</jtok>
+<jtok eid="31" type="primary_name_ref" span="578:17:578:20">buf</jtok>
+<jtok eid="31" type="method_call" span="578:21:578:27">append</jtok>
+<jtok eid="31" type="primary_name_ref" span="578:29:578:32">str</jtok>
+<jtok eid="31" type="method_call" span="578:33:578:39">charAt</jtok>
+<jtok eid="31" type="primary_name_ref" span="578:41:578:42">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="581:14:581:17">buf</jtok>
+<jtok eid="31" type="method_call" span="581:18:581:24">length</jtok>
+<jtok eid="31" type="primary_name_ref" span="582:13:582:14">l</jtok>
+<jtok eid="31" type="method_call" span="582:15:582:18">add</jtok>
+<jtok eid="31" type="primary_name_ref" span="582:20:582:23">buf</jtok>
+<jtok eid="31" type="method_call" span="582:24:582:32">toString</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="584:9:584:17">Iterator</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="584:18:584:24">String</jtok>
+<jtok eid="31" type="local_variable_name" span="584:26:584:28">it</jtok>
+<jtok eid="31" type="primary_name_ref" span="584:31:584:32">l</jtok>
+<jtok eid="31" type="method_call" span="584:33:584:41">iterator</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="585:9:585:15">String</jtok>
+<jtok eid="31" type="local_variable_name" span="585:16:585:22">retval</jtok>
+<jtok eid="31" type="constructor_call" span="585:31:585:37">String</jtok>
+<jtok eid="31" type="primary_name_ref" span="585:39:585:40">l</jtok>
+<jtok eid="31" type="method_call" span="585:41:585:45">size</jtok>
+<jtok eid="31" type="local_variable_name" span="586:13:586:14">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="587:17:587:19">it</jtok>
+<jtok eid="31" type="method_call" span="587:20:587:27">hasNext</jtok>
+<jtok eid="31" type="primary_name_ref" span="588:13:588:19">retval</jtok>
+<jtok eid="31" type="primary_name_ref" span="588:21:588:22">n</jtok>
+<jtok eid="31" type="primary_name_ref" span="588:29:588:31">it</jtok>
+<jtok eid="31" type="method_call" span="588:32:588:36">next</jtok>
+<jtok eid="31" type="primary_name_ref" span="590:16:590:22">retval</jtok>
+<jtok eid="1" type="block_comment" span="593:5:597:8">/**
+     * Writes all options and their modules out to an options file.
+     *
+     * @param filename  The options filename to write.
+     */</jtok>
+<jtok eid="32" type="method_name" span="599:17:599:32">writeOptionFile</jtok>
+<jtok eid="32" type="parameter_type" span="599:34:599:40">String</jtok>
+<jtok eid="32" type="parameter_name" span="599:41:599:49">filename</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="600:9:600:29">BufferedOutputStream</jtok>
+<jtok eid="32" type="local_variable_name" span="600:30:600:36">writer</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="601:9:601:17">Iterator</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="601:18:601:30">OptionModule</jtok>
+<jtok eid="32" type="local_variable_name" span="601:32:601:34">it</jtok>
+<jtok eid="32" type="primary_name_ref" span="602:9:602:22">currentModule</jtok>
+<jtok eid="32" type="primary_name_ref" span="602:25:602:38">generalModule</jtok>
+<jtok eid="32" type="primary_name_ref" span="604:13:604:19">writer</jtok>
+<jtok eid="32" type="constructor_call" span="605:21:605:41">BufferedOutputStream</jtok>
+<jtok eid="32" type="constructor_call" span="605:47:605:63">FileOutputStream</jtok>
+<jtok eid="32" type="primary_name_ref" span="605:65:605:73">filename</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="606:13:606:24">PrintStream</jtok>
+<jtok eid="32" type="local_variable_name" span="606:25:606:27">ps</jtok>
+<jtok eid="32" type="constructor_call" span="606:34:606:45">PrintStream</jtok>
+<jtok eid="32" type="primary_name_ref" span="606:47:606:53">writer</jtok>
+<jtok eid="32" type="primary_name_ref" span="607:13:607:26">generalModule</jtok>
+<jtok eid="32" type="method_call" span="607:27:607:49">writeFileToPrintStream</jtok>
+<jtok eid="32" type="primary_name_ref" span="607:51:607:53">ps</jtok>
+<jtok eid="32" type="primary_name_ref" span="608:13:608:15">it</jtok>
+<jtok eid="32" type="primary_name_ref" span="608:18:608:25">modules</jtok>
+<jtok eid="32" type="method_call" span="608:26:608:32">values</jtok>
+<jtok eid="32" type="method_call" span="608:35:608:43">iterator</jtok>
+<jtok eid="32" type="primary_name_ref" span="609:21:609:23">it</jtok>
+<jtok eid="32" type="method_call" span="609:24:609:31">hasNext</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="610:17:610:29">OptionModule</jtok>
+<jtok eid="32" type="local_variable_name" span="610:30:610:36">module</jtok>
+<jtok eid="32" type="primary_name_ref" span="610:39:610:41">it</jtok>
+<jtok eid="32" type="method_call" span="610:42:610:46">next</jtok>
+<jtok eid="32" type="primary_name_ref" span="611:17:611:23">module</jtok>
+<jtok eid="32" type="method_call" span="611:24:611:46">writeFileToPrintStream</jtok>
+<jtok eid="32" type="primary_name_ref" span="611:48:611:50">ps</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="614:17:614:28">IOException</jtok>
+<jtok eid="32" type="local_variable_name" span="614:29:614:30">e</jtok>
+<jtok eid="32" type="constructor_call" span="615:23:615:48">OptionProcessingException</jtok>
+<jtok eid="32" type="primary_name_ref" span="615:50:615:51">e</jtok>
+<jtok eid="32" type="method_call" span="615:52:615:62">getMessage</jtok>
+<jtok eid="32" type="primary_name_ref" span="619:22:619:28">writer</jtok>
+<jtok eid="32" type="primary_name_ref" span="620:21:620:27">writer</jtok>
+<jtok eid="32" type="method_call" span="620:28:620:33">close</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="622:20:622:31">IOException</jtok>
+<jtok eid="32" type="local_variable_name" span="622:32:622:33">e</jtok>
+<jtok eid="32" type="constructor_call" span="623:27:623:52">OptionProcessingException</jtok>
+<jtok eid="32" type="primary_name_ref" span="623:54:623:55">e</jtok>
+<jtok eid="32" type="method_call" span="623:56:623:66">getMessage</jtok>
+<jtok eid="1" type="block_comment" span="628:5:632:8">/**
+     * Loads all options and their modules from an options file.
+     *
+     * @param filename  The options filename to write.
+     */</jtok>
+<jtok eid="33" type="method_name" span="634:17:634:31">loadOptionFile</jtok>
+<jtok eid="33" type="parameter_type" span="634:33:634:39">String</jtok>
+<jtok eid="33" type="parameter_name" span="634:40:634:48">filename</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="635:9:635:23">BufferedReader</jtok>
+<jtok eid="33" type="local_variable_name" span="635:24:635:30">reader</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="636:9:636:15">String</jtok>
+<jtok eid="33" type="local_variable_name" span="636:16:636:20">line</jtok>
+<jtok eid="33" type="primary_name_ref" span="637:9:637:22">currentModule</jtok>
+<jtok eid="33" type="primary_name_ref" span="637:25:637:38">generalModule</jtok>
+<jtok eid="33" type="primary_name_ref" span="639:13:639:19">reader</jtok>
+<jtok eid="33" type="constructor_call" span="639:26:639:40">BufferedReader</jtok>
+<jtok eid="33" type="constructor_call" span="639:46:639:56">FileReader</jtok>
+<jtok eid="33" type="primary_name_ref" span="639:58:639:66">filename</jtok>
+<jtok eid="33" type="primary_name_ref" span="640:23:640:27">line</jtok>
+<jtok eid="33" type="primary_name_ref" span="640:30:640:36">reader</jtok>
+<jtok eid="33" type="method_call" span="640:37:640:45">readLine</jtok>
+<jtok eid="33" type="primary_name_ref" span="641:17:641:21">line</jtok>
+<jtok eid="33" type="primary_name_ref" span="641:24:641:31">Utility</jtok>
+<jtok eid="33" type="method_call" span="641:32:641:45">stripComments</jtok>
+<jtok eid="33" type="primary_name_ref" span="641:47:641:51">line</jtok>
+<jtok eid="33" type="method_call" span="642:17:642:24">process</jtok>
+<jtok eid="33" type="primary_name_ref" span="642:26:642:30">line</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="645:17:645:28">IOException</jtok>
+<jtok eid="33" type="local_variable_name" span="645:29:645:30">e</jtok>
+<jtok eid="33" type="constructor_call" span="646:23:646:48">OptionProcessingException</jtok>
+<jtok eid="33" type="primary_name_ref" span="646:50:646:51">e</jtok>
+<jtok eid="33" type="method_call" span="646:52:646:62">getMessage</jtok>
+<jtok eid="33" type="primary_name_ref" span="650:22:650:28">reader</jtok>
+<jtok eid="33" type="primary_name_ref" span="651:21:651:27">reader</jtok>
+<jtok eid="33" type="method_call" span="651:28:651:33">close</jtok>
+<jtok eid="33" type="class_or_interface_ref" span="653:20:653:31">IOException</jtok>
+<jtok eid="33" type="local_variable_name" span="653:32:653:33">e</jtok>
+<jtok eid="33" type="constructor_call" span="654:27:654:52">OptionProcessingException</jtok>
+<jtok eid="33" type="primary_name_ref" span="654:54:654:55">e</jtok>
+<jtok eid="33" type="method_call" span="654:56:654:66">getMessage</jtok>
+<jtok eid="1" type="block_comment" span="659:5:665:8">/**
+     * Processes an array of strings representing command line arguments.
+     *
+     * @param args arguments to process.
+     *
+     * @return The leftover arguments.
+     */</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="667:13:667:19">String</jtok>
+<jtok eid="34" type="method_name" span="667:22:667:36">processOptions</jtok>
+<jtok eid="34" type="parameter_type" span="667:38:667:44">String</jtok>
+<jtok eid="34" type="parameter_name" span="667:45:667:49">args</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="668:9:668:15">String</jtok>
+<jtok eid="34" type="local_variable_name" span="668:16:668:22">retval</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="669:9:669:15">String</jtok>
+<jtok eid="34" type="local_variable_name" span="669:16:669:26">moduleName</jtok>
+<jtok eid="34" type="string_literal" span="669:29:669:38">"general"</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="670:9:670:15">String</jtok>
+<jtok eid="34" type="local_variable_name" span="670:16:670:26">optionFile</jtok>
+<jtok eid="34" type="string_literal" span="670:29:670:31">""</jtok>
+<jtok eid="34" type="local_variable_name" span="671:14:671:25">shortOption</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="672:9:672:15">String</jtok>
+<jtok eid="34" type="local_variable_name" span="672:16:672:26">longOption</jtok>
+<jtok eid="34" type="string_literal" span="672:29:672:31">""</jtok>
+<jtok eid="34" type="local_variable_name" span="673:19:673:20">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="673:26:673:27">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="673:30:673:34">args</jtok>
+<jtok eid="34" type="qualified_name_ref" span="673:35:673:41">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="673:45:673:51">retval</jtok>
+<jtok eid="34" type="primary_name_ref" span="673:61:673:62">n</jtok>
+<jtok eid="34" type="local_variable_name" span="674:21:674:34">moduleInvoked</jtok>
+<jtok eid="34" type="local_variable_name" span="675:21:675:39">shortOptionInvoked</jtok>
+<jtok eid="34" type="local_variable_name" span="676:21:676:38">longOptionInvoked</jtok>
+<jtok eid="34" type="local_variable_name" span="677:21:677:42">readOptionFileInvoked</jtok>
+<jtok eid="34" type="local_variable_name" span="678:21:678:43">writeOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="679:18:679:22">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="679:24:679:25">n</jtok>
+<jtok eid="34" type="method_call" span="679:28:679:34">length</jtok>
+<jtok eid="34" type="local_variable_name" span="680:22:680:24">fc</jtok>
+<jtok eid="34" type="primary_name_ref" span="680:27:680:31">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="680:33:680:34">n</jtok>
+<jtok eid="34" type="method_call" span="680:37:680:43">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="681:17:681:30">moduleInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="681:33:681:35">fc</jtok>
+<jtok eid="34" type="primary_name_ref" span="682:17:682:38">readOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="682:41:682:43">fc</jtok>
+<jtok eid="34" type="primary_name_ref" span="683:17:683:39">writeOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="683:42:683:44">fc</jtok>
+<jtok eid="34" type="primary_name_ref" span="685:18:685:22">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="685:24:685:25">n</jtok>
+<jtok eid="34" type="method_call" span="685:28:685:34">length</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="686:17:686:23">String</jtok>
+<jtok eid="34" type="local_variable_name" span="686:24:686:25">s</jtok>
+<jtok eid="34" type="primary_name_ref" span="686:28:686:32">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="686:34:686:35">n</jtok>
+<jtok eid="34" type="method_call" span="686:38:686:47">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="687:17:687:35">shortOptionInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="687:41:687:42">s</jtok>
+<jtok eid="34" type="method_call" span="687:43:687:49">equals</jtok>
+<jtok eid="34" type="string_literal" span="687:51:687:55">"--"</jtok>
+<jtok eid="34" type="primary_name_ref" span="688:28:688:29">s</jtok>
+<jtok eid="34" type="method_call" span="688:30:688:36">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="689:17:689:34">longOptionInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="689:39:689:40">s</jtok>
+<jtok eid="34" type="method_call" span="689:41:689:47">equals</jtok>
+<jtok eid="34" type="string_literal" span="689:49:689:53">"--"</jtok>
+<jtok eid="34" type="primary_name_ref" span="691:18:691:27">debugFlag</jtok>
+<jtok eid="34" type="primary_name_ref" span="692:17:692:23">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="692:24:692:27">err</jtok>
+<jtok eid="34" type="method_call" span="692:28:692:35">println</jtok>
+<jtok eid="34" type="string_literal" span="692:37:692:53">"Short Option: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="692:56:692:74">shortOptionInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="693:17:693:23">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="693:24:693:27">err</jtok>
+<jtok eid="34" type="method_call" span="693:28:693:35">println</jtok>
+<jtok eid="34" type="string_literal" span="693:37:693:52">"Long Option: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="693:55:693:72">longOptionInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="694:17:694:23">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="694:24:694:27">err</jtok>
+<jtok eid="34" type="method_call" span="694:28:694:35">println</jtok>
+<jtok eid="34" type="string_literal" span="694:37:694:47">"Module: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="694:50:694:63">moduleInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="695:17:695:23">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="695:24:695:27">err</jtok>
+<jtok eid="34" type="method_call" span="695:28:695:35">println</jtok>
+<jtok eid="34" type="string_literal" span="695:37:695:57">"Load Option File: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="696:37:696:58">readOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="697:17:697:23">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="697:24:697:27">err</jtok>
+<jtok eid="34" type="method_call" span="697:28:697:35">println</jtok>
+<jtok eid="34" type="string_literal" span="697:37:697:58">"Write Option File: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="698:39:698:61">writeOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="700:18:700:31">moduleInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="701:23:701:27">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="701:29:701:30">n</jtok>
+<jtok eid="34" type="method_call" span="701:33:701:39">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="701:41:701:45">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="701:47:701:48">n</jtok>
+<jtok eid="34" type="method_call" span="701:51:701:57">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="702:21:702:27">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="702:28:702:31">err</jtok>
+<jtok eid="34" type="method_call" span="702:32:702:39">println</jtok>
+<jtok eid="34" type="primary_name_ref" span="702:41:702:45">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="702:47:702:48">n</jtok>
+<jtok eid="34" type="constructor_call" span="704:25:704:50">OptionProcessingException</jtok>
+<jtok eid="34" type="string_literal" span="705:51:705:80">"Module arguments must start"</jtok>
+<jtok eid="34" type="string_literal" span="706:53:706:78">" with : and end with :."</jtok>
+<jtok eid="34" type="primary_name_ref" span="710:21:710:31">moduleName</jtok>
+<jtok eid="34" type="primary_name_ref" span="710:34:710:38">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="710:39:710:40">n</jtok>
+<jtok eid="34" type="method_call" span="710:42:710:51">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="711:53:711:57">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="711:58:711:59">n</jtok>
+<jtok eid="34" type="method_call" span="711:61:711:67">length</jtok>
+<jtok eid="34" type="method_call" span="712:55:712:66">toLowerCase</jtok>
+<jtok eid="34" type="primary_name_ref" span="713:26:713:36">moduleName</jtok>
+<jtok eid="34" type="method_call" span="713:37:713:43">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="714:29:714:39">moduleName</jtok>
+<jtok eid="34" type="method_call" span="714:40:714:46">equals</jtok>
+<jtok eid="34" type="string_literal" span="714:48:714:57">"general"</jtok>
+<jtok eid="34" type="primary_name_ref" span="715:25:715:35">moduleName</jtok>
+<jtok eid="34" type="string_literal" span="715:38:715:47">"general"</jtok>
+<jtok eid="34" type="primary_name_ref" span="716:25:716:38">currentModule</jtok>
+<jtok eid="34" type="primary_name_ref" span="716:41:716:54">generalModule</jtok>
+<jtok eid="34" type="primary_name_ref" span="719:25:719:38">currentModule</jtok>
+<jtok eid="34" type="method_call" span="719:41:719:50">getModule</jtok>
+<jtok eid="34" type="primary_name_ref" span="719:52:719:62">moduleName</jtok>
+<jtok eid="34" type="primary_name_ref" span="721:26:721:39">currentModule</jtok>
+<jtok eid="34" type="constructor_call" span="722:35:722:60">OptionProcessingException</jtok>
+<jtok eid="34" type="string_literal" span="722:62:722:72">"Module '"</jtok>
+<jtok eid="34" type="primary_name_ref" span="723:62:723:72">moduleName</jtok>
+<jtok eid="34" type="string_literal" span="724:58:724:77">"' does not exist."</jtok>
+<jtok eid="34" type="primary_name_ref" span="725:26:725:35">debugFlag</jtok>
+<jtok eid="34" type="primary_name_ref" span="726:25:726:31">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="726:32:726:35">err</jtok>
+<jtok eid="34" type="method_call" span="726:36:726:43">println</jtok>
+<jtok eid="34" type="string_literal" span="726:45:726:55">"Module: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="726:58:726:68">moduleName</jtok>
+<jtok eid="34" type="primary_name_ref" span="729:17:729:30">moduleInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="731:23:731:44">readOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="732:17:732:27">optionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="732:30:732:37">Utility</jtok>
+<jtok eid="34" type="method_call" span="732:38:732:42">trim</jtok>
+<jtok eid="34" type="primary_name_ref" span="732:44:732:48">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="732:50:732:51">n</jtok>
+<jtok eid="34" type="method_call" span="732:54:732:63">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="733:22:733:32">optionFile</jtok>
+<jtok eid="34" type="method_call" span="733:33:733:39">equals</jtok>
+<jtok eid="34" type="string_literal" span="733:41:733:44">"@"</jtok>
+<jtok eid="34" type="primary_name_ref" span="734:25:734:35">optionFile</jtok>
+<jtok eid="34" type="method_call" span="734:36:734:42">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="735:21:735:31">optionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="735:34:735:55">defaultOptionFilename</jtok>
+<jtok eid="34" type="primary_name_ref" span="736:22:736:31">debugFlag</jtok>
+<jtok eid="34" type="primary_name_ref" span="737:21:737:27">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="737:28:737:31">err</jtok>
+<jtok eid="34" type="method_call" span="737:32:737:39">println</jtok>
+<jtok eid="34" type="string_literal" span="737:41:737:57">"Option file: '"</jtok>
+<jtok eid="34" type="primary_name_ref" span="737:60:737:70">optionFile</jtok>
+<jtok eid="34" type="string_literal" span="737:73:737:77">"'."</jtok>
+<jtok eid="34" type="method_call" span="739:17:739:31">loadOptionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="739:33:739:43">optionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="741:23:741:41">shortOptionInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="742:17:742:28">shortOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="742:31:742:35">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="742:37:742:38">n</jtok>
+<jtok eid="34" type="method_call" span="742:41:742:47">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="743:23:743:30">Utility</jtok>
+<jtok eid="34" type="method_call" span="743:31:743:45">isAlphaNumeric</jtok>
+<jtok eid="34" type="primary_name_ref" span="743:47:743:58">shortOption</jtok>
+<jtok eid="34" type="constructor_call" span="744:31:744:56">OptionProcessingException</jtok>
+<jtok eid="34" type="string_literal" span="745:23:745:63">"A short option must be alphanumeric. -"</jtok>
+<jtok eid="34" type="primary_name_ref" span="745:66:745:77">shortOption</jtok>
+<jtok eid="34" type="string_literal" span="746:25:746:46">" is not acceptable."</jtok>
+<jtok eid="34" type="primary_name_ref" span="748:22:748:31">debugFlag</jtok>
+<jtok eid="34" type="primary_name_ref" span="749:21:749:27">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="749:28:749:31">err</jtok>
+<jtok eid="34" type="method_call" span="749:32:749:39">println</jtok>
+<jtok eid="34" type="string_literal" span="749:41:749:62">"Short option text: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="749:65:749:76">shortOption</jtok>
+<jtok eid="34" type="local_variable_name" span="751:22:751:27">delim</jtok>
+<jtok eid="34" type="primary_name_ref" span="751:32:751:36">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="751:38:751:39">n</jtok>
+<jtok eid="34" type="method_call" span="751:42:751:48">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="752:21:752:25">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="752:27:752:28">n</jtok>
+<jtok eid="34" type="method_call" span="752:31:752:37">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="753:22:753:27">delim</jtok>
+<jtok eid="34" type="primary_name_ref" span="753:38:753:43">delim</jtok>
+<jtok eid="34" type="primary_name_ref" span="754:21:754:34">currentModule</jtok>
+<jtok eid="34" type="method_call" span="754:35:754:41">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="754:43:754:54">shortOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="754:56:754:61">delim</jtok>
+<jtok eid="34" type="primary_name_ref" span="756:27:756:32">delim</jtok>
+<jtok eid="34" type="primary_name_ref" span="757:21:757:34">currentModule</jtok>
+<jtok eid="34" type="method_call" span="757:35:757:41">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="757:43:757:54">shortOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="758:43:758:47">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="758:49:758:50">n</jtok>
+<jtok eid="34" type="method_call" span="758:53:758:62">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="760:27:760:32">delim</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="761:21:761:27">String</jtok>
+<jtok eid="34" type="local_variable_name" span="761:28:761:33">dtext</jtok>
+<jtok eid="34" type="string_literal" span="761:36:761:39">"+"</jtok>
+<jtok eid="34" type="primary_name_ref" span="762:26:762:27">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="762:30:762:34">args</jtok>
+<jtok eid="34" type="qualified_name_ref" span="762:35:762:41">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="763:31:763:38">Utility</jtok>
+<jtok eid="34" type="method_call" span="763:39:763:47">contains</jtok>
+<jtok eid="34" type="primary_name_ref" span="763:49:763:53">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="763:55:763:56">n</jtok>
+<jtok eid="34" type="method_call" span="763:63:763:69">charAt</jtok>
+<jtok eid="34" type="string_literal" span="764:49:764:54">"-[@"</jtok>
+<jtok eid="34" type="primary_name_ref" span="765:29:765:34">dtext</jtok>
+<jtok eid="34" type="primary_name_ref" span="765:37:765:41">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="765:43:765:44">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="766:29:766:30">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="769:21:769:34">currentModule</jtok>
+<jtok eid="34" type="method_call" span="769:35:769:41">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="769:43:769:54">shortOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="769:56:769:61">dtext</jtok>
+<jtok eid="34" type="primary_name_ref" span="771:27:771:34">Utility</jtok>
+<jtok eid="34" type="method_call" span="771:35:771:49">isAlphaNumeric</jtok>
+<jtok eid="34" type="primary_name_ref" span="771:51:771:56">delim</jtok>
+<jtok eid="34" type="local_variable_name" span="772:31:772:32">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="772:38:772:39">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="772:42:772:46">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="772:48:772:49">n</jtok>
+<jtok eid="34" type="method_call" span="772:52:772:58">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="772:62:772:63">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="773:30:773:37">Utility</jtok>
+<jtok eid="34" type="method_call" span="773:38:773:52">isAlphaNumeric</jtok>
+<jtok eid="34" type="primary_name_ref" span="773:54:773:58">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="773:60:773:61">n</jtok>
+<jtok eid="34" type="method_call" span="773:64:773:70">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="773:72:773:73">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="774:29:774:42">currentModule</jtok>
+<jtok eid="34" type="method_call" span="774:43:774:49">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="774:51:774:62">shortOption</jtok>
+<jtok eid="34" type="string_literal" span="774:64:774:67">"+"</jtok>
+<jtok eid="34" type="constructor_call" span="777:39:777:64">OptionProcessingException</jtok>
+<jtok eid="34" type="string_literal" span="778:31:778:71">"A short option must be alphanumeric. -"</jtok>
+<jtok eid="34" type="primary_name_ref" span="779:33:779:44">shortOption</jtok>
+<jtok eid="34" type="string_literal" span="779:47:779:68">" is not acceptable."</jtok>
+<jtok eid="34" type="primary_name_ref" span="784:23:784:40">longOptionInvoked</jtok>
+<jtok eid="34" type="local_variable_name" span="785:22:785:30">lastchar</jtok>
+<jtok eid="34" type="primary_name_ref" span="785:33:785:37">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="785:39:785:40">n</jtok>
+<jtok eid="34" type="method_call" span="785:43:785:49">charAt</jtok>
+<jtok eid="34" type="primary_name_ref" span="785:51:785:55">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="785:57:785:58">n</jtok>
+<jtok eid="34" type="method_call" span="785:61:785:67">length</jtok>
+<jtok eid="34" type="local_variable_name" span="786:21:786:28">eqindex</jtok>
+<jtok eid="34" type="primary_name_ref" span="786:31:786:35">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="786:37:786:38">n</jtok>
+<jtok eid="34" type="method_call" span="786:41:786:48">indexOf</jtok>
+<jtok eid="34" type="string_literal" span="786:50:786:53">"="</jtok>
+<jtok eid="34" type="primary_name_ref" span="787:22:787:29">eqindex</jtok>
+<jtok eid="34" type="primary_name_ref" span="788:21:788:31">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="788:34:788:38">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="788:40:788:41">n</jtok>
+<jtok eid="34" type="method_call" span="788:44:788:53">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="788:58:788:65">eqindex</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="789:21:789:27">String</jtok>
+<jtok eid="34" type="local_variable_name" span="789:28:789:33">value</jtok>
+<jtok eid="34" type="primary_name_ref" span="789:36:789:40">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="789:42:789:43">n</jtok>
+<jtok eid="34" type="method_call" span="789:46:789:55">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="789:57:789:64">eqindex</jtok>
+<jtok eid="34" type="primary_name_ref" span="790:21:790:34">currentModule</jtok>
+<jtok eid="34" type="method_call" span="790:35:790:41">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="790:43:790:53">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="790:55:790:60">value</jtok>
+<jtok eid="34" type="primary_name_ref" span="792:27:792:34">Utility</jtok>
+<jtok eid="34" type="method_call" span="792:35:792:43">contains</jtok>
+<jtok eid="34" type="primary_name_ref" span="792:45:792:53">lastchar</jtok>
+<jtok eid="34" type="string_literal" span="792:55:792:59">"+-"</jtok>
+<jtok eid="34" type="primary_name_ref" span="793:21:793:31">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="793:34:793:38">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="793:40:793:41">n</jtok>
+<jtok eid="34" type="method_call" span="793:44:793:53">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="794:55:794:59">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="794:61:794:62">n</jtok>
+<jtok eid="34" type="method_call" span="794:65:794:71">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="795:21:795:34">currentModule</jtok>
+<jtok eid="34" type="method_call" span="795:35:795:41">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="795:43:795:53">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="795:55:795:63">lastchar</jtok>
+<jtok eid="34" type="primary_name_ref" span="798:21:798:31">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="798:34:798:38">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="798:40:798:41">n</jtok>
+<jtok eid="34" type="method_call" span="798:44:798:53">substring</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="799:21:799:27">String</jtok>
+<jtok eid="34" type="local_variable_name" span="799:28:799:33">dtext</jtok>
+<jtok eid="34" type="string_literal" span="799:36:799:39">"+"</jtok>
+<jtok eid="34" type="primary_name_ref" span="800:26:800:27">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="800:30:800:34">args</jtok>
+<jtok eid="34" type="qualified_name_ref" span="800:35:800:41">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="800:49:800:53">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="800:55:800:56">n</jtok>
+<jtok eid="34" type="method_call" span="800:63:800:69">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="801:31:801:38">Utility</jtok>
+<jtok eid="34" type="method_call" span="801:39:801:47">contains</jtok>
+<jtok eid="34" type="primary_name_ref" span="801:49:801:53">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="801:55:801:56">n</jtok>
+<jtok eid="34" type="method_call" span="801:63:801:69">charAt</jtok>
+<jtok eid="34" type="string_literal" span="802:49:802:54">"-[@"</jtok>
+<jtok eid="34" type="primary_name_ref" span="803:29:803:34">dtext</jtok>
+<jtok eid="34" type="primary_name_ref" span="803:37:803:41">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="803:43:803:44">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="804:29:804:30">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="807:21:807:34">currentModule</jtok>
+<jtok eid="34" type="method_call" span="807:35:807:41">action</jtok>
+<jtok eid="34" type="primary_name_ref" span="807:43:807:53">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="807:55:807:60">dtext</jtok>
+<jtok eid="34" type="primary_name_ref" span="809:22:809:31">debugFlag</jtok>
+<jtok eid="34" type="primary_name_ref" span="810:21:810:27">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="810:28:810:31">err</jtok>
+<jtok eid="34" type="method_call" span="810:32:810:39">println</jtok>
+<jtok eid="34" type="string_literal" span="810:41:810:56">"long option: "</jtok>
+<jtok eid="34" type="primary_name_ref" span="810:59:810:69">longOption</jtok>
+<jtok eid="34" type="primary_name_ref" span="813:23:813:45">writeOptionFileInvoked</jtok>
+<jtok eid="34" type="primary_name_ref" span="814:17:814:27">optionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="814:30:814:37">Utility</jtok>
+<jtok eid="34" type="method_call" span="814:38:814:42">trim</jtok>
+<jtok eid="34" type="primary_name_ref" span="814:44:814:48">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="814:50:814:51">n</jtok>
+<jtok eid="34" type="method_call" span="814:54:814:63">substring</jtok>
+<jtok eid="34" type="primary_name_ref" span="815:22:815:32">optionFile</jtok>
+<jtok eid="34" type="method_call" span="815:33:815:39">equals</jtok>
+<jtok eid="34" type="string_literal" span="815:41:815:44">"%"</jtok>
+<jtok eid="34" type="primary_name_ref" span="816:25:816:35">optionFile</jtok>
+<jtok eid="34" type="method_call" span="816:36:816:42">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="817:21:817:31">optionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="817:34:817:55">defaultOptionFilename</jtok>
+<jtok eid="34" type="primary_name_ref" span="818:22:818:31">debugFlag</jtok>
+<jtok eid="34" type="primary_name_ref" span="819:21:819:27">System</jtok>
+<jtok eid="34" type="qualified_name_ref" span="819:28:819:31">err</jtok>
+<jtok eid="34" type="method_call" span="819:32:819:39">println</jtok>
+<jtok eid="34" type="string_literal" span="819:41:819:57">"Option file: '"</jtok>
+<jtok eid="34" type="primary_name_ref" span="819:60:819:70">optionFile</jtok>
+<jtok eid="34" type="string_literal" span="819:73:819:77">"'."</jtok>
+<jtok eid="34" type="method_call" span="821:17:821:32">writeOptionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="821:34:821:44">optionFile</jtok>
+<jtok eid="34" type="primary_name_ref" span="824:17:824:23">retval</jtok>
+<jtok eid="34" type="constructor_call" span="824:30:824:36">String</jtok>
+<jtok eid="34" type="primary_name_ref" span="824:38:824:42">args</jtok>
+<jtok eid="34" type="qualified_name_ref" span="824:43:824:49">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="824:52:824:53">n</jtok>
+<jtok eid="34" type="local_variable_name" span="825:27:825:28">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="825:31:825:32">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="825:34:825:35">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="825:38:825:42">args</jtok>
+<jtok eid="34" type="qualified_name_ref" span="825:43:825:49">length</jtok>
+<jtok eid="34" type="primary_name_ref" span="825:51:825:52">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="826:21:826:27">retval</jtok>
+<jtok eid="34" type="primary_name_ref" span="826:29:826:30">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="826:33:826:34">n</jtok>
+<jtok eid="34" type="primary_name_ref" span="826:39:826:43">args</jtok>
+<jtok eid="34" type="primary_name_ref" span="826:45:826:46">j</jtok>
+<jtok eid="34" type="primary_name_ref" span="830:14:830:20">retval</jtok>
+<jtok eid="34" type="primary_name_ref" span="830:31:830:37">retval</jtok>
+<jtok eid="34" type="constructor_call" span="830:44:830:50">String</jtok>
+<jtok eid="34" type="primary_name_ref" span="831:16:831:22">retval</jtok>
+</jdoc>

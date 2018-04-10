@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.options.SaveBackupOptionPane" jls="java5">
+<jent id="0" type="file" span="0:0:189:2">Source/jEdit/org/gjt/sp/jedit/options/SaveBackupOptionPane.java</jent>
+<jent id="1" pid="0" type="class" span="40:1:189:1">org.gjt.sp.jedit.options.SaveBackupOptionPane</jent>
+<jent id="2" pid="1" type="method" span="43:2:46:2">org.gjt.sp.jedit.options.SaveBackupOptionPane.SaveBackupOptionPane()</jent>
+<jent id="3" pid="1" type="method" span="50:2:126:2">org.gjt.sp.jedit.options.SaveBackupOptionPane._init()</jent>
+<jent id="4" pid="1" type="method" span="130:2:158:2">org.gjt.sp.jedit.options.SaveBackupOptionPane._save()</jent>
+<jent id="5" pid="1" type="class" span="175:2:187:2">org.gjt.sp.jedit.options.SaveBackupOptionPane.MyActionListener</jent>
+<jent id="6" pid="5" type="method" span="177:3:186:3">org.gjt.sp.jedit.options.SaveBackupOptionPane.MyActionListener.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * AutosaveBackupOptionPane.java - Autosave &amp; backup options
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="34:1:39:4">/**
+ * The Save and Backup option panel.
+ *
+ * @author Slava Pestov
+ * @author $Id: SaveBackupOptionPane.java 16244 2009-09-28 18:39:41Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="40:14:40:34">SaveBackupOptionPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:43:40:61">AbstractOptionPane</jtok>
+<jtok eid="1" type="line_comment" span="42:2:42:40">//{{{ SaveBackupOptionPane constructor</jtok>
+<jtok eid="2" type="method_name" span="43:9:43:29">SaveBackupOptionPane</jtok>
+<jtok eid="2" type="string_literal" span="45:9:45:20">"save-back"</jtok>
+<jtok eid="1" type="line_comment" span="46:4:46:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="48:2:48:22">//{{{ _init() method</jtok>
+<jtok eid="1" type="annotation_ref" span="49:3:49:11">Override</jtok>
+<jtok eid="3" type="method_name" span="50:17:50:22">_init</jtok>
+<jtok eid="3" type="block_comment" span="52:3:52:23">/* Two-stage save */</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:3:53:15">twoStageSave</jtok>
+<jtok eid="3" type="constructor_call" span="53:22:53:31">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:32:53:37">jEdit</jtok>
+<jtok eid="3" type="method_call" span="53:38:53:49">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="54:4:54:36">"options.save-back.twoStageSave"</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:3:55:15">twoStageSave</jtok>
+<jtok eid="3" type="method_call" span="55:16:55:27">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:28:55:33">jEdit</jtok>
+<jtok eid="3" type="method_call" span="55:34:55:52">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="56:4:56:18">"twoStageSave"</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:3:57:15">twoStageSave</jtok>
+<jtok eid="3" type="method_call" span="57:16:57:30">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:31:57:36">jEdit</jtok>
+<jtok eid="3" type="method_call" span="57:37:57:48">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="58:4:58:44">"options.save-back.twoStageSave.tooltip"</jtok>
+<jtok eid="3" type="method_call" span="59:3:59:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:16:59:28">twoStageSave</jtok>
+<jtok eid="3" type="block_comment" span="61:3:61:25">/* Confirm save all */</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:3:62:17">confirmSaveAll</jtok>
+<jtok eid="3" type="constructor_call" span="62:24:62:33">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:34:62:39">jEdit</jtok>
+<jtok eid="3" type="method_call" span="62:40:62:51">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="63:4:63:38">"options.save-back.confirmSaveAll"</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:3:64:17">confirmSaveAll</jtok>
+<jtok eid="3" type="method_call" span="64:18:64:29">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:30:64:35">jEdit</jtok>
+<jtok eid="3" type="method_call" span="64:36:64:54">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="65:4:65:20">"confirmSaveAll"</jtok>
+<jtok eid="3" type="method_call" span="66:3:66:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:16:66:30">confirmSaveAll</jtok>
+<jtok eid="3" type="block_comment" span="68:3:68:26">/* Autosave interval */</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:3:69:11">autosave</jtok>
+<jtok eid="3" type="constructor_call" span="69:18:69:34">NumericTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:35:69:40">jEdit</jtok>
+<jtok eid="3" type="method_call" span="69:41:69:52">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="69:53:69:63">"autosave"</jtok>
+<jtok eid="3" type="method_call" span="70:3:70:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:16:70:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="70:22:70:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="70:34:70:62">"options.save-back.autosave"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:64:70:72">autosave</jtok>
+<jtok eid="3" type="block_comment" span="72:3:72:34">/* Autosave untitled buffers */</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:3:73:19">autosaveUntitled</jtok>
+<jtok eid="3" type="constructor_call" span="73:26:73:35">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:36:73:41">jEdit</jtok>
+<jtok eid="3" type="method_call" span="73:42:73:53">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="74:4:74:40">"options.save-back.autosaveUntitled"</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:3:75:19">autosaveUntitled</jtok>
+<jtok eid="3" type="method_call" span="75:20:75:31">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:32:75:37">jEdit</jtok>
+<jtok eid="3" type="method_call" span="75:38:75:56">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="75:57:75:75">"autosaveUntitled"</jtok>
+<jtok eid="3" type="method_call" span="76:3:76:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:16:76:32">autosaveUntitled</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:3:78:34">suppressNotSavedConfirmUntitled</jtok>
+<jtok eid="3" type="constructor_call" span="78:41:78:50">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:51:78:56">jEdit</jtok>
+<jtok eid="3" type="method_call" span="78:57:78:68">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="79:4:79:55">"options.save-back.suppressNotSavedConfirmUntitled"</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:3:80:34">suppressNotSavedConfirmUntitled</jtok>
+<jtok eid="3" type="method_call" span="80:35:80:46">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:4:81:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="81:10:81:28">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="81:29:81:62">"suppressNotSavedConfirmUntitled"</jtok>
+<jtok eid="3" type="method_call" span="82:3:82:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:16:82:47">suppressNotSavedConfirmUntitled</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:3:84:28">useMD5forDirtyCalculation</jtok>
+<jtok eid="3" type="constructor_call" span="84:35:84:44">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:45:84:50">jEdit</jtok>
+<jtok eid="3" type="method_call" span="84:51:84:62">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="85:4:85:49">"options.save-back.useMD5forDirtyCalculation"</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:3:86:28">useMD5forDirtyCalculation</jtok>
+<jtok eid="3" type="method_call" span="86:29:86:43">setToolTipText</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:44:86:49">jEdit</jtok>
+<jtok eid="3" type="method_call" span="86:50:86:61">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="87:4:87:57">"options.save-back.useMD5forDirtyCalculation.tooltip"</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:3:88:28">useMD5forDirtyCalculation</jtok>
+<jtok eid="3" type="method_call" span="88:29:88:40">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:4:89:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="89:10:89:28">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="89:29:89:56">"useMD5forDirtyCalculation"</jtok>
+<jtok eid="3" type="method_call" span="90:3:90:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:16:90:41">useMD5forDirtyCalculation</jtok>
+<jtok eid="3" type="block_comment" span="95:3:95:21">/* Backup count */</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:3:96:10">backups</jtok>
+<jtok eid="3" type="constructor_call" span="96:17:96:33">NumericTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:34:96:39">jEdit</jtok>
+<jtok eid="3" type="method_call" span="96:40:96:51">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="96:52:96:61">"backups"</jtok>
+<jtok eid="3" type="method_call" span="97:3:97:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:16:97:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="97:22:97:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="97:34:97:61">"options.save-back.backups"</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:63:97:70">backups</jtok>
+<jtok eid="3" type="block_comment" span="99:3:99:25">/* Backup directory */</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:3:100:18">backupDirectory</jtok>
+<jtok eid="3" type="constructor_call" span="100:25:100:35">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:36:100:41">jEdit</jtok>
+<jtok eid="3" type="method_call" span="100:42:100:53">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="101:4:101:22">"backup.directory"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="102:3:102:10">JButton</jtok>
+<jtok eid="3" type="local_variable_name" span="102:11:102:32">browseBackupDirectory</jtok>
+<jtok eid="3" type="constructor_call" span="102:39:102:46">JButton</jtok>
+<jtok eid="3" type="string_literal" span="102:47:102:52">"..."</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:3:103:24">browseBackupDirectory</jtok>
+<jtok eid="3" type="method_call" span="103:25:103:42">addActionListener</jtok>
+<jtok eid="3" type="constructor_call" span="103:47:103:63">MyActionListener</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="104:3:104:9">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="104:10:104:15">panel</jtok>
+<jtok eid="3" type="constructor_call" span="104:22:104:28">JPanel</jtok>
+<jtok eid="3" type="constructor_call" span="104:33:104:45">BorderLayout</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:3:105:8">panel</jtok>
+<jtok eid="3" type="method_call" span="105:9:105:12">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:13:105:28">backupDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:3:106:8">panel</jtok>
+<jtok eid="3" type="method_call" span="106:9:106:12">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:13:106:34">browseBackupDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:36:106:48">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="106:49:106:53">EAST</jtok>
+<jtok eid="3" type="method_call" span="107:3:107:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:16:107:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="107:22:107:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="107:34:107:69">"options.save-back.backupDirectory"</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:4:108:9">panel</jtok>
+<jtok eid="3" type="block_comment" span="110:3:110:31">/* Backup filename prefix */</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:3:111:15">backupPrefix</jtok>
+<jtok eid="3" type="constructor_call" span="111:22:111:32">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:33:111:38">jEdit</jtok>
+<jtok eid="3" type="method_call" span="111:39:111:50">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="111:51:111:66">"backup.prefix"</jtok>
+<jtok eid="3" type="method_call" span="112:3:112:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:16:112:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="112:22:112:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="112:34:112:66">"options.save-back.backupPrefix"</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:4:113:16">backupPrefix</jtok>
+<jtok eid="3" type="block_comment" span="115:3:115:22">/* Backup suffix */</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:3:116:15">backupSuffix</jtok>
+<jtok eid="3" type="constructor_call" span="116:22:116:32">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:33:116:38">jEdit</jtok>
+<jtok eid="3" type="method_call" span="116:39:116:50">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="117:4:117:19">"backup.suffix"</jtok>
+<jtok eid="3" type="method_call" span="118:3:118:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:16:118:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="118:22:118:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="118:34:118:66">"options.save-back.backupSuffix"</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:4:119:16">backupSuffix</jtok>
+<jtok eid="3" type="block_comment" span="121:3:121:29">/* Backup on every save */</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:3:122:18">backupEverySave</jtok>
+<jtok eid="3" type="constructor_call" span="122:25:122:34">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:35:122:40">jEdit</jtok>
+<jtok eid="3" type="method_call" span="122:41:122:52">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="123:4:123:39">"options.save-back.backupEverySave"</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:3:124:18">backupEverySave</jtok>
+<jtok eid="3" type="method_call" span="124:19:124:30">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:31:124:36">jEdit</jtok>
+<jtok eid="3" type="method_call" span="124:37:124:55">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="124:56:124:73">"backupEverySave"</jtok>
+<jtok eid="3" type="method_call" span="125:3:125:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:16:125:31">backupEverySave</jtok>
+<jtok eid="1" type="line_comment" span="126:4:126:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="128:2:128:22">//{{{ _save() method</jtok>
+<jtok eid="1" type="annotation_ref" span="129:3:129:11">Override</jtok>
+<jtok eid="4" type="method_name" span="130:17:130:22">_save</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:3:132:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="132:9:132:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="132:28:132:42">"twoStageSave"</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:43:132:55">twoStageSave</jtok>
+<jtok eid="4" type="method_call" span="132:56:132:66">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:3:133:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="133:9:133:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="133:28:133:44">"confirmSaveAll"</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:45:133:59">confirmSaveAll</jtok>
+<jtok eid="4" type="method_call" span="133:60:133:70">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="134:3:134:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="134:9:134:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="134:21:134:31">"autosave"</jtok>
+<jtok eid="4" type="qualified_name_ref" span="134:38:134:46">autosave</jtok>
+<jtok eid="4" type="method_call" span="134:47:134:54">getText</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:3:135:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="135:9:135:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="135:21:135:30">"backups"</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:31:135:38">backups</jtok>
+<jtok eid="4" type="method_call" span="135:39:135:46">getText</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:3:136:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="136:9:136:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="136:21:136:39">"backup.directory"</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:40:136:55">backupDirectory</jtok>
+<jtok eid="4" type="method_call" span="136:56:136:63">getText</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:3:137:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="137:9:137:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="137:21:137:36">"backup.prefix"</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:37:137:49">backupPrefix</jtok>
+<jtok eid="4" type="method_call" span="137:50:137:57">getText</jtok>
+<jtok eid="4" type="primary_name_ref" span="138:3:138:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="138:9:138:20">setProperty</jtok>
+<jtok eid="4" type="string_literal" span="138:21:138:36">"backup.suffix"</jtok>
+<jtok eid="4" type="primary_name_ref" span="138:37:138:49">backupSuffix</jtok>
+<jtok eid="4" type="method_call" span="138:50:138:57">getText</jtok>
+<jtok eid="4" type="primary_name_ref" span="139:3:139:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="139:9:139:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="139:28:139:45">"backupEverySave"</jtok>
+<jtok eid="4" type="primary_name_ref" span="139:47:139:62">backupEverySave</jtok>
+<jtok eid="4" type="method_call" span="139:63:139:73">isSelected</jtok>
+<jtok eid="4" type="local_variable_name" span="140:11:140:22">newAutosave</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:25:140:41">autosaveUntitled</jtok>
+<jtok eid="4" type="method_call" span="140:42:140:52">isSelected</jtok>
+<jtok eid="4" type="local_variable_name" span="141:11:141:22">oldAutosave</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:25:141:30">jEdit</jtok>
+<jtok eid="4" type="method_call" span="141:31:141:49">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="141:50:141:68">"autosaveUntitled"</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:3:142:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="142:9:142:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="142:28:142:46">"autosaveUntitled"</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:48:142:59">newAutosave</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:3:143:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="143:9:143:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="143:28:143:61">"suppressNotSavedConfirmUntitled"</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:5:144:36">suppressNotSavedConfirmUntitled</jtok>
+<jtok eid="4" type="method_call" span="144:37:144:47">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:3:145:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="145:9:145:27">setBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="145:28:145:55">"useMD5forDirtyCalculation"</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:5:146:30">useMD5forDirtyCalculation</jtok>
+<jtok eid="4" type="method_call" span="146:31:146:41">isSelected</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:9:147:20">newAutosave</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:24:147:29">jEdit</jtok>
+<jtok eid="4" type="method_call" span="147:30:147:48">getIntegerProperty</jtok>
+<jtok eid="4" type="string_literal" span="147:49:147:59">"autosave"</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:72:147:83">oldAutosave</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="149:4:149:10">Buffer</jtok>
+<jtok eid="4" type="local_variable_name" span="149:13:149:20">buffers</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:23:149:28">jEdit</jtok>
+<jtok eid="4" type="method_call" span="149:29:149:39">getBuffers</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="150:9:150:15">Buffer</jtok>
+<jtok eid="4" type="local_variable_name" span="150:16:150:22">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:25:150:32">buffers</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:9:152:15">buffer</jtok>
+<jtok eid="4" type="method_call" span="152:16:152:26">isUntitled</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:6:154:12">buffer</jtok>
+<jtok eid="4" type="method_call" span="154:13:154:31">removeAutosaveFile</jtok>
+<jtok eid="1" type="line_comment" span="158:4:158:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="161:10:161:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="161:20:161:32">twoStageSave</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="162:10:162:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="162:20:162:34">confirmSaveAll</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="163:10:163:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="163:21:163:29">autosave</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="164:10:164:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="164:20:164:36">autosaveUntitled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="165:10:165:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="165:20:165:51">suppressNotSavedConfirmUntitled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="166:10:166:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="166:20:166:45">useMD5forDirtyCalculation</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="167:10:167:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="167:21:167:28">backups</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="168:10:168:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="168:21:168:36">backupDirectory</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="169:10:169:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="169:21:169:33">backupPrefix</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="170:10:170:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="170:21:170:33">backupSuffix</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="171:10:171:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="171:20:171:35">backupEverySave</jtok>
+<jtok eid="1" type="line_comment" span="172:2:172:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:30">//{{{ MyActionListener class</jtok>
+<jtok eid="5" type="class_name" span="175:16:175:32">MyActionListener</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="175:44:175:58">ActionListener</jtok>
+<jtok eid="6" type="method_name" span="177:15:177:30">actionPerformed</jtok>
+<jtok eid="6" type="parameter_type" span="177:31:177:42">ActionEvent</jtok>
+<jtok eid="6" type="parameter_name" span="177:43:177:44">e</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="179:4:179:10">String</jtok>
+<jtok eid="6" type="local_variable_name" span="179:13:179:26">choosenFolder</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:5:180:17">GUIUtilities</jtok>
+<jtok eid="6" type="method_call" span="180:18:180:35">showVFSFileDialog</jtok>
+<jtok eid="6" type="primary_name_ref" span="181:18:181:33">backupDirectory</jtok>
+<jtok eid="6" type="method_call" span="181:34:181:41">getText</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:18:182:28">VFSBrowser</jtok>
+<jtok eid="6" type="qualified_name_ref" span="182:29:182:52">CHOOSE_DIRECTORY_DIALOG</jtok>
+<jtok eid="6" type="primary_name_ref" span="184:8:184:21">choosenFolder</jtok>
+<jtok eid="6" type="primary_name_ref" span="185:5:185:20">backupDirectory</jtok>
+<jtok eid="6" type="method_call" span="185:21:185:28">setText</jtok>
+<jtok eid="6" type="primary_name_ref" span="185:29:185:42">choosenFolder</jtok>
+<jtok eid="1" type="line_comment" span="187:4:187:9">//}}}</jtok>
+</jdoc>

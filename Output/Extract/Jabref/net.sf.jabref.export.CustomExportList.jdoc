@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.CustomExportList" jls="java5">
+<jent id="0" type="file" span="0:0:119:1">Source/jabref/src/java/net/sf/jabref/export/CustomExportList.java</jent>
+<jent id="1" pid="0" type="class" span="21:1:119:1">net.sf.jabref.export.CustomExportList</jent>
+<jent id="2" pid="1" type="method" span="28:5:31:5">net.sf.jabref.export.CustomExportList.CustomExportList(Comparator&lt;String[]&gt;)</jent>
+<jent id="3" pid="1" type="method" span="33:2:37:2">net.sf.jabref.export.CustomExportList.getCustomExportFormats()</jent>
+<jent id="4" pid="1" type="method" span="39:5:41:5">net.sf.jabref.export.CustomExportList.size()</jent>
+<jent id="5" pid="1" type="method" span="43:5:45:5">net.sf.jabref.export.CustomExportList.getSortedList()</jent>
+<jent id="6" pid="1" type="method" span="47:2:63:2">net.sf.jabref.export.CustomExportList.readPrefs()</jent>
+<jent id="7" pid="1" type="method" span="65:5:77:2">net.sf.jabref.export.CustomExportList.createFormat(String[])</jent>
+<jent id="8" pid="1" type="method" span="79:2:81:2">net.sf.jabref.export.CustomExportList.getElementAt(int)</jent>
+<jent id="9" pid="1" type="method" span="83:2:87:2">net.sf.jabref.export.CustomExportList.addFormat(String[])</jent>
+<jent id="10" pid="1" type="method" span="89:2:95:2">net.sf.jabref.export.CustomExportList.remove(String[])</jent>
+<jent id="11" pid="1" type="method" span="97:2:109:2">net.sf.jabref.export.CustomExportList.store()</jent>
+<jent id="12" pid="1" type="method" span="111:2:117:2">net.sf.jabref.export.CustomExportList.purge(int)</jent>
+<jtok eid="0" type="block_comment" span="13:1:19:4">/**
+ * This class handles user defined custom export formats. They are initially
+ * read from Preferences, and kept alphabetically (sorted by name). Formats can
+ * be added or removed. When modified, the sort() method must be called to make
+ * sure the formats stay properly sorted. When the method store() is called,
+ * export formats are written to Preferences.
+ */</jtok>
+<jtok eid="1" type="class_name" span="21:14:21:30">CustomExportList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="23:13:23:22">EventList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="23:23:23:29">String</jtok>
+<jtok eid="1" type="field_name" span="23:33:23:37">list</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="24:13:24:23">SortedList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="24:24:24:30">String</jtok>
+<jtok eid="1" type="field_name" span="24:34:24:40">sorted</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="25:13:25:20">TreeMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="25:21:25:27">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="25:29:25:41">ExportFormat</jtok>
+<jtok eid="1" type="field_name" span="25:43:25:50">formats</jtok>
+<jtok eid="1" type="constructor_call" span="25:57:25:64">TreeMap</jtok>
+<jtok eid="1" type="constructor_call" span="25:65:25:71">String</jtok>
+<jtok eid="1" type="constructor_call" span="25:73:25:85">ExportFormat</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="26:10:26:16">Object</jtok>
+<jtok eid="1" type="field_name" span="26:19:26:24">array</jtok>
+<jtok eid="2" type="method_name" span="28:12:28:28">CustomExportList</jtok>
+<jtok eid="2" type="parameter_type" span="28:29:28:39">Comparator</jtok>
+<jtok eid="2" type="parameter_type" span="28:40:28:46">String</jtok>
+<jtok eid="2" type="parameter_name" span="28:50:28:54">comp</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:6:29:10">list</jtok>
+<jtok eid="2" type="constructor_call" span="29:17:29:31">BasicEventList</jtok>
+<jtok eid="2" type="constructor_call" span="29:32:29:38">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="30:9:30:15">sorted</jtok>
+<jtok eid="2" type="constructor_call" span="30:22:30:32">SortedList</jtok>
+<jtok eid="2" type="constructor_call" span="30:33:30:39">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="30:43:30:47">list</jtok>
+<jtok eid="2" type="primary_name_ref" span="30:49:30:53">comp</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="33:9:33:16">TreeMap</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="33:17:33:23">String</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="33:25:33:37">ExportFormat</jtok>
+<jtok eid="3" type="method_name" span="33:39:33:61">getCustomExportFormats</jtok>
+<jtok eid="3" type="primary_name_ref" span="34:9:34:16">formats</jtok>
+<jtok eid="3" type="method_call" span="34:17:34:22">clear</jtok>
+<jtok eid="3" type="method_call" span="35:9:35:18">readPrefs</jtok>
+<jtok eid="3" type="primary_name_ref" span="36:16:36:23">formats</jtok>
+<jtok eid="4" type="method_name" span="39:16:39:20">size</jtok>
+<jtok eid="4" type="primary_name_ref" span="40:16:40:20">list</jtok>
+<jtok eid="4" type="method_call" span="40:21:40:25">size</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="43:12:43:21">EventList</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="43:22:43:28">String</jtok>
+<jtok eid="5" type="method_name" span="43:32:43:45">getSortedList</jtok>
+<jtok eid="5" type="primary_name_ref" span="44:16:44:22">sorted</jtok>
+<jtok eid="6" type="method_name" span="47:15:47:24">readPrefs</jtok>
+<jtok eid="6" type="primary_name_ref" span="48:9:48:16">formats</jtok>
+<jtok eid="6" type="method_call" span="48:17:48:22">clear</jtok>
+<jtok eid="6" type="primary_name_ref" span="49:9:49:13">list</jtok>
+<jtok eid="6" type="method_call" span="49:14:49:19">clear</jtok>
+<jtok eid="6" type="local_variable_name" span="50:13:50:14">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="51:3:51:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="51:12:51:13">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="52:11:52:12">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="52:15:52:22">Globals</jtok>
+<jtok eid="6" type="qualified_name_ref" span="52:23:52:28">prefs</jtok>
+<jtok eid="6" type="method_call" span="52:29:52:43">getStringArray</jtok>
+<jtok eid="6" type="string_literal" span="52:44:52:64">"customExportFormat"</jtok>
+<jtok eid="6" type="primary_name_ref" span="52:67:52:68">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="53:13:53:25">ExportFormat</jtok>
+<jtok eid="6" type="local_variable_name" span="53:26:53:32">format</jtok>
+<jtok eid="6" type="method_call" span="53:35:53:47">createFormat</jtok>
+<jtok eid="6" type="primary_name_ref" span="53:48:53:49">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="54:17:54:23">format</jtok>
+<jtok eid="6" type="primary_name_ref" span="55:17:55:24">formats</jtok>
+<jtok eid="6" type="method_call" span="55:25:55:28">put</jtok>
+<jtok eid="6" type="primary_name_ref" span="55:29:55:35">format</jtok>
+<jtok eid="6" type="method_call" span="55:36:55:50">getConsoleName</jtok>
+<jtok eid="6" type="primary_name_ref" span="55:54:55:60">format</jtok>
+<jtok eid="6" type="primary_name_ref" span="56:8:56:12">list</jtok>
+<jtok eid="6" type="method_call" span="56:13:56:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="56:17:56:18">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="58:17:58:23">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="58:24:58:27">out</jtok>
+<jtok eid="6" type="method_call" span="58:28:58:35">println</jtok>
+<jtok eid="6" type="primary_name_ref" span="58:36:58:43">Globals</jtok>
+<jtok eid="6" type="method_call" span="58:44:58:48">lang</jtok>
+<jtok eid="6" type="string_literal" span="58:49:58:107">"Error initializing custom export format from string '%0'"</jtok>
+<jtok eid="6" type="primary_name_ref" span="59:21:59:28">Globals</jtok>
+<jtok eid="6" type="qualified_name_ref" span="59:29:59:34">prefs</jtok>
+<jtok eid="6" type="method_call" span="59:35:59:38">get</jtok>
+<jtok eid="6" type="string_literal" span="59:39:59:59">"customExportFormat"</jtok>
+<jtok eid="6" type="primary_name_ref" span="59:62:59:63">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="61:4:61:5">i</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="65:13:65:25">ExportFormat</jtok>
+<jtok eid="7" type="method_name" span="65:26:65:38">createFormat</jtok>
+<jtok eid="7" type="parameter_type" span="65:39:65:45">String</jtok>
+<jtok eid="7" type="parameter_name" span="65:48:65:49">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="66:13:66:14">s</jtok>
+<jtok eid="7" type="qualified_name_ref" span="66:15:66:21">length</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="68:3:68:9">String</jtok>
+<jtok eid="7" type="local_variable_name" span="68:10:68:20">lfFileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="69:7:69:8">s</jtok>
+<jtok eid="7" type="method_call" span="69:12:69:20">endsWith</jtok>
+<jtok eid="7" type="string_literal" span="69:21:69:30">".layout"</jtok>
+<jtok eid="7" type="primary_name_ref" span="70:4:70:14">lfFileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="70:17:70:18">s</jtok>
+<jtok eid="7" type="method_call" span="70:22:70:31">substring</jtok>
+<jtok eid="7" type="primary_name_ref" span="70:35:70:36">s</jtok>
+<jtok eid="7" type="method_call" span="70:40:70:46">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="72:4:72:14">lfFileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="72:17:72:18">s</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="73:3:73:15">ExportFormat</jtok>
+<jtok eid="7" type="local_variable_name" span="73:16:73:22">format</jtok>
+<jtok eid="7" type="constructor_call" span="73:29:73:41">ExportFormat</jtok>
+<jtok eid="7" type="primary_name_ref" span="73:42:73:43">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="73:48:73:49">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="73:54:73:64">lfFileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="74:4:74:5">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="75:3:75:9">format</jtok>
+<jtok eid="7" type="method_call" span="75:10:75:25">setCustomExport</jtok>
+<jtok eid="7" type="primary_name_ref" span="76:10:76:16">format</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="79:9:79:15">String</jtok>
+<jtok eid="8" type="method_name" span="79:18:79:30">getElementAt</jtok>
+<jtok eid="8" type="parameter_name" span="79:35:79:38">pos</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="80:11:80:17">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="80:22:80:27">array</jtok>
+<jtok eid="8" type="primary_name_ref" span="80:28:80:31">pos</jtok>
+<jtok eid="9" type="method_name" span="83:14:83:23">addFormat</jtok>
+<jtok eid="9" type="parameter_type" span="83:24:83:30">String</jtok>
+<jtok eid="9" type="parameter_name" span="83:33:83:34">s</jtok>
+<jtok eid="9" type="primary_name_ref" span="84:3:84:7">list</jtok>
+<jtok eid="9" type="method_call" span="84:8:84:11">add</jtok>
+<jtok eid="9" type="primary_name_ref" span="84:12:84:13">s</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="85:3:85:15">ExportFormat</jtok>
+<jtok eid="9" type="local_variable_name" span="85:16:85:22">format</jtok>
+<jtok eid="9" type="method_call" span="85:25:85:37">createFormat</jtok>
+<jtok eid="9" type="primary_name_ref" span="85:38:85:39">s</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:3:86:10">formats</jtok>
+<jtok eid="9" type="method_call" span="86:11:86:14">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:15:86:21">format</jtok>
+<jtok eid="9" type="method_call" span="86:22:86:36">getConsoleName</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:40:86:46">format</jtok>
+<jtok eid="10" type="method_name" span="89:14:89:20">remove</jtok>
+<jtok eid="10" type="parameter_type" span="89:21:89:27">String</jtok>
+<jtok eid="10" type="parameter_name" span="89:30:89:38">toRemove</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="91:9:91:21">ExportFormat</jtok>
+<jtok eid="10" type="local_variable_name" span="91:22:91:28">format</jtok>
+<jtok eid="10" type="method_call" span="91:31:91:43">createFormat</jtok>
+<jtok eid="10" type="primary_name_ref" span="91:44:91:52">toRemove</jtok>
+<jtok eid="10" type="primary_name_ref" span="92:9:92:16">formats</jtok>
+<jtok eid="10" type="method_call" span="92:17:92:23">remove</jtok>
+<jtok eid="10" type="primary_name_ref" span="92:24:92:30">format</jtok>
+<jtok eid="10" type="method_call" span="92:31:92:45">getConsoleName</jtok>
+<jtok eid="10" type="primary_name_ref" span="93:9:93:13">list</jtok>
+<jtok eid="10" type="method_call" span="93:14:93:20">remove</jtok>
+<jtok eid="10" type="primary_name_ref" span="93:21:93:29">toRemove</jtok>
+<jtok eid="11" type="method_name" span="97:14:97:19">store</jtok>
+<jtok eid="11" type="primary_name_ref" span="99:7:99:11">list</jtok>
+<jtok eid="11" type="method_call" span="99:12:99:16">size</jtok>
+<jtok eid="11" type="method_call" span="100:4:100:9">purge</jtok>
+<jtok eid="11" type="local_variable_name" span="102:13:102:14">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:20:102:21">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:24:102:28">list</jtok>
+<jtok eid="11" type="method_call" span="102:29:102:33">size</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:37:102:38">i</jtok>
+<jtok eid="11" type="line_comment" span="103:5:103:35">// System.out.println(i+"..");</jtok>
+<jtok eid="11" type="primary_name_ref" span="104:5:104:12">Globals</jtok>
+<jtok eid="11" type="qualified_name_ref" span="104:13:104:18">prefs</jtok>
+<jtok eid="11" type="method_call" span="104:19:104:33">putStringArray</jtok>
+<jtok eid="11" type="string_literal" span="104:34:104:54">"customExportFormat"</jtok>
+<jtok eid="11" type="primary_name_ref" span="104:57:104:58">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:6:105:10">list</jtok>
+<jtok eid="11" type="method_call" span="105:11:105:14">get</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:15:105:16">i</jtok>
+<jtok eid="11" type="method_call" span="107:4:107:9">purge</jtok>
+<jtok eid="11" type="primary_name_ref" span="107:10:107:14">list</jtok>
+<jtok eid="11" type="method_call" span="107:15:107:19">size</jtok>
+<jtok eid="12" type="method_name" span="111:15:111:20">purge</jtok>
+<jtok eid="12" type="parameter_name" span="111:25:111:29">from</jtok>
+<jtok eid="12" type="local_variable_name" span="112:7:112:8">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="112:11:112:15">from</jtok>
+<jtok eid="12" type="primary_name_ref" span="113:10:113:17">Globals</jtok>
+<jtok eid="12" type="qualified_name_ref" span="113:18:113:23">prefs</jtok>
+<jtok eid="12" type="method_call" span="113:24:113:38">getStringArray</jtok>
+<jtok eid="12" type="string_literal" span="113:39:113:59">"customExportFormat"</jtok>
+<jtok eid="12" type="primary_name_ref" span="113:62:113:63">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="114:4:114:11">Globals</jtok>
+<jtok eid="12" type="qualified_name_ref" span="114:12:114:17">prefs</jtok>
+<jtok eid="12" type="method_call" span="114:18:114:24">remove</jtok>
+<jtok eid="12" type="string_literal" span="114:25:114:45">"customExportFormat"</jtok>
+<jtok eid="12" type="primary_name_ref" span="114:48:114:49">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="115:4:115:5">i</jtok>
+</jdoc>

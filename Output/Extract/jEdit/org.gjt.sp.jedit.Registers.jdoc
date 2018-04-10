@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.Registers" jls="java5">
+<jent id="0" type="file" span="0:0:650:2">Source/jEdit/org/gjt/sp/jedit/Registers.java</jent>
+<jent id="1" pid="0" type="class" span="62:1:650:1">org.gjt.sp.jedit.Registers</jent>
+<jent id="2" pid="1" type="method" span="73:2:82:2">org.gjt.sp.jedit.Registers.copy(TextArea,char)</jent>
+<jent id="3" pid="1" type="method" span="93:2:108:2">org.gjt.sp.jedit.Registers.cut(TextArea,char)</jent>
+<jent id="4" pid="1" type="method" span="117:2:120:2">org.gjt.sp.jedit.Registers.append(TextArea,char)</jent>
+<jent id="5" pid="1" type="method" span="129:2:133:2">org.gjt.sp.jedit.Registers.append(TextArea,char,String)</jent>
+<jent id="6" pid="1" type="method" span="144:2:176:2">org.gjt.sp.jedit.Registers.append(TextArea,char,String,boolean)</jent>
+<jent id="7" pid="1" type="method" span="185:2:188:2">org.gjt.sp.jedit.Registers.paste(TextArea,char)</jent>
+<jent id="8" pid="1" type="method" span="197:2:267:2">org.gjt.sp.jedit.Registers.paste(TextArea,char,boolean)</jent>
+<jent id="9" pid="1" type="method" span="274:2:286:2">org.gjt.sp.jedit.Registers.getRegister(char)</jent>
+<jent id="10" pid="1" type="method" span="294:2:310:2">org.gjt.sp.jedit.Registers.setRegister(char,Register)</jent>
+<jent id="11" pid="1" type="method" span="318:2:330:2">org.gjt.sp.jedit.Registers.setRegister(char,String)</jent>
+<jent id="12" pid="1" type="method" span="337:2:352:2">org.gjt.sp.jedit.Registers.clearRegister(char)</jent>
+<jent id="13" pid="1" type="method" span="359:2:364:2">org.gjt.sp.jedit.Registers.getRegisters()</jent>
+<jent id="14" pid="1" type="method" span="372:2:392:2">org.gjt.sp.jedit.Registers.getRegisterNameString()</jent>
+<jent id="15" pid="1" type="method" span="395:2:405:2">org.gjt.sp.jedit.Registers.saveRegisters()</jent>
+<jent id="16" pid="1" type="method" span="408:2:411:2">org.gjt.sp.jedit.Registers.setListener(RegistersListener)</jent>
+<jent id="17" pid="1" type="method" span="414:2:417:2">org.gjt.sp.jedit.Registers.setSaver(RegisterSaver)</jent>
+<jent id="18" pid="1" type="method" span="420:2:423:2">org.gjt.sp.jedit.Registers.isLoading()</jent>
+<jent id="19" pid="1" type="method" span="426:2:429:2">org.gjt.sp.jedit.Registers.setLoading(boolean)</jent>
+<jent id="20" pid="1" type="method" span="442:2:442:23">org.gjt.sp.jedit.Registers.Registers()</jent>
+<jent id="21" pid="1" type="method" span="456:2:466:2">org.gjt.sp.jedit.Registers.touchRegister(char)</jent>
+<jent id="22" pid="1" type="method" span="469:2:476:2">org.gjt.sp.jedit.Registers.loadRegisters()</jent>
+<jent id="23" pid="1" type="interface" span="486:2:497:2">org.gjt.sp.jedit.Registers.Register</jent>
+<jent id="24" pid="23" type="method" span="491:3:491:20">org.gjt.sp.jedit.Registers.Register.toString()</jent>
+<jent id="25" pid="23" type="method" span="496:3:496:30">org.gjt.sp.jedit.Registers.Register.setValue(String)</jent>
+<jent id="26" pid="1" type="class" span="504:2:585:2">org.gjt.sp.jedit.Registers.ClipboardRegister</jent>
+<jent id="27" pid="26" type="method" span="508:3:511:3">org.gjt.sp.jedit.Registers.ClipboardRegister.ClipboardRegister(Clipboard)</jent>
+<jent id="28" pid="26" type="method" span="516:3:520:3">org.gjt.sp.jedit.Registers.ClipboardRegister.setValue(String)</jent>
+<jent id="29" pid="26" type="method" span="526:3:584:3">org.gjt.sp.jedit.Registers.ClipboardRegister.toString()</jent>
+<jent id="30" pid="1" type="method" span="588:2:605:2">org.gjt.sp.jedit.Registers.debugListDataFlavors(Transferable)</jent>
+<jent id="31" pid="1" type="class" span="612:2:647:2">org.gjt.sp.jedit.Registers.StringRegister</jent>
+<jent id="32" pid="31" type="method" span="620:3:623:3">org.gjt.sp.jedit.Registers.StringRegister.StringRegister(String)</jent>
+<jent id="33" pid="31" type="method" span="628:3:631:3">org.gjt.sp.jedit.Registers.StringRegister.setValue(String)</jent>
+<jent id="34" pid="31" type="method" span="637:3:640:3">org.gjt.sp.jedit.Registers.StringRegister.toString()</jent>
+<jent id="35" pid="31" type="method" span="646:3:646:26">org.gjt.sp.jedit.Registers.StringRegister.dispose()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * Registers.java - Register manager
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="35:1:35:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="37:1:61:4">/**
+ * jEdit's registers are an extension of the clipboard metaphor.&lt;p&gt;
+ *
+ * A {@link Registers.Register} is string of text indexed by a
+ * single character. Typically the text is taken from selected buffer text
+ * and the index character is a keyboard character selected by the user.&lt;p&gt;
+ *
+ * This class defines a number of static methods
+ * that give each register the properties of a virtual clipboard.&lt;p&gt;
+ *
+ * Two classes implement the {@link Registers.Register} interface. A
+ * {@link Registers.ClipboardRegister} is tied to the contents of the
+ * system clipboard. jEdit assigns a
+ * {@link Registers.ClipboardRegister} to the register indexed under
+ * the character &lt;code&gt;$&lt;/code&gt;. A
+ * {@link Registers.StringRegister} is created for registers assigned
+ * by the user. In addition, jEdit assigns &lt;code&gt;%&lt;/code&gt; to
+ * the last text segment selected in the text area. On Windows this is a
+ * {@link Registers.StringRegister}, on Unix under Java 2 version 1.4, a
+ * {@link Registers.ClipboardRegister}.
+ *
+ * @author Slava Pestov
+ * @author John Gellene (API documentation)
+ * @version $Id: Registers.java 14793 2009-03-17 22:43:27Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="62:14:62:23">Registers</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:21">//{{{ copy() method</jtok>
+<jtok eid="1" type="block_comment" span="65:2:72:5">/**
+	 * Copies the text selected in the text area into the specified register.
+	 * This will replace the existing contents of the designated register.
+	 *
+	 * @param textArea The text area
+	 * @param register The register
+	 * @since jEdit 2.7pre2
+	 */</jtok>
+<jtok eid="2" type="method_name" span="73:21:73:25">copy</jtok>
+<jtok eid="2" type="parameter_type" span="73:26:73:34">TextArea</jtok>
+<jtok eid="2" type="parameter_name" span="73:35:73:43">textArea</jtok>
+<jtok eid="2" type="parameter_name" span="73:50:73:58">register</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="75:3:75:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="75:10:75:19">selection</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:22:75:30">textArea</jtok>
+<jtok eid="2" type="method_call" span="75:31:75:46">getSelectedText</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:6:76:15">selection</jtok>
+<jtok eid="2" type="method_call" span="79:3:79:14">setRegister</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:15:79:23">register</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:24:79:33">selection</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:3:80:15">HistoryModel</jtok>
+<jtok eid="2" type="method_call" span="80:16:80:24">getModel</jtok>
+<jtok eid="2" type="string_literal" span="80:25:80:36">"clipboard"</jtok>
+<jtok eid="2" type="method_call" span="80:38:80:45">addItem</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:46:80:55">selection</jtok>
+<jtok eid="1" type="line_comment" span="82:4:82:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="84:2:84:20">//{{{ cut() method</jtok>
+<jtok eid="1" type="block_comment" span="85:2:92:5">/**
+	 * Copies the text selected in the text area into the specified
+	 * register, and then removes it from the buffer.
+	 *
+	 * @param textArea The text area
+	 * @param register The register
+	 * @since jEdit 2.7pre2
+	 */</jtok>
+<jtok eid="3" type="method_name" span="93:21:93:24">cut</jtok>
+<jtok eid="3" type="parameter_type" span="93:25:93:33">TextArea</jtok>
+<jtok eid="3" type="parameter_name" span="93:34:93:42">textArea</jtok>
+<jtok eid="3" type="parameter_name" span="93:49:93:57">register</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:6:95:14">textArea</jtok>
+<jtok eid="3" type="method_call" span="95:15:95:25">isEditable</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="97:4:97:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="97:11:97:20">selection</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:23:97:31">textArea</jtok>
+<jtok eid="3" type="method_call" span="97:32:97:47">getSelectedText</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:7:98:16">selection</jtok>
+<jtok eid="3" type="method_call" span="101:4:101:15">setRegister</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:16:101:24">register</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:25:101:34">selection</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:4:102:16">HistoryModel</jtok>
+<jtok eid="3" type="method_call" span="102:17:102:25">getModel</jtok>
+<jtok eid="3" type="string_literal" span="102:26:102:37">"clipboard"</jtok>
+<jtok eid="3" type="method_call" span="102:39:102:46">addItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:47:102:56">selection</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:4:104:12">textArea</jtok>
+<jtok eid="3" type="method_call" span="104:13:104:28">setSelectedText</jtok>
+<jtok eid="3" type="string_literal" span="104:29:104:31">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:4:107:12">textArea</jtok>
+<jtok eid="3" type="method_call" span="107:13:107:23">getToolkit</jtok>
+<jtok eid="3" type="method_call" span="107:26:107:30">beep</jtok>
+<jtok eid="1" type="line_comment" span="108:4:108:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="110:2:110:23">//{{{ append() method</jtok>
+<jtok eid="1" type="block_comment" span="111:2:116:5">/**
+	 * Appends the text selected in the text area to the specified register,
+	 * with a newline between the old and new text.
+	 * @param textArea The text area
+	 * @param register The register
+	 */</jtok>
+<jtok eid="4" type="method_name" span="117:21:117:27">append</jtok>
+<jtok eid="4" type="parameter_type" span="117:28:117:36">TextArea</jtok>
+<jtok eid="4" type="parameter_name" span="117:37:117:45">textArea</jtok>
+<jtok eid="4" type="parameter_name" span="117:52:117:60">register</jtok>
+<jtok eid="4" type="method_call" span="119:3:119:9">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:10:119:18">textArea</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:19:119:27">register</jtok>
+<jtok eid="4" type="string_literal" span="119:28:119:32">"\n"</jtok>
+<jtok eid="1" type="line_comment" span="120:4:120:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="122:2:122:23">//{{{ append() method</jtok>
+<jtok eid="1" type="block_comment" span="123:2:128:5">/**
+	 * Appends the text selected in the text area to the specified register.
+	 * @param textArea The text area
+	 * @param register The register
+	 * @param separator The separator to insert between the old and new text
+	 */</jtok>
+<jtok eid="5" type="method_name" span="129:21:129:27">append</jtok>
+<jtok eid="5" type="parameter_type" span="129:28:129:36">TextArea</jtok>
+<jtok eid="5" type="parameter_name" span="129:37:129:45">textArea</jtok>
+<jtok eid="5" type="parameter_name" span="129:52:129:60">register</jtok>
+<jtok eid="5" type="parameter_type" span="130:3:130:9">String</jtok>
+<jtok eid="5" type="parameter_name" span="130:10:130:19">separator</jtok>
+<jtok eid="5" type="method_call" span="132:3:132:9">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:10:132:18">textArea</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:19:132:27">register</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:28:132:37">separator</jtok>
+<jtok eid="1" type="line_comment" span="133:4:133:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="135:2:135:23">//{{{ append() method</jtok>
+<jtok eid="1" type="block_comment" span="136:2:143:5">/**
+	 * Appends the text selected in the  text area to the specified register.
+	 * @param textArea The text area
+	 * @param register The register
+	 * @param separator The text to insert between the old and new text
+	 * @param cut Should the current selection be removed?
+	 * @since jEdit 3.2pre1
+	 */</jtok>
+<jtok eid="6" type="method_name" span="144:21:144:27">append</jtok>
+<jtok eid="6" type="parameter_type" span="144:28:144:36">TextArea</jtok>
+<jtok eid="6" type="parameter_name" span="144:37:144:45">textArea</jtok>
+<jtok eid="6" type="parameter_name" span="144:52:144:60">register</jtok>
+<jtok eid="6" type="parameter_type" span="145:3:145:9">String</jtok>
+<jtok eid="6" type="parameter_name" span="145:10:145:19">separator</jtok>
+<jtok eid="6" type="parameter_name" span="145:29:145:32">cut</jtok>
+<jtok eid="6" type="primary_name_ref" span="147:6:147:9">cut</jtok>
+<jtok eid="6" type="primary_name_ref" span="147:14:147:22">textArea</jtok>
+<jtok eid="6" type="method_call" span="147:23:147:33">isEditable</jtok>
+<jtok eid="6" type="primary_name_ref" span="149:4:149:12">textArea</jtok>
+<jtok eid="6" type="method_call" span="149:13:149:23">getToolkit</jtok>
+<jtok eid="6" type="method_call" span="149:26:149:30">beep</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="153:3:153:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="153:10:153:19">selection</jtok>
+<jtok eid="6" type="primary_name_ref" span="153:22:153:30">textArea</jtok>
+<jtok eid="6" type="method_call" span="153:31:153:46">getSelectedText</jtok>
+<jtok eid="6" type="primary_name_ref" span="154:6:154:15">selection</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="157:3:157:11">Register</jtok>
+<jtok eid="6" type="local_variable_name" span="157:12:157:15">reg</jtok>
+<jtok eid="6" type="method_call" span="157:18:157:29">getRegister</jtok>
+<jtok eid="6" type="primary_name_ref" span="157:30:157:38">register</jtok>
+<jtok eid="6" type="primary_name_ref" span="159:6:159:9">reg</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="161:4:161:10">String</jtok>
+<jtok eid="6" type="local_variable_name" span="161:11:161:27">registerContents</jtok>
+<jtok eid="6" type="primary_name_ref" span="161:30:161:33">reg</jtok>
+<jtok eid="6" type="method_call" span="161:34:161:42">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="162:7:162:23">registerContents</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:8:164:24">registerContents</jtok>
+<jtok eid="6" type="method_call" span="164:25:164:33">endsWith</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:34:164:43">separator</jtok>
+<jtok eid="6" type="primary_name_ref" span="165:6:165:15">selection</jtok>
+<jtok eid="6" type="primary_name_ref" span="165:18:165:34">registerContents</jtok>
+<jtok eid="6" type="primary_name_ref" span="165:37:165:46">selection</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:6:167:15">selection</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:18:167:34">registerContents</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:37:167:46">separator</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:49:167:58">selection</jtok>
+<jtok eid="6" type="method_call" span="171:3:171:14">setRegister</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:15:171:23">register</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:24:171:33">selection</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:3:172:15">HistoryModel</jtok>
+<jtok eid="6" type="method_call" span="172:16:172:24">getModel</jtok>
+<jtok eid="6" type="string_literal" span="172:25:172:36">"clipboard"</jtok>
+<jtok eid="6" type="method_call" span="172:38:172:45">addItem</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:46:172:55">selection</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:6:174:9">cut</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:4:175:12">textArea</jtok>
+<jtok eid="6" type="method_call" span="175:13:175:28">setSelectedText</jtok>
+<jtok eid="6" type="string_literal" span="175:29:175:31">""</jtok>
+<jtok eid="1" type="line_comment" span="176:4:176:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="178:2:178:23">//{{{ paste() methods</jtok>
+<jtok eid="1" type="block_comment" span="179:2:184:5">/**
+	 * Insets the contents of the specified register into the text area.
+	 * @param textArea The text area
+	 * @param register The register
+	 * @since jEdit 2.7pre2
+	 */</jtok>
+<jtok eid="7" type="method_name" span="185:21:185:26">paste</jtok>
+<jtok eid="7" type="parameter_type" span="185:27:185:35">TextArea</jtok>
+<jtok eid="7" type="parameter_name" span="185:36:185:44">textArea</jtok>
+<jtok eid="7" type="parameter_name" span="185:51:185:59">register</jtok>
+<jtok eid="7" type="method_call" span="187:3:187:8">paste</jtok>
+<jtok eid="7" type="primary_name_ref" span="187:9:187:17">textArea</jtok>
+<jtok eid="7" type="primary_name_ref" span="187:18:187:26">register</jtok>
+<jtok eid="1" type="block_comment" span="190:2:196:5">/**
+	 * Inserts the contents of the specified register into the text area.
+	 * @param textArea The text area
+	 * @param register The register
+	 * @param vertical Vertical (columnar) paste
+	 * @since jEdit 4.1pre1
+	 */</jtok>
+<jtok eid="8" type="method_name" span="197:21:197:26">paste</jtok>
+<jtok eid="8" type="parameter_type" span="197:27:197:35">TextArea</jtok>
+<jtok eid="8" type="parameter_name" span="197:36:197:44">textArea</jtok>
+<jtok eid="8" type="parameter_name" span="197:51:197:59">register</jtok>
+<jtok eid="8" type="parameter_name" span="198:11:198:19">vertical</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:7:200:15">textArea</jtok>
+<jtok eid="8" type="method_call" span="200:16:200:26">isEditable</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:4:202:12">textArea</jtok>
+<jtok eid="8" type="method_call" span="202:13:202:23">getToolkit</jtok>
+<jtok eid="8" type="method_call" span="202:26:202:30">beep</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="206:3:206:11">Register</jtok>
+<jtok eid="8" type="local_variable_name" span="206:12:206:15">reg</jtok>
+<jtok eid="8" type="method_call" span="206:18:206:29">getRegister</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:30:206:38">register</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:6:208:9">reg</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:4:210:12">textArea</jtok>
+<jtok eid="8" type="method_call" span="210:13:210:23">getToolkit</jtok>
+<jtok eid="8" type="method_call" span="210:26:210:30">beep</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="214:3:214:9">String</jtok>
+<jtok eid="8" type="local_variable_name" span="214:10:214:19">selection</jtok>
+<jtok eid="8" type="primary_name_ref" span="214:22:214:25">reg</jtok>
+<jtok eid="8" type="method_call" span="214:26:214:34">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:6:215:15">selection</jtok>
+<jtok eid="8" type="primary_name_ref" span="217:4:217:12">textArea</jtok>
+<jtok eid="8" type="method_call" span="217:13:217:23">getToolkit</jtok>
+<jtok eid="8" type="method_call" span="217:26:217:30">beep</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="220:3:220:14">JEditBuffer</jtok>
+<jtok eid="8" type="local_variable_name" span="220:15:220:21">buffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="220:24:220:32">textArea</jtok>
+<jtok eid="8" type="method_call" span="220:33:220:42">getBuffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="223:4:223:10">buffer</jtok>
+<jtok eid="8" type="method_call" span="223:11:223:28">beginCompoundEdit</jtok>
+<jtok eid="8" type="block_comment" span="225:4:225:24">/* vertical paste */</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:7:226:15">vertical</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:19:226:27">textArea</jtok>
+<jtok eid="8" type="method_call" span="226:28:226:45">getSelectionCount</jtok>
+<jtok eid="8" type="local_variable_name" span="228:9:228:14">caret</jtok>
+<jtok eid="8" type="primary_name_ref" span="228:17:228:25">textArea</jtok>
+<jtok eid="8" type="method_call" span="228:26:228:42">getCaretPosition</jtok>
+<jtok eid="8" type="local_variable_name" span="229:9:229:18">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="229:21:229:29">textArea</jtok>
+<jtok eid="8" type="method_call" span="229:30:229:42">getCaretLine</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="230:5:230:14">Selection</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="230:15:230:19">Rect</jtok>
+<jtok eid="8" type="local_variable_name" span="230:20:230:24">rect</jtok>
+<jtok eid="8" type="constructor_call" span="230:31:230:40">Selection</jtok>
+<jtok eid="8" type="constructor_call" span="230:41:230:45">Rect</jtok>
+<jtok eid="8" type="primary_name_ref" span="231:6:231:15">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="231:16:231:21">caret</jtok>
+<jtok eid="8" type="primary_name_ref" span="231:22:231:31">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="231:32:231:37">caret</jtok>
+<jtok eid="8" type="primary_name_ref" span="232:5:232:13">textArea</jtok>
+<jtok eid="8" type="method_call" span="232:14:232:29">setSelectedText</jtok>
+<jtok eid="8" type="primary_name_ref" span="232:30:232:34">rect</jtok>
+<jtok eid="8" type="primary_name_ref" span="232:35:232:44">selection</jtok>
+<jtok eid="8" type="primary_name_ref" span="233:5:233:14">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="233:17:233:25">textArea</jtok>
+<jtok eid="8" type="method_call" span="233:26:233:38">getCaretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="235:8:235:17">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="235:21:235:29">textArea</jtok>
+<jtok eid="8" type="method_call" span="235:30:235:42">getLineCount</jtok>
+<jtok eid="8" type="local_variable_name" span="238:10:238:21">startColumn</jtok>
+<jtok eid="8" type="primary_name_ref" span="238:24:238:28">rect</jtok>
+<jtok eid="8" type="method_call" span="238:29:238:43">getStartColumn</jtok>
+<jtok eid="8" type="primary_name_ref" span="239:7:239:13">buffer</jtok>
+<jtok eid="8" type="local_variable_name" span="240:10:240:16">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="240:19:240:25">buffer</jtok>
+<jtok eid="8" type="method_call" span="241:8:241:32">getOffsetOfVirtualColumn</jtok>
+<jtok eid="8" type="primary_name_ref" span="242:7:242:16">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="242:21:242:32">startColumn</jtok>
+<jtok eid="8" type="primary_name_ref" span="243:9:243:15">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="245:7:245:13">buffer</jtok>
+<jtok eid="8" type="method_call" span="245:14:245:28">insertAtColumn</jtok>
+<jtok eid="8" type="primary_name_ref" span="245:29:245:38">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="245:43:245:54">startColumn</jtok>
+<jtok eid="8" type="string_literal" span="245:55:245:57">""</jtok>
+<jtok eid="8" type="primary_name_ref" span="246:7:246:15">textArea</jtok>
+<jtok eid="8" type="method_call" span="246:16:246:32">setCaretPosition</jtok>
+<jtok eid="8" type="primary_name_ref" span="247:8:247:14">buffer</jtok>
+<jtok eid="8" type="method_call" span="247:15:247:31">getLineEndOffset</jtok>
+<jtok eid="8" type="primary_name_ref" span="248:8:248:17">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="252:7:252:15">textArea</jtok>
+<jtok eid="8" type="method_call" span="252:16:252:32">setCaretPosition</jtok>
+<jtok eid="8" type="primary_name_ref" span="253:8:253:14">buffer</jtok>
+<jtok eid="8" type="method_call" span="253:15:253:33">getLineStartOffset</jtok>
+<jtok eid="8" type="primary_name_ref" span="254:8:254:17">caretLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="254:25:254:31">offset</jtok>
+<jtok eid="8" type="block_comment" span="258:9:258:28">/* Regular paste */</jtok>
+<jtok eid="8" type="primary_name_ref" span="260:5:260:13">textArea</jtok>
+<jtok eid="8" type="method_call" span="260:14:260:30">replaceSelection</jtok>
+<jtok eid="8" type="primary_name_ref" span="260:31:260:40">selection</jtok>
+<jtok eid="8" type="primary_name_ref" span="264:4:264:10">buffer</jtok>
+<jtok eid="8" type="method_call" span="264:11:264:26">endCompoundEdit</jtok>
+<jtok eid="8" type="primary_name_ref" span="266:3:266:15">HistoryModel</jtok>
+<jtok eid="8" type="method_call" span="266:16:266:24">getModel</jtok>
+<jtok eid="8" type="string_literal" span="266:25:266:36">"clipboard"</jtok>
+<jtok eid="8" type="method_call" span="266:38:266:45">addItem</jtok>
+<jtok eid="8" type="primary_name_ref" span="266:46:266:55">selection</jtok>
+<jtok eid="1" type="line_comment" span="267:4:267:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="269:2:269:28">//{{{ getRegister() method</jtok>
+<jtok eid="1" type="block_comment" span="270:2:273:5">/**
+	 * Returns the specified register.
+	 * @param name The name
+	 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="274:16:274:24">Register</jtok>
+<jtok eid="9" type="method_name" span="274:25:274:36">getRegister</jtok>
+<jtok eid="9" type="parameter_name" span="274:42:274:46">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="276:6:276:10">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="276:21:276:25">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="278:8:278:14">loaded</jtok>
+<jtok eid="9" type="method_call" span="279:5:279:18">loadRegisters</jtok>
+<jtok eid="9" type="primary_name_ref" span="282:6:282:15">registers</jtok>
+<jtok eid="9" type="primary_name_ref" span="282:27:282:31">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="282:35:282:44">registers</jtok>
+<jtok eid="9" type="qualified_name_ref" span="282:45:282:51">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="285:11:285:20">registers</jtok>
+<jtok eid="9" type="primary_name_ref" span="285:21:285:25">name</jtok>
+<jtok eid="1" type="line_comment" span="286:4:286:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="288:2:288:28">//{{{ setRegister() method</jtok>
+<jtok eid="1" type="block_comment" span="289:2:293:5">/**
+	 * Sets the specified register.
+	 * @param name The name
+	 * @param newRegister The new value
+	 */</jtok>
+<jtok eid="10" type="method_name" span="294:21:294:32">setRegister</jtok>
+<jtok eid="10" type="parameter_name" span="294:38:294:42">name</jtok>
+<jtok eid="10" type="parameter_type" span="294:44:294:52">Register</jtok>
+<jtok eid="10" type="parameter_name" span="294:53:294:64">newRegister</jtok>
+<jtok eid="10" type="method_call" span="296:3:296:16">touchRegister</jtok>
+<jtok eid="10" type="primary_name_ref" span="296:17:296:21">name</jtok>
+<jtok eid="10" type="primary_name_ref" span="298:6:298:10">name</jtok>
+<jtok eid="10" type="primary_name_ref" span="298:14:298:23">registers</jtok>
+<jtok eid="10" type="qualified_name_ref" span="298:24:298:30">length</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="300:4:300:12">Register</jtok>
+<jtok eid="10" type="local_variable_name" span="300:15:300:27">newRegisters</jtok>
+<jtok eid="10" type="constructor_call" span="300:34:300:42">Register</jtok>
+<jtok eid="10" type="primary_name_ref" span="301:5:301:9">Math</jtok>
+<jtok eid="10" type="method_call" span="301:10:301:13">min</jtok>
+<jtok eid="10" type="primary_name_ref" span="301:21:301:25">name</jtok>
+<jtok eid="10" type="primary_name_ref" span="302:4:302:10">System</jtok>
+<jtok eid="10" type="method_call" span="302:11:302:20">arraycopy</jtok>
+<jtok eid="10" type="primary_name_ref" span="302:21:302:30">registers</jtok>
+<jtok eid="10" type="primary_name_ref" span="302:33:302:45">newRegisters</jtok>
+<jtok eid="10" type="primary_name_ref" span="303:5:303:14">registers</jtok>
+<jtok eid="10" type="qualified_name_ref" span="303:15:303:21">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="304:4:304:13">registers</jtok>
+<jtok eid="10" type="primary_name_ref" span="304:16:304:28">newRegisters</jtok>
+<jtok eid="10" type="primary_name_ref" span="307:3:307:12">registers</jtok>
+<jtok eid="10" type="primary_name_ref" span="307:13:307:17">name</jtok>
+<jtok eid="10" type="primary_name_ref" span="307:21:307:32">newRegister</jtok>
+<jtok eid="10" type="primary_name_ref" span="308:7:308:15">listener</jtok>
+<jtok eid="10" type="primary_name_ref" span="309:4:309:12">listener</jtok>
+<jtok eid="10" type="method_call" span="309:13:309:28">registerChanged</jtok>
+<jtok eid="10" type="primary_name_ref" span="309:29:309:33">name</jtok>
+<jtok eid="1" type="line_comment" span="310:4:310:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="312:2:312:28">//{{{ setRegister() method</jtok>
+<jtok eid="1" type="block_comment" span="313:2:317:5">/**
+	 * Sets the specified register.
+	 * @param name The name
+	 * @param value The new value
+	 */</jtok>
+<jtok eid="11" type="method_name" span="318:21:318:32">setRegister</jtok>
+<jtok eid="11" type="parameter_name" span="318:38:318:42">name</jtok>
+<jtok eid="11" type="parameter_type" span="318:44:318:50">String</jtok>
+<jtok eid="11" type="parameter_name" span="318:51:318:56">value</jtok>
+<jtok eid="11" type="method_call" span="320:3:320:16">touchRegister</jtok>
+<jtok eid="11" type="primary_name_ref" span="320:17:320:21">name</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="321:3:321:11">Register</jtok>
+<jtok eid="11" type="local_variable_name" span="321:12:321:20">register</jtok>
+<jtok eid="11" type="method_call" span="321:23:321:34">getRegister</jtok>
+<jtok eid="11" type="primary_name_ref" span="321:35:321:39">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="322:6:322:14">register</jtok>
+<jtok eid="11" type="primary_name_ref" span="324:4:324:12">register</jtok>
+<jtok eid="11" type="method_call" span="324:13:324:21">setValue</jtok>
+<jtok eid="11" type="primary_name_ref" span="324:22:324:27">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="325:8:325:16">listener</jtok>
+<jtok eid="11" type="primary_name_ref" span="326:5:326:13">listener</jtok>
+<jtok eid="11" type="method_call" span="326:14:326:29">registerChanged</jtok>
+<jtok eid="11" type="primary_name_ref" span="326:30:326:34">name</jtok>
+<jtok eid="11" type="method_call" span="329:4:329:15">setRegister</jtok>
+<jtok eid="11" type="primary_name_ref" span="329:16:329:20">name</jtok>
+<jtok eid="11" type="constructor_call" span="329:25:329:39">StringRegister</jtok>
+<jtok eid="11" type="primary_name_ref" span="329:40:329:45">value</jtok>
+<jtok eid="1" type="line_comment" span="330:4:330:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="332:2:332:30">//{{{ clearRegister() method</jtok>
+<jtok eid="1" type="block_comment" span="333:2:336:5">/**
+	 * Sets the value of the specified register to &lt;code&gt;null&lt;/code&gt;.
+	 * @param name The register name
+	 */</jtok>
+<jtok eid="12" type="method_name" span="337:21:337:34">clearRegister</jtok>
+<jtok eid="12" type="parameter_name" span="337:40:337:44">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="339:6:339:10">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="339:14:339:23">registers</jtok>
+<jtok eid="12" type="qualified_name_ref" span="339:24:339:30">length</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="342:3:342:11">Register</jtok>
+<jtok eid="12" type="local_variable_name" span="342:12:342:20">register</jtok>
+<jtok eid="12" type="primary_name_ref" span="342:23:342:32">registers</jtok>
+<jtok eid="12" type="primary_name_ref" span="342:33:342:37">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="343:6:343:10">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="343:21:343:25">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="344:4:344:12">register</jtok>
+<jtok eid="12" type="method_call" span="344:13:344:21">setValue</jtok>
+<jtok eid="12" type="string_literal" span="344:22:344:24">""</jtok>
+<jtok eid="12" type="primary_name_ref" span="347:4:347:13">registers</jtok>
+<jtok eid="12" type="primary_name_ref" span="347:14:347:18">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="348:4:348:12">modified</jtok>
+<jtok eid="12" type="primary_name_ref" span="349:8:349:16">listener</jtok>
+<jtok eid="12" type="primary_name_ref" span="350:5:350:13">listener</jtok>
+<jtok eid="12" type="method_call" span="350:14:350:29">registerChanged</jtok>
+<jtok eid="12" type="primary_name_ref" span="350:30:350:34">name</jtok>
+<jtok eid="1" type="line_comment" span="352:4:352:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="354:2:354:29">//{{{ getRegisters() method</jtok>
+<jtok eid="1" type="block_comment" span="355:2:358:5">/**
+	 * Returns an array of all available registers. Some of the elements
+	 * of this array might be &lt;code&gt;null&lt;/code&gt;.
+	 */</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="359:16:359:24">Register</jtok>
+<jtok eid="13" type="method_name" span="359:27:359:39">getRegisters</jtok>
+<jtok eid="13" type="primary_name_ref" span="361:7:361:13">loaded</jtok>
+<jtok eid="13" type="method_call" span="362:4:362:17">loadRegisters</jtok>
+<jtok eid="13" type="primary_name_ref" span="363:10:363:19">registers</jtok>
+<jtok eid="1" type="line_comment" span="364:4:364:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="366:2:366:38">//{{{ getRegisterNameString() method</jtok>
+<jtok eid="1" type="block_comment" span="367:2:371:5">/**
+	 * Returns a string of all defined registers, used by the status bar
+	 * (eg, "a b $ % ^").
+	 * @since jEdit 4.2pre2
+	 */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="372:16:372:22">String</jtok>
+<jtok eid="14" type="method_name" span="372:23:372:44">getRegisterNameString</jtok>
+<jtok eid="14" type="primary_name_ref" span="374:7:374:13">loaded</jtok>
+<jtok eid="14" type="method_call" span="375:4:375:17">loadRegisters</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="377:3:377:16">StringBuilder</jtok>
+<jtok eid="14" type="local_variable_name" span="377:17:377:20">buf</jtok>
+<jtok eid="14" type="constructor_call" span="377:27:377:40">StringBuilder</jtok>
+<jtok eid="14" type="primary_name_ref" span="377:41:377:50">registers</jtok>
+<jtok eid="14" type="qualified_name_ref" span="377:51:377:57">length</jtok>
+<jtok eid="14" type="local_variable_name" span="378:11:378:12">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="378:18:378:19">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="378:22:378:31">registers</jtok>
+<jtok eid="14" type="qualified_name_ref" span="378:32:378:38">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="378:40:378:41">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="380:7:380:16">registers</jtok>
+<jtok eid="14" type="primary_name_ref" span="380:17:380:18">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="382:8:382:11">buf</jtok>
+<jtok eid="14" type="method_call" span="382:12:382:18">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="383:6:383:9">buf</jtok>
+<jtok eid="14" type="method_call" span="383:10:383:16">append</jtok>
+<jtok eid="14" type="primary_name_ref" span="384:5:384:8">buf</jtok>
+<jtok eid="14" type="method_call" span="384:9:384:15">append</jtok>
+<jtok eid="14" type="primary_name_ref" span="384:22:384:23">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="388:6:388:9">buf</jtok>
+<jtok eid="14" type="method_call" span="388:10:388:16">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="391:11:391:14">buf</jtok>
+<jtok eid="14" type="method_call" span="391:15:391:23">toString</jtok>
+<jtok eid="1" type="line_comment" span="392:4:392:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="394:2:394:30">//{{{ saveRegisters() method</jtok>
+<jtok eid="15" type="method_name" span="395:21:395:34">saveRegisters</jtok>
+<jtok eid="15" type="primary_name_ref" span="397:7:397:13">loaded</jtok>
+<jtok eid="15" type="primary_name_ref" span="397:18:397:26">modified</jtok>
+<jtok eid="15" type="primary_name_ref" span="400:7:400:12">saver</jtok>
+<jtok eid="15" type="primary_name_ref" span="402:4:402:9">saver</jtok>
+<jtok eid="15" type="method_call" span="402:10:402:23">saveRegisters</jtok>
+<jtok eid="15" type="primary_name_ref" span="403:4:403:12">modified</jtok>
+<jtok eid="1" type="line_comment" span="405:4:405:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="407:2:407:28">//{{{ setListener() method</jtok>
+<jtok eid="16" type="method_name" span="408:21:408:32">setListener</jtok>
+<jtok eid="16" type="parameter_type" span="408:33:408:50">RegistersListener</jtok>
+<jtok eid="16" type="parameter_name" span="408:51:408:59">listener</jtok>
+<jtok eid="16" type="primary_name_ref" span="410:3:410:12">Registers</jtok>
+<jtok eid="16" type="qualified_name_ref" span="410:13:410:21">listener</jtok>
+<jtok eid="16" type="primary_name_ref" span="410:24:410:32">listener</jtok>
+<jtok eid="1" type="line_comment" span="411:4:411:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="413:2:413:25">//{{{ setSaver() method</jtok>
+<jtok eid="17" type="method_name" span="414:21:414:29">setSaver</jtok>
+<jtok eid="17" type="parameter_type" span="414:30:414:43">RegisterSaver</jtok>
+<jtok eid="17" type="parameter_name" span="414:44:414:49">saver</jtok>
+<jtok eid="17" type="primary_name_ref" span="416:3:416:12">Registers</jtok>
+<jtok eid="17" type="qualified_name_ref" span="416:13:416:18">saver</jtok>
+<jtok eid="17" type="primary_name_ref" span="416:21:416:26">saver</jtok>
+<jtok eid="1" type="line_comment" span="417:4:417:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="419:2:419:26">//{{{ isLoading() method</jtok>
+<jtok eid="18" type="method_name" span="420:24:420:33">isLoading</jtok>
+<jtok eid="18" type="primary_name_ref" span="422:10:422:17">loading</jtok>
+<jtok eid="1" type="line_comment" span="423:4:423:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="425:2:425:27">//{{{ setLoading() method</jtok>
+<jtok eid="19" type="method_name" span="426:21:426:31">setLoading</jtok>
+<jtok eid="19" type="parameter_name" span="426:40:426:47">loading</jtok>
+<jtok eid="19" type="primary_name_ref" span="428:3:428:12">Registers</jtok>
+<jtok eid="19" type="qualified_name_ref" span="428:13:428:20">loading</jtok>
+<jtok eid="19" type="primary_name_ref" span="428:23:428:30">loading</jtok>
+<jtok eid="1" type="line_comment" span="429:4:429:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="431:2:431:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="432:17:432:25">Register</jtok>
+<jtok eid="1" type="field_name" span="432:28:432:37">registers</jtok>
+<jtok eid="1" type="field_name" span="433:25:433:31">loaded</jtok>
+<jtok eid="1" type="field_name" span="433:33:433:40">loading</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="434:17:434:30">RegisterSaver</jtok>
+<jtok eid="1" type="field_name" span="434:31:434:36">saver</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="435:17:435:34">RegistersListener</jtok>
+<jtok eid="1" type="field_name" span="435:35:435:43">listener</jtok>
+<jtok eid="1" type="block_comment" span="436:2:439:5">/**
+	 * Flag that tell if a register has been modified (except for '%' and '$' registers that aren't
+	 * saved to the xml file).
+	 */</jtok>
+<jtok eid="1" type="field_name" span="440:25:440:33">modified</jtok>
+<jtok eid="20" type="method_name" span="442:10:442:19">Registers</jtok>
+<jtok eid="1" type="primary_name_ref" span="446:3:446:12">registers</jtok>
+<jtok eid="1" type="constructor_call" span="446:19:446:27">Register</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="447:3:447:10">Toolkit</jtok>
+<jtok eid="1" type="field_name" span="447:11:447:18">toolkit</jtok>
+<jtok eid="1" type="primary_name_ref" span="447:21:447:28">Toolkit</jtok>
+<jtok eid="1" type="method_call" span="447:29:447:46">getDefaultToolkit</jtok>
+<jtok eid="1" type="primary_name_ref" span="448:3:448:12">registers</jtok>
+<jtok eid="1" type="constructor_call" span="448:24:448:41">ClipboardRegister</jtok>
+<jtok eid="1" type="primary_name_ref" span="449:4:449:11">toolkit</jtok>
+<jtok eid="1" type="method_call" span="449:12:449:30">getSystemClipboard</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="450:3:450:12">Clipboard</jtok>
+<jtok eid="1" type="field_name" span="450:13:450:22">selection</jtok>
+<jtok eid="1" type="primary_name_ref" span="450:25:450:32">toolkit</jtok>
+<jtok eid="1" type="method_call" span="450:33:450:51">getSystemSelection</jtok>
+<jtok eid="1" type="primary_name_ref" span="451:6:451:15">selection</jtok>
+<jtok eid="1" type="primary_name_ref" span="452:4:452:13">registers</jtok>
+<jtok eid="1" type="constructor_call" span="452:25:452:42">ClipboardRegister</jtok>
+<jtok eid="1" type="primary_name_ref" span="452:43:452:52">selection</jtok>
+<jtok eid="1" type="line_comment" span="455:2:455:30">//{{{ touchRegister() method</jtok>
+<jtok eid="21" type="method_name" span="456:22:456:35">touchRegister</jtok>
+<jtok eid="21" type="parameter_name" span="456:41:456:45">name</jtok>
+<jtok eid="21" type="primary_name_ref" span="458:6:458:10">name</jtok>
+<jtok eid="21" type="primary_name_ref" span="458:21:458:25">name</jtok>
+<jtok eid="21" type="primary_name_ref" span="461:7:461:13">loaded</jtok>
+<jtok eid="21" type="method_call" span="462:4:462:17">loadRegisters</jtok>
+<jtok eid="21" type="primary_name_ref" span="464:7:464:14">loading</jtok>
+<jtok eid="21" type="primary_name_ref" span="465:4:465:12">modified</jtok>
+<jtok eid="1" type="line_comment" span="466:4:466:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="468:2:468:30">//{{{ loadRegisters() method</jtok>
+<jtok eid="22" type="method_name" span="469:22:469:35">loadRegisters</jtok>
+<jtok eid="22" type="primary_name_ref" span="471:7:471:12">saver</jtok>
+<jtok eid="22" type="primary_name_ref" span="473:4:473:10">loaded</jtok>
+<jtok eid="22" type="primary_name_ref" span="474:4:474:9">saver</jtok>
+<jtok eid="22" type="method_call" span="474:10:474:23">loadRegisters</jtok>
+<jtok eid="1" type="line_comment" span="476:4:476:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="478:2:478:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="480:2:480:21">//{{{ Inner classes</jtok>
+<jtok eid="1" type="line_comment" span="482:2:482:26">//{{{ Register interface</jtok>
+<jtok eid="1" type="block_comment" span="483:2:485:5">/**
+	 * A register.
+	 */</jtok>
+<jtok eid="23" type="interface_name" span="486:19:486:27">Register</jtok>
+<jtok eid="23" type="block_comment" span="488:3:490:6">/**
+		 * Converts to a string.
+		 */</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="491:3:491:9">String</jtok>
+<jtok eid="24" type="method_name" span="491:10:491:18">toString</jtok>
+<jtok eid="23" type="block_comment" span="493:3:495:6">/**
+		 * Sets the register contents.
+		 */</jtok>
+<jtok eid="25" type="method_name" span="496:8:496:16">setValue</jtok>
+<jtok eid="25" type="parameter_type" span="496:17:496:23">String</jtok>
+<jtok eid="25" type="parameter_name" span="496:24:496:29">value</jtok>
+<jtok eid="1" type="line_comment" span="497:4:497:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="499:2:499:31">//{{{ ClipboardRegister class</jtok>
+<jtok eid="1" type="block_comment" span="500:2:503:5">/**
+	 * A clipboard register. Register "$" should always be an
+	 * instance of this.
+	 */</jtok>
+<jtok eid="26" type="class_name" span="504:22:504:39">ClipboardRegister</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="504:51:504:59">Register</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="506:3:506:12">Clipboard</jtok>
+<jtok eid="26" type="field_name" span="506:13:506:22">clipboard</jtok>
+<jtok eid="27" type="method_name" span="508:10:508:27">ClipboardRegister</jtok>
+<jtok eid="27" type="parameter_type" span="508:28:508:37">Clipboard</jtok>
+<jtok eid="27" type="parameter_name" span="508:38:508:47">clipboard</jtok>
+<jtok eid="27" type="qualified_name_ref" span="510:9:510:18">clipboard</jtok>
+<jtok eid="27" type="primary_name_ref" span="510:21:510:30">clipboard</jtok>
+<jtok eid="26" type="block_comment" span="513:3:515:6">/**
+		 * Sets the clipboard contents.
+		 */</jtok>
+<jtok eid="28" type="method_name" span="516:15:516:23">setValue</jtok>
+<jtok eid="28" type="parameter_type" span="516:24:516:30">String</jtok>
+<jtok eid="28" type="parameter_name" span="516:31:516:36">value</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="518:4:518:19">StringSelection</jtok>
+<jtok eid="28" type="local_variable_name" span="518:20:518:29">selection</jtok>
+<jtok eid="28" type="constructor_call" span="518:36:518:51">StringSelection</jtok>
+<jtok eid="28" type="primary_name_ref" span="518:52:518:57">value</jtok>
+<jtok eid="28" type="primary_name_ref" span="519:4:519:13">clipboard</jtok>
+<jtok eid="28" type="method_call" span="519:14:519:25">setContents</jtok>
+<jtok eid="28" type="primary_name_ref" span="519:26:519:35">selection</jtok>
+<jtok eid="26" type="block_comment" span="522:3:524:6">/**
+		 * Returns the clipboard contents.
+		 */</jtok>
+<jtok eid="26" type="annotation_ref" span="525:4:525:12">Override</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="526:10:526:16">String</jtok>
+<jtok eid="29" type="method_name" span="526:17:526:25">toString</jtok>
+<jtok eid="29" type="block_comment" span="533:6:542:8">/*
+						This is to debug clipboard problems.
+
+						Apparently, jEdit is unable to copy text from clipbard into the current
+						text buffer if the clipboard was filles using the command
+							echo test | xselection CLIPBOARD -
+						under Linux. However, it seems that Java does not offer any
+						data flavor for this clipboard content (under J2RE 1.5.0_06-b05)
+						Thus, copying from clipboard seems to be plainly impossible.
+					*/</jtok>
+<jtok eid="29" type="primary_name_ref" span="543:6:543:9">Log</jtok>
+<jtok eid="29" type="method_call" span="543:10:543:13">log</jtok>
+<jtok eid="29" type="primary_name_ref" span="543:14:543:17">Log</jtok>
+<jtok eid="29" type="qualified_name_ref" span="543:18:543:23">DEBUG</jtok>
+<jtok eid="29" type="string_literal" span="543:29:543:59">"clipboard.getContents(this)="</jtok>
+<jtok eid="29" type="primary_name_ref" span="543:60:543:69">clipboard</jtok>
+<jtok eid="29" type="method_call" span="543:70:543:81">getContents</jtok>
+<jtok eid="29" type="method_call" span="544:6:544:26">debugListDataFlavors</jtok>
+<jtok eid="29" type="primary_name_ref" span="544:27:544:36">clipboard</jtok>
+<jtok eid="29" type="method_call" span="544:37:544:48">getContents</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="547:5:547:11">String</jtok>
+<jtok eid="29" type="local_variable_name" span="547:12:547:21">selection</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="547:25:547:31">String</jtok>
+<jtok eid="29" type="primary_name_ref" span="547:32:547:41">clipboard</jtok>
+<jtok eid="29" type="method_call" span="548:7:548:18">getContents</jtok>
+<jtok eid="29" type="method_call" span="548:25:548:40">getTransferData</jtok>
+<jtok eid="29" type="primary_name_ref" span="549:6:549:16">DataFlavor</jtok>
+<jtok eid="29" type="qualified_name_ref" span="549:17:549:29">stringFlavor</jtok>
+<jtok eid="29" type="local_variable_name" span="551:13:551:24">trailingEOL</jtok>
+<jtok eid="29" type="primary_name_ref" span="551:27:551:36">selection</jtok>
+<jtok eid="29" type="method_call" span="551:37:551:45">endsWith</jtok>
+<jtok eid="29" type="string_literal" span="551:46:551:50">"\n"</jtok>
+<jtok eid="29" type="primary_name_ref" span="552:9:552:18">selection</jtok>
+<jtok eid="29" type="method_call" span="552:19:552:27">endsWith</jtok>
+<jtok eid="29" type="primary_name_ref" span="552:28:552:34">System</jtok>
+<jtok eid="29" type="method_call" span="552:35:552:46">getProperty</jtok>
+<jtok eid="29" type="string_literal" span="553:6:553:22">"line.separator"</jtok>
+<jtok eid="29" type="line_comment" span="555:5:555:47">// Some Java versions return the clipboard</jtok>
+<jtok eid="29" type="line_comment" span="556:5:556:49">// contents using the native line separator,</jtok>
+<jtok eid="29" type="line_comment" span="557:5:557:34">// so have to convert it here</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="558:5:558:19">BufferedReader</jtok>
+<jtok eid="29" type="local_variable_name" span="558:20:558:22">in</jtok>
+<jtok eid="29" type="constructor_call" span="558:29:558:43">BufferedReader</jtok>
+<jtok eid="29" type="constructor_call" span="559:10:559:22">StringReader</jtok>
+<jtok eid="29" type="primary_name_ref" span="559:23:559:32">selection</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="560:5:560:18">StringBuilder</jtok>
+<jtok eid="29" type="local_variable_name" span="560:19:560:22">buf</jtok>
+<jtok eid="29" type="constructor_call" span="560:29:560:42">StringBuilder</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="561:5:561:11">String</jtok>
+<jtok eid="29" type="local_variable_name" span="561:12:561:16">line</jtok>
+<jtok eid="29" type="primary_name_ref" span="562:12:562:16">line</jtok>
+<jtok eid="29" type="primary_name_ref" span="562:19:562:21">in</jtok>
+<jtok eid="29" type="method_call" span="562:22:562:30">readLine</jtok>
+<jtok eid="29" type="line_comment" span="564:6:564:35">// broken Eclipse workaround!</jtok>
+<jtok eid="29" type="line_comment" span="565:6:565:24">// 24 Febuary 2004</jtok>
+<jtok eid="29" type="primary_name_ref" span="566:9:566:13">line</jtok>
+<jtok eid="29" type="method_call" span="566:14:566:22">endsWith</jtok>
+<jtok eid="29" type="string_literal" span="566:23:566:27">"\0"</jtok>
+<jtok eid="29" type="primary_name_ref" span="568:7:568:11">line</jtok>
+<jtok eid="29" type="primary_name_ref" span="568:14:568:18">line</jtok>
+<jtok eid="29" type="method_call" span="568:19:568:28">substring</jtok>
+<jtok eid="29" type="primary_name_ref" span="569:8:569:12">line</jtok>
+<jtok eid="29" type="method_call" span="569:13:569:19">length</jtok>
+<jtok eid="29" type="primary_name_ref" span="571:6:571:9">buf</jtok>
+<jtok eid="29" type="method_call" span="571:10:571:16">append</jtok>
+<jtok eid="29" type="primary_name_ref" span="571:17:571:21">line</jtok>
+<jtok eid="29" type="primary_name_ref" span="572:6:572:9">buf</jtok>
+<jtok eid="29" type="method_call" span="572:10:572:16">append</jtok>
+<jtok eid="29" type="line_comment" span="574:5:574:26">// remove trailing \n</jtok>
+<jtok eid="29" type="primary_name_ref" span="575:9:575:20">trailingEOL</jtok>
+<jtok eid="29" type="primary_name_ref" span="575:24:575:27">buf</jtok>
+<jtok eid="29" type="method_call" span="575:28:575:34">length</jtok>
+<jtok eid="29" type="primary_name_ref" span="576:6:576:9">buf</jtok>
+<jtok eid="29" type="method_call" span="576:10:576:19">setLength</jtok>
+<jtok eid="29" type="primary_name_ref" span="576:20:576:23">buf</jtok>
+<jtok eid="29" type="method_call" span="576:24:576:30">length</jtok>
+<jtok eid="29" type="primary_name_ref" span="577:12:577:15">buf</jtok>
+<jtok eid="29" type="method_call" span="577:16:577:24">toString</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="579:10:579:19">Exception</jtok>
+<jtok eid="29" type="local_variable_name" span="579:20:579:21">e</jtok>
+<jtok eid="29" type="primary_name_ref" span="581:5:581:8">Log</jtok>
+<jtok eid="29" type="method_call" span="581:9:581:12">log</jtok>
+<jtok eid="29" type="primary_name_ref" span="581:13:581:16">Log</jtok>
+<jtok eid="29" type="qualified_name_ref" span="581:17:581:23">NOTICE</jtok>
+<jtok eid="29" type="primary_name_ref" span="581:29:581:30">e</jtok>
+<jtok eid="1" type="line_comment" span="585:4:585:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="587:2:587:37">//{{{ debugListDataFlavors() method</jtok>
+<jtok eid="30" type="method_name" span="588:24:588:44">debugListDataFlavors</jtok>
+<jtok eid="30" type="parameter_type" span="588:45:588:57">Transferable</jtok>
+<jtok eid="30" type="parameter_name" span="588:58:588:70">transferable</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="590:3:590:13">DataFlavor</jtok>
+<jtok eid="30" type="local_variable_name" span="590:16:590:27">dataFlavors</jtok>
+<jtok eid="30" type="primary_name_ref" span="590:30:590:42">transferable</jtok>
+<jtok eid="30" type="method_call" span="590:43:590:65">getTransferDataFlavors</jtok>
+<jtok eid="30" type="local_variable_name" span="592:12:592:13">i</jtok>
+<jtok eid="30" type="primary_name_ref" span="592:18:592:19">i</jtok>
+<jtok eid="30" type="primary_name_ref" span="592:20:592:31">dataFlavors</jtok>
+<jtok eid="30" type="qualified_name_ref" span="592:32:592:38">length</jtok>
+<jtok eid="30" type="primary_name_ref" span="592:39:592:40">i</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="594:4:594:14">DataFlavor</jtok>
+<jtok eid="30" type="local_variable_name" span="594:15:594:25">dataFlavor</jtok>
+<jtok eid="30" type="primary_name_ref" span="594:28:594:39">dataFlavors</jtok>
+<jtok eid="30" type="primary_name_ref" span="594:40:594:41">i</jtok>
+<jtok eid="30" type="primary_name_ref" span="595:4:595:7">Log</jtok>
+<jtok eid="30" type="method_call" span="595:8:595:11">log</jtok>
+<jtok eid="30" type="primary_name_ref" span="595:12:595:15">Log</jtok>
+<jtok eid="30" type="qualified_name_ref" span="595:16:595:21">DEBUG</jtok>
+<jtok eid="30" type="primary_name_ref" span="595:22:595:31">Registers</jtok>
+<jtok eid="30" type="string_literal" span="596:5:596:42">"debugListDataFlavors(): dataFlavor="</jtok>
+<jtok eid="30" type="primary_name_ref" span="597:5:597:15">dataFlavor</jtok>
+<jtok eid="30" type="primary_name_ref" span="600:7:600:18">dataFlavors</jtok>
+<jtok eid="30" type="qualified_name_ref" span="600:19:600:25">length</jtok>
+<jtok eid="30" type="primary_name_ref" span="602:4:602:7">Log</jtok>
+<jtok eid="30" type="method_call" span="602:8:602:11">log</jtok>
+<jtok eid="30" type="primary_name_ref" span="602:12:602:15">Log</jtok>
+<jtok eid="30" type="qualified_name_ref" span="602:16:602:21">DEBUG</jtok>
+<jtok eid="30" type="primary_name_ref" span="602:22:602:31">Registers</jtok>
+<jtok eid="30" type="string_literal" span="603:5:603:55">"debugListDataFlavors(): no dataFlavor supported."</jtok>
+<jtok eid="1" type="line_comment" span="605:4:605:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="608:2:608:28">//{{{ StringRegister class</jtok>
+<jtok eid="1" type="block_comment" span="609:2:611:5">/**
+	 * Register that stores a string.
+	 */</jtok>
+<jtok eid="31" type="class_name" span="612:22:612:36">StringRegister</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="612:48:612:56">Register</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="614:11:614:17">String</jtok>
+<jtok eid="31" type="field_name" span="614:18:614:23">value</jtok>
+<jtok eid="31" type="block_comment" span="616:3:619:6">/**
+		 * Creates a new string register.
+		 * @param value The contents
+		 */</jtok>
+<jtok eid="32" type="method_name" span="620:10:620:24">StringRegister</jtok>
+<jtok eid="32" type="parameter_type" span="620:25:620:31">String</jtok>
+<jtok eid="32" type="parameter_name" span="620:32:620:37">value</jtok>
+<jtok eid="32" type="qualified_name_ref" span="622:9:622:14">value</jtok>
+<jtok eid="32" type="primary_name_ref" span="622:17:622:22">value</jtok>
+<jtok eid="31" type="block_comment" span="625:3:627:6">/**
+		 * Sets the register contents.
+		 */</jtok>
+<jtok eid="33" type="method_name" span="628:15:628:23">setValue</jtok>
+<jtok eid="33" type="parameter_type" span="628:24:628:30">String</jtok>
+<jtok eid="33" type="parameter_name" span="628:31:628:36">value</jtok>
+<jtok eid="33" type="qualified_name_ref" span="630:9:630:14">value</jtok>
+<jtok eid="33" type="primary_name_ref" span="630:17:630:22">value</jtok>
+<jtok eid="31" type="block_comment" span="633:3:635:6">/**
+		 * Converts to a string.
+		 */</jtok>
+<jtok eid="31" type="annotation_ref" span="636:4:636:12">Override</jtok>
+<jtok eid="34" type="class_or_interface_ref" span="637:10:637:16">String</jtok>
+<jtok eid="34" type="method_name" span="637:17:637:25">toString</jtok>
+<jtok eid="34" type="primary_name_ref" span="639:11:639:16">value</jtok>
+<jtok eid="31" type="block_comment" span="642:3:645:6">/**
+		 * Called when this register is no longer available. This
+		 * implementation does nothing.
+		 */</jtok>
+<jtok eid="35" type="method_name" span="646:15:646:22">dispose</jtok>
+<jtok eid="1" type="line_comment" span="647:4:647:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="649:2:649:7">//}}}</jtok>
+</jdoc>

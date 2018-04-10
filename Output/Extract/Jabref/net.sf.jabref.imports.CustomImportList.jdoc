@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.CustomImportList" jls="java5">
+<jent id="0" type="file" span="0:0:190:1">Source/jabref/src/java/net/sf/jabref/imports/CustomImportList.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:190:1">net.sf.jabref.imports.CustomImportList</jent>
+<jent id="2" pid="1" type="class" span="50:3:132:3">net.sf.jabref.imports.CustomImportList.Importer</jent>
+<jent id="3" pid="2" type="method" span="57:5:59:5">net.sf.jabref.imports.CustomImportList.Importer.Importer()</jent>
+<jent id="4" pid="2" type="method" span="61:5:67:5">net.sf.jabref.imports.CustomImportList.Importer.Importer(String[])</jent>
+<jent id="5" pid="2" type="method" span="69:5:71:5">net.sf.jabref.imports.CustomImportList.Importer.getName()</jent>
+<jent id="6" pid="2" type="method" span="73:5:75:5">net.sf.jabref.imports.CustomImportList.Importer.setName(String)</jent>
+<jent id="7" pid="2" type="method" span="77:5:79:5">net.sf.jabref.imports.CustomImportList.Importer.getClidId()</jent>
+<jent id="8" pid="2" type="method" span="81:5:83:5">net.sf.jabref.imports.CustomImportList.Importer.setCliId(String)</jent>
+<jent id="9" pid="2" type="method" span="85:5:87:5">net.sf.jabref.imports.CustomImportList.Importer.getClassName()</jent>
+<jent id="10" pid="2" type="method" span="89:5:91:5">net.sf.jabref.imports.CustomImportList.Importer.setClassName(String)</jent>
+<jent id="11" pid="2" type="method" span="93:5:95:5">net.sf.jabref.imports.CustomImportList.Importer.setBasePath(String)</jent>
+<jent id="12" pid="2" type="method" span="97:5:99:5">net.sf.jabref.imports.CustomImportList.Importer.getBasePath()</jent>
+<jent id="13" pid="2" type="method" span="101:5:103:5">net.sf.jabref.imports.CustomImportList.Importer.getBasePathUrl()</jent>
+<jent id="14" pid="2" type="method" span="105:5:107:5">net.sf.jabref.imports.CustomImportList.Importer.getAsStringArray()</jent>
+<jent id="15" pid="2" type="method" span="109:5:111:5">net.sf.jabref.imports.CustomImportList.Importer.equals(Object)</jent>
+<jent id="16" pid="2" type="method" span="113:5:115:5">net.sf.jabref.imports.CustomImportList.Importer.hashCode()</jent>
+<jent id="17" pid="2" type="method" span="117:5:119:5">net.sf.jabref.imports.CustomImportList.Importer.compareTo(Importer)</jent>
+<jent id="18" pid="2" type="method" span="121:5:123:5">net.sf.jabref.imports.CustomImportList.Importer.toString()</jent>
+<jent id="19" pid="2" type="method" span="125:5:131:5">net.sf.jabref.imports.CustomImportList.Importer.getInstance()</jent>
+<jent id="20" pid="1" type="method" span="136:3:140:3">net.sf.jabref.imports.CustomImportList.CustomImportList(JabRefPreferences)</jent>
+<jent id="21" pid="1" type="method" span="143:3:155:3">net.sf.jabref.imports.CustomImportList.readPrefs()</jent>
+<jent id="22" pid="1" type="method" span="157:3:159:3">net.sf.jabref.imports.CustomImportList.addImporter(Importer)</jent>
+<jent id="23" pid="1" type="method" span="170:3:174:3">net.sf.jabref.imports.CustomImportList.replaceImporter(Importer)</jent>
+<jent id="24" pid="1" type="method" span="176:3:182:3">net.sf.jabref.imports.CustomImportList.store()</jent>
+<jent id="25" pid="1" type="method" span="184:3:188:3">net.sf.jabref.imports.CustomImportList.purgeAll()</jent>
+<jtok eid="0" type="block_comment" span="1:1:25:3">/*
+ Copyright (C) 2005 Andreas Rudert, based on CustomExportList by ??
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+*/</jtok>
+<jtok eid="0" type="block_comment" span="37:1:42:4">/**
+ * Collection of user defined custom import formats. 
+ * 
+ * &lt;p&gt;The collection can be stored and retrieved from Preferences. It is sorted by the default
+ * order of {@link ImportFormat}.&lt;/p&gt;
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:14:43:30">CustomImportList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:39:43:46">TreeSet</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:47:43:63">CustomImportList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:64:43:72">Importer</jtok>
+<jtok eid="1" type="block_comment" span="45:3:49:6">/**
+   * Object with data for a custom importer.
+   * 
+   * &lt;p&gt;Is also responsible for instantiating the class loader.&lt;/p&gt;
+   */</jtok>
+<jtok eid="2" type="class_name" span="50:16:50:24">Importer</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="50:36:50:46">Comparable</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="50:47:50:55">Importer</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="52:13:52:19">String</jtok>
+<jtok eid="2" type="field_name" span="52:20:52:24">name</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="53:13:53:19">String</jtok>
+<jtok eid="2" type="field_name" span="53:20:53:25">cliId</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="54:13:54:19">String</jtok>
+<jtok eid="2" type="field_name" span="54:20:54:29">className</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="55:13:55:19">String</jtok>
+<jtok eid="2" type="field_name" span="55:20:55:28">basePath</jtok>
+<jtok eid="3" type="method_name" span="57:12:57:20">Importer</jtok>
+<jtok eid="4" type="method_name" span="61:12:61:20">Importer</jtok>
+<jtok eid="4" type="parameter_type" span="61:21:61:27">String</jtok>
+<jtok eid="4" type="parameter_name" span="61:30:61:34">data</jtok>
+<jtok eid="4" type="qualified_name_ref" span="63:12:63:16">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:19:63:23">data</jtok>
+<jtok eid="4" type="qualified_name_ref" span="64:12:64:17">cliId</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:20:64:24">data</jtok>
+<jtok eid="4" type="qualified_name_ref" span="65:12:65:21">className</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:24:65:28">data</jtok>
+<jtok eid="4" type="qualified_name_ref" span="66:12:66:20">basePath</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:23:66:27">data</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="69:12:69:18">String</jtok>
+<jtok eid="5" type="method_name" span="69:19:69:26">getName</jtok>
+<jtok eid="5" type="qualified_name_ref" span="70:19:70:23">name</jtok>
+<jtok eid="6" type="method_name" span="73:17:73:24">setName</jtok>
+<jtok eid="6" type="parameter_type" span="73:25:73:31">String</jtok>
+<jtok eid="6" type="parameter_name" span="73:32:73:36">name</jtok>
+<jtok eid="6" type="qualified_name_ref" span="74:12:74:16">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="74:19:74:23">name</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="77:12:77:18">String</jtok>
+<jtok eid="7" type="method_name" span="77:19:77:28">getClidId</jtok>
+<jtok eid="7" type="qualified_name_ref" span="78:19:78:24">cliId</jtok>
+<jtok eid="8" type="method_name" span="81:17:81:25">setCliId</jtok>
+<jtok eid="8" type="parameter_type" span="81:26:81:32">String</jtok>
+<jtok eid="8" type="parameter_name" span="81:33:81:38">cliId</jtok>
+<jtok eid="8" type="qualified_name_ref" span="82:12:82:17">cliId</jtok>
+<jtok eid="8" type="primary_name_ref" span="82:20:82:25">cliId</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="85:12:85:18">String</jtok>
+<jtok eid="9" type="method_name" span="85:19:85:31">getClassName</jtok>
+<jtok eid="9" type="qualified_name_ref" span="86:19:86:28">className</jtok>
+<jtok eid="10" type="method_name" span="89:17:89:29">setClassName</jtok>
+<jtok eid="10" type="parameter_type" span="89:30:89:36">String</jtok>
+<jtok eid="10" type="parameter_name" span="89:37:89:46">className</jtok>
+<jtok eid="10" type="qualified_name_ref" span="90:12:90:21">className</jtok>
+<jtok eid="10" type="primary_name_ref" span="90:24:90:33">className</jtok>
+<jtok eid="11" type="method_name" span="93:17:93:28">setBasePath</jtok>
+<jtok eid="11" type="parameter_type" span="93:29:93:35">String</jtok>
+<jtok eid="11" type="parameter_name" span="93:36:93:44">basePath</jtok>
+<jtok eid="11" type="qualified_name_ref" span="94:12:94:20">basePath</jtok>
+<jtok eid="11" type="primary_name_ref" span="94:23:94:31">basePath</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="97:12:97:16">File</jtok>
+<jtok eid="12" type="method_name" span="97:17:97:28">getBasePath</jtok>
+<jtok eid="12" type="constructor_call" span="98:18:98:22">File</jtok>
+<jtok eid="12" type="primary_name_ref" span="98:23:98:31">basePath</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="101:12:101:15">URL</jtok>
+<jtok eid="13" type="method_name" span="101:16:101:30">getBasePathUrl</jtok>
+<jtok eid="13" type="throws" span="101:40:101:61">MalformedURLException</jtok>
+<jtok eid="13" type="method_call" span="102:14:102:25">getBasePath</jtok>
+<jtok eid="13" type="method_call" span="102:28:102:33">toURI</jtok>
+<jtok eid="13" type="method_call" span="102:36:102:41">toURL</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="105:12:105:18">String</jtok>
+<jtok eid="14" type="method_name" span="105:21:105:37">getAsStringArray</jtok>
+<jtok eid="14" type="constructor_call" span="106:18:106:24">String</jtok>
+<jtok eid="14" type="primary_name_ref" span="106:28:106:32">name</jtok>
+<jtok eid="14" type="primary_name_ref" span="106:34:106:39">cliId</jtok>
+<jtok eid="14" type="primary_name_ref" span="106:41:106:50">className</jtok>
+<jtok eid="14" type="primary_name_ref" span="106:52:106:60">basePath</jtok>
+<jtok eid="15" type="method_name" span="109:20:109:26">equals</jtok>
+<jtok eid="15" type="parameter_type" span="109:27:109:33">Object</jtok>
+<jtok eid="15" type="parameter_name" span="109:34:109:35">o</jtok>
+<jtok eid="15" type="primary_name_ref" span="110:14:110:15">o</jtok>
+<jtok eid="15" type="primary_name_ref" span="110:27:110:28">o</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="110:40:110:48">Importer</jtok>
+<jtok eid="15" type="method_call" span="110:57:110:64">getName</jtok>
+<jtok eid="15" type="method_call" span="110:67:110:73">equals</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="110:76:110:84">Importer</jtok>
+<jtok eid="15" type="primary_name_ref" span="110:85:110:86">o</jtok>
+<jtok eid="15" type="method_call" span="110:88:110:95">getName</jtok>
+<jtok eid="16" type="method_name" span="113:16:113:24">hashCode</jtok>
+<jtok eid="16" type="primary_name_ref" span="114:14:114:18">name</jtok>
+<jtok eid="16" type="method_call" span="114:19:114:27">hashCode</jtok>
+<jtok eid="17" type="method_name" span="117:16:117:25">compareTo</jtok>
+<jtok eid="17" type="parameter_type" span="117:26:117:34">Importer</jtok>
+<jtok eid="17" type="parameter_name" span="117:35:117:36">o</jtok>
+<jtok eid="17" type="method_call" span="118:19:118:26">getName</jtok>
+<jtok eid="17" type="method_call" span="118:29:118:38">compareTo</jtok>
+<jtok eid="17" type="primary_name_ref" span="118:40:118:41">o</jtok>
+<jtok eid="17" type="method_call" span="118:42:118:49">getName</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="121:12:121:18">String</jtok>
+<jtok eid="18" type="method_name" span="121:19:121:27">toString</jtok>
+<jtok eid="18" type="qualified_name_ref" span="122:19:122:23">name</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="125:12:125:24">ImportFormat</jtok>
+<jtok eid="19" type="method_name" span="125:25:125:36">getInstance</jtok>
+<jtok eid="19" type="throws" span="125:46:125:67">MalformedURLException</jtok>
+<jtok eid="19" type="throws" span="125:69:125:91">ClassNotFoundException</jtok>
+<jtok eid="19" type="throws" span="125:93:125:115">InstantiationException</jtok>
+<jtok eid="19" type="throws" span="125:117:125:139">IllegalAccessException</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="126:7:126:21">URLClassLoader</jtok>
+<jtok eid="19" type="local_variable_name" span="126:22:126:24">cl</jtok>
+<jtok eid="19" type="constructor_call" span="126:31:126:45">URLClassLoader</jtok>
+<jtok eid="19" type="constructor_call" span="126:50:126:53">URL</jtok>
+<jtok eid="19" type="method_call" span="126:57:126:71">getBasePathUrl</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="127:7:127:12">Class</jtok>
+<jtok eid="19" type="local_variable_name" span="127:16:127:21">clazz</jtok>
+<jtok eid="19" type="primary_name_ref" span="127:24:127:29">Class</jtok>
+<jtok eid="19" type="method_call" span="127:30:127:37">forName</jtok>
+<jtok eid="19" type="primary_name_ref" span="127:38:127:47">className</jtok>
+<jtok eid="19" type="primary_name_ref" span="127:55:127:57">cl</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="128:7:128:19">ImportFormat</jtok>
+<jtok eid="19" type="local_variable_name" span="128:20:128:32">importFormat</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="128:36:128:48">ImportFormat</jtok>
+<jtok eid="19" type="primary_name_ref" span="128:49:128:54">clazz</jtok>
+<jtok eid="19" type="method_call" span="128:55:128:66">newInstance</jtok>
+<jtok eid="19" type="primary_name_ref" span="129:7:129:19">importFormat</jtok>
+<jtok eid="19" type="method_call" span="129:20:129:39">setIsCustomImporter</jtok>
+<jtok eid="19" type="primary_name_ref" span="130:14:130:26">importFormat</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="134:11:134:28">JabRefPreferences</jtok>
+<jtok eid="1" type="field_name" span="134:29:134:34">prefs</jtok>
+<jtok eid="20" type="method_name" span="136:10:136:26">CustomImportList</jtok>
+<jtok eid="20" type="parameter_type" span="136:27:136:44">JabRefPreferences</jtok>
+<jtok eid="20" type="parameter_name" span="136:45:136:50">prefs</jtok>
+<jtok eid="20" type="qualified_name_ref" span="138:10:138:15">prefs</jtok>
+<jtok eid="20" type="primary_name_ref" span="138:18:138:23">prefs</jtok>
+<jtok eid="20" type="method_call" span="139:5:139:14">readPrefs</jtok>
+<jtok eid="21" type="method_name" span="143:16:143:25">readPrefs</jtok>
+<jtok eid="21" type="local_variable_name" span="144:9:144:10">i</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="145:5:145:11">String</jtok>
+<jtok eid="21" type="local_variable_name" span="145:14:145:15">s</jtok>
+<jtok eid="21" type="primary_name_ref" span="146:13:146:14">s</jtok>
+<jtok eid="21" type="primary_name_ref" span="146:17:146:22">prefs</jtok>
+<jtok eid="21" type="method_call" span="146:23:146:37">getStringArray</jtok>
+<jtok eid="21" type="string_literal" span="146:38:146:58">"customImportFormat"</jtok>
+<jtok eid="21" type="primary_name_ref" span="146:59:146:60">i</jtok>
+<jtok eid="21" type="method_call" span="148:15:148:18">add</jtok>
+<jtok eid="21" type="constructor_call" span="148:23:148:31">Importer</jtok>
+<jtok eid="21" type="primary_name_ref" span="148:32:148:33">s</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="149:16:149:25">Exception</jtok>
+<jtok eid="21" type="local_variable_name" span="149:26:149:27">e</jtok>
+<jtok eid="21" type="primary_name_ref" span="150:9:150:15">System</jtok>
+<jtok eid="21" type="qualified_name_ref" span="150:16:150:19">err</jtok>
+<jtok eid="21" type="method_call" span="150:20:150:27">println</jtok>
+<jtok eid="21" type="string_literal" span="150:28:150:54">"Warning! Could not load "</jtok>
+<jtok eid="21" type="primary_name_ref" span="150:57:150:58">s</jtok>
+<jtok eid="21" type="string_literal" span="150:64:150:97">" from preferences. Will ignore."</jtok>
+<jtok eid="21" type="line_comment" span="151:9:151:57">// Globals.prefs.remove("customImportFormat"+i);</jtok>
+<jtok eid="21" type="primary_name_ref" span="153:7:153:8">i</jtok>
+<jtok eid="22" type="method_name" span="157:15:157:26">addImporter</jtok>
+<jtok eid="22" type="parameter_type" span="157:27:157:35">Importer</jtok>
+<jtok eid="22" type="parameter_name" span="157:36:157:50">customImporter</jtok>
+<jtok eid="22" type="method_call" span="158:11:158:14">add</jtok>
+<jtok eid="22" type="primary_name_ref" span="158:15:158:29">customImporter</jtok>
+<jtok eid="1" type="block_comment" span="161:3:169:6">/**
+   * Adds an importer.
+   * 
+   * &lt;p&gt;If an old one equal to the new one was contained, the old
+   * one is replaced.&lt;/p&gt;
+   * 
+   * @param customImporter new (version of an) importer
+   * @return  if the importer was contained
+   */</jtok>
+<jtok eid="23" type="method_name" span="170:18:170:33">replaceImporter</jtok>
+<jtok eid="23" type="parameter_type" span="170:34:170:42">Importer</jtok>
+<jtok eid="23" type="parameter_name" span="170:43:170:57">customImporter</jtok>
+<jtok eid="23" type="local_variable_name" span="171:13:171:25">wasContained</jtok>
+<jtok eid="23" type="method_call" span="171:33:171:39">remove</jtok>
+<jtok eid="23" type="primary_name_ref" span="171:40:171:54">customImporter</jtok>
+<jtok eid="23" type="method_call" span="172:10:172:21">addImporter</jtok>
+<jtok eid="23" type="primary_name_ref" span="172:22:172:36">customImporter</jtok>
+<jtok eid="23" type="primary_name_ref" span="173:12:173:24">wasContained</jtok>
+<jtok eid="24" type="method_name" span="176:15:176:20">store</jtok>
+<jtok eid="24" type="method_call" span="177:5:177:13">purgeAll</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="178:5:178:13">Importer</jtok>
+<jtok eid="24" type="local_variable_name" span="178:16:178:25">importers</jtok>
+<jtok eid="24" type="method_call" span="178:33:178:40">toArray</jtok>
+<jtok eid="24" type="constructor_call" span="178:45:178:53">Importer</jtok>
+<jtok eid="24" type="local_variable_name" span="179:14:179:15">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="179:21:179:22">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="179:25:179:34">importers</jtok>
+<jtok eid="24" type="qualified_name_ref" span="179:35:179:41">length</jtok>
+<jtok eid="24" type="primary_name_ref" span="179:43:179:44">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="180:7:180:14">Globals</jtok>
+<jtok eid="24" type="qualified_name_ref" span="180:15:180:20">prefs</jtok>
+<jtok eid="24" type="method_call" span="180:21:180:35">putStringArray</jtok>
+<jtok eid="24" type="string_literal" span="180:36:180:56">"customImportFormat"</jtok>
+<jtok eid="24" type="primary_name_ref" span="180:57:180:58">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="180:60:180:69">importers</jtok>
+<jtok eid="24" type="primary_name_ref" span="180:70:180:71">i</jtok>
+<jtok eid="24" type="method_call" span="180:73:180:89">getAsStringArray</jtok>
+<jtok eid="25" type="method_name" span="184:16:184:24">purgeAll</jtok>
+<jtok eid="25" type="local_variable_name" span="185:14:185:15">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="185:21:185:28">Globals</jtok>
+<jtok eid="25" type="qualified_name_ref" span="185:29:185:34">prefs</jtok>
+<jtok eid="25" type="method_call" span="185:35:185:49">getStringArray</jtok>
+<jtok eid="25" type="string_literal" span="185:50:185:70">"customImportFormat"</jtok>
+<jtok eid="25" type="primary_name_ref" span="185:71:185:72">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="185:83:185:84">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="186:7:186:14">Globals</jtok>
+<jtok eid="25" type="qualified_name_ref" span="186:15:186:20">prefs</jtok>
+<jtok eid="25" type="method_call" span="186:21:186:27">remove</jtok>
+<jtok eid="25" type="string_literal" span="186:28:186:48">"customImportFormat"</jtok>
+<jtok eid="25" type="primary_name_ref" span="186:49:186:50">i</jtok>
+</jdoc>

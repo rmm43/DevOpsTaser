@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.input.AbstractInputHandler" jls="java5">
+<jent id="0" type="file" span="0:0:428:2">Source/jEdit/org/gjt/sp/jedit/input/AbstractInputHandler.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:428:1">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;</jent>
+<jent id="2" pid="1" type="method" span="56:2:59:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.AbstractInputHandler()</jent>
+<jent id="3" pid="1" type="method" span="72:2:75:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.addKeyBinding(String,String)</jent>
+<jent id="4" pid="1" type="method" span="87:2:90:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.addKeyBinding(String,E)</jent>
+<jent id="5" pid="1" type="method" span="103:2:139:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.addKeyBinding(String,Object)</jent>
+<jent id="6" pid="1" type="method" span="147:2:180:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.removeKeyBinding(String)</jent>
+<jent id="7" pid="1" type="method" span="186:2:189:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.removeAllKeyBindings()</jent>
+<jent id="8" pid="1" type="method" span="198:2:230:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.getKeyBinding(String)</jent>
+<jent id="9" pid="1" type="method" span="239:2:242:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.getLastActionCount()</jent>
+<jent id="10" pid="1" type="method" span="251:2:254:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.resetLastActionCount()</jent>
+<jent id="11" pid="1" type="method" span="257:2:260:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.getKeyEventInterceptor()</jent>
+<jent id="12" pid="1" type="method" span="270:2:273:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.setKeyEventInterceptor(KeyListener)</jent>
+<jent id="13" pid="1" type="method" span="279:2:282:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.isPrefixActive()</jent>
+<jent id="14" pid="1" type="method" span="289:2:292:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.setBindings(Hashtable)</jent>
+<jent id="15" pid="1" type="method" span="295:2:298:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.setCurrentBindings(Hashtable)</jent>
+<jent id="16" pid="1" type="method" span="308:2:308:84">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.handleKey(KeyEventTranslator.Key,boolean)</jent>
+<jent id="17" pid="1" type="method" span="322:2:322:78">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.processKeyEvent(KeyEvent,int,boolean)</jent>
+<jent id="18" pid="1" type="method" span="331:2:338:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.sendShortcutPrefixOff()</jent>
+<jent id="19" pid="1" type="method" span="340:2:340:50">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.invokeAction(String)</jent>
+<jent id="20" pid="1" type="method" span="342:2:342:45">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.invokeAction(E)</jent>
+<jent id="21" pid="1" type="method" span="353:2:383:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.toString(KeyEvent)</jent>
+<jent id="22" pid="1" type="method" span="393:2:416:2">org.gjt.sp.jedit.input.AbstractInputHandler&lt;E&gt;.processKeyEventKeyStrokeHandling(KeyEvent,int,String,boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * AbstractInputHandler.java - Manages key bindings and executes actions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="35:1:42:4">/**
+ * The abstract input handler manage the keyboard handling.
+ * The entry point is
+ * {@link #processKeyEvent(java.awt.event.KeyEvent, int, boolean)}
+ * 
+ * @author Matthieu Casanova
+ * @version $Id: FoldHandler.java 5568 2006-07-10 20:52:23Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:23:43:43">AbstractInputHandler</jtok>
+<jtok eid="1" type="type_parameter_name" span="43:44:43:45">E</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:54:43:77">JEditAbstractEditAction</jtok>
+<jtok eid="1" type="field_name" span="45:16:45:31">lastActionCount</jtok>
+<jtok eid="1" type="block_comment" span="46:2:46:70">/** This listener will receive keyboard events if it is not null. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:12:47:23">KeyListener</jtok>
+<jtok eid="1" type="field_name" span="47:24:47:43">keyEventInterceptor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:12:48:18">String</jtok>
+<jtok eid="1" type="field_name" span="48:19:48:31">readNextChar</jtok>
+<jtok eid="1" type="field_name" span="49:16:49:27">repeatCount</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:12:50:13">E</jtok>
+<jtok eid="1" type="field_name" span="50:14:50:24">lastAction</jtok>
+<jtok eid="1" type="field_name" span="53:29:53:51">REPEAT_COUNT_THRESHOLD</jtok>
+<jtok eid="1" type="line_comment" span="55:2:55:40">//{{{ AbstractInputHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="56:9:56:29">AbstractInputHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:3:58:14">repeatCount</jtok>
+<jtok eid="1" type="line_comment" span="59:4:59:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="61:3:61:31">//{{{ addKeyBinding() method</jtok>
+<jtok eid="1" type="block_comment" span="62:2:71:5">/**
+	 * Adds a key binding to this input handler. The key binding is
+	 * a list of white space separated key strokes of the form
+	 * &lt;i&gt;[modifiers+]key&lt;/i&gt; where modifier is C for Control, A for Alt,
+	 * or S for Shift, and key is either a character (a-z) or a field
+	 * name in the KeyEvent class prefixed with VK_ (e.g., BACK_SPACE)
+	 * @param keyBinding The key binding
+	 * @param action The action
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="3" type="method_name" span="72:14:72:27">addKeyBinding</jtok>
+<jtok eid="3" type="parameter_type" span="72:28:72:34">String</jtok>
+<jtok eid="3" type="parameter_name" span="72:35:72:45">keyBinding</jtok>
+<jtok eid="3" type="parameter_type" span="72:47:72:53">String</jtok>
+<jtok eid="3" type="parameter_name" span="72:54:72:60">action</jtok>
+<jtok eid="3" type="method_call" span="74:3:74:16">addKeyBinding</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:17:74:27">keyBinding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:29:74:35">Object</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:36:74:42">action</jtok>
+<jtok eid="1" type="line_comment" span="75:4:75:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="77:2:77:30">//{{{ addKeyBinding() method</jtok>
+<jtok eid="1" type="block_comment" span="78:2:86:5">/**
+	 * Adds a key binding to this input handler. The key binding is
+	 * a list of white space separated key strokes of the form
+	 * &lt;i&gt;[modifiers+]key&lt;/i&gt; where modifier is C for Control, A for Alt,
+	 * or S for Shift, and key is either a character (a-z) or a field
+	 * name in the KeyEvent class prefixed with VK_ (e.g., BACK_SPACE)
+	 * @param keyBinding The key binding
+	 * @param action The action
+	 */</jtok>
+<jtok eid="4" type="method_name" span="87:14:87:27">addKeyBinding</jtok>
+<jtok eid="4" type="parameter_type" span="87:28:87:34">String</jtok>
+<jtok eid="4" type="parameter_name" span="87:35:87:45">keyBinding</jtok>
+<jtok eid="4" type="parameter_type" span="87:47:87:48">E</jtok>
+<jtok eid="4" type="parameter_name" span="87:49:87:55">action</jtok>
+<jtok eid="4" type="method_call" span="89:3:89:16">addKeyBinding</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:17:89:27">keyBinding</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="89:29:89:35">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:36:89:42">action</jtok>
+<jtok eid="1" type="line_comment" span="90:4:90:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="92:2:92:30">//{{{ addKeyBinding() method</jtok>
+<jtok eid="1" type="block_comment" span="93:2:102:5">/**
+	 * Adds a key binding to this input handler. The key binding is
+	 * a list of white space separated key strokes of the form
+	 * &lt;i&gt;[modifiers+]key&lt;/i&gt; where modifier is C for Control, A for Alt,
+	 * or S for Shift, and key is either a character (a-z) or a field
+	 * name in the KeyEvent class prefixed with VK_ (e.g., BACK_SPACE)
+	 * @param keyBinding The key binding
+	 * @param action The action
+	 * @since jEdit 4.3pre1
+	 */</jtok>
+<jtok eid="5" type="method_name" span="103:14:103:27">addKeyBinding</jtok>
+<jtok eid="5" type="parameter_type" span="103:28:103:34">String</jtok>
+<jtok eid="5" type="parameter_name" span="103:35:103:45">keyBinding</jtok>
+<jtok eid="5" type="parameter_type" span="103:47:103:53">Object</jtok>
+<jtok eid="5" type="parameter_name" span="103:54:103:60">action</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="105:3:105:12">Hashtable</jtok>
+<jtok eid="5" type="local_variable_name" span="105:13:105:20">current</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:23:105:31">bindings</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="107:3:107:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="107:10:107:19">prefixStr</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="109:3:109:18">StringTokenizer</jtok>
+<jtok eid="5" type="local_variable_name" span="109:19:109:21">st</jtok>
+<jtok eid="5" type="constructor_call" span="109:28:109:43">StringTokenizer</jtok>
+<jtok eid="5" type="primary_name_ref" span="109:44:109:54">keyBinding</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:9:110:11">st</jtok>
+<jtok eid="5" type="method_call" span="110:12:110:25">hasMoreTokens</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:4:112:10">String</jtok>
+<jtok eid="5" type="local_variable_name" span="112:11:112:21">keyCodeStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:24:112:26">st</jtok>
+<jtok eid="5" type="method_call" span="112:27:112:36">nextToken</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:7:113:16">prefixStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:5:114:14">prefixStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:17:114:27">keyCodeStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="116:5:116:14">prefixStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="116:17:116:26">prefixStr</jtok>
+<jtok eid="5" type="string_literal" span="116:29:116:32">" "</jtok>
+<jtok eid="5" type="primary_name_ref" span="116:35:116:45">keyCodeStr</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="118:4:118:22">KeyEventTranslator</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="118:23:118:26">Key</jtok>
+<jtok eid="5" type="local_variable_name" span="118:27:118:36">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:39:118:57">KeyEventTranslator</jtok>
+<jtok eid="5" type="method_call" span="118:58:118:66">parseKey</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:67:118:77">keyCodeStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:7:119:16">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:7:122:9">st</jtok>
+<jtok eid="5" type="method_call" span="122:10:122:23">hasMoreTokens</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="124:5:124:11">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="124:12:124:13">o</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:16:124:23">current</jtok>
+<jtok eid="5" type="method_call" span="124:24:124:27">get</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:28:124:37">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:8:125:9">o</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="125:21:125:30">Hashtable</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:6:126:13">current</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="126:17:126:26">Hashtable</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:27:126:28">o</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="129:6:129:15">Hashtable</jtok>
+<jtok eid="5" type="local_variable_name" span="129:16:129:20">hash</jtok>
+<jtok eid="5" type="constructor_call" span="129:27:129:36">Hashtable</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:6:130:10">hash</jtok>
+<jtok eid="5" type="method_call" span="130:11:130:14">put</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:15:130:25">PREFIX_STR</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:26:130:35">prefixStr</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:6:131:7">o</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:10:131:14">hash</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:6:132:13">current</jtok>
+<jtok eid="5" type="method_call" span="132:14:132:17">put</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:18:132:27">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:28:132:29">o</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:6:133:13">current</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="133:17:133:26">Hashtable</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:27:133:28">o</jtok>
+<jtok eid="5" type="primary_name_ref" span="137:5:137:12">current</jtok>
+<jtok eid="5" type="method_call" span="137:13:137:16">put</jtok>
+<jtok eid="5" type="primary_name_ref" span="137:17:137:26">keyStroke</jtok>
+<jtok eid="5" type="primary_name_ref" span="137:27:137:33">action</jtok>
+<jtok eid="1" type="line_comment" span="139:4:139:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="141:2:141:33">//{{{ removeKeyBinding() method</jtok>
+<jtok eid="1" type="block_comment" span="142:2:146:5">/**
+	 * Removes a key binding from this input handler. This is not yet
+	 * implemented.
+	 * @param keyBinding The key binding
+	 */</jtok>
+<jtok eid="6" type="method_name" span="147:14:147:30">removeKeyBinding</jtok>
+<jtok eid="6" type="parameter_type" span="147:31:147:37">String</jtok>
+<jtok eid="6" type="parameter_name" span="147:38:147:48">keyBinding</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="149:3:149:12">Hashtable</jtok>
+<jtok eid="6" type="local_variable_name" span="149:13:149:20">current</jtok>
+<jtok eid="6" type="primary_name_ref" span="149:23:149:31">bindings</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="151:3:151:18">StringTokenizer</jtok>
+<jtok eid="6" type="local_variable_name" span="151:19:151:21">st</jtok>
+<jtok eid="6" type="constructor_call" span="151:28:151:43">StringTokenizer</jtok>
+<jtok eid="6" type="primary_name_ref" span="151:44:151:54">keyBinding</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:9:152:11">st</jtok>
+<jtok eid="6" type="method_call" span="152:12:152:25">hasMoreTokens</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="154:4:154:10">String</jtok>
+<jtok eid="6" type="local_variable_name" span="154:11:154:21">keyCodeStr</jtok>
+<jtok eid="6" type="primary_name_ref" span="154:24:154:26">st</jtok>
+<jtok eid="6" type="method_call" span="154:27:154:36">nextToken</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="155:4:155:22">KeyEventTranslator</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="155:23:155:26">Key</jtok>
+<jtok eid="6" type="local_variable_name" span="155:27:155:36">keyStroke</jtok>
+<jtok eid="6" type="primary_name_ref" span="155:39:155:57">KeyEventTranslator</jtok>
+<jtok eid="6" type="method_call" span="155:58:155:66">parseKey</jtok>
+<jtok eid="6" type="primary_name_ref" span="155:67:155:77">keyCodeStr</jtok>
+<jtok eid="6" type="primary_name_ref" span="156:7:156:16">keyStroke</jtok>
+<jtok eid="6" type="primary_name_ref" span="159:7:159:9">st</jtok>
+<jtok eid="6" type="method_call" span="159:10:159:23">hasMoreTokens</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="161:5:161:11">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="161:12:161:13">o</jtok>
+<jtok eid="6" type="primary_name_ref" span="161:16:161:23">current</jtok>
+<jtok eid="6" type="method_call" span="161:24:161:27">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="161:28:161:37">keyStroke</jtok>
+<jtok eid="6" type="primary_name_ref" span="162:8:162:9">o</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="162:21:162:30">Hashtable</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:6:163:13">current</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="163:18:163:27">Hashtable</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:28:163:29">o</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:13:164:14">o</jtok>
+<jtok eid="6" type="line_comment" span="166:6:166:28">// we have binding foo</jtok>
+<jtok eid="6" type="line_comment" span="167:6:167:41">// but user asks to remove foo bar?</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:6:168:13">current</jtok>
+<jtok eid="6" type="method_call" span="168:14:168:20">remove</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:21:168:30">keyStroke</jtok>
+<jtok eid="6" type="line_comment" span="173:6:173:41">// user asks to remove non-existent</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:5:178:12">current</jtok>
+<jtok eid="6" type="method_call" span="178:13:178:19">remove</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:20:178:29">keyStroke</jtok>
+<jtok eid="1" type="line_comment" span="180:4:180:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="182:2:182:37">//{{{ removeAllKeyBindings() method</jtok>
+<jtok eid="1" type="block_comment" span="183:2:185:5">/**
+	 * Removes all key bindings from this input handler.
+	 */</jtok>
+<jtok eid="7" type="method_name" span="186:14:186:34">removeAllKeyBindings</jtok>
+<jtok eid="7" type="primary_name_ref" span="188:3:188:11">bindings</jtok>
+<jtok eid="7" type="method_call" span="188:12:188:17">clear</jtok>
+<jtok eid="1" type="line_comment" span="189:4:189:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="191:2:191:30">//{{{ getKeyBinding() method</jtok>
+<jtok eid="1" type="block_comment" span="192:2:197:5">/**
+	 * Returns either an edit action, or a hashtable if the specified key
+	 * is a prefix.
+	 * @param keyBinding The key binding
+	 * @since jEdit 3.2pre5
+	 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="198:9:198:15">Object</jtok>
+<jtok eid="8" type="method_name" span="198:16:198:29">getKeyBinding</jtok>
+<jtok eid="8" type="parameter_type" span="198:30:198:36">String</jtok>
+<jtok eid="8" type="parameter_name" span="198:37:198:47">keyBinding</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="200:3:200:12">Hashtable</jtok>
+<jtok eid="8" type="local_variable_name" span="200:13:200:20">current</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:23:200:31">bindings</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="201:3:201:18">StringTokenizer</jtok>
+<jtok eid="8" type="local_variable_name" span="201:19:201:21">st</jtok>
+<jtok eid="8" type="constructor_call" span="201:28:201:43">StringTokenizer</jtok>
+<jtok eid="8" type="primary_name_ref" span="201:44:201:54">keyBinding</jtok>
+<jtok eid="8" type="primary_name_ref" span="203:9:203:11">st</jtok>
+<jtok eid="8" type="method_call" span="203:12:203:25">hasMoreTokens</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="205:4:205:22">KeyEventTranslator</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="205:23:205:26">Key</jtok>
+<jtok eid="8" type="local_variable_name" span="205:27:205:36">keyStroke</jtok>
+<jtok eid="8" type="primary_name_ref" span="205:39:205:57">KeyEventTranslator</jtok>
+<jtok eid="8" type="method_call" span="205:58:205:66">parseKey</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:5:206:7">st</jtok>
+<jtok eid="8" type="method_call" span="206:8:206:17">nextToken</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:7:207:16">keyStroke</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:7:210:9">st</jtok>
+<jtok eid="8" type="method_call" span="210:10:210:23">hasMoreTokens</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="212:5:212:11">Object</jtok>
+<jtok eid="8" type="local_variable_name" span="212:12:212:13">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="212:16:212:23">current</jtok>
+<jtok eid="8" type="method_call" span="212:24:212:27">get</jtok>
+<jtok eid="8" type="primary_name_ref" span="212:28:212:37">keyStroke</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:8:213:9">o</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="213:21:213:30">Hashtable</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:10:215:12">st</jtok>
+<jtok eid="8" type="method_call" span="215:13:215:26">hasMoreTokens</jtok>
+<jtok eid="8" type="primary_name_ref" span="216:14:216:15">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="218:7:218:14">current</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="218:18:218:27">Hashtable</jtok>
+<jtok eid="8" type="primary_name_ref" span="218:28:218:29">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="221:13:221:14">o</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:12:225:19">current</jtok>
+<jtok eid="8" type="method_call" span="225:20:225:23">get</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:24:225:33">keyStroke</jtok>
+<jtok eid="1" type="line_comment" span="230:4:230:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="232:2:232:35">//{{{ getLastActionCount() method</jtok>
+<jtok eid="1" type="block_comment" span="233:2:238:5">/**
+	 * Returns the number of times the last action was executed.
+	 * It can be used with smartHome and smartEnd
+	 * @return the number of times the last action was executed
+	 * @since jEdit 2.5pre5
+	 */</jtok>
+<jtok eid="9" type="method_name" span="239:13:239:31">getLastActionCount</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:10:241:25">lastActionCount</jtok>
+<jtok eid="1" type="line_comment" span="242:4:242:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="244:2:244:37">//{{{ resetLastActionCount() method</jtok>
+<jtok eid="1" type="block_comment" span="245:2:250:5">/**
+	 * Resets the last action count. This should be called when an
+	 * editing operation that is not an action is invoked, for example
+	 * a mouse click.
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="10" type="method_name" span="251:14:251:34">resetLastActionCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="253:3:253:18">lastActionCount</jtok>
+<jtok eid="1" type="line_comment" span="254:4:254:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="256:2:256:39">//{{{ getKeyEventInterceptor() method</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="257:9:257:20">KeyListener</jtok>
+<jtok eid="11" type="method_name" span="257:21:257:43">getKeyEventInterceptor</jtok>
+<jtok eid="11" type="primary_name_ref" span="259:10:259:29">keyEventInterceptor</jtok>
+<jtok eid="1" type="line_comment" span="260:4:260:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="262:2:262:39">//{{{ setKeyEventInterceptor() method</jtok>
+<jtok eid="1" type="block_comment" span="263:2:269:5">/**
+	 * Sets the listener that will handle all key events in this
+	 * view. For example, the complete word command uses this so
+	 * that all key events are passed to the word list popup while
+	 * it is visible.
+	 * @param keyEventInterceptor the KeyListener that will receive the events
+	 */</jtok>
+<jtok eid="12" type="method_name" span="270:14:270:36">setKeyEventInterceptor</jtok>
+<jtok eid="12" type="parameter_type" span="270:37:270:48">KeyListener</jtok>
+<jtok eid="12" type="parameter_name" span="270:49:270:68">keyEventInterceptor</jtok>
+<jtok eid="12" type="qualified_name_ref" span="272:8:272:27">keyEventInterceptor</jtok>
+<jtok eid="12" type="primary_name_ref" span="272:30:272:49">keyEventInterceptor</jtok>
+<jtok eid="1" type="line_comment" span="273:4:273:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="275:2:275:31">//{{{ isPrefixActive() method</jtok>
+<jtok eid="1" type="block_comment" span="276:2:278:5">/**
+	 * Returns if a prefix key has been pressed.
+	 */</jtok>
+<jtok eid="13" type="method_name" span="279:17:279:31">isPrefixActive</jtok>
+<jtok eid="13" type="primary_name_ref" span="281:10:281:22">readNextChar</jtok>
+<jtok eid="1" type="line_comment" span="282:4:282:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="284:2:284:28">//{{{ setBindings() method</jtok>
+<jtok eid="1" type="block_comment" span="285:2:288:5">/**
+	 * Replace the set of key bindings.
+	 * @since jEdit 4.3pre1
+	 */</jtok>
+<jtok eid="14" type="method_name" span="289:14:289:25">setBindings</jtok>
+<jtok eid="14" type="parameter_type" span="289:26:289:35">Hashtable</jtok>
+<jtok eid="14" type="parameter_name" span="289:36:289:44">bindings</jtok>
+<jtok eid="14" type="qualified_name_ref" span="291:8:291:16">bindings</jtok>
+<jtok eid="14" type="qualified_name_ref" span="291:24:291:39">currentBindings</jtok>
+<jtok eid="14" type="primary_name_ref" span="291:42:291:50">bindings</jtok>
+<jtok eid="1" type="line_comment" span="292:4:292:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="294:2:294:35">//{{{ setCurrentBindings() method</jtok>
+<jtok eid="15" type="method_name" span="295:14:295:32">setCurrentBindings</jtok>
+<jtok eid="15" type="parameter_type" span="295:33:295:42">Hashtable</jtok>
+<jtok eid="15" type="parameter_name" span="295:43:295:51">bindings</jtok>
+<jtok eid="15" type="primary_name_ref" span="297:3:297:18">currentBindings</jtok>
+<jtok eid="15" type="primary_name_ref" span="297:21:297:29">bindings</jtok>
+<jtok eid="1" type="line_comment" span="298:4:298:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="300:2:300:26">//{{{ handleKey() method</jtok>
+<jtok eid="1" type="block_comment" span="301:2:307:5">/**
+	 * Handles a keystroke.
+	 * @param keyStroke The key stroke.
+	 * @param dryRun only calculate the return value, do not have any other effect
+	 * @return true if the input could be handled.
+	 * @since jEdit 4.3pre7
+	 */</jtok>
+<jtok eid="16" type="method_name" span="308:26:308:35">handleKey</jtok>
+<jtok eid="16" type="parameter_type" span="308:36:308:54">KeyEventTranslator</jtok>
+<jtok eid="16" type="parameter_type" span="308:55:308:58">Key</jtok>
+<jtok eid="16" type="parameter_name" span="308:59:308:68">keyStroke</jtok>
+<jtok eid="16" type="parameter_name" span="308:77:308:83">dryRun</jtok>
+<jtok eid="1" type="line_comment" span="309:2:309:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="311:2:311:32">//{{{ processKeyEvent() method</jtok>
+<jtok eid="1" type="block_comment" span="313:2:321:5">/**
+	 * Process a keyboard event.
+	 * This is the entry point of the keyboard handling
+	 *
+	 * @param evt the keyboard event
+	 * @param from the source, it can be {@link org.gjt.sp.jedit.View#VIEW},
+	 * {@link org.gjt.sp.jedit.View#ACTION_BAR} or {@link org.gjt.sp.jedit.View#TEXT_AREA}
+	 * @param global tell if the event comes from the DefaultKeyboardFocusManager or not
+	 */</jtok>
+<jtok eid="17" type="method_name" span="322:23:322:38">processKeyEvent</jtok>
+<jtok eid="17" type="parameter_type" span="322:39:322:47">KeyEvent</jtok>
+<jtok eid="17" type="parameter_name" span="322:48:322:51">evt</jtok>
+<jtok eid="17" type="parameter_name" span="322:57:322:61">from</jtok>
+<jtok eid="17" type="parameter_name" span="322:71:322:77">global</jtok>
+<jtok eid="1" type="line_comment" span="323:2:323:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="325:2:325:49">//{{{ processKeyEventKeyStrokeHandling() method</jtok>
+<jtok eid="1" type="line_comment" span="327:2:327:64">//{{{ handleKey() methodprotected void sendShortcutPrefixOff()</jtok>
+<jtok eid="1" type="block_comment" span="328:2:330:5">/**
+	 *  If 
+	 */</jtok>
+<jtok eid="18" type="method_name" span="331:17:331:38">sendShortcutPrefixOff</jtok>
+<jtok eid="18" type="primary_name_ref" span="333:6:333:16">shortcutOn</jtok>
+<jtok eid="18" type="primary_name_ref" span="335:4:335:29">ShortcutPrefixActiveEvent</jtok>
+<jtok eid="18" type="method_call" span="335:30:335:51">firePrefixStateChange</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:4:336:14">shortcutOn</jtok>
+<jtok eid="1" type="line_comment" span="338:4:338:9">//}}}</jtok>
+<jtok eid="19" type="method_name" span="340:23:340:35">invokeAction</jtok>
+<jtok eid="19" type="parameter_type" span="340:36:340:42">String</jtok>
+<jtok eid="19" type="parameter_name" span="340:43:340:49">action</jtok>
+<jtok eid="20" type="method_name" span="342:23:342:35">invokeAction</jtok>
+<jtok eid="20" type="parameter_type" span="342:36:342:37">E</jtok>
+<jtok eid="20" type="parameter_name" span="342:38:342:44">action</jtok>
+<jtok eid="1" type="line_comment" span="344:2:344:25">//{{{ toString() method</jtok>
+<jtok eid="1" type="block_comment" span="345:2:352:5">/**
+	 * Return a String representation of the keyboard event for
+	 * debugging purpose.
+	 *
+	 * @param evt the keyboard event
+	 * @return a String representation for this keyboard event
+	 * @since jEdit 4.3pre15
+	 */</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="353:16:353:22">String</jtok>
+<jtok eid="21" type="method_name" span="353:23:353:31">toString</jtok>
+<jtok eid="21" type="parameter_type" span="353:32:353:40">KeyEvent</jtok>
+<jtok eid="21" type="parameter_name" span="353:41:353:44">evt</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="355:3:355:9">String</jtok>
+<jtok eid="21" type="local_variable_name" span="355:10:355:12">id</jtok>
+<jtok eid="21" type="primary_name_ref" span="356:10:356:13">evt</jtok>
+<jtok eid="21" type="method_call" span="356:14:356:19">getID</jtok>
+<jtok eid="21" type="primary_name_ref" span="358:8:358:16">KeyEvent</jtok>
+<jtok eid="21" type="qualified_name_ref" span="358:17:358:28">KEY_PRESSED</jtok>
+<jtok eid="21" type="primary_name_ref" span="359:4:359:6">id</jtok>
+<jtok eid="21" type="string_literal" span="359:9:359:22">"KEY_PRESSED"</jtok>
+<jtok eid="21" type="primary_name_ref" span="361:8:361:16">KeyEvent</jtok>
+<jtok eid="21" type="qualified_name_ref" span="361:17:361:29">KEY_RELEASED</jtok>
+<jtok eid="21" type="primary_name_ref" span="362:4:362:6">id</jtok>
+<jtok eid="21" type="string_literal" span="362:9:362:23">"KEY_RELEASED"</jtok>
+<jtok eid="21" type="primary_name_ref" span="364:8:364:16">KeyEvent</jtok>
+<jtok eid="21" type="qualified_name_ref" span="364:17:364:26">KEY_TYPED</jtok>
+<jtok eid="21" type="primary_name_ref" span="365:4:365:6">id</jtok>
+<jtok eid="21" type="string_literal" span="365:9:365:20">"KEY_TYPED"</jtok>
+<jtok eid="21" type="primary_name_ref" span="368:4:368:6">id</jtok>
+<jtok eid="21" type="string_literal" span="368:9:368:23">"unknown type"</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="372:3:372:16">StringBuilder</jtok>
+<jtok eid="21" type="local_variable_name" span="372:17:372:18">b</jtok>
+<jtok eid="21" type="constructor_call" span="372:25:372:38">StringBuilder</jtok>
+<jtok eid="21" type="primary_name_ref" span="374:3:374:4">b</jtok>
+<jtok eid="21" type="method_call" span="374:5:374:11">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="374:12:374:14">id</jtok>
+<jtok eid="21" type="primary_name_ref" span="375:3:375:4">b</jtok>
+<jtok eid="21" type="method_call" span="375:5:375:11">append</jtok>
+<jtok eid="21" type="string_literal" span="375:12:375:25">",keyCode=0x"</jtok>
+<jtok eid="21" type="method_call" span="375:27:375:33">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="375:34:375:41">Integer</jtok>
+<jtok eid="21" type="method_call" span="375:42:375:50">toString</jtok>
+<jtok eid="21" type="primary_name_ref" span="375:51:375:54">evt</jtok>
+<jtok eid="21" type="method_call" span="375:55:375:65">getKeyCode</jtok>
+<jtok eid="21" type="primary_name_ref" span="376:3:376:4">b</jtok>
+<jtok eid="21" type="method_call" span="376:5:376:11">append</jtok>
+<jtok eid="21" type="string_literal" span="376:12:376:25">",keyChar=0x"</jtok>
+<jtok eid="21" type="method_call" span="376:27:376:33">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="376:34:376:41">Integer</jtok>
+<jtok eid="21" type="method_call" span="376:42:376:50">toString</jtok>
+<jtok eid="21" type="primary_name_ref" span="376:51:376:54">evt</jtok>
+<jtok eid="21" type="method_call" span="376:55:376:65">getKeyChar</jtok>
+<jtok eid="21" type="primary_name_ref" span="377:3:377:4">b</jtok>
+<jtok eid="21" type="method_call" span="377:5:377:11">append</jtok>
+<jtok eid="21" type="string_literal" span="377:12:377:27">",modifiers=0x"</jtok>
+<jtok eid="21" type="method_call" span="377:29:377:35">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="377:36:377:43">Integer</jtok>
+<jtok eid="21" type="method_call" span="377:44:377:52">toString</jtok>
+<jtok eid="21" type="primary_name_ref" span="377:53:377:56">evt</jtok>
+<jtok eid="21" type="method_call" span="377:57:377:69">getModifiers</jtok>
+<jtok eid="21" type="primary_name_ref" span="379:3:379:4">b</jtok>
+<jtok eid="21" type="method_call" span="379:5:379:11">append</jtok>
+<jtok eid="21" type="string_literal" span="379:12:379:24">",consumed="</jtok>
+<jtok eid="21" type="primary_name_ref" span="380:3:380:4">b</jtok>
+<jtok eid="21" type="method_call" span="380:5:380:11">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="380:12:380:15">evt</jtok>
+<jtok eid="21" type="method_call" span="380:16:380:26">isConsumed</jtok>
+<jtok eid="21" type="primary_name_ref" span="382:10:382:11">b</jtok>
+<jtok eid="21" type="method_call" span="382:12:382:20">toString</jtok>
+<jtok eid="1" type="line_comment" span="383:4:383:9">//}}}</jtok>
+<jtok eid="1" type="block_comment" span="385:2:392:5">/**
+	 *
+	 * @param evt the keyboard event
+	 * @param from the source, it can be {@link org.gjt.sp.jedit.View#VIEW},
+	 * {@link org.gjt.sp.jedit.View#ACTION_BAR} or {@link org.gjt.sp.jedit.View#TEXT_AREA}
+	 * @param mode the mode is "press" or "type" and is used for debug only  
+	 * @param global tell if the event comes from the DefaultKeyboardFocusManager or not
+	 */</jtok>
+<jtok eid="22" type="method_name" span="393:17:393:49">processKeyEventKeyStrokeHandling</jtok>
+<jtok eid="22" type="parameter_type" span="393:50:393:58">KeyEvent</jtok>
+<jtok eid="22" type="parameter_name" span="393:59:393:62">evt</jtok>
+<jtok eid="22" type="parameter_name" span="393:68:393:72">from</jtok>
+<jtok eid="22" type="parameter_type" span="393:74:393:80">String</jtok>
+<jtok eid="22" type="parameter_name" span="393:81:393:85">mode</jtok>
+<jtok eid="22" type="parameter_name" span="393:95:393:101">global</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="395:3:395:21">KeyEventTranslator</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="395:22:395:25">Key</jtok>
+<jtok eid="22" type="local_variable_name" span="395:26:395:35">keyStroke</jtok>
+<jtok eid="22" type="primary_name_ref" span="395:38:395:56">KeyEventTranslator</jtok>
+<jtok eid="22" type="method_call" span="395:57:395:75">translateKeyEvent2</jtok>
+<jtok eid="22" type="primary_name_ref" span="395:76:395:79">evt</jtok>
+<jtok eid="22" type="primary_name_ref" span="397:6:397:15">keyStroke</jtok>
+<jtok eid="22" type="primary_name_ref" span="399:4:399:13">keyStroke</jtok>
+<jtok eid="22" type="method_call" span="399:14:399:36">setIsFromGlobalContext</jtok>
+<jtok eid="22" type="primary_name_ref" span="399:37:399:43">global</jtok>
+<jtok eid="22" type="primary_name_ref" span="400:7:400:12">Debug</jtok>
+<jtok eid="22" type="qualified_name_ref" span="400:13:400:28">DUMP_KEY_EVENTS</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:5:402:8">Log</jtok>
+<jtok eid="22" type="method_call" span="402:9:402:12">log</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:13:402:16">Log</jtok>
+<jtok eid="22" type="qualified_name_ref" span="402:17:402:22">DEBUG</jtok>
+<jtok eid="22" type="string_literal" span="402:28:402:46">"Translated (key "</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:47:402:51">mode</jtok>
+<jtok eid="22" type="string_literal" span="402:52:402:57">"): "</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:58:402:67">keyStroke</jtok>
+<jtok eid="22" type="string_literal" span="402:68:402:76">" from "</jtok>
+<jtok eid="22" type="primary_name_ref" span="402:77:402:81">from</jtok>
+<jtok eid="22" type="local_variable_name" span="404:12:404:20">consumed</jtok>
+<jtok eid="22" type="method_call" span="405:7:405:16">handleKey</jtok>
+<jtok eid="22" type="primary_name_ref" span="405:17:405:26">keyStroke</jtok>
+<jtok eid="22" type="primary_name_ref" span="405:27:405:36">keyStroke</jtok>
+<jtok eid="22" type="method_call" span="405:37:405:46">isPhantom</jtok>
+<jtok eid="22" type="primary_name_ref" span="407:5:407:8">evt</jtok>
+<jtok eid="22" type="method_call" span="407:9:407:16">consume</jtok>
+<jtok eid="22" type="primary_name_ref" span="409:5:409:13">consumed</jtok>
+<jtok eid="22" type="primary_name_ref" span="411:7:411:12">Debug</jtok>
+<jtok eid="22" type="qualified_name_ref" span="411:13:411:28">DUMP_KEY_EVENTS</jtok>
+<jtok eid="22" type="primary_name_ref" span="413:5:413:8">Log</jtok>
+<jtok eid="22" type="method_call" span="413:9:413:12">log</jtok>
+<jtok eid="22" type="primary_name_ref" span="413:13:413:16">Log</jtok>
+<jtok eid="22" type="qualified_name_ref" span="413:17:413:22">DEBUG</jtok>
+<jtok eid="22" type="string_literal" span="413:28:413:46">"Translated (key "</jtok>
+<jtok eid="22" type="primary_name_ref" span="413:47:413:51">mode</jtok>
+<jtok eid="22" type="string_literal" span="413:52:413:57">"): "</jtok>
+<jtok eid="22" type="primary_name_ref" span="413:58:413:67">keyStroke</jtok>
+<jtok eid="22" type="string_literal" span="413:68:413:76">" from "</jtok>
+<jtok eid="22" type="primary_name_ref" span="413:77:413:81">from</jtok>
+<jtok eid="22" type="string_literal" span="413:82:413:95">": consumed="</jtok>
+<jtok eid="22" type="primary_name_ref" span="413:96:413:104">consumed</jtok>
+<jtok eid="1" type="line_comment" span="416:4:416:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="418:2:418:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="420:2:420:45">// Stores prefix name in bindings hashtable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="421:16:421:22">Object</jtok>
+<jtok eid="1" type="field_name" span="421:23:421:33">PREFIX_STR</jtok>
+<jtok eid="1" type="string_literal" span="421:36:421:48">"PREFIX_STR"</jtok>
+<jtok eid="1" type="field_name" span="422:20:422:30">shortcutOn</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="425:12:425:21">Hashtable</jtok>
+<jtok eid="1" type="field_name" span="425:22:425:30">bindings</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="426:12:426:21">Hashtable</jtok>
+<jtok eid="1" type="field_name" span="426:22:426:37">currentBindings</jtok>
+<jtok eid="1" type="line_comment" span="427:2:427:7">//}}}</jtok>
+</jdoc>

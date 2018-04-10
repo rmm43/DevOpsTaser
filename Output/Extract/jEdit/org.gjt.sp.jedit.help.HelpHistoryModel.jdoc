@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.help.HelpHistoryModel" jls="java5">
+<jent id="0" type="file" span="0:0:247:2">Source/jEdit/org/gjt/sp/jedit/help/HelpHistoryModel.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:247:1">org.gjt.sp.jedit.help.HelpHistoryModel</jent>
+<jent id="2" pid="1" type="method" span="37:2:41:2">org.gjt.sp.jedit.help.HelpHistoryModel.HelpHistoryModel(int)</jent>
+<jent id="3" pid="1" type="method" span="44:2:59:2">org.gjt.sp.jedit.help.HelpHistoryModel.forward(HelpViewer)</jent>
+<jent id="4" pid="1" type="method" span="62:2:66:2">org.gjt.sp.jedit.help.HelpHistoryModel.hasNext()</jent>
+<jent id="5" pid="1" type="method" span="69:2:79:2">org.gjt.sp.jedit.help.HelpHistoryModel.back(HelpViewer)</jent>
+<jent id="6" pid="1" type="method" span="82:2:85:2">org.gjt.sp.jedit.help.HelpHistoryModel.hasPrevious()</jent>
+<jent id="7" pid="1" type="method" span="88:2:106:2">org.gjt.sp.jedit.help.HelpHistoryModel.addToHistory(String)</jent>
+<jent id="8" pid="1" type="method" span="109:2:116:2">org.gjt.sp.jedit.help.HelpHistoryModel.setCurrentScrollPosition(URL,int)</jent>
+<jent id="9" pid="1" type="method" span="119:2:131:2">org.gjt.sp.jedit.help.HelpHistoryModel.setCurrentEntry(HistoryEntry)</jent>
+<jent id="10" pid="1" type="method" span="134:2:144:2">org.gjt.sp.jedit.help.HelpHistoryModel.updateTitle(String,String)</jent>
+<jent id="11" pid="1" type="method" span="147:2:156:2">org.gjt.sp.jedit.help.HelpHistoryModel.getPreviousURLs()</jent>
+<jent id="12" pid="1" type="method" span="159:2:172:2">org.gjt.sp.jedit.help.HelpHistoryModel.getNextURLs()</jent>
+<jent id="13" pid="1" type="method" span="175:2:178:2">org.gjt.sp.jedit.help.HelpHistoryModel.addHelpHistoryModelListener(HelpHistoryModelListener)</jent>
+<jent id="14" pid="1" type="method" span="181:2:184:2">org.gjt.sp.jedit.help.HelpHistoryModel.removeHelpHistoryModelListener(HelpHistoryModelListener)</jent>
+<jent id="15" pid="1" type="method" span="187:2:193:2">org.gjt.sp.jedit.help.HelpHistoryModel.fireUpdate()</jent>
+<jent id="16" pid="1" type="class" span="204:2:244:2">org.gjt.sp.jedit.help.HelpHistoryModel.HistoryEntry</jent>
+<jent id="17" pid="16" type="method" span="211:3:214:3">org.gjt.sp.jedit.help.HelpHistoryModel.HistoryEntry.HistoryEntry(String,String)</jent>
+<jent id="18" pid="16" type="method" span="217:3:220:3">org.gjt.sp.jedit.help.HelpHistoryModel.HistoryEntry.HistoryEntry(HistoryEntry)</jent>
+<jent id="19" pid="16" type="method" span="223:3:228:3">org.gjt.sp.jedit.help.HelpHistoryModel.HistoryEntry.HistoryEntry(String,String,int)</jent>
+<jent id="20" pid="16" type="method" span="231:3:236:3">org.gjt.sp.jedit.help.HelpHistoryModel.HistoryEntry.equals(HistoryEntry)</jent>
+<jent id="21" pid="16" type="method" span="239:3:243:3">org.gjt.sp.jedit.help.HelpHistoryModel.HistoryEntry.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * HelpHistoryModel.java - History Model for Help GUI
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2005 Nicholas O'Leary
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="29:1:33:4">/**
+ * History model used by the help browser 
+ * @author Nicholas O'Leary
+ * @version $Id: HelpHistoryModel.java 14598 2009-02-07 18:52:28Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="34:14:34:30">HelpHistoryModel</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:36">//{{{ HelpHistoryModel constructor</jtok>
+<jtok eid="2" type="method_name" span="37:9:37:25">HelpHistoryModel</jtok>
+<jtok eid="2" type="parameter_name" span="37:30:37:34">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:3:39:10">history</jtok>
+<jtok eid="2" type="constructor_call" span="39:17:39:29">HistoryEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:30:39:34">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:3:40:12">listeners</jtok>
+<jtok eid="2" type="constructor_call" span="40:19:40:28">ArrayList</jtok>
+<jtok eid="2" type="constructor_call" span="40:29:40:53">HelpHistoryModelListener</jtok>
+<jtok eid="1" type="line_comment" span="41:4:41:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:24">//{{{ forward() method</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="44:2:44:14">HistoryEntry</jtok>
+<jtok eid="3" type="method_name" span="44:15:44:22">forward</jtok>
+<jtok eid="3" type="parameter_type" span="44:23:44:33">HelpViewer</jtok>
+<jtok eid="3" type="parameter_name" span="44:34:44:44">helpViewer</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:6:46:13">history</jtok>
+<jtok eid="3" type="qualified_name_ref" span="46:14:46:20">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:23:46:33">historyPos</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:7:50:14">history</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:15:50:25">historyPos</jtok>
+<jtok eid="3" type="method_call" span="54:3:54:27">setCurrentScrollPosition</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:28:54:38">helpViewer</jtok>
+<jtok eid="3" type="method_call" span="54:39:54:53">getCurrentPage</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:56:54:66">helpViewer</jtok>
+<jtok eid="3" type="method_call" span="54:67:54:91">getCurrentScrollPosition</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="55:3:55:15">HistoryEntry</jtok>
+<jtok eid="3" type="local_variable_name" span="55:16:55:22">result</jtok>
+<jtok eid="3" type="constructor_call" span="55:29:55:41">HistoryEntry</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:42:55:49">history</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:50:55:60">historyPos</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:3:56:13">historyPos</jtok>
+<jtok eid="3" type="method_call" span="57:3:57:13">fireUpdate</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:10:58:16">result</jtok>
+<jtok eid="1" type="line_comment" span="59:4:59:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:24">//{{{ hasNext() method</jtok>
+<jtok eid="4" type="method_name" span="62:17:62:24">hasNext</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:13:64:20">history</jtok>
+<jtok eid="4" type="qualified_name_ref" span="64:21:64:27">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:30:64:40">historyPos</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:6:65:13">history</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:14:65:24">historyPos</jtok>
+<jtok eid="1" type="line_comment" span="66:4:66:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="68:2:68:21">//{{{ back() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="69:2:69:14">HistoryEntry</jtok>
+<jtok eid="5" type="method_name" span="69:15:69:19">back</jtok>
+<jtok eid="5" type="parameter_type" span="69:20:69:30">HelpViewer</jtok>
+<jtok eid="5" type="parameter_name" span="69:31:69:41">helpViewer</jtok>
+<jtok eid="5" type="primary_name_ref" span="71:7:71:17">historyPos</jtok>
+<jtok eid="5" type="method_call" span="75:3:75:27">setCurrentScrollPosition</jtok>
+<jtok eid="5" type="primary_name_ref" span="75:28:75:38">helpViewer</jtok>
+<jtok eid="5" type="method_call" span="75:39:75:53">getCurrentPage</jtok>
+<jtok eid="5" type="primary_name_ref" span="75:56:75:66">helpViewer</jtok>
+<jtok eid="5" type="method_call" span="75:67:75:91">getCurrentScrollPosition</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="76:3:76:15">HistoryEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="76:16:76:22">result</jtok>
+<jtok eid="5" type="constructor_call" span="76:29:76:41">HistoryEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:42:76:49">history</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:52:76:62">historyPos</jtok>
+<jtok eid="5" type="method_call" span="77:3:77:13">fireUpdate</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:10:78:16">result</jtok>
+<jtok eid="1" type="line_comment" span="79:4:79:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="81:2:81:28">//{{{ hasPrevious() method</jtok>
+<jtok eid="6" type="method_name" span="82:17:82:28">hasPrevious</jtok>
+<jtok eid="6" type="primary_name_ref" span="84:11:84:21">historyPos</jtok>
+<jtok eid="1" type="line_comment" span="85:4:85:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:29">//{{{ addToHistory() method</jtok>
+<jtok eid="7" type="method_name" span="88:14:88:26">addToHistory</jtok>
+<jtok eid="7" type="parameter_type" span="88:27:88:33">String</jtok>
+<jtok eid="7" type="parameter_name" span="88:34:88:37">url</jtok>
+<jtok eid="7" type="primary_name_ref" span="90:3:90:10">history</jtok>
+<jtok eid="7" type="primary_name_ref" span="90:11:90:21">historyPos</jtok>
+<jtok eid="7" type="constructor_call" span="90:29:90:41">HistoryEntry</jtok>
+<jtok eid="7" type="primary_name_ref" span="90:42:90:45">url</jtok>
+<jtok eid="7" type="primary_name_ref" span="90:46:90:49">url</jtok>
+<jtok eid="7" type="primary_name_ref" span="91:6:91:16">historyPos</jtok>
+<jtok eid="7" type="primary_name_ref" span="91:24:91:31">history</jtok>
+<jtok eid="7" type="qualified_name_ref" span="91:32:91:38">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="93:4:93:10">System</jtok>
+<jtok eid="7" type="method_call" span="93:11:93:20">arraycopy</jtok>
+<jtok eid="7" type="primary_name_ref" span="93:21:93:28">history</jtok>
+<jtok eid="7" type="primary_name_ref" span="93:31:93:38">history</jtok>
+<jtok eid="7" type="primary_name_ref" span="94:9:94:16">history</jtok>
+<jtok eid="7" type="qualified_name_ref" span="94:17:94:23">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="95:4:95:11">history</jtok>
+<jtok eid="7" type="primary_name_ref" span="95:12:95:22">historyPos</jtok>
+<jtok eid="7" type="primary_name_ref" span="99:4:99:14">historyPos</jtok>
+<jtok eid="7" type="local_variable_name" span="100:13:100:14">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:17:100:27">historyPos</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:30:100:31">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:32:100:39">history</jtok>
+<jtok eid="7" type="qualified_name_ref" span="100:40:100:46">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:49:100:50">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="102:5:102:12">history</jtok>
+<jtok eid="7" type="primary_name_ref" span="102:13:102:14">i</jtok>
+<jtok eid="7" type="method_call" span="105:3:105:13">fireUpdate</jtok>
+<jtok eid="1" type="line_comment" span="106:4:106:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="108:2:108:41">//{{{ setCurrentScrollPosition() method</jtok>
+<jtok eid="8" type="method_name" span="109:14:109:38">setCurrentScrollPosition</jtok>
+<jtok eid="8" type="parameter_type" span="109:39:109:42">URL</jtok>
+<jtok eid="8" type="parameter_name" span="109:43:109:54">currentPage</jtok>
+<jtok eid="8" type="parameter_name" span="109:60:109:74">scrollPosition</jtok>
+<jtok eid="8" type="primary_name_ref" span="111:16:111:27">currentPage</jtok>
+<jtok eid="8" type="primary_name_ref" span="111:33:111:43">historyPos</jtok>
+<jtok eid="8" type="primary_name_ref" span="112:8:112:19">currentPage</jtok>
+<jtok eid="8" type="method_call" span="112:20:112:28">toString</jtok>
+<jtok eid="8" type="method_call" span="112:31:112:37">equals</jtok>
+<jtok eid="8" type="primary_name_ref" span="112:38:112:45">history</jtok>
+<jtok eid="8" type="primary_name_ref" span="112:46:112:56">historyPos</jtok>
+<jtok eid="8" type="qualified_name_ref" span="112:60:112:63">url</jtok>
+<jtok eid="8" type="primary_name_ref" span="114:4:114:11">history</jtok>
+<jtok eid="8" type="primary_name_ref" span="114:12:114:22">historyPos</jtok>
+<jtok eid="8" type="qualified_name_ref" span="114:26:114:40">scrollPosition</jtok>
+<jtok eid="8" type="primary_name_ref" span="114:43:114:57">scrollPosition</jtok>
+<jtok eid="1" type="line_comment" span="116:4:116:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="118:2:118:32">//{{{ setCurrentEntry() method</jtok>
+<jtok eid="9" type="method_name" span="119:14:119:29">setCurrentEntry</jtok>
+<jtok eid="9" type="parameter_type" span="119:30:119:42">HistoryEntry</jtok>
+<jtok eid="9" type="parameter_name" span="119:43:119:48">entry</jtok>
+<jtok eid="9" type="local_variable_name" span="121:12:121:13">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="121:18:121:19">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="121:20:121:27">history</jtok>
+<jtok eid="9" type="qualified_name_ref" span="121:28:121:34">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="121:37:121:38">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="123:9:123:16">history</jtok>
+<jtok eid="9" type="primary_name_ref" span="123:17:123:18">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="123:33:123:40">history</jtok>
+<jtok eid="9" type="primary_name_ref" span="123:41:123:42">i</jtok>
+<jtok eid="9" type="method_call" span="123:44:123:50">equals</jtok>
+<jtok eid="9" type="primary_name_ref" span="123:51:123:56">entry</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:5:125:15">historyPos</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:18:125:19">i</jtok>
+<jtok eid="9" type="method_call" span="126:5:126:15">fireUpdate</jtok>
+<jtok eid="9" type="line_comment" span="130:3:130:17">// Do nothing?</jtok>
+<jtok eid="1" type="line_comment" span="131:4:131:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="133:2:133:28">//{{{ updateTitle() method</jtok>
+<jtok eid="10" type="method_name" span="134:14:134:25">updateTitle</jtok>
+<jtok eid="10" type="parameter_type" span="134:26:134:32">String</jtok>
+<jtok eid="10" type="parameter_name" span="134:33:134:36">url</jtok>
+<jtok eid="10" type="parameter_type" span="134:38:134:44">String</jtok>
+<jtok eid="10" type="parameter_name" span="134:45:134:50">title</jtok>
+<jtok eid="10" type="local_variable_name" span="136:12:136:13">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:16:136:17">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:18:136:25">history</jtok>
+<jtok eid="10" type="qualified_name_ref" span="136:26:136:32">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:33:136:34">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:9:138:16">history</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:17:138:18">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:32:138:39">history</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:40:138:41">i</jtok>
+<jtok eid="10" type="qualified_name_ref" span="138:43:138:46">url</jtok>
+<jtok eid="10" type="method_call" span="138:47:138:53">equals</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:54:138:57">url</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:5:140:12">history</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:13:140:14">i</jtok>
+<jtok eid="10" type="qualified_name_ref" span="140:16:140:21">title</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:24:140:29">title</jtok>
+<jtok eid="10" type="method_call" span="143:3:143:13">fireUpdate</jtok>
+<jtok eid="1" type="line_comment" span="144:3:144:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:32">//{{{ getPreviousURLs() method</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="147:2:147:14">HistoryEntry</jtok>
+<jtok eid="11" type="method_name" span="147:17:147:32">getPreviousURLs</jtok>
+<jtok eid="11" type="primary_name_ref" span="149:7:149:17">historyPos</jtok>
+<jtok eid="11" type="constructor_call" span="151:15:151:31">HelpHistoryModel</jtok>
+<jtok eid="11" type="constructor_call" span="151:32:151:44">HistoryEntry</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="153:3:153:15">HistoryEntry</jtok>
+<jtok eid="11" type="local_variable_name" span="153:18:153:26">previous</jtok>
+<jtok eid="11" type="constructor_call" span="153:33:153:45">HistoryEntry</jtok>
+<jtok eid="11" type="primary_name_ref" span="153:46:153:56">historyPos</jtok>
+<jtok eid="11" type="primary_name_ref" span="154:3:154:9">System</jtok>
+<jtok eid="11" type="method_call" span="154:10:154:19">arraycopy</jtok>
+<jtok eid="11" type="primary_name_ref" span="154:20:154:27">history</jtok>
+<jtok eid="11" type="primary_name_ref" span="154:30:154:38">previous</jtok>
+<jtok eid="11" type="primary_name_ref" span="154:41:154:51">historyPos</jtok>
+<jtok eid="11" type="primary_name_ref" span="155:10:155:18">previous</jtok>
+<jtok eid="1" type="line_comment" span="156:4:156:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:28">//{{{ getNextURLs() method</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="159:2:159:14">HistoryEntry</jtok>
+<jtok eid="12" type="method_name" span="159:17:159:28">getNextURLs</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:7:161:14">history</jtok>
+<jtok eid="12" type="qualified_name_ref" span="161:15:161:21">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:24:161:34">historyPos</jtok>
+<jtok eid="12" type="constructor_call" span="163:15:163:31">HelpHistoryModel</jtok>
+<jtok eid="12" type="constructor_call" span="163:32:163:44">HistoryEntry</jtok>
+<jtok eid="12" type="primary_name_ref" span="165:7:165:14">history</jtok>
+<jtok eid="12" type="primary_name_ref" span="165:15:165:25">historyPos</jtok>
+<jtok eid="12" type="constructor_call" span="167:15:167:31">HelpHistoryModel</jtok>
+<jtok eid="12" type="constructor_call" span="167:32:167:44">HistoryEntry</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="169:3:169:15">HistoryEntry</jtok>
+<jtok eid="12" type="local_variable_name" span="169:18:169:22">next</jtok>
+<jtok eid="12" type="constructor_call" span="169:29:169:41">HistoryEntry</jtok>
+<jtok eid="12" type="primary_name_ref" span="169:42:169:49">history</jtok>
+<jtok eid="12" type="qualified_name_ref" span="169:50:169:56">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="169:57:169:67">historyPos</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:3:170:9">System</jtok>
+<jtok eid="12" type="method_call" span="170:10:170:19">arraycopy</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:20:170:27">history</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:28:170:38">historyPos</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:39:170:43">next</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:46:170:53">history</jtok>
+<jtok eid="12" type="qualified_name_ref" span="170:54:170:60">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:61:170:71">historyPos</jtok>
+<jtok eid="12" type="primary_name_ref" span="171:10:171:14">next</jtok>
+<jtok eid="1" type="line_comment" span="172:4:172:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:44">//{{{ addHelpHistoryModelListener() method</jtok>
+<jtok eid="13" type="method_name" span="175:14:175:41">addHelpHistoryModelListener</jtok>
+<jtok eid="13" type="parameter_type" span="175:42:175:66">HelpHistoryModelListener</jtok>
+<jtok eid="13" type="parameter_name" span="175:67:175:71">hhml</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:3:177:12">listeners</jtok>
+<jtok eid="13" type="method_call" span="177:13:177:16">add</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:17:177:21">hhml</jtok>
+<jtok eid="1" type="line_comment" span="178:4:178:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="180:2:180:47">//{{{ removeHelpHistoryModelListener() method</jtok>
+<jtok eid="14" type="method_name" span="181:14:181:44">removeHelpHistoryModelListener</jtok>
+<jtok eid="14" type="parameter_type" span="181:45:181:69">HelpHistoryModelListener</jtok>
+<jtok eid="14" type="parameter_name" span="181:70:181:74">hhml</jtok>
+<jtok eid="14" type="primary_name_ref" span="183:3:183:12">listeners</jtok>
+<jtok eid="14" type="method_call" span="183:13:183:19">remove</jtok>
+<jtok eid="14" type="primary_name_ref" span="183:20:183:24">hhml</jtok>
+<jtok eid="1" type="line_comment" span="184:4:184:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="186:2:186:27">//{{{ fireUpdate() method</jtok>
+<jtok eid="15" type="method_name" span="187:14:187:24">fireUpdate</jtok>
+<jtok eid="15" type="local_variable_name" span="189:12:189:13">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="189:18:189:19">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="189:20:189:29">listeners</jtok>
+<jtok eid="15" type="method_call" span="189:30:189:34">size</jtok>
+<jtok eid="15" type="primary_name_ref" span="189:39:189:40">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="191:4:191:13">listeners</jtok>
+<jtok eid="15" type="method_call" span="191:14:191:17">get</jtok>
+<jtok eid="15" type="primary_name_ref" span="191:18:191:19">i</jtok>
+<jtok eid="15" type="method_call" span="191:21:191:35">historyUpdated</jtok>
+<jtok eid="1" type="line_comment" span="193:4:193:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="195:2:195:23">//{{{ Private members</jtok>
+<jtok eid="1" type="field_name" span="196:14:196:24">historyPos</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="197:10:197:22">HistoryEntry</jtok>
+<jtok eid="1" type="field_name" span="197:25:197:32">history</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="198:10:198:14">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="198:15:198:39">HelpHistoryModelListener</jtok>
+<jtok eid="1" type="field_name" span="198:41:198:50">listeners</jtok>
+<jtok eid="1" type="line_comment" span="199:2:199:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="201:2:201:21">//{{{ Inner Classes</jtok>
+<jtok eid="1" type="line_comment" span="203:2:203:26">//{{{ HistoryEntry class</jtok>
+<jtok eid="16" type="class_name" span="204:15:204:27">HistoryEntry</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="206:3:206:9">String</jtok>
+<jtok eid="16" type="field_name" span="206:10:206:13">url</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="207:3:207:9">String</jtok>
+<jtok eid="16" type="field_name" span="207:10:207:15">title</jtok>
+<jtok eid="16" type="field_name" span="208:7:208:21">scrollPosition</jtok>
+<jtok eid="16" type="line_comment" span="210:3:210:33">//{{{ HistoryEntry constructor</jtok>
+<jtok eid="17" type="method_name" span="211:3:211:15">HistoryEntry</jtok>
+<jtok eid="17" type="parameter_type" span="211:16:211:22">String</jtok>
+<jtok eid="17" type="parameter_name" span="211:23:211:26">url</jtok>
+<jtok eid="17" type="parameter_type" span="211:28:211:34">String</jtok>
+<jtok eid="17" type="parameter_name" span="211:35:211:40">title</jtok>
+<jtok eid="17" type="primary_name_ref" span="213:9:213:12">url</jtok>
+<jtok eid="17" type="primary_name_ref" span="213:13:213:18">title</jtok>
+<jtok eid="16" type="line_comment" span="214:5:214:10">//}}}</jtok>
+<jtok eid="16" type="line_comment" span="216:3:216:33">//{{{ HistoryEntry constructor</jtok>
+<jtok eid="18" type="method_name" span="217:3:217:15">HistoryEntry</jtok>
+<jtok eid="18" type="parameter_type" span="217:16:217:28">HistoryEntry</jtok>
+<jtok eid="18" type="parameter_name" span="217:29:217:37">original</jtok>
+<jtok eid="18" type="primary_name_ref" span="219:9:219:17">original</jtok>
+<jtok eid="18" type="qualified_name_ref" span="219:18:219:21">url</jtok>
+<jtok eid="18" type="primary_name_ref" span="219:22:219:30">original</jtok>
+<jtok eid="18" type="qualified_name_ref" span="219:31:219:36">title</jtok>
+<jtok eid="18" type="primary_name_ref" span="219:37:219:45">original</jtok>
+<jtok eid="18" type="qualified_name_ref" span="219:46:219:60">scrollPosition</jtok>
+<jtok eid="16" type="line_comment" span="220:5:220:10">//}}}</jtok>
+<jtok eid="16" type="line_comment" span="222:3:222:33">//{{{ HistoryEntry constructor</jtok>
+<jtok eid="19" type="method_name" span="223:3:223:15">HistoryEntry</jtok>
+<jtok eid="19" type="parameter_type" span="223:16:223:22">String</jtok>
+<jtok eid="19" type="parameter_name" span="223:23:223:26">url</jtok>
+<jtok eid="19" type="parameter_type" span="223:28:223:34">String</jtok>
+<jtok eid="19" type="parameter_name" span="223:35:223:40">title</jtok>
+<jtok eid="19" type="parameter_name" span="223:46:223:60">scrollPosition</jtok>
+<jtok eid="19" type="qualified_name_ref" span="225:9:225:12">url</jtok>
+<jtok eid="19" type="primary_name_ref" span="225:15:225:18">url</jtok>
+<jtok eid="19" type="qualified_name_ref" span="226:9:226:14">title</jtok>
+<jtok eid="19" type="primary_name_ref" span="226:17:226:22">title</jtok>
+<jtok eid="19" type="qualified_name_ref" span="227:9:227:23">scrollPosition</jtok>
+<jtok eid="19" type="primary_name_ref" span="227:26:227:40">scrollPosition</jtok>
+<jtok eid="16" type="line_comment" span="228:5:228:10">//}}}</jtok>
+<jtok eid="16" type="line_comment" span="230:3:230:24">//{{{ equals() method</jtok>
+<jtok eid="20" type="method_name" span="231:18:231:24">equals</jtok>
+<jtok eid="20" type="parameter_type" span="231:25:231:37">HistoryEntry</jtok>
+<jtok eid="20" type="parameter_name" span="231:38:231:40">he</jtok>
+<jtok eid="20" type="primary_name_ref" span="233:11:233:13">he</jtok>
+<jtok eid="20" type="qualified_name_ref" span="233:14:233:17">url</jtok>
+<jtok eid="20" type="method_call" span="233:18:233:24">equals</jtok>
+<jtok eid="20" type="qualified_name_ref" span="233:30:233:33">url</jtok>
+<jtok eid="20" type="primary_name_ref" span="234:11:234:13">he</jtok>
+<jtok eid="20" type="qualified_name_ref" span="234:14:234:19">title</jtok>
+<jtok eid="20" type="method_call" span="234:20:234:26">equals</jtok>
+<jtok eid="20" type="qualified_name_ref" span="234:32:234:37">title</jtok>
+<jtok eid="20" type="primary_name_ref" span="235:12:235:14">he</jtok>
+<jtok eid="20" type="qualified_name_ref" span="235:15:235:29">scrollPosition</jtok>
+<jtok eid="20" type="primary_name_ref" span="235:33:235:47">scrollPosition</jtok>
+<jtok eid="16" type="line_comment" span="236:5:236:10">//}}}</jtok>
+<jtok eid="16" type="line_comment" span="238:3:238:26">//{{{ toString() method</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="239:10:239:16">String</jtok>
+<jtok eid="21" type="method_name" span="239:17:239:25">toString</jtok>
+<jtok eid="21" type="method_call" span="241:11:241:19">getClass</jtok>
+<jtok eid="21" type="method_call" span="241:22:241:29">getName</jtok>
+<jtok eid="21" type="string_literal" span="241:34:241:41">"[url="</jtok>
+<jtok eid="21" type="primary_name_ref" span="241:44:241:47">url</jtok>
+<jtok eid="21" type="string_literal" span="241:50:241:59">",title="</jtok>
+<jtok eid="21" type="primary_name_ref" span="241:62:241:67">title</jtok>
+<jtok eid="21" type="string_literal" span="242:6:242:24">",scrollPosition="</jtok>
+<jtok eid="21" type="primary_name_ref" span="242:27:242:41">scrollPosition</jtok>
+<jtok eid="16" type="line_comment" span="243:5:243:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="244:4:244:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="246:2:246:7">//}}}</jtok>
+</jdoc>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.SelectLineRange" jls="java5">
+<jent id="0" type="file" span="0:0:184:2">Source/jEdit/org/gjt/sp/jedit/gui/SelectLineRange.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:184:1">org.gjt.sp.jedit.gui.SelectLineRange</jent>
+<jent id="2" pid="1" type="method" span="37:2:77:2">org.gjt.sp.jedit.gui.SelectLineRange.SelectLineRange(View)</jent>
+<jent id="3" pid="1" type="method" span="80:2:116:2">org.gjt.sp.jedit.gui.SelectLineRange.ok()</jent>
+<jent id="4" pid="1" type="method" span="119:2:122:2">org.gjt.sp.jedit.gui.SelectLineRange.cancel()</jent>
+<jent id="5" pid="1" type="method" span="125:2:132:2">org.gjt.sp.jedit.gui.SelectLineRange.actionPerformed(ActionEvent)</jent>
+<jent id="6" pid="1" type="method" span="145:2:181:2">org.gjt.sp.jedit.gui.SelectLineRange.createFieldPanel()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * SelectLineRange.java - Selects a range of lines
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2000 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="34:14:34:29">SelectLineRange</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:38:34:52">EnhancedDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:64:34:78">ActionListener</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:35">//{{{ SelectLineRange constructor</jtok>
+<jtok eid="2" type="method_name" span="37:9:37:24">SelectLineRange</jtok>
+<jtok eid="2" type="parameter_type" span="37:25:37:29">View</jtok>
+<jtok eid="2" type="parameter_name" span="37:30:37:34">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:9:39:13">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:14:39:19">jEdit</jtok>
+<jtok eid="2" type="method_call" span="39:20:39:31">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="39:32:39:55">"selectlinerange.title"</jtok>
+<jtok eid="2" type="qualified_name_ref" span="40:8:40:12">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:15:40:19">view</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="42:3:42:9">JPanel</jtok>
+<jtok eid="2" type="local_variable_name" span="42:10:42:17">content</jtok>
+<jtok eid="2" type="constructor_call" span="42:24:42:30">JPanel</jtok>
+<jtok eid="2" type="constructor_call" span="42:35:42:47">BorderLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:3:43:10">content</jtok>
+<jtok eid="2" type="method_call" span="43:11:43:20">setBorder</jtok>
+<jtok eid="2" type="constructor_call" span="43:25:43:36">EmptyBorder</jtok>
+<jtok eid="2" type="method_call" span="44:3:44:17">setContentPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:18:44:25">content</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:3:46:9">JLabel</jtok>
+<jtok eid="2" type="local_variable_name" span="46:10:46:15">label</jtok>
+<jtok eid="2" type="constructor_call" span="46:22:46:28">JLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:29:46:34">jEdit</jtok>
+<jtok eid="2" type="method_call" span="46:35:46:46">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="47:4:47:29">"selectlinerange.caption"</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:8">label</jtok>
+<jtok eid="2" type="method_call" span="48:9:48:18">setBorder</jtok>
+<jtok eid="2" type="constructor_call" span="48:23:48:34">EmptyBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:10">content</jtok>
+<jtok eid="2" type="method_call" span="49:11:49:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:15:49:27">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="49:28:49:33">NORTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:34:49:39">label</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="51:3:51:9">JPanel</jtok>
+<jtok eid="2" type="local_variable_name" span="51:10:51:15">panel</jtok>
+<jtok eid="2" type="method_call" span="51:18:51:34">createFieldPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:3:53:10">content</jtok>
+<jtok eid="2" type="method_call" span="53:11:53:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:15:53:27">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:28:53:34">CENTER</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:35:53:40">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:8">panel</jtok>
+<jtok eid="2" type="constructor_call" span="55:15:55:21">JPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:3:56:8">panel</jtok>
+<jtok eid="2" type="method_call" span="56:9:56:18">setLayout</jtok>
+<jtok eid="2" type="constructor_call" span="56:23:56:32">BoxLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:33:56:38">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:39:56:48">BoxLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="56:49:56:55">X_AXIS</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:3:57:8">panel</jtok>
+<jtok eid="2" type="method_call" span="57:9:57:18">setBorder</jtok>
+<jtok eid="2" type="constructor_call" span="57:23:57:34">EmptyBorder</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:3:58:8">panel</jtok>
+<jtok eid="2" type="method_call" span="58:9:58:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:13:58:16">Box</jtok>
+<jtok eid="2" type="method_call" span="58:17:58:27">createGlue</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:3:59:8">panel</jtok>
+<jtok eid="2" type="method_call" span="59:9:59:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:13:59:16">Box</jtok>
+<jtok eid="2" type="method_call" span="59:17:59:27">createGlue</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:3:60:5">ok</jtok>
+<jtok eid="2" type="constructor_call" span="60:12:60:19">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:20:60:25">jEdit</jtok>
+<jtok eid="2" type="method_call" span="60:26:60:37">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="60:38:60:49">"common.ok"</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:3:61:5">ok</jtok>
+<jtok eid="2" type="method_call" span="61:6:61:23">addActionListener</jtok>
+<jtok eid="2" type="method_call" span="62:3:62:14">getRootPane</jtok>
+<jtok eid="2" type="method_call" span="62:17:62:33">setDefaultButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:34:62:36">ok</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:3:63:8">panel</jtok>
+<jtok eid="2" type="method_call" span="63:9:63:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:13:63:15">ok</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:3:64:8">panel</jtok>
+<jtok eid="2" type="method_call" span="64:9:64:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:13:64:16">Box</jtok>
+<jtok eid="2" type="method_call" span="64:17:64:38">createHorizontalStrut</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:3:65:9">cancel</jtok>
+<jtok eid="2" type="constructor_call" span="65:16:65:23">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:24:65:29">jEdit</jtok>
+<jtok eid="2" type="method_call" span="65:30:65:41">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="65:42:65:57">"common.cancel"</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:9">cancel</jtok>
+<jtok eid="2" type="method_call" span="66:10:66:27">addActionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:3:67:8">panel</jtok>
+<jtok eid="2" type="method_call" span="67:9:67:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:13:67:19">cancel</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:3:68:8">panel</jtok>
+<jtok eid="2" type="method_call" span="68:9:68:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:13:68:16">Box</jtok>
+<jtok eid="2" type="method_call" span="68:17:68:27">createGlue</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:3:70:10">content</jtok>
+<jtok eid="2" type="method_call" span="70:11:70:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:15:70:20">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:21:70:33">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="70:34:70:39">SOUTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:3:72:15">GUIUtilities</jtok>
+<jtok eid="2" type="method_call" span="72:16:72:28">requestFocus</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:34:72:44">startField</jtok>
+<jtok eid="2" type="method_call" span="74:3:74:7">pack</jtok>
+<jtok eid="2" type="method_call" span="75:3:75:24">setLocationRelativeTo</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:25:75:29">view</jtok>
+<jtok eid="2" type="method_call" span="76:3:76:13">setVisible</jtok>
+<jtok eid="1" type="line_comment" span="77:4:77:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="79:2:79:19">//{{{ ok() method</jtok>
+<jtok eid="3" type="method_name" span="80:14:80:16">ok</jtok>
+<jtok eid="3" type="local_variable_name" span="82:7:82:16">startLine</jtok>
+<jtok eid="3" type="local_variable_name" span="83:7:83:14">endLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:4:87:13">startLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:16:87:23">Integer</jtok>
+<jtok eid="3" type="method_call" span="87:24:87:32">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:33:87:43">startField</jtok>
+<jtok eid="3" type="method_call" span="87:44:87:51">getText</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:4:88:11">endLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:14:88:21">Integer</jtok>
+<jtok eid="3" type="method_call" span="88:22:88:30">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:31:88:39">endField</jtok>
+<jtok eid="3" type="method_call" span="88:40:88:47">getText</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="90:9:90:30">NumberFormatException</jtok>
+<jtok eid="3" type="local_variable_name" span="90:31:90:33">nf</jtok>
+<jtok eid="3" type="method_call" span="92:4:92:14">getToolkit</jtok>
+<jtok eid="3" type="method_call" span="92:17:92:21">beep</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="96:3:96:9">Buffer</jtok>
+<jtok eid="3" type="local_variable_name" span="96:10:96:16">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:19:96:23">view</jtok>
+<jtok eid="3" type="method_call" span="96:24:96:33">getBuffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:6:98:15">startLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:23:98:30">endLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:34:98:40">buffer</jtok>
+<jtok eid="3" type="method_call" span="98:41:98:53">getLineCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:7:99:16">startLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:19:99:26">endLine</jtok>
+<jtok eid="3" type="method_call" span="101:4:101:14">getToolkit</jtok>
+<jtok eid="3" type="method_call" span="101:17:101:21">beep</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="105:3:105:16">JEditTextArea</jtok>
+<jtok eid="3" type="local_variable_name" span="105:17:105:25">textArea</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:28:105:32">view</jtok>
+<jtok eid="3" type="method_call" span="105:33:105:44">getTextArea</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="106:3:106:12">Selection</jtok>
+<jtok eid="3" type="local_variable_name" span="106:13:106:14">s</jtok>
+<jtok eid="3" type="constructor_call" span="106:21:106:30">Selection</jtok>
+<jtok eid="3" type="constructor_call" span="106:31:106:36">Range</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:4:107:10">buffer</jtok>
+<jtok eid="3" type="method_call" span="107:11:107:29">getLineStartOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:30:107:39">startLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:4:108:10">buffer</jtok>
+<jtok eid="3" type="method_call" span="108:11:108:27">getLineEndOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:28:108:35">endLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:6:109:14">textArea</jtok>
+<jtok eid="3" type="method_call" span="109:15:109:41">isMultipleSelectionEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:4:110:12">textArea</jtok>
+<jtok eid="3" type="method_call" span="110:13:110:27">addToSelection</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:28:110:29">s</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:4:112:12">textArea</jtok>
+<jtok eid="3" type="method_call" span="112:13:112:25">setSelection</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:26:112:27">s</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:3:113:11">textArea</jtok>
+<jtok eid="3" type="method_call" span="113:12:113:29">moveCaretPosition</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:30:113:36">buffer</jtok>
+<jtok eid="3" type="method_call" span="113:37:113:53">getLineEndOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:54:113:61">endLine</jtok>
+<jtok eid="3" type="method_call" span="115:3:115:10">dispose</jtok>
+<jtok eid="1" type="line_comment" span="116:4:116:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="118:2:118:23">//{{{ cancel() method</jtok>
+<jtok eid="4" type="method_name" span="119:14:119:20">cancel</jtok>
+<jtok eid="4" type="method_call" span="121:3:121:10">dispose</jtok>
+<jtok eid="1" type="line_comment" span="122:4:122:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="124:2:124:32">//{{{ actionPerformed() method</jtok>
+<jtok eid="5" type="method_name" span="125:14:125:29">actionPerformed</jtok>
+<jtok eid="5" type="parameter_type" span="125:30:125:41">ActionEvent</jtok>
+<jtok eid="5" type="parameter_name" span="125:42:125:45">evt</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="127:3:127:9">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="127:10:127:16">source</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:19:127:22">evt</jtok>
+<jtok eid="5" type="method_call" span="127:23:127:32">getSource</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:6:128:12">source</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:16:128:18">ok</jtok>
+<jtok eid="5" type="method_call" span="129:4:129:6">ok</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:11:130:17">source</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:21:130:27">cancel</jtok>
+<jtok eid="5" type="method_call" span="131:4:131:10">cancel</jtok>
+<jtok eid="1" type="line_comment" span="132:4:132:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="134:2:134:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="136:2:136:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="137:10:137:14">View</jtok>
+<jtok eid="1" type="field_name" span="137:15:137:19">view</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="138:10:138:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="138:21:138:31">startField</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="139:10:139:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="139:21:139:29">endField</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="140:10:140:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="140:18:140:20">ok</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="141:10:141:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="141:18:141:24">cancel</jtok>
+<jtok eid="1" type="line_comment" span="142:2:142:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="144:2:144:33">//{{{ createFieldPanel() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="145:10:145:16">JPanel</jtok>
+<jtok eid="6" type="method_name" span="145:17:145:33">createFieldPanel</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="147:3:147:16">GridBagLayout</jtok>
+<jtok eid="6" type="local_variable_name" span="147:17:147:23">layout</jtok>
+<jtok eid="6" type="constructor_call" span="147:30:147:43">GridBagLayout</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="148:3:148:9">JPanel</jtok>
+<jtok eid="6" type="local_variable_name" span="148:10:148:15">panel</jtok>
+<jtok eid="6" type="constructor_call" span="148:22:148:28">JPanel</jtok>
+<jtok eid="6" type="primary_name_ref" span="148:29:148:35">layout</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="150:3:150:21">GridBagConstraints</jtok>
+<jtok eid="6" type="local_variable_name" span="150:22:150:26">cons</jtok>
+<jtok eid="6" type="constructor_call" span="150:33:150:51">GridBagConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="151:3:151:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="151:8:151:14">insets</jtok>
+<jtok eid="6" type="constructor_call" span="151:21:151:27">Insets</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:3:152:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="152:8:152:17">gridwidth</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:20:152:24">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="152:25:152:35">gridheight</jtok>
+<jtok eid="6" type="primary_name_ref" span="153:3:153:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="153:8:153:13">gridx</jtok>
+<jtok eid="6" type="primary_name_ref" span="153:16:153:20">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="153:21:153:26">gridy</jtok>
+<jtok eid="6" type="primary_name_ref" span="154:3:154:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="154:8:154:12">fill</jtok>
+<jtok eid="6" type="primary_name_ref" span="154:15:154:33">GridBagConstraints</jtok>
+<jtok eid="6" type="qualified_name_ref" span="154:34:154:38">BOTH</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="155:3:155:9">JLabel</jtok>
+<jtok eid="6" type="local_variable_name" span="155:10:155:15">label</jtok>
+<jtok eid="6" type="constructor_call" span="155:22:155:28">JLabel</jtok>
+<jtok eid="6" type="primary_name_ref" span="155:29:155:34">jEdit</jtok>
+<jtok eid="6" type="method_call" span="155:35:155:46">getProperty</jtok>
+<jtok eid="6" type="string_literal" span="155:47:155:70">"selectlinerange.start"</jtok>
+<jtok eid="6" type="primary_name_ref" span="156:4:156:18">SwingConstants</jtok>
+<jtok eid="6" type="qualified_name_ref" span="156:19:156:24">RIGHT</jtok>
+<jtok eid="6" type="primary_name_ref" span="157:3:157:9">layout</jtok>
+<jtok eid="6" type="method_call" span="157:10:157:24">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="157:25:157:30">label</jtok>
+<jtok eid="6" type="primary_name_ref" span="157:31:157:35">cons</jtok>
+<jtok eid="6" type="primary_name_ref" span="158:3:158:8">panel</jtok>
+<jtok eid="6" type="method_call" span="158:9:158:12">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="158:13:158:18">label</jtok>
+<jtok eid="6" type="primary_name_ref" span="160:3:160:13">startField</jtok>
+<jtok eid="6" type="constructor_call" span="160:20:160:30">JTextField</jtok>
+<jtok eid="6" type="primary_name_ref" span="161:3:161:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="161:8:161:13">gridx</jtok>
+<jtok eid="6" type="primary_name_ref" span="162:3:162:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="162:8:162:15">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:3:163:9">layout</jtok>
+<jtok eid="6" type="method_call" span="163:10:163:24">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:25:163:35">startField</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:36:163:40">cons</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:3:164:8">panel</jtok>
+<jtok eid="6" type="method_call" span="164:9:164:12">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:13:164:23">startField</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:3:166:8">label</jtok>
+<jtok eid="6" type="constructor_call" span="166:15:166:21">JLabel</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:22:166:27">jEdit</jtok>
+<jtok eid="6" type="method_call" span="166:28:166:39">getProperty</jtok>
+<jtok eid="6" type="string_literal" span="166:40:166:61">"selectlinerange.end"</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:4:167:18">SwingConstants</jtok>
+<jtok eid="6" type="qualified_name_ref" span="167:19:167:24">RIGHT</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:3:168:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="168:8:168:13">gridx</jtok>
+<jtok eid="6" type="primary_name_ref" span="169:3:169:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="169:8:169:15">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:3:170:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="170:8:170:13">gridy</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:3:171:9">layout</jtok>
+<jtok eid="6" type="method_call" span="171:10:171:24">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:25:171:30">label</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:31:171:35">cons</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:3:172:8">panel</jtok>
+<jtok eid="6" type="method_call" span="172:9:172:12">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:13:172:18">label</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:3:174:11">endField</jtok>
+<jtok eid="6" type="constructor_call" span="174:18:174:28">JTextField</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:3:175:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="175:8:175:13">gridx</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:3:176:7">cons</jtok>
+<jtok eid="6" type="qualified_name_ref" span="176:8:176:15">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:3:177:9">layout</jtok>
+<jtok eid="6" type="method_call" span="177:10:177:24">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:25:177:33">endField</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:34:177:38">cons</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:3:178:8">panel</jtok>
+<jtok eid="6" type="method_call" span="178:9:178:12">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:13:178:21">endField</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:10:180:15">panel</jtok>
+<jtok eid="1" type="line_comment" span="181:4:181:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:7">//}}}</jtok>
+</jdoc>

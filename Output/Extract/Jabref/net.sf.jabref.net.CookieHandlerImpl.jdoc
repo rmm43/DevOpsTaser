@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.net.CookieHandlerImpl" jls="java5">
+<jent id="0" type="file" span="0:0:102:0">Source/jabref/src/java/net/sf/jabref/net/CookieHandlerImpl.java</jent>
+<jent id="1" pid="0" type="class" span="11:1:100:1">net.sf.jabref.net.CookieHandlerImpl</jent>
+<jent id="2" pid="1" type="method" span="27:5:52:5">net.sf.jabref.net.CookieHandlerImpl.put(URI,Map&lt;List&lt;String,String&gt;&gt;)</jent>
+<jent id="3" pid="1" type="method" span="66:5:99:5">net.sf.jabref.net.CookieHandlerImpl.get(URI,Map&lt;List&lt;String,String&gt;&gt;)</jent>
+<jtok eid="0" type="block_comment" span="8:1:10:4">/**
+ * 
+ */</jtok>
+<jtok eid="1" type="class_name" span="11:14:11:31">CookieHandlerImpl</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="11:40:11:53">CookieHandler</jtok>
+<jtok eid="1" type="line_comment" span="13:5:13:63">// "Long" term storage for cookies, not serialized so only</jtok>
+<jtok eid="1" type="line_comment" span="14:5:14:32">// for current JVM instance</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="15:13:15:17">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="15:18:15:24">Cookie</jtok>
+<jtok eid="1" type="field_name" span="15:26:15:31">cache</jtok>
+<jtok eid="1" type="constructor_call" span="15:38:15:48">LinkedList</jtok>
+<jtok eid="1" type="constructor_call" span="15:49:15:55">Cookie</jtok>
+<jtok eid="1" type="block_comment" span="17:5:25:8">/**
+     * Saves all applicable cookies present in the response
+     * headers into cache.
+     *
+     * @param uri             URI source of cookies
+     * @param responseHeaders Immutable map from field names to
+     *                        lists of field
+     *                        values representing the response header fields returned
+     */</jtok>
+<jtok eid="2" type="method_name" span="27:17:27:20">put</jtok>
+<jtok eid="2" type="parameter_type" span="28:13:28:16">URI</jtok>
+<jtok eid="2" type="parameter_name" span="28:17:28:20">uri</jtok>
+<jtok eid="2" type="parameter_type" span="29:13:29:16">Map</jtok>
+<jtok eid="2" type="parameter_type" span="29:17:29:23">String</jtok>
+<jtok eid="2" type="parameter_type" span="29:25:29:29">List</jtok>
+<jtok eid="2" type="parameter_type" span="29:30:29:36">String</jtok>
+<jtok eid="2" type="parameter_name" span="29:39:29:54">responseHeaders</jtok>
+<jtok eid="2" type="throws" span="30:20:30:31">IOException</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="32:9:32:13">List</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="32:14:32:20">String</jtok>
+<jtok eid="2" type="local_variable_name" span="32:22:32:35">setCookieList</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:17:33:32">responseHeaders</jtok>
+<jtok eid="2" type="method_call" span="33:33:33:36">get</jtok>
+<jtok eid="2" type="string_literal" span="33:37:33:49">"Set-Cookie"</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:13:34:26">setCookieList</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="35:18:35:24">String</jtok>
+<jtok eid="2" type="local_variable_name" span="35:25:35:29">item</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:32:35:45">setCookieList</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="36:17:36:23">Cookie</jtok>
+<jtok eid="2" type="local_variable_name" span="36:24:36:30">cookie</jtok>
+<jtok eid="2" type="constructor_call" span="36:37:36:43">Cookie</jtok>
+<jtok eid="2" type="primary_name_ref" span="36:44:36:47">uri</jtok>
+<jtok eid="2" type="primary_name_ref" span="36:49:36:53">item</jtok>
+<jtok eid="2" type="line_comment" span="37:17:37:54">// Remove cookie if it already exists</jtok>
+<jtok eid="2" type="line_comment" span="38:17:38:40">// New one will replace</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="39:22:39:30">Iterator</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="39:31:39:37">Cookie</jtok>
+<jtok eid="2" type="local_variable_name" span="39:39:39:40">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:43:39:48">cache</jtok>
+<jtok eid="2" type="method_call" span="39:49:39:57">iterator</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:61:39:62">i</jtok>
+<jtok eid="2" type="method_call" span="39:63:39:70">hasNext</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="40:21:40:27">Cookie</jtok>
+<jtok eid="2" type="local_variable_name" span="40:28:40:42">existingCookie</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:45:40:46">i</jtok>
+<jtok eid="2" type="method_call" span="40:47:40:51">next</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:26:41:32">cookie</jtok>
+<jtok eid="2" type="method_call" span="41:33:41:39">getURI</jtok>
+<jtok eid="2" type="method_call" span="41:42:41:48">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:29:42:43">existingCookie</jtok>
+<jtok eid="2" type="method_call" span="42:44:42:50">getURI</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:30:43:36">cookie</jtok>
+<jtok eid="2" type="method_call" span="43:37:43:44">getName</jtok>
+<jtok eid="2" type="method_call" span="43:47:43:53">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:37:44:51">existingCookie</jtok>
+<jtok eid="2" type="method_call" span="44:52:44:59">getName</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:25:45:26">i</jtok>
+<jtok eid="2" type="method_call" span="45:27:45:33">remove</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:17:49:22">cache</jtok>
+<jtok eid="2" type="method_call" span="49:23:49:26">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:27:49:33">cookie</jtok>
+<jtok eid="1" type="block_comment" span="54:5:64:8">/**
+     * Gets all the applicable cookies from a cookie cache for
+     * the specified uri in the request header.
+     *
+     * @param uri            URI to send cookies to in a request
+     * @param requestHeaders Map from request header field names
+     *                       to lists of field values representing the current request
+     *                       headers
+     * @return Immutable map, with field name "Cookie" to a list
+     *         of cookies
+     */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:12:66:15">Map</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:16:66:22">String</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:24:66:28">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:29:66:35">String</jtok>
+<jtok eid="3" type="method_name" span="66:38:66:41">get</jtok>
+<jtok eid="3" type="parameter_type" span="67:13:67:16">URI</jtok>
+<jtok eid="3" type="parameter_name" span="67:17:67:20">uri</jtok>
+<jtok eid="3" type="parameter_type" span="68:13:68:16">Map</jtok>
+<jtok eid="3" type="parameter_type" span="68:17:68:23">String</jtok>
+<jtok eid="3" type="parameter_type" span="68:25:68:29">List</jtok>
+<jtok eid="3" type="parameter_type" span="68:30:68:36">String</jtok>
+<jtok eid="3" type="parameter_name" span="68:39:68:53">requestHeaders</jtok>
+<jtok eid="3" type="throws" span="69:20:69:31">IOException</jtok>
+<jtok eid="3" type="line_comment" span="71:9:71:53">// Retrieve all the cookies for matching URI</jtok>
+<jtok eid="3" type="line_comment" span="72:9:72:39">// Put in comma-separated list</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="73:9:73:22">StringBuilder</jtok>
+<jtok eid="3" type="local_variable_name" span="73:23:73:30">cookies</jtok>
+<jtok eid="3" type="constructor_call" span="73:37:73:50">StringBuilder</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:14:74:22">Iterator</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:23:74:29">Cookie</jtok>
+<jtok eid="3" type="local_variable_name" span="74:31:74:32">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:35:74:40">cache</jtok>
+<jtok eid="3" type="method_call" span="74:41:74:49">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:53:74:54">i</jtok>
+<jtok eid="3" type="method_call" span="74:55:74:62">hasNext</jtok>
+<jtok eid="3" type="line_comment" span="75:9:75:40">//for (Cookie cookie : cache) {</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="76:13:76:19">Cookie</jtok>
+<jtok eid="3" type="local_variable_name" span="76:20:76:26">cookie</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:29:76:30">i</jtok>
+<jtok eid="3" type="method_call" span="76:31:76:35">next</jtok>
+<jtok eid="3" type="line_comment" span="77:13:77:48">// Remove cookies that have expired</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:17:78:23">cookie</jtok>
+<jtok eid="3" type="method_call" span="78:24:78:34">hasExpired</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:17:79:18">i</jtok>
+<jtok eid="3" type="method_call" span="79:19:79:25">remove</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:24:80:30">cookie</jtok>
+<jtok eid="3" type="method_call" span="80:31:80:38">matches</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:39:80:42">uri</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:21:81:28">cookies</jtok>
+<jtok eid="3" type="method_call" span="81:29:81:35">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:21:82:28">cookies</jtok>
+<jtok eid="3" type="method_call" span="82:29:82:35">append</jtok>
+<jtok eid="3" type="string_literal" span="82:36:82:40">", "</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:17:84:24">cookies</jtok>
+<jtok eid="3" type="method_call" span="84:25:84:31">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:32:84:38">cookie</jtok>
+<jtok eid="3" type="method_call" span="84:39:84:47">toString</jtok>
+<jtok eid="3" type="line_comment" span="88:9:88:25">// Map to return</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="89:9:89:12">Map</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="89:13:89:19">String</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="89:21:89:25">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="89:26:89:32">String</jtok>
+<jtok eid="3" type="local_variable_name" span="89:35:89:44">cookieMap</jtok>
+<jtok eid="3" type="constructor_call" span="90:21:90:28">HashMap</jtok>
+<jtok eid="3" type="constructor_call" span="90:29:90:35">String</jtok>
+<jtok eid="3" type="constructor_call" span="90:37:90:41">List</jtok>
+<jtok eid="3" type="constructor_call" span="90:42:90:48">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:51:90:65">requestHeaders</jtok>
+<jtok eid="3" type="line_comment" span="92:9:92:55">// Convert StringBuilder to List, store in map</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:13:93:20">cookies</jtok>
+<jtok eid="3" type="method_call" span="93:21:93:27">length</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="94:13:94:17">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="94:18:94:24">String</jtok>
+<jtok eid="3" type="local_variable_name" span="94:26:94:30">list</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:21:95:32">Collections</jtok>
+<jtok eid="3" type="method_call" span="95:33:95:46">singletonList</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:47:95:54">cookies</jtok>
+<jtok eid="3" type="method_call" span="95:55:95:63">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:13:96:22">cookieMap</jtok>
+<jtok eid="3" type="method_call" span="96:23:96:26">put</jtok>
+<jtok eid="3" type="string_literal" span="96:27:96:35">"Cookie"</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:37:96:41">list</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:16:98:27">Collections</jtok>
+<jtok eid="3" type="method_call" span="98:28:98:43">unmodifiableMap</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:44:98:53">cookieMap</jtok>
+</jdoc>

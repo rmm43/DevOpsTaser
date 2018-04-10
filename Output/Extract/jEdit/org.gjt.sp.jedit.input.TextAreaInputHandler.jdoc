@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.input.TextAreaInputHandler" jls="java5">
+<jent id="0" type="file" span="0:0:382:2">Source/jEdit/org/gjt/sp/jedit/input/TextAreaInputHandler.java</jent>
+<jent id="1" pid="0" type="class" span="47:1:382:1">org.gjt.sp.jedit.input.TextAreaInputHandler</jent>
+<jent id="2" pid="1" type="method" span="52:2:56:2">org.gjt.sp.jedit.input.TextAreaInputHandler.TextAreaInputHandler(TextArea)</jent>
+<jent id="3" pid="1" type="method" span="69:2:124:2">org.gjt.sp.jedit.input.TextAreaInputHandler.processKeyEvent(KeyEvent,int,boolean)</jent>
+<jent id="4" pid="1" type="method" span="134:2:146:2">org.gjt.sp.jedit.input.TextAreaInputHandler._preprocessKeyEvent(KeyEvent)</jent>
+<jent id="5" pid="1" type="method" span="149:2:158:2">org.gjt.sp.jedit.input.TextAreaInputHandler.processKeyEventSub(boolean)</jent>
+<jent id="6" pid="1" type="method" span="161:2:161:66">org.gjt.sp.jedit.input.TextAreaInputHandler.getAction(String)</jent>
+<jent id="7" pid="1" type="method" span="172:2:175:2">org.gjt.sp.jedit.input.TextAreaInputHandler.invokeAction(String)</jent>
+<jent id="8" pid="1" type="method" span="184:2:235:2">org.gjt.sp.jedit.input.TextAreaInputHandler.invokeAction(JEditBeanShellAction)</jent>
+<jent id="9" pid="1" type="method" span="245:2:353:2">org.gjt.sp.jedit.input.TextAreaInputHandler.handleKey(KeyEventTranslator.Key,boolean)</jent>
+<jent id="10" pid="1" type="method" span="356:2:365:2">org.gjt.sp.jedit.input.TextAreaInputHandler.userInput(char)</jent>
+<jent id="11" pid="1" type="method" span="368:2:381:2">org.gjt.sp.jedit.input.TextAreaInputHandler.invokeReadNextChar(char)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * TextAreaInputHandler.java - Manages key bindings and executes actions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="24:1:24:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="38:1:38:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="40:1:46:4">/**
+ * This class manage the key bindings and execute the actions binded on the
+ * keyboard events for the standalone textarea.
+ *
+ * @author Matthieu Casanova
+ * @version $Id: FoldHandler.java 5568 2006-07-10 20:52:23Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="47:23:47:43">TextAreaInputHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:52:47:72">AbstractInputHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:73:47:93">JEditBeanShellAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:16:49:24">TextArea</jtok>
+<jtok eid="1" type="field_name" span="49:25:49:33">textArea</jtok>
+<jtok eid="1" type="line_comment" span="51:2:51:40">//{{{ TextAreaInputHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="52:12:52:32">TextAreaInputHandler</jtok>
+<jtok eid="2" type="parameter_type" span="52:33:52:41">TextArea</jtok>
+<jtok eid="2" type="parameter_name" span="52:42:52:50">textArea</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:8:54:16">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:19:54:27">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:11">bindings</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:14:55:29">currentBindings</jtok>
+<jtok eid="2" type="constructor_call" span="55:36:55:45">Hashtable</jtok>
+<jtok eid="1" type="line_comment" span="56:4:56:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:32">//{{{ processKeyEvent() method</jtok>
+<jtok eid="1" type="block_comment" span="59:2:67:5">/**
+	 * Forwards key events directly to the input handler.
+	 * This is slightly faster than using a KeyListener
+	 * because some Swing overhead is avoided.
+	 * @param evt the keyboard event
+	 * @param from the source of the event. Since this is the input handler of the textarea, it should always be 1
+	 * @param global it is only true if the event comes from the DefaultKeyboardFocusManager
+	 * @since 4.3pre7
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="68:3:68:11">Override</jtok>
+<jtok eid="3" type="method_name" span="69:14:69:29">processKeyEvent</jtok>
+<jtok eid="3" type="parameter_type" span="69:30:69:38">KeyEvent</jtok>
+<jtok eid="3" type="parameter_name" span="69:39:69:42">evt</jtok>
+<jtok eid="3" type="parameter_name" span="69:48:69:52">from</jtok>
+<jtok eid="3" type="parameter_name" span="69:62:69:68">global</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:6:71:11">Debug</jtok>
+<jtok eid="3" type="qualified_name_ref" span="71:12:71:27">DUMP_KEY_EVENTS</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:4:73:7">Log</jtok>
+<jtok eid="3" type="method_call" span="73:8:73:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:12:73:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="73:16:73:21">DEBUG</jtok>
+<jtok eid="3" type="string_literal" span="73:27:73:57">"Key event                 : "</jtok>
+<jtok eid="3" type="method_call" span="74:7:74:15">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:16:74:19">evt</jtok>
+<jtok eid="3" type="string_literal" span="74:23:74:31">" from "</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:34:74:38">from</jtok>
+<jtok eid="3" type="line_comment" span="75:3:75:88">//	Log.log(Log.DEBUG,this,view+".isFocused()="+view.isFocused()+'.',new Exception());</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:3:78:6">evt</jtok>
+<jtok eid="3" type="method_call" span="78:9:78:28">_preprocessKeyEvent</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:29:78:32">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:6:79:9">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:6:82:11">Debug</jtok>
+<jtok eid="3" type="qualified_name_ref" span="82:12:82:27">DUMP_KEY_EVENTS</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:4:84:7">Log</jtok>
+<jtok eid="3" type="method_call" span="84:8:84:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:12:84:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="84:16:84:21">DEBUG</jtok>
+<jtok eid="3" type="string_literal" span="84:27:84:57">"Key event after workaround: "</jtok>
+<jtok eid="3" type="method_call" span="85:7:85:15">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:16:85:19">evt</jtok>
+<jtok eid="3" type="string_literal" span="85:23:85:31">" from "</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:34:85:38">from</jtok>
+<jtok eid="3" type="local_variable_name" span="88:11:88:26">focusOnTextArea</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:10:89:13">evt</jtok>
+<jtok eid="3" type="method_call" span="89:14:89:19">getID</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:8:91:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="91:17:91:26">KEY_TYPED</jtok>
+<jtok eid="3" type="line_comment" span="92:4:92:44">// if the user pressed eg C+e n n in the</jtok>
+<jtok eid="3" type="line_comment" span="93:4:93:48">// search bar we want focus to go back there</jtok>
+<jtok eid="3" type="line_comment" span="94:4:94:31">// after the prefix is done</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:7:97:26">keyEventInterceptor</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:5:98:24">keyEventInterceptor</jtok>
+<jtok eid="3" type="method_call" span="98:25:98:33">keyTyped</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:34:98:37">evt</jtok>
+<jtok eid="3" type="method_call" span="99:12:99:26">isPrefixActive</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:32:99:40">textArea</jtok>
+<jtok eid="3" type="method_call" span="99:41:99:49">hasFocus</jtok>
+<jtok eid="3" type="method_call" span="101:5:101:37">processKeyEventKeyStrokeHandling</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:38:101:41">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:42:101:46">from</jtok>
+<jtok eid="3" type="string_literal" span="101:47:101:54">"type "</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:55:101:61">global</jtok>
+<jtok eid="3" type="method_call" span="105:4:105:22">processKeyEventSub</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:23:105:38">focusOnTextArea</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:8:108:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="108:17:108:28">KEY_PRESSED</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:7:109:26">keyEventInterceptor</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:5:110:24">keyEventInterceptor</jtok>
+<jtok eid="3" type="method_call" span="110:25:110:35">keyPressed</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:36:110:39">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:12:111:30">KeyEventWorkaround</jtok>
+<jtok eid="3" type="method_call" span="111:31:111:41">isBindable</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:42:111:45">evt</jtok>
+<jtok eid="3" type="method_call" span="111:46:111:56">getKeyCode</jtok>
+<jtok eid="3" type="method_call" span="113:5:113:37">processKeyEventKeyStrokeHandling</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:38:113:41">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:42:113:46">from</jtok>
+<jtok eid="3" type="string_literal" span="113:47:113:54">"press"</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:55:113:61">global</jtok>
+<jtok eid="3" type="method_call" span="115:5:115:23">processKeyEventSub</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:24:115:39">focusOnTextArea</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:8:119:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="119:17:119:29">KEY_RELEASED</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:7:120:26">keyEventInterceptor</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:5:121:24">keyEventInterceptor</jtok>
+<jtok eid="3" type="method_call" span="121:25:121:36">keyReleased</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:37:121:40">evt</jtok>
+<jtok eid="1" type="line_comment" span="124:4:124:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="126:2:126:36">//{{{ _preprocessKeyEvent() method</jtok>
+<jtok eid="1" type="block_comment" span="127:2:133:5">/**
+	 * This method returns if the keyboard event can be handled or not.
+	 *
+	 * @param evt the keyboard event
+	 * @return null if the keyboard event cannot be handled, or the keyboard event itself
+	 * otherwise
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="134:10:134:18">KeyEvent</jtok>
+<jtok eid="4" type="method_name" span="134:19:134:38">_preprocessKeyEvent</jtok>
+<jtok eid="4" type="parameter_type" span="134:39:134:47">KeyEvent</jtok>
+<jtok eid="4" type="parameter_name" span="134:48:134:51">evt</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:6:136:9">evt</jtok>
+<jtok eid="4" type="method_call" span="136:10:136:20">isConsumed</jtok>
+<jtok eid="4" type="primary_name_ref" span="139:6:139:11">Debug</jtok>
+<jtok eid="4" type="qualified_name_ref" span="139:12:139:27">DUMP_KEY_EVENTS</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:4:141:7">Log</jtok>
+<jtok eid="4" type="method_call" span="141:8:141:11">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:12:141:15">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="141:16:141:21">DEBUG</jtok>
+<jtok eid="4" type="string_literal" span="141:27:141:57">"Key event (preprocessing) : "</jtok>
+<jtok eid="4" type="method_call" span="142:8:142:16">toString</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:17:142:20">evt</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:10:145:28">KeyEventWorkaround</jtok>
+<jtok eid="4" type="method_call" span="145:29:145:44">processKeyEvent</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:45:145:48">evt</jtok>
+<jtok eid="1" type="line_comment" span="146:4:146:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="148:2:148:35">//{{{ processKeyEventSub() method</jtok>
+<jtok eid="5" type="method_name" span="149:15:149:33">processKeyEventSub</jtok>
+<jtok eid="5" type="parameter_name" span="149:42:149:57">focusOnTextArea</jtok>
+<jtok eid="5" type="line_comment" span="151:3:151:27">// this is a weird hack.</jtok>
+<jtok eid="5" type="line_comment" span="152:3:152:46">// we don't want C+e a to insert 'a' in the</jtok>
+<jtok eid="5" type="line_comment" span="153:3:153:47">// search bar if the search bar has focus...</jtok>
+<jtok eid="5" type="method_call" span="154:7:154:21">isPrefixActive</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:27:154:42">focusOnTextArea</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:4:156:12">textArea</jtok>
+<jtok eid="5" type="method_call" span="156:13:156:25">requestFocus</jtok>
+<jtok eid="1" type="line_comment" span="158:4:158:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:26">//{{{ getAction() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="161:21:161:41">JEditBeanShellAction</jtok>
+<jtok eid="6" type="method_name" span="161:42:161:51">getAction</jtok>
+<jtok eid="6" type="parameter_type" span="161:52:161:58">String</jtok>
+<jtok eid="6" type="parameter_name" span="161:59:161:65">action</jtok>
+<jtok eid="1" type="line_comment" span="162:2:162:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="164:2:164:29">//{{{ invokeAction() method</jtok>
+<jtok eid="1" type="block_comment" span="165:2:170:5">/**
+	 * Invokes the specified action, repeating and recording it as
+	 * necessary.
+	 * @param action The action
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="171:3:171:11">Override</jtok>
+<jtok eid="7" type="method_name" span="172:14:172:26">invokeAction</jtok>
+<jtok eid="7" type="parameter_type" span="172:27:172:33">String</jtok>
+<jtok eid="7" type="parameter_name" span="172:34:172:40">action</jtok>
+<jtok eid="7" type="method_call" span="174:3:174:15">invokeAction</jtok>
+<jtok eid="7" type="method_call" span="174:16:174:25">getAction</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:26:174:32">action</jtok>
+<jtok eid="1" type="line_comment" span="175:4:175:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="177:2:177:29">//{{{ invokeAction() method</jtok>
+<jtok eid="1" type="block_comment" span="178:2:182:5">/**
+	 * Invokes the specified action, repeating and recording it as
+	 * necessary.
+	 * @param action The action
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="183:3:183:11">Override</jtok>
+<jtok eid="8" type="method_name" span="184:14:184:26">invokeAction</jtok>
+<jtok eid="8" type="parameter_type" span="184:27:184:47">JEditBeanShellAction</jtok>
+<jtok eid="8" type="parameter_name" span="184:48:184:54">action</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="186:3:186:14">JEditBuffer</jtok>
+<jtok eid="8" type="local_variable_name" span="186:15:186:21">buffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="186:24:186:32">textArea</jtok>
+<jtok eid="8" type="method_call" span="186:33:186:42">getBuffer</jtok>
+<jtok eid="8" type="block_comment" span="188:3:189:32">/* if(buffer.insideCompoundEdit())
+			buffer.endCompoundEdit(); */</jtok>
+<jtok eid="8" type="line_comment" span="191:3:191:39">// remember the last executed action</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:7:192:13">action</jtok>
+<jtok eid="8" type="method_call" span="192:14:192:28">noRememberLast</jtok>
+<jtok eid="8" type="primary_name_ref" span="194:7:194:17">lastAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="194:21:194:27">action</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:5:195:20">lastActionCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:5:198:15">lastAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:18:198:24">action</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:5:199:20">lastActionCount</jtok>
+<jtok eid="8" type="line_comment" span="203:3:203:54">// remember old values, in case action changes them</jtok>
+<jtok eid="8" type="local_variable_name" span="204:7:204:19">_repeatCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:22:204:33">repeatCount</jtok>
+<jtok eid="8" type="line_comment" span="206:3:206:24">// execute the action</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:6:207:12">action</jtok>
+<jtok eid="8" type="method_call" span="207:13:207:21">noRepeat</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:27:207:39">_repeatCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:4:208:10">action</jtok>
+<jtok eid="8" type="method_call" span="208:11:208:17">invoke</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:18:208:26">textArea</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:5:213:11">buffer</jtok>
+<jtok eid="8" type="method_call" span="213:12:213:29">beginCompoundEdit</jtok>
+<jtok eid="8" type="local_variable_name" span="215:13:215:14">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:20:215:21">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:24:215:36">_repeatCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:38:215:39">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="216:6:216:12">action</jtok>
+<jtok eid="8" type="method_call" span="216:13:216:19">invoke</jtok>
+<jtok eid="8" type="primary_name_ref" span="216:20:216:28">textArea</jtok>
+<jtok eid="8" type="primary_name_ref" span="220:5:220:11">buffer</jtok>
+<jtok eid="8" type="method_call" span="220:12:220:27">endCompoundEdit</jtok>
+<jtok eid="8" type="line_comment" span="224:3:224:45">// If repeat was true originally, clear it</jtok>
+<jtok eid="8" type="line_comment" span="225:3:225:57">// Otherwise it might have been set by the action, etc</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:6:226:18">_repeatCount</jtok>
+<jtok eid="8" type="line_comment" span="228:4:228:41">// first of all, if this action set a</jtok>
+<jtok eid="8" type="line_comment" span="229:4:229:44">// readNextChar, do not clear the repeat</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:7:230:19">readNextChar</jtok>
+<jtok eid="8" type="primary_name_ref" span="233:4:233:15">repeatCount</jtok>
+<jtok eid="1" type="line_comment" span="235:4:235:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="237:2:237:26">//{{{ handleKey() method</jtok>
+<jtok eid="1" type="block_comment" span="238:2:243:5">/**
+	 * Handles the given keystroke.
+	 * @param keyStroke The key stroke
+	 * @param dryRun only calculate the return value, do not have any other effect
+	 * @since jEdit 4.2pre5
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="244:3:244:11">Override</jtok>
+<jtok eid="9" type="method_name" span="245:17:245:26">handleKey</jtok>
+<jtok eid="9" type="parameter_type" span="245:27:245:45">KeyEventTranslator</jtok>
+<jtok eid="9" type="parameter_type" span="245:46:245:49">Key</jtok>
+<jtok eid="9" type="parameter_name" span="245:50:245:59">keyStroke</jtok>
+<jtok eid="9" type="parameter_name" span="245:68:245:74">dryRun</jtok>
+<jtok eid="9" type="local_variable_name" span="247:8:247:13">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="248:6:248:15">keyStroke</jtok>
+<jtok eid="9" type="qualified_name_ref" span="248:16:248:25">modifiers</jtok>
+<jtok eid="9" type="primary_name_ref" span="249:7:249:16">keyStroke</jtok>
+<jtok eid="9" type="qualified_name_ref" span="249:17:249:26">modifiers</jtok>
+<jtok eid="9" type="method_call" span="249:27:249:33">equals</jtok>
+<jtok eid="9" type="string_literal" span="249:34:249:37">"S"</jtok>
+<jtok eid="9" type="primary_name_ref" span="251:11:251:20">keyStroke</jtok>
+<jtok eid="9" type="qualified_name_ref" span="251:21:251:24">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="255:5:255:10">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="255:19:255:28">keyStroke</jtok>
+<jtok eid="9" type="qualified_name_ref" span="255:29:255:32">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="258:5:258:10">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="258:13:258:22">keyStroke</jtok>
+<jtok eid="9" type="qualified_name_ref" span="258:23:258:28">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="263:6:263:18">readNextChar</jtok>
+<jtok eid="9" type="primary_name_ref" span="265:7:265:12">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="267:10:267:16">dryRun</jtok>
+<jtok eid="9" type="method_call" span="269:6:269:24">setCurrentBindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="269:25:269:33">bindings</jtok>
+<jtok eid="9" type="method_call" span="270:6:270:24">invokeReadNextChar</jtok>
+<jtok eid="9" type="primary_name_ref" span="270:25:270:30">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="271:6:271:17">repeatCount</jtok>
+<jtok eid="9" type="primary_name_ref" span="277:10:277:16">dryRun</jtok>
+<jtok eid="9" type="primary_name_ref" span="279:6:279:18">readNextChar</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="284:3:284:9">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="284:10:284:11">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="284:14:284:29">currentBindings</jtok>
+<jtok eid="9" type="method_call" span="284:30:284:33">get</jtok>
+<jtok eid="9" type="primary_name_ref" span="284:34:284:43">keyStroke</jtok>
+<jtok eid="9" type="primary_name_ref" span="285:6:285:7">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="287:9:287:15">dryRun</jtok>
+<jtok eid="9" type="line_comment" span="289:5:289:43">// Don't beep if the user presses some</jtok>
+<jtok eid="9" type="line_comment" span="290:5:290:40">// key we don't know about unless a</jtok>
+<jtok eid="9" type="line_comment" span="291:5:291:43">// prefix is active. Otherwise it will</jtok>
+<jtok eid="9" type="line_comment" span="292:5:292:44">// beep when caps lock is pressed, etc.</jtok>
+<jtok eid="9" type="primary_name_ref" span="293:8:293:23">currentBindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="293:27:293:35">bindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="295:6:295:13">Toolkit</jtok>
+<jtok eid="9" type="method_call" span="295:14:295:31">getDefaultToolkit</jtok>
+<jtok eid="9" type="method_call" span="295:34:295:38">beep</jtok>
+<jtok eid="9" type="line_comment" span="296:6:296:45">// F10 should be passed on, but C+e F10</jtok>
+<jtok eid="9" type="line_comment" span="297:6:297:18">// shouldn't</jtok>
+<jtok eid="9" type="primary_name_ref" span="298:6:298:17">repeatCount</jtok>
+<jtok eid="9" type="method_call" span="299:6:299:24">setCurrentBindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="299:25:299:33">bindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="301:13:301:18">input</jtok>
+<jtok eid="9" type="primary_name_ref" span="303:11:303:20">keyStroke</jtok>
+<jtok eid="9" type="method_call" span="303:21:303:40">isFromGlobalContext</jtok>
+<jtok eid="9" type="line_comment" span="304:8:304:39">// let user input be only local</jtok>
+<jtok eid="9" type="method_call" span="305:7:305:16">userInput</jtok>
+<jtok eid="9" type="primary_name_ref" span="305:17:305:22">input</jtok>
+<jtok eid="9" type="line_comment" span="310:6:310:50">// this is retarded. excuse me while I drool</jtok>
+<jtok eid="9" type="line_comment" span="311:6:311:31">// and make stupid noises</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:9:312:27">KeyEventWorkaround</jtok>
+<jtok eid="9" type="method_call" span="312:28:312:43">isNumericKeypad</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:44:312:53">keyStroke</jtok>
+<jtok eid="9" type="qualified_name_ref" span="312:54:312:57">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="313:7:313:25">KeyEventWorkaround</jtok>
+<jtok eid="9" type="method_call" span="313:26:313:42">numericKeypadKey</jtok>
+<jtok eid="9" type="method_call" span="315:5:315:26">sendShortcutPrefixOff</jtok>
+<jtok eid="9" type="primary_name_ref" span="318:11:318:12">o</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="318:24:318:33">Hashtable</jtok>
+<jtok eid="9" type="primary_name_ref" span="320:9:320:15">dryRun</jtok>
+<jtok eid="9" type="method_call" span="322:5:322:23">setCurrentBindings</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="322:25:322:34">Hashtable</jtok>
+<jtok eid="9" type="primary_name_ref" span="322:35:322:36">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="323:5:323:30">ShortcutPrefixActiveEvent</jtok>
+<jtok eid="9" type="method_call" span="323:31:323:52">firePrefixStateChange</jtok>
+<jtok eid="9" type="primary_name_ref" span="323:53:323:68">currentBindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="324:5:324:15">shortcutOn</jtok>
+<jtok eid="9" type="primary_name_ref" span="328:11:328:12">o</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="328:24:328:30">String</jtok>
+<jtok eid="9" type="primary_name_ref" span="330:9:330:15">dryRun</jtok>
+<jtok eid="9" type="method_call" span="332:5:332:23">setCurrentBindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="332:24:332:32">bindings</jtok>
+<jtok eid="9" type="method_call" span="333:5:333:26">sendShortcutPrefixOff</jtok>
+<jtok eid="9" type="method_call" span="334:5:334:17">invokeAction</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="334:19:334:25">String</jtok>
+<jtok eid="9" type="primary_name_ref" span="334:26:334:27">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="338:11:338:12">o</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="338:24:338:44">JEditBeanShellAction</jtok>
+<jtok eid="9" type="primary_name_ref" span="340:9:340:15">dryRun</jtok>
+<jtok eid="9" type="method_call" span="342:5:342:23">setCurrentBindings</jtok>
+<jtok eid="9" type="primary_name_ref" span="342:24:342:32">bindings</jtok>
+<jtok eid="9" type="method_call" span="343:5:343:26">sendShortcutPrefixOff</jtok>
+<jtok eid="9" type="method_call" span="344:5:344:17">invokeAction</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="344:19:344:39">JEditBeanShellAction</jtok>
+<jtok eid="9" type="primary_name_ref" span="344:40:344:41">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="348:8:348:14">dryRun</jtok>
+<jtok eid="9" type="method_call" span="350:4:350:25">sendShortcutPrefixOff</jtok>
+<jtok eid="1" type="line_comment" span="353:4:353:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="355:2:355:26">//{{{ userInput() method</jtok>
+<jtok eid="10" type="method_name" span="356:17:356:26">userInput</jtok>
+<jtok eid="10" type="parameter_name" span="356:32:356:34">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="358:3:358:18">lastActionCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="361:6:361:17">repeatCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="362:4:362:12">textArea</jtok>
+<jtok eid="10" type="method_call" span="362:13:362:22">userInput</jtok>
+<jtok eid="10" type="primary_name_ref" span="362:23:362:25">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="364:3:364:14">repeatCount</jtok>
+<jtok eid="1" type="line_comment" span="365:4:365:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="367:2:367:35">//{{{ invokeReadNextChar() method</jtok>
+<jtok eid="11" type="method_name" span="368:17:368:35">invokeReadNextChar</jtok>
+<jtok eid="11" type="parameter_name" span="368:41:368:43">ch</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="370:3:370:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="370:10:370:17">charStr</jtok>
+<jtok eid="11" type="primary_name_ref" span="370:20:370:37">StandardUtilities</jtok>
+<jtok eid="11" type="method_call" span="370:38:370:52">charsToEscapes</jtok>
+<jtok eid="11" type="primary_name_ref" span="370:53:370:59">String</jtok>
+<jtok eid="11" type="method_call" span="370:60:370:67">valueOf</jtok>
+<jtok eid="11" type="primary_name_ref" span="370:68:370:70">ch</jtok>
+<jtok eid="11" type="line_comment" span="372:3:372:55">// this might be a bit slow if __char__ occurs a lot</jtok>
+<jtok eid="11" type="local_variable_name" span="373:7:373:12">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="374:10:374:15">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="374:18:374:30">readNextChar</jtok>
+<jtok eid="11" type="method_call" span="374:31:374:38">indexOf</jtok>
+<jtok eid="11" type="string_literal" span="374:39:374:49">"__char__"</jtok>
+<jtok eid="11" type="primary_name_ref" span="376:4:376:16">readNextChar</jtok>
+<jtok eid="11" type="primary_name_ref" span="376:19:376:31">readNextChar</jtok>
+<jtok eid="11" type="method_call" span="376:32:376:41">substring</jtok>
+<jtok eid="11" type="primary_name_ref" span="376:44:376:49">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="377:14:377:21">charStr</jtok>
+<jtok eid="11" type="primary_name_ref" span="378:7:378:19">readNextChar</jtok>
+<jtok eid="11" type="method_call" span="378:20:378:29">substring</jtok>
+<jtok eid="11" type="primary_name_ref" span="378:30:378:35">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="380:3:380:15">readNextChar</jtok>
+<jtok eid="1" type="line_comment" span="381:4:381:9">//}}}</jtok>
+</jdoc>

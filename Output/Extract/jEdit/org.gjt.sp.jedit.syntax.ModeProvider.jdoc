@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.syntax.ModeProvider" jls="java5">
+<jent id="0" type="file" span="0:0:212:2">Source/jEdit/org/gjt/sp/jedit/syntax/ModeProvider.java</jent>
+<jent id="1" pid="0" type="class" span="48:1:212:1">org.gjt.sp.jedit.syntax.ModeProvider</jent>
+<jent id="2" pid="1" type="method" span="55:2:58:2">org.gjt.sp.jedit.syntax.ModeProvider.removeAll()</jent>
+<jent id="3" pid="1" type="method" span="66:2:75:2">org.gjt.sp.jedit.syntax.ModeProvider.getMode(String)</jent>
+<jent id="4" pid="1" type="method" span="85:2:101:2">org.gjt.sp.jedit.syntax.ModeProvider.getModeForFile(String,String)</jent>
+<jent id="5" pid="1" type="method" span="109:2:114:2">org.gjt.sp.jedit.syntax.ModeProvider.getModes()</jent>
+<jent id="6" pid="1" type="method" span="123:2:126:2">org.gjt.sp.jedit.syntax.ModeProvider.addMode(Mode)</jent>
+<jent id="7" pid="1" type="method" span="129:2:181:2">org.gjt.sp.jedit.syntax.ModeProvider.loadMode(Mode,XModeHandler)</jent>
+<jent id="8" pid="1" type="method" span="184:2:205:2">org.gjt.sp.jedit.syntax.ModeProvider.loadMode(Mode)</jent>
+<jent id="9" pid="8" type="class" span="187:3:203:3">org.gjt.sp.jedit.syntax.ModeProvider.loadMode(Mode).$1</jent>
+<jent id="10" pid="9" type="method" span="189:4:192:4">org.gjt.sp.jedit.syntax.ModeProvider.loadMode(Mode).$1.error(String,Object)</jent>
+<jent id="11" pid="9" type="method" span="195:4:202:4">org.gjt.sp.jedit.syntax.ModeProvider.loadMode(Mode).$1.getTokenMarker(String)</jent>
+<jent id="12" pid="1" type="method" span="208:2:211:2">org.gjt.sp.jedit.syntax.ModeProvider.error(String,Throwable)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ModeProvider.java - An edit mode provider.
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="24:1:24:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="41:1:47:4">/**
+ * This class works like a singleton, the instance is initialized by jEdit.
+ * 
+ * @author Matthieu Casanova
+ * @version $Id: Buffer.java 8190 2006-12-07 07:58:34Z kpouer $
+ * @since jEdit 4.3pre10
+ */</jtok>
+<jtok eid="1" type="class_name" span="48:14:48:26">ModeProvider</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:16:50:28">ModeProvider</jtok>
+<jtok eid="1" type="field_name" span="50:29:50:37">instance</jtok>
+<jtok eid="1" type="constructor_call" span="50:44:50:56">ModeProvider</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:10:52:14">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:15:52:19">Mode</jtok>
+<jtok eid="1" type="field_name" span="52:21:52:26">modes</jtok>
+<jtok eid="1" type="constructor_call" span="52:33:52:42">ArrayList</jtok>
+<jtok eid="1" type="constructor_call" span="52:43:52:47">Mode</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:26">//{{{ removeAll() method</jtok>
+<jtok eid="2" type="method_name" span="55:14:55:23">removeAll</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:3:57:8">modes</jtok>
+<jtok eid="2" type="constructor_call" span="57:15:57:24">ArrayList</jtok>
+<jtok eid="2" type="constructor_call" span="57:25:57:29">Mode</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:24">//{{{ getMode() method</jtok>
+<jtok eid="1" type="block_comment" span="61:2:65:5">/**
+	 * Returns the edit mode with the specified name.
+	 * @param name The edit mode
+	 * @since jEdit 4.3pre10
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:9:66:13">Mode</jtok>
+<jtok eid="3" type="method_name" span="66:14:66:21">getMode</jtok>
+<jtok eid="3" type="parameter_type" span="66:22:66:28">String</jtok>
+<jtok eid="3" type="parameter_name" span="66:29:66:33">name</jtok>
+<jtok eid="3" type="local_variable_name" span="68:11:68:12">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:18:68:19">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:22:68:27">modes</jtok>
+<jtok eid="3" type="method_call" span="68:28:68:32">size</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:36:68:37">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="70:4:70:8">Mode</jtok>
+<jtok eid="3" type="local_variable_name" span="70:9:70:13">mode</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:16:70:21">modes</jtok>
+<jtok eid="3" type="method_call" span="70:22:70:25">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:26:70:27">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:7:71:11">mode</jtok>
+<jtok eid="3" type="method_call" span="71:12:71:19">getName</jtok>
+<jtok eid="3" type="method_call" span="71:22:71:28">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:29:71:33">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:12:72:16">mode</jtok>
+<jtok eid="1" type="line_comment" span="75:4:75:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="77:2:77:31">//{{{ getModeForFile() method</jtok>
+<jtok eid="1" type="block_comment" span="78:2:84:5">/**
+	 * Get the appropriate mode that must be used for the file
+	 * @param filename the filename
+	 * @param firstLine the first line of the file
+	 * @return the edit mode, or null if no mode match the file
+	 * @since jEdit 4.3pre12
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="85:9:85:13">Mode</jtok>
+<jtok eid="4" type="method_name" span="85:14:85:28">getModeForFile</jtok>
+<jtok eid="4" type="parameter_type" span="85:29:85:35">String</jtok>
+<jtok eid="4" type="parameter_name" span="85:36:85:44">filename</jtok>
+<jtok eid="4" type="parameter_type" span="85:46:85:52">String</jtok>
+<jtok eid="4" type="parameter_name" span="85:53:85:62">firstLine</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="87:3:87:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="87:10:87:18">nogzName</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:21:87:29">filename</jtok>
+<jtok eid="4" type="method_call" span="87:30:87:39">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:42:87:50">filename</jtok>
+<jtok eid="4" type="method_call" span="87:51:87:57">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:5:88:13">filename</jtok>
+<jtok eid="4" type="method_call" span="88:14:88:22">endsWith</jtok>
+<jtok eid="4" type="string_literal" span="88:23:88:28">".gz"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="89:3:89:7">Mode</jtok>
+<jtok eid="4" type="local_variable_name" span="89:10:89:15">modes</jtok>
+<jtok eid="4" type="method_call" span="89:18:89:26">getModes</jtok>
+<jtok eid="4" type="line_comment" span="91:3:91:63">// this must be in reverse order so that modes from the user</jtok>
+<jtok eid="4" type="line_comment" span="92:3:92:32">// catalog get checked first!</jtok>
+<jtok eid="4" type="local_variable_name" span="93:11:93:12">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:15:93:20">modes</jtok>
+<jtok eid="4" type="qualified_name_ref" span="93:21:93:27">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:33:93:34">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:41:93:42">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:7:95:12">modes</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:13:95:14">i</jtok>
+<jtok eid="4" type="method_call" span="95:16:95:22">accept</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:23:95:31">nogzName</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:32:95:41">firstLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:12:97:17">modes</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:18:97:19">i</jtok>
+<jtok eid="1" type="line_comment" span="101:4:101:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="104:2:104:25">//{{{ getModes() method</jtok>
+<jtok eid="1" type="block_comment" span="105:2:108:5">/**
+	 * Returns an array of installed edit modes.
+	 * @since jEdit 4.3pre10
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="109:9:109:13">Mode</jtok>
+<jtok eid="5" type="method_name" span="109:16:109:24">getModes</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="111:3:111:7">Mode</jtok>
+<jtok eid="5" type="local_variable_name" span="111:10:111:15">array</jtok>
+<jtok eid="5" type="constructor_call" span="111:22:111:26">Mode</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:27:111:32">modes</jtok>
+<jtok eid="5" type="method_call" span="111:33:111:37">size</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:3:112:8">modes</jtok>
+<jtok eid="5" type="method_call" span="112:9:112:16">toArray</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:17:112:22">array</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:10:113:15">array</jtok>
+<jtok eid="1" type="line_comment" span="114:4:114:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:24">//{{{ addMode() method</jtok>
+<jtok eid="1" type="block_comment" span="117:2:122:5">/**
+	 * Do not call this method. It is only public so that classes
+	 * in the org.gjt.sp.jedit.syntax package can access it.
+	 * @since jEdit 4.3pre10
+	 * @param mode The edit mode
+	 */</jtok>
+<jtok eid="6" type="method_name" span="123:14:123:21">addMode</jtok>
+<jtok eid="6" type="parameter_type" span="123:22:123:26">Mode</jtok>
+<jtok eid="6" type="parameter_name" span="123:27:123:31">mode</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:3:125:8">modes</jtok>
+<jtok eid="6" type="method_call" span="125:9:125:12">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:13:125:17">mode</jtok>
+<jtok eid="1" type="line_comment" span="126:4:126:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="128:2:128:25">//{{{ loadMode() method</jtok>
+<jtok eid="7" type="method_name" span="129:14:129:22">loadMode</jtok>
+<jtok eid="7" type="parameter_type" span="129:23:129:27">Mode</jtok>
+<jtok eid="7" type="parameter_name" span="129:28:129:32">mode</jtok>
+<jtok eid="7" type="parameter_type" span="129:34:129:46">XModeHandler</jtok>
+<jtok eid="7" type="parameter_name" span="129:47:129:50">xmh</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="131:3:131:9">String</jtok>
+<jtok eid="7" type="local_variable_name" span="131:10:131:18">fileName</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="131:22:131:28">String</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:29:131:33">mode</jtok>
+<jtok eid="7" type="method_call" span="131:34:131:45">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="131:46:131:52">"file"</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:3:133:6">Log</jtok>
+<jtok eid="7" type="method_call" span="133:7:133:10">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:11:133:14">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="133:15:133:21">NOTICE</jtok>
+<jtok eid="7" type="string_literal" span="133:27:133:47">"Loading edit mode "</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:50:133:58">fileName</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="135:3:135:12">XMLReader</jtok>
+<jtok eid="7" type="local_variable_name" span="135:13:135:19">parser</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:4:138:10">parser</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:13:138:29">XMLReaderFactory</jtok>
+<jtok eid="7" type="method_call" span="138:30:138:45">createXMLReader</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="139:12:139:24">SAXException</jtok>
+<jtok eid="7" type="local_variable_name" span="139:25:139:29">saxe</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:4:141:7">Log</jtok>
+<jtok eid="7" type="method_call" span="141:8:141:11">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:12:141:15">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="141:16:141:21">ERROR</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:29:141:33">saxe</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:3:144:7">mode</jtok>
+<jtok eid="7" type="method_call" span="144:8:144:22">setTokenMarker</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:23:144:26">xmh</jtok>
+<jtok eid="7" type="method_call" span="144:27:144:41">getTokenMarker</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="146:3:146:14">InputStream</jtok>
+<jtok eid="7" type="local_variable_name" span="146:15:146:22">grammar</jtok>
+<jtok eid="7" type="primary_name_ref" span="150:4:150:11">grammar</jtok>
+<jtok eid="7" type="constructor_call" span="150:18:150:37">BufferedInputStream</jtok>
+<jtok eid="7" type="constructor_call" span="151:10:151:25">FileInputStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="151:26:151:34">fileName</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="153:10:153:31">FileNotFoundException</jtok>
+<jtok eid="7" type="local_variable_name" span="153:32:153:34">e1</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="155:4:155:15">InputStream</jtok>
+<jtok eid="7" type="local_variable_name" span="155:16:155:24">resource</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:27:155:39">ModeProvider</jtok>
+<jtok eid="7" type="method_call" span="155:46:155:65">getResourceAsStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:66:155:74">fileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="156:8:156:16">resource</jtok>
+<jtok eid="7" type="method_call" span="157:5:157:10">error</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:11:157:19">fileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="157:21:157:23">e1</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:4:158:11">grammar</jtok>
+<jtok eid="7" type="constructor_call" span="158:18:158:37">BufferedInputStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:38:158:46">resource</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="163:4:163:15">InputSource</jtok>
+<jtok eid="7" type="local_variable_name" span="163:16:163:20">isrc</jtok>
+<jtok eid="7" type="constructor_call" span="163:27:163:38">InputSource</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:39:163:46">grammar</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:4:164:8">isrc</jtok>
+<jtok eid="7" type="method_call" span="164:9:164:20">setSystemId</jtok>
+<jtok eid="7" type="string_literal" span="164:21:164:32">"jedit.jar"</jtok>
+<jtok eid="7" type="primary_name_ref" span="165:4:165:10">parser</jtok>
+<jtok eid="7" type="method_call" span="165:11:165:28">setContentHandler</jtok>
+<jtok eid="7" type="primary_name_ref" span="165:29:165:32">xmh</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:4:166:10">parser</jtok>
+<jtok eid="7" type="method_call" span="166:11:166:24">setDTDHandler</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:25:166:28">xmh</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:4:167:10">parser</jtok>
+<jtok eid="7" type="method_call" span="167:11:167:28">setEntityResolver</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:29:167:32">xmh</jtok>
+<jtok eid="7" type="primary_name_ref" span="168:4:168:10">parser</jtok>
+<jtok eid="7" type="method_call" span="168:11:168:26">setErrorHandler</jtok>
+<jtok eid="7" type="primary_name_ref" span="168:27:168:30">xmh</jtok>
+<jtok eid="7" type="primary_name_ref" span="169:4:169:10">parser</jtok>
+<jtok eid="7" type="method_call" span="169:11:169:16">parse</jtok>
+<jtok eid="7" type="primary_name_ref" span="169:17:169:21">isrc</jtok>
+<jtok eid="7" type="primary_name_ref" span="171:4:171:8">mode</jtok>
+<jtok eid="7" type="method_call" span="171:9:171:22">setProperties</jtok>
+<jtok eid="7" type="primary_name_ref" span="171:23:171:26">xmh</jtok>
+<jtok eid="7" type="method_call" span="171:27:171:44">getModeProperties</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="173:10:173:19">Throwable</jtok>
+<jtok eid="7" type="local_variable_name" span="173:20:173:21">e</jtok>
+<jtok eid="7" type="method_call" span="175:4:175:9">error</jtok>
+<jtok eid="7" type="primary_name_ref" span="175:10:175:18">fileName</jtok>
+<jtok eid="7" type="primary_name_ref" span="175:20:175:21">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="179:4:179:15">IOUtilities</jtok>
+<jtok eid="7" type="method_call" span="179:16:179:28">closeQuietly</jtok>
+<jtok eid="7" type="primary_name_ref" span="179:29:179:36">grammar</jtok>
+<jtok eid="1" type="line_comment" span="181:4:181:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:25">//{{{ loadMode() method</jtok>
+<jtok eid="8" type="method_name" span="184:14:184:22">loadMode</jtok>
+<jtok eid="8" type="parameter_type" span="184:23:184:27">Mode</jtok>
+<jtok eid="8" type="parameter_name" span="184:28:184:32">mode</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="186:3:186:15">XModeHandler</jtok>
+<jtok eid="8" type="local_variable_name" span="186:16:186:19">xmh</jtok>
+<jtok eid="8" type="constructor_call" span="186:26:186:38">XModeHandler</jtok>
+<jtok eid="8" type="primary_name_ref" span="186:39:186:43">mode</jtok>
+<jtok eid="8" type="method_call" span="186:44:186:51">getName</jtok>
+<jtok eid="9" type="annotation_ref" span="188:5:188:13">Override</jtok>
+<jtok eid="10" type="method_name" span="189:16:189:21">error</jtok>
+<jtok eid="10" type="parameter_type" span="189:22:189:28">String</jtok>
+<jtok eid="10" type="parameter_name" span="189:29:189:33">what</jtok>
+<jtok eid="10" type="parameter_type" span="189:35:189:41">Object</jtok>
+<jtok eid="10" type="parameter_name" span="189:42:189:47">subst</jtok>
+<jtok eid="10" type="primary_name_ref" span="191:5:191:8">Log</jtok>
+<jtok eid="10" type="method_call" span="191:9:191:12">log</jtok>
+<jtok eid="10" type="primary_name_ref" span="191:13:191:16">Log</jtok>
+<jtok eid="10" type="qualified_name_ref" span="191:17:191:22">ERROR</jtok>
+<jtok eid="10" type="primary_name_ref" span="191:30:191:35">subst</jtok>
+<jtok eid="9" type="annotation_ref" span="194:5:194:13">Override</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="195:11:195:22">TokenMarker</jtok>
+<jtok eid="11" type="method_name" span="195:23:195:37">getTokenMarker</jtok>
+<jtok eid="11" type="parameter_type" span="195:38:195:44">String</jtok>
+<jtok eid="11" type="parameter_name" span="195:45:195:53">modeName</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="197:5:197:9">Mode</jtok>
+<jtok eid="11" type="local_variable_name" span="197:10:197:14">mode</jtok>
+<jtok eid="11" type="method_call" span="197:17:197:24">getMode</jtok>
+<jtok eid="11" type="primary_name_ref" span="197:25:197:33">modeName</jtok>
+<jtok eid="11" type="primary_name_ref" span="198:8:198:12">mode</jtok>
+<jtok eid="11" type="primary_name_ref" span="201:13:201:17">mode</jtok>
+<jtok eid="11" type="method_call" span="201:18:201:32">getTokenMarker</jtok>
+<jtok eid="8" type="method_call" span="204:3:204:11">loadMode</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:12:204:16">mode</jtok>
+<jtok eid="8" type="primary_name_ref" span="204:18:204:21">xmh</jtok>
+<jtok eid="1" type="line_comment" span="205:4:205:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="207:2:207:22">//{{{ error() method</jtok>
+<jtok eid="12" type="method_name" span="208:17:208:22">error</jtok>
+<jtok eid="12" type="parameter_type" span="208:23:208:29">String</jtok>
+<jtok eid="12" type="parameter_name" span="208:30:208:34">file</jtok>
+<jtok eid="12" type="parameter_type" span="208:36:208:45">Throwable</jtok>
+<jtok eid="12" type="parameter_name" span="208:46:208:47">e</jtok>
+<jtok eid="12" type="primary_name_ref" span="210:3:210:6">Log</jtok>
+<jtok eid="12" type="method_call" span="210:7:210:10">log</jtok>
+<jtok eid="12" type="primary_name_ref" span="210:11:210:14">Log</jtok>
+<jtok eid="12" type="qualified_name_ref" span="210:15:210:20">ERROR</jtok>
+<jtok eid="12" type="primary_name_ref" span="210:28:210:29">e</jtok>
+<jtok eid="1" type="line_comment" span="211:4:211:9">//}}}</jtok>
+</jdoc>

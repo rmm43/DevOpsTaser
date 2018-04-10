@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.io.EncodingWithBOM" jls="java5">
+<jent id="0" type="file" span="0:0:182:2">Source/jEdit/org/gjt/sp/jedit/io/EncodingWithBOM.java</jent>
+<jent id="1" pid="0" type="class" span="44:1:182:1">org.gjt.sp.jedit.io.EncodingWithBOM</jent>
+<jent id="2" pid="1" type="method" span="47:2:56:2">org.gjt.sp.jedit.io.EncodingWithBOM.EncodingWithBOM(String)</jent>
+<jent id="3" pid="1" type="method" span="59:2:68:2">org.gjt.sp.jedit.io.EncodingWithBOM.getTextReader(InputStream)</jent>
+<jent id="4" pid="1" type="method" span="70:2:74:2">org.gjt.sp.jedit.io.EncodingWithBOM.getTextWriter(OutputStream)</jent>
+<jent id="5" pid="1" type="method" span="76:2:90:2">org.gjt.sp.jedit.io.EncodingWithBOM.getPermissiveTextReader(InputStream)</jent>
+<jent id="6" pid="1" type="class" span="94:2:151:2">org.gjt.sp.jedit.io.EncodingWithBOM.Detector</jent>
+<jent id="7" pid="6" type="method" span="96:3:150:3">org.gjt.sp.jedit.io.EncodingWithBOM.Detector.detectEncoding(InputStream)</jent>
+<jtok eid="0" type="block_comment" span="1:1:19:4">/*
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2007 Kazutoshi Satoda
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="23:1:23:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="36:1:36:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="38:1:43:4">/**
+ * Encodings which have BOM at the beginning of byte stream.
+ *
+ * @since 4.3pre10
+ * @author Kazutoshi Satoda
+ */</jtok>
+<jtok eid="1" type="class_name" span="44:14:44:29">EncodingWithBOM</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:41:44:49">Encoding</jtok>
+<jtok eid="1" type="line_comment" span="46:2:46:19">//{{{ Constructor</jtok>
+<jtok eid="2" type="method_name" span="47:9:47:24">EncodingWithBOM</jtok>
+<jtok eid="2" type="parameter_type" span="47:25:47:31">String</jtok>
+<jtok eid="2" type="parameter_name" span="47:32:47:37">plain</jtok>
+<jtok eid="2" type="local_variable_name" span="49:10:49:13">bom</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:16:49:22">bomMap</jtok>
+<jtok eid="2" type="method_call" span="49:23:49:26">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:27:49:32">plain</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:7:50:10">bom</jtok>
+<jtok eid="2" type="constructor_call" span="52:14:52:41">UnsupportedCharsetException</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:42:52:47">plain</jtok>
+<jtok eid="2" type="string_literal" span="52:50:52:61">" with BOM"</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:8:54:13">plain</jtok>
+<jtok eid="2" type="constructor_call" span="54:20:54:35">CharsetEncoding</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:36:54:41">plain</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:8:55:11">bom</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:14:55:17">bom</jtok>
+<jtok eid="1" type="line_comment" span="56:4:56:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:27">//{{{ implements Encoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="59:9:59:15">Reader</jtok>
+<jtok eid="3" type="method_name" span="59:16:59:29">getTextReader</jtok>
+<jtok eid="3" type="parameter_type" span="59:30:59:41">InputStream</jtok>
+<jtok eid="3" type="parameter_name" span="59:42:59:44">in</jtok>
+<jtok eid="3" type="throws" span="59:53:59:64">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="61:10:61:20">actualMark</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:32:61:35">bom</jtok>
+<jtok eid="3" type="qualified_name_ref" span="61:36:61:42">length</jtok>
+<jtok eid="3" type="local_variable_name" span="62:7:62:12">count</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:15:62:17">in</jtok>
+<jtok eid="3" type="method_call" span="62:18:62:22">read</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:23:62:33">actualMark</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:7:63:12">count</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:15:63:18">bom</jtok>
+<jtok eid="3" type="qualified_name_ref" span="63:19:63:25">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:30:63:36">Arrays</jtok>
+<jtok eid="3" type="method_call" span="63:37:63:43">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:44:63:54">actualMark</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:56:63:59">bom</jtok>
+<jtok eid="3" type="constructor_call" span="65:14:65:37">MalformedInputException</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:10:67:15">plain</jtok>
+<jtok eid="3" type="method_call" span="67:16:67:29">getTextReader</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:30:67:32">in</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="70:9:70:15">Writer</jtok>
+<jtok eid="4" type="method_name" span="70:16:70:29">getTextWriter</jtok>
+<jtok eid="4" type="parameter_type" span="70:30:70:42">OutputStream</jtok>
+<jtok eid="4" type="parameter_name" span="70:43:70:46">out</jtok>
+<jtok eid="4" type="throws" span="70:55:70:66">IOException</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:3:72:6">out</jtok>
+<jtok eid="4" type="method_call" span="72:7:72:12">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:13:72:16">bom</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:10:73:15">plain</jtok>
+<jtok eid="4" type="method_call" span="73:16:73:29">getTextWriter</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:30:73:33">out</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="76:9:76:15">Reader</jtok>
+<jtok eid="5" type="method_name" span="76:16:76:39">getPermissiveTextReader</jtok>
+<jtok eid="5" type="parameter_type" span="76:40:76:51">InputStream</jtok>
+<jtok eid="5" type="parameter_name" span="76:52:76:54">in</jtok>
+<jtok eid="5" type="throws" span="76:63:76:74">IOException</jtok>
+<jtok eid="5" type="local_variable_name" span="78:10:78:20">actualMark</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:32:78:35">bom</jtok>
+<jtok eid="5" type="qualified_name_ref" span="78:36:78:42">length</jtok>
+<jtok eid="5" type="local_variable_name" span="79:7:79:12">count</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:15:79:17">in</jtok>
+<jtok eid="5" type="method_call" span="79:18:79:22">read</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:23:79:33">actualMark</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:7:80:12">count</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:15:80:18">bom</jtok>
+<jtok eid="5" type="qualified_name_ref" span="80:19:80:25">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:30:80:36">Arrays</jtok>
+<jtok eid="5" type="method_call" span="80:37:80:43">equals</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:44:80:54">actualMark</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:56:80:59">bom</jtok>
+<jtok eid="5" type="line_comment" span="82:4:82:52">// Concatenate the non-BOM bytes and the rest of</jtok>
+<jtok eid="5" type="line_comment" span="83:4:83:57">// input so that the non-BOM bytes are reinterepreted</jtok>
+<jtok eid="5" type="line_comment" span="84:4:84:26">// as some characters.</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:4:85:6">in</jtok>
+<jtok eid="5" type="constructor_call" span="85:13:85:32">SequenceInputStream</jtok>
+<jtok eid="5" type="constructor_call" span="86:9:86:29">ByteArrayInputStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:30:86:40">actualMark</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:45:86:50">count</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:5:87:7">in</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:10:89:15">plain</jtok>
+<jtok eid="5" type="method_call" span="89:16:89:39">getPermissiveTextReader</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:40:89:42">in</jtok>
+<jtok eid="1" type="line_comment" span="91:2:91:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="93:2:93:22">//{{{ class Detector</jtok>
+<jtok eid="6" type="class_name" span="94:22:94:30">Detector</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="94:42:94:58">EncodingDetector</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="96:10:96:16">String</jtok>
+<jtok eid="7" type="method_name" span="96:17:96:31">detectEncoding</jtok>
+<jtok eid="7" type="parameter_type" span="96:32:96:43">InputStream</jtok>
+<jtok eid="7" type="parameter_name" span="96:44:96:50">sample</jtok>
+<jtok eid="7" type="throws" span="96:59:96:70">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="98:11:98:15">mark</jtok>
+<jtok eid="7" type="local_variable_name" span="99:8:99:13">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="99:16:99:22">sample</jtok>
+<jtok eid="7" type="method_call" span="99:23:99:27">read</jtok>
+<jtok eid="7" type="primary_name_ref" span="99:28:99:32">mark</jtok>
+<jtok eid="7" type="local_variable_name" span="101:9:101:12">low</jtok>
+<jtok eid="7" type="primary_name_ref" span="101:22:101:27">BOM16</jtok>
+<jtok eid="7" type="local_variable_name" span="102:9:102:13">high</jtok>
+<jtok eid="7" type="primary_name_ref" span="102:24:102:29">BOM16</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:8:103:13">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:9:105:13">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:20:105:23">low</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:27:105:31">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:38:105:42">high</jtok>
+<jtok eid="7" type="primary_name_ref" span="106:9:106:13">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="106:28:106:32">mark</jtok>
+<jtok eid="7" type="string_literal" span="108:13:108:29">"X-UTF-32LE-BOM"</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:14:110:18">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:33:110:37">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:9:111:13">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:20:111:24">high</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:28:111:32">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:39:111:42">low</jtok>
+<jtok eid="7" type="string_literal" span="113:13:113:29">"X-UTF-32BE-BOM"</jtok>
+<jtok eid="7" type="primary_name_ref" span="116:8:116:13">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:9:118:13">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:20:118:23">low</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:27:118:31">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="118:38:118:42">high</jtok>
+<jtok eid="7" type="string_literal" span="120:13:120:29">"x-UTF-16LE-BOM"</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:14:122:18">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:25:122:29">high</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:33:122:37">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:44:122:47">low</jtok>
+<jtok eid="7" type="line_comment" span="124:6:124:45">// "x-UTF-16BE-BOM" does not available.</jtok>
+<jtok eid="7" type="line_comment" span="125:6:125:50">// But an encoder for "UTF-16" actually uses</jtok>
+<jtok eid="7" type="line_comment" span="126:6:126:51">// big endian with corresponding BOM. It just</jtok>
+<jtok eid="7" type="line_comment" span="127:6:127:38">// works as "UTF-16BE with BOM".</jtok>
+<jtok eid="7" type="string_literal" span="128:13:128:21">"UTF-16"</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:8:132:13">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:17:132:24">UTF8BOM</jtok>
+<jtok eid="7" type="qualified_name_ref" span="132:25:132:31">length</jtok>
+<jtok eid="7" type="local_variable_name" span="134:9:134:10">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:12:135:13">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:16:135:23">UTF8BOM</jtok>
+<jtok eid="7" type="qualified_name_ref" span="135:24:135:30">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:10:137:14">mark</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:15:137:16">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:21:137:28">UTF8BOM</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:29:137:30">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:8:141:9">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:9:143:10">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:14:143:21">UTF8BOM</jtok>
+<jtok eid="7" type="qualified_name_ref" span="143:22:143:28">length</jtok>
+<jtok eid="7" type="string_literal" span="145:13:145:21">"UTF-8Y"</jtok>
+<jtok eid="1" type="line_comment" span="151:4:151:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="153:2:153:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="155:2:155:15">//{{{ Statics</jtok>
+<jtok eid="1" type="field_name" span="156:27:156:32">BOM16</jtok>
+<jtok eid="1" type="field_name" span="157:30:157:37">UTF8BOM</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="160:23:160:26">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="160:27:160:33">String</jtok>
+<jtok eid="1" type="field_name" span="160:43:160:49">bomMap</jtok>
+<jtok eid="1" type="constructor_call" span="161:9:161:16">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="161:17:161:23">String</jtok>
+<jtok eid="1" type="primary_name_ref" span="165:3:165:9">bomMap</jtok>
+<jtok eid="1" type="method_call" span="165:10:165:13">put</jtok>
+<jtok eid="1" type="string_literal" span="165:14:165:21">"UTF-8"</jtok>
+<jtok eid="1" type="primary_name_ref" span="165:23:165:30">UTF8BOM</jtok>
+<jtok eid="1" type="field_name" span="167:8:167:11">low</jtok>
+<jtok eid="1" type="primary_name_ref" span="167:21:167:26">BOM16</jtok>
+<jtok eid="1" type="field_name" span="168:8:168:12">high</jtok>
+<jtok eid="1" type="primary_name_ref" span="168:23:168:28">BOM16</jtok>
+<jtok eid="1" type="primary_name_ref" span="169:3:169:9">bomMap</jtok>
+<jtok eid="1" type="method_call" span="169:10:169:13">put</jtok>
+<jtok eid="1" type="string_literal" span="169:14:169:24">"UTF-16LE"</jtok>
+<jtok eid="1" type="primary_name_ref" span="169:39:169:42">low</jtok>
+<jtok eid="1" type="primary_name_ref" span="169:44:169:48">high</jtok>
+<jtok eid="1" type="primary_name_ref" span="170:3:170:9">bomMap</jtok>
+<jtok eid="1" type="method_call" span="170:10:170:13">put</jtok>
+<jtok eid="1" type="string_literal" span="170:14:170:24">"UTF-16BE"</jtok>
+<jtok eid="1" type="primary_name_ref" span="170:39:170:43">high</jtok>
+<jtok eid="1" type="primary_name_ref" span="170:45:170:48">low</jtok>
+<jtok eid="1" type="primary_name_ref" span="171:3:171:9">bomMap</jtok>
+<jtok eid="1" type="method_call" span="171:10:171:13">put</jtok>
+<jtok eid="1" type="string_literal" span="171:14:171:24">"UTF-32LE"</jtok>
+<jtok eid="1" type="primary_name_ref" span="171:39:171:42">low</jtok>
+<jtok eid="1" type="primary_name_ref" span="171:44:171:48">high</jtok>
+<jtok eid="1" type="primary_name_ref" span="172:3:172:9">bomMap</jtok>
+<jtok eid="1" type="method_call" span="172:10:172:13">put</jtok>
+<jtok eid="1" type="string_literal" span="172:14:172:24">"UTF-32BE"</jtok>
+<jtok eid="1" type="primary_name_ref" span="172:51:172:55">high</jtok>
+<jtok eid="1" type="primary_name_ref" span="172:57:172:60">low</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="176:2:176:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="177:16:177:31">CharsetEncoding</jtok>
+<jtok eid="1" type="field_name" span="177:32:177:37">plain</jtok>
+<jtok eid="1" type="field_name" span="178:23:178:26">bom</jtok>
+<jtok eid="1" type="line_comment" span="179:2:179:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="181:2:181:7">//}}}</jtok>
+</jdoc>

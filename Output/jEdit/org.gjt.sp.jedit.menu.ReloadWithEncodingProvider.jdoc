@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.menu.ReloadWithEncodingProvider" jls="java5">
+<jent id="0" type="file" span="0:0:158:1">Source/jEdit/org/gjt/sp/jedit/menu/ReloadWithEncodingProvider.java</jent>
+<jent id="1" pid="0" type="class" span="50:1:157:1">org.gjt.sp.jedit.menu.ReloadWithEncodingProvider</jent>
+<jent id="2" pid="1" type="method" span="55:2:58:2">org.gjt.sp.jedit.menu.ReloadWithEncodingProvider.updateEveryTime()</jent>
+<jent id="3" pid="1" type="method" span="61:2:109:2">org.gjt.sp.jedit.menu.ReloadWithEncodingProvider.update(JMenu)</jent>
+<jent id="4" pid="1" type="method" span="112:2:156:2">org.gjt.sp.jedit.menu.ReloadWithEncodingProvider.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ReloadWithEncodingProvider.java - Recent file list menu
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Marcelo Vanzin
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="42:1:42:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="44:1:49:4">/**
+ * Menu provider for actions to reload the current buffer with a
+ * specific encoding.
+ *
+ * @version $Id: ReloadWithEncodingProvider.java 16340 2009-10-14 09:59:54Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="50:14:50:40">ReloadWithEncodingProvider</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:52:50:66">ActionListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:68:50:87">DynamicMenuProvider</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:10:52:14">View</jtok>
+<jtok eid="1" type="field_name" span="52:15:52:19">view</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:32">//{{{ updateEveryTime() method</jtok>
+<jtok eid="2" type="method_name" span="55:17:55:32">updateEveryTime</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:23">//{{{ update() method</jtok>
+<jtok eid="3" type="method_name" span="61:14:61:20">update</jtok>
+<jtok eid="3" type="parameter_type" span="61:21:61:26">JMenu</jtok>
+<jtok eid="3" type="parameter_name" span="61:27:61:31">menu</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:3:63:7">view</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:10:63:22">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="63:23:63:30">getView</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:31:63:35">menu</jtok>
+<jtok eid="3" type="line_comment" span="65:3:65:17">// auto detect</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:3:66:12">JMenuItem</jtok>
+<jtok eid="3" type="local_variable_name" span="66:13:66:17">auto</jtok>
+<jtok eid="3" type="constructor_call" span="66:24:66:33">JMenuItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:4:67:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="67:10:67:21">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="67:22:67:65">"vfs.browser.commands.encoding.auto-detect"</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:3:68:7">auto</jtok>
+<jtok eid="3" type="method_call" span="68:8:68:24">setActionCommand</jtok>
+<jtok eid="3" type="string_literal" span="68:25:68:38">"auto-detect"</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:3:69:7">auto</jtok>
+<jtok eid="3" type="method_call" span="69:8:69:25">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:3:70:7">menu</jtok>
+<jtok eid="3" type="method_call" span="70:8:70:11">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:12:70:16">auto</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:3:71:7">menu</jtok>
+<jtok eid="3" type="method_call" span="71:8:71:20">addSeparator</jtok>
+<jtok eid="3" type="line_comment" span="72:3:72:53">// all the enabled encodings + the system encoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="73:3:73:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="73:12:73:21">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:24:73:37">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="73:38:73:50">getEncodings</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:3:74:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="74:10:74:24">systemEncoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:27:74:33">System</jtok>
+<jtok eid="3" type="method_call" span="74:34:74:45">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="74:46:74:61">"file.encoding"</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:7:76:13">Arrays</jtok>
+<jtok eid="3" type="method_call" span="76:14:76:26">binarySearch</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:27:76:36">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:38:76:52">systemEncoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="78:4:78:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="78:13:78:18">tmp_a</jtok>
+<jtok eid="3" type="constructor_call" span="78:25:78:31">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:32:78:41">encodings</jtok>
+<jtok eid="3" type="qualified_name_ref" span="78:42:78:48">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:4:79:10">System</jtok>
+<jtok eid="3" type="method_call" span="79:11:79:20">arraycopy</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:21:79:30">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:35:79:40">tmp_a</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:45:79:54">encodings</jtok>
+<jtok eid="3" type="qualified_name_ref" span="79:55:79:61">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:4:80:9">tmp_a</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:10:80:19">encodings</jtok>
+<jtok eid="3" type="qualified_name_ref" span="80:20:80:26">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:30:80:44">systemEncoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:4:81:13">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:16:81:21">tmp_a</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:3:84:9">Arrays</jtok>
+<jtok eid="3" type="method_call" span="84:10:84:14">sort</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:15:84:24">encodings</jtok>
+<jtok eid="3" type="local_variable_name" span="86:7:86:15">maxItems</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:18:86:23">jEdit</jtok>
+<jtok eid="3" type="method_call" span="86:24:86:42">getIntegerProperty</jtok>
+<jtok eid="3" type="string_literal" span="86:43:86:59">"menu.spillover"</jtok>
+<jtok eid="3" type="local_variable_name" span="87:12:87:13">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:19:87:20">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:23:87:32">encodings</jtok>
+<jtok eid="3" type="qualified_name_ref" span="87:33:87:39">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:41:87:42">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="89:4:89:13">JMenuItem</jtok>
+<jtok eid="3" type="local_variable_name" span="89:14:89:16">mi</jtok>
+<jtok eid="3" type="constructor_call" span="89:23:89:32">JMenuItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:33:89:42">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:43:89:44">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:4:90:6">mi</jtok>
+<jtok eid="3" type="method_call" span="90:7:90:23">setActionCommand</jtok>
+<jtok eid="3" type="string_literal" span="90:24:90:35">"encoding@"</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:38:90:47">encodings</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:48:90:49">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:4:91:6">mi</jtok>
+<jtok eid="3" type="method_call" span="91:7:91:24">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:9:92:13">menu</jtok>
+<jtok eid="3" type="method_call" span="92:14:92:35">getMenuComponentCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:41:92:49">maxItems</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:55:92:56">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:59:92:68">encodings</jtok>
+<jtok eid="3" type="qualified_name_ref" span="92:69:92:75">length</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="94:5:94:10">JMenu</jtok>
+<jtok eid="3" type="local_variable_name" span="94:11:94:18">newMenu</jtok>
+<jtok eid="3" type="constructor_call" span="94:25:94:30">JMenu</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:31:94:36">jEdit</jtok>
+<jtok eid="3" type="method_call" span="94:37:94:48">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="94:49:94:62">"common.more"</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:5:95:9">menu</jtok>
+<jtok eid="3" type="method_call" span="95:10:95:13">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:14:95:21">newMenu</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:5:96:9">menu</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:12:96:19">newMenu</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:4:98:8">menu</jtok>
+<jtok eid="3" type="method_call" span="98:9:98:12">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:13:98:15">mi</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:3:101:7">menu</jtok>
+<jtok eid="3" type="method_call" span="101:8:101:20">addSeparator</jtok>
+<jtok eid="3" type="line_comment" span="103:3:103:39">// option to prompt for the encoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="104:3:104:12">JMenuItem</jtok>
+<jtok eid="3" type="local_variable_name" span="104:13:104:18">other</jtok>
+<jtok eid="3" type="constructor_call" span="104:25:104:34">JMenuItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:4:105:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="105:10:105:21">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="105:22:105:56">"vfs.browser.other-encoding.label"</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:3:106:8">other</jtok>
+<jtok eid="3" type="method_call" span="106:9:106:25">setActionCommand</jtok>
+<jtok eid="3" type="string_literal" span="106:26:106:42">"other-encoding"</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:3:107:8">other</jtok>
+<jtok eid="3" type="method_call" span="107:9:107:26">addActionListener</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:3:108:7">menu</jtok>
+<jtok eid="3" type="method_call" span="108:8:108:11">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:12:108:17">other</jtok>
+<jtok eid="1" type="line_comment" span="109:4:109:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="111:2:111:32">//{{{ actionPerformed() method</jtok>
+<jtok eid="4" type="method_name" span="112:14:112:29">actionPerformed</jtok>
+<jtok eid="4" type="parameter_type" span="112:30:112:41">ActionEvent</jtok>
+<jtok eid="4" type="parameter_name" span="112:42:112:44">ae</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="114:3:114:12">JMenuItem</jtok>
+<jtok eid="4" type="local_variable_name" span="114:13:114:15">mi</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="114:19:114:28">JMenuItem</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:30:114:32">ae</jtok>
+<jtok eid="4" type="method_call" span="114:33:114:42">getSource</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="115:3:115:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="115:10:115:16">action</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:19:115:21">mi</jtok>
+<jtok eid="4" type="method_call" span="115:22:115:38">getActionCommand</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="116:3:116:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="116:10:116:18">encoding</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="117:3:117:12">Hashtable</jtok>
+<jtok eid="4" type="local_variable_name" span="117:13:117:18">props</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:7:119:13">action</jtok>
+<jtok eid="4" type="method_call" span="119:14:119:24">startsWith</jtok>
+<jtok eid="4" type="string_literal" span="119:25:119:36">"encoding@"</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:4:121:12">encoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:15:121:21">action</jtok>
+<jtok eid="4" type="method_call" span="121:22:121:31">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:12:123:18">action</jtok>
+<jtok eid="4" type="method_call" span="123:19:123:25">equals</jtok>
+<jtok eid="4" type="string_literal" span="123:26:123:42">"other-encoding"</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:4:125:12">encoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:15:125:26">JOptionPane</jtok>
+<jtok eid="4" type="method_call" span="125:27:125:42">showInputDialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:43:125:47">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:5:126:10">jEdit</jtok>
+<jtok eid="4" type="method_call" span="126:11:126:22">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="126:23:126:48">"encoding-prompt.message"</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:5:127:10">jEdit</jtok>
+<jtok eid="4" type="method_call" span="127:11:127:22">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="127:23:127:46">"encoding-prompt.title"</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:5:128:16">JOptionPane</jtok>
+<jtok eid="4" type="qualified_name_ref" span="128:17:128:33">QUESTION_MESSAGE</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:8:129:16">encoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:9:132:23">EncodingServer</jtok>
+<jtok eid="4" type="method_call" span="132:24:132:35">hasEncoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:36:132:44">encoding</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="134:5:134:11">String</jtok>
+<jtok eid="4" type="local_variable_name" span="134:12:134:15">msg</jtok>
+<jtok eid="4" type="primary_name_ref" span="134:18:134:23">jEdit</jtok>
+<jtok eid="4" type="method_call" span="134:24:134:35">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="134:36:134:59">"reload-encoding.error"</jtok>
+<jtok eid="4" type="constructor_call" span="135:11:135:17">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:22:135:30">encoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:5:136:16">JOptionPane</jtok>
+<jtok eid="4" type="method_call" span="136:17:136:34">showMessageDialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:35:136:39">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="137:6:137:9">msg</jtok>
+<jtok eid="4" type="primary_name_ref" span="138:6:138:11">jEdit</jtok>
+<jtok eid="4" type="method_call" span="138:12:138:23">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="138:24:138:38">"common.error"</jtok>
+<jtok eid="4" type="primary_name_ref" span="139:6:139:17">JOptionPane</jtok>
+<jtok eid="4" type="qualified_name_ref" span="139:18:139:31">ERROR_MESSAGE</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:7:144:15">encoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:4:146:9">props</jtok>
+<jtok eid="4" type="constructor_call" span="146:16:146:25">Hashtable</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:4:147:9">props</jtok>
+<jtok eid="4" type="method_call" span="147:10:147:13">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:14:147:20">Buffer</jtok>
+<jtok eid="4" type="qualified_name_ref" span="147:21:147:29">ENCODING</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:31:147:39">encoding</jtok>
+<jtok eid="4" type="line_comment" span="148:4:148:50">// Disable auto-detect because user explicitly</jtok>
+<jtok eid="4" type="line_comment" span="149:4:149:27">// specify an encoding.</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:4:150:9">props</jtok>
+<jtok eid="4" type="method_call" span="150:10:150:13">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="150:14:150:20">Buffer</jtok>
+<jtok eid="4" type="qualified_name_ref" span="150:21:150:40">ENCODING_AUTODETECT</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="153:3:153:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="153:10:153:14">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:17:153:21">view</jtok>
+<jtok eid="4" type="method_call" span="153:22:153:31">getBuffer</jtok>
+<jtok eid="4" type="method_call" span="153:34:153:41">getPath</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:3:154:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="154:9:154:20">closeBuffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:21:154:25">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:27:154:31">view</jtok>
+<jtok eid="4" type="method_call" span="154:32:154:41">getBuffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:3:155:8">jEdit</jtok>
+<jtok eid="4" type="method_call" span="155:9:155:17">openFile</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:18:155:22">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:28:155:32">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:39:155:44">props</jtok>
+<jtok eid="1" type="line_comment" span="156:4:156:9">//}}}</jtok>
+</jdoc>

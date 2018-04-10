@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.GroupTreeNode" jls="java5">
+<jent id="0" type="file" span="0:0:392:1">Source/jabref/src/java/net/sf/jabref/groups/GroupTreeNode.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:392:1">net.sf.jabref.groups.GroupTreeNode</jent>
+<jent id="2" pid="1" type="method" span="65:2:67:2">net.sf.jabref.groups.GroupTreeNode.GroupTreeNode(AbstractGroup)</jent>
+<jent id="3" pid="1" type="method" span="72:2:74:2">net.sf.jabref.groups.GroupTreeNode.getGroup()</jent>
+<jent id="4" pid="1" type="method" span="79:2:81:2">net.sf.jabref.groups.GroupTreeNode.setGroup(AbstractGroup)</jent>
+<jent id="5" pid="1" type="method" span="89:2:98:2">net.sf.jabref.groups.GroupTreeNode.getTreeAsString()</jent>
+<jent id="6" pid="1" type="method" span="106:2:111:2">net.sf.jabref.groups.GroupTreeNode.deepCopy()</jent>
+<jent id="7" pid="1" type="method" span="120:9:126:9">net.sf.jabref.groups.GroupTreeNode.refreshGroupsForNewDatabase(BibtexDatabase)</jent>
+<jent id="8" pid="1" type="method" span="134:2:140:2">net.sf.jabref.groups.GroupTreeNode.getIndexedPath()</jent>
+<jent id="9" pid="1" type="method" span="146:2:151:2">net.sf.jabref.groups.GroupTreeNode.getNode(int[])</jent>
+<jent id="10" pid="1" type="method" span="163:2:168:2">net.sf.jabref.groups.GroupTreeNode.getDescendant(int[])</jent>
+<jent id="11" pid="1" type="method" span="179:2:181:2">net.sf.jabref.groups.GroupTreeNode.getSearchRule()</jent>
+<jent id="12" pid="1" type="method" span="183:2:201:2">net.sf.jabref.groups.GroupTreeNode.getSearchRule(int)</jent>
+<jent id="13" pid="1" type="method" span="205:2:207:2">net.sf.jabref.groups.GroupTreeNode.preorderEnumeration()</jent>
+<jent id="14" pid="1" type="method" span="211:2:213:2">net.sf.jabref.groups.GroupTreeNode.depthFirstEnumeration()</jent>
+<jent id="15" pid="1" type="method" span="217:2:219:2">net.sf.jabref.groups.GroupTreeNode.breadthFirstEnumeration()</jent>
+<jent id="16" pid="1" type="method" span="223:2:225:2">net.sf.jabref.groups.GroupTreeNode.children()</jent>
+<jent id="17" pid="1" type="method" span="232:2:244:2">net.sf.jabref.groups.GroupTreeNode.getMatchingGroups(BibtexEntry)</jent>
+<jent id="18" pid="1" type="method" span="246:2:249:2">net.sf.jabref.groups.GroupTreeNode.canMoveUp()</jent>
+<jent id="19" pid="1" type="method" span="251:2:254:2">net.sf.jabref.groups.GroupTreeNode.canMoveDown()</jent>
+<jent id="20" pid="1" type="method" span="256:2:259:2">net.sf.jabref.groups.GroupTreeNode.canMoveLeft()</jent>
+<jent id="21" pid="1" type="method" span="261:2:264:2">net.sf.jabref.groups.GroupTreeNode.canMoveRight()</jent>
+<jent id="22" pid="1" type="method" span="266:2:276:2">net.sf.jabref.groups.GroupTreeNode.moveUp(GroupSelector)</jent>
+<jent id="23" pid="1" type="method" span="278:2:288:2">net.sf.jabref.groups.GroupTreeNode.moveDown(GroupSelector)</jent>
+<jent id="24" pid="1" type="method" span="290:2:303:2">net.sf.jabref.groups.GroupTreeNode.moveLeft(GroupSelector)</jent>
+<jent id="25" pid="1" type="method" span="305:2:315:2">net.sf.jabref.groups.GroupTreeNode.moveRight(GroupSelector)</jent>
+<jent id="26" pid="1" type="method" span="324:2:329:2">net.sf.jabref.groups.GroupTreeNode.getChildAt(int[])</jent>
+<jent id="27" pid="1" type="method" span="332:2:339:2">net.sf.jabref.groups.GroupTreeNode.addToGroup(BibtexEntry[])</jent>
+<jent id="28" pid="1" type="method" span="342:2:349:2">net.sf.jabref.groups.GroupTreeNode.removeFromGroup(BibtexEntry[])</jent>
+<jent id="29" pid="1" type="method" span="351:2:353:2">net.sf.jabref.groups.GroupTreeNode.getTransferDataFlavors()</jent>
+<jent id="30" pid="1" type="method" span="355:2:357:2">net.sf.jabref.groups.GroupTreeNode.isDataFlavorSupported(DataFlavor)</jent>
+<jent id="31" pid="1" type="method" span="359:2:364:2">net.sf.jabref.groups.GroupTreeNode.getTransferData(DataFlavor)</jent>
+<jent id="32" pid="1" type="method" span="369:2:386:2">net.sf.jabref.groups.GroupTreeNode.equals(Object)</jent>
+<jent id="33" pid="1" type="method" span="389:5:391:5">net.sf.jabref.groups.GroupTreeNode.hashCode()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ All programs in this directory and subdirectories are published under the 
+ GNU General Public License as described below.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by the Free 
+ Software Foundation; either version 2 of the License, or (at your option) 
+ any later version.
+
+ This program is distributed in the hope that it will be useful, but WITHOUT 
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ more details.
+
+ You should have received a copy of the GNU General Public License along 
+ with this program; if not, write to the Free Software Foundation, Inc., 59 
+ Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+ */</jtok>
+<jtok eid="0" type="block_comment" span="40:1:44:4">/**
+ * A node in the groups tree that holds exactly one AbstractGroup.
+ * 
+ * @author jzieren
+ */</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:27">GroupTreeNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:36:45:58">DefaultMutableTreeNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:3:46:15">Transferable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:22:47:32">DataFlavor</jtok>
+<jtok eid="1" type="field_name" span="47:33:47:39">flavor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:22:48:32">DataFlavor</jtok>
+<jtok eid="1" type="field_name" span="48:35:48:42">flavors</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="51:3:51:13">DataFlavor</jtok>
+<jtok eid="1" type="field_name" span="51:14:51:16">df</jtok>
+<jtok eid="1" type="primary_name_ref" span="53:4:53:6">df</jtok>
+<jtok eid="1" type="constructor_call" span="53:13:53:23">DataFlavor</jtok>
+<jtok eid="1" type="primary_name_ref" span="53:24:53:34">DataFlavor</jtok>
+<jtok eid="1" type="qualified_name_ref" span="53:35:53:61">javaJVMLocalObjectMimeType</jtok>
+<jtok eid="1" type="string_literal" span="54:8:54:51">";class=net.sf.jabref.groups.GroupTreeNode"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:12:55:34">ClassNotFoundException</jtok>
+<jtok eid="1" type="field_name" span="55:35:55:36">e</jtok>
+<jtok eid="1" type="line_comment" span="56:4:56:20">// never happens</jtok>
+<jtok eid="1" type="primary_name_ref" span="58:3:58:9">flavor</jtok>
+<jtok eid="1" type="primary_name_ref" span="58:12:58:14">df</jtok>
+<jtok eid="1" type="primary_name_ref" span="59:3:59:10">flavors</jtok>
+<jtok eid="1" type="constructor_call" span="59:17:59:27">DataFlavor</jtok>
+<jtok eid="1" type="primary_name_ref" span="59:32:59:38">flavor</jtok>
+<jtok eid="1" type="block_comment" span="62:2:64:5">/**
+	 * Creates this node and associates the specified group with it.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="65:9:65:22">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_type" span="65:23:65:36">AbstractGroup</jtok>
+<jtok eid="2" type="parameter_name" span="65:37:65:42">group</jtok>
+<jtok eid="2" type="method_call" span="66:3:66:11">setGroup</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:12:66:17">group</jtok>
+<jtok eid="1" type="block_comment" span="69:2:71:5">/**
+	 * @return The group associated with this node.
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="72:9:72:22">AbstractGroup</jtok>
+<jtok eid="3" type="method_name" span="72:23:72:31">getGroup</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="73:11:73:24">AbstractGroup</jtok>
+<jtok eid="3" type="method_call" span="73:26:73:39">getUserObject</jtok>
+<jtok eid="1" type="block_comment" span="76:2:78:5">/**
+	 * Associates the specified group with this node.
+	 */</jtok>
+<jtok eid="4" type="method_name" span="79:14:79:22">setGroup</jtok>
+<jtok eid="4" type="parameter_type" span="79:23:79:36">AbstractGroup</jtok>
+<jtok eid="4" type="parameter_name" span="79:37:79:42">group</jtok>
+<jtok eid="4" type="method_call" span="80:3:80:16">setUserObject</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:17:80:22">group</jtok>
+<jtok eid="1" type="block_comment" span="83:2:88:5">/**
+	 * Returns a textual representation of this node and its children. This
+	 * representation contains both the tree structure and the textual
+	 * representations of the group associated with each node. It thus allows a
+	 * complete reconstruction of this object and its children.
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="89:9:89:15">String</jtok>
+<jtok eid="5" type="method_name" span="89:16:89:31">getTreeAsString</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="90:3:90:15">StringBuffer</jtok>
+<jtok eid="5" type="local_variable_name" span="90:16:90:18">sb</jtok>
+<jtok eid="5" type="constructor_call" span="90:25:90:37">StringBuffer</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="91:3:91:14">Enumeration</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="91:15:91:28">GroupTreeNode</jtok>
+<jtok eid="5" type="local_variable_name" span="91:30:91:31">e</jtok>
+<jtok eid="5" type="method_call" span="91:34:91:53">preorderEnumeration</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="92:3:92:16">GroupTreeNode</jtok>
+<jtok eid="5" type="local_variable_name" span="92:17:92:23">cursor</jtok>
+<jtok eid="5" type="primary_name_ref" span="93:10:93:11">e</jtok>
+<jtok eid="5" type="method_call" span="93:12:93:27">hasMoreElements</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:4:94:10">cursor</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:13:94:14">e</jtok>
+<jtok eid="5" type="method_call" span="94:15:94:26">nextElement</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:13:95:15">sb</jtok>
+<jtok eid="5" type="method_call" span="95:16:95:22">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:23:95:29">cursor</jtok>
+<jtok eid="5" type="method_call" span="95:30:95:38">getLevel</jtok>
+<jtok eid="5" type="method_call" span="95:42:95:48">append</jtok>
+<jtok eid="5" type="string_literal" span="95:49:95:52">" "</jtok>
+<jtok eid="5" type="method_call" span="95:54:95:60">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:61:95:67">cursor</jtok>
+<jtok eid="5" type="method_call" span="95:68:95:76">getGroup</jtok>
+<jtok eid="5" type="method_call" span="95:79:95:87">toString</jtok>
+<jtok eid="5" type="method_call" span="95:91:95:97">append</jtok>
+<jtok eid="5" type="string_literal" span="95:98:95:102">"\n"</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:10:97:12">sb</jtok>
+<jtok eid="5" type="method_call" span="97:13:97:21">toString</jtok>
+<jtok eid="1" type="block_comment" span="100:2:105:5">/**
+	 * Creates a deep copy of this node and all of its children, including all
+	 * groups.
+	 * 
+	 * @return This object's deep copy.
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="106:9:106:22">GroupTreeNode</jtok>
+<jtok eid="6" type="method_name" span="106:23:106:31">deepCopy</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="107:3:107:16">GroupTreeNode</jtok>
+<jtok eid="6" type="local_variable_name" span="107:17:107:21">copy</jtok>
+<jtok eid="6" type="constructor_call" span="107:28:107:41">GroupTreeNode</jtok>
+<jtok eid="6" type="method_call" span="107:42:107:50">getGroup</jtok>
+<jtok eid="6" type="local_variable_name" span="108:12:108:13">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="108:19:108:20">i</jtok>
+<jtok eid="6" type="method_call" span="108:23:108:36">getChildCount</jtok>
+<jtok eid="6" type="primary_name_ref" span="108:42:108:43">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:4:109:8">copy</jtok>
+<jtok eid="6" type="method_call" span="109:9:109:12">add</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="109:15:109:28">GroupTreeNode</jtok>
+<jtok eid="6" type="method_call" span="109:30:109:40">getChildAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:41:109:42">i</jtok>
+<jtok eid="6" type="method_call" span="109:45:109:53">deepCopy</jtok>
+<jtok eid="6" type="primary_name_ref" span="110:10:110:14">copy</jtok>
+<jtok eid="1" type="block_comment" span="113:9:119:12">/**
+         * Update all groups, if necessary, to handle the situation where the group
+         * tree is applied to a different BibtexDatabase than it was created for. This
+         * is for instance used when updating the group tree due to an external change.
+         *
+         * @param db The database to refresh for.
+         */</jtok>
+<jtok eid="7" type="method_name" span="120:21:120:48">refreshGroupsForNewDatabase</jtok>
+<jtok eid="7" type="parameter_type" span="120:49:120:63">BibtexDatabase</jtok>
+<jtok eid="7" type="parameter_name" span="120:64:120:66">db</jtok>
+<jtok eid="7" type="local_variable_name" span="121:22:121:23">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:29:121:30">i</jtok>
+<jtok eid="7" type="method_call" span="121:33:121:46">getChildCount</jtok>
+<jtok eid="7" type="primary_name_ref" span="121:52:121:53">i</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="122:17:122:30">GroupTreeNode</jtok>
+<jtok eid="7" type="local_variable_name" span="122:31:122:35">node</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="122:39:122:52">GroupTreeNode</jtok>
+<jtok eid="7" type="method_call" span="122:53:122:63">getChildAt</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:64:122:65">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="123:17:123:21">node</jtok>
+<jtok eid="7" type="method_call" span="123:22:123:30">getGroup</jtok>
+<jtok eid="7" type="method_call" span="123:33:123:54">refreshForNewDatabase</jtok>
+<jtok eid="7" type="primary_name_ref" span="123:55:123:57">db</jtok>
+<jtok eid="7" type="primary_name_ref" span="124:17:124:21">node</jtok>
+<jtok eid="7" type="method_call" span="124:22:124:49">refreshGroupsForNewDatabase</jtok>
+<jtok eid="7" type="primary_name_ref" span="124:50:124:52">db</jtok>
+<jtok eid="1" type="block_comment" span="128:2:133:5">/**
+	 * @return An indexed path from the root node to this node. The elements in
+	 *         the returned array represent the child index of each node in the
+	 *         path. If this node is the root node, the returned array has zero
+	 *         elements.
+	 */</jtok>
+<jtok eid="8" type="method_name" span="134:15:134:29">getIndexedPath</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="135:3:135:11">TreeNode</jtok>
+<jtok eid="8" type="local_variable_name" span="135:14:135:18">path</jtok>
+<jtok eid="8" type="method_call" span="135:21:135:28">getPath</jtok>
+<jtok eid="8" type="local_variable_name" span="136:9:136:20">indexedPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="136:31:136:35">path</jtok>
+<jtok eid="8" type="qualified_name_ref" span="136:36:136:42">length</jtok>
+<jtok eid="8" type="local_variable_name" span="137:12:137:13">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="137:19:137:20">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="137:23:137:27">path</jtok>
+<jtok eid="8" type="qualified_name_ref" span="137:28:137:34">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="137:38:137:39">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:4:138:15">indexedPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:16:138:17">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:25:138:29">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:30:138:31">i</jtok>
+<jtok eid="8" type="method_call" span="138:37:138:45">getIndex</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:46:138:50">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="138:51:138:52">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="139:10:139:21">indexedPath</jtok>
+<jtok eid="1" type="block_comment" span="142:2:145:5">/**
+	 * Returns the node indicated by the specified indexedPath, which contains
+	 * child indices obtained e.g. by getIndexedPath().
+	 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="146:9:146:22">GroupTreeNode</jtok>
+<jtok eid="9" type="method_name" span="146:23:146:30">getNode</jtok>
+<jtok eid="9" type="parameter_name" span="146:37:146:48">indexedPath</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="147:3:147:16">GroupTreeNode</jtok>
+<jtok eid="9" type="local_variable_name" span="147:17:147:23">cursor</jtok>
+<jtok eid="9" type="local_variable_name" span="148:12:148:13">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:19:148:20">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:23:148:34">indexedPath</jtok>
+<jtok eid="9" type="qualified_name_ref" span="148:35:148:41">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:45:148:46">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="149:4:149:10">cursor</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="149:14:149:27">GroupTreeNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="149:29:149:35">cursor</jtok>
+<jtok eid="9" type="method_call" span="149:36:149:46">getChildAt</jtok>
+<jtok eid="9" type="primary_name_ref" span="149:47:149:58">indexedPath</jtok>
+<jtok eid="9" type="primary_name_ref" span="149:59:149:60">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="150:10:150:16">cursor</jtok>
+<jtok eid="1" type="block_comment" span="153:2:162:5">/**
+	 * @param indexedPath
+	 *            A sequence of child indices that describe a path from this
+	 *            node to one of its desendants. Be aware that if &lt;b&gt;indexedPath
+	 *            &lt;/b&gt; was obtained by getIndexedPath(), this node should
+	 *            usually be the root node.
+	 * @return The descendant found by evaluating &lt;b&gt;indexedPath &lt;/b&gt;. If the
+	 *         path could not be traversed completely (i.e. one of the child
+	 *         indices did not exist), null will be returned.
+	 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="163:9:163:22">GroupTreeNode</jtok>
+<jtok eid="10" type="method_name" span="163:23:163:36">getDescendant</jtok>
+<jtok eid="10" type="parameter_name" span="163:43:163:54">indexedPath</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="164:3:164:16">GroupTreeNode</jtok>
+<jtok eid="10" type="local_variable_name" span="164:17:164:23">cursor</jtok>
+<jtok eid="10" type="local_variable_name" span="165:12:165:13">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:19:165:20">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:23:165:34">indexedPath</jtok>
+<jtok eid="10" type="qualified_name_ref" span="165:35:165:41">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:45:165:51">cursor</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:63:165:64">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="166:4:166:10">cursor</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="166:14:166:27">GroupTreeNode</jtok>
+<jtok eid="10" type="primary_name_ref" span="166:29:166:35">cursor</jtok>
+<jtok eid="10" type="method_call" span="166:36:166:46">getChildAt</jtok>
+<jtok eid="10" type="primary_name_ref" span="166:47:166:58">indexedPath</jtok>
+<jtok eid="10" type="primary_name_ref" span="166:59:166:60">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="167:10:167:16">cursor</jtok>
+<jtok eid="1" type="block_comment" span="170:2:178:5">/**
+	 * A GroupTreeNode can create a SearchRule that finds elements contained in
+	 * its own group, or the union of those elements in its own group and its
+	 * children's groups (recursively), or the intersection of the elements in
+	 * its own group and its parent's group. This setting is configured in the
+	 * group contained in this node.
+	 * 
+	 * @return A SearchRule that finds the desired elements.
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="179:9:179:19">SearchRule</jtok>
+<jtok eid="11" type="method_name" span="179:20:179:33">getSearchRule</jtok>
+<jtok eid="11" type="method_call" span="180:10:180:23">getSearchRule</jtok>
+<jtok eid="11" type="method_call" span="180:24:180:32">getGroup</jtok>
+<jtok eid="11" type="method_call" span="180:35:180:57">getHierarchicalContext</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="183:12:183:22">SearchRule</jtok>
+<jtok eid="12" type="method_name" span="183:23:183:36">getSearchRule</jtok>
+<jtok eid="12" type="parameter_name" span="183:41:183:56">originalContext</jtok>
+<jtok eid="12" type="local_variable_name" span="184:13:184:20">context</jtok>
+<jtok eid="12" type="method_call" span="184:23:184:31">getGroup</jtok>
+<jtok eid="12" type="method_call" span="184:34:184:56">getHierarchicalContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="185:7:185:14">context</jtok>
+<jtok eid="12" type="primary_name_ref" span="185:18:185:31">AbstractGroup</jtok>
+<jtok eid="12" type="qualified_name_ref" span="185:32:185:43">INDEPENDENT</jtok>
+<jtok eid="12" type="method_call" span="186:11:186:19">getGroup</jtok>
+<jtok eid="12" type="method_call" span="186:22:186:35">getSearchRule</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="187:3:187:21">AndOrSearchRuleSet</jtok>
+<jtok eid="12" type="local_variable_name" span="187:22:187:32">searchRule</jtok>
+<jtok eid="12" type="constructor_call" span="187:39:187:57">AndOrSearchRuleSet</jtok>
+<jtok eid="12" type="primary_name_ref" span="188:5:188:12">context</jtok>
+<jtok eid="12" type="primary_name_ref" span="188:16:188:29">AbstractGroup</jtok>
+<jtok eid="12" type="qualified_name_ref" span="188:30:188:38">REFINING</jtok>
+<jtok eid="12" type="primary_name_ref" span="189:3:189:13">searchRule</jtok>
+<jtok eid="12" type="method_call" span="189:14:189:21">addRule</jtok>
+<jtok eid="12" type="method_call" span="189:22:189:30">getGroup</jtok>
+<jtok eid="12" type="method_call" span="189:33:189:46">getSearchRule</jtok>
+<jtok eid="12" type="primary_name_ref" span="190:7:190:14">context</jtok>
+<jtok eid="12" type="primary_name_ref" span="190:18:190:31">AbstractGroup</jtok>
+<jtok eid="12" type="qualified_name_ref" span="190:32:190:41">INCLUDING</jtok>
+<jtok eid="12" type="primary_name_ref" span="191:8:191:23">originalContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="191:27:191:40">AbstractGroup</jtok>
+<jtok eid="12" type="qualified_name_ref" span="191:41:191:49">REFINING</jtok>
+<jtok eid="12" type="local_variable_name" span="192:13:192:14">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="192:20:192:21">i</jtok>
+<jtok eid="12" type="method_call" span="192:24:192:37">getChildCount</jtok>
+<jtok eid="12" type="primary_name_ref" span="192:43:192:44">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="193:5:193:15">searchRule</jtok>
+<jtok eid="12" type="method_call" span="193:16:193:23">addRule</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="193:26:193:39">GroupTreeNode</jtok>
+<jtok eid="12" type="method_call" span="193:41:193:51">getChildAt</jtok>
+<jtok eid="12" type="primary_name_ref" span="193:52:193:53">i</jtok>
+<jtok eid="12" type="method_call" span="194:8:194:21">getSearchRule</jtok>
+<jtok eid="12" type="primary_name_ref" span="194:22:194:37">originalContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="195:14:195:21">context</jtok>
+<jtok eid="12" type="primary_name_ref" span="195:25:195:38">AbstractGroup</jtok>
+<jtok eid="12" type="qualified_name_ref" span="195:39:195:47">REFINING</jtok>
+<jtok eid="12" type="method_call" span="195:52:195:58">isRoot</jtok>
+<jtok eid="12" type="primary_name_ref" span="196:8:196:23">originalContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="196:27:196:40">AbstractGroup</jtok>
+<jtok eid="12" type="qualified_name_ref" span="196:41:196:50">INCLUDING</jtok>
+<jtok eid="12" type="primary_name_ref" span="197:4:197:14">searchRule</jtok>
+<jtok eid="12" type="method_call" span="197:15:197:22">addRule</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="197:25:197:38">GroupTreeNode</jtok>
+<jtok eid="12" type="method_call" span="197:40:197:49">getParent</jtok>
+<jtok eid="12" type="method_call" span="198:7:198:20">getSearchRule</jtok>
+<jtok eid="12" type="primary_name_ref" span="198:21:198:36">originalContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="200:10:200:20">searchRule</jtok>
+<jtok eid="1" type="annotation_ref" span="203:3:203:11">Override</jtok>
+<jtok eid="1" type="annotation_ref" span="204:3:204:19">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="204:20:204:31">"unchecked"</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="205:9:205:20">Enumeration</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="205:21:205:34">GroupTreeNode</jtok>
+<jtok eid="13" type="method_name" span="205:36:205:55">preorderEnumeration</jtok>
+<jtok eid="13" type="method_call" span="206:16:206:35">preorderEnumeration</jtok>
+<jtok eid="1" type="annotation_ref" span="209:3:209:11">Override</jtok>
+<jtok eid="1" type="annotation_ref" span="210:3:210:19">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="210:20:210:31">"unchecked"</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="211:9:211:20">Enumeration</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="211:21:211:34">GroupTreeNode</jtok>
+<jtok eid="14" type="method_name" span="211:36:211:57">depthFirstEnumeration</jtok>
+<jtok eid="14" type="method_call" span="212:16:212:37">depthFirstEnumeration</jtok>
+<jtok eid="1" type="annotation_ref" span="215:3:215:11">Override</jtok>
+<jtok eid="1" type="annotation_ref" span="216:3:216:19">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="216:20:216:31">"unchecked"</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="217:9:217:20">Enumeration</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="217:21:217:34">GroupTreeNode</jtok>
+<jtok eid="15" type="method_name" span="217:36:217:59">breadthFirstEnumeration</jtok>
+<jtok eid="15" type="method_call" span="218:16:218:39">breadthFirstEnumeration</jtok>
+<jtok eid="1" type="annotation_ref" span="221:3:221:11">Override</jtok>
+<jtok eid="1" type="annotation_ref" span="222:3:222:19">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="222:20:222:31">"unchecked"</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="223:9:223:20">Enumeration</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="223:21:223:34">GroupTreeNode</jtok>
+<jtok eid="16" type="method_name" span="223:36:223:44">children</jtok>
+<jtok eid="16" type="method_call" span="224:16:224:24">children</jtok>
+<jtok eid="1" type="block_comment" span="227:2:231:5">/**
+	 * Scans the subtree rooted at this node.
+	 * 
+	 * @return All groups that contain the specified entry.
+	 */</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="232:9:232:22">AbstractGroup</jtok>
+<jtok eid="17" type="method_name" span="232:25:232:42">getMatchingGroups</jtok>
+<jtok eid="17" type="parameter_type" span="232:43:232:54">BibtexEntry</jtok>
+<jtok eid="17" type="parameter_name" span="232:55:232:60">entry</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="233:3:233:9">Vector</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="233:10:233:23">AbstractGroup</jtok>
+<jtok eid="17" type="local_variable_name" span="233:25:233:39">matchingGroups</jtok>
+<jtok eid="17" type="constructor_call" span="233:46:233:52">Vector</jtok>
+<jtok eid="17" type="constructor_call" span="233:53:233:66">AbstractGroup</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="234:3:234:14">Enumeration</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="234:15:234:28">GroupTreeNode</jtok>
+<jtok eid="17" type="local_variable_name" span="234:30:234:31">e</jtok>
+<jtok eid="17" type="method_call" span="234:34:234:53">preorderEnumeration</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="235:3:235:16">AbstractGroup</jtok>
+<jtok eid="17" type="local_variable_name" span="235:17:235:22">group</jtok>
+<jtok eid="17" type="primary_name_ref" span="236:10:236:11">e</jtok>
+<jtok eid="17" type="method_call" span="236:12:236:27">hasMoreElements</jtok>
+<jtok eid="17" type="primary_name_ref" span="237:4:237:9">group</jtok>
+<jtok eid="17" type="primary_name_ref" span="237:13:237:14">e</jtok>
+<jtok eid="17" type="method_call" span="237:15:237:26">nextElement</jtok>
+<jtok eid="17" type="method_call" span="237:30:237:38">getGroup</jtok>
+<jtok eid="17" type="primary_name_ref" span="238:8:238:13">group</jtok>
+<jtok eid="17" type="method_call" span="238:14:238:22">contains</jtok>
+<jtok eid="17" type="primary_name_ref" span="238:29:238:34">entry</jtok>
+<jtok eid="17" type="line_comment" span="238:37:238:68">// first argument is never used</jtok>
+<jtok eid="17" type="primary_name_ref" span="239:5:239:19">matchingGroups</jtok>
+<jtok eid="17" type="method_call" span="239:20:239:23">add</jtok>
+<jtok eid="17" type="primary_name_ref" span="239:24:239:29">group</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="241:3:241:16">AbstractGroup</jtok>
+<jtok eid="17" type="local_variable_name" span="241:19:241:38">matchingGroupsArray</jtok>
+<jtok eid="17" type="constructor_call" span="241:45:241:58">AbstractGroup</jtok>
+<jtok eid="17" type="primary_name_ref" span="241:59:241:73">matchingGroups</jtok>
+<jtok eid="17" type="method_call" span="242:6:242:10">size</jtok>
+<jtok eid="17" type="primary_name_ref" span="243:10:243:24">matchingGroups</jtok>
+<jtok eid="17" type="method_call" span="243:25:243:32">toArray</jtok>
+<jtok eid="17" type="primary_name_ref" span="243:33:243:52">matchingGroupsArray</jtok>
+<jtok eid="18" type="method_name" span="246:17:246:26">canMoveUp</jtok>
+<jtok eid="18" type="method_call" span="247:10:247:28">getPreviousSibling</jtok>
+<jtok eid="18" type="method_call" span="248:10:248:18">getGroup</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="248:32:248:47">AllEntriesGroup</jtok>
+<jtok eid="19" type="method_name" span="251:17:251:28">canMoveDown</jtok>
+<jtok eid="19" type="method_call" span="252:10:252:24">getNextSibling</jtok>
+<jtok eid="19" type="method_call" span="253:10:253:18">getGroup</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="253:32:253:47">AllEntriesGroup</jtok>
+<jtok eid="20" type="method_name" span="256:17:256:28">canMoveLeft</jtok>
+<jtok eid="20" type="method_call" span="257:12:257:20">getGroup</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="257:34:257:49">AllEntriesGroup</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="258:12:258:25">GroupTreeNode</jtok>
+<jtok eid="20" type="method_call" span="258:27:258:36">getParent</jtok>
+<jtok eid="20" type="method_call" span="258:40:258:48">getGroup</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="258:62:258:77">AllEntriesGroup</jtok>
+<jtok eid="21" type="method_name" span="261:17:261:29">canMoveRight</jtok>
+<jtok eid="21" type="method_call" span="262:10:262:28">getPreviousSibling</jtok>
+<jtok eid="21" type="method_call" span="263:10:263:18">getGroup</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="263:32:263:47">AllEntriesGroup</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="266:9:266:29">AbstractUndoableEdit</jtok>
+<jtok eid="22" type="method_name" span="266:30:266:36">moveUp</jtok>
+<jtok eid="22" type="parameter_type" span="266:37:266:50">GroupSelector</jtok>
+<jtok eid="22" type="parameter_name" span="266:51:266:64">groupSelector</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="267:9:267:22">GroupTreeNode</jtok>
+<jtok eid="22" type="local_variable_name" span="267:23:267:31">myParent</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="267:35:267:48">GroupTreeNode</jtok>
+<jtok eid="22" type="method_call" span="267:50:267:59">getParent</jtok>
+<jtok eid="22" type="local_variable_name" span="268:13:268:18">index</jtok>
+<jtok eid="22" type="primary_name_ref" span="268:21:268:29">myParent</jtok>
+<jtok eid="22" type="method_call" span="268:30:268:38">getIndex</jtok>
+<jtok eid="22" type="primary_name_ref" span="269:7:269:12">index</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="270:4:270:21">UndoableMoveGroup</jtok>
+<jtok eid="22" type="local_variable_name" span="270:22:270:26">undo</jtok>
+<jtok eid="22" type="constructor_call" span="270:33:270:50">UndoableMoveGroup</jtok>
+<jtok eid="22" type="primary_name_ref" span="270:51:270:64">groupSelector</jtok>
+<jtok eid="22" type="primary_name_ref" span="271:6:271:19">groupSelector</jtok>
+<jtok eid="22" type="method_call" span="271:20:271:36">getGroupTreeRoot</jtok>
+<jtok eid="22" type="primary_name_ref" span="271:46:271:54">myParent</jtok>
+<jtok eid="22" type="primary_name_ref" span="271:56:271:61">index</jtok>
+<jtok eid="22" type="primary_name_ref" span="272:4:272:12">myParent</jtok>
+<jtok eid="22" type="method_call" span="272:13:272:19">insert</jtok>
+<jtok eid="22" type="primary_name_ref" span="272:26:272:31">index</jtok>
+<jtok eid="22" type="primary_name_ref" span="273:11:273:15">undo</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="278:9:278:29">AbstractUndoableEdit</jtok>
+<jtok eid="23" type="method_name" span="278:30:278:38">moveDown</jtok>
+<jtok eid="23" type="parameter_type" span="278:39:278:52">GroupSelector</jtok>
+<jtok eid="23" type="parameter_name" span="278:53:278:66">groupSelector</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="279:9:279:22">GroupTreeNode</jtok>
+<jtok eid="23" type="local_variable_name" span="279:23:279:31">myParent</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="279:35:279:48">GroupTreeNode</jtok>
+<jtok eid="23" type="method_call" span="279:50:279:59">getParent</jtok>
+<jtok eid="23" type="local_variable_name" span="280:13:280:18">index</jtok>
+<jtok eid="23" type="primary_name_ref" span="280:21:280:29">myParent</jtok>
+<jtok eid="23" type="method_call" span="280:30:280:38">getIndex</jtok>
+<jtok eid="23" type="primary_name_ref" span="281:7:281:12">index</jtok>
+<jtok eid="23" type="primary_name_ref" span="281:15:281:21">parent</jtok>
+<jtok eid="23" type="method_call" span="281:22:281:35">getChildCount</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="282:4:282:21">UndoableMoveGroup</jtok>
+<jtok eid="23" type="local_variable_name" span="282:22:282:26">undo</jtok>
+<jtok eid="23" type="constructor_call" span="282:33:282:50">UndoableMoveGroup</jtok>
+<jtok eid="23" type="primary_name_ref" span="282:51:282:64">groupSelector</jtok>
+<jtok eid="23" type="primary_name_ref" span="283:6:283:19">groupSelector</jtok>
+<jtok eid="23" type="method_call" span="283:20:283:36">getGroupTreeRoot</jtok>
+<jtok eid="23" type="primary_name_ref" span="283:46:283:54">myParent</jtok>
+<jtok eid="23" type="primary_name_ref" span="283:56:283:61">index</jtok>
+<jtok eid="23" type="primary_name_ref" span="284:4:284:12">myParent</jtok>
+<jtok eid="23" type="method_call" span="284:13:284:19">insert</jtok>
+<jtok eid="23" type="primary_name_ref" span="284:26:284:31">index</jtok>
+<jtok eid="23" type="primary_name_ref" span="285:11:285:15">undo</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="290:9:290:29">AbstractUndoableEdit</jtok>
+<jtok eid="24" type="method_name" span="290:30:290:38">moveLeft</jtok>
+<jtok eid="24" type="parameter_type" span="290:39:290:52">GroupSelector</jtok>
+<jtok eid="24" type="parameter_name" span="290:53:290:66">groupSelector</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="291:9:291:22">GroupTreeNode</jtok>
+<jtok eid="24" type="local_variable_name" span="291:23:291:31">myParent</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="291:35:291:48">GroupTreeNode</jtok>
+<jtok eid="24" type="method_call" span="291:50:291:59">getParent</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="292:9:292:22">GroupTreeNode</jtok>
+<jtok eid="24" type="local_variable_name" span="292:23:292:36">myGrandParent</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="292:40:292:53">GroupTreeNode</jtok>
+<jtok eid="24" type="primary_name_ref" span="292:55:292:63">myParent</jtok>
+<jtok eid="24" type="method_call" span="293:6:293:15">getParent</jtok>
+<jtok eid="24" type="line_comment" span="294:3:294:14">// paranoia</jtok>
+<jtok eid="24" type="primary_name_ref" span="295:7:295:20">myGrandParent</jtok>
+<jtok eid="24" type="local_variable_name" span="297:13:297:18">index</jtok>
+<jtok eid="24" type="primary_name_ref" span="297:21:297:34">myGrandParent</jtok>
+<jtok eid="24" type="method_call" span="297:35:297:43">getIndex</jtok>
+<jtok eid="24" type="primary_name_ref" span="297:44:297:52">myParent</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="298:3:298:20">UndoableMoveGroup</jtok>
+<jtok eid="24" type="local_variable_name" span="298:21:298:25">undo</jtok>
+<jtok eid="24" type="constructor_call" span="298:32:298:49">UndoableMoveGroup</jtok>
+<jtok eid="24" type="primary_name_ref" span="298:50:298:63">groupSelector</jtok>
+<jtok eid="24" type="primary_name_ref" span="299:5:299:18">groupSelector</jtok>
+<jtok eid="24" type="method_call" span="299:19:299:35">getGroupTreeRoot</jtok>
+<jtok eid="24" type="primary_name_ref" span="299:45:299:58">myGrandParent</jtok>
+<jtok eid="24" type="primary_name_ref" span="300:5:300:10">index</jtok>
+<jtok eid="24" type="primary_name_ref" span="301:3:301:16">myGrandParent</jtok>
+<jtok eid="24" type="method_call" span="301:17:301:23">insert</jtok>
+<jtok eid="24" type="primary_name_ref" span="301:30:301:35">index</jtok>
+<jtok eid="24" type="primary_name_ref" span="302:10:302:14">undo</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="305:9:305:29">AbstractUndoableEdit</jtok>
+<jtok eid="25" type="method_name" span="305:30:305:39">moveRight</jtok>
+<jtok eid="25" type="parameter_type" span="305:40:305:53">GroupSelector</jtok>
+<jtok eid="25" type="parameter_name" span="305:54:305:67">groupSelector</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="306:9:306:22">GroupTreeNode</jtok>
+<jtok eid="25" type="local_variable_name" span="306:23:306:40">myPreviousSibling</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="306:44:306:57">GroupTreeNode</jtok>
+<jtok eid="25" type="method_call" span="306:59:306:77">getPreviousSibling</jtok>
+<jtok eid="25" type="line_comment" span="307:3:307:14">// paranoia</jtok>
+<jtok eid="25" type="primary_name_ref" span="308:7:308:24">myPreviousSibling</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="310:3:310:20">UndoableMoveGroup</jtok>
+<jtok eid="25" type="local_variable_name" span="310:21:310:25">undo</jtok>
+<jtok eid="25" type="constructor_call" span="310:32:310:49">UndoableMoveGroup</jtok>
+<jtok eid="25" type="primary_name_ref" span="310:50:310:63">groupSelector</jtok>
+<jtok eid="25" type="primary_name_ref" span="311:5:311:18">groupSelector</jtok>
+<jtok eid="25" type="method_call" span="311:19:311:35">getGroupTreeRoot</jtok>
+<jtok eid="25" type="primary_name_ref" span="311:45:311:62">myPreviousSibling</jtok>
+<jtok eid="25" type="primary_name_ref" span="312:5:312:22">myPreviousSibling</jtok>
+<jtok eid="25" type="method_call" span="312:23:312:36">getChildCount</jtok>
+<jtok eid="25" type="primary_name_ref" span="313:3:313:20">myPreviousSibling</jtok>
+<jtok eid="25" type="method_call" span="313:21:313:24">add</jtok>
+<jtok eid="25" type="primary_name_ref" span="314:10:314:14">undo</jtok>
+<jtok eid="1" type="block_comment" span="317:2:323:5">/**
+	 * @param path
+	 *            A sequence of child indices that designate a node relative to
+	 *            this node.
+	 * @return The node designated by the specified path, or null if one or more
+	 *         indices in the path could not be resolved.
+	 */</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="324:9:324:22">GroupTreeNode</jtok>
+<jtok eid="26" type="method_name" span="324:23:324:33">getChildAt</jtok>
+<jtok eid="26" type="parameter_name" span="324:40:324:44">path</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="325:3:325:16">GroupTreeNode</jtok>
+<jtok eid="26" type="local_variable_name" span="325:17:325:23">cursor</jtok>
+<jtok eid="26" type="local_variable_name" span="326:12:326:13">i</jtok>
+<jtok eid="26" type="primary_name_ref" span="326:19:326:20">i</jtok>
+<jtok eid="26" type="primary_name_ref" span="326:23:326:27">path</jtok>
+<jtok eid="26" type="qualified_name_ref" span="326:28:326:34">length</jtok>
+<jtok eid="26" type="primary_name_ref" span="326:38:326:44">cursor</jtok>
+<jtok eid="26" type="primary_name_ref" span="326:56:326:57">i</jtok>
+<jtok eid="26" type="primary_name_ref" span="327:4:327:10">cursor</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="327:14:327:27">GroupTreeNode</jtok>
+<jtok eid="26" type="primary_name_ref" span="327:29:327:35">cursor</jtok>
+<jtok eid="26" type="method_call" span="327:36:327:46">getChildAt</jtok>
+<jtok eid="26" type="primary_name_ref" span="327:47:327:51">path</jtok>
+<jtok eid="26" type="primary_name_ref" span="327:52:327:53">i</jtok>
+<jtok eid="26" type="primary_name_ref" span="328:10:328:16">cursor</jtok>
+<jtok eid="1" type="block_comment" span="331:2:331:56">/** Adds the selected entries to this node's group. */</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="332:9:332:29">AbstractUndoableEdit</jtok>
+<jtok eid="27" type="method_name" span="332:30:332:40">addToGroup</jtok>
+<jtok eid="27" type="parameter_type" span="332:41:332:52">BibtexEntry</jtok>
+<jtok eid="27" type="parameter_name" span="332:55:332:62">entries</jtok>
+<jtok eid="27" type="method_call" span="333:7:333:15">getGroup</jtok>
+<jtok eid="27" type="line_comment" span="334:17:334:28">// paranoia</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="335:3:335:23">AbstractUndoableEdit</jtok>
+<jtok eid="27" type="local_variable_name" span="335:24:335:28">undo</jtok>
+<jtok eid="27" type="method_call" span="335:31:335:39">getGroup</jtok>
+<jtok eid="27" type="method_call" span="335:42:335:45">add</jtok>
+<jtok eid="27" type="primary_name_ref" span="335:46:335:53">entries</jtok>
+<jtok eid="27" type="primary_name_ref" span="336:7:336:11">undo</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="336:23:336:47">UndoableChangeAssignment</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="337:6:337:30">UndoableChangeAssignment</jtok>
+<jtok eid="27" type="primary_name_ref" span="337:32:337:36">undo</jtok>
+<jtok eid="27" type="method_call" span="337:38:337:51">setEditedNode</jtok>
+<jtok eid="27" type="primary_name_ref" span="338:10:338:14">undo</jtok>
+<jtok eid="1" type="block_comment" span="341:2:341:61">/** Removes the selected entries from this node's group. */</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="342:9:342:29">AbstractUndoableEdit</jtok>
+<jtok eid="28" type="method_name" span="342:30:342:45">removeFromGroup</jtok>
+<jtok eid="28" type="parameter_type" span="342:46:342:57">BibtexEntry</jtok>
+<jtok eid="28" type="parameter_name" span="342:60:342:67">entries</jtok>
+<jtok eid="28" type="method_call" span="343:7:343:15">getGroup</jtok>
+<jtok eid="28" type="line_comment" span="344:17:344:28">// paranoia</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="345:3:345:23">AbstractUndoableEdit</jtok>
+<jtok eid="28" type="local_variable_name" span="345:24:345:28">undo</jtok>
+<jtok eid="28" type="method_call" span="345:31:345:39">getGroup</jtok>
+<jtok eid="28" type="method_call" span="345:42:345:48">remove</jtok>
+<jtok eid="28" type="primary_name_ref" span="345:49:345:56">entries</jtok>
+<jtok eid="28" type="primary_name_ref" span="346:7:346:11">undo</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="346:23:346:47">UndoableChangeAssignment</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="347:6:347:30">UndoableChangeAssignment</jtok>
+<jtok eid="28" type="primary_name_ref" span="347:32:347:36">undo</jtok>
+<jtok eid="28" type="method_call" span="347:38:347:51">setEditedNode</jtok>
+<jtok eid="28" type="primary_name_ref" span="348:10:348:14">undo</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="351:9:351:19">DataFlavor</jtok>
+<jtok eid="29" type="method_name" span="351:22:351:44">getTransferDataFlavors</jtok>
+<jtok eid="29" type="primary_name_ref" span="352:10:352:17">flavors</jtok>
+<jtok eid="30" type="method_name" span="355:17:355:38">isDataFlavorSupported</jtok>
+<jtok eid="30" type="parameter_type" span="355:39:355:49">DataFlavor</jtok>
+<jtok eid="30" type="parameter_name" span="355:50:355:60">someFlavor</jtok>
+<jtok eid="30" type="primary_name_ref" span="356:10:356:20">someFlavor</jtok>
+<jtok eid="30" type="method_call" span="356:21:356:27">equals</jtok>
+<jtok eid="30" type="primary_name_ref" span="356:28:356:41">GroupTreeNode</jtok>
+<jtok eid="30" type="qualified_name_ref" span="356:42:356:48">flavor</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="359:9:359:15">Object</jtok>
+<jtok eid="31" type="method_name" span="359:16:359:31">getTransferData</jtok>
+<jtok eid="31" type="parameter_type" span="359:32:359:42">DataFlavor</jtok>
+<jtok eid="31" type="parameter_name" span="359:43:359:53">someFlavor</jtok>
+<jtok eid="31" type="throws" span="360:11:360:37">UnsupportedFlavorException</jtok>
+<jtok eid="31" type="throws" span="360:39:360:50">IOException</jtok>
+<jtok eid="31" type="method_call" span="361:8:361:29">isDataFlavorSupported</jtok>
+<jtok eid="31" type="primary_name_ref" span="361:30:361:40">someFlavor</jtok>
+<jtok eid="31" type="constructor_call" span="362:14:362:40">UnsupportedFlavorException</jtok>
+<jtok eid="31" type="primary_name_ref" span="362:41:362:51">someFlavor</jtok>
+<jtok eid="1" type="block_comment" span="366:2:368:5">/**
+	 * Recursively compares this node's group and all subgroups.
+	 */</jtok>
+<jtok eid="32" type="method_name" span="369:17:369:23">equals</jtok>
+<jtok eid="32" type="parameter_type" span="369:24:369:30">Object</jtok>
+<jtok eid="32" type="parameter_name" span="369:31:369:36">other</jtok>
+<jtok eid="32" type="primary_name_ref" span="370:9:370:14">other</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="370:26:370:39">GroupTreeNode</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="372:9:372:22">GroupTreeNode</jtok>
+<jtok eid="32" type="local_variable_name" span="372:23:372:32">otherNode</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="372:36:372:49">GroupTreeNode</jtok>
+<jtok eid="32" type="primary_name_ref" span="372:51:372:56">other</jtok>
+<jtok eid="32" type="method_call" span="373:7:373:20">getChildCount</jtok>
+<jtok eid="32" type="primary_name_ref" span="373:26:373:35">otherNode</jtok>
+<jtok eid="32" type="method_call" span="373:36:373:49">getChildCount</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="375:3:375:16">AbstractGroup</jtok>
+<jtok eid="32" type="local_variable_name" span="375:17:375:19">g1</jtok>
+<jtok eid="32" type="method_call" span="375:22:375:30">getGroup</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="376:3:376:16">AbstractGroup</jtok>
+<jtok eid="32" type="local_variable_name" span="376:17:376:19">g2</jtok>
+<jtok eid="32" type="primary_name_ref" span="376:22:376:31">otherNode</jtok>
+<jtok eid="32" type="method_call" span="376:32:376:40">getGroup</jtok>
+<jtok eid="32" type="primary_name_ref" span="377:8:377:10">g1</jtok>
+<jtok eid="32" type="primary_name_ref" span="377:22:377:24">g2</jtok>
+<jtok eid="32" type="primary_name_ref" span="377:38:377:40">g1</jtok>
+<jtok eid="32" type="primary_name_ref" span="377:52:377:54">g2</jtok>
+<jtok eid="32" type="primary_name_ref" span="379:7:379:9">g1</jtok>
+<jtok eid="32" type="primary_name_ref" span="379:21:379:23">g2</jtok>
+<jtok eid="32" type="primary_name_ref" span="379:36:379:38">g1</jtok>
+<jtok eid="32" type="method_call" span="379:39:379:45">equals</jtok>
+<jtok eid="32" type="primary_name_ref" span="379:46:379:48">g2</jtok>
+<jtok eid="32" type="local_variable_name" span="381:12:381:13">i</jtok>
+<jtok eid="32" type="primary_name_ref" span="381:19:381:20">i</jtok>
+<jtok eid="32" type="method_call" span="381:23:381:36">getChildCount</jtok>
+<jtok eid="32" type="primary_name_ref" span="381:42:381:43">i</jtok>
+<jtok eid="32" type="method_call" span="382:9:382:19">getChildAt</jtok>
+<jtok eid="32" type="primary_name_ref" span="382:20:382:21">i</jtok>
+<jtok eid="32" type="method_call" span="382:23:382:29">equals</jtok>
+<jtok eid="32" type="primary_name_ref" span="382:30:382:39">otherNode</jtok>
+<jtok eid="32" type="method_call" span="382:40:382:50">getChildAt</jtok>
+<jtok eid="32" type="primary_name_ref" span="382:51:382:52">i</jtok>
+<jtok eid="1" type="annotation_ref" span="388:6:388:14">Override</jtok>
+<jtok eid="33" type="method_name" span="389:16:389:24">hashCode</jtok>
+<jtok eid="33" type="method_call" span="390:16:390:24">getGroup</jtok>
+<jtok eid="33" type="method_call" span="390:27:390:34">getName</jtok>
+<jtok eid="33" type="method_call" span="390:37:390:45">hashCode</jtok>
+</jdoc>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.indent.CloseBracketIndentRule" jls="java5">
+<jent id="0" type="file" span="0:0:179:2">Source/jEdit/org/gjt/sp/jedit/indent/CloseBracketIndentRule.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:179:1">org.gjt.sp.jedit.indent.CloseBracketIndentRule</jent>
+<jent id="2" pid="1" type="method" span="37:2:42:2">org.gjt.sp.jedit.indent.CloseBracketIndentRule.CloseBracketIndentRule(char,boolean)</jent>
+<jent id="3" pid="1" type="method" span="45:2:98:2">org.gjt.sp.jedit.indent.CloseBracketIndentRule.apply(JEditBuffer,int,int,int,List&lt;IndentAction&gt;)</jent>
+<jent id="4" pid="1" type="method" span="107:2:110:2">org.gjt.sp.jedit.indent.CloseBracketIndentRule.isMatch(String)</jent>
+<jent id="5" pid="1" type="class" span="115:2:178:2">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket</jent>
+<jent id="6" pid="5" type="method" span="123:3:139:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.AlignBracket(JEditBuffer,int,int)</jent>
+<jent id="7" pid="5" type="method" span="141:3:144:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.getExtraIndent()</jent>
+<jent id="8" pid="5" type="method" span="146:3:149:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.setExtraIndent(int)</jent>
+<jent id="9" pid="5" type="method" span="151:3:154:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.getOpenBracketColumn()</jent>
+<jent id="10" pid="5" type="method" span="156:3:159:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.getOpenBracketLine()</jent>
+<jent id="11" pid="5" type="method" span="161:3:172:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.calculateIndent(JEditBuffer,int,int,int)</jent>
+<jent id="12" pid="5" type="method" span="174:3:177:3">org.gjt.sp.jedit.indent.CloseBracketIndentRule.AlignBracket.keepChecking()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * CloseBracketIndentRule.java
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="30:1:33:4">/**
+ * @author Slava Pestov
+ * @version $Id: CloseBracketIndentRule.java 12529 2008-05-01 04:47:58Z vanza $
+ */</jtok>
+<jtok eid="1" type="class_name" span="34:14:34:36">CloseBracketIndentRule</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:45:34:62">BracketIndentRule</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:42">//{{{ CloseBracketIndentRule constructor</jtok>
+<jtok eid="2" type="method_name" span="37:9:37:31">CloseBracketIndentRule</jtok>
+<jtok eid="2" type="parameter_name" span="37:37:37:49">closeBracket</jtok>
+<jtok eid="2" type="parameter_name" span="37:59:37:66">aligned</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:9:39:22">TextUtilities</jtok>
+<jtok eid="2" type="method_call" span="39:23:39:46">getComplementaryBracket</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:47:39:59">closeBracket</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:4:40:16">closeBracket</jtok>
+<jtok eid="2" type="qualified_name_ref" span="41:8:41:15">aligned</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:18:41:25">aligned</jtok>
+<jtok eid="1" type="line_comment" span="42:4:42:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="44:2:44:22">//{{{ apply() method</jtok>
+<jtok eid="3" type="method_name" span="45:14:45:19">apply</jtok>
+<jtok eid="3" type="parameter_type" span="45:20:45:31">JEditBuffer</jtok>
+<jtok eid="3" type="parameter_name" span="45:32:45:38">buffer</jtok>
+<jtok eid="3" type="parameter_name" span="45:44:45:57">thisLineIndex</jtok>
+<jtok eid="3" type="parameter_name" span="46:7:46:20">prevLineIndex</jtok>
+<jtok eid="3" type="parameter_name" span="46:26:46:43">prevPrevLineIndex</jtok>
+<jtok eid="3" type="parameter_type" span="47:3:47:7">List</jtok>
+<jtok eid="3" type="parameter_type" span="47:8:47:20">IndentAction</jtok>
+<jtok eid="3" type="parameter_name" span="47:22:47:35">indentActions</jtok>
+<jtok eid="3" type="local_variable_name" span="49:7:49:12">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:6:50:13">aligned</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:4:51:9">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:12:51:25">thisLineIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:4:53:9">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:12:53:25">prevLineIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:6:55:11">index</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="58:3:58:15">CharSequence</jtok>
+<jtok eid="3" type="local_variable_name" span="58:16:58:24">lineText</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:27:58:33">buffer</jtok>
+<jtok eid="3" type="method_call" span="58:34:58:48">getLineSegment</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:49:58:54">index</jtok>
+<jtok eid="3" type="local_variable_name" span="59:7:59:13">offset</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:8:60:14">offset</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:17:60:25">lineText</jtok>
+<jtok eid="3" type="method_call" span="60:26:60:32">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:40:60:46">offset</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:53:60:59">offset</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:8:62:16">lineText</jtok>
+<jtok eid="3" type="method_call" span="62:17:62:23">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:24:62:30">offset</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:35:62:47">closeBracket</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:6:65:12">offset</jtok>
+<jtok eid="3" type="local_variable_name" span="68:7:68:17">closeCount</jtok>
+<jtok eid="3" type="method_call" span="68:20:68:31">getBrackets</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:32:68:38">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:40:68:45">index</jtok>
+<jtok eid="3" type="qualified_name_ref" span="68:47:68:57">closeCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:6:69:16">closeCount</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:4:71:16">AlignBracket</jtok>
+<jtok eid="3" type="local_variable_name" span="71:17:71:29">alignBracket</jtok>
+<jtok eid="3" type="constructor_call" span="72:11:72:23">AlignBracket</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:24:72:30">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:31:72:36">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:37:72:43">offset</jtok>
+<jtok eid="3" type="block_comment" span="73:4:86:6">/*
+			Consider the following Common Lisp code (with one more opening
+			bracket than closing):
+
+			(defun emit-push-long (arg)
+			  (cond ((eql arg 0)
+			      (emit 'lconst_0))
+			    ((eql arg 1)
+			      (emit 'lconst_1)))
+
+			even though we have a closing bracket match on line 3,
+			the next line must be indented relative to the
+			corresponding opening bracket from line 1.
+			*/</jtok>
+<jtok eid="3" type="local_variable_name" span="87:8:87:16">openLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:19:87:31">alignBracket</jtok>
+<jtok eid="3" type="method_call" span="87:32:87:50">getOpenBracketLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:7:88:15">openLine</jtok>
+<jtok eid="3" type="local_variable_name" span="90:9:90:15">column</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:18:90:30">alignBracket</jtok>
+<jtok eid="3" type="method_call" span="90:31:90:51">getOpenBracketColumn</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:5:91:17">alignBracket</jtok>
+<jtok eid="3" type="method_call" span="91:18:91:32">setExtraIndent</jtok>
+<jtok eid="3" type="method_call" span="92:6:92:17">getBrackets</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:18:92:24">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:26:92:34">openLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:10:93:16">column</jtok>
+<jtok eid="3" type="qualified_name_ref" span="93:18:93:27">openCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:4:96:17">indentActions</jtok>
+<jtok eid="3" type="method_call" span="96:18:96:21">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:22:96:34">alignBracket</jtok>
+<jtok eid="1" type="line_comment" span="98:4:98:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="100:2:100:24">//{{{ isMatch() method</jtok>
+<jtok eid="1" type="block_comment" span="101:2:105:5">/**
+	 * @deprecated
+	 *   This method calls BracketIndentRule#getBrackets(String)
+	 *   which has been deprecated.
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="106:3:106:13">Deprecated</jtok>
+<jtok eid="4" type="method_name" span="107:17:107:24">isMatch</jtok>
+<jtok eid="4" type="parameter_type" span="107:25:107:31">String</jtok>
+<jtok eid="4" type="parameter_name" span="107:32:107:36">line</jtok>
+<jtok eid="4" type="method_call" span="109:10:109:21">getBrackets</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:22:109:26">line</jtok>
+<jtok eid="4" type="qualified_name_ref" span="109:28:109:38">closeCount</jtok>
+<jtok eid="1" type="line_comment" span="110:4:110:9">//}}}</jtok>
+<jtok eid="1" type="field_name" span="112:18:112:25">aligned</jtok>
+<jtok eid="1" type="line_comment" span="114:2:114:26">//{{{ AlignBracket class</jtok>
+<jtok eid="5" type="class_name" span="115:23:115:35">AlignBracket</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="115:47:115:59">IndentAction</jtok>
+<jtok eid="5" type="field_name" span="117:15:117:19">line</jtok>
+<jtok eid="5" type="field_name" span="117:21:117:27">offset</jtok>
+<jtok eid="5" type="field_name" span="118:15:118:30">openBracketLine</jtok>
+<jtok eid="5" type="field_name" span="119:15:119:32">openBracketColumn</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="120:11:120:23">CharSequence</jtok>
+<jtok eid="5" type="field_name" span="120:24:120:43">openBracketLineText</jtok>
+<jtok eid="5" type="field_name" span="121:15:121:26">extraIndent</jtok>
+<jtok eid="6" type="method_name" span="123:10:123:22">AlignBracket</jtok>
+<jtok eid="6" type="parameter_type" span="123:23:123:34">JEditBuffer</jtok>
+<jtok eid="6" type="parameter_name" span="123:35:123:41">buffer</jtok>
+<jtok eid="6" type="parameter_name" span="123:47:123:51">line</jtok>
+<jtok eid="6" type="parameter_name" span="123:57:123:63">offset</jtok>
+<jtok eid="6" type="qualified_name_ref" span="125:9:125:13">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:16:125:20">line</jtok>
+<jtok eid="6" type="qualified_name_ref" span="126:9:126:15">offset</jtok>
+<jtok eid="6" type="primary_name_ref" span="126:18:126:24">offset</jtok>
+<jtok eid="6" type="local_variable_name" span="128:8:128:24">openBracketIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:27:128:40">TextUtilities</jtok>
+<jtok eid="6" type="method_call" span="128:41:128:60">findMatchingBracket</jtok>
+<jtok eid="6" type="primary_name_ref" span="129:5:129:11">buffer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="129:17:129:21">line</jtok>
+<jtok eid="6" type="qualified_name_ref" span="129:27:129:33">offset</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:7:130:23">openBracketIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="131:5:131:20">openBracketLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:5:134:20">openBracketLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:23:134:29">buffer</jtok>
+<jtok eid="6" type="method_call" span="134:30:134:45">getLineOfOffset</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:46:134:62">openBracketIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:5:135:22">openBracketColumn</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:25:135:41">openBracketIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="136:6:136:12">buffer</jtok>
+<jtok eid="6" type="method_call" span="136:13:136:31">getLineStartOffset</jtok>
+<jtok eid="6" type="primary_name_ref" span="136:32:136:47">openBracketLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:5:137:24">openBracketLineText</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:27:137:33">buffer</jtok>
+<jtok eid="6" type="method_call" span="137:34:137:48">getLineSegment</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:49:137:64">openBracketLine</jtok>
+<jtok eid="7" type="method_name" span="141:14:141:28">getExtraIndent</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:11:143:22">extraIndent</jtok>
+<jtok eid="8" type="method_name" span="146:15:146:29">setExtraIndent</jtok>
+<jtok eid="8" type="parameter_name" span="146:34:146:45">extraIndent</jtok>
+<jtok eid="8" type="qualified_name_ref" span="148:9:148:20">extraIndent</jtok>
+<jtok eid="8" type="primary_name_ref" span="148:23:148:34">extraIndent</jtok>
+<jtok eid="9" type="method_name" span="151:14:151:34">getOpenBracketColumn</jtok>
+<jtok eid="9" type="primary_name_ref" span="153:11:153:28">openBracketColumn</jtok>
+<jtok eid="10" type="method_name" span="156:14:156:32">getOpenBracketLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="158:11:158:26">openBracketLine</jtok>
+<jtok eid="11" type="method_name" span="161:14:161:29">calculateIndent</jtok>
+<jtok eid="11" type="parameter_type" span="161:30:161:41">JEditBuffer</jtok>
+<jtok eid="11" type="parameter_name" span="161:42:161:48">buffer</jtok>
+<jtok eid="11" type="parameter_name" span="161:54:161:58">line</jtok>
+<jtok eid="11" type="parameter_name" span="161:64:161:73">oldIndent</jtok>
+<jtok eid="11" type="parameter_name" span="162:8:162:17">newIndent</jtok>
+<jtok eid="11" type="primary_name_ref" span="164:7:164:26">openBracketLineText</jtok>
+<jtok eid="11" type="primary_name_ref" span="165:12:165:21">newIndent</jtok>
+<jtok eid="11" type="primary_name_ref" span="168:12:168:29">StandardUtilities</jtok>
+<jtok eid="11" type="method_call" span="168:30:168:55">getLeadingWhiteSpaceWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="169:6:169:25">openBracketLineText</jtok>
+<jtok eid="11" type="primary_name_ref" span="169:26:169:32">buffer</jtok>
+<jtok eid="11" type="method_call" span="169:33:169:43">getTabSize</jtok>
+<jtok eid="11" type="primary_name_ref" span="170:9:170:20">extraIndent</jtok>
+<jtok eid="11" type="primary_name_ref" span="170:23:170:29">buffer</jtok>
+<jtok eid="11" type="method_call" span="170:30:170:43">getIndentSize</jtok>
+<jtok eid="12" type="method_name" span="174:18:174:30">keepChecking</jtok>
+<jtok eid="1" type="line_comment" span="178:4:178:9">//}}}</jtok>
+</jdoc>

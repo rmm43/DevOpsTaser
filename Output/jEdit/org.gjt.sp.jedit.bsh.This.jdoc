@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.This" jls="java5">
+<jent id="0" type="file" span="0:0:336:1">Source/jEdit/org/gjt/sp/jedit/bsh/This.java</jent>
+<jent id="1" pid="0" type="class" span="45:1:335:1">org.gjt.sp.jedit.bsh.This</jent>
+<jent id="2" pid="1" type="method" span="77:5:95:5">org.gjt.sp.jedit.bsh.This.getThis(NameSpace,Interpreter)</jent>
+<jent id="3" pid="1" type="method" span="105:5:113:5">org.gjt.sp.jedit.bsh.This.getInterface(Class)</jent>
+<jent id="4" pid="1" type="method" span="119:5:129:5">org.gjt.sp.jedit.bsh.This.getInterface(Class[])</jent>
+<jent id="5" pid="1" type="method" span="136:5:140:5">org.gjt.sp.jedit.bsh.This.This(NameSpace,Interpreter)</jent>
+<jent id="6" pid="1" type="method" span="142:5:144:5">org.gjt.sp.jedit.bsh.This.getNameSpace()</jent>
+<jent id="7" pid="1" type="method" span="146:5:148:5">org.gjt.sp.jedit.bsh.This.toString()</jent>
+<jent id="8" pid="1" type="method" span="150:5:157:5">org.gjt.sp.jedit.bsh.This.run()</jent>
+<jent id="9" pid="1" type="method" span="168:5:175:5">org.gjt.sp.jedit.bsh.This.invokeMethod(String,Object[])</jent>
+<jent id="10" pid="1" type="method" span="213:5:293:5">org.gjt.sp.jedit.bsh.This.invokeMethod(String,Object[],Interpreter,CallStack,SimpleNode,boolean)</jent>
+<jent id="11" pid="1" type="method" span="306:5:311:5">org.gjt.sp.jedit.bsh.This.bind(This,NameSpace,Interpreter)</jent>
+<jent id="12" pid="1" type="method" span="323:5:333:5">org.gjt.sp.jedit.bsh.This.isExposedThisMethod(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    *
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="37:1:44:3">/**
+    'This' is the type of bsh scripted objects.
+    A 'This' object is a bsh scripted object context.  It holds a namespace
+    reference and implements event listeners and various other interfaces.
+
+    This holds a reference to the declaring interpreter for callbacks from
+    outside of bsh.
+*/</jtok>
+<jtok eid="1" type="class_name" span="45:14:45:18">This</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:30:45:34">java</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:35:45:37">io</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:38:45:50">Serializable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:52:45:60">Runnable</jtok>
+<jtok eid="1" type="block_comment" span="47:5:49:7">/**
+        The namespace that this This reference wraps.
+    */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:5:50:14">NameSpace</jtok>
+<jtok eid="1" type="field_name" span="50:15:50:24">namespace</jtok>
+<jtok eid="1" type="block_comment" span="52:5:57:7">/**
+        This is the interpreter running when the This ref was created.
+        It's used as a default interpreter for callback through the This
+        where there is no current interpreter instance
+        e.g. interface proxy or event call backs from outside of bsh.
+    */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:15:58:26">Interpreter</jtok>
+<jtok eid="1" type="field_name" span="58:27:58:47">declaringInterpreter</jtok>
+<jtok eid="1" type="block_comment" span="60:5:76:7">/**
+        getThis() is a factory for bsh.This type references.  The capabilities
+        of ".this" references in bsh are version dependent up until jdk1.3.
+        The version dependence was to support different default interface
+        implementations.  i.e. different sets of listener interfaces which
+        scripted objects were capable of implementing.  In jdk1.3 the
+        reflection proxy mechanism was introduced which allowed us to
+        implement arbitrary interfaces.  This is fantastic.
+
+        A This object is a thin layer over a namespace, comprising a bsh object
+        context.  We create it here only if needed for the namespace.
+
+        Note: this method could be considered slow because of the way it
+        dynamically factories objects.  However I've also done tests where
+        I hard-code the factory to return JThis and see no change in the
+        rough test suite time.  This references are also cached in NameSpace.
+    */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="77:12:77:16">This</jtok>
+<jtok eid="2" type="method_name" span="77:17:77:24">getThis</jtok>
+<jtok eid="2" type="parameter_type" span="78:9:78:18">NameSpace</jtok>
+<jtok eid="2" type="parameter_name" span="78:19:78:28">namespace</jtok>
+<jtok eid="2" type="parameter_type" span="78:30:78:41">Interpreter</jtok>
+<jtok eid="2" type="parameter_name" span="78:42:78:62">declaringInterpreter</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="81:13:81:18">Class</jtok>
+<jtok eid="2" type="local_variable_name" span="81:19:81:20">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:18:82:30">Capabilities</jtok>
+<jtok eid="2" type="method_call" span="82:31:82:52">canGenerateInterfaces</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:17:83:18">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:21:83:26">Class</jtok>
+<jtok eid="2" type="method_call" span="83:27:83:34">forName</jtok>
+<jtok eid="2" type="string_literal" span="83:36:83:64">"org.gjt.sp.jedit.bsh.XThis"</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:23:84:35">Capabilities</jtok>
+<jtok eid="2" type="method_call" span="84:36:84:45">haveSwing</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:17:85:18">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:21:85:26">Class</jtok>
+<jtok eid="2" type="method_call" span="85:27:85:34">forName</jtok>
+<jtok eid="2" type="string_literal" span="85:36:85:64">"org.gjt.sp.jedit.bsh.JThis"</jtok>
+<jtok eid="2" type="constructor_call" span="87:28:87:32">This</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:34:87:43">namespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:45:87:65">declaringInterpreter</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="89:21:89:25">This</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:26:89:33">Reflect</jtok>
+<jtok eid="2" type="method_call" span="89:34:89:49">constructObject</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:51:89:52">c</jtok>
+<jtok eid="2" type="constructor_call" span="90:21:90:27">Object</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:33:90:42">namespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:44:90:64">declaringInterpreter</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="92:19:92:28">Exception</jtok>
+<jtok eid="2" type="local_variable_name" span="92:29:92:30">e</jtok>
+<jtok eid="2" type="constructor_call" span="93:23:93:39">InterpreterError</jtok>
+<jtok eid="2" type="string_literal" span="93:40:93:68">"internal error 1 in This: "</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:69:93:70">e</jtok>
+<jtok eid="1" type="block_comment" span="97:5:100:7">/**
+        Get a version of this scripted object implementing the specified
+        interface.
+    */</jtok>
+<jtok eid="1" type="block_comment" span="101:5:104:7">/*
+        If this type of This implements it directly return this,
+        else try complain that we don't have the proxy mechanism.
+    */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="105:12:105:18">Object</jtok>
+<jtok eid="3" type="method_name" span="105:19:105:31">getInterface</jtok>
+<jtok eid="3" type="parameter_type" span="105:33:105:38">Class</jtok>
+<jtok eid="3" type="parameter_name" span="105:39:105:43">clas</jtok>
+<jtok eid="3" type="throws" span="106:16:106:29">UtilEvalError</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:14:108:18">clas</jtok>
+<jtok eid="3" type="method_call" span="108:19:108:29">isInstance</jtok>
+<jtok eid="3" type="constructor_call" span="111:23:111:36">UtilEvalError</jtok>
+<jtok eid="3" type="string_literal" span="111:38:111:79">"Dynamic proxy mechanism not available. "</jtok>
+<jtok eid="3" type="string_literal" span="112:15:112:50">"Cannot construct interface type: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:51:112:55">clas</jtok>
+<jtok eid="1" type="block_comment" span="115:5:118:7">/**
+        Get a version of this scripted object implementing the specified
+        interfaces.
+    */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="119:12:119:18">Object</jtok>
+<jtok eid="4" type="method_name" span="119:19:119:31">getInterface</jtok>
+<jtok eid="4" type="parameter_type" span="119:33:119:38">Class</jtok>
+<jtok eid="4" type="parameter_name" span="119:42:119:44">ca</jtok>
+<jtok eid="4" type="throws" span="120:16:120:29">UtilEvalError</jtok>
+<jtok eid="4" type="local_variable_name" span="122:17:122:18">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:22:122:23">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:24:122:26">ca</jtok>
+<jtok eid="4" type="qualified_name_ref" span="122:27:122:33">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:35:122:36">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:20:123:22">ca</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:23:123:24">i</jtok>
+<jtok eid="4" type="method_call" span="123:26:123:36">isInstance</jtok>
+<jtok eid="4" type="constructor_call" span="124:27:124:40">UtilEvalError</jtok>
+<jtok eid="4" type="string_literal" span="125:21:125:62">"Dynamic proxy mechanism not available. "</jtok>
+<jtok eid="4" type="string_literal" span="126:23:126:58">"Cannot construct interface type: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:59:126:61">ca</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:62:126:63">i</jtok>
+<jtok eid="1" type="block_comment" span="131:5:135:7">/*
+        I wish protected access were limited to children and not also
+        package scope... I want this to be a singleton implemented by various
+        children.
+    */</jtok>
+<jtok eid="5" type="method_name" span="136:15:136:19">This</jtok>
+<jtok eid="5" type="parameter_type" span="136:21:136:30">NameSpace</jtok>
+<jtok eid="5" type="parameter_name" span="136:31:136:40">namespace</jtok>
+<jtok eid="5" type="parameter_type" span="136:42:136:53">Interpreter</jtok>
+<jtok eid="5" type="parameter_name" span="136:54:136:74">declaringInterpreter</jtok>
+<jtok eid="5" type="qualified_name_ref" span="137:14:137:23">namespace</jtok>
+<jtok eid="5" type="primary_name_ref" span="137:26:137:35">namespace</jtok>
+<jtok eid="5" type="qualified_name_ref" span="138:14:138:34">declaringInterpreter</jtok>
+<jtok eid="5" type="primary_name_ref" span="138:37:138:57">declaringInterpreter</jtok>
+<jtok eid="5" type="line_comment" span="139:9:139:38">//initCallStack( namespace );</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="142:12:142:21">NameSpace</jtok>
+<jtok eid="6" type="method_name" span="142:22:142:34">getNameSpace</jtok>
+<jtok eid="6" type="primary_name_ref" span="143:16:143:25">namespace</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="146:12:146:18">String</jtok>
+<jtok eid="7" type="method_name" span="146:19:146:27">toString</jtok>
+<jtok eid="7" type="string_literal" span="147:16:147:50">"'this' reference to Bsh object: "</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:53:147:62">namespace</jtok>
+<jtok eid="8" type="method_name" span="150:17:150:20">run</jtok>
+<jtok eid="8" type="method_call" span="152:13:152:25">invokeMethod</jtok>
+<jtok eid="8" type="string_literal" span="152:27:152:32">"run"</jtok>
+<jtok eid="8" type="constructor_call" span="152:38:152:44">Object</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="153:18:153:27">EvalError</jtok>
+<jtok eid="8" type="local_variable_name" span="153:28:153:29">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="154:13:154:33">declaringInterpreter</jtok>
+<jtok eid="8" type="method_call" span="154:34:154:39">error</jtok>
+<jtok eid="8" type="string_literal" span="155:17:155:41">"Exception in runnable:"</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:44:155:45">e</jtok>
+<jtok eid="1" type="block_comment" span="159:5:167:7">/**
+        Invoke specified method as from outside java code, using the
+        declaring interpreter and current namespace.
+        The call stack will indicate that the method is being invoked from
+        outside of bsh in native java code.
+        Note: you must still wrap/unwrap args/return values using
+        Primitive/Primitive.unwrap() for use outside of BeanShell.
+        @see org.gjt.sp.jedit.bsh.Primitive
+    */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="168:12:168:18">Object</jtok>
+<jtok eid="9" type="method_name" span="168:19:168:31">invokeMethod</jtok>
+<jtok eid="9" type="parameter_type" span="168:33:168:39">String</jtok>
+<jtok eid="9" type="parameter_name" span="168:40:168:44">name</jtok>
+<jtok eid="9" type="parameter_type" span="168:46:168:52">Object</jtok>
+<jtok eid="9" type="parameter_name" span="168:56:168:60">args</jtok>
+<jtok eid="9" type="throws" span="169:16:169:25">EvalError</jtok>
+<jtok eid="9" type="line_comment" span="171:9:171:54">// null callstack, one will be created for us</jtok>
+<jtok eid="9" type="method_call" span="172:16:172:28">invokeMethod</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:13:173:17">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:19:173:23">args</jtok>
+<jtok eid="9" type="block_comment" span="173:29:173:53">/*declaringInterpreter*/</jtok>
+<jtok eid="9" type="block_comment" span="174:18:174:34">/*declaredOnly*/</jtok>
+<jtok eid="1" type="block_comment" span="177:5:205:7">/**
+        Invoke a method in this namespace with the specified args,
+        interpreter reference, callstack, and caller info.
+        &lt;p&gt;
+
+        Note: If you use this method outside of the bsh package and wish to
+        use variables with primitive values you will have to wrap them using
+        bsh.Primitive.  Consider using This getInterface() to make a true Java
+        interface for invoking your scripted methods.
+        &lt;p&gt;
+
+        This method also implements the default object protocol of toString(),
+        hashCode() and equals() and the invoke() meta-method handling as a
+        last resort.
+        &lt;p&gt;
+
+        Note: The invoke() meta-method will not catch the Object protocol
+        methods (toString(), hashCode()...).  If you want to override them you
+        have to script them directly.
+        &lt;p&gt;
+
+        @see org.gjt.sp.jedit.bsh.This#invokeMethod(String methodName, Object [] args, Interpreter interpreter, CallStack callstack, SimpleNode callerInfo, boolean declaredOnly ) invokeMethod
+        @param callstack if callStack is null a new CallStack will be created and
+            initialized with this namespace.
+        @param declaredOnly if true then only methods declared directly in the
+            namespace will be visible - no inherited or imported methods will
+            be visible.
+        @see org.gjt.sp.jedit.bsh.Primitive Primitive
+    */</jtok>
+<jtok eid="1" type="block_comment" span="206:5:212:7">/*
+        invokeMethod() here is generally used by outside code to callback
+        into the bsh interpreter. e.g. when we are acting as an interface
+        for a scripted listener, etc.  In this case there is no real call stack
+        so we make a default one starting with the special JAVACODE namespace
+        and our namespace as the next.
+    */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="213:12:213:18">Object</jtok>
+<jtok eid="10" type="method_name" span="213:19:213:31">invokeMethod</jtok>
+<jtok eid="10" type="parameter_type" span="214:9:214:15">String</jtok>
+<jtok eid="10" type="parameter_name" span="214:16:214:26">methodName</jtok>
+<jtok eid="10" type="parameter_type" span="214:28:214:34">Object</jtok>
+<jtok eid="10" type="parameter_name" span="214:38:214:42">args</jtok>
+<jtok eid="10" type="parameter_type" span="215:9:215:20">Interpreter</jtok>
+<jtok eid="10" type="parameter_name" span="215:21:215:32">interpreter</jtok>
+<jtok eid="10" type="parameter_type" span="215:34:215:43">CallStack</jtok>
+<jtok eid="10" type="parameter_name" span="215:44:215:53">callstack</jtok>
+<jtok eid="10" type="parameter_type" span="215:55:215:65">SimpleNode</jtok>
+<jtok eid="10" type="parameter_name" span="215:66:215:76">callerInfo</jtok>
+<jtok eid="10" type="parameter_name" span="216:17:216:29">declaredOnly</jtok>
+<jtok eid="10" type="throws" span="217:16:217:25">EvalError</jtok>
+<jtok eid="10" type="block_comment" span="219:9:225:11">/*
+            Wrap nulls.
+            This is a bit of a cludge to address a deficiency in the class
+            generator whereby it does not wrap nulls on method delegate.  See
+            Class Generator.java.  If we fix that then we can remove this.
+            (just have to generate the code there.)
+        */</jtok>
+<jtok eid="10" type="primary_name_ref" span="226:14:226:18">args</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="228:13:228:19">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="228:23:228:25">oa</jtok>
+<jtok eid="10" type="constructor_call" span="228:32:228:38">Object</jtok>
+<jtok eid="10" type="primary_name_ref" span="228:40:228:44">args</jtok>
+<jtok eid="10" type="qualified_name_ref" span="228:45:228:51">length</jtok>
+<jtok eid="10" type="local_variable_name" span="229:21:229:22">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="229:26:229:27">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="229:28:229:32">args</jtok>
+<jtok eid="10" type="qualified_name_ref" span="229:33:229:39">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="229:41:229:42">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:17:230:19">oa</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:20:230:21">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:27:230:31">args</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:32:230:33">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:45:230:54">Primitive</jtok>
+<jtok eid="10" type="qualified_name_ref" span="230:55:230:59">NULL</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:62:230:66">args</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:67:230:68">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="231:13:231:17">args</jtok>
+<jtok eid="10" type="primary_name_ref" span="231:20:231:22">oa</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:14:234:25">interpreter</jtok>
+<jtok eid="10" type="primary_name_ref" span="235:13:235:24">interpreter</jtok>
+<jtok eid="10" type="primary_name_ref" span="235:27:235:47">declaringInterpreter</jtok>
+<jtok eid="10" type="primary_name_ref" span="236:14:236:23">callstack</jtok>
+<jtok eid="10" type="primary_name_ref" span="237:13:237:22">callstack</jtok>
+<jtok eid="10" type="constructor_call" span="237:29:237:38">CallStack</jtok>
+<jtok eid="10" type="primary_name_ref" span="237:40:237:49">namespace</jtok>
+<jtok eid="10" type="primary_name_ref" span="238:14:238:24">callerInfo</jtok>
+<jtok eid="10" type="primary_name_ref" span="239:13:239:23">callerInfo</jtok>
+<jtok eid="10" type="primary_name_ref" span="239:26:239:36">SimpleNode</jtok>
+<jtok eid="10" type="qualified_name_ref" span="239:37:239:45">JAVACODE</jtok>
+<jtok eid="10" type="line_comment" span="241:9:241:31">// Find the bsh method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="242:9:242:14">Class</jtok>
+<jtok eid="10" type="local_variable_name" span="242:18:242:23">types</jtok>
+<jtok eid="10" type="primary_name_ref" span="242:26:242:31">Types</jtok>
+<jtok eid="10" type="method_call" span="242:32:242:40">getTypes</jtok>
+<jtok eid="10" type="primary_name_ref" span="242:42:242:46">args</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="243:9:243:18">BshMethod</jtok>
+<jtok eid="10" type="local_variable_name" span="243:19:243:28">bshMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="245:13:245:22">bshMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="245:25:245:34">namespace</jtok>
+<jtok eid="10" type="method_call" span="245:35:245:44">getMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="245:46:245:56">methodName</jtok>
+<jtok eid="10" type="primary_name_ref" span="245:58:245:63">types</jtok>
+<jtok eid="10" type="primary_name_ref" span="245:65:245:77">declaredOnly</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="246:19:246:32">UtilEvalError</jtok>
+<jtok eid="10" type="local_variable_name" span="246:33:246:34">e</jtok>
+<jtok eid="10" type="line_comment" span="247:13:247:26">// leave null</jtok>
+<jtok eid="10" type="primary_name_ref" span="250:14:250:23">bshMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="251:20:251:29">bshMethod</jtok>
+<jtok eid="10" type="method_call" span="251:30:251:36">invoke</jtok>
+<jtok eid="10" type="primary_name_ref" span="251:38:251:42">args</jtok>
+<jtok eid="10" type="primary_name_ref" span="251:44:251:55">interpreter</jtok>
+<jtok eid="10" type="primary_name_ref" span="251:57:251:66">callstack</jtok>
+<jtok eid="10" type="primary_name_ref" span="251:68:251:78">callerInfo</jtok>
+<jtok eid="10" type="block_comment" span="253:9:261:11">/*
+            No scripted method of that name.
+            Implement the required part of the Object protocol:
+                public int hashCode();
+                public boolean equals(java.lang.Object);
+                public java.lang.String toString();
+            if these were not handled by scripted methods we must provide
+            a default impl.
+        */</jtok>
+<jtok eid="10" type="line_comment" span="262:9:262:71">// a default toString() that shows the interfaces we implement</jtok>
+<jtok eid="10" type="primary_name_ref" span="263:14:263:24">methodName</jtok>
+<jtok eid="10" type="method_call" span="263:25:263:31">equals</jtok>
+<jtok eid="10" type="string_literal" span="263:32:263:42">"toString"</jtok>
+<jtok eid="10" type="method_call" span="264:20:264:28">toString</jtok>
+<jtok eid="10" type="line_comment" span="266:9:266:32">// a default hashCode()</jtok>
+<jtok eid="10" type="primary_name_ref" span="267:14:267:24">methodName</jtok>
+<jtok eid="10" type="method_call" span="267:25:267:31">equals</jtok>
+<jtok eid="10" type="string_literal" span="267:32:267:42">"hashCode"</jtok>
+<jtok eid="10" type="constructor_call" span="268:24:268:31">Integer</jtok>
+<jtok eid="10" type="method_call" span="268:37:268:45">hashCode</jtok>
+<jtok eid="10" type="line_comment" span="270:9:270:75">// a default equals() testing for equality with the This reference</jtok>
+<jtok eid="10" type="primary_name_ref" span="271:14:271:24">methodName</jtok>
+<jtok eid="10" type="method_call" span="271:25:271:31">equals</jtok>
+<jtok eid="10" type="string_literal" span="271:32:271:40">"equals"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="272:13:272:19">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="272:20:272:23">obj</jtok>
+<jtok eid="10" type="primary_name_ref" span="272:26:272:30">args</jtok>
+<jtok eid="10" type="constructor_call" span="273:24:273:31">Boolean</jtok>
+<jtok eid="10" type="primary_name_ref" span="273:41:273:44">obj</jtok>
+<jtok eid="10" type="line_comment" span="276:9:276:71">// Look for a default invoke() handler method in the namespace</jtok>
+<jtok eid="10" type="line_comment" span="277:9:277:69">// Note: this code duplicates that in NameSpace getCommand()</jtok>
+<jtok eid="10" type="line_comment" span="278:9:278:23">// is that ok?</jtok>
+<jtok eid="10" type="primary_name_ref" span="280:13:280:22">bshMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="280:25:280:34">namespace</jtok>
+<jtok eid="10" type="method_call" span="280:35:280:44">getMethod</jtok>
+<jtok eid="10" type="string_literal" span="281:17:281:25">"invoke"</jtok>
+<jtok eid="10" type="constructor_call" span="281:31:281:36">Class</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="282:19:282:32">UtilEvalError</jtok>
+<jtok eid="10" type="local_variable_name" span="282:33:282:34">e</jtok>
+<jtok eid="10" type="block_comment" span="282:39:282:53">/*leave null*/</jtok>
+<jtok eid="10" type="line_comment" span="284:9:284:69">// Call script "invoke( String methodName, Object [] args );</jtok>
+<jtok eid="10" type="primary_name_ref" span="285:14:285:23">bshMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="286:20:286:29">bshMethod</jtok>
+<jtok eid="10" type="method_call" span="286:30:286:36">invoke</jtok>
+<jtok eid="10" type="constructor_call" span="286:42:286:48">Object</jtok>
+<jtok eid="10" type="primary_name_ref" span="286:54:286:64">methodName</jtok>
+<jtok eid="10" type="primary_name_ref" span="286:66:286:70">args</jtok>
+<jtok eid="10" type="primary_name_ref" span="287:17:287:28">interpreter</jtok>
+<jtok eid="10" type="primary_name_ref" span="287:30:287:39">callstack</jtok>
+<jtok eid="10" type="primary_name_ref" span="287:41:287:51">callerInfo</jtok>
+<jtok eid="10" type="constructor_call" span="289:19:289:28">EvalError</jtok>
+<jtok eid="10" type="string_literal" span="289:29:289:38">"Method "</jtok>
+<jtok eid="10" type="primary_name_ref" span="290:13:290:23">StringUtil</jtok>
+<jtok eid="10" type="method_call" span="290:24:290:36">methodString</jtok>
+<jtok eid="10" type="primary_name_ref" span="290:38:290:48">methodName</jtok>
+<jtok eid="10" type="primary_name_ref" span="290:50:290:55">types</jtok>
+<jtok eid="10" type="string_literal" span="291:13:291:50">" not found in bsh scripted object: "</jtok>
+<jtok eid="10" type="primary_name_ref" span="291:52:291:61">namespace</jtok>
+<jtok eid="10" type="method_call" span="291:62:291:69">getName</jtok>
+<jtok eid="10" type="primary_name_ref" span="292:13:292:23">callerInfo</jtok>
+<jtok eid="10" type="primary_name_ref" span="292:25:292:34">callstack</jtok>
+<jtok eid="1" type="block_comment" span="295:5:305:7">/**
+        Bind a This reference to a parent's namespace with the specified
+        declaring interpreter.  Also re-init the callstack.  It's necessary
+        to bind a This reference before it can be used after deserialization.
+        This is used by the bsh load() command.
+        &lt;p&gt;
+
+        This is a static utility method because it's used by a bsh command
+        bind() and the interpreter doesn't currently allow access to direct
+        methods of This objects (small hack)
+    */</jtok>
+<jtok eid="11" type="method_name" span="306:24:306:28">bind</jtok>
+<jtok eid="11" type="parameter_type" span="307:9:307:13">This</jtok>
+<jtok eid="11" type="parameter_name" span="307:14:307:17">ths</jtok>
+<jtok eid="11" type="parameter_type" span="307:19:307:28">NameSpace</jtok>
+<jtok eid="11" type="parameter_name" span="307:29:307:38">namespace</jtok>
+<jtok eid="11" type="parameter_type" span="307:40:307:51">Interpreter</jtok>
+<jtok eid="11" type="parameter_name" span="307:52:307:72">declaringInterpreter</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:9:309:12">ths</jtok>
+<jtok eid="11" type="qualified_name_ref" span="309:13:309:22">namespace</jtok>
+<jtok eid="11" type="method_call" span="309:23:309:32">setParent</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:34:309:43">namespace</jtok>
+<jtok eid="11" type="primary_name_ref" span="310:9:310:12">ths</jtok>
+<jtok eid="11" type="qualified_name_ref" span="310:13:310:33">declaringInterpreter</jtok>
+<jtok eid="11" type="primary_name_ref" span="310:36:310:56">declaringInterpreter</jtok>
+<jtok eid="1" type="block_comment" span="313:5:322:7">/**
+        Allow invocations of these method names on This type objects.
+        Don't give bsh.This a chance to override their behavior.
+        &lt;p&gt;
+
+        If the method is passed here the invocation will actually happen on
+        the bsh.This object via the regular reflective method invocation
+        mechanism.  If not, then the method is evaluated by bsh.This itself
+        as a scripted method call.
+    */</jtok>
+<jtok eid="12" type="method_name" span="323:20:323:39">isExposedThisMethod</jtok>
+<jtok eid="12" type="parameter_type" span="323:41:323:47">String</jtok>
+<jtok eid="12" type="parameter_name" span="323:48:323:52">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="326:13:326:17">name</jtok>
+<jtok eid="12" type="method_call" span="326:18:326:24">equals</jtok>
+<jtok eid="12" type="string_literal" span="326:25:326:35">"getClass"</jtok>
+<jtok eid="12" type="primary_name_ref" span="327:16:327:20">name</jtok>
+<jtok eid="12" type="method_call" span="327:21:327:27">equals</jtok>
+<jtok eid="12" type="string_literal" span="327:28:327:42">"invokeMethod"</jtok>
+<jtok eid="12" type="primary_name_ref" span="328:16:328:20">name</jtok>
+<jtok eid="12" type="method_call" span="328:21:328:27">equals</jtok>
+<jtok eid="12" type="string_literal" span="328:28:328:42">"getInterface"</jtok>
+<jtok eid="12" type="line_comment" span="329:13:329:79">// These are necessary to let us test synchronization from scripts</jtok>
+<jtok eid="12" type="primary_name_ref" span="330:16:330:20">name</jtok>
+<jtok eid="12" type="method_call" span="330:21:330:27">equals</jtok>
+<jtok eid="12" type="string_literal" span="330:28:330:34">"wait"</jtok>
+<jtok eid="12" type="primary_name_ref" span="331:16:331:20">name</jtok>
+<jtok eid="12" type="method_call" span="331:21:331:27">equals</jtok>
+<jtok eid="12" type="string_literal" span="331:28:331:36">"notify"</jtok>
+<jtok eid="12" type="primary_name_ref" span="332:16:332:20">name</jtok>
+<jtok eid="12" type="method_call" span="332:21:332:27">equals</jtok>
+<jtok eid="12" type="string_literal" span="332:28:332:39">"notifyAll"</jtok>
+</jdoc>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.JEditKillRing" jls="java5">
+<jent id="0" type="file" span="0:0:200:2">Source/jEdit/org/gjt/sp/jedit/JEditKillRing.java</jent>
+<jent id="1" pid="0" type="class" span="42:1:200:1">org.gjt.sp.jedit.JEditKillRing</jent>
+<jent id="2" pid="1" type="method" span="45:2:52:2">org.gjt.sp.jedit.JEditKillRing.JEditKillRing()</jent>
+<jent id="3" pid="1" type="method" span="56:2:76:2">org.gjt.sp.jedit.JEditKillRing.load()</jent>
+<jent id="4" pid="1" type="method" span="80:2:132:2">org.gjt.sp.jedit.JEditKillRing.save()</jent>
+<jent id="5" pid="1" type="class" span="138:2:198:2">org.gjt.sp.jedit.JEditKillRing.KillRingHandler</jent>
+<jent id="6" pid="5" type="method" span="143:3:146:3">org.gjt.sp.jedit.JEditKillRing.KillRingHandler.resolveEntity(String,String)</jent>
+<jent id="7" pid="5" type="method" span="149:3:153:3">org.gjt.sp.jedit.JEditKillRing.KillRingHandler.startElement(String,String,String,Attributes)</jent>
+<jent id="8" pid="5" type="method" span="156:3:164:3">org.gjt.sp.jedit.JEditKillRing.KillRingHandler.endElement(String,String,String)</jent>
+<jent id="9" pid="5" type="method" span="167:3:171:3">org.gjt.sp.jedit.JEditKillRing.KillRingHandler.characters(char[],int,int)</jent>
+<jent id="10" pid="5" type="method" span="174:3:194:3">org.gjt.sp.jedit.JEditKillRing.KillRingHandler.processingInstruction(String,String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2003, 2005 Slava Pestov
+ * Portions copyright (C) 2006 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="37:1:41:4">/**
+ * The basic KillRing of jEdit.
+ * @author Matthieu Casanova
+ * @version $Id: ParserRuleSet.java 5471 2006-06-22 06:31:23Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="42:7:42:20">JEditKillRing</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:29:42:37">KillRing</jtok>
+<jtok eid="1" type="line_comment" span="44:2:44:19">//{{{ Constructor</jtok>
+<jtok eid="2" type="method_name" span="45:2:45:15">JEditKillRing</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="47:3:47:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="47:10:47:27">settingsDirectory</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:30:47:35">jEdit</jtok>
+<jtok eid="2" type="method_call" span="47:36:47:56">getSettingsDirectory</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:6:48:23">settingsDirectory</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:4:50:15">killringXML</jtok>
+<jtok eid="2" type="constructor_call" span="50:22:50:33">SettingsXML</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:34:50:51">settingsDirectory</jtok>
+<jtok eid="2" type="string_literal" span="50:53:50:63">"killring"</jtok>
+<jtok eid="1" type="line_comment" span="52:4:52:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:21">//{{{ load() method</jtok>
+<jtok eid="1" type="annotation_ref" span="55:3:55:11">Override</jtok>
+<jtok eid="3" type="method_name" span="56:14:56:18">load</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:6:58:17">killringXML</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:7:61:18">killringXML</jtok>
+<jtok eid="3" type="method_call" span="61:19:61:29">fileExists</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:3:64:6">Log</jtok>
+<jtok eid="3" type="method_call" span="64:7:64:10">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:11:64:14">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="64:15:64:22">MESSAGE</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:23:64:31">KillRing</jtok>
+<jtok eid="3" type="string_literal" span="64:38:64:48">"Loading "</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:51:64:62">killringXML</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:3:66:18">KillRingHandler</jtok>
+<jtok eid="3" type="local_variable_name" span="66:19:66:26">handler</jtok>
+<jtok eid="3" type="constructor_call" span="66:33:66:48">KillRingHandler</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:4:69:15">killringXML</jtok>
+<jtok eid="3" type="method_call" span="69:16:69:20">load</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:21:69:28">handler</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:10:71:21">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="71:22:71:25">ioe</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:4:73:7">Log</jtok>
+<jtok eid="3" type="method_call" span="73:8:73:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:12:73:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="73:16:73:21">ERROR</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:29:73:32">ioe</jtok>
+<jtok eid="3" type="method_call" span="75:3:75:8">reset</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:9:75:16">handler</jtok>
+<jtok eid="3" type="qualified_name_ref" span="75:17:75:21">list</jtok>
+<jtok eid="1" type="line_comment" span="76:4:76:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:21">//{{{ save() method</jtok>
+<jtok eid="1" type="annotation_ref" span="79:3:79:11">Override</jtok>
+<jtok eid="4" type="method_name" span="80:14:80:18">save</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:6:82:17">killringXML</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:6:85:17">killringXML</jtok>
+<jtok eid="4" type="method_call" span="85:18:85:34">hasChangedOnDisk</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:4:87:7">Log</jtok>
+<jtok eid="4" type="method_call" span="87:8:87:11">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:12:87:15">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="87:16:87:23">WARNING</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:24:87:32">KillRing</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:39:87:50">killringXML</jtok>
+<jtok eid="4" type="string_literal" span="88:7:88:49">" changed on disk; will not save killring"</jtok>
+<jtok eid="4" type="string_literal" span="89:7:89:15">" files"</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:3:93:6">Log</jtok>
+<jtok eid="4" type="method_call" span="93:7:93:10">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:11:93:14">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="93:15:93:22">MESSAGE</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:23:93:31">KillRing</jtok>
+<jtok eid="4" type="string_literal" span="93:38:93:47">"Saving "</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:50:93:61">killringXML</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="95:3:95:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="95:10:95:17">lineSep</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:20:95:26">System</jtok>
+<jtok eid="4" type="method_call" span="95:27:95:38">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="95:39:95:55">"line.separator"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="97:3:97:14">SettingsXML</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="97:15:97:20">Saver</jtok>
+<jtok eid="4" type="local_variable_name" span="97:21:97:24">out</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:4:101:7">out</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:10:101:21">killringXML</jtok>
+<jtok eid="4" type="method_call" span="101:22:101:31">openSaver</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:4:102:7">out</jtok>
+<jtok eid="4" type="method_call" span="102:8:102:27">writeXMLDeclaration</jtok>
+<jtok eid="4" type="string_literal" span="102:28:102:33">"1.1"</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:4:104:7">out</jtok>
+<jtok eid="4" type="method_call" span="104:8:104:13">write</jtok>
+<jtok eid="4" type="string_literal" span="104:14:104:59">"&lt;!DOCTYPE KILLRING SYSTEM \"killring.dtd\"&gt;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:4:105:7">out</jtok>
+<jtok eid="4" type="method_call" span="105:8:105:13">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:14:105:21">lineSep</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:4:106:7">out</jtok>
+<jtok eid="4" type="method_call" span="106:8:106:13">write</jtok>
+<jtok eid="4" type="string_literal" span="106:14:106:26">"&lt;KILLRING&gt;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:4:107:7">out</jtok>
+<jtok eid="4" type="method_call" span="107:8:107:13">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:14:107:21">lineSep</jtok>
+<jtok eid="4" type="local_variable_name" span="109:8:109:12">size</jtok>
+<jtok eid="4" type="method_call" span="109:15:109:22">getSize</jtok>
+<jtok eid="4" type="local_variable_name" span="110:12:110:13">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:16:110:20">size</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:26:110:27">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:33:110:34">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:5:112:8">out</jtok>
+<jtok eid="4" type="method_call" span="112:9:112:14">write</jtok>
+<jtok eid="4" type="string_literal" span="112:15:112:24">"&lt;ENTRY&gt;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:5:113:8">out</jtok>
+<jtok eid="4" type="method_call" span="113:9:113:14">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:15:113:27">XMLUtilities</jtok>
+<jtok eid="4" type="method_call" span="113:28:113:43">charsToEntities</jtok>
+<jtok eid="4" type="method_call" span="114:6:114:18">getElementAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:19:114:20">i</jtok>
+<jtok eid="4" type="method_call" span="114:22:114:30">toString</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:5:115:8">out</jtok>
+<jtok eid="4" type="method_call" span="115:9:115:14">write</jtok>
+<jtok eid="4" type="string_literal" span="115:15:115:25">"&lt;/ENTRY&gt;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:5:116:8">out</jtok>
+<jtok eid="4" type="method_call" span="116:9:116:14">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:15:116:22">lineSep</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:4:119:7">out</jtok>
+<jtok eid="4" type="method_call" span="119:8:119:13">write</jtok>
+<jtok eid="4" type="string_literal" span="119:14:119:27">"&lt;/KILLRING&gt;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:4:120:7">out</jtok>
+<jtok eid="4" type="method_call" span="120:8:120:13">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:14:120:21">lineSep</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:4:122:7">out</jtok>
+<jtok eid="4" type="method_call" span="122:8:122:14">finish</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="124:9:124:18">Exception</jtok>
+<jtok eid="4" type="local_variable_name" span="124:19:124:20">e</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:4:126:7">Log</jtok>
+<jtok eid="4" type="method_call" span="126:8:126:11">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:12:126:15">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="126:16:126:21">ERROR</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:22:126:30">KillRing</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:37:126:38">e</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:4:130:15">IOUtilities</jtok>
+<jtok eid="4" type="method_call" span="130:16:130:28">closeQuietly</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:29:130:32">out</jtok>
+<jtok eid="1" type="line_comment" span="132:4:132:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="134:2:134:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="135:10:135:21">SettingsXML</jtok>
+<jtok eid="1" type="field_name" span="135:22:135:33">killringXML</jtok>
+<jtok eid="1" type="line_comment" span="137:2:137:29">//{{{ KillRingHandler class</jtok>
+<jtok eid="5" type="class_name" span="138:23:138:38">KillRingHandler</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="138:47:138:61">DefaultHandler</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="140:10:140:14">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="140:15:140:21">String</jtok>
+<jtok eid="5" type="field_name" span="140:23:140:27">list</jtok>
+<jtok eid="5" type="constructor_call" span="140:34:140:44">LinkedList</jtok>
+<jtok eid="5" type="constructor_call" span="140:45:140:51">String</jtok>
+<jtok eid="5" type="annotation_ref" span="142:4:142:12">Override</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="143:10:143:21">InputSource</jtok>
+<jtok eid="6" type="method_name" span="143:22:143:35">resolveEntity</jtok>
+<jtok eid="6" type="parameter_type" span="143:36:143:42">String</jtok>
+<jtok eid="6" type="parameter_name" span="143:43:143:51">publicId</jtok>
+<jtok eid="6" type="parameter_type" span="143:53:143:59">String</jtok>
+<jtok eid="6" type="parameter_name" span="143:60:143:68">systemId</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:11:145:23">XMLUtilities</jtok>
+<jtok eid="6" type="method_call" span="145:24:145:34">findEntity</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:35:145:43">systemId</jtok>
+<jtok eid="6" type="string_literal" span="145:45:145:59">"killring.dtd"</jtok>
+<jtok eid="6" type="method_call" span="145:61:145:69">getClass</jtok>
+<jtok eid="5" type="annotation_ref" span="148:4:148:12">Override</jtok>
+<jtok eid="7" type="method_name" span="149:15:149:27">startElement</jtok>
+<jtok eid="7" type="parameter_type" span="149:28:149:34">String</jtok>
+<jtok eid="7" type="parameter_name" span="149:35:149:38">uri</jtok>
+<jtok eid="7" type="parameter_type" span="149:40:149:46">String</jtok>
+<jtok eid="7" type="parameter_name" span="149:47:149:56">localName</jtok>
+<jtok eid="7" type="parameter_type" span="150:7:150:13">String</jtok>
+<jtok eid="7" type="parameter_name" span="150:14:150:19">qName</jtok>
+<jtok eid="7" type="parameter_type" span="150:21:150:31">Attributes</jtok>
+<jtok eid="7" type="parameter_name" span="150:32:150:37">attrs</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:4:152:11">inEntry</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:14:152:19">qName</jtok>
+<jtok eid="7" type="method_call" span="152:20:152:26">equals</jtok>
+<jtok eid="7" type="string_literal" span="152:27:152:34">"ENTRY"</jtok>
+<jtok eid="5" type="annotation_ref" span="155:4:155:12">Override</jtok>
+<jtok eid="8" type="method_name" span="156:15:156:25">endElement</jtok>
+<jtok eid="8" type="parameter_type" span="156:26:156:32">String</jtok>
+<jtok eid="8" type="parameter_name" span="156:33:156:36">uri</jtok>
+<jtok eid="8" type="parameter_type" span="156:38:156:44">String</jtok>
+<jtok eid="8" type="parameter_name" span="156:45:156:54">localName</jtok>
+<jtok eid="8" type="parameter_type" span="156:56:156:62">String</jtok>
+<jtok eid="8" type="parameter_name" span="156:63:156:67">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:7:158:11">name</jtok>
+<jtok eid="8" type="method_call" span="158:12:158:18">equals</jtok>
+<jtok eid="8" type="string_literal" span="158:19:158:26">"ENTRY"</jtok>
+<jtok eid="8" type="primary_name_ref" span="160:5:160:9">list</jtok>
+<jtok eid="8" type="method_call" span="160:10:160:13">add</jtok>
+<jtok eid="8" type="primary_name_ref" span="160:14:160:22">charData</jtok>
+<jtok eid="8" type="method_call" span="160:23:160:31">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:5:161:12">inEntry</jtok>
+<jtok eid="8" type="primary_name_ref" span="162:5:162:13">charData</jtok>
+<jtok eid="8" type="method_call" span="162:14:162:23">setLength</jtok>
+<jtok eid="5" type="annotation_ref" span="166:4:166:12">Override</jtok>
+<jtok eid="9" type="method_name" span="167:15:167:25">characters</jtok>
+<jtok eid="9" type="parameter_name" span="167:33:167:35">ch</jtok>
+<jtok eid="9" type="parameter_name" span="167:41:167:46">start</jtok>
+<jtok eid="9" type="parameter_name" span="167:52:167:58">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="169:8:169:15">inEntry</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:5:170:13">charData</jtok>
+<jtok eid="9" type="method_call" span="170:14:170:20">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:21:170:23">ch</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:25:170:30">start</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:32:170:38">length</jtok>
+<jtok eid="5" type="annotation_ref" span="173:4:173:12">Override</jtok>
+<jtok eid="10" type="method_name" span="174:15:174:36">processingInstruction</jtok>
+<jtok eid="10" type="parameter_type" span="174:37:174:43">String</jtok>
+<jtok eid="10" type="parameter_name" span="174:44:174:50">target</jtok>
+<jtok eid="10" type="parameter_type" span="174:52:174:58">String</jtok>
+<jtok eid="10" type="parameter_name" span="174:59:174:63">data</jtok>
+<jtok eid="10" type="string_literal" span="176:8:176:31">"illegal-xml-character"</jtok>
+<jtok eid="10" type="method_call" span="176:32:176:38">equals</jtok>
+<jtok eid="10" type="primary_name_ref" span="176:39:176:45">target</jtok>
+<jtok eid="10" type="local_variable_name" span="178:10:178:12">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:6:181:8">ch</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:17:181:24">Integer</jtok>
+<jtok eid="10" type="method_call" span="181:25:181:33">parseInt</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:34:181:38">data</jtok>
+<jtok eid="10" type="method_call" span="181:39:181:43">trim</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="183:12:183:21">Exception</jtok>
+<jtok eid="10" type="local_variable_name" span="183:22:183:23">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="185:6:185:9">Log</jtok>
+<jtok eid="10" type="method_call" span="185:10:185:13">log</jtok>
+<jtok eid="10" type="primary_name_ref" span="185:14:185:17">Log</jtok>
+<jtok eid="10" type="qualified_name_ref" span="185:18:185:23">ERROR</jtok>
+<jtok eid="10" type="string_literal" span="186:7:186:40">"Failed to get character from PI"</jtok>
+<jtok eid="10" type="string_literal" span="187:10:187:14">"\""</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:17:187:23">target</jtok>
+<jtok eid="10" type="string_literal" span="187:26:187:30">"\""</jtok>
+<jtok eid="10" type="string_literal" span="188:10:188:20">" with \""</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:23:188:27">data</jtok>
+<jtok eid="10" type="string_literal" span="188:30:188:34">"\""</jtok>
+<jtok eid="10" type="string_literal" span="189:10:189:14">": "</jtok>
+<jtok eid="10" type="primary_name_ref" span="189:17:189:18">e</jtok>
+<jtok eid="10" type="method_call" span="192:5:192:15">characters</jtok>
+<jtok eid="10" type="primary_name_ref" span="192:28:192:30">ch</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="196:17:196:30">StringBuilder</jtok>
+<jtok eid="5" type="field_name" span="196:31:196:39">charData</jtok>
+<jtok eid="5" type="constructor_call" span="196:46:196:59">StringBuilder</jtok>
+<jtok eid="5" type="field_name" span="197:19:197:26">inEntry</jtok>
+<jtok eid="1" type="line_comment" span="198:4:198:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="199:2:199:7">//}}}</jtok>
+</jdoc>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.SplashScreen" jls="java5">
+<jent id="0" type="file" span="0:0:118:1">Source/jabref/src/java/net/sf/jabref/SplashScreen.java</jent>
+<jent id="1" pid="0" type="class" span="22:1:118:1">net.sf.jabref.SplashScreen</jent>
+<jent id="2" pid="1" type="method" span="26:5:53:5">net.sf.jabref.SplashScreen.SplashScreen(Frame)</jent>
+<jent id="3" pid="1" type="method" span="59:5:67:5">net.sf.jabref.SplashScreen.update(Graphics)</jent>
+<jent id="4" pid="1" type="method" span="72:5:81:5">net.sf.jabref.SplashScreen.paint(Graphics)</jent>
+<jent id="5" pid="1" type="method" span="92:5:117:5">net.sf.jabref.SplashScreen.splash()</jent>
+<jtok eid="0" type="line_comment" span="3:1:3:24">//import javax.swing.*;</jtok>
+<jtok eid="0" type="block_comment" span="13:1:20:4">/**
+ * &lt;p&gt;Title: &lt;/p&gt;
+ * &lt;p&gt;Description: &lt;/p&gt;
+ * &lt;p&gt;Copyright: Copyright (c) 2003&lt;/p&gt;
+ * &lt;p&gt;Company: &lt;/p&gt;
+ * @author not attributable
+ * @version 1.0
+ */</jtok>
+<jtok eid="1" type="class_name" span="22:14:22:26">SplashScreen</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="22:35:22:41">Window</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="23:13:23:18">Image</jtok>
+<jtok eid="1" type="field_name" span="23:19:23:30">splashImage</jtok>
+<jtok eid="1" type="field_name" span="24:21:24:32">paintCalled</jtok>
+<jtok eid="2" type="method_name" span="26:12:26:24">SplashScreen</jtok>
+<jtok eid="2" type="parameter_type" span="26:25:26:30">Frame</jtok>
+<jtok eid="2" type="parameter_name" span="26:31:26:36">owner</jtok>
+<jtok eid="2" type="primary_name_ref" span="27:15:27:20">owner</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="28:9:28:12">URL</jtok>
+<jtok eid="2" type="local_variable_name" span="28:13:28:21">imageURL</jtok>
+<jtok eid="2" type="primary_name_ref" span="28:24:28:36">SplashScreen</jtok>
+<jtok eid="2" type="method_call" span="28:43:28:54">getResource</jtok>
+<jtok eid="2" type="string_literal" span="28:55:28:75">"/images/splash.png"</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:9:29:20">splashImage</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:23:29:30">Toolkit</jtok>
+<jtok eid="2" type="method_call" span="29:31:29:48">getDefaultToolkit</jtok>
+<jtok eid="2" type="method_call" span="29:51:29:62">createImage</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:63:29:71">imageURL</jtok>
+<jtok eid="2" type="line_comment" span="31:9:31:26">// Load the image</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="32:9:32:21">MediaTracker</jtok>
+<jtok eid="2" type="local_variable_name" span="32:22:32:24">mt</jtok>
+<jtok eid="2" type="constructor_call" span="32:31:32:43">MediaTracker</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:9:33:11">mt</jtok>
+<jtok eid="2" type="method_call" span="33:12:33:20">addImage</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:21:33:32">splashImage</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:13:35:15">mt</jtok>
+<jtok eid="2" type="method_call" span="35:16:35:25">waitForID</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="36:17:36:37">InterruptedException</jtok>
+<jtok eid="2" type="local_variable_name" span="36:38:36:40">ie</jtok>
+<jtok eid="2" type="line_comment" span="39:9:39:44">// Center the window on the screen.</jtok>
+<jtok eid="2" type="local_variable_name" span="40:13:40:21">imgWidth</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:24:40:35">splashImage</jtok>
+<jtok eid="2" type="method_call" span="40:36:40:44">getWidth</jtok>
+<jtok eid="2" type="local_variable_name" span="41:13:41:22">imgHeight</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:25:41:36">splashImage</jtok>
+<jtok eid="2" type="method_call" span="41:37:41:46">getHeight</jtok>
+<jtok eid="2" type="method_call" span="43:9:43:16">setSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:17:43:25">imgWidth</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:27:43:36">imgHeight</jtok>
+<jtok eid="2" type="method_call" span="44:9:44:30">setLocationRelativeTo</jtok>
+<jtok eid="2" type="block_comment" span="46:9:51:11">/* Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(
+            (screenDim.width - imgWidth) / 2,
+            (screenDim.height - imgHeight) / 2
+        );
+        */</jtok>
+<jtok eid="1" type="block_comment" span="56:5:58:8">/**
+     * Updates the display area of the window.
+     */</jtok>
+<jtok eid="3" type="method_name" span="59:17:59:23">update</jtok>
+<jtok eid="3" type="parameter_type" span="59:24:59:32">Graphics</jtok>
+<jtok eid="3" type="parameter_name" span="59:33:59:34">g</jtok>
+<jtok eid="3" type="line_comment" span="60:9:60:60">// Note: Since the paint method is going to draw an</jtok>
+<jtok eid="3" type="line_comment" span="61:9:61:67">// image that covers the complete area of the component we</jtok>
+<jtok eid="3" type="line_comment" span="62:9:62:63">// do not fill the component with its background color</jtok>
+<jtok eid="3" type="line_comment" span="63:9:63:41">// here. This avoids flickering.</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:9:65:10">g</jtok>
+<jtok eid="3" type="method_call" span="65:11:65:19">setColor</jtok>
+<jtok eid="3" type="method_call" span="65:20:65:33">getForeground</jtok>
+<jtok eid="3" type="method_call" span="66:9:66:14">paint</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:15:66:16">g</jtok>
+<jtok eid="1" type="block_comment" span="68:5:70:8">/**
+     * Paints the image on the window.
+     */</jtok>
+<jtok eid="4" type="method_name" span="72:17:72:22">paint</jtok>
+<jtok eid="4" type="parameter_type" span="72:23:72:31">Graphics</jtok>
+<jtok eid="4" type="parameter_name" span="72:32:72:33">g</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:9:73:10">g</jtok>
+<jtok eid="4" type="method_call" span="73:11:73:20">drawImage</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:21:73:32">splashImage</jtok>
+<jtok eid="4" type="line_comment" span="75:9:75:48">// Notify method splash that the window</jtok>
+<jtok eid="4" type="line_comment" span="76:9:76:29">// has been painted.</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:15:77:26">paintCalled</jtok>
+<jtok eid="4" type="primary_name_ref" span="78:13:78:24">paintCalled</jtok>
+<jtok eid="4" type="method_call" span="79:35:79:44">notifyAll</jtok>
+<jtok eid="1" type="block_comment" span="83:7:90:8">/**
+     * Constructs and displays a SplashWindow.&lt;p&gt;
+     * This method is useful for startup splashs.
+     * Dispose the returned frame to get rid of the splash window.&lt;p&gt;
+     *
+     * @param splashImage The image to be displayed.
+     * @return Returns the frame that owns the SplashWindow.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="92:19:92:24">Frame</jtok>
+<jtok eid="5" type="method_name" span="92:25:92:31">splash</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="93:9:93:14">Frame</jtok>
+<jtok eid="5" type="local_variable_name" span="93:15:93:16">f</jtok>
+<jtok eid="5" type="constructor_call" span="93:23:93:28">Frame</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="94:9:94:21">SplashScreen</jtok>
+<jtok eid="5" type="local_variable_name" span="94:22:94:23">w</jtok>
+<jtok eid="5" type="constructor_call" span="94:30:94:42">SplashScreen</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:43:94:44">f</jtok>
+<jtok eid="5" type="line_comment" span="96:9:96:28">// Show the window.</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:9:97:10">w</jtok>
+<jtok eid="5" type="method_call" span="97:11:97:21">setVisible</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:9:98:10">w</jtok>
+<jtok eid="5" type="method_call" span="98:11:98:18">toFront</jtok>
+<jtok eid="5" type="line_comment" span="100:9:100:64">// Note: To make sure the user gets a chance to see the</jtok>
+<jtok eid="5" type="line_comment" span="101:9:101:65">// splash window we wait until its paint method has been</jtok>
+<jtok eid="5" type="line_comment" span="102:9:102:68">// called at least once by the AWT event dispatcher thread.</jtok>
+<jtok eid="5" type="line_comment" span="104:9:104:83">// sebwills adds: However, just in case the paint method never gets called</jtok>
+<jtok eid="5" type="line_comment" span="105:9:105:82">// (e.g. if the splashscreen is completely obscured by an 'always on top'</jtok>
+<jtok eid="5" type="line_comment" span="106:9:106:75">// window of some other application), we time-out after 5 seconds.</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:15:107:25">EventQueue</jtok>
+<jtok eid="5" type="method_call" span="107:26:107:42">isDispatchThread</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:27:108:28">w</jtok>
+<jtok eid="5" type="primary_name_ref" span="109:23:109:24">w</jtok>
+<jtok eid="5" type="qualified_name_ref" span="109:25:109:36">paintCalled</jtok>
+<jtok eid="5" type="primary_name_ref" span="111:25:111:26">w</jtok>
+<jtok eid="5" type="method_call" span="111:27:111:31">wait</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:30:112:50">InterruptedException</jtok>
+<jtok eid="5" type="local_variable_name" span="112:51:112:52">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="116:16:116:17">f</jtok>
+</jdoc>

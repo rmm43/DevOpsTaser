@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="installer.VariableGridLayout" jls="java5">
+<jent id="0" type="file" span="0:0:334:2">Source/jEdit/installer/VariableGridLayout.java</jent>
+<jent id="1" pid="0" type="class" span="71:1:334:1">installer.VariableGridLayout</jent>
+<jent id="2" pid="1" type="method" span="78:2:95:2">installer.VariableGridLayout.VariableGridLayout(int,int,int,int)</jent>
+<jent id="3" pid="1" type="method" span="102:2:104:2">installer.VariableGridLayout.VariableGridLayout(int,int)</jent>
+<jent id="4" pid="1" type="method" span="111:2:113:2">installer.VariableGridLayout.VariableGridLayout()</jent>
+<jent id="5" pid="1" type="method" span="119:2:119:69">installer.VariableGridLayout.addLayoutComponent(String,Component)</jent>
+<jent id="6" pid="1" type="method" span="125:2:125:76">installer.VariableGridLayout.addLayoutComponent(Component,Object)</jent>
+<jent id="7" pid="1" type="method" span="131:2:131:59">installer.VariableGridLayout.removeLayoutComponent(Component)</jent>
+<jent id="8" pid="1" type="method" span="137:2:139:2">installer.VariableGridLayout.getLayoutAlignmentX(Container)</jent>
+<jent id="9" pid="1" type="method" span="145:2:147:2">installer.VariableGridLayout.getLayoutAlignmentY(Container)</jent>
+<jent id="10" pid="1" type="method" span="150:2:152:2">installer.VariableGridLayout.preferredLayoutSize(Container)</jent>
+<jent id="11" pid="1" type="method" span="155:2:157:2">installer.VariableGridLayout.minimumLayoutSize(Container)</jent>
+<jent id="12" pid="1" type="method" span="160:2:162:2">installer.VariableGridLayout.maximumLayoutSize(Container)</jent>
+<jent id="13" pid="1" type="method" span="165:2:225:2">installer.VariableGridLayout.layoutContainer(Container)</jent>
+<jent id="14" pid="1" type="method" span="228:2:228:53">installer.VariableGridLayout.invalidateLayout(Container)</jent>
+<jent id="15" pid="1" type="method" span="235:2:238:2">installer.VariableGridLayout.toString()</jent>
+<jent id="16" pid="1" type="method" span="246:2:303:2">installer.VariableGridLayout.getLayoutSize(Container,int)</jent>
+<jent id="17" pid="1" type="method" span="306:2:323:2">installer.VariableGridLayout.update(Container)</jent>
+<jtok eid="0" type="block_comment" span="1:1:12:4">/*
+ * VariableGridLayout.java - a grid layout manager with variable cell sizes
+ *
+ * Originally written by Dirk Moebius for the jEdit project. This work has been
+ * placed into the public domain. You may use this work in any way and for any
+ * purpose you wish.
+ *
+ * THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND, NOT EVEN THE
+ * IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR OF THIS SOFTWARE, ASSUMES
+ * _NO_ RESPONSIBILITY FOR ANY CONSEQUENCE RESULTING FROM THE USE, MODIFICATION,
+ * OR REDISTRIBUTION OF THIS SOFTWARE.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="19:1:19:61">// This is copied from jEdit's org.gjt.sp.jedit.gui package.</jtok>
+<jtok eid="0" type="block_comment" span="21:1:70:4">/**
+ * The &lt;code&gt;VariableGridLayout&lt;/code&gt; class is a layout manager
+ * that lays out a container's components in a rectangular grid
+ * with variable cell sizes.&lt;p&gt;
+ *
+ * The container is divided into rectangles, and one component is placed
+ * in each rectangle. Each row is as large as the largest component in
+ * that row, and each column is as wide as the widest component in
+ * that column.&lt;p&gt;
+ *
+ * This behavior is basically the same as in
+ * &lt;code&gt;java.awt.GridLayout&lt;/code&gt;, but with different row heights and
+ * column widths for each row/column.&lt;p&gt;
+ *
+ * For example, the following is an applet that lays out six buttons
+ * into three rows and two columns:&lt;p&gt;
+ *
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * import java.awt.*;
+ * import java.applet.Applet;
+ * public class ButtonGrid extends Applet {
+ *     public void init() {
+ *         setLayout(new VariableGridLayout(VariableGridLayout.FIXED_NUM_COLUMNS, 2));
+ *         add(new Button("1"));
+ *         add(new Button("2"));
+ *         add(new Button("3"));
+ *         add(new Button("4"));
+ *         add(new Button("5"));
+ *         add(new Button("6"));
+ *     }
+ * }
+ * &lt;/pre&gt;&lt;/blockquote&gt;&lt;p&gt;
+ *
+ * &lt;b&gt;Programmer's remark:&lt;/b&gt; VariableGridLayout could be faster, if it would
+ * reside in the package java.awt, because then it could access some
+ * package private fields of &lt;code&gt;Container&lt;/code&gt; or
+ * &lt;code&gt;Component&lt;/code&gt;. Instead, it has to call
+ * &lt;code&gt;Component.getSize()&lt;/code&gt;,
+ * which allocates memory on the heap.&lt;p&gt;
+ *
+ * &lt;b&gt;Todo:&lt;/b&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;Use alignmentX/Y property if the grid cell is larger than the preferred size of the component.
+ * &lt;li&gt;Ability to span components over more than one cell horizontally
+ * &lt;/ul&gt;
+ *
+ * @author Dirk Moebius
+ * @version 1.0
+ * @see java.awt.GridLayout
+ */</jtok>
+<jtok eid="1" type="class_name" span="71:14:71:32">VariableGridLayout</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:44:71:58">LayoutManager2</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:60:71:64">java</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:65:71:67">io</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:68:71:80">Serializable</jtok>
+<jtok eid="1" type="field_name" span="74:26:74:40">FIXED_NUM_ROWS</jtok>
+<jtok eid="1" type="field_name" span="75:26:75:43">FIXED_NUM_COLUMNS</jtok>
+<jtok eid="2" type="method_name" span="78:9:78:27">VariableGridLayout</jtok>
+<jtok eid="2" type="parameter_name" span="78:32:78:36">mode</jtok>
+<jtok eid="2" type="parameter_name" span="78:42:78:46">size</jtok>
+<jtok eid="2" type="parameter_name" span="78:52:78:56">hgap</jtok>
+<jtok eid="2" type="parameter_name" span="78:62:78:66">vgap</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:7:79:11">mode</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:15:79:29">FIXED_NUM_ROWS</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:33:79:37">mode</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:41:79:58">FIXED_NUM_COLUMNS</jtok>
+<jtok eid="2" type="constructor_call" span="80:14:80:38">IllegalArgumentException</jtok>
+<jtok eid="2" type="string_literal" span="80:39:80:64">"illegal mode; value is "</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:67:80:71">mode</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:7:82:11">size</jtok>
+<jtok eid="2" type="constructor_call" span="83:14:83:38">IllegalArgumentException</jtok>
+<jtok eid="2" type="string_literal" span="83:39:83:79">"size cannot be zero or less; value is "</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:82:83:86">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:7:85:11">hgap</jtok>
+<jtok eid="2" type="constructor_call" span="86:14:86:38">IllegalArgumentException</jtok>
+<jtok eid="2" type="string_literal" span="86:39:86:75">"hgap cannot be negative; value is "</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:78:86:82">hgap</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:7:88:11">vgap</jtok>
+<jtok eid="2" type="constructor_call" span="89:14:89:38">IllegalArgumentException</jtok>
+<jtok eid="2" type="string_literal" span="89:39:89:75">"vgap cannot be negative; value is "</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:78:89:82">vgap</jtok>
+<jtok eid="2" type="qualified_name_ref" span="91:8:91:12">mode</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:15:91:19">mode</jtok>
+<jtok eid="2" type="qualified_name_ref" span="92:8:92:12">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:15:92:19">size</jtok>
+<jtok eid="2" type="qualified_name_ref" span="93:8:93:12">hgap</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:15:93:19">hgap</jtok>
+<jtok eid="2" type="qualified_name_ref" span="94:8:94:12">vgap</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:15:94:19">vgap</jtok>
+<jtok eid="1" type="block_comment" span="98:2:101:5">/**
+	 * Creates a variable grid layout manager with the specified mode
+	 * and zero horizontal and vertical gap.
+	 */</jtok>
+<jtok eid="3" type="method_name" span="102:9:102:27">VariableGridLayout</jtok>
+<jtok eid="3" type="parameter_name" span="102:32:102:36">mode</jtok>
+<jtok eid="3" type="parameter_name" span="102:42:102:46">size</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:8:103:12">mode</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:14:103:18">size</jtok>
+<jtok eid="1" type="block_comment" span="107:2:110:5">/**
+	 * Creates a variable grid layout manager with mode FIXED_NUM_ROWS,
+	 * number of rows == 1 and zero horizontal and vertical gap.
+	 */</jtok>
+<jtok eid="4" type="method_name" span="111:9:111:27">VariableGridLayout</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:8:112:22">FIXED_NUM_ROWS</jtok>
+<jtok eid="1" type="block_comment" span="116:2:118:5">/**
+	 * Not used in this class.
+	 */</jtok>
+<jtok eid="5" type="method_name" span="119:14:119:32">addLayoutComponent</jtok>
+<jtok eid="5" type="parameter_type" span="119:33:119:39">String</jtok>
+<jtok eid="5" type="parameter_name" span="119:40:119:44">name</jtok>
+<jtok eid="5" type="parameter_type" span="119:46:119:55">Component</jtok>
+<jtok eid="5" type="parameter_name" span="119:56:119:65">component</jtok>
+<jtok eid="1" type="block_comment" span="122:2:124:5">/**
+	 * Not used in this class.
+	 */</jtok>
+<jtok eid="6" type="method_name" span="125:14:125:32">addLayoutComponent</jtok>
+<jtok eid="6" type="parameter_type" span="125:33:125:42">Component</jtok>
+<jtok eid="6" type="parameter_name" span="125:43:125:52">component</jtok>
+<jtok eid="6" type="parameter_type" span="125:54:125:60">Object</jtok>
+<jtok eid="6" type="parameter_name" span="125:61:125:72">constraints</jtok>
+<jtok eid="1" type="block_comment" span="128:2:130:5">/**
+	 * Not used in this class.
+	 */</jtok>
+<jtok eid="7" type="method_name" span="131:14:131:35">removeLayoutComponent</jtok>
+<jtok eid="7" type="parameter_type" span="131:36:131:45">Component</jtok>
+<jtok eid="7" type="parameter_name" span="131:46:131:55">component</jtok>
+<jtok eid="1" type="block_comment" span="134:2:136:5">/**
+	 * Always returns 0.5.
+	 */</jtok>
+<jtok eid="8" type="method_name" span="137:15:137:34">getLayoutAlignmentX</jtok>
+<jtok eid="8" type="parameter_type" span="137:35:137:44">Container</jtok>
+<jtok eid="8" type="parameter_name" span="137:45:137:54">container</jtok>
+<jtok eid="1" type="block_comment" span="142:2:144:5">/**
+	 * Always returns 0.5.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="145:15:145:34">getLayoutAlignmentY</jtok>
+<jtok eid="9" type="parameter_type" span="145:35:145:44">Container</jtok>
+<jtok eid="9" type="parameter_name" span="145:45:145:54">container</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="150:9:150:18">Dimension</jtok>
+<jtok eid="10" type="method_name" span="150:19:150:38">preferredLayoutSize</jtok>
+<jtok eid="10" type="parameter_type" span="150:39:150:48">Container</jtok>
+<jtok eid="10" type="parameter_name" span="150:49:150:55">parent</jtok>
+<jtok eid="10" type="method_call" span="151:10:151:23">getLayoutSize</jtok>
+<jtok eid="10" type="primary_name_ref" span="151:24:151:30">parent</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="155:9:155:18">Dimension</jtok>
+<jtok eid="11" type="method_name" span="155:19:155:36">minimumLayoutSize</jtok>
+<jtok eid="11" type="parameter_type" span="155:37:155:46">Container</jtok>
+<jtok eid="11" type="parameter_name" span="155:47:155:53">parent</jtok>
+<jtok eid="11" type="method_call" span="156:10:156:23">getLayoutSize</jtok>
+<jtok eid="11" type="primary_name_ref" span="156:24:156:30">parent</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="160:9:160:18">Dimension</jtok>
+<jtok eid="12" type="method_name" span="160:19:160:36">maximumLayoutSize</jtok>
+<jtok eid="12" type="parameter_type" span="160:37:160:46">Container</jtok>
+<jtok eid="12" type="parameter_name" span="160:47:160:53">parent</jtok>
+<jtok eid="12" type="method_call" span="161:10:161:23">getLayoutSize</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:24:161:30">parent</jtok>
+<jtok eid="13" type="method_name" span="165:14:165:29">layoutContainer</jtok>
+<jtok eid="13" type="parameter_type" span="165:30:165:39">Container</jtok>
+<jtok eid="13" type="parameter_name" span="165:40:165:46">parent</jtok>
+<jtok eid="13" type="primary_name_ref" span="166:17:166:23">parent</jtok>
+<jtok eid="13" type="method_call" span="166:24:166:35">getTreeLock</jtok>
+<jtok eid="13" type="method_call" span="167:4:167:10">update</jtok>
+<jtok eid="13" type="primary_name_ref" span="167:11:167:17">parent</jtok>
+<jtok eid="13" type="local_variable_name" span="169:8:169:19">ncomponents</jtok>
+<jtok eid="13" type="primary_name_ref" span="169:22:169:28">parent</jtok>
+<jtok eid="13" type="method_call" span="169:29:169:46">getComponentCount</jtok>
+<jtok eid="13" type="primary_name_ref" span="171:8:171:19">ncomponents</jtok>
+<jtok eid="13" type="line_comment" span="175:4:175:60">// Pass 1: compute preferred row heights / column widths</jtok>
+<jtok eid="13" type="local_variable_name" span="176:8:176:20">total_height</jtok>
+<jtok eid="13" type="local_variable_name" span="177:13:177:14">r</jtok>
+<jtok eid="13" type="local_variable_name" span="177:20:177:21">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:27:177:28">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:31:177:36">nrows</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:38:177:39">r</jtok>
+<jtok eid="13" type="local_variable_name" span="178:14:178:15">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:21:178:22">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:25:178:30">ncols</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:32:178:33">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:37:178:38">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="179:10:179:11">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="179:14:179:25">ncomponents</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="180:7:180:16">Dimension</jtok>
+<jtok eid="13" type="local_variable_name" span="180:17:180:18">d</jtok>
+<jtok eid="13" type="primary_name_ref" span="180:21:180:27">parent</jtok>
+<jtok eid="13" type="method_call" span="180:28:180:40">getComponent</jtok>
+<jtok eid="13" type="primary_name_ref" span="180:41:180:42">i</jtok>
+<jtok eid="13" type="method_call" span="180:44:180:60">getPreferredSize</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:7:181:18">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:19:181:20">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:24:181:28">Math</jtok>
+<jtok eid="13" type="method_call" span="181:29:181:32">max</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:33:181:44">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:45:181:46">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="181:49:181:50">d</jtok>
+<jtok eid="13" type="qualified_name_ref" span="181:51:181:57">height</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:7:182:17">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:18:182:19">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:23:182:27">Math</jtok>
+<jtok eid="13" type="method_call" span="182:28:182:31">max</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:32:182:42">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:43:182:44">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="182:47:182:48">d</jtok>
+<jtok eid="13" type="qualified_name_ref" span="182:49:182:54">width</jtok>
+<jtok eid="13" type="primary_name_ref" span="187:5:187:17">total_height</jtok>
+<jtok eid="13" type="primary_name_ref" span="187:21:187:32">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="187:33:187:34">r</jtok>
+<jtok eid="13" type="local_variable_name" span="190:8:190:19">total_width</jtok>
+<jtok eid="13" type="local_variable_name" span="191:13:191:14">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="191:20:191:21">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="191:24:191:29">ncols</jtok>
+<jtok eid="13" type="primary_name_ref" span="191:31:191:32">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="192:5:192:16">total_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="192:20:192:30">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="192:31:192:32">c</jtok>
+<jtok eid="13" type="line_comment" span="195:4:195:38">// Pass 2: redistribute free space</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="196:4:196:13">Dimension</jtok>
+<jtok eid="13" type="local_variable_name" span="196:14:196:25">parent_size</jtok>
+<jtok eid="13" type="primary_name_ref" span="196:28:196:34">parent</jtok>
+<jtok eid="13" type="method_call" span="196:35:196:42">getSize</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="197:4:197:10">Insets</jtok>
+<jtok eid="13" type="local_variable_name" span="197:11:197:17">insets</jtok>
+<jtok eid="13" type="primary_name_ref" span="197:20:197:26">parent</jtok>
+<jtok eid="13" type="method_call" span="197:27:197:36">getInsets</jtok>
+<jtok eid="13" type="local_variable_name" span="198:8:198:19">free_height</jtok>
+<jtok eid="13" type="primary_name_ref" span="198:22:198:33">parent_size</jtok>
+<jtok eid="13" type="qualified_name_ref" span="198:34:198:40">height</jtok>
+<jtok eid="13" type="primary_name_ref" span="198:43:198:49">insets</jtok>
+<jtok eid="13" type="qualified_name_ref" span="198:50:198:53">top</jtok>
+<jtok eid="13" type="primary_name_ref" span="198:56:198:62">insets</jtok>
+<jtok eid="13" type="qualified_name_ref" span="198:63:198:69">bottom</jtok>
+<jtok eid="13" type="primary_name_ref" span="198:73:198:78">nrows</jtok>
+<jtok eid="13" type="primary_name_ref" span="198:86:198:90">vgap</jtok>
+<jtok eid="13" type="local_variable_name" span="199:8:199:18">free_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:21:199:32">parent_size</jtok>
+<jtok eid="13" type="qualified_name_ref" span="199:33:199:38">width</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:41:199:47">insets</jtok>
+<jtok eid="13" type="qualified_name_ref" span="199:48:199:52">left</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:55:199:61">insets</jtok>
+<jtok eid="13" type="qualified_name_ref" span="199:62:199:67">right</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:71:199:76">ncols</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:84:199:88">hgap</jtok>
+<jtok eid="13" type="primary_name_ref" span="201:8:201:20">total_height</jtok>
+<jtok eid="13" type="primary_name_ref" span="201:24:201:35">free_height</jtok>
+<jtok eid="13" type="local_variable_name" span="202:12:202:14">dy</jtok>
+<jtok eid="13" type="primary_name_ref" span="202:25:202:36">free_height</jtok>
+<jtok eid="13" type="primary_name_ref" span="202:47:202:59">total_height</jtok>
+<jtok eid="13" type="local_variable_name" span="203:14:203:15">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="203:21:203:22">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="203:25:203:30">nrows</jtok>
+<jtok eid="13" type="primary_name_ref" span="203:32:203:33">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:6:204:17">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:18:204:19">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:38:204:49">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:50:204:51">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:55:204:57">dy</jtok>
+<jtok eid="13" type="primary_name_ref" span="208:8:208:19">total_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="208:23:208:33">free_width</jtok>
+<jtok eid="13" type="local_variable_name" span="209:12:209:14">dx</jtok>
+<jtok eid="13" type="primary_name_ref" span="209:26:209:36">free_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="209:49:209:60">total_width</jtok>
+<jtok eid="13" type="local_variable_name" span="210:14:210:15">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:21:210:22">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:25:210:30">ncols</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:32:210:33">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:6:211:16">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:17:211:18">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:37:211:47">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:48:211:49">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:53:211:55">dx</jtok>
+<jtok eid="13" type="line_comment" span="215:4:215:32">// Pass 3: layout components</jtok>
+<jtok eid="13" type="local_variable_name" span="216:13:216:14">r</jtok>
+<jtok eid="13" type="local_variable_name" span="216:20:216:21">y</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:24:216:30">insets</jtok>
+<jtok eid="13" type="qualified_name_ref" span="216:31:216:34">top</jtok>
+<jtok eid="13" type="local_variable_name" span="216:36:216:37">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:43:216:44">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:47:216:52">nrows</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:54:216:55">y</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:59:216:70">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:71:216:72">r</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:76:216:80">vgap</jtok>
+<jtok eid="13" type="primary_name_ref" span="216:82:216:83">r</jtok>
+<jtok eid="13" type="local_variable_name" span="217:14:217:15">c</jtok>
+<jtok eid="13" type="local_variable_name" span="217:21:217:22">x</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:25:217:31">insets</jtok>
+<jtok eid="13" type="qualified_name_ref" span="217:32:217:36">left</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:38:217:39">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:42:217:47">ncols</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:49:217:50">x</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:54:217:64">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:65:217:66">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:70:217:74">hgap</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:76:217:77">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="217:81:217:82">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="218:10:218:11">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="218:14:218:25">ncomponents</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:7:219:13">parent</jtok>
+<jtok eid="13" type="method_call" span="219:14:219:26">getComponent</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:27:219:28">i</jtok>
+<jtok eid="13" type="method_call" span="219:30:219:39">setBounds</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:40:219:41">x</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:43:219:44">y</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:46:219:56">col_widths</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:57:219:58">c</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:61:219:72">row_heights</jtok>
+<jtok eid="13" type="primary_name_ref" span="219:73:219:74">r</jtok>
+<jtok eid="13" type="line_comment" span="224:5:224:20">// synchronized</jtok>
+<jtok eid="14" type="method_name" span="228:14:228:30">invalidateLayout</jtok>
+<jtok eid="14" type="parameter_type" span="228:31:228:40">Container</jtok>
+<jtok eid="14" type="parameter_name" span="228:41:228:50">container</jtok>
+<jtok eid="1" type="block_comment" span="231:2:234:5">/**
+	 * Returns the string representation of this variable grid layout's values.
+	 * @return  a string representation of this variable grid layout.
+	 */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="235:9:235:15">String</jtok>
+<jtok eid="15" type="method_name" span="235:16:235:24">toString</jtok>
+<jtok eid="15" type="method_call" span="236:10:236:18">getClass</jtok>
+<jtok eid="15" type="method_call" span="236:21:236:28">getName</jtok>
+<jtok eid="15" type="string_literal" span="236:33:236:41">"[mode="</jtok>
+<jtok eid="15" type="primary_name_ref" span="236:44:236:48">mode</jtok>
+<jtok eid="15" type="string_literal" span="236:51:236:59">",size="</jtok>
+<jtok eid="15" type="primary_name_ref" span="236:62:236:66">size</jtok>
+<jtok eid="15" type="string_literal" span="237:9:237:17">",hgap="</jtok>
+<jtok eid="15" type="primary_name_ref" span="237:20:237:24">hgap</jtok>
+<jtok eid="15" type="string_literal" span="237:27:237:35">",vgap="</jtok>
+<jtok eid="15" type="primary_name_ref" span="237:38:237:42">vgap</jtok>
+<jtok eid="15" type="string_literal" span="237:45:237:48">"]"</jtok>
+<jtok eid="1" type="block_comment" span="241:2:245:5">/**
+	 * @param  which  if 0 compute minimum layout size,
+	 *				if 1 compute maximum layout size,
+	 *				otherwise compute preferred layout size.
+	 */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="246:10:246:19">Dimension</jtok>
+<jtok eid="16" type="method_name" span="246:20:246:33">getLayoutSize</jtok>
+<jtok eid="16" type="parameter_type" span="246:34:246:43">Container</jtok>
+<jtok eid="16" type="parameter_name" span="246:44:246:50">parent</jtok>
+<jtok eid="16" type="parameter_name" span="246:56:246:61">which</jtok>
+<jtok eid="16" type="primary_name_ref" span="247:17:247:23">parent</jtok>
+<jtok eid="16" type="method_call" span="247:24:247:35">getTreeLock</jtok>
+<jtok eid="16" type="method_call" span="248:4:248:10">update</jtok>
+<jtok eid="16" type="primary_name_ref" span="248:11:248:17">parent</jtok>
+<jtok eid="16" type="local_variable_name" span="250:8:250:19">ncomponents</jtok>
+<jtok eid="16" type="primary_name_ref" span="250:22:250:28">parent</jtok>
+<jtok eid="16" type="method_call" span="250:29:250:46">getComponentCount</jtok>
+<jtok eid="16" type="local_variable_name" span="251:8:251:9">h</jtok>
+<jtok eid="16" type="local_variable_name" span="252:8:252:9">w</jtok>
+<jtok eid="16" type="local_variable_name" span="254:13:254:14">r</jtok>
+<jtok eid="16" type="local_variable_name" span="254:20:254:21">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="254:27:254:28">r</jtok>
+<jtok eid="16" type="primary_name_ref" span="254:31:254:36">nrows</jtok>
+<jtok eid="16" type="primary_name_ref" span="254:38:254:39">r</jtok>
+<jtok eid="16" type="local_variable_name" span="255:9:255:19">row_height</jtok>
+<jtok eid="16" type="local_variable_name" span="256:14:256:15">c</jtok>
+<jtok eid="16" type="primary_name_ref" span="256:21:256:22">c</jtok>
+<jtok eid="16" type="primary_name_ref" span="256:25:256:30">ncols</jtok>
+<jtok eid="16" type="primary_name_ref" span="256:32:256:33">c</jtok>
+<jtok eid="16" type="primary_name_ref" span="256:37:256:38">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="257:10:257:11">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="257:14:257:25">ncomponents</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:15:258:20">which</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:9:260:19">row_height</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:22:260:26">Math</jtok>
+<jtok eid="16" type="method_call" span="260:27:260:30">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:31:260:41">row_height</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:43:260:49">parent</jtok>
+<jtok eid="16" type="method_call" span="260:50:260:62">getComponent</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:63:260:64">i</jtok>
+<jtok eid="16" type="method_call" span="260:66:260:80">getMinimumSize</jtok>
+<jtok eid="16" type="qualified_name_ref" span="260:83:260:89">height</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:9:263:19">row_height</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:22:263:26">Math</jtok>
+<jtok eid="16" type="method_call" span="263:27:263:30">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:31:263:41">row_height</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:43:263:49">parent</jtok>
+<jtok eid="16" type="method_call" span="263:50:263:62">getComponent</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:63:263:64">i</jtok>
+<jtok eid="16" type="method_call" span="263:66:263:80">getMaximumSize</jtok>
+<jtok eid="16" type="qualified_name_ref" span="263:83:263:89">height</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:9:266:19">row_height</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:22:266:26">Math</jtok>
+<jtok eid="16" type="method_call" span="266:27:266:30">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:31:266:41">row_height</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:43:266:49">parent</jtok>
+<jtok eid="16" type="method_call" span="266:50:266:62">getComponent</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:63:266:64">i</jtok>
+<jtok eid="16" type="method_call" span="266:66:266:82">getPreferredSize</jtok>
+<jtok eid="16" type="qualified_name_ref" span="266:85:266:91">height</jtok>
+<jtok eid="16" type="primary_name_ref" span="273:5:273:6">h</jtok>
+<jtok eid="16" type="primary_name_ref" span="273:10:273:20">row_height</jtok>
+<jtok eid="16" type="local_variable_name" span="276:13:276:14">c</jtok>
+<jtok eid="16" type="primary_name_ref" span="276:20:276:21">c</jtok>
+<jtok eid="16" type="primary_name_ref" span="276:24:276:29">ncols</jtok>
+<jtok eid="16" type="primary_name_ref" span="276:31:276:32">c</jtok>
+<jtok eid="16" type="local_variable_name" span="277:9:277:18">col_width</jtok>
+<jtok eid="16" type="local_variable_name" span="278:14:278:15">r</jtok>
+<jtok eid="16" type="primary_name_ref" span="278:21:278:22">r</jtok>
+<jtok eid="16" type="primary_name_ref" span="278:25:278:30">nrows</jtok>
+<jtok eid="16" type="primary_name_ref" span="278:32:278:33">r</jtok>
+<jtok eid="16" type="local_variable_name" span="279:10:279:11">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="279:14:279:15">r</jtok>
+<jtok eid="16" type="primary_name_ref" span="279:18:279:23">ncols</jtok>
+<jtok eid="16" type="primary_name_ref" span="279:26:279:27">c</jtok>
+<jtok eid="16" type="primary_name_ref" span="280:10:280:11">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="280:14:280:25">ncomponents</jtok>
+<jtok eid="16" type="primary_name_ref" span="281:15:281:20">which</jtok>
+<jtok eid="16" type="primary_name_ref" span="283:9:283:18">col_width</jtok>
+<jtok eid="16" type="primary_name_ref" span="283:21:283:25">Math</jtok>
+<jtok eid="16" type="method_call" span="283:26:283:29">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="283:30:283:39">col_width</jtok>
+<jtok eid="16" type="primary_name_ref" span="283:41:283:47">parent</jtok>
+<jtok eid="16" type="method_call" span="283:48:283:60">getComponent</jtok>
+<jtok eid="16" type="primary_name_ref" span="283:61:283:62">i</jtok>
+<jtok eid="16" type="method_call" span="283:64:283:78">getMinimumSize</jtok>
+<jtok eid="16" type="qualified_name_ref" span="283:81:283:86">width</jtok>
+<jtok eid="16" type="primary_name_ref" span="286:9:286:18">col_width</jtok>
+<jtok eid="16" type="primary_name_ref" span="286:21:286:25">Math</jtok>
+<jtok eid="16" type="method_call" span="286:26:286:29">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="286:30:286:39">col_width</jtok>
+<jtok eid="16" type="primary_name_ref" span="286:41:286:47">parent</jtok>
+<jtok eid="16" type="method_call" span="286:48:286:60">getComponent</jtok>
+<jtok eid="16" type="primary_name_ref" span="286:61:286:62">i</jtok>
+<jtok eid="16" type="method_call" span="286:64:286:78">getMaximumSize</jtok>
+<jtok eid="16" type="qualified_name_ref" span="286:81:286:86">width</jtok>
+<jtok eid="16" type="primary_name_ref" span="289:9:289:18">col_width</jtok>
+<jtok eid="16" type="primary_name_ref" span="289:21:289:25">Math</jtok>
+<jtok eid="16" type="method_call" span="289:26:289:29">max</jtok>
+<jtok eid="16" type="primary_name_ref" span="289:30:289:39">col_width</jtok>
+<jtok eid="16" type="primary_name_ref" span="289:41:289:47">parent</jtok>
+<jtok eid="16" type="method_call" span="289:48:289:60">getComponent</jtok>
+<jtok eid="16" type="primary_name_ref" span="289:61:289:62">i</jtok>
+<jtok eid="16" type="method_call" span="289:64:289:80">getPreferredSize</jtok>
+<jtok eid="16" type="qualified_name_ref" span="289:83:289:88">width</jtok>
+<jtok eid="16" type="primary_name_ref" span="296:5:296:6">w</jtok>
+<jtok eid="16" type="primary_name_ref" span="296:10:296:19">col_width</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="299:4:299:10">Insets</jtok>
+<jtok eid="16" type="local_variable_name" span="299:11:299:17">insets</jtok>
+<jtok eid="16" type="primary_name_ref" span="299:20:299:26">parent</jtok>
+<jtok eid="16" type="method_call" span="299:27:299:36">getInsets</jtok>
+<jtok eid="16" type="constructor_call" span="300:15:300:24">Dimension</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:25:300:26">w</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:29:300:35">insets</jtok>
+<jtok eid="16" type="qualified_name_ref" span="300:36:300:40">left</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:43:300:49">insets</jtok>
+<jtok eid="16" type="qualified_name_ref" span="300:50:300:55">right</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:60:300:65">ncols</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:73:300:77">hgap</jtok>
+<jtok eid="16" type="primary_name_ref" span="301:10:301:11">h</jtok>
+<jtok eid="16" type="primary_name_ref" span="301:14:301:20">insets</jtok>
+<jtok eid="16" type="qualified_name_ref" span="301:21:301:24">top</jtok>
+<jtok eid="16" type="primary_name_ref" span="301:27:301:33">insets</jtok>
+<jtok eid="16" type="qualified_name_ref" span="301:34:301:40">bottom</jtok>
+<jtok eid="16" type="primary_name_ref" span="301:45:301:50">nrows</jtok>
+<jtok eid="16" type="primary_name_ref" span="301:58:301:62">vgap</jtok>
+<jtok eid="17" type="method_name" span="306:15:306:21">update</jtok>
+<jtok eid="17" type="parameter_type" span="306:22:306:31">Container</jtok>
+<jtok eid="17" type="parameter_name" span="306:32:306:41">container</jtok>
+<jtok eid="17" type="local_variable_name" span="307:7:307:18">ncomponents</jtok>
+<jtok eid="17" type="primary_name_ref" span="307:21:307:30">container</jtok>
+<jtok eid="17" type="method_call" span="307:31:307:48">getComponentCount</jtok>
+<jtok eid="17" type="local_variable_name" span="308:7:308:16">old_nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="308:19:308:24">nrows</jtok>
+<jtok eid="17" type="local_variable_name" span="309:7:309:16">old_ncols</jtok>
+<jtok eid="17" type="primary_name_ref" span="309:19:309:24">ncols</jtok>
+<jtok eid="17" type="qualified_name_ref" span="310:12:310:16">mode</jtok>
+<jtok eid="17" type="primary_name_ref" span="310:20:310:34">FIXED_NUM_ROWS</jtok>
+<jtok eid="17" type="primary_name_ref" span="311:4:311:9">nrows</jtok>
+<jtok eid="17" type="qualified_name_ref" span="311:17:311:21">size</jtok>
+<jtok eid="17" type="primary_name_ref" span="312:4:312:9">ncols</jtok>
+<jtok eid="17" type="primary_name_ref" span="312:13:312:24">ncomponents</jtok>
+<jtok eid="17" type="primary_name_ref" span="312:27:312:32">nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="312:40:312:45">nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="314:4:314:9">ncols</jtok>
+<jtok eid="17" type="qualified_name_ref" span="314:17:314:21">size</jtok>
+<jtok eid="17" type="primary_name_ref" span="315:4:315:9">nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="315:13:315:24">ncomponents</jtok>
+<jtok eid="17" type="primary_name_ref" span="315:27:315:32">ncols</jtok>
+<jtok eid="17" type="primary_name_ref" span="315:40:315:45">ncols</jtok>
+<jtok eid="17" type="primary_name_ref" span="317:7:317:16">old_nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="317:20:317:25">nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="318:4:318:15">row_heights</jtok>
+<jtok eid="17" type="primary_name_ref" span="318:26:318:31">nrows</jtok>
+<jtok eid="17" type="primary_name_ref" span="320:7:320:16">old_ncols</jtok>
+<jtok eid="17" type="primary_name_ref" span="320:20:320:25">ncols</jtok>
+<jtok eid="17" type="primary_name_ref" span="321:4:321:14">col_widths</jtok>
+<jtok eid="17" type="primary_name_ref" span="321:25:321:30">ncols</jtok>
+<jtok eid="1" type="field_name" span="326:14:326:18">mode</jtok>
+<jtok eid="1" type="field_name" span="327:14:327:18">size</jtok>
+<jtok eid="1" type="field_name" span="328:14:328:18">hgap</jtok>
+<jtok eid="1" type="field_name" span="329:14:329:18">vgap</jtok>
+<jtok eid="1" type="field_name" span="330:24:330:29">nrows</jtok>
+<jtok eid="1" type="field_name" span="331:24:331:29">ncols</jtok>
+<jtok eid="1" type="field_name" span="332:26:332:37">row_heights</jtok>
+<jtok eid="1" type="field_name" span="333:26:333:36">col_widths</jtok>
+</jdoc>

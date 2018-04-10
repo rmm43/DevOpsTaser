@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.indent.OpenBracketIndentRule" jls="java5">
+<jent id="0" type="file" span="0:0:91:2">Source/jEdit/org/gjt/sp/jedit/indent/OpenBracketIndentRule.java</jent>
+<jent id="1" pid="0" type="class" span="33:1:91:1">org.gjt.sp.jedit.indent.OpenBracketIndentRule</jent>
+<jent id="2" pid="1" type="method" span="36:2:41:2">org.gjt.sp.jedit.indent.OpenBracketIndentRule.OpenBracketIndentRule(char,boolean)</jent>
+<jent id="3" pid="1" type="method" span="44:2:62:2">org.gjt.sp.jedit.indent.OpenBracketIndentRule.apply(JEditBuffer,int,int,int,List&lt;IndentAction&gt;)</jent>
+<jent id="4" pid="1" type="method" span="65:2:71:2">org.gjt.sp.jedit.indent.OpenBracketIndentRule.getOpenBracketCount(JEditBuffer,int)</jent>
+<jent id="5" pid="1" type="method" span="74:2:88:2">org.gjt.sp.jedit.indent.OpenBracketIndentRule.handleCollapse(List&lt;IndentAction&gt;,boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * OpenBracketIndentRule.java
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="29:1:32:4">/**
+ * @author Slava Pestov
+ * @version $Id: OpenBracketIndentRule.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="33:14:33:35">OpenBracketIndentRule</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:44:33:61">BracketIndentRule</jtok>
+<jtok eid="1" type="line_comment" span="35:2:35:41">//{{{ OpenBracketIndentRule constructor</jtok>
+<jtok eid="2" type="method_name" span="36:9:36:30">OpenBracketIndentRule</jtok>
+<jtok eid="2" type="parameter_name" span="36:36:36:47">openBracket</jtok>
+<jtok eid="2" type="parameter_name" span="36:57:36:64">aligned</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:9:38:20">openBracket</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:4:39:17">TextUtilities</jtok>
+<jtok eid="2" type="method_call" span="39:18:39:41">getComplementaryBracket</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:42:39:53">openBracket</jtok>
+<jtok eid="2" type="qualified_name_ref" span="40:8:40:15">aligned</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:18:40:25">aligned</jtok>
+<jtok eid="1" type="line_comment" span="41:4:41:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:22">//{{{ apply() method</jtok>
+<jtok eid="3" type="method_name" span="44:14:44:19">apply</jtok>
+<jtok eid="3" type="parameter_type" span="44:20:44:31">JEditBuffer</jtok>
+<jtok eid="3" type="parameter_name" span="44:32:44:38">buffer</jtok>
+<jtok eid="3" type="parameter_name" span="44:44:44:57">thisLineIndex</jtok>
+<jtok eid="3" type="parameter_name" span="45:7:45:20">prevLineIndex</jtok>
+<jtok eid="3" type="parameter_name" span="45:26:45:43">prevPrevLineIndex</jtok>
+<jtok eid="3" type="parameter_type" span="46:3:46:7">List</jtok>
+<jtok eid="3" type="parameter_type" span="46:8:46:20">IndentAction</jtok>
+<jtok eid="3" type="parameter_name" span="46:22:46:35">indentActions</jtok>
+<jtok eid="3" type="local_variable_name" span="48:7:48:27">prevOpenBracketCount</jtok>
+<jtok eid="3" type="method_call" span="48:30:48:49">getOpenBracketCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:50:48:56">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:57:48:70">prevLineIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:6:49:26">prevOpenBracketCount</jtok>
+<jtok eid="3" type="method_call" span="51:4:51:18">handleCollapse</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:19:51:32">indentActions</jtok>
+<jtok eid="3" type="local_variable_name" span="52:12:52:20">multiple</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:23:52:29">buffer</jtok>
+<jtok eid="3" type="method_call" span="52:30:52:48">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="53:5:53:28">"multipleBracketIndent"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="54:4:54:16">IndentAction</jtok>
+<jtok eid="3" type="local_variable_name" span="54:17:54:25">increase</jtok>
+<jtok eid="3" type="constructor_call" span="54:32:54:44">IndentAction</jtok>
+<jtok eid="3" type="constructor_call" span="54:45:54:53">Increase</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:5:55:13">multiple</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:16:55:36">prevOpenBracketCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:4:56:17">indentActions</jtok>
+<jtok eid="3" type="method_call" span="56:18:56:21">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:22:56:30">increase</jtok>
+<jtok eid="3" type="method_call" span="58:11:58:30">getOpenBracketCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:31:58:37">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:38:58:51">thisLineIndex</jtok>
+<jtok eid="3" type="method_call" span="60:4:60:18">handleCollapse</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:19:60:32">indentActions</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:36">//{{{ getOpenBracketCount() method</jtok>
+<jtok eid="4" type="method_name" span="65:14:65:33">getOpenBracketCount</jtok>
+<jtok eid="4" type="parameter_type" span="65:34:65:45">JEditBuffer</jtok>
+<jtok eid="4" type="parameter_name" span="65:46:65:52">buffer</jtok>
+<jtok eid="4" type="parameter_name" span="65:58:65:62">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:6:67:10">line</jtok>
+<jtok eid="4" type="method_call" span="70:11:70:22">getBrackets</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:23:70:29">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:31:70:35">line</jtok>
+<jtok eid="4" type="qualified_name_ref" span="70:37:70:46">openCount</jtok>
+<jtok eid="1" type="line_comment" span="71:4:71:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="73:2:73:31">//{{{ handleCollapse() method</jtok>
+<jtok eid="5" type="method_name" span="74:22:74:36">handleCollapse</jtok>
+<jtok eid="5" type="parameter_type" span="74:37:74:41">List</jtok>
+<jtok eid="5" type="parameter_type" span="74:42:74:54">IndentAction</jtok>
+<jtok eid="5" type="parameter_name" span="74:56:74:69">indentActions</jtok>
+<jtok eid="5" type="parameter_name" span="75:17:75:36">delPrevPrevCollapse</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:7:77:20">indentActions</jtok>
+<jtok eid="5" type="method_call" span="77:21:77:29">contains</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:30:77:42">IndentAction</jtok>
+<jtok eid="5" type="qualified_name_ref" span="77:43:77:55">PrevCollapse</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:4:79:17">indentActions</jtok>
+<jtok eid="5" type="method_call" span="79:18:79:23">clear</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:7:83:26">delPrevPrevCollapse</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:30:83:43">indentActions</jtok>
+<jtok eid="5" type="method_call" span="83:44:83:52">contains</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:53:83:65">IndentAction</jtok>
+<jtok eid="5" type="qualified_name_ref" span="83:66:83:82">PrevPrevCollapse</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:4:85:17">indentActions</jtok>
+<jtok eid="5" type="method_call" span="85:18:85:23">clear</jtok>
+<jtok eid="1" type="line_comment" span="88:4:88:9">//}}}</jtok>
+<jtok eid="1" type="field_name" span="90:18:90:25">aligned</jtok>
+</jdoc>

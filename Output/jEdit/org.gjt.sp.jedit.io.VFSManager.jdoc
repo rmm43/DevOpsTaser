@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.io.VFSManager" jls="java5">
+<jent id="0" type="file" span="0:0:470:2">Source/jEdit/org/gjt/sp/jedit/io/VFSManager.java</jent>
+<jent id="1" pid="0" type="class" span="55:1:470:1">org.gjt.sp.jedit.io.VFSManager</jent>
+<jent id="2" pid="1" type="method" span="67:2:77:2">org.gjt.sp.jedit.io.VFSManager.init()</jent>
+<jent id="3" pid="1" type="method" span="83:2:86:2">org.gjt.sp.jedit.io.VFSManager.start()</jent>
+<jent id="4" pid="1" type="method" span="95:2:98:2">org.gjt.sp.jedit.io.VFSManager.getFileVFS()</jent>
+<jent id="5" pid="1" type="method" span="105:2:108:2">org.gjt.sp.jedit.io.VFSManager.getUrlVFS()</jent>
+<jent id="6" pid="1" type="method" span="114:2:122:2">org.gjt.sp.jedit.io.VFSManager.getVFSByName(String)</jent>
+<jent id="7" pid="1" type="method" span="130:2:145:2">org.gjt.sp.jedit.io.VFSManager.getVFSForProtocol(String)</jent>
+<jent id="8" pid="1" type="method" span="153:2:159:2">org.gjt.sp.jedit.io.VFSManager.getVFSForPath(String)</jent>
+<jent id="9" pid="1" type="method" span="166:2:173:2">org.gjt.sp.jedit.io.VFSManager.registerVFS(String,VFS)</jent>
+<jent id="10" pid="1" type="method" span="179:2:182:2">org.gjt.sp.jedit.io.VFSManager.getFilesystems()</jent>
+<jent id="11" pid="1" type="method" span="189:2:206:2">org.gjt.sp.jedit.io.VFSManager.getVFSs()</jent>
+<jent id="12" pid="1" type="method" span="216:2:219:2">org.gjt.sp.jedit.io.VFSManager.getIOThreadPool()</jent>
+<jent id="13" pid="1" type="method" span="226:2:229:2">org.gjt.sp.jedit.io.VFSManager.waitForRequests()</jent>
+<jent id="14" pid="1" type="method" span="235:2:238:2">org.gjt.sp.jedit.io.VFSManager.errorOccurred()</jent>
+<jent id="15" pid="1" type="method" span="244:2:247:2">org.gjt.sp.jedit.io.VFSManager.getRequestCount()</jent>
+<jent id="16" pid="1" type="method" span="255:2:258:2">org.gjt.sp.jedit.io.VFSManager.runInAWTThread(Runnable)</jent>
+<jent id="17" pid="1" type="method" span="265:2:268:2">org.gjt.sp.jedit.io.VFSManager.runInWorkThread(Runnable)</jent>
+<jent id="18" pid="1" type="method" span="277:2:281:2">org.gjt.sp.jedit.io.VFSManager.error(IOException,String,Component)</jent>
+<jent id="19" pid="1" type="method" span="287:2:316:2">org.gjt.sp.jedit.io.VFSManager.error(Component,String,Object[])</jent>
+<jent id="20" pid="19" type="class" span="305:3:315:3">org.gjt.sp.jedit.io.VFSManager.error(Component,String,Object[]).$1</jent>
+<jent id="21" pid="20" type="method" span="306:4:314:4">org.gjt.sp.jedit.io.VFSManager.error(Component,String,Object[]).$1.run()</jent>
+<jent id="22" pid="1" type="method" span="328:2:366:2">org.gjt.sp.jedit.io.VFSManager.error(Component,String,String,Object[])</jent>
+<jent id="23" pid="22" type="class" span="347:5:363:5">org.gjt.sp.jedit.io.VFSManager.error(Component,String,String,Object[]).$2</jent>
+<jent id="24" pid="23" type="method" span="348:6:362:6">org.gjt.sp.jedit.io.VFSManager.error(Component,String,String,Object[]).$2.run()</jent>
+<jent id="25" pid="1" type="method" span="377:2:415:2">org.gjt.sp.jedit.io.VFSManager.sendVFSUpdate(VFS,String,boolean)</jent>
+<jent id="26" pid="1" type="class" span="418:2:440:2">org.gjt.sp.jedit.io.VFSManager.SendVFSUpdatesSafely</jent>
+<jent id="27" pid="26" type="method" span="420:3:439:3">org.gjt.sp.jedit.io.VFSManager.SendVFSUpdatesSafely.run()</jent>
+<jent id="28" pid="1" type="method" span="468:2:468:24">org.gjt.sp.jedit.io.VFSManager.VFSManager()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * VFSManager.java - Main class of virtual filesystem
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="41:1:54:4">/**
+ * jEdit's virtual filesystem allows it to transparently edit files
+ * stored elsewhere than the local filesystem, for example on an FTP
+ * site. See the {@link VFS} class for implementation details.&lt;p&gt;
+ *
+ * Note that most of the jEdit API is not thread-safe, so special care
+ * must be taken when making jEdit API calls. Also, it is not safe to
+ * call &lt;code&gt;SwingUtilities.invokeAndWait()&lt;/code&gt; from a work request;
+ * it can cause a deadlock if the given runnable then later calls
+ * {@link #waitForRequests()}.
+ *
+ * @author Slava Pestov
+ * @version $Id: VFSManager.java 14125 2008-12-01 10:06:24Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="55:14:55:24">VFSManager</jtok>
+<jtok eid="1" type="block_comment" span="57:2:60:5">/**
+	 * The service type. See {@link org.gjt.sp.jedit.ServiceManager}.
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="61:22:61:28">String</jtok>
+<jtok eid="1" type="field_name" span="61:29:61:36">SERVICE</jtok>
+<jtok eid="1" type="string_literal" span="61:39:61:64">"org.gjt.sp.jedit.io.VFS"</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:21">//{{{ init() method</jtok>
+<jtok eid="1" type="block_comment" span="64:2:66:5">/**
+	 * Do not call.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="67:21:67:25">init</jtok>
+<jtok eid="2" type="local_variable_name" span="69:7:69:12">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:15:69:20">jEdit</jtok>
+<jtok eid="2" type="method_call" span="69:21:69:39">getIntegerProperty</jtok>
+<jtok eid="2" type="string_literal" span="69:40:69:55">"ioThreadCount"</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:3:70:15">ioThreadPool</jtok>
+<jtok eid="2" type="constructor_call" span="70:22:70:36">WorkThreadPool</jtok>
+<jtok eid="2" type="string_literal" span="70:37:70:48">"jEdit I/O"</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:49:70:54">count</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="71:3:71:17">JARClassLoader</jtok>
+<jtok eid="2" type="local_variable_name" span="71:18:71:29">classLoader</jtok>
+<jtok eid="2" type="constructor_call" span="71:36:71:50">JARClassLoader</jtok>
+<jtok eid="2" type="local_variable_name" span="72:11:72:12">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:18:72:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:22:72:34">ioThreadPool</jtok>
+<jtok eid="2" type="method_call" span="72:35:72:49">getThreadCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:53:72:54">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:4:74:16">ioThreadPool</jtok>
+<jtok eid="2" type="method_call" span="74:17:74:26">getThread</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:27:74:28">i</jtok>
+<jtok eid="2" type="method_call" span="74:30:74:51">setContextClassLoader</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:5:75:16">classLoader</jtok>
+<jtok eid="1" type="line_comment" span="77:4:77:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="79:2:79:22">//{{{ start() method</jtok>
+<jtok eid="1" type="block_comment" span="80:2:82:5">/**
+	 * Do not call.
+	 */</jtok>
+<jtok eid="3" type="method_name" span="83:21:83:26">start</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:3:85:15">ioThreadPool</jtok>
+<jtok eid="3" type="method_call" span="85:16:85:21">start</jtok>
+<jtok eid="1" type="line_comment" span="86:4:86:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="88:2:88:19">//{{{ VFS methods</jtok>
+<jtok eid="1" type="line_comment" span="90:2:90:27">//{{{ getFileVFS() method</jtok>
+<jtok eid="1" type="block_comment" span="91:2:94:5">/**
+	 * Returns the local filesystem VFS.
+	 * @since jEdit 2.5pre1
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="95:16:95:19">VFS</jtok>
+<jtok eid="4" type="method_name" span="95:20:95:30">getFileVFS</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:10:97:17">fileVFS</jtok>
+<jtok eid="1" type="line_comment" span="98:4:98:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="100:2:100:26">//{{{ getUrlVFS() method</jtok>
+<jtok eid="1" type="block_comment" span="101:2:104:5">/**
+	 * Returns the URL VFS.
+	 * @since jEdit 2.5pre1
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="105:16:105:19">VFS</jtok>
+<jtok eid="5" type="method_name" span="105:20:105:29">getUrlVFS</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:10:107:16">urlVFS</jtok>
+<jtok eid="1" type="line_comment" span="108:4:108:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="110:2:110:29">//{{{ getVFSByName() method</jtok>
+<jtok eid="1" type="block_comment" span="111:2:113:5">/**
+	 * @deprecated Use &lt;code&gt;getVFSForProtocol()&lt;/code&gt; instead.
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="114:16:114:19">VFS</jtok>
+<jtok eid="6" type="method_name" span="114:20:114:32">getVFSByName</jtok>
+<jtok eid="6" type="parameter_type" span="114:33:114:39">String</jtok>
+<jtok eid="6" type="parameter_name" span="114:40:114:44">name</jtok>
+<jtok eid="6" type="line_comment" span="116:3:116:45">// in new api, protocol always equals name</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="117:3:117:6">VFS</jtok>
+<jtok eid="6" type="local_variable_name" span="117:7:117:10">vfs</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="117:14:117:17">VFS</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:18:117:32">ServiceManager</jtok>
+<jtok eid="6" type="method_call" span="117:33:117:43">getService</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:44:117:51">SERVICE</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:52:117:56">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:6:118:9">vfs</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:11:119:18">vfsHash</jtok>
+<jtok eid="6" type="method_call" span="119:19:119:22">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:23:119:27">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="121:11:121:14">vfs</jtok>
+<jtok eid="1" type="line_comment" span="122:4:122:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="124:2:124:34">//{{{ getVFSForProtocol() method</jtok>
+<jtok eid="1" type="block_comment" span="125:2:129:5">/**
+	 * Returns the VFS for the specified protocol.
+	 * @param protocol The protocol
+	 * @since jEdit 2.5pre1
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="130:16:130:19">VFS</jtok>
+<jtok eid="7" type="method_name" span="130:20:130:37">getVFSForProtocol</jtok>
+<jtok eid="7" type="parameter_type" span="130:38:130:44">String</jtok>
+<jtok eid="7" type="parameter_name" span="130:45:130:53">protocol</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:6:132:14">protocol</jtok>
+<jtok eid="7" type="method_call" span="132:15:132:21">equals</jtok>
+<jtok eid="7" type="string_literal" span="132:22:132:28">"file"</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:11:133:18">fileVFS</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="136:4:136:7">VFS</jtok>
+<jtok eid="7" type="local_variable_name" span="136:8:136:11">vfs</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="136:15:136:18">VFS</jtok>
+<jtok eid="7" type="primary_name_ref" span="136:19:136:33">ServiceManager</jtok>
+<jtok eid="7" type="method_call" span="136:34:136:44">getService</jtok>
+<jtok eid="7" type="primary_name_ref" span="136:45:136:52">SERVICE</jtok>
+<jtok eid="7" type="primary_name_ref" span="136:53:136:61">protocol</jtok>
+<jtok eid="7" type="primary_name_ref" span="137:7:137:10">vfs</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:5:138:8">vfs</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:11:138:23">protocolHash</jtok>
+<jtok eid="7" type="method_call" span="138:24:138:27">get</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:28:138:36">protocol</jtok>
+<jtok eid="7" type="primary_name_ref" span="140:7:140:10">vfs</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:12:141:15">vfs</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:12:143:18">urlVFS</jtok>
+<jtok eid="1" type="line_comment" span="145:4:145:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="147:2:147:30">//{{{ getVFSForPath() method</jtok>
+<jtok eid="1" type="block_comment" span="148:2:152:5">/**
+	 * Returns the VFS for the specified path.
+	 * @param path The path
+	 * @since jEdit 2.6pre4
+	 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="153:16:153:19">VFS</jtok>
+<jtok eid="8" type="method_name" span="153:20:153:33">getVFSForPath</jtok>
+<jtok eid="8" type="parameter_type" span="153:34:153:40">String</jtok>
+<jtok eid="8" type="parameter_name" span="153:41:153:45">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:6:155:19">MiscUtilities</jtok>
+<jtok eid="8" type="method_call" span="155:20:155:25">isURL</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:26:155:30">path</jtok>
+<jtok eid="8" type="method_call" span="156:11:156:28">getVFSForProtocol</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:29:156:42">MiscUtilities</jtok>
+<jtok eid="8" type="method_call" span="156:43:156:59">getProtocolOfURL</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:60:156:64">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:11:158:18">fileVFS</jtok>
+<jtok eid="1" type="line_comment" span="159:4:159:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="161:2:161:28">//{{{ registerVFS() method</jtok>
+<jtok eid="1" type="block_comment" span="162:2:165:5">/**
+	 * @deprecated Write a &lt;code&gt;services.xml&lt;/code&gt; file instead;
+	 * see {@link org.gjt.sp.jedit.ServiceManager}.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="166:21:166:32">registerVFS</jtok>
+<jtok eid="9" type="parameter_type" span="166:33:166:39">String</jtok>
+<jtok eid="9" type="parameter_name" span="166:40:166:48">protocol</jtok>
+<jtok eid="9" type="parameter_type" span="166:50:166:53">VFS</jtok>
+<jtok eid="9" type="parameter_name" span="166:54:166:57">vfs</jtok>
+<jtok eid="9" type="primary_name_ref" span="168:3:168:6">Log</jtok>
+<jtok eid="9" type="method_call" span="168:7:168:10">log</jtok>
+<jtok eid="9" type="primary_name_ref" span="168:11:168:14">Log</jtok>
+<jtok eid="9" type="qualified_name_ref" span="168:15:168:20">DEBUG</jtok>
+<jtok eid="9" type="primary_name_ref" span="168:21:168:31">VFSManager</jtok>
+<jtok eid="9" type="string_literal" span="168:38:168:51">"Registered "</jtok>
+<jtok eid="9" type="primary_name_ref" span="169:6:169:9">vfs</jtok>
+<jtok eid="9" type="method_call" span="169:10:169:17">getName</jtok>
+<jtok eid="9" type="string_literal" span="169:22:169:40">" filesystem for "</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:6:170:14">protocol</jtok>
+<jtok eid="9" type="string_literal" span="170:17:170:28">" protocol"</jtok>
+<jtok eid="9" type="primary_name_ref" span="171:3:171:10">vfsHash</jtok>
+<jtok eid="9" type="method_call" span="171:11:171:14">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="171:15:171:18">vfs</jtok>
+<jtok eid="9" type="method_call" span="171:19:171:26">getName</jtok>
+<jtok eid="9" type="primary_name_ref" span="171:29:171:32">vfs</jtok>
+<jtok eid="9" type="primary_name_ref" span="172:3:172:15">protocolHash</jtok>
+<jtok eid="9" type="method_call" span="172:16:172:19">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="172:20:172:28">protocol</jtok>
+<jtok eid="9" type="primary_name_ref" span="172:29:172:32">vfs</jtok>
+<jtok eid="1" type="line_comment" span="173:4:173:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="175:2:175:31">//{{{ getFilesystems() method</jtok>
+<jtok eid="1" type="block_comment" span="176:2:178:5">/**
+	 * @deprecated Use &lt;code&gt;getVFSs()&lt;/code&gt; instead.
+	 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="179:16:179:27">Enumeration</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="179:28:179:31">VFS</jtok>
+<jtok eid="10" type="method_name" span="179:33:179:47">getFilesystems</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:10:181:17">vfsHash</jtok>
+<jtok eid="10" type="method_call" span="181:18:181:26">elements</jtok>
+<jtok eid="1" type="line_comment" span="182:4:182:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="184:2:184:24">//{{{ getVFSs() method</jtok>
+<jtok eid="1" type="block_comment" span="185:2:188:5">/**
+	 * Returns a list of all registered filesystems.
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="189:16:189:22">String</jtok>
+<jtok eid="11" type="method_name" span="189:25:189:32">getVFSs</jtok>
+<jtok eid="11" type="line_comment" span="191:3:191:61">// the sooner ppl move to the new api, the less we'll need</jtok>
+<jtok eid="11" type="line_comment" span="192:3:192:20">// crap like this</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="193:3:193:7">List</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="193:8:193:14">String</jtok>
+<jtok eid="11" type="local_variable_name" span="193:16:193:27">returnValue</jtok>
+<jtok eid="11" type="constructor_call" span="193:34:193:44">LinkedList</jtok>
+<jtok eid="11" type="constructor_call" span="193:45:193:51">String</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="194:3:194:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="194:12:194:18">newAPI</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:21:194:35">ServiceManager</jtok>
+<jtok eid="11" type="method_call" span="194:36:194:51">getServiceNames</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:52:194:59">SERVICE</jtok>
+<jtok eid="11" type="primary_name_ref" span="195:6:195:12">newAPI</jtok>
+<jtok eid="11" type="local_variable_name" span="197:12:197:13">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="197:19:197:20">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="197:23:197:29">newAPI</jtok>
+<jtok eid="11" type="qualified_name_ref" span="197:30:197:36">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="197:38:197:39">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:5:199:16">returnValue</jtok>
+<jtok eid="11" type="method_call" span="199:17:199:20">add</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:21:199:27">newAPI</jtok>
+<jtok eid="11" type="primary_name_ref" span="199:28:199:29">i</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="202:3:202:14">Enumeration</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="202:15:202:21">String</jtok>
+<jtok eid="11" type="local_variable_name" span="202:23:202:29">oldAPI</jtok>
+<jtok eid="11" type="primary_name_ref" span="202:32:202:39">vfsHash</jtok>
+<jtok eid="11" type="method_call" span="202:40:202:44">keys</jtok>
+<jtok eid="11" type="primary_name_ref" span="203:9:203:15">oldAPI</jtok>
+<jtok eid="11" type="method_call" span="203:16:203:31">hasMoreElements</jtok>
+<jtok eid="11" type="primary_name_ref" span="204:4:204:15">returnValue</jtok>
+<jtok eid="11" type="method_call" span="204:16:204:19">add</jtok>
+<jtok eid="11" type="primary_name_ref" span="204:20:204:26">oldAPI</jtok>
+<jtok eid="11" type="method_call" span="204:27:204:38">nextElement</jtok>
+<jtok eid="11" type="primary_name_ref" span="205:10:205:21">returnValue</jtok>
+<jtok eid="11" type="method_call" span="205:22:205:29">toArray</jtok>
+<jtok eid="11" type="constructor_call" span="205:34:205:40">String</jtok>
+<jtok eid="11" type="primary_name_ref" span="205:41:205:52">returnValue</jtok>
+<jtok eid="11" type="method_call" span="205:53:205:57">size</jtok>
+<jtok eid="1" type="line_comment" span="206:4:206:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="208:2:208:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="210:2:210:27">//{{{ I/O request methods</jtok>
+<jtok eid="1" type="line_comment" span="212:2:212:32">//{{{ getIOThreadPool() method</jtok>
+<jtok eid="1" type="block_comment" span="213:2:215:5">/**
+	 * Returns the I/O thread pool.
+	 */</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="216:16:216:30">WorkThreadPool</jtok>
+<jtok eid="12" type="method_name" span="216:31:216:46">getIOThreadPool</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:10:218:22">ioThreadPool</jtok>
+<jtok eid="1" type="line_comment" span="219:4:219:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="221:2:221:32">//{{{ waitForRequests() method</jtok>
+<jtok eid="1" type="block_comment" span="222:2:225:5">/**
+	 * Returns when all pending requests are complete.
+	 * @since jEdit 2.5pre1
+	 */</jtok>
+<jtok eid="13" type="method_name" span="226:21:226:36">waitForRequests</jtok>
+<jtok eid="13" type="primary_name_ref" span="228:3:228:15">ioThreadPool</jtok>
+<jtok eid="13" type="method_call" span="228:16:228:31">waitForRequests</jtok>
+<jtok eid="1" type="line_comment" span="229:4:229:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="231:2:231:30">//{{{ errorOccurred() method</jtok>
+<jtok eid="1" type="block_comment" span="232:2:234:5">/**
+	 * Returns if the last request caused an error.
+	 */</jtok>
+<jtok eid="14" type="method_name" span="235:24:235:37">errorOccurred</jtok>
+<jtok eid="14" type="primary_name_ref" span="237:10:237:15">error</jtok>
+<jtok eid="1" type="line_comment" span="238:4:238:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="240:2:240:32">//{{{ getRequestCount() method</jtok>
+<jtok eid="1" type="block_comment" span="241:2:243:5">/**
+	 * Returns the number of pending I/O requests.
+	 */</jtok>
+<jtok eid="15" type="method_name" span="244:20:244:35">getRequestCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="246:10:246:22">ioThreadPool</jtok>
+<jtok eid="15" type="method_call" span="246:23:246:38">getRequestCount</jtok>
+<jtok eid="1" type="line_comment" span="247:4:247:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="249:2:249:31">//{{{ runInAWTThread() method</jtok>
+<jtok eid="1" type="block_comment" span="250:2:254:5">/**
+	 * Executes the specified runnable in the AWT thread once all
+	 * pending I/O requests are complete.
+	 * @since jEdit 2.5pre1
+	 */</jtok>
+<jtok eid="16" type="method_name" span="255:21:255:35">runInAWTThread</jtok>
+<jtok eid="16" type="parameter_type" span="255:36:255:44">Runnable</jtok>
+<jtok eid="16" type="parameter_name" span="255:45:255:48">run</jtok>
+<jtok eid="16" type="primary_name_ref" span="257:3:257:15">ioThreadPool</jtok>
+<jtok eid="16" type="method_call" span="257:16:257:30">addWorkRequest</jtok>
+<jtok eid="16" type="primary_name_ref" span="257:31:257:34">run</jtok>
+<jtok eid="1" type="line_comment" span="258:4:258:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="260:2:260:32">//{{{ runInWorkThread() method</jtok>
+<jtok eid="1" type="block_comment" span="261:2:264:5">/**
+	 * Executes the specified runnable in one of the I/O threads.
+	 * @since jEdit 2.6pre2
+	 */</jtok>
+<jtok eid="17" type="method_name" span="265:21:265:36">runInWorkThread</jtok>
+<jtok eid="17" type="parameter_type" span="265:37:265:45">Runnable</jtok>
+<jtok eid="17" type="parameter_name" span="265:46:265:49">run</jtok>
+<jtok eid="17" type="primary_name_ref" span="267:3:267:15">ioThreadPool</jtok>
+<jtok eid="17" type="method_call" span="267:16:267:30">addWorkRequest</jtok>
+<jtok eid="17" type="primary_name_ref" span="267:31:267:34">run</jtok>
+<jtok eid="1" type="line_comment" span="268:4:268:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="270:2:270:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="272:2:272:22">//{{{ error() method</jtok>
+<jtok eid="1" type="block_comment" span="273:2:276:5">/**
+	 * Handle an I/O error.
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="18" type="method_name" span="277:21:277:26">error</jtok>
+<jtok eid="18" type="parameter_type" span="277:27:277:38">IOException</jtok>
+<jtok eid="18" type="parameter_name" span="277:39:277:40">e</jtok>
+<jtok eid="18" type="parameter_type" span="277:42:277:48">String</jtok>
+<jtok eid="18" type="parameter_name" span="277:49:277:53">path</jtok>
+<jtok eid="18" type="parameter_type" span="277:55:277:64">Component</jtok>
+<jtok eid="18" type="parameter_name" span="277:65:277:69">comp</jtok>
+<jtok eid="18" type="primary_name_ref" span="279:3:279:6">Log</jtok>
+<jtok eid="18" type="method_call" span="279:7:279:10">log</jtok>
+<jtok eid="18" type="primary_name_ref" span="279:11:279:14">Log</jtok>
+<jtok eid="18" type="qualified_name_ref" span="279:15:279:20">ERROR</jtok>
+<jtok eid="18" type="primary_name_ref" span="279:21:279:31">VFSManager</jtok>
+<jtok eid="18" type="primary_name_ref" span="279:38:279:39">e</jtok>
+<jtok eid="18" type="primary_name_ref" span="280:3:280:13">VFSManager</jtok>
+<jtok eid="18" type="method_call" span="280:14:280:19">error</jtok>
+<jtok eid="18" type="primary_name_ref" span="280:20:280:24">comp</jtok>
+<jtok eid="18" type="primary_name_ref" span="280:25:280:29">path</jtok>
+<jtok eid="18" type="string_literal" span="280:30:280:39">"ioerror"</jtok>
+<jtok eid="18" type="constructor_call" span="280:44:280:50">String</jtok>
+<jtok eid="18" type="primary_name_ref" span="280:55:280:56">e</jtok>
+<jtok eid="18" type="method_call" span="280:57:280:65">toString</jtok>
+<jtok eid="1" type="line_comment" span="281:4:281:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="283:2:283:22">//{{{ error() method</jtok>
+<jtok eid="1" type="block_comment" span="284:2:286:5">/**
+	 * @deprecated Call the other &lt;code&gt;error()&lt;/code&gt; method instead.
+	 */</jtok>
+<jtok eid="19" type="method_name" span="287:21:287:26">error</jtok>
+<jtok eid="19" type="parameter_type" span="287:33:287:42">Component</jtok>
+<jtok eid="19" type="parameter_name" span="287:43:287:47">comp</jtok>
+<jtok eid="19" type="parameter_type" span="287:55:287:61">String</jtok>
+<jtok eid="19" type="parameter_name" span="287:62:287:67">error</jtok>
+<jtok eid="19" type="parameter_type" span="287:75:287:81">Object</jtok>
+<jtok eid="19" type="parameter_name" span="287:84:287:88">args</jtok>
+<jtok eid="19" type="line_comment" span="289:3:289:58">// if we are already in the AWT thread, take a shortcut</jtok>
+<jtok eid="19" type="primary_name_ref" span="290:6:290:20">SwingUtilities</jtok>
+<jtok eid="19" type="method_call" span="290:21:290:42">isEventDispatchThread</jtok>
+<jtok eid="19" type="primary_name_ref" span="292:4:292:16">GUIUtilities</jtok>
+<jtok eid="19" type="method_call" span="292:17:292:22">error</jtok>
+<jtok eid="19" type="primary_name_ref" span="292:23:292:27">comp</jtok>
+<jtok eid="19" type="primary_name_ref" span="292:28:292:33">error</jtok>
+<jtok eid="19" type="primary_name_ref" span="292:34:292:38">args</jtok>
+<jtok eid="19" type="line_comment" span="296:3:296:52">// the 'error' chicanery ensures that stuff like:</jtok>
+<jtok eid="19" type="line_comment" span="297:3:297:34">// VFSManager.waitForRequests()</jtok>
+<jtok eid="19" type="line_comment" span="298:3:298:36">// if(VFSManager.errorOccurred())</jtok>
+<jtok eid="19" type="line_comment" span="299:3:299:17">//         ...</jtok>
+<jtok eid="19" type="line_comment" span="300:3:300:56">// will work (because the below runnable will only be</jtok>
+<jtok eid="19" type="line_comment" span="301:3:301:33">// executed in the next event)</jtok>
+<jtok eid="19" type="primary_name_ref" span="302:3:302:13">VFSManager</jtok>
+<jtok eid="19" type="qualified_name_ref" span="302:14:302:19">error</jtok>
+<jtok eid="19" type="method_call" span="304:3:304:17">runInAWTThread</jtok>
+<jtok eid="19" type="constructor_call" span="304:22:304:30">Runnable</jtok>
+<jtok eid="21" type="method_name" span="306:16:306:19">run</jtok>
+<jtok eid="21" type="primary_name_ref" span="308:5:308:15">VFSManager</jtok>
+<jtok eid="21" type="qualified_name_ref" span="308:16:308:21">error</jtok>
+<jtok eid="21" type="primary_name_ref" span="310:8:310:12">comp</jtok>
+<jtok eid="21" type="primary_name_ref" span="310:25:310:29">comp</jtok>
+<jtok eid="21" type="method_call" span="310:30:310:39">isShowing</jtok>
+<jtok eid="21" type="primary_name_ref" span="311:6:311:18">GUIUtilities</jtok>
+<jtok eid="21" type="method_call" span="311:19:311:24">error</jtok>
+<jtok eid="21" type="primary_name_ref" span="311:30:311:35">error</jtok>
+<jtok eid="21" type="primary_name_ref" span="311:36:311:40">args</jtok>
+<jtok eid="21" type="primary_name_ref" span="313:6:313:18">GUIUtilities</jtok>
+<jtok eid="21" type="method_call" span="313:19:313:24">error</jtok>
+<jtok eid="21" type="primary_name_ref" span="313:25:313:29">comp</jtok>
+<jtok eid="21" type="primary_name_ref" span="313:30:313:35">error</jtok>
+<jtok eid="21" type="primary_name_ref" span="313:36:313:40">args</jtok>
+<jtok eid="1" type="line_comment" span="316:4:316:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="318:2:318:22">//{{{ error() method</jtok>
+<jtok eid="1" type="block_comment" span="319:2:327:5">/**
+	 * Reports an I/O error.
+	 *
+	 * @param comp The component
+	 * @param path The path name that caused the error
+	 * @param messageProp The error message property name
+	 * @param args Positional parameters
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="22" type="method_name" span="328:21:328:26">error</jtok>
+<jtok eid="22" type="parameter_type" span="328:27:328:36">Component</jtok>
+<jtok eid="22" type="parameter_name" span="328:37:328:41">comp</jtok>
+<jtok eid="22" type="parameter_type" span="329:9:329:15">String</jtok>
+<jtok eid="22" type="parameter_name" span="329:16:329:20">path</jtok>
+<jtok eid="22" type="parameter_type" span="330:3:330:9">String</jtok>
+<jtok eid="22" type="parameter_name" span="330:10:330:21">messageProp</jtok>
+<jtok eid="22" type="parameter_type" span="331:3:331:9">Object</jtok>
+<jtok eid="22" type="parameter_name" span="331:12:331:16">args</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="333:9:333:14">Frame</jtok>
+<jtok eid="22" type="local_variable_name" span="333:15:333:20">frame</jtok>
+<jtok eid="22" type="primary_name_ref" span="333:23:333:34">JOptionPane</jtok>
+<jtok eid="22" type="method_call" span="333:35:333:55">getFrameForComponent</jtok>
+<jtok eid="22" type="primary_name_ref" span="333:56:333:60">comp</jtok>
+<jtok eid="22" type="primary_name_ref" span="335:16:335:25">errorLock</jtok>
+<jtok eid="22" type="primary_name_ref" span="337:4:337:9">error</jtok>
+<jtok eid="22" type="primary_name_ref" span="339:4:339:10">errors</jtok>
+<jtok eid="22" type="method_call" span="339:11:339:14">add</jtok>
+<jtok eid="22" type="constructor_call" span="339:19:339:34">ErrorListDialog</jtok>
+<jtok eid="22" type="constructor_call" span="339:35:339:45">ErrorEntry</jtok>
+<jtok eid="22" type="primary_name_ref" span="340:5:340:9">path</jtok>
+<jtok eid="22" type="primary_name_ref" span="340:10:340:21">messageProp</jtok>
+<jtok eid="22" type="primary_name_ref" span="340:22:340:26">args</jtok>
+<jtok eid="22" type="primary_name_ref" span="342:7:342:13">errors</jtok>
+<jtok eid="22" type="method_call" span="342:14:342:18">size</jtok>
+<jtok eid="22" type="primary_name_ref" span="346:5:346:15">VFSManager</jtok>
+<jtok eid="22" type="method_call" span="346:16:346:30">runInAWTThread</jtok>
+<jtok eid="22" type="constructor_call" span="346:35:346:43">Runnable</jtok>
+<jtok eid="24" type="method_name" span="348:18:348:21">run</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="350:7:350:13">String</jtok>
+<jtok eid="24" type="local_variable_name" span="350:14:350:21">caption</jtok>
+<jtok eid="24" type="primary_name_ref" span="350:24:350:29">jEdit</jtok>
+<jtok eid="24" type="method_call" span="350:30:350:41">getProperty</jtok>
+<jtok eid="24" type="string_literal" span="351:8:351:25">"ioerror.caption"</jtok>
+<jtok eid="24" type="primary_name_ref" span="351:29:351:35">errors</jtok>
+<jtok eid="24" type="method_call" span="351:36:351:40">size</jtok>
+<jtok eid="24" type="string_literal" span="352:10:352:14">"-1"</jtok>
+<jtok eid="24" type="string_literal" span="352:17:352:19">""</jtok>
+<jtok eid="24" type="constructor_call" span="352:25:352:32">Integer</jtok>
+<jtok eid="24" type="primary_name_ref" span="353:8:353:15">Integer</jtok>
+<jtok eid="24" type="method_call" span="353:16:353:23">valueOf</jtok>
+<jtok eid="24" type="primary_name_ref" span="353:24:353:30">errors</jtok>
+<jtok eid="24" type="method_call" span="353:31:353:35">size</jtok>
+<jtok eid="24" type="constructor_call" span="354:11:354:26">ErrorListDialog</jtok>
+<jtok eid="24" type="primary_name_ref" span="355:8:355:13">frame</jtok>
+<jtok eid="24" type="method_call" span="355:14:355:23">isShowing</jtok>
+<jtok eid="24" type="primary_name_ref" span="356:10:356:15">frame</jtok>
+<jtok eid="24" type="primary_name_ref" span="357:10:357:15">jEdit</jtok>
+<jtok eid="24" type="method_call" span="357:16:357:28">getFirstView</jtok>
+<jtok eid="24" type="primary_name_ref" span="358:8:358:13">jEdit</jtok>
+<jtok eid="24" type="method_call" span="358:14:358:25">getProperty</jtok>
+<jtok eid="24" type="string_literal" span="358:26:358:41">"ioerror.title"</jtok>
+<jtok eid="24" type="primary_name_ref" span="359:8:359:15">caption</jtok>
+<jtok eid="24" type="primary_name_ref" span="359:16:359:22">errors</jtok>
+<jtok eid="24" type="primary_name_ref" span="360:7:360:13">errors</jtok>
+<jtok eid="24" type="method_call" span="360:14:360:19">clear</jtok>
+<jtok eid="24" type="primary_name_ref" span="361:7:361:12">error</jtok>
+<jtok eid="1" type="line_comment" span="366:4:366:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="368:2:368:30">//{{{ sendVFSUpdate() method</jtok>
+<jtok eid="1" type="block_comment" span="369:2:376:5">/**
+	 * Sends a VFS update message.
+	 * @param vfs The VFS
+	 * @param path The path that changed
+	 * @param parent True if an update should be sent for the path's
+	 * parent too
+	 * @since jEdit 2.6pre4
+	 */</jtok>
+<jtok eid="25" type="method_name" span="377:21:377:34">sendVFSUpdate</jtok>
+<jtok eid="25" type="parameter_type" span="377:35:377:38">VFS</jtok>
+<jtok eid="25" type="parameter_name" span="377:39:377:42">vfs</jtok>
+<jtok eid="25" type="parameter_type" span="377:44:377:50">String</jtok>
+<jtok eid="25" type="parameter_name" span="377:51:377:55">path</jtok>
+<jtok eid="25" type="parameter_name" span="377:65:377:71">parent</jtok>
+<jtok eid="25" type="primary_name_ref" span="379:6:379:12">parent</jtok>
+<jtok eid="25" type="method_call" span="381:4:381:17">sendVFSUpdate</jtok>
+<jtok eid="25" type="primary_name_ref" span="381:18:381:21">vfs</jtok>
+<jtok eid="25" type="primary_name_ref" span="381:22:381:25">vfs</jtok>
+<jtok eid="25" type="method_call" span="381:26:381:41">getParentOfPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="381:42:381:46">path</jtok>
+<jtok eid="25" type="method_call" span="382:4:382:17">sendVFSUpdate</jtok>
+<jtok eid="25" type="primary_name_ref" span="382:18:382:21">vfs</jtok>
+<jtok eid="25" type="primary_name_ref" span="382:22:382:26">path</jtok>
+<jtok eid="25" type="line_comment" span="386:4:386:58">// have to do this hack until VFSPath class is written</jtok>
+<jtok eid="25" type="primary_name_ref" span="387:7:387:11">path</jtok>
+<jtok eid="25" type="method_call" span="387:12:387:18">length</jtok>
+<jtok eid="25" type="primary_name_ref" span="387:30:387:34">path</jtok>
+<jtok eid="25" type="method_call" span="387:35:387:43">endsWith</jtok>
+<jtok eid="25" type="string_literal" span="387:44:387:47">"/"</jtok>
+<jtok eid="25" type="primary_name_ref" span="388:8:388:12">path</jtok>
+<jtok eid="25" type="method_call" span="388:13:388:21">endsWith</jtok>
+<jtok eid="25" type="primary_name_ref" span="388:22:388:26">java</jtok>
+<jtok eid="25" type="qualified_name_ref" span="388:27:388:29">io</jtok>
+<jtok eid="25" type="qualified_name_ref" span="388:30:388:34">File</jtok>
+<jtok eid="25" type="qualified_name_ref" span="388:35:388:44">separator</jtok>
+<jtok eid="25" type="primary_name_ref" span="389:5:389:9">path</jtok>
+<jtok eid="25" type="primary_name_ref" span="389:12:389:16">path</jtok>
+<jtok eid="25" type="method_call" span="389:17:389:26">substring</jtok>
+<jtok eid="25" type="primary_name_ref" span="389:29:389:33">path</jtok>
+<jtok eid="25" type="method_call" span="389:34:389:40">length</jtok>
+<jtok eid="25" type="primary_name_ref" span="391:17:391:30">vfsUpdateLock</jtok>
+<jtok eid="25" type="local_variable_name" span="393:13:393:14">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="393:20:393:21">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="393:24:393:34">vfsUpdates</jtok>
+<jtok eid="25" type="method_call" span="393:35:393:39">size</jtok>
+<jtok eid="25" type="primary_name_ref" span="393:43:393:44">i</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="395:6:395:15">VFSUpdate</jtok>
+<jtok eid="25" type="local_variable_name" span="395:16:395:19">msg</jtok>
+<jtok eid="25" type="primary_name_ref" span="395:22:395:32">vfsUpdates</jtok>
+<jtok eid="25" type="method_call" span="395:33:395:36">get</jtok>
+<jtok eid="25" type="primary_name_ref" span="395:37:395:38">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="396:9:396:12">msg</jtok>
+<jtok eid="25" type="method_call" span="396:13:396:20">getPath</jtok>
+<jtok eid="25" type="method_call" span="396:23:396:29">equals</jtok>
+<jtok eid="25" type="primary_name_ref" span="396:30:396:34">path</jtok>
+<jtok eid="25" type="line_comment" span="398:7:398:32">// don't send two updates</jtok>
+<jtok eid="25" type="line_comment" span="399:7:399:27">// for the same path</jtok>
+<jtok eid="25" type="primary_name_ref" span="404:5:404:15">vfsUpdates</jtok>
+<jtok eid="25" type="method_call" span="404:16:404:19">add</jtok>
+<jtok eid="25" type="constructor_call" span="404:24:404:33">VFSUpdate</jtok>
+<jtok eid="25" type="primary_name_ref" span="404:34:404:38">path</jtok>
+<jtok eid="25" type="primary_name_ref" span="406:8:406:18">vfsUpdates</jtok>
+<jtok eid="25" type="method_call" span="406:19:406:23">size</jtok>
+<jtok eid="25" type="line_comment" span="408:6:408:44">// we were the first to add an update;</jtok>
+<jtok eid="25" type="line_comment" span="409:6:409:43">// add update sending runnable to AWT</jtok>
+<jtok eid="25" type="line_comment" span="410:6:410:15">// thread</jtok>
+<jtok eid="25" type="primary_name_ref" span="411:6:411:16">VFSManager</jtok>
+<jtok eid="25" type="method_call" span="411:17:411:31">runInAWTThread</jtok>
+<jtok eid="25" type="constructor_call" span="411:36:411:56">SendVFSUpdatesSafely</jtok>
+<jtok eid="1" type="line_comment" span="415:4:415:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="417:2:417:34">//{{{ SendVFSUpdatesSafely class</jtok>
+<jtok eid="26" type="class_name" span="418:15:418:35">SendVFSUpdatesSafely</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="418:47:418:55">Runnable</jtok>
+<jtok eid="27" type="method_name" span="420:15:420:18">run</jtok>
+<jtok eid="27" type="primary_name_ref" span="422:17:422:30">vfsUpdateLock</jtok>
+<jtok eid="27" type="line_comment" span="424:5:424:47">// the vfs browser has what you might call</jtok>
+<jtok eid="27" type="line_comment" span="425:5:425:49">// a design flaw, it doesn't update properly</jtok>
+<jtok eid="27" type="line_comment" span="426:5:426:50">// unless the vfs update for a parent arrives</jtok>
+<jtok eid="27" type="line_comment" span="427:5:427:52">// before any updates for the children. sorting</jtok>
+<jtok eid="27" type="line_comment" span="428:5:428:50">// the list alphanumerically guarantees this.</jtok>
+<jtok eid="27" type="primary_name_ref" span="429:5:429:16">Collections</jtok>
+<jtok eid="27" type="method_call" span="429:17:429:21">sort</jtok>
+<jtok eid="27" type="primary_name_ref" span="429:22:429:32">vfsUpdates</jtok>
+<jtok eid="27" type="constructor_call" span="430:10:430:27">StandardUtilities</jtok>
+<jtok eid="27" type="constructor_call" span="430:28:430:41">StringCompare</jtok>
+<jtok eid="27" type="constructor_call" span="430:42:430:51">VFSUpdate</jtok>
+<jtok eid="27" type="local_variable_name" span="432:13:432:14">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="432:20:432:21">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="432:24:432:34">vfsUpdates</jtok>
+<jtok eid="27" type="method_call" span="432:35:432:39">size</jtok>
+<jtok eid="27" type="primary_name_ref" span="432:43:432:44">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="434:6:434:13">EditBus</jtok>
+<jtok eid="27" type="method_call" span="434:14:434:18">send</jtok>
+<jtok eid="27" type="primary_name_ref" span="434:19:434:29">vfsUpdates</jtok>
+<jtok eid="27" type="method_call" span="434:30:434:33">get</jtok>
+<jtok eid="27" type="primary_name_ref" span="434:34:434:35">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="437:5:437:15">vfsUpdates</jtok>
+<jtok eid="27" type="method_call" span="437:16:437:21">clear</jtok>
+<jtok eid="1" type="line_comment" span="440:4:440:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="442:2:442:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="444:2:444:24">//{{{ Static variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="445:17:445:31">WorkThreadPool</jtok>
+<jtok eid="1" type="field_name" span="445:32:445:44">ioThreadPool</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="446:17:446:20">VFS</jtok>
+<jtok eid="1" type="field_name" span="446:21:446:28">fileVFS</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="447:17:447:20">VFS</jtok>
+<jtok eid="1" type="field_name" span="447:21:447:27">urlVFS</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="448:23:448:32">Hashtable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="448:33:448:39">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="448:41:448:44">VFS</jtok>
+<jtok eid="1" type="field_name" span="448:46:448:53">vfsHash</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="449:23:449:26">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="449:27:449:33">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="449:35:449:38">VFS</jtok>
+<jtok eid="1" type="field_name" span="449:40:449:52">protocolHash</jtok>
+<jtok eid="1" type="field_name" span="450:25:450:30">error</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="451:23:451:29">Object</jtok>
+<jtok eid="1" type="field_name" span="451:30:451:39">errorLock</jtok>
+<jtok eid="1" type="constructor_call" span="451:46:451:52">Object</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="452:23:452:29">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="452:30:452:45">ErrorListDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="452:46:452:56">ErrorEntry</jtok>
+<jtok eid="1" type="field_name" span="452:58:452:64">errors</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="453:23:453:29">Object</jtok>
+<jtok eid="1" type="field_name" span="453:30:453:43">vfsUpdateLock</jtok>
+<jtok eid="1" type="constructor_call" span="453:50:453:56">Object</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="454:23:454:27">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="454:28:454:37">VFSUpdate</jtok>
+<jtok eid="1" type="field_name" span="454:39:454:49">vfsUpdates</jtok>
+<jtok eid="1" type="line_comment" span="455:2:455:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="457:2:457:25">//{{{ Class initializer</jtok>
+<jtok eid="1" type="primary_name_ref" span="460:3:460:9">errors</jtok>
+<jtok eid="1" type="constructor_call" span="460:16:460:22">Vector</jtok>
+<jtok eid="1" type="constructor_call" span="460:23:460:38">ErrorListDialog</jtok>
+<jtok eid="1" type="constructor_call" span="460:39:460:49">ErrorEntry</jtok>
+<jtok eid="1" type="primary_name_ref" span="461:3:461:10">fileVFS</jtok>
+<jtok eid="1" type="constructor_call" span="461:17:461:24">FileVFS</jtok>
+<jtok eid="1" type="primary_name_ref" span="462:3:462:9">urlVFS</jtok>
+<jtok eid="1" type="constructor_call" span="462:16:462:22">UrlVFS</jtok>
+<jtok eid="1" type="primary_name_ref" span="463:3:463:10">vfsHash</jtok>
+<jtok eid="1" type="constructor_call" span="463:17:463:26">Hashtable</jtok>
+<jtok eid="1" type="constructor_call" span="463:27:463:33">String</jtok>
+<jtok eid="1" type="constructor_call" span="463:35:463:38">VFS</jtok>
+<jtok eid="1" type="primary_name_ref" span="464:3:464:15">protocolHash</jtok>
+<jtok eid="1" type="constructor_call" span="464:22:464:31">Hashtable</jtok>
+<jtok eid="1" type="constructor_call" span="464:32:464:38">String</jtok>
+<jtok eid="1" type="constructor_call" span="464:40:464:43">VFS</jtok>
+<jtok eid="1" type="primary_name_ref" span="465:3:465:13">vfsUpdates</jtok>
+<jtok eid="1" type="constructor_call" span="465:20:465:29">ArrayList</jtok>
+<jtok eid="1" type="constructor_call" span="465:30:465:39">VFSUpdate</jtok>
+<jtok eid="1" type="line_comment" span="466:4:466:9">//}}}</jtok>
+<jtok eid="28" type="method_name" span="468:10:468:20">VFSManager</jtok>
+<jtok eid="1" type="line_comment" span="469:2:469:7">//}}}</jtok>
+</jdoc>

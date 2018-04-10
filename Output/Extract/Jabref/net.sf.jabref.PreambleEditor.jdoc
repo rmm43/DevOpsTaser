@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.PreambleEditor" jls="java5">
+<jent id="0" type="file" span="0:0:244:1">Source/jabref/src/java/net/sf/jabref/PreambleEditor.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:244:1">net.sf.jabref.PreambleEditor</jent>
+<jent id="2" pid="1" type="method" span="54:5:104:5">net.sf.jabref.PreambleEditor.PreambleEditor(JabRefFrame,BasePanel,BibtexDatabase,JabRefPreferences)</jent>
+<jent id="3" pid="2" type="class" span="63:47:71:9">net.sf.jabref.PreambleEditor.PreambleEditor(JabRefFrame,BasePanel,BibtexDatabase,JabRefPreferences).$1</jent>
+<jent id="4" pid="3" type="method" span="64:13:66:13">net.sf.jabref.PreambleEditor.PreambleEditor(JabRefFrame,BasePanel,BibtexDatabase,JabRefPreferences).$1.windowClosing(WindowEvent)</jent>
+<jent id="5" pid="3" type="method" span="68:13:70:13">net.sf.jabref.PreambleEditor.PreambleEditor(JabRefFrame,BasePanel,BibtexDatabase,JabRefPreferences).$1.windowOpened(WindowEvent)</jent>
+<jent id="6" pid="2" type="class" span="72:66:76:9">net.sf.jabref.PreambleEditor.PreambleEditor(JabRefFrame,BasePanel,BibtexDatabase,JabRefPreferences).$2</jent>
+<jent id="7" pid="6" type="method" span="73:13:75:13">net.sf.jabref.PreambleEditor.PreambleEditor(JabRefFrame,BasePanel,BibtexDatabase,JabRefPreferences).$2.accept(Component)</jent>
+<jent id="8" pid="1" type="method" span="106:5:122:5">net.sf.jabref.PreambleEditor.setupJTextComponent(javax.swing.text.JTextComponent)</jent>
+<jent id="9" pid="1" type="method" span="124:5:126:5">net.sf.jabref.PreambleEditor.updatePreamble()</jent>
+<jent id="10" pid="1" type="class" span="128:5:138:5">net.sf.jabref.PreambleEditor.FieldListener</jent>
+<jent id="11" pid="10" type="method" span="133:9:136:9">net.sf.jabref.PreambleEditor.FieldListener.focusLost(FocusEvent)</jent>
+<jent id="12" pid="1" type="class" span="142:5:185:5">net.sf.jabref.PreambleEditor.StoreFieldAction</jent>
+<jent id="13" pid="12" type="method" span="143:9:146:9">net.sf.jabref.PreambleEditor.StoreFieldAction.StoreFieldAction()</jent>
+<jent id="14" pid="12" type="method" span="148:9:184:9">net.sf.jabref.PreambleEditor.StoreFieldAction.actionPerformed(ActionEvent)</jent>
+<jent id="15" pid="1" type="class" span="189:5:201:5">net.sf.jabref.PreambleEditor.UndoAction</jent>
+<jent id="16" pid="15" type="method" span="190:9:193:9">net.sf.jabref.PreambleEditor.UndoAction.UndoAction()</jent>
+<jent id="17" pid="15" type="method" span="195:9:200:9">net.sf.jabref.PreambleEditor.UndoAction.actionPerformed(ActionEvent)</jent>
+<jent id="18" pid="1" type="class" span="205:5:217:5">net.sf.jabref.PreambleEditor.RedoAction</jent>
+<jent id="19" pid="18" type="method" span="206:9:209:9">net.sf.jabref.PreambleEditor.RedoAction.RedoAction()</jent>
+<jent id="20" pid="18" type="method" span="211:9:216:9">net.sf.jabref.PreambleEditor.RedoAction.actionPerformed(ActionEvent)</jent>
+<jent id="21" pid="1" type="class" span="222:5:234:5">net.sf.jabref.PreambleEditor.CloseAction</jent>
+<jent id="22" pid="21" type="method" span="223:9:227:9">net.sf.jabref.PreambleEditor.CloseAction.CloseAction()</jent>
+<jent id="23" pid="21" type="method" span="229:9:233:9">net.sf.jabref.PreambleEditor.CloseAction.actionPerformed(ActionEvent)</jent>
+<jent id="24" pid="1" type="method" span="236:5:238:5">net.sf.jabref.PreambleEditor.getFieldEditor()</jent>
+<jent id="25" pid="1" type="method" span="240:5:242:5">net.sf.jabref.PreambleEditor.storeCurrentEdit()</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:3">/*
+Copyright (C) 2003 Nizar N. Batada, Morten O. Alver
+
+All programs in this directory and
+subdirectories are published under the GNU General Public License as
+described below.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Further information about the GNU GPL is available at:
+http://www.gnu.org/copyleft/gpl.ja.html
+
+*/</jtok>
+<jtok eid="1" type="class_name" span="36:14:36:28">PreambleEditor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:37:36:44">JDialog</jtok>
+<jtok eid="1" type="line_comment" span="38:5:38:54">// A reference to the entry this object works on.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:5:39:19">BibtexDatabase</jtok>
+<jtok eid="1" type="field_name" span="39:20:39:24">base</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:5:40:14">BasePanel</jtok>
+<jtok eid="1" type="field_name" span="40:15:40:20">panel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:5:41:16">JabRefFrame</jtok>
+<jtok eid="1" type="field_name" span="41:17:41:26">baseFrame</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:5:42:22">JabRefPreferences</jtok>
+<jtok eid="1" type="field_name" span="42:23:42:28">prefs</jtok>
+<jtok eid="1" type="line_comment" span="44:5:44:23">// Layout objects.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:5:45:18">GridBagLayout</jtok>
+<jtok eid="1" type="field_name" span="45:19:45:22">gbl</jtok>
+<jtok eid="1" type="constructor_call" span="45:29:45:42">GridBagLayout</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:5:46:23">GridBagConstraints</jtok>
+<jtok eid="1" type="field_name" span="46:24:46:27">con</jtok>
+<jtok eid="1" type="constructor_call" span="46:34:46:52">GridBagConstraints</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:5:47:11">JLabel</jtok>
+<jtok eid="1" type="field_name" span="47:12:47:15">lab</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:5:48:14">Container</jtok>
+<jtok eid="1" type="field_name" span="48:15:48:22">conPane</jtok>
+<jtok eid="1" type="method_call" span="48:25:48:39">getContentPane</jtok>
+<jtok eid="1" type="line_comment" span="49:5:49:37">//JToolBar tlb = new JToolBar();</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:5:50:11">JPanel</jtok>
+<jtok eid="1" type="field_name" span="50:12:50:15">pan</jtok>
+<jtok eid="1" type="constructor_call" span="50:22:50:28">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="51:5:51:16">FieldEditor</jtok>
+<jtok eid="1" type="field_name" span="51:17:51:19">ed</jtok>
+<jtok eid="2" type="method_name" span="54:12:54:26">PreambleEditor</jtok>
+<jtok eid="2" type="parameter_type" span="54:27:54:38">JabRefFrame</jtok>
+<jtok eid="2" type="parameter_name" span="54:39:54:48">baseFrame</jtok>
+<jtok eid="2" type="parameter_type" span="55:27:55:36">BasePanel</jtok>
+<jtok eid="2" type="parameter_name" span="55:37:55:42">panel</jtok>
+<jtok eid="2" type="parameter_type" span="55:44:55:58">BibtexDatabase</jtok>
+<jtok eid="2" type="parameter_name" span="55:59:55:63">base</jtok>
+<jtok eid="2" type="parameter_type" span="56:27:56:44">JabRefPreferences</jtok>
+<jtok eid="2" type="parameter_name" span="56:45:56:50">prefs</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:15:57:24">baseFrame</jtok>
+<jtok eid="2" type="qualified_name_ref" span="58:14:58:23">baseFrame</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:26:58:35">baseFrame</jtok>
+<jtok eid="2" type="qualified_name_ref" span="59:14:59:19">panel</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:22:59:27">panel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="60:14:60:18">base</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:21:60:25">base</jtok>
+<jtok eid="2" type="qualified_name_ref" span="61:14:61:19">prefs</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:22:61:27">prefs</jtok>
+<jtok eid="2" type="method_call" span="63:9:63:26">addWindowListener</jtok>
+<jtok eid="2" type="constructor_call" span="63:31:63:44">WindowAdapter</jtok>
+<jtok eid="4" type="method_name" span="64:25:64:38">windowClosing</jtok>
+<jtok eid="4" type="parameter_type" span="64:39:64:50">WindowEvent</jtok>
+<jtok eid="4" type="parameter_name" span="64:51:64:52">e</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:17:65:28">closeAction</jtok>
+<jtok eid="4" type="method_call" span="65:29:65:44">actionPerformed</jtok>
+<jtok eid="5" type="method_name" span="68:25:68:37">windowOpened</jtok>
+<jtok eid="5" type="parameter_type" span="68:38:68:49">WindowEvent</jtok>
+<jtok eid="5" type="parameter_name" span="68:50:68:51">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="69:17:69:19">ed</jtok>
+<jtok eid="5" type="method_call" span="69:20:69:32">requestFocus</jtok>
+<jtok eid="2" type="method_call" span="72:9:72:32">setFocusTraversalPolicy</jtok>
+<jtok eid="2" type="constructor_call" span="72:37:72:63">LayoutFocusTraversalPolicy</jtok>
+<jtok eid="7" type="method_name" span="73:31:73:37">accept</jtok>
+<jtok eid="7" type="parameter_type" span="73:38:73:47">Component</jtok>
+<jtok eid="7" type="parameter_name" span="73:48:73:49">c</jtok>
+<jtok eid="7" type="method_call" span="74:31:74:37">accept</jtok>
+<jtok eid="7" type="primary_name_ref" span="74:38:74:39">c</jtok>
+<jtok eid="7" type="primary_name_ref" span="74:45:74:46">c</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="74:58:74:69">FieldEditor</jtok>
+<jtok eid="2" type="local_variable_name" span="78:13:78:23">prefHeight</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:33:78:43">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="78:44:78:53">PE_HEIGHT</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:56:78:66">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="78:67:78:78">FORM_HEIGHT</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:79:78:84">prefs</jtok>
+<jtok eid="2" type="method_call" span="78:85:78:91">getInt</jtok>
+<jtok eid="2" type="string_literal" span="78:92:78:119">"entryTypeFormHeightFactor"</jtok>
+<jtok eid="2" type="method_call" span="79:9:79:16">setSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:17:79:27">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="79:28:79:38">FORM_WIDTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:39:79:44">prefs</jtok>
+<jtok eid="2" type="method_call" span="79:45:79:51">getInt</jtok>
+<jtok eid="2" type="string_literal" span="79:52:79:72">"entryTypeFormWidth"</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:76:79:86">prefHeight</jtok>
+<jtok eid="2" type="primary_name_ref" span="81:9:81:12">pan</jtok>
+<jtok eid="2" type="method_call" span="81:13:81:22">setLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="81:23:81:26">gbl</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:9:82:12">con</jtok>
+<jtok eid="2" type="qualified_name_ref" span="82:13:82:17">fill</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:20:82:38">GridBagConstraints</jtok>
+<jtok eid="2" type="qualified_name_ref" span="82:39:82:43">BOTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:9:83:12">con</jtok>
+<jtok eid="2" type="qualified_name_ref" span="83:13:83:20">weighty</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:9:84:12">con</jtok>
+<jtok eid="2" type="qualified_name_ref" span="84:13:84:19">insets</jtok>
+<jtok eid="2" type="constructor_call" span="84:26:84:32">Insets</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="86:9:86:15">String</jtok>
+<jtok eid="2" type="local_variable_name" span="86:16:86:23">content</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:26:86:30">base</jtok>
+<jtok eid="2" type="method_call" span="86:31:86:42">getPreamble</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:9:88:11">ed</jtok>
+<jtok eid="2" type="constructor_call" span="88:18:88:31">FieldTextArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:32:88:39">Globals</jtok>
+<jtok eid="2" type="method_call" span="88:40:88:44">lang</jtok>
+<jtok eid="2" type="string_literal" span="88:45:88:55">"Preamble"</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:60:88:67">content</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:79:88:86">content</jtok>
+<jtok eid="2" type="string_literal" span="88:89:88:91">""</jtok>
+<jtok eid="2" type="line_comment" span="89:9:89:58">//ed.addUndoableEditListener(panel.undoListener);</jtok>
+<jtok eid="2" type="method_call" span="90:9:90:28">setupJTextComponent</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="90:30:90:43">FieldTextArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:45:90:47">ed</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:9:92:12">gbl</jtok>
+<jtok eid="2" type="method_call" span="92:13:92:27">setConstraints</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:28:92:30">ed</jtok>
+<jtok eid="2" type="method_call" span="92:31:92:39">getLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:43:92:46">con</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:9:93:12">pan</jtok>
+<jtok eid="2" type="method_call" span="93:13:93:16">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:17:93:19">ed</jtok>
+<jtok eid="2" type="method_call" span="93:20:93:28">getLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:9:95:12">con</jtok>
+<jtok eid="2" type="qualified_name_ref" span="95:13:95:20">weightx</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:9:97:12">gbl</jtok>
+<jtok eid="2" type="method_call" span="97:13:97:27">setConstraints</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:28:97:30">ed</jtok>
+<jtok eid="2" type="method_call" span="97:31:97:38">getPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:42:97:45">con</jtok>
+<jtok eid="2" type="primary_name_ref" span="98:9:98:12">pan</jtok>
+<jtok eid="2" type="method_call" span="98:13:98:16">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="98:17:98:19">ed</jtok>
+<jtok eid="2" type="method_call" span="98:20:98:27">getPane</jtok>
+<jtok eid="2" type="line_comment" span="100:9:100:32">//tlb.add(closeAction);</jtok>
+<jtok eid="2" type="line_comment" span="101:9:101:48">//conPane.add(tlb, BorderLayout.NORTH);</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:9:102:16">conPane</jtok>
+<jtok eid="2" type="method_call" span="102:17:102:20">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:21:102:24">pan</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:26:102:38">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="102:39:102:45">CENTER</jtok>
+<jtok eid="2" type="method_call" span="103:9:103:17">setTitle</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:18:103:25">Globals</jtok>
+<jtok eid="2" type="method_call" span="103:26:103:30">lang</jtok>
+<jtok eid="2" type="string_literal" span="103:31:103:46">"Edit preamble"</jtok>
+<jtok eid="8" type="method_name" span="106:18:106:37">setupJTextComponent</jtok>
+<jtok eid="8" type="parameter_type" span="106:38:106:43">javax</jtok>
+<jtok eid="8" type="parameter_type" span="106:44:106:49">swing</jtok>
+<jtok eid="8" type="parameter_type" span="106:50:106:54">text</jtok>
+<jtok eid="8" type="parameter_type" span="106:55:106:69">JTextComponent</jtok>
+<jtok eid="8" type="parameter_name" span="106:70:106:72">ta</jtok>
+<jtok eid="8" type="line_comment" span="107:9:107:71">// Set up key bindings and focus listener for the FieldEditor.</jtok>
+<jtok eid="8" type="primary_name_ref" span="108:9:108:11">ta</jtok>
+<jtok eid="8" type="method_call" span="108:12:108:23">getInputMap</jtok>
+<jtok eid="8" type="method_call" span="108:26:108:29">put</jtok>
+<jtok eid="8" type="primary_name_ref" span="108:30:108:35">prefs</jtok>
+<jtok eid="8" type="method_call" span="108:36:108:42">getKey</jtok>
+<jtok eid="8" type="string_literal" span="108:43:108:66">"Close preamble editor"</jtok>
+<jtok eid="8" type="string_literal" span="108:69:108:76">"close"</jtok>
+<jtok eid="8" type="primary_name_ref" span="109:9:109:11">ta</jtok>
+<jtok eid="8" type="method_call" span="109:12:109:24">getActionMap</jtok>
+<jtok eid="8" type="method_call" span="109:27:109:30">put</jtok>
+<jtok eid="8" type="string_literal" span="109:31:109:38">"close"</jtok>
+<jtok eid="8" type="primary_name_ref" span="109:40:109:51">closeAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="110:9:110:11">ta</jtok>
+<jtok eid="8" type="method_call" span="110:12:110:23">getInputMap</jtok>
+<jtok eid="8" type="method_call" span="110:26:110:29">put</jtok>
+<jtok eid="8" type="primary_name_ref" span="110:30:110:35">prefs</jtok>
+<jtok eid="8" type="method_call" span="110:36:110:42">getKey</jtok>
+<jtok eid="8" type="string_literal" span="110:43:110:75">"Preamble editor, store changes"</jtok>
+<jtok eid="8" type="string_literal" span="110:78:110:85">"store"</jtok>
+<jtok eid="8" type="primary_name_ref" span="111:9:111:11">ta</jtok>
+<jtok eid="8" type="method_call" span="111:12:111:24">getActionMap</jtok>
+<jtok eid="8" type="method_call" span="111:27:111:30">put</jtok>
+<jtok eid="8" type="string_literal" span="111:31:111:38">"store"</jtok>
+<jtok eid="8" type="primary_name_ref" span="111:40:111:56">storeFieldAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="112:9:112:11">ta</jtok>
+<jtok eid="8" type="method_call" span="112:12:112:23">getInputMap</jtok>
+<jtok eid="8" type="method_call" span="112:26:112:29">put</jtok>
+<jtok eid="8" type="primary_name_ref" span="112:30:112:35">prefs</jtok>
+<jtok eid="8" type="method_call" span="112:36:112:42">getKey</jtok>
+<jtok eid="8" type="string_literal" span="112:43:112:66">"Close preamble editor"</jtok>
+<jtok eid="8" type="string_literal" span="112:69:112:76">"close"</jtok>
+<jtok eid="8" type="primary_name_ref" span="113:9:113:11">ta</jtok>
+<jtok eid="8" type="method_call" span="113:12:113:24">getActionMap</jtok>
+<jtok eid="8" type="method_call" span="113:27:113:30">put</jtok>
+<jtok eid="8" type="string_literal" span="113:31:113:38">"close"</jtok>
+<jtok eid="8" type="primary_name_ref" span="113:40:113:51">closeAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="115:9:115:11">ta</jtok>
+<jtok eid="8" type="method_call" span="115:12:115:23">getInputMap</jtok>
+<jtok eid="8" type="method_call" span="115:26:115:29">put</jtok>
+<jtok eid="8" type="primary_name_ref" span="115:30:115:35">prefs</jtok>
+<jtok eid="8" type="method_call" span="115:36:115:42">getKey</jtok>
+<jtok eid="8" type="string_literal" span="115:43:115:49">"Undo"</jtok>
+<jtok eid="8" type="string_literal" span="115:52:115:58">"undo"</jtok>
+<jtok eid="8" type="primary_name_ref" span="116:9:116:11">ta</jtok>
+<jtok eid="8" type="method_call" span="116:12:116:24">getActionMap</jtok>
+<jtok eid="8" type="method_call" span="116:27:116:30">put</jtok>
+<jtok eid="8" type="string_literal" span="116:31:116:37">"undo"</jtok>
+<jtok eid="8" type="primary_name_ref" span="116:39:116:49">undoAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="117:9:117:11">ta</jtok>
+<jtok eid="8" type="method_call" span="117:12:117:23">getInputMap</jtok>
+<jtok eid="8" type="method_call" span="117:26:117:29">put</jtok>
+<jtok eid="8" type="primary_name_ref" span="117:30:117:35">prefs</jtok>
+<jtok eid="8" type="method_call" span="117:36:117:42">getKey</jtok>
+<jtok eid="8" type="string_literal" span="117:43:117:49">"Redo"</jtok>
+<jtok eid="8" type="string_literal" span="117:52:117:58">"redo"</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:9:118:11">ta</jtok>
+<jtok eid="8" type="method_call" span="118:12:118:24">getActionMap</jtok>
+<jtok eid="8" type="method_call" span="118:27:118:30">put</jtok>
+<jtok eid="8" type="string_literal" span="118:31:118:37">"redo"</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:39:118:49">redoAction</jtok>
+<jtok eid="8" type="primary_name_ref" span="121:9:121:11">ta</jtok>
+<jtok eid="8" type="method_call" span="121:12:121:28">addFocusListener</jtok>
+<jtok eid="8" type="constructor_call" span="121:33:121:46">FieldListener</jtok>
+<jtok eid="9" type="method_name" span="124:17:124:31">updatePreamble</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:9:125:11">ed</jtok>
+<jtok eid="9" type="method_call" span="125:12:125:19">setText</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:20:125:24">base</jtok>
+<jtok eid="9" type="method_call" span="125:25:125:36">getPreamble</jtok>
+<jtok eid="10" type="class_name" span="128:11:128:24">FieldListener</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="128:33:128:45">FocusAdapter</jtok>
+<jtok eid="10" type="block_comment" span="129:9:132:10">/*
+       * Focus listener that fires the storeFieldAction when a FieldTextArea
+       * loses focus.
+       */</jtok>
+<jtok eid="11" type="method_name" span="133:21:133:30">focusLost</jtok>
+<jtok eid="11" type="parameter_type" span="133:31:133:41">FocusEvent</jtok>
+<jtok eid="11" type="parameter_name" span="133:42:133:43">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="134:18:134:19">e</jtok>
+<jtok eid="11" type="method_call" span="134:20:134:31">isTemporary</jtok>
+<jtok eid="11" type="primary_name_ref" span="135:17:135:33">storeFieldAction</jtok>
+<jtok eid="11" type="method_call" span="135:34:135:49">actionPerformed</jtok>
+<jtok eid="11" type="constructor_call" span="135:54:135:65">ActionEvent</jtok>
+<jtok eid="11" type="primary_name_ref" span="135:66:135:67">e</jtok>
+<jtok eid="11" type="method_call" span="135:68:135:77">getSource</jtok>
+<jtok eid="11" type="string_literal" span="135:84:135:86">""</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="140:5:140:21">StoreFieldAction</jtok>
+<jtok eid="1" type="field_name" span="140:22:140:38">storeFieldAction</jtok>
+<jtok eid="1" type="constructor_call" span="140:45:140:61">StoreFieldAction</jtok>
+<jtok eid="12" type="class_name" span="142:11:142:27">StoreFieldAction</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="142:36:142:50">AbstractAction</jtok>
+<jtok eid="13" type="method_name" span="143:16:143:32">StoreFieldAction</jtok>
+<jtok eid="13" type="string_literal" span="144:19:144:38">"Store field value"</jtok>
+<jtok eid="13" type="method_call" span="145:13:145:21">putValue</jtok>
+<jtok eid="13" type="primary_name_ref" span="145:22:145:39">SHORT_DESCRIPTION</jtok>
+<jtok eid="13" type="string_literal" span="145:41:145:60">"Store field value"</jtok>
+<jtok eid="14" type="method_name" span="148:21:148:36">actionPerformed</jtok>
+<jtok eid="14" type="parameter_type" span="148:37:148:48">ActionEvent</jtok>
+<jtok eid="14" type="parameter_name" span="148:49:148:50">e</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="149:13:149:19">String</jtok>
+<jtok eid="14" type="local_variable_name" span="149:20:149:25">toSet</jtok>
+<jtok eid="14" type="local_variable_name" span="150:21:150:24">set</jtok>
+<jtok eid="14" type="primary_name_ref" span="151:17:151:19">ed</jtok>
+<jtok eid="14" type="method_call" span="151:20:151:27">getText</jtok>
+<jtok eid="14" type="method_call" span="151:30:151:36">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="152:17:152:22">toSet</jtok>
+<jtok eid="14" type="primary_name_ref" span="152:25:152:27">ed</jtok>
+<jtok eid="14" type="method_call" span="152:28:152:35">getText</jtok>
+<jtok eid="14" type="line_comment" span="153:13:153:82">// We check if the field has changed, since we don't want to mark the</jtok>
+<jtok eid="14" type="line_comment" span="154:13:154:61">// base as changed unless we have a real change.</jtok>
+<jtok eid="14" type="primary_name_ref" span="155:17:155:22">toSet</jtok>
+<jtok eid="14" type="primary_name_ref" span="156:21:156:25">base</jtok>
+<jtok eid="14" type="method_call" span="156:26:156:37">getPreamble</jtok>
+<jtok eid="14" type="primary_name_ref" span="157:21:157:24">set</jtok>
+<jtok eid="14" type="primary_name_ref" span="159:21:159:24">set</jtok>
+<jtok eid="14" type="primary_name_ref" span="161:22:161:26">base</jtok>
+<jtok eid="14" type="method_call" span="161:27:161:38">getPreamble</jtok>
+<jtok eid="14" type="primary_name_ref" span="162:28:162:33">toSet</jtok>
+<jtok eid="14" type="method_call" span="162:34:162:40">equals</jtok>
+<jtok eid="14" type="primary_name_ref" span="162:41:162:45">base</jtok>
+<jtok eid="14" type="method_call" span="162:46:162:57">getPreamble</jtok>
+<jtok eid="14" type="primary_name_ref" span="163:21:163:24">set</jtok>
+<jtok eid="14" type="primary_name_ref" span="165:21:165:24">set</jtok>
+<jtok eid="14" type="primary_name_ref" span="168:17:168:20">set</jtok>
+<jtok eid="14" type="primary_name_ref" span="169:17:169:22">panel</jtok>
+<jtok eid="14" type="qualified_name_ref" span="169:23:169:34">undoManager</jtok>
+<jtok eid="14" type="method_call" span="169:35:169:42">addEdit</jtok>
+<jtok eid="14" type="constructor_call" span="169:47:169:69">UndoablePreambleChange</jtok>
+<jtok eid="14" type="primary_name_ref" span="170:26:170:30">base</jtok>
+<jtok eid="14" type="primary_name_ref" span="170:32:170:37">panel</jtok>
+<jtok eid="14" type="primary_name_ref" span="170:39:170:43">base</jtok>
+<jtok eid="14" type="method_call" span="170:44:170:55">getPreamble</jtok>
+<jtok eid="14" type="primary_name_ref" span="170:59:170:64">toSet</jtok>
+<jtok eid="14" type="primary_name_ref" span="171:17:171:21">base</jtok>
+<jtok eid="14" type="method_call" span="171:22:171:33">setPreamble</jtok>
+<jtok eid="14" type="primary_name_ref" span="171:34:171:39">toSet</jtok>
+<jtok eid="14" type="primary_name_ref" span="172:22:172:27">toSet</jtok>
+<jtok eid="14" type="primary_name_ref" span="172:41:172:46">toSet</jtok>
+<jtok eid="14" type="method_call" span="172:47:172:53">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="173:21:173:23">ed</jtok>
+<jtok eid="14" type="method_call" span="173:24:173:37">setLabelColor</jtok>
+<jtok eid="14" type="primary_name_ref" span="173:38:173:48">GUIGlobals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="173:49:173:64">validFieldColor</jtok>
+<jtok eid="14" type="primary_name_ref" span="174:21:174:23">ed</jtok>
+<jtok eid="14" type="method_call" span="174:24:174:37">setBackground</jtok>
+<jtok eid="14" type="primary_name_ref" span="174:38:174:48">GUIGlobals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="174:49:174:69">validFieldBackground</jtok>
+<jtok eid="14" type="primary_name_ref" span="176:21:176:23">ed</jtok>
+<jtok eid="14" type="method_call" span="176:24:176:37">setLabelColor</jtok>
+<jtok eid="14" type="primary_name_ref" span="176:38:176:48">GUIGlobals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="176:49:176:63">nullFieldColor</jtok>
+<jtok eid="14" type="primary_name_ref" span="177:21:177:23">ed</jtok>
+<jtok eid="14" type="method_call" span="177:24:177:37">setBackground</jtok>
+<jtok eid="14" type="primary_name_ref" span="177:38:177:48">GUIGlobals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="177:49:177:69">validFieldBackground</jtok>
+<jtok eid="14" type="primary_name_ref" span="179:21:179:23">ed</jtok>
+<jtok eid="14" type="method_call" span="179:24:179:40">getTextComponent</jtok>
+<jtok eid="14" type="method_call" span="179:43:179:51">hasFocus</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:21:180:23">ed</jtok>
+<jtok eid="14" type="method_call" span="180:24:180:37">setBackground</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:38:180:48">GUIGlobals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="180:49:180:61">activeEditor</jtok>
+<jtok eid="14" type="primary_name_ref" span="181:17:181:22">panel</jtok>
+<jtok eid="14" type="method_call" span="181:23:181:38">markBaseChanged</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="187:5:187:15">UndoAction</jtok>
+<jtok eid="1" type="field_name" span="187:16:187:26">undoAction</jtok>
+<jtok eid="1" type="constructor_call" span="187:33:187:43">UndoAction</jtok>
+<jtok eid="15" type="class_name" span="189:11:189:21">UndoAction</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="189:30:189:44">AbstractAction</jtok>
+<jtok eid="16" type="method_name" span="190:16:190:26">UndoAction</jtok>
+<jtok eid="16" type="string_literal" span="191:19:191:25">"Undo"</jtok>
+<jtok eid="16" type="primary_name_ref" span="191:27:191:37">GUIGlobals</jtok>
+<jtok eid="16" type="method_call" span="191:38:191:46">getImage</jtok>
+<jtok eid="16" type="string_literal" span="191:47:191:53">"undo"</jtok>
+<jtok eid="16" type="method_call" span="192:13:192:21">putValue</jtok>
+<jtok eid="16" type="primary_name_ref" span="192:22:192:39">SHORT_DESCRIPTION</jtok>
+<jtok eid="16" type="string_literal" span="192:41:192:47">"Undo"</jtok>
+<jtok eid="17" type="method_name" span="195:21:195:36">actionPerformed</jtok>
+<jtok eid="17" type="parameter_type" span="195:37:195:48">ActionEvent</jtok>
+<jtok eid="17" type="parameter_name" span="195:49:195:50">e</jtok>
+<jtok eid="17" type="primary_name_ref" span="197:17:197:22">panel</jtok>
+<jtok eid="17" type="method_call" span="197:23:197:33">runCommand</jtok>
+<jtok eid="17" type="string_literal" span="197:34:197:40">"undo"</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="198:22:198:31">Throwable</jtok>
+<jtok eid="17" type="local_variable_name" span="198:32:198:34">ex</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="203:5:203:15">RedoAction</jtok>
+<jtok eid="1" type="field_name" span="203:16:203:26">redoAction</jtok>
+<jtok eid="1" type="constructor_call" span="203:33:203:43">RedoAction</jtok>
+<jtok eid="18" type="class_name" span="205:11:205:21">RedoAction</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="205:30:205:44">AbstractAction</jtok>
+<jtok eid="19" type="method_name" span="206:16:206:26">RedoAction</jtok>
+<jtok eid="19" type="string_literal" span="207:19:207:25">"Undo"</jtok>
+<jtok eid="19" type="primary_name_ref" span="207:27:207:37">GUIGlobals</jtok>
+<jtok eid="19" type="method_call" span="207:38:207:46">getImage</jtok>
+<jtok eid="19" type="string_literal" span="207:47:207:53">"redo"</jtok>
+<jtok eid="19" type="method_call" span="208:13:208:21">putValue</jtok>
+<jtok eid="19" type="primary_name_ref" span="208:22:208:39">SHORT_DESCRIPTION</jtok>
+<jtok eid="19" type="string_literal" span="208:41:208:47">"Redo"</jtok>
+<jtok eid="20" type="method_name" span="211:21:211:36">actionPerformed</jtok>
+<jtok eid="20" type="parameter_type" span="211:37:211:48">ActionEvent</jtok>
+<jtok eid="20" type="parameter_name" span="211:49:211:50">e</jtok>
+<jtok eid="20" type="primary_name_ref" span="213:17:213:22">panel</jtok>
+<jtok eid="20" type="method_call" span="213:23:213:33">runCommand</jtok>
+<jtok eid="20" type="string_literal" span="213:34:213:40">"redo"</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="214:22:214:31">Throwable</jtok>
+<jtok eid="20" type="local_variable_name" span="214:32:214:34">ex</jtok>
+<jtok eid="1" type="line_comment" span="219:5:219:53">// The action concerned with closing the window.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="220:5:220:16">CloseAction</jtok>
+<jtok eid="1" type="field_name" span="220:17:220:28">closeAction</jtok>
+<jtok eid="1" type="constructor_call" span="220:35:220:46">CloseAction</jtok>
+<jtok eid="21" type="class_name" span="222:11:222:22">CloseAction</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="222:31:222:45">AbstractAction</jtok>
+<jtok eid="22" type="method_name" span="223:16:223:27">CloseAction</jtok>
+<jtok eid="22" type="primary_name_ref" span="224:19:224:26">Globals</jtok>
+<jtok eid="22" type="method_call" span="224:27:224:31">lang</jtok>
+<jtok eid="22" type="string_literal" span="224:32:224:46">"Close window"</jtok>
+<jtok eid="22" type="line_comment" span="225:13:225:58">//, new ImageIcon(GUIGlobals.closeIconFile));</jtok>
+<jtok eid="22" type="line_comment" span="226:13:226:68">//putValue(SHORT_DESCRIPTION, "Close window (Ctrl-Q)");</jtok>
+<jtok eid="23" type="method_name" span="229:21:229:36">actionPerformed</jtok>
+<jtok eid="23" type="parameter_type" span="229:37:229:48">ActionEvent</jtok>
+<jtok eid="23" type="parameter_name" span="229:49:229:50">e</jtok>
+<jtok eid="23" type="primary_name_ref" span="230:13:230:29">storeFieldAction</jtok>
+<jtok eid="23" type="method_call" span="230:30:230:45">actionPerformed</jtok>
+<jtok eid="23" type="primary_name_ref" span="231:13:231:18">panel</jtok>
+<jtok eid="23" type="method_call" span="231:19:231:40">preambleEditorClosing</jtok>
+<jtok eid="23" type="method_call" span="232:13:232:20">dispose</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="236:12:236:23">FieldEditor</jtok>
+<jtok eid="24" type="method_name" span="236:24:236:38">getFieldEditor</jtok>
+<jtok eid="24" type="primary_name_ref" span="237:16:237:18">ed</jtok>
+<jtok eid="25" type="method_name" span="240:17:240:33">storeCurrentEdit</jtok>
+<jtok eid="25" type="primary_name_ref" span="241:9:241:25">storeFieldAction</jtok>
+<jtok eid="25" type="method_call" span="241:26:241:41">actionPerformed</jtok>
+</jdoc>

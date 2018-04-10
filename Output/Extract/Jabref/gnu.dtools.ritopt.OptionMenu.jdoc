@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="gnu.dtools.ritopt.OptionMenu" jls="java5">
+<jent id="0" type="file" span="0:0:273:20">Source/jabref/src/java/gnu/dtools/ritopt/OptionMenu.java</jent>
+<jent id="1" pid="0" type="class" span="96:1:273:1">gnu.dtools.ritopt.OptionMenu</jent>
+<jent id="2" pid="1" type="method" span="184:5:187:5">gnu.dtools.ritopt.OptionMenu.OptionMenu(Options)</jent>
+<jent id="3" pid="1" type="method" span="193:5:260:5">gnu.dtools.ritopt.OptionMenu.startMenu()</jent>
+<jent id="4" pid="1" type="method" span="268:5:272:5">gnu.dtools.ritopt.OptionMenu.optionInvoked(OptionEvent)</jent>
+<jtok eid="0" type="block_comment" span="3:1:8:4">/**
+ * OptionMenu.java
+ *
+ * Version:
+ *    $Id: OptionMenu.java 3243 2010-04-06 16:49:09Z mortenalver $
+ */</jtok>
+<jtok eid="0" type="block_comment" span="14:1:94:4">/**
+ * This class facilitates the built-in menu feature for ritopt. When the
+ * --menu long option is invoked, an instance of this class is notified,
+ * and the menu system starts.
+ *
+ * Here is an example run of the built-in menu.
+ * &lt;pre&gt;
+ * -&amp;gt; ?
+ *         - Options Delimiter
+ *         ? Help
+ *         = Run program and return to menu
+ *         ! Shell to Operating System
+ *         $ Exit menu
+ *         + Additional options
+ *         &amp;#64;&amp;lt;filename&amp;gt; Get options from file [default.opt]
+ *         &amp;#64;&amp;#64; Get options from file [default.opt]
+ *         %&amp;lt;filename&amp;gt; Put options in file
+ *         %% Put options in file [default.opt]
+ *         . Quit
+ * -&amp;gt; =ls
+ * -&amp;gt; =uname
+ * CYGWIN_ME-4.90
+ * Exit status: 0
+ * Press enter to continue...
+ *
+ * -&amp;gt; =ls
+ * CVS
+ * Makefile
+ * Makefile.am
+ * Makefile.in
+ * edu
+ * gnu
+ * ritopt.jar
+ * Exit status: 0
+ * Press enter to continue..
+ *
+ * -&amp;gt; --help
+ * java FavoriteFood @optionfile [module] OPTIONS ... [module] OPTIONS
+ *
+ * Use --menu to invoke the interactive built-in menu.
+ *
+ * Option Name     Type       Description
+ *
+ * -h, --help      &amp;lt;NOTIFY&amp;gt;   Displays help for each option.
+ * -m, --menu      &amp;lt;NOTIFY&amp;gt;   Displays the built-in interactive menu.
+ *     --fatfree   &amp;lt;BOOLEAN&amp;gt;  No description given
+ * -v, --version   &amp;lt;NOTIFY&amp;gt;   Displays version information.
+ *     --name      &amp;lt;STRING&amp;gt;   No description given
+ * -g, --grub      &amp;lt;STRING&amp;gt;   Favorite Food
+ * -f, --food      &amp;lt;STRING&amp;gt;   Favorite Food
+ * -c, --food-coun &amp;lt;STRING&amp;gt;   No description given
+ *
+ * -&amp;gt; --grub=tacos
+ * Warning: --grub or -g is deprecated.
+ * -&amp;gt; --grubb
+ * Error: Option --grubb does not exist in module 'General'.
+ * -&amp;gt; .
+ *
+ * &lt;/pre&gt;
+ * &lt;hr&gt;
+ *
+ * &lt;pre&gt;
+ * Copyright (C) Damian Ryan Eads, 2001. All Rights Reserved.
+ *
+ * ritopt is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+
+ * ritopt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ritopt; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * &lt;/pre&gt;
+ *
+ * @author Damian Eads
+ */</jtok>
+<jtok eid="1" type="class_name" span="96:14:96:24">OptionMenu</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="96:36:96:50">OptionListener</jtok>
+<jtok eid="1" type="block_comment" span="98:5:100:8">/**
+     * Commands starting with this substring are option invocations.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="102:25:102:31">String</jtok>
+<jtok eid="1" type="field_name" span="102:32:102:51">OPTION_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="102:54:102:57">"-"</jtok>
+<jtok eid="1" type="block_comment" span="104:5:108:8">/**
+     * This command without any arguments displays the command summary.
+     * Otherwise, specific help information is provided based on the
+     * argument.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="110:25:110:31">String</jtok>
+<jtok eid="1" type="field_name" span="110:32:110:49">HELP_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="110:52:110:55">"?"</jtok>
+<jtok eid="1" type="block_comment" span="112:5:115:8">/**
+     * This command must have an argument. When invoked, it executes
+     * the argument at the command shell.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="117:25:117:31">String</jtok>
+<jtok eid="1" type="field_name" span="117:32:117:48">RUN_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="117:51:117:54">"="</jtok>
+<jtok eid="1" type="block_comment" span="119:5:121:8">/**
+     * This command spawns a shell.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="123:25:123:31">String</jtok>
+<jtok eid="1" type="field_name" span="123:32:123:50">SHELL_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="123:53:123:56">"!"</jtok>
+<jtok eid="1" type="block_comment" span="125:5:127:8">/**
+     * This command exits the built-in menu system.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="129:25:129:31">String</jtok>
+<jtok eid="1" type="field_name" span="129:32:129:54">EXIT_MENU_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="129:57:129:60">"$"</jtok>
+<jtok eid="1" type="block_comment" span="131:5:133:8">/**
+     * This command lists registered option modules.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="135:25:135:31">String</jtok>
+<jtok eid="1" type="field_name" span="135:32:135:57">LIST_MODULES_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="135:60:135:63">"+"</jtok>
+<jtok eid="1" type="block_comment" span="137:5:140:8">/**
+     * This command without any arguments loads the default option file.
+     * Otherwise, the file as the argument is loaded.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="142:25:142:31">String</jtok>
+<jtok eid="1" type="field_name" span="142:32:142:54">FILE_READ_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="142:57:142:60">"@"</jtok>
+<jtok eid="1" type="block_comment" span="144:5:147:8">/**
+     * This command without any arguments writes to the default option file.
+     * Otherwise, the file as the argument is written.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="149:25:149:31">String</jtok>
+<jtok eid="1" type="field_name" span="149:32:149:55">FILE_WRITE_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="149:58:149:61">"%"</jtok>
+<jtok eid="1" type="block_comment" span="151:5:154:8">/**
+     * Loads an option module. Invoking this command without any arguments,
+     * the default option module is loaded.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="156:25:156:31">String</jtok>
+<jtok eid="1" type="field_name" span="156:32:156:56">FILE_MODULE_COMMAND_CHAR</jtok>
+<jtok eid="1" type="string_literal" span="156:59:156:62">":"</jtok>
+<jtok eid="1" type="block_comment" span="158:5:160:8">/**
+     * The menu prompt used for the built-in menu system.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="162:25:162:31">String</jtok>
+<jtok eid="1" type="field_name" span="162:32:162:43">MENU_PROMPT</jtok>
+<jtok eid="1" type="string_literal" span="162:46:162:51">"-&gt; "</jtok>
+<jtok eid="1" type="block_comment" span="164:5:166:8">/**
+     * The options registrar associated with this option menu.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="168:13:168:20">Options</jtok>
+<jtok eid="1" type="field_name" span="168:21:168:28">options</jtok>
+<jtok eid="1" type="block_comment" span="170:5:172:8">/**
+     * A reader which is connected to standard input.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:13:174:27">BufferedReader</jtok>
+<jtok eid="1" type="field_name" span="174:28:174:34">reader</jtok>
+<jtok eid="1" type="block_comment" span="176:5:182:8">/**
+     * Constructs a new built-in menu attaching it to the options registrar
+     * passed.
+     *
+     * @param options The option registrar associated with this built-in
+     *                menu.
+     */</jtok>
+<jtok eid="2" type="method_name" span="184:12:184:22">OptionMenu</jtok>
+<jtok eid="2" type="parameter_type" span="184:24:184:31">Options</jtok>
+<jtok eid="2" type="parameter_name" span="184:32:184:39">options</jtok>
+<jtok eid="2" type="qualified_name_ref" span="185:7:185:14">options</jtok>
+<jtok eid="2" type="primary_name_ref" span="185:17:185:24">options</jtok>
+<jtok eid="2" type="primary_name_ref" span="186:2:186:8">reader</jtok>
+<jtok eid="2" type="constructor_call" span="186:15:186:29">BufferedReader</jtok>
+<jtok eid="2" type="constructor_call" span="186:35:186:52">InputStreamReader</jtok>
+<jtok eid="2" type="primary_name_ref" span="186:54:186:60">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="186:61:186:63">in</jtok>
+<jtok eid="1" type="block_comment" span="189:5:191:8">/**
+     * Starts the built-in menu system.
+     */</jtok>
+<jtok eid="3" type="method_name" span="193:17:193:26">startMenu</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="194:2:194:8">String</jtok>
+<jtok eid="3" type="local_variable_name" span="194:9:194:16">command</jtok>
+<jtok eid="3" type="string_literal" span="194:19:194:21">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="195:11:195:18">command</jtok>
+<jtok eid="3" type="method_call" span="195:19:195:25">equals</jtok>
+<jtok eid="3" type="string_literal" span="195:27:195:30">"$"</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:6:196:12">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="196:13:196:16">out</jtok>
+<jtok eid="3" type="method_call" span="196:17:196:22">print</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:24:196:35">MENU_PROMPT</jtok>
+<jtok eid="3" type="primary_name_ref" span="198:3:198:10">command</jtok>
+<jtok eid="3" type="primary_name_ref" span="198:13:198:19">reader</jtok>
+<jtok eid="3" type="method_call" span="198:20:198:28">readLine</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="200:14:200:25">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="200:26:200:27">e</jtok>
+<jtok eid="3" type="local_variable_name" span="203:14:203:28">commandEntered</jtok>
+<jtok eid="3" type="primary_name_ref" span="203:31:203:38">command</jtok>
+<jtok eid="3" type="primary_name_ref" span="203:50:203:57">command</jtok>
+<jtok eid="3" type="method_call" span="203:58:203:64">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="204:10:204:24">commandEntered</jtok>
+<jtok eid="3" type="primary_name_ref" span="204:28:204:35">command</jtok>
+<jtok eid="3" type="method_call" span="204:36:204:42">equals</jtok>
+<jtok eid="3" type="string_literal" span="204:44:204:47">"?"</jtok>
+<jtok eid="3" type="primary_name_ref" span="205:3:205:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="205:10:205:13">err</jtok>
+<jtok eid="3" type="method_call" span="205:14:205:21">println</jtok>
+<jtok eid="3" type="string_literal" span="205:23:205:46">"\t- Options Delimiter"</jtok>
+<jtok eid="3" type="primary_name_ref" span="206:3:206:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="206:10:206:13">err</jtok>
+<jtok eid="3" type="method_call" span="206:14:206:21">println</jtok>
+<jtok eid="3" type="string_literal" span="206:23:206:33">"\t? Help"</jtok>
+<jtok eid="3" type="primary_name_ref" span="207:3:207:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="207:10:207:13">err</jtok>
+<jtok eid="3" type="method_call" span="207:14:207:21">println</jtok>
+<jtok eid="3" type="string_literal" span="207:23:207:59">"\t= Run program and return to menu"</jtok>
+<jtok eid="3" type="primary_name_ref" span="208:3:208:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="208:10:208:13">err</jtok>
+<jtok eid="3" type="method_call" span="208:14:208:21">println</jtok>
+<jtok eid="3" type="string_literal" span="208:23:208:54">"\t! Shell to Operating System"</jtok>
+<jtok eid="3" type="primary_name_ref" span="209:3:209:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="209:10:209:13">err</jtok>
+<jtok eid="3" type="method_call" span="209:14:209:21">println</jtok>
+<jtok eid="3" type="string_literal" span="209:23:209:38">"\t$ Exit menu"</jtok>
+<jtok eid="3" type="primary_name_ref" span="210:3:210:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="210:10:210:13">err</jtok>
+<jtok eid="3" type="method_call" span="210:14:210:21">println</jtok>
+<jtok eid="3" type="string_literal" span="210:23:210:47">"\t+ Additional options"</jtok>
+<jtok eid="3" type="primary_name_ref" span="211:3:211:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="211:10:211:13">err</jtok>
+<jtok eid="3" type="method_call" span="211:14:211:21">println</jtok>
+<jtok eid="3" type="string_literal" span="211:23:211:62">"\t@&lt;filename&gt; Get options from file ["</jtok>
+<jtok eid="3" type="primary_name_ref" span="212:11:212:18">options</jtok>
+<jtok eid="3" type="method_call" span="212:19:212:43">getDefaultOptionFilename</jtok>
+<jtok eid="3" type="string_literal" span="213:11:213:14">"]"</jtok>
+<jtok eid="3" type="primary_name_ref" span="214:3:214:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="214:10:214:13">err</jtok>
+<jtok eid="3" type="method_call" span="214:14:214:21">println</jtok>
+<jtok eid="3" type="string_literal" span="214:23:214:53">"\t@@ Get options from file ["</jtok>
+<jtok eid="3" type="primary_name_ref" span="215:11:215:18">options</jtok>
+<jtok eid="3" type="method_call" span="215:19:215:43">getDefaultOptionFilename</jtok>
+<jtok eid="3" type="string_literal" span="216:11:216:14">"]"</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:17:217:23">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="217:24:217:27">err</jtok>
+<jtok eid="3" type="method_call" span="217:28:217:35">println</jtok>
+<jtok eid="3" type="string_literal" span="217:37:217:72">"\t%&lt;filename&gt; Put options in file"</jtok>
+<jtok eid="3" type="primary_name_ref" span="218:3:218:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="218:10:218:13">err</jtok>
+<jtok eid="3" type="method_call" span="218:14:218:21">println</jtok>
+<jtok eid="3" type="string_literal" span="218:23:218:51">"\t%% Put options in file ["</jtok>
+<jtok eid="3" type="primary_name_ref" span="219:11:219:18">options</jtok>
+<jtok eid="3" type="method_call" span="219:19:219:43">getDefaultOptionFilename</jtok>
+<jtok eid="3" type="string_literal" span="220:11:220:14">"]"</jtok>
+<jtok eid="3" type="primary_name_ref" span="221:17:221:23">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="221:24:221:27">err</jtok>
+<jtok eid="3" type="method_call" span="221:28:221:35">println</jtok>
+<jtok eid="3" type="string_literal" span="221:37:221:47">"\t. Quit"</jtok>
+<jtok eid="3" type="primary_name_ref" span="223:16:223:30">commandEntered</jtok>
+<jtok eid="3" type="primary_name_ref" span="224:11:224:18">command</jtok>
+<jtok eid="3" type="method_call" span="224:19:224:28">substring</jtok>
+<jtok eid="3" type="method_call" span="224:37:224:43">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="225:10:225:32">FILE_READ_COMMAND_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="226:12:226:19">command</jtok>
+<jtok eid="3" type="method_call" span="226:20:226:29">substring</jtok>
+<jtok eid="3" type="method_call" span="226:38:226:44">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="227:10:227:33">FILE_WRITE_COMMAND_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="228:12:228:19">command</jtok>
+<jtok eid="3" type="method_call" span="228:20:228:29">substring</jtok>
+<jtok eid="3" type="method_call" span="228:38:228:44">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="229:45:229:64">OPTION_COMMAND_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="230:12:230:19">command</jtok>
+<jtok eid="3" type="method_call" span="230:20:230:29">substring</jtok>
+<jtok eid="3" type="method_call" span="230:38:230:44">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="231:45:231:69">FILE_MODULE_COMMAND_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="232:3:232:10">options</jtok>
+<jtok eid="3" type="method_call" span="232:11:232:18">process</jtok>
+<jtok eid="3" type="primary_name_ref" span="232:20:232:27">command</jtok>
+<jtok eid="3" type="primary_name_ref" span="234:16:234:30">commandEntered</jtok>
+<jtok eid="3" type="primary_name_ref" span="235:9:235:16">command</jtok>
+<jtok eid="3" type="method_call" span="235:17:235:26">substring</jtok>
+<jtok eid="3" type="method_call" span="235:35:235:41">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="235:43:235:61">SHELL_COMMAND_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="238:16:238:30">commandEntered</jtok>
+<jtok eid="3" type="primary_name_ref" span="239:9:239:16">command</jtok>
+<jtok eid="3" type="method_call" span="239:17:239:26">substring</jtok>
+<jtok eid="3" type="method_call" span="239:35:239:41">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="239:43:239:59">RUN_COMMAND_CHAR</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="241:7:241:20">SimpleProcess</jtok>
+<jtok eid="3" type="local_variable_name" span="241:21:241:22">p</jtok>
+<jtok eid="3" type="constructor_call" span="242:10:242:23">SimpleProcess</jtok>
+<jtok eid="3" type="primary_name_ref" span="242:25:242:32">Runtime</jtok>
+<jtok eid="3" type="method_call" span="242:33:242:43">getRuntime</jtok>
+<jtok eid="3" type="method_call" span="242:46:242:50">exec</jtok>
+<jtok eid="3" type="primary_name_ref" span="242:52:242:59">command</jtok>
+<jtok eid="3" type="method_call" span="242:60:242:69">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="243:7:243:13">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="243:14:243:17">err</jtok>
+<jtok eid="3" type="method_call" span="243:18:243:25">println</jtok>
+<jtok eid="3" type="string_literal" span="243:27:243:42">"Exit status: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="243:45:243:46">p</jtok>
+<jtok eid="3" type="method_call" span="243:47:243:54">waitFor</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="245:11:245:20">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="245:21:245:22">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="246:7:246:13">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="246:14:246:17">err</jtok>
+<jtok eid="3" type="method_call" span="246:18:246:25">println</jtok>
+<jtok eid="3" type="string_literal" span="246:27:246:79">"ritopt: An Error Occurred During Process Execution"</jtok>
+<jtok eid="3" type="primary_name_ref" span="247:7:247:8">e</jtok>
+<jtok eid="3" type="method_call" span="247:9:247:24">printStackTrace</jtok>
+<jtok eid="3" type="primary_name_ref" span="250:7:250:13">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="250:14:250:17">out</jtok>
+<jtok eid="3" type="method_call" span="250:18:250:25">println</jtok>
+<jtok eid="3" type="string_literal" span="250:27:250:55">"Press enter to continue..."</jtok>
+<jtok eid="3" type="primary_name_ref" span="252:4:252:10">reader</jtok>
+<jtok eid="3" type="method_call" span="252:11:252:19">readLine</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="253:17:253:28">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="253:29:253:30">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="257:3:257:9">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="257:10:257:13">err</jtok>
+<jtok eid="3" type="method_call" span="257:14:257:21">println</jtok>
+<jtok eid="3" type="string_literal" span="257:23:257:42">"(Type ? for Help)"</jtok>
+<jtok eid="1" type="block_comment" span="262:5:266:8">/**
+     * This method is notified when the --menu option is specified.
+     *
+     * @param event    The event associated.
+     */</jtok>
+<jtok eid="4" type="method_name" span="268:17:268:30">optionInvoked</jtok>
+<jtok eid="4" type="parameter_type" span="268:32:268:43">OptionEvent</jtok>
+<jtok eid="4" type="parameter_name" span="268:44:268:49">event</jtok>
+<jtok eid="4" type="primary_name_ref" span="269:7:269:12">event</jtok>
+<jtok eid="4" type="method_call" span="269:13:269:23">getCommand</jtok>
+<jtok eid="4" type="method_call" span="269:26:269:32">equals</jtok>
+<jtok eid="4" type="string_literal" span="269:34:269:40">"menu"</jtok>
+<jtok eid="4" type="method_call" span="270:6:270:15">startMenu</jtok>
+<jtok eid="0" type="block_comment" span="273:3:273:21">/** OptionMenu **/</jtok>
+</jdoc>

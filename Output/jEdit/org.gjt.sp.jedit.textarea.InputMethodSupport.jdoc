@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.InputMethodSupport" jls="java5">
+<jent id="0" type="file" span="0:0:290:2">Source/jEdit/org/gjt/sp/jedit/textarea/InputMethodSupport.java</jent>
+<jent id="1" pid="0" type="class" span="48:1:290:1">org.gjt.sp.jedit.textarea.InputMethodSupport</jent>
+<jent id="2" pid="1" type="method" span="62:2:67:2">org.gjt.sp.jedit.textarea.InputMethodSupport.InputMethodSupport(TextArea)</jent>
+<jent id="3" pid="1" type="method" span="72:2:78:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getCaretRectangle(int,int)</jent>
+<jent id="4" pid="1" type="method" span="83:2:112:2">org.gjt.sp.jedit.textarea.InputMethodSupport.paintValidLine(Graphics2D,int,int,int,int,int)</jent>
+<jent id="5" pid="1" type="method" span="117:2:136:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getTextLocation(TextHitInfo)</jent>
+<jent id="6" pid="1" type="method" span="138:2:151:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getLocationOffset(int,int)</jent>
+<jent id="7" pid="1" type="method" span="153:2:156:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getInsertPositionOffset()</jent>
+<jent id="8" pid="1" type="method" span="158:2:162:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getCommittedText(int,int,AttributedCharacterIterator.Attribute[])</jent>
+<jent id="9" pid="1" type="method" span="164:2:167:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getCommittedTextLength()</jent>
+<jent id="10" pid="1" type="method" span="169:2:189:2">org.gjt.sp.jedit.textarea.InputMethodSupport.cancelLatestCommittedText(AttributedCharacterIterator.Attribute[])</jent>
+<jent id="11" pid="1" type="method" span="191:2:199:2">org.gjt.sp.jedit.textarea.InputMethodSupport.getSelectedText(AttributedCharacterIterator.Attribute[])</jent>
+<jent id="12" pid="1" type="method" span="204:2:239:2">org.gjt.sp.jedit.textarea.InputMethodSupport.inputMethodTextChanged(InputMethodEvent)</jent>
+<jent id="13" pid="1" type="method" span="241:2:288:2">org.gjt.sp.jedit.textarea.InputMethodSupport.caretPositionChanged(InputMethodEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * InputMethodSupport.java - Input method support for JEditTextArea
+ *
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Kazutoshi Satoda
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:15">// {{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:7">// }}}</jtok>
+<jtok eid="0" type="block_comment" span="41:1:46:4">/**
+ * Input method support for JEditTextArea
+ *
+ * @author Kazutoshi Satoda
+ * @since jEdit 4.3pre7
+ */</jtok>
+<jtok eid="1" type="class_name" span="48:7:48:25">InputMethodSupport</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:10:49:27">TextAreaExtension</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:13:50:32">InputMethodRequests</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:34:50:53">InputMethodListener</jtok>
+<jtok eid="1" type="line_comment" span="52:2:52:15">// The owner.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="53:10:53:18">TextArea</jtok>
+<jtok eid="1" type="field_name" span="53:19:53:24">owner</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:73">// The composed text layout which was built from last InputMethodEvent.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:10:55:20">TextLayout</jtok>
+<jtok eid="1" type="field_name" span="55:21:55:39">composedTextLayout</jtok>
+<jtok eid="1" type="line_comment" span="56:2:56:52">// The X offset to the caret in the composed text.</jtok>
+<jtok eid="1" type="field_name" span="57:14:57:28">composedCaretX</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:70">// Last committed information to support cancelLatestCommittedText()</jtok>
+<jtok eid="1" type="field_name" span="59:14:59:29">lastCommittedAt</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="60:10:60:16">String</jtok>
+<jtok eid="1" type="field_name" span="60:17:60:34">lastCommittedText</jtok>
+<jtok eid="2" type="method_name" span="62:9:62:27">InputMethodSupport</jtok>
+<jtok eid="2" type="parameter_type" span="62:28:62:36">TextArea</jtok>
+<jtok eid="2" type="parameter_name" span="62:37:62:42">owner</jtok>
+<jtok eid="2" type="qualified_name_ref" span="64:8:64:13">owner</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:16:64:21">owner</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:3:65:8">owner</jtok>
+<jtok eid="2" type="method_call" span="65:9:65:31">addInputMethodListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:8">owner</jtok>
+<jtok eid="2" type="method_call" span="66:9:66:19">getPainter</jtok>
+<jtok eid="2" type="method_call" span="66:22:66:34">addExtension</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:35:66:50">TextAreaPainter</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:51:66:64">HIGHEST_LAYER</jtok>
+<jtok eid="1" type="line_comment" span="70:2:70:26">// {{{ Private utilities</jtok>
+<jtok eid="1" type="line_comment" span="71:2:71:59">// Compute return value of getTextLocation() from (x, y).</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="72:10:72:19">Rectangle</jtok>
+<jtok eid="3" type="method_name" span="72:20:72:37">getCaretRectangle</jtok>
+<jtok eid="3" type="parameter_name" span="72:42:72:43">x</jtok>
+<jtok eid="3" type="parameter_name" span="72:49:72:50">y</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:3:74:18">TextAreaPainter</jtok>
+<jtok eid="3" type="local_variable_name" span="74:19:74:26">painter</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:29:74:34">owner</jtok>
+<jtok eid="3" type="method_call" span="74:35:74:45">getPainter</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="75:3:75:8">Point</jtok>
+<jtok eid="3" type="local_variable_name" span="75:9:75:15">origin</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:18:75:25">painter</jtok>
+<jtok eid="3" type="method_call" span="75:26:75:45">getLocationOnScreen</jtok>
+<jtok eid="3" type="local_variable_name" span="76:7:76:13">height</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:16:76:23">painter</jtok>
+<jtok eid="3" type="method_call" span="76:24:76:38">getFontMetrics</jtok>
+<jtok eid="3" type="method_call" span="76:41:76:50">getHeight</jtok>
+<jtok eid="3" type="constructor_call" span="77:14:77:23">Rectangle</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:24:77:30">origin</jtok>
+<jtok eid="3" type="qualified_name_ref" span="77:31:77:32">x</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:35:77:36">x</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:38:77:44">origin</jtok>
+<jtok eid="3" type="qualified_name_ref" span="77:45:77:46">y</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:49:77:50">y</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:55:77:61">height</jtok>
+<jtok eid="1" type="line_comment" span="79:2:79:8">// }}}</jtok>
+<jtok eid="1" type="line_comment" span="82:2:82:34">// {{{ extends TextAreaExtension</jtok>
+<jtok eid="4" type="method_name" span="83:14:83:28">paintValidLine</jtok>
+<jtok eid="4" type="parameter_type" span="83:29:83:39">Graphics2D</jtok>
+<jtok eid="4" type="parameter_name" span="83:40:83:43">gfx</jtok>
+<jtok eid="4" type="parameter_name" span="83:49:83:59">screenLine</jtok>
+<jtok eid="4" type="parameter_name" span="84:12:84:24">physicalLine</jtok>
+<jtok eid="4" type="parameter_name" span="84:30:84:35">start</jtok>
+<jtok eid="4" type="parameter_name" span="84:41:84:44">end</jtok>
+<jtok eid="4" type="parameter_name" span="84:50:84:51">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:6:86:24">composedTextLayout</jtok>
+<jtok eid="4" type="local_variable_name" span="88:8:88:13">caret</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:16:88:21">owner</jtok>
+<jtok eid="4" type="method_call" span="88:22:88:38">getCaretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:7:89:12">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:16:89:21">caret</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:25:89:30">caret</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:33:89:36">end</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="91:5:91:20">TextAreaPainter</jtok>
+<jtok eid="4" type="local_variable_name" span="91:21:91:28">painter</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:31:91:36">owner</jtok>
+<jtok eid="4" type="method_call" span="91:37:91:47">getPainter</jtok>
+<jtok eid="4" type="line_comment" span="92:5:92:45">// The hight and baseline are taken from</jtok>
+<jtok eid="4" type="line_comment" span="93:5:93:51">// painter's FontMetrics instead of TextLayout</jtok>
+<jtok eid="4" type="line_comment" span="94:5:94:48">// so that the composed text is rendered at</jtok>
+<jtok eid="4" type="line_comment" span="95:5:95:52">// the same position with text in the TextArea.</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="96:5:96:16">FontMetrics</jtok>
+<jtok eid="4" type="local_variable_name" span="96:17:96:19">fm</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:22:96:29">painter</jtok>
+<jtok eid="4" type="method_call" span="96:30:96:44">getFontMetrics</jtok>
+<jtok eid="4" type="local_variable_name" span="97:9:97:10">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:13:97:18">owner</jtok>
+<jtok eid="4" type="method_call" span="97:19:97:29">offsetToXY</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:30:97:35">caret</jtok>
+<jtok eid="4" type="qualified_name_ref" span="97:37:97:38">x</jtok>
+<jtok eid="4" type="local_variable_name" span="98:9:98:14">width</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:17:98:21">Math</jtok>
+<jtok eid="4" type="method_call" span="98:22:98:27">round</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:28:98:46">composedTextLayout</jtok>
+<jtok eid="4" type="method_call" span="98:47:98:57">getAdvance</jtok>
+<jtok eid="4" type="local_variable_name" span="99:9:99:15">height</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:18:99:20">fm</jtok>
+<jtok eid="4" type="method_call" span="99:21:99:30">getHeight</jtok>
+<jtok eid="4" type="local_variable_name" span="100:9:100:27">offset_to_baseline</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:30:100:36">height</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:9:101:11">fm</jtok>
+<jtok eid="4" type="method_call" span="101:12:101:22">getLeading</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:30:101:32">fm</jtok>
+<jtok eid="4" type="method_call" span="101:33:101:43">getDescent</jtok>
+<jtok eid="4" type="local_variable_name" span="102:9:102:16">caret_x</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:19:102:20">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:23:102:37">composedCaretX</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:5:104:8">gfx</jtok>
+<jtok eid="4" type="method_call" span="104:9:104:17">setColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:18:104:25">painter</jtok>
+<jtok eid="4" type="method_call" span="104:26:104:39">getBackground</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:5:105:8">gfx</jtok>
+<jtok eid="4" type="method_call" span="105:9:105:17">fillRect</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:18:105:19">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:21:105:22">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:24:105:29">width</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:31:105:37">height</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:5:106:8">gfx</jtok>
+<jtok eid="4" type="method_call" span="106:9:106:17">setColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:18:106:25">painter</jtok>
+<jtok eid="4" type="method_call" span="106:26:106:39">getForeground</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:5:107:23">composedTextLayout</jtok>
+<jtok eid="4" type="method_call" span="107:24:107:28">draw</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:29:107:32">gfx</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:34:107:35">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:37:107:38">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:41:107:59">offset_to_baseline</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:5:108:8">gfx</jtok>
+<jtok eid="4" type="method_call" span="108:9:108:17">setColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:18:108:25">painter</jtok>
+<jtok eid="4" type="method_call" span="108:26:108:39">getCaretColor</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:5:109:8">gfx</jtok>
+<jtok eid="4" type="method_call" span="109:9:109:17">drawLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:18:109:25">caret_x</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:27:109:28">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:30:109:37">caret_x</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:39:109:40">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:43:109:49">height</jtok>
+<jtok eid="1" type="line_comment" span="113:2:113:8">// }}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:39">// {{{ implements InputMethodRequests</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="117:9:117:18">Rectangle</jtok>
+<jtok eid="5" type="method_name" span="117:19:117:34">getTextLocation</jtok>
+<jtok eid="5" type="parameter_type" span="117:35:117:46">TextHitInfo</jtok>
+<jtok eid="5" type="parameter_name" span="117:47:117:53">offset</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:6:119:24">composedTextLayout</jtok>
+<jtok eid="5" type="line_comment" span="121:4:121:40">// return location of composed text.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="122:4:122:9">Point</jtok>
+<jtok eid="5" type="local_variable_name" span="122:10:122:15">caret</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:18:122:23">owner</jtok>
+<jtok eid="5" type="method_call" span="122:24:122:34">offsetToXY</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:35:122:40">owner</jtok>
+<jtok eid="5" type="method_call" span="122:41:122:57">getCaretPosition</jtok>
+<jtok eid="5" type="method_call" span="123:11:123:28">getCaretRectangle</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:29:123:34">caret</jtok>
+<jtok eid="5" type="qualified_name_ref" span="123:35:123:36">x</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:39:123:53">composedCaretX</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:55:123:60">caret</jtok>
+<jtok eid="5" type="qualified_name_ref" span="123:61:123:62">y</jtok>
+<jtok eid="5" type="line_comment" span="127:4:127:40">// return location of selected text.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="128:4:128:13">Selection</jtok>
+<jtok eid="5" type="local_variable_name" span="128:14:128:32">selection_on_caret</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:35:128:40">owner</jtok>
+<jtok eid="5" type="method_call" span="128:41:128:61">getSelectionAtOffset</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:62:128:67">owner</jtok>
+<jtok eid="5" type="method_call" span="128:68:128:84">getCaretPosition</jtok>
+<jtok eid="5" type="primary_name_ref" span="129:7:129:25">selection_on_caret</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="131:5:131:10">Point</jtok>
+<jtok eid="5" type="local_variable_name" span="131:11:131:26">selection_start</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:29:131:34">owner</jtok>
+<jtok eid="5" type="method_call" span="131:35:131:45">offsetToXY</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:46:131:64">selection_on_caret</jtok>
+<jtok eid="5" type="method_call" span="131:65:131:73">getStart</jtok>
+<jtok eid="5" type="method_call" span="132:12:132:29">getCaretRectangle</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:30:132:45">selection_start</jtok>
+<jtok eid="5" type="qualified_name_ref" span="132:46:132:47">x</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:49:132:64">selection_start</jtok>
+<jtok eid="5" type="qualified_name_ref" span="132:65:132:66">y</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="138:9:138:20">TextHitInfo</jtok>
+<jtok eid="6" type="method_name" span="138:21:138:38">getLocationOffset</jtok>
+<jtok eid="6" type="parameter_name" span="138:43:138:44">x</jtok>
+<jtok eid="6" type="parameter_name" span="138:50:138:51">y</jtok>
+<jtok eid="6" type="primary_name_ref" span="140:6:140:24">composedTextLayout</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="142:4:142:9">Point</jtok>
+<jtok eid="6" type="local_variable_name" span="142:10:142:16">origin</jtok>
+<jtok eid="6" type="primary_name_ref" span="142:19:142:24">owner</jtok>
+<jtok eid="6" type="method_call" span="142:25:142:35">getPainter</jtok>
+<jtok eid="6" type="method_call" span="142:38:142:57">getLocationOnScreen</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="143:4:143:9">Point</jtok>
+<jtok eid="6" type="local_variable_name" span="143:10:143:15">caret</jtok>
+<jtok eid="6" type="primary_name_ref" span="143:18:143:23">owner</jtok>
+<jtok eid="6" type="method_call" span="143:24:143:34">offsetToXY</jtok>
+<jtok eid="6" type="primary_name_ref" span="143:35:143:40">owner</jtok>
+<jtok eid="6" type="method_call" span="143:41:143:57">getCaretPosition</jtok>
+<jtok eid="6" type="local_variable_name" span="144:10:144:17">local_x</jtok>
+<jtok eid="6" type="primary_name_ref" span="144:20:144:21">x</jtok>
+<jtok eid="6" type="primary_name_ref" span="144:24:144:30">origin</jtok>
+<jtok eid="6" type="qualified_name_ref" span="144:31:144:32">x</jtok>
+<jtok eid="6" type="primary_name_ref" span="144:35:144:40">caret</jtok>
+<jtok eid="6" type="qualified_name_ref" span="144:41:144:42">x</jtok>
+<jtok eid="6" type="local_variable_name" span="145:10:145:17">local_y</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:20:145:21">y</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:24:145:30">origin</jtok>
+<jtok eid="6" type="qualified_name_ref" span="145:31:145:32">y</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:35:145:40">caret</jtok>
+<jtok eid="6" type="qualified_name_ref" span="145:41:145:42">y</jtok>
+<jtok eid="6" type="primary_name_ref" span="146:8:146:26">composedTextLayout</jtok>
+<jtok eid="6" type="method_call" span="146:27:146:37">getLeading</jtok>
+<jtok eid="6" type="primary_name_ref" span="147:7:147:25">composedTextLayout</jtok>
+<jtok eid="6" type="method_call" span="147:26:147:35">getAscent</jtok>
+<jtok eid="6" type="primary_name_ref" span="148:11:148:29">composedTextLayout</jtok>
+<jtok eid="6" type="method_call" span="148:30:148:41">hitTestChar</jtok>
+<jtok eid="6" type="primary_name_ref" span="148:42:148:49">local_x</jtok>
+<jtok eid="6" type="primary_name_ref" span="148:51:148:58">local_y</jtok>
+<jtok eid="7" type="method_name" span="153:13:153:36">getInsertPositionOffset</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:10:155:15">owner</jtok>
+<jtok eid="7" type="method_call" span="155:16:155:32">getCaretPosition</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="158:9:158:36">AttributedCharacterIterator</jtok>
+<jtok eid="8" type="method_name" span="158:37:158:53">getCommittedText</jtok>
+<jtok eid="8" type="parameter_name" span="158:58:158:68">beginIndex</jtok>
+<jtok eid="8" type="parameter_name" span="158:75:158:83">endIndex</jtok>
+<jtok eid="8" type="parameter_type" span="159:5:159:32">AttributedCharacterIterator</jtok>
+<jtok eid="8" type="parameter_type" span="159:33:159:42">Attribute</jtok>
+<jtok eid="8" type="parameter_name" span="159:45:159:55">attributes</jtok>
+<jtok eid="8" type="constructor_call" span="161:15:161:31">AttributedString</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:32:161:37">owner</jtok>
+<jtok eid="8" type="method_call" span="161:38:161:45">getText</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:46:161:56">beginIndex</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:58:161:66">endIndex</jtok>
+<jtok eid="8" type="primary_name_ref" span="161:69:161:79">beginIndex</jtok>
+<jtok eid="8" type="method_call" span="161:83:161:94">getIterator</jtok>
+<jtok eid="9" type="method_name" span="164:13:164:35">getCommittedTextLength</jtok>
+<jtok eid="9" type="primary_name_ref" span="166:10:166:15">owner</jtok>
+<jtok eid="9" type="method_call" span="166:16:166:31">getBufferLength</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="169:9:169:36">AttributedCharacterIterator</jtok>
+<jtok eid="10" type="method_name" span="169:37:169:62">cancelLatestCommittedText</jtok>
+<jtok eid="10" type="parameter_type" span="169:63:169:90">AttributedCharacterIterator</jtok>
+<jtok eid="10" type="parameter_type" span="169:91:169:100">Attribute</jtok>
+<jtok eid="10" type="parameter_name" span="169:103:169:113">attributes</jtok>
+<jtok eid="10" type="primary_name_ref" span="171:6:171:23">lastCommittedText</jtok>
+<jtok eid="10" type="local_variable_name" span="173:8:173:14">offset</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:17:173:32">lastCommittedAt</jtok>
+<jtok eid="10" type="local_variable_name" span="174:8:174:14">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="174:17:174:34">lastCommittedText</jtok>
+<jtok eid="10" type="method_call" span="174:35:174:41">length</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="175:4:175:10">String</jtok>
+<jtok eid="10" type="local_variable_name" span="175:11:175:17">sample</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:20:175:25">owner</jtok>
+<jtok eid="10" type="method_call" span="175:26:175:33">getText</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:34:175:40">offset</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:42:175:48">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="176:7:176:13">sample</jtok>
+<jtok eid="10" type="primary_name_ref" span="176:25:176:31">sample</jtok>
+<jtok eid="10" type="method_call" span="176:32:176:38">equals</jtok>
+<jtok eid="10" type="primary_name_ref" span="176:39:176:56">lastCommittedText</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="178:5:178:32">AttributedCharacterIterator</jtok>
+<jtok eid="10" type="local_variable_name" span="178:33:178:41">canceled</jtok>
+<jtok eid="10" type="constructor_call" span="178:49:178:65">AttributedString</jtok>
+<jtok eid="10" type="primary_name_ref" span="178:66:178:72">sample</jtok>
+<jtok eid="10" type="method_call" span="178:75:178:86">getIterator</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:5:179:10">owner</jtok>
+<jtok eid="10" type="method_call" span="179:11:179:20">getBuffer</jtok>
+<jtok eid="10" type="method_call" span="179:23:179:29">remove</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:30:179:36">offset</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:38:179:44">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="180:5:180:10">owner</jtok>
+<jtok eid="10" type="method_call" span="180:11:180:27">setCaretPosition</jtok>
+<jtok eid="10" type="primary_name_ref" span="180:28:180:34">offset</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:5:181:22">lastCommittedText</jtok>
+<jtok eid="10" type="primary_name_ref" span="182:12:182:20">canceled</jtok>
+<jtok eid="10" type="line_comment" span="184:4:184:51">// Cleare last committed information to prevent</jtok>
+<jtok eid="10" type="line_comment" span="185:4:185:24">// accidental match.</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:4:186:21">lastCommittedText</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="191:9:191:36">AttributedCharacterIterator</jtok>
+<jtok eid="11" type="method_name" span="191:37:191:52">getSelectedText</jtok>
+<jtok eid="11" type="parameter_type" span="191:53:191:80">AttributedCharacterIterator</jtok>
+<jtok eid="11" type="parameter_type" span="191:81:191:90">Attribute</jtok>
+<jtok eid="11" type="parameter_name" span="191:93:191:103">attributes</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="193:3:193:12">Selection</jtok>
+<jtok eid="11" type="local_variable_name" span="193:13:193:31">selection_on_caret</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:34:193:39">owner</jtok>
+<jtok eid="11" type="method_call" span="193:40:193:60">getSelectionAtOffset</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:61:193:66">owner</jtok>
+<jtok eid="11" type="method_call" span="193:67:193:83">getCaretPosition</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:6:194:24">selection_on_caret</jtok>
+<jtok eid="11" type="constructor_call" span="196:16:196:32">AttributedString</jtok>
+<jtok eid="11" type="primary_name_ref" span="196:33:196:38">owner</jtok>
+<jtok eid="11" type="method_call" span="196:39:196:54">getSelectedText</jtok>
+<jtok eid="11" type="primary_name_ref" span="196:55:196:73">selection_on_caret</jtok>
+<jtok eid="11" type="method_call" span="196:77:196:88">getIterator</jtok>
+<jtok eid="1" type="line_comment" span="200:2:200:8">// }}}</jtok>
+<jtok eid="1" type="line_comment" span="203:2:203:39">// {{{ implements InputMethodListener</jtok>
+<jtok eid="12" type="method_name" span="204:14:204:36">inputMethodTextChanged</jtok>
+<jtok eid="12" type="parameter_type" span="204:37:204:53">InputMethodEvent</jtok>
+<jtok eid="12" type="parameter_name" span="204:54:204:59">event</jtok>
+<jtok eid="12" type="primary_name_ref" span="206:3:206:21">composedTextLayout</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="207:3:207:30">AttributedCharacterIterator</jtok>
+<jtok eid="12" type="local_variable_name" span="207:31:207:35">text</jtok>
+<jtok eid="12" type="primary_name_ref" span="207:38:207:43">event</jtok>
+<jtok eid="12" type="method_call" span="207:44:207:51">getText</jtok>
+<jtok eid="12" type="primary_name_ref" span="208:6:208:10">text</jtok>
+<jtok eid="12" type="local_variable_name" span="210:8:210:23">committed_count</jtok>
+<jtok eid="12" type="primary_name_ref" span="210:26:210:31">event</jtok>
+<jtok eid="12" type="method_call" span="210:32:210:58">getCommittedCharacterCount</jtok>
+<jtok eid="12" type="primary_name_ref" span="211:7:211:22">committed_count</jtok>
+<jtok eid="12" type="primary_name_ref" span="213:5:213:22">lastCommittedText</jtok>
+<jtok eid="12" type="primary_name_ref" span="214:5:214:20">lastCommittedAt</jtok>
+<jtok eid="12" type="primary_name_ref" span="214:23:214:28">owner</jtok>
+<jtok eid="12" type="method_call" span="214:29:214:45">getCaretPosition</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="215:5:215:18">StringBuilder</jtok>
+<jtok eid="12" type="local_variable_name" span="215:19:215:28">committed</jtok>
+<jtok eid="12" type="constructor_call" span="215:35:215:48">StringBuilder</jtok>
+<jtok eid="12" type="primary_name_ref" span="215:49:215:64">committed_count</jtok>
+<jtok eid="12" type="local_variable_name" span="216:10:216:11">c</jtok>
+<jtok eid="12" type="local_variable_name" span="217:9:217:14">count</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:9:218:10">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:13:218:17">text</jtok>
+<jtok eid="12" type="method_call" span="218:18:218:23">first</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:27:218:32">count</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:35:218:50">committed_count</jtok>
+<jtok eid="12" type="primary_name_ref" span="219:8:219:9">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="219:13:219:40">AttributedCharacterIterator</jtok>
+<jtok eid="12" type="qualified_name_ref" span="219:41:219:45">DONE</jtok>
+<jtok eid="12" type="primary_name_ref" span="219:49:219:54">count</jtok>
+<jtok eid="12" type="primary_name_ref" span="220:8:220:9">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="220:12:220:16">text</jtok>
+<jtok eid="12" type="method_call" span="220:17:220:21">next</jtok>
+<jtok eid="12" type="primary_name_ref" span="220:27:220:32">count</jtok>
+<jtok eid="12" type="primary_name_ref" span="222:6:222:11">owner</jtok>
+<jtok eid="12" type="method_call" span="222:12:222:21">userInput</jtok>
+<jtok eid="12" type="primary_name_ref" span="222:22:222:23">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="223:6:223:15">committed</jtok>
+<jtok eid="12" type="method_call" span="223:16:223:22">append</jtok>
+<jtok eid="12" type="primary_name_ref" span="223:23:223:24">c</jtok>
+<jtok eid="12" type="primary_name_ref" span="225:5:225:22">lastCommittedText</jtok>
+<jtok eid="12" type="primary_name_ref" span="225:25:225:34">committed</jtok>
+<jtok eid="12" type="method_call" span="225:35:225:43">toString</jtok>
+<jtok eid="12" type="local_variable_name" span="227:8:227:17">end_index</jtok>
+<jtok eid="12" type="primary_name_ref" span="227:20:227:24">text</jtok>
+<jtok eid="12" type="method_call" span="227:25:227:36">getEndIndex</jtok>
+<jtok eid="12" type="primary_name_ref" span="228:7:228:22">committed_count</jtok>
+<jtok eid="12" type="primary_name_ref" span="228:25:228:34">end_index</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="230:5:230:21">AttributedString</jtok>
+<jtok eid="12" type="local_variable_name" span="230:22:230:30">composed</jtok>
+<jtok eid="12" type="constructor_call" span="230:37:230:53">AttributedString</jtok>
+<jtok eid="12" type="primary_name_ref" span="230:54:230:58">text</jtok>
+<jtok eid="12" type="primary_name_ref" span="230:60:230:75">committed_count</jtok>
+<jtok eid="12" type="primary_name_ref" span="230:77:230:86">end_index</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="231:5:231:20">TextAreaPainter</jtok>
+<jtok eid="12" type="local_variable_name" span="231:21:231:28">painter</jtok>
+<jtok eid="12" type="primary_name_ref" span="231:31:231:36">owner</jtok>
+<jtok eid="12" type="method_call" span="231:37:231:47">getPainter</jtok>
+<jtok eid="12" type="primary_name_ref" span="232:5:232:13">composed</jtok>
+<jtok eid="12" type="method_call" span="232:14:232:26">addAttribute</jtok>
+<jtok eid="12" type="primary_name_ref" span="232:27:232:40">TextAttribute</jtok>
+<jtok eid="12" type="qualified_name_ref" span="232:41:232:45">FONT</jtok>
+<jtok eid="12" type="primary_name_ref" span="232:47:232:54">painter</jtok>
+<jtok eid="12" type="method_call" span="232:55:232:62">getFont</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:5:233:23">composedTextLayout</jtok>
+<jtok eid="12" type="constructor_call" span="233:30:233:40">TextLayout</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:41:233:49">composed</jtok>
+<jtok eid="12" type="method_call" span="233:50:233:61">getIterator</jtok>
+<jtok eid="12" type="primary_name_ref" span="234:8:234:15">painter</jtok>
+<jtok eid="12" type="method_call" span="234:16:234:36">getFontRenderContext</jtok>
+<jtok eid="12" type="line_comment" span="237:3:237:25">// Also updates caret.</jtok>
+<jtok eid="12" type="method_call" span="238:3:238:23">caretPositionChanged</jtok>
+<jtok eid="12" type="primary_name_ref" span="238:24:238:29">event</jtok>
+<jtok eid="13" type="method_name" span="241:14:241:34">caretPositionChanged</jtok>
+<jtok eid="13" type="parameter_type" span="241:35:241:51">InputMethodEvent</jtok>
+<jtok eid="13" type="parameter_name" span="241:52:241:57">event</jtok>
+<jtok eid="13" type="primary_name_ref" span="243:3:243:17">composedCaretX</jtok>
+<jtok eid="13" type="primary_name_ref" span="244:6:244:24">composedTextLayout</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="246:4:246:15">TextHitInfo</jtok>
+<jtok eid="13" type="local_variable_name" span="246:16:246:21">caret</jtok>
+<jtok eid="13" type="primary_name_ref" span="246:24:246:29">event</jtok>
+<jtok eid="13" type="method_call" span="246:30:246:38">getCaret</jtok>
+<jtok eid="13" type="primary_name_ref" span="247:7:247:12">caret</jtok>
+<jtok eid="13" type="primary_name_ref" span="249:5:249:19">composedCaretX</jtok>
+<jtok eid="13" type="primary_name_ref" span="249:22:249:26">Math</jtok>
+<jtok eid="13" type="method_call" span="249:27:249:32">round</jtok>
+<jtok eid="13" type="primary_name_ref" span="249:33:249:51">composedTextLayout</jtok>
+<jtok eid="13" type="method_call" span="249:52:249:64">getCaretInfo</jtok>
+<jtok eid="13" type="primary_name_ref" span="249:65:249:70">caret</jtok>
+<jtok eid="13" type="line_comment" span="251:4:251:24">// Adjust visiblity.</jtok>
+<jtok eid="13" type="local_variable_name" span="252:8:252:19">insertion_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="252:22:252:27">owner</jtok>
+<jtok eid="13" type="method_call" span="252:28:252:38">offsetToXY</jtok>
+<jtok eid="13" type="primary_name_ref" span="252:39:252:44">owner</jtok>
+<jtok eid="13" type="method_call" span="252:45:252:61">getCaretPosition</jtok>
+<jtok eid="13" type="qualified_name_ref" span="252:65:252:66">x</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="253:4:253:15">TextHitInfo</jtok>
+<jtok eid="13" type="local_variable_name" span="253:16:253:23">visible</jtok>
+<jtok eid="13" type="primary_name_ref" span="253:26:253:31">event</jtok>
+<jtok eid="13" type="method_call" span="253:32:253:50">getVisiblePosition</jtok>
+<jtok eid="13" type="local_variable_name" span="254:8:254:26">composed_visible_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="254:30:254:37">visible</jtok>
+<jtok eid="13" type="primary_name_ref" span="255:7:255:11">Math</jtok>
+<jtok eid="13" type="method_call" span="255:12:255:17">round</jtok>
+<jtok eid="13" type="primary_name_ref" span="255:18:255:36">composedTextLayout</jtok>
+<jtok eid="13" type="method_call" span="255:37:255:49">getCaretInfo</jtok>
+<jtok eid="13" type="primary_name_ref" span="255:50:255:57">visible</jtok>
+<jtok eid="13" type="primary_name_ref" span="256:7:256:21">composedCaretX</jtok>
+<jtok eid="13" type="local_variable_name" span="257:8:257:17">visible_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="257:20:257:31">insertion_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="257:34:257:52">composed_visible_x</jtok>
+<jtok eid="13" type="local_variable_name" span="258:8:258:21">painter_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="258:24:258:29">owner</jtok>
+<jtok eid="13" type="method_call" span="258:30:258:40">getPainter</jtok>
+<jtok eid="13" type="method_call" span="258:43:258:51">getWidth</jtok>
+<jtok eid="13" type="local_variable_name" span="259:8:259:18">adjustment</jtok>
+<jtok eid="13" type="primary_name_ref" span="260:7:260:16">visible_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="262:5:262:15">adjustment</jtok>
+<jtok eid="13" type="primary_name_ref" span="262:18:262:27">visible_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="264:7:264:16">visible_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="264:20:264:33">painter_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="266:5:266:15">adjustment</jtok>
+<jtok eid="13" type="primary_name_ref" span="266:18:266:27">visible_x</jtok>
+<jtok eid="13" type="primary_name_ref" span="266:31:266:44">painter_width</jtok>
+<jtok eid="13" type="primary_name_ref" span="268:7:268:17">adjustment</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:5:270:10">owner</jtok>
+<jtok eid="13" type="method_call" span="270:11:270:30">setHorizontalOffset</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:31:270:36">owner</jtok>
+<jtok eid="13" type="method_call" span="270:37:270:56">getHorizontalOffset</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:61:270:71">adjustment</jtok>
+<jtok eid="13" type="block_comment" span="275:4:279:6">/* Cancel horizontal adjustment for composed text.
+			   FIXME:
+			     The horizontal offset may be beyond the max
+			     value of owner's horizontal scroll bar.
+			*/</jtok>
+<jtok eid="13" type="primary_name_ref" span="280:4:280:9">owner</jtok>
+<jtok eid="13" type="method_call" span="280:10:280:23">scrollToCaret</jtok>
+<jtok eid="13" type="block_comment" span="282:3:284:36">/* Invalidate one more line below the caret because
+		   the underline for composed text goes beyond the caret
+		   line in some font settings. */</jtok>
+<jtok eid="13" type="local_variable_name" span="285:7:285:17">caret_line</jtok>
+<jtok eid="13" type="primary_name_ref" span="285:20:285:25">owner</jtok>
+<jtok eid="13" type="method_call" span="285:26:285:38">getCaretLine</jtok>
+<jtok eid="13" type="primary_name_ref" span="286:3:286:8">owner</jtok>
+<jtok eid="13" type="method_call" span="286:9:286:28">invalidateLineRange</jtok>
+<jtok eid="13" type="primary_name_ref" span="286:29:286:39">caret_line</jtok>
+<jtok eid="13" type="primary_name_ref" span="286:41:286:51">caret_line</jtok>
+<jtok eid="13" type="primary_name_ref" span="287:3:287:8">event</jtok>
+<jtok eid="13" type="method_call" span="287:9:287:16">consume</jtok>
+<jtok eid="1" type="line_comment" span="289:2:289:8">// }}}</jtok>
+</jdoc>

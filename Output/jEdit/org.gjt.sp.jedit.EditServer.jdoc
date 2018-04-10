@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.EditServer" jls="java5">
+<jent id="0" type="file" span="0:0:368:2">Source/jEdit/org/gjt/sp/jedit/EditServer.java</jent>
+<jent id="1" pid="0" type="class" span="59:1:368:1">org.gjt.sp.jedit.EditServer</jent>
+<jent id="2" pid="1" type="method" span="62:2:119:2">org.gjt.sp.jedit.EditServer.EditServer(String)</jent>
+<jent id="3" pid="1" type="method" span="122:2:170:2">org.gjt.sp.jedit.EditServer.run()</jent>
+<jent id="4" pid="1" type="method" span="179:2:183:2">org.gjt.sp.jedit.EditServer.handleClient(boolean,String,String[])</jent>
+<jent id="5" pid="1" type="method" span="194:2:268:2">org.gjt.sp.jedit.EditServer.handleClient(boolean,boolean,boolean,String,String[])</jent>
+<jent id="6" pid="1" type="method" span="271:2:274:2">org.gjt.sp.jedit.EditServer.isOK()</jent>
+<jent id="7" pid="1" type="method" span="277:2:280:2">org.gjt.sp.jedit.EditServer.getPort()</jent>
+<jent id="8" pid="1" type="method" span="283:2:295:2">org.gjt.sp.jedit.EditServer.stopServer()</jent>
+<jent id="9" pid="1" type="method" span="308:2:365:2">org.gjt.sp.jedit.EditServer.handleClient(Socket,DataInputStream)</jent>
+<jent id="10" pid="9" type="class" span="334:4:361:4">org.gjt.sp.jedit.EditServer.handleClient(Socket,DataInputStream).$1</jent>
+<jent id="11" pid="10" type="method" span="335:5:360:5">org.gjt.sp.jedit.EditServer.handleClient(Socket,DataInputStream).$1.run()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * EditServer.java - jEdit server
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="35:1:58:4">/**
+ * Inter-process communication.&lt;p&gt;
+ *
+ * The edit server protocol is very simple. &lt;code&gt;$HOME/.jedit/server&lt;/code&gt;
+ * is an ASCII file containing two lines, the first being the port number,
+ * the second being the authorization key.&lt;p&gt;
+ *
+ * You connect to that port on the local machine, sending the authorization
+ * key as four bytes in network byte order, followed by the length of the
+ * BeanShell script as two bytes in network byte order, followed by the
+ * script in UTF8 encoding. After the socked is closed, the BeanShell script
+ * will be executed by jEdit.&lt;p&gt;
+ *
+ * The snippet is executed in the AWT thread. None of the usual BeanShell
+ * variables (view, buffer, textArea, editPane) are set so the script has to
+ * figure things out by itself.&lt;p&gt;
+ *
+ * In most cases, the script will call the static
+ * {@link #handleClient(boolean,String,String[])} method, but of course more
+ * complicated stuff can be done too.
+ *
+ * @author Slava Pestov
+ * @version $Id: EditServer.java 16264 2009-10-03 06:29:29Z shlomy $
+ */</jtok>
+<jtok eid="1" type="class_name" span="59:14:59:24">EditServer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="59:33:59:39">Thread</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:30">//{{{ EditServer constructor</jtok>
+<jtok eid="2" type="method_name" span="62:2:62:12">EditServer</jtok>
+<jtok eid="2" type="parameter_type" span="62:13:62:19">String</jtok>
+<jtok eid="2" type="parameter_name" span="62:20:62:28">portFile</jtok>
+<jtok eid="2" type="string_literal" span="64:9:64:32">"jEdit server daemon ["</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:35:64:43">portFile</jtok>
+<jtok eid="2" type="string_literal" span="64:46:64:49">"]"</jtok>
+<jtok eid="2" type="method_call" span="65:3:65:12">setDaemon</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:8:66:16">portFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:19:66:27">portFile</jtok>
+<jtok eid="2" type="line_comment" span="70:4:70:58">// On Unix, set permissions of port file to rw-------,</jtok>
+<jtok eid="2" type="line_comment" span="71:4:71:56">// so that on broken Unices which give everyone read</jtok>
+<jtok eid="2" type="line_comment" span="72:4:72:54">// access to user home dirs, people can't see your</jtok>
+<jtok eid="2" type="line_comment" span="73:4:73:58">// port file (and hence send arbitriary BeanShell code</jtok>
+<jtok eid="2" type="line_comment" span="74:4:74:24">// your way. Nasty.)</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:7:75:22">OperatingSystem</jtok>
+<jtok eid="2" type="method_call" span="75:23:75:29">isUnix</jtok>
+<jtok eid="2" type="constructor_call" span="77:9:77:13">File</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:14:77:22">portFile</jtok>
+<jtok eid="2" type="method_call" span="77:24:77:37">createNewFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:5:78:12">FileVFS</jtok>
+<jtok eid="2" type="method_call" span="78:13:78:27">setPermissions</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:28:78:36">portFile</jtok>
+<jtok eid="2" type="line_comment" span="81:4:81:59">// Bind to any port on localhost; accept 2 simultaneous</jtok>
+<jtok eid="2" type="line_comment" span="82:4:82:55">// connection attempts before rejecting connections</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:4:83:10">socket</jtok>
+<jtok eid="2" type="constructor_call" span="83:17:83:29">ServerSocket</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:5:84:16">InetAddress</jtok>
+<jtok eid="2" type="method_call" span="84:17:84:26">getByName</jtok>
+<jtok eid="2" type="string_literal" span="84:27:84:38">"127.0.0.1"</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:4:85:11">authKey</jtok>
+<jtok eid="2" type="constructor_call" span="85:18:85:24">Random</jtok>
+<jtok eid="2" type="method_call" span="85:27:85:34">nextInt</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:35:85:42">Integer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="85:43:85:52">MAX_VALUE</jtok>
+<jtok eid="2" type="local_variable_name" span="86:8:86:12">port</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:15:86:21">socket</jtok>
+<jtok eid="2" type="method_call" span="86:22:86:34">getLocalPort</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="88:4:88:14">FileWriter</jtok>
+<jtok eid="2" type="local_variable_name" span="88:15:88:18">out</jtok>
+<jtok eid="2" type="constructor_call" span="88:25:88:35">FileWriter</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:36:88:44">portFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:5:92:8">out</jtok>
+<jtok eid="2" type="method_call" span="92:9:92:14">write</jtok>
+<jtok eid="2" type="string_literal" span="92:15:92:20">"b\n"</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:5:93:8">out</jtok>
+<jtok eid="2" type="method_call" span="93:9:93:14">write</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:15:93:21">String</jtok>
+<jtok eid="2" type="method_call" span="93:22:93:29">valueOf</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:30:93:34">port</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:5:94:8">out</jtok>
+<jtok eid="2" type="method_call" span="94:9:94:14">write</jtok>
+<jtok eid="2" type="string_literal" span="94:15:94:19">"\n"</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:5:95:8">out</jtok>
+<jtok eid="2" type="method_call" span="95:9:95:14">write</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:15:95:21">String</jtok>
+<jtok eid="2" type="method_call" span="95:22:95:29">valueOf</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:30:95:37">authKey</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:5:96:8">out</jtok>
+<jtok eid="2" type="method_call" span="96:9:96:14">write</jtok>
+<jtok eid="2" type="string_literal" span="96:15:96:19">"\n"</jtok>
+<jtok eid="2" type="primary_name_ref" span="100:5:100:8">out</jtok>
+<jtok eid="2" type="method_call" span="100:9:100:14">close</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:4:103:6">ok</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:4:105:7">Log</jtok>
+<jtok eid="2" type="method_call" span="105:8:105:11">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:12:105:15">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="105:16:105:21">DEBUG</jtok>
+<jtok eid="2" type="string_literal" span="105:27:105:58">"jEdit server started on port "</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:7:106:13">socket</jtok>
+<jtok eid="2" type="method_call" span="106:14:106:26">getLocalPort</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:4:107:7">Log</jtok>
+<jtok eid="2" type="method_call" span="107:8:107:11">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:12:107:15">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="107:16:107:21">DEBUG</jtok>
+<jtok eid="2" type="string_literal" span="107:27:107:50">"Authorization key is "</jtok>
+<jtok eid="2" type="primary_name_ref" span="108:7:108:14">authKey</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="110:9:110:20">IOException</jtok>
+<jtok eid="2" type="local_variable_name" span="110:21:110:23">io</jtok>
+<jtok eid="2" type="block_comment" span="112:4:116:30">/* on some Windows versions, connections to localhost
+			 * fail if the network is not running. To avoid
+			 * confusing newbies with weird error messages, log
+			 * errors that occur while starting the server
+			 * as NOTICE, not ERROR */</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:4:117:7">Log</jtok>
+<jtok eid="2" type="method_call" span="117:8:117:11">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:12:117:15">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="117:16:117:22">NOTICE</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:28:117:30">io</jtok>
+<jtok eid="1" type="line_comment" span="119:4:119:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="121:2:121:20">//{{{ run() method</jtok>
+<jtok eid="3" type="method_name" span="122:14:122:17">run</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:7:126:12">abort</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="129:4:129:10">Socket</jtok>
+<jtok eid="3" type="local_variable_name" span="129:11:129:17">client</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:5:132:11">client</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:14:132:20">socket</jtok>
+<jtok eid="3" type="method_call" span="132:21:132:27">accept</jtok>
+<jtok eid="3" type="line_comment" span="134:5:134:49">// Stop script kiddies from opening the edit</jtok>
+<jtok eid="3" type="line_comment" span="135:5:135:50">// server port and just leaving it open, as a</jtok>
+<jtok eid="3" type="line_comment" span="136:5:136:11">// DoS</jtok>
+<jtok eid="3" type="primary_name_ref" span="137:5:137:11">client</jtok>
+<jtok eid="3" type="method_call" span="137:12:137:24">setSoTimeout</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:5:139:8">Log</jtok>
+<jtok eid="3" type="method_call" span="139:9:139:12">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:13:139:16">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="139:17:139:24">MESSAGE</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:30:139:36">client</jtok>
+<jtok eid="3" type="string_literal" span="139:39:139:52">": connected"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="141:5:141:20">DataInputStream</jtok>
+<jtok eid="3" type="local_variable_name" span="141:21:141:23">in</jtok>
+<jtok eid="3" type="constructor_call" span="141:30:141:45">DataInputStream</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:6:142:12">client</jtok>
+<jtok eid="3" type="method_call" span="142:13:142:27">getInputStream</jtok>
+<jtok eid="3" type="method_call" span="144:9:144:21">handleClient</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:22:144:28">client</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:29:144:31">in</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:6:145:11">abort</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="147:10:147:19">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="147:20:147:21">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:9:149:14">abort</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:6:150:9">Log</jtok>
+<jtok eid="3" type="method_call" span="150:10:150:13">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:14:150:17">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="150:18:150:23">ERROR</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:29:150:30">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:5:151:10">abort</jtok>
+<jtok eid="3" type="block_comment" span="155:5:167:9">/* if(client != null)
+				{
+					try
+					{
+						client.close();
+					}
+					catch(Exception e)
+					{
+						Log.log(Log.ERROR,this,e);
+					}
+
+					client = null;
+				} */</jtok>
+<jtok eid="1" type="line_comment" span="170:4:170:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="172:2:172:29">//{{{ handleClient() method</jtok>
+<jtok eid="1" type="block_comment" span="173:2:178:5">/**
+	 * @param restore Ignored unless no views are open
+	 * @param parent The client's parent directory
+	 * @param args A list of files. Null entries are ignored, for convinience
+	 * @since jEdit 3.2pre7
+	 */</jtok>
+<jtok eid="4" type="method_name" span="179:21:179:33">handleClient</jtok>
+<jtok eid="4" type="parameter_name" span="179:42:179:49">restore</jtok>
+<jtok eid="4" type="parameter_type" span="179:51:179:57">String</jtok>
+<jtok eid="4" type="parameter_name" span="179:58:179:64">parent</jtok>
+<jtok eid="4" type="parameter_type" span="180:3:180:9">String</jtok>
+<jtok eid="4" type="parameter_name" span="180:12:180:16">args</jtok>
+<jtok eid="4" type="method_call" span="182:3:182:15">handleClient</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:16:182:23">restore</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:36:182:42">parent</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:43:182:47">args</jtok>
+<jtok eid="1" type="line_comment" span="183:4:183:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="185:2:185:29">//{{{ handleClient() method</jtok>
+<jtok eid="1" type="block_comment" span="186:2:193:5">/**
+	 * @param restore Ignored unless no views are open
+	 * @param newView Open a new view?
+	 * @param newPlainView Open a new plain view?
+	 * @param parent The client's parent directory
+	 * @param args A list of files. Null entries are ignored, for convinience
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="194:16:194:22">Buffer</jtok>
+<jtok eid="5" type="method_name" span="194:23:194:35">handleClient</jtok>
+<jtok eid="5" type="parameter_name" span="194:44:194:51">restore</jtok>
+<jtok eid="5" type="parameter_name" span="195:11:195:18">newView</jtok>
+<jtok eid="5" type="parameter_name" span="195:28:195:40">newPlainView</jtok>
+<jtok eid="5" type="parameter_type" span="195:42:195:48">String</jtok>
+<jtok eid="5" type="parameter_name" span="195:49:195:55">parent</jtok>
+<jtok eid="5" type="parameter_type" span="196:3:196:9">String</jtok>
+<jtok eid="5" type="parameter_name" span="196:12:196:16">args</jtok>
+<jtok eid="5" type="line_comment" span="198:3:198:70">// we have to deal with a huge range of possible border cases here.</jtok>
+<jtok eid="5" type="primary_name_ref" span="199:6:199:11">jEdit</jtok>
+<jtok eid="5" type="method_call" span="199:12:199:24">getFirstView</jtok>
+<jtok eid="5" type="line_comment" span="201:4:201:37">// coming out of background mode.</jtok>
+<jtok eid="5" type="line_comment" span="202:4:202:21">// no views open.</jtok>
+<jtok eid="5" type="line_comment" span="203:4:203:37">// no buffers open if args empty.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="205:4:205:10">Buffer</jtok>
+<jtok eid="5" type="local_variable_name" span="205:11:205:17">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="205:20:205:25">jEdit</jtok>
+<jtok eid="5" type="method_call" span="205:26:205:35">openFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="205:41:205:47">parent</jtok>
+<jtok eid="5" type="primary_name_ref" span="205:48:205:52">args</jtok>
+<jtok eid="5" type="primary_name_ref" span="207:7:207:12">jEdit</jtok>
+<jtok eid="5" type="method_call" span="207:13:207:27">getBufferCount</jtok>
+<jtok eid="5" type="primary_name_ref" span="208:5:208:10">jEdit</jtok>
+<jtok eid="5" type="method_call" span="208:11:208:18">newFile</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="208:20:208:28">EditPane</jtok>
+<jtok eid="5" type="local_variable_name" span="210:12:210:24">restoreFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="210:27:210:34">restore</jtok>
+<jtok eid="5" type="primary_name_ref" span="211:8:211:13">jEdit</jtok>
+<jtok eid="5" type="method_call" span="211:14:211:32">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="211:33:211:42">"restore"</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:9:212:15">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="213:8:213:13">jEdit</jtok>
+<jtok eid="5" type="method_call" span="213:14:213:32">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="213:33:213:46">"restore.cli"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="215:4:215:8">View</jtok>
+<jtok eid="5" type="local_variable_name" span="215:9:215:13">view</jtok>
+<jtok eid="5" type="primary_name_ref" span="215:16:215:34">PerspectiveManager</jtok>
+<jtok eid="5" type="method_call" span="215:35:215:50">loadPerspective</jtok>
+<jtok eid="5" type="primary_name_ref" span="216:5:216:17">restoreFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="218:7:218:11">view</jtok>
+<jtok eid="5" type="primary_name_ref" span="220:8:220:14">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:6:221:12">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:15:221:20">jEdit</jtok>
+<jtok eid="5" type="method_call" span="221:21:221:35">getFirstBuffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:5:222:9">view</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:12:222:17">jEdit</jtok>
+<jtok eid="5" type="method_call" span="222:18:222:25">newView</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:31:222:37">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="224:12:224:18">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="225:5:225:9">view</jtok>
+<jtok eid="5" type="method_call" span="225:10:225:19">setBuffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="225:20:225:26">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="227:11:227:17">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="229:11:229:23">newPlainView</jtok>
+<jtok eid="5" type="line_comment" span="231:4:231:49">// no background mode, and opening a new view</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="232:4:232:10">Buffer</jtok>
+<jtok eid="5" type="local_variable_name" span="232:11:232:17">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="232:20:232:25">jEdit</jtok>
+<jtok eid="5" type="method_call" span="232:26:232:35">openFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="232:41:232:47">parent</jtok>
+<jtok eid="5" type="primary_name_ref" span="232:48:232:52">args</jtok>
+<jtok eid="5" type="primary_name_ref" span="233:7:233:13">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="234:5:234:11">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="234:14:234:19">jEdit</jtok>
+<jtok eid="5" type="method_call" span="234:20:234:34">getFirstBuffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="235:4:235:9">jEdit</jtok>
+<jtok eid="5" type="method_call" span="235:10:235:17">newView</jtok>
+<jtok eid="5" type="primary_name_ref" span="235:23:235:29">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="236:11:236:17">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="238:11:238:18">newView</jtok>
+<jtok eid="5" type="line_comment" span="240:4:240:49">// no background mode, and opening a new view</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="241:4:241:10">Buffer</jtok>
+<jtok eid="5" type="local_variable_name" span="241:11:241:17">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:20:241:25">jEdit</jtok>
+<jtok eid="5" type="method_call" span="241:26:241:35">openFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:41:241:47">parent</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:48:241:52">args</jtok>
+<jtok eid="5" type="primary_name_ref" span="242:7:242:13">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="243:5:243:11">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="243:14:243:19">jEdit</jtok>
+<jtok eid="5" type="method_call" span="243:20:243:34">getFirstBuffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:4:244:9">jEdit</jtok>
+<jtok eid="5" type="method_call" span="244:10:244:17">newView</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:18:244:23">jEdit</jtok>
+<jtok eid="5" type="method_call" span="244:24:244:37">getActiveView</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:40:244:46">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="245:11:245:17">buffer</jtok>
+<jtok eid="5" type="line_comment" span="249:4:249:52">// no background mode, and reusing existing view</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="250:4:250:8">View</jtok>
+<jtok eid="5" type="local_variable_name" span="250:9:250:13">view</jtok>
+<jtok eid="5" type="primary_name_ref" span="250:16:250:21">jEdit</jtok>
+<jtok eid="5" type="method_call" span="250:22:250:35">getActiveView</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="252:4:252:10">Buffer</jtok>
+<jtok eid="5" type="local_variable_name" span="252:11:252:17">buffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:20:252:25">jEdit</jtok>
+<jtok eid="5" type="method_call" span="252:26:252:35">openFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:36:252:40">view</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:41:252:47">parent</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:48:252:52">args</jtok>
+<jtok eid="5" type="line_comment" span="254:4:254:57">// Hack done to fix bringing the window to the front.</jtok>
+<jtok eid="5" type="line_comment" span="255:4:255:59">// At least on windows, Frame.toFront() doesn't cut it.</jtok>
+<jtok eid="5" type="line_comment" span="256:4:256:60">// Remove the isWindows check if it's broken under other</jtok>
+<jtok eid="5" type="line_comment" span="257:4:257:16">// OSes too.</jtok>
+<jtok eid="5" type="primary_name_ref" span="258:8:258:13">jEdit</jtok>
+<jtok eid="5" type="method_call" span="258:14:258:32">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="258:33:258:55">"server.brokenToFront"</jtok>
+<jtok eid="5" type="primary_name_ref" span="259:5:259:9">view</jtok>
+<jtok eid="5" type="method_call" span="259:10:259:18">setState</jtok>
+<jtok eid="5" type="primary_name_ref" span="259:19:259:23">java</jtok>
+<jtok eid="5" type="qualified_name_ref" span="259:24:259:27">awt</jtok>
+<jtok eid="5" type="qualified_name_ref" span="259:28:259:33">Frame</jtok>
+<jtok eid="5" type="qualified_name_ref" span="259:34:259:43">ICONIFIED</jtok>
+<jtok eid="5" type="line_comment" span="261:4:261:35">// un-iconify using JDK 1.3 API</jtok>
+<jtok eid="5" type="primary_name_ref" span="262:4:262:8">view</jtok>
+<jtok eid="5" type="method_call" span="262:9:262:17">setState</jtok>
+<jtok eid="5" type="primary_name_ref" span="262:18:262:22">java</jtok>
+<jtok eid="5" type="qualified_name_ref" span="262:23:262:26">awt</jtok>
+<jtok eid="5" type="qualified_name_ref" span="262:27:262:32">Frame</jtok>
+<jtok eid="5" type="qualified_name_ref" span="262:33:262:39">NORMAL</jtok>
+<jtok eid="5" type="primary_name_ref" span="263:4:263:8">view</jtok>
+<jtok eid="5" type="method_call" span="263:9:263:21">requestFocus</jtok>
+<jtok eid="5" type="primary_name_ref" span="264:4:264:8">view</jtok>
+<jtok eid="5" type="method_call" span="264:9:264:16">toFront</jtok>
+<jtok eid="5" type="primary_name_ref" span="266:11:266:17">buffer</jtok>
+<jtok eid="1" type="line_comment" span="268:4:268:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="270:2:270:21">//{{{ isOK() method</jtok>
+<jtok eid="6" type="method_name" span="271:10:271:14">isOK</jtok>
+<jtok eid="6" type="primary_name_ref" span="273:10:273:12">ok</jtok>
+<jtok eid="1" type="line_comment" span="274:4:274:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="276:2:276:22">//{{{ getPort method</jtok>
+<jtok eid="7" type="method_name" span="277:13:277:20">getPort</jtok>
+<jtok eid="7" type="primary_name_ref" span="279:10:279:16">socket</jtok>
+<jtok eid="7" type="method_call" span="279:17:279:29">getLocalPort</jtok>
+<jtok eid="1" type="line_comment" span="280:4:280:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="282:2:282:27">//{{{ stopServer() method</jtok>
+<jtok eid="8" type="method_name" span="283:7:283:17">stopServer</jtok>
+<jtok eid="8" type="primary_name_ref" span="285:3:285:8">abort</jtok>
+<jtok eid="8" type="primary_name_ref" span="288:4:288:10">socket</jtok>
+<jtok eid="8" type="method_call" span="288:11:288:16">close</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="290:9:290:20">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="290:21:290:23">io</jtok>
+<jtok eid="8" type="constructor_call" span="294:7:294:11">File</jtok>
+<jtok eid="8" type="primary_name_ref" span="294:12:294:20">portFile</jtok>
+<jtok eid="8" type="method_call" span="294:22:294:28">delete</jtok>
+<jtok eid="1" type="line_comment" span="295:4:295:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="297:2:297:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="299:2:299:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="300:10:300:16">String</jtok>
+<jtok eid="1" type="field_name" span="300:17:300:25">portFile</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="301:10:301:22">ServerSocket</jtok>
+<jtok eid="1" type="field_name" span="301:23:301:29">socket</jtok>
+<jtok eid="1" type="field_name" span="302:14:302:21">authKey</jtok>
+<jtok eid="1" type="field_name" span="303:18:303:20">ok</jtok>
+<jtok eid="1" type="field_name" span="304:18:304:23">abort</jtok>
+<jtok eid="1" type="line_comment" span="305:2:305:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="307:2:307:29">//{{{ handleClient() method</jtok>
+<jtok eid="9" type="method_name" span="308:18:308:30">handleClient</jtok>
+<jtok eid="9" type="parameter_type" span="308:37:308:43">Socket</jtok>
+<jtok eid="9" type="parameter_name" span="308:44:308:50">client</jtok>
+<jtok eid="9" type="parameter_type" span="308:52:308:67">DataInputStream</jtok>
+<jtok eid="9" type="parameter_name" span="308:68:308:70">in</jtok>
+<jtok eid="9" type="throws" span="309:10:309:19">Exception</jtok>
+<jtok eid="9" type="local_variable_name" span="311:7:311:10">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="311:13:311:15">in</jtok>
+<jtok eid="9" type="method_call" span="311:16:311:23">readInt</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:6:312:9">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:13:312:20">authKey</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:4:314:7">Log</jtok>
+<jtok eid="9" type="method_call" span="314:8:314:11">log</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:12:314:15">Log</jtok>
+<jtok eid="9" type="qualified_name_ref" span="314:16:314:21">ERROR</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:27:314:33">client</jtok>
+<jtok eid="9" type="string_literal" span="314:36:314:45">": wrong"</jtok>
+<jtok eid="9" type="string_literal" span="315:7:315:33">" authorization key (got "</jtok>
+<jtok eid="9" type="primary_name_ref" span="315:36:315:39">key</jtok>
+<jtok eid="9" type="string_literal" span="316:7:316:20">", expected "</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:23:316:30">authKey</jtok>
+<jtok eid="9" type="string_literal" span="316:33:316:36">")"</jtok>
+<jtok eid="9" type="primary_name_ref" span="317:4:317:6">in</jtok>
+<jtok eid="9" type="method_call" span="317:7:317:12">close</jtok>
+<jtok eid="9" type="primary_name_ref" span="318:4:318:10">client</jtok>
+<jtok eid="9" type="method_call" span="318:11:318:16">close</jtok>
+<jtok eid="9" type="line_comment" span="324:4:324:24">// Reset the timeout</jtok>
+<jtok eid="9" type="primary_name_ref" span="325:4:325:10">client</jtok>
+<jtok eid="9" type="method_call" span="325:11:325:23">setSoTimeout</jtok>
+<jtok eid="9" type="primary_name_ref" span="327:4:327:7">Log</jtok>
+<jtok eid="9" type="method_call" span="327:8:327:11">log</jtok>
+<jtok eid="9" type="primary_name_ref" span="327:12:327:15">Log</jtok>
+<jtok eid="9" type="qualified_name_ref" span="327:16:327:21">DEBUG</jtok>
+<jtok eid="9" type="primary_name_ref" span="327:27:327:33">client</jtok>
+<jtok eid="9" type="string_literal" span="327:36:327:53">": authenticated"</jtok>
+<jtok eid="9" type="string_literal" span="328:7:328:22">" successfully"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="330:10:330:16">String</jtok>
+<jtok eid="9" type="local_variable_name" span="330:17:330:23">script</jtok>
+<jtok eid="9" type="primary_name_ref" span="330:26:330:28">in</jtok>
+<jtok eid="9" type="method_call" span="330:29:330:36">readUTF</jtok>
+<jtok eid="9" type="primary_name_ref" span="331:4:331:7">Log</jtok>
+<jtok eid="9" type="method_call" span="331:8:331:11">log</jtok>
+<jtok eid="9" type="primary_name_ref" span="331:12:331:15">Log</jtok>
+<jtok eid="9" type="qualified_name_ref" span="331:16:331:21">DEBUG</jtok>
+<jtok eid="9" type="primary_name_ref" span="331:27:331:33">script</jtok>
+<jtok eid="9" type="primary_name_ref" span="333:4:333:18">SwingUtilities</jtok>
+<jtok eid="9" type="method_call" span="333:19:333:30">invokeLater</jtok>
+<jtok eid="9" type="constructor_call" span="333:35:333:43">Runnable</jtok>
+<jtok eid="11" type="method_name" span="335:17:335:20">run</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="339:7:339:16">NameSpace</jtok>
+<jtok eid="11" type="local_variable_name" span="339:17:339:19">ns</jtok>
+<jtok eid="11" type="constructor_call" span="339:26:339:35">NameSpace</jtok>
+<jtok eid="11" type="primary_name_ref" span="340:8:340:17">BeanShell</jtok>
+<jtok eid="11" type="method_call" span="340:18:340:30">getNameSpace</jtok>
+<jtok eid="11" type="string_literal" span="341:8:341:30">"EditServer namespace"</jtok>
+<jtok eid="11" type="primary_name_ref" span="342:7:342:9">ns</jtok>
+<jtok eid="11" type="method_call" span="342:10:342:21">setVariable</jtok>
+<jtok eid="11" type="string_literal" span="342:22:342:30">"socket"</jtok>
+<jtok eid="11" type="primary_name_ref" span="342:31:342:37">client</jtok>
+<jtok eid="11" type="primary_name_ref" span="343:7:343:16">BeanShell</jtok>
+<jtok eid="11" type="method_call" span="343:17:343:21">eval</jtok>
+<jtok eid="11" type="primary_name_ref" span="343:27:343:29">ns</jtok>
+<jtok eid="11" type="primary_name_ref" span="343:30:343:36">script</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:12:345:15">org</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:16:345:19">gjt</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:20:345:22">sp</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:23:345:28">jedit</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:29:345:32">bsh</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:33:345:46">UtilEvalError</jtok>
+<jtok eid="11" type="local_variable_name" span="345:47:345:48">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="347:7:347:10">Log</jtok>
+<jtok eid="11" type="method_call" span="347:11:347:14">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="347:15:347:18">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="347:19:347:24">ERROR</jtok>
+<jtok eid="11" type="primary_name_ref" span="347:30:347:31">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="353:8:353:17">BeanShell</jtok>
+<jtok eid="11" type="method_call" span="353:18:353:30">getNameSpace</jtok>
+<jtok eid="11" type="method_call" span="353:33:353:44">setVariable</jtok>
+<jtok eid="11" type="string_literal" span="353:45:353:53">"socket"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="355:13:355:16">org</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="355:17:355:20">gjt</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="355:21:355:23">sp</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="355:24:355:29">jedit</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="355:30:355:33">bsh</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="355:34:355:47">UtilEvalError</jtok>
+<jtok eid="11" type="local_variable_name" span="355:48:355:49">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="357:8:357:11">Log</jtok>
+<jtok eid="11" type="method_call" span="357:12:357:15">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="357:16:357:19">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="357:20:357:25">ERROR</jtok>
+<jtok eid="11" type="primary_name_ref" span="357:31:357:32">e</jtok>
+<jtok eid="1" type="line_comment" span="365:4:365:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="367:2:367:7">//}}}</jtok>
+</jdoc>

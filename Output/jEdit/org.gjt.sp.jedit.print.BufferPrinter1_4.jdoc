@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.print.BufferPrinter1_4" jls="java5">
+<jent id="0" type="file" span="0:0:194:1">Source/jEdit/org/gjt/sp/jedit/print/BufferPrinter1_4.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:193:1">org.gjt.sp.jedit.print.BufferPrinter1_4</jent>
+<jent id="2" pid="1" type="method" span="39:2:76:2">org.gjt.sp.jedit.print.BufferPrinter1_4.getPrintJob(String)</jent>
+<jent id="3" pid="1" type="method" span="79:2:84:2">org.gjt.sp.jedit.print.BufferPrinter1_4.pageSetup(View)</jent>
+<jent id="4" pid="1" type="method" span="87:2:107:2">org.gjt.sp.jedit.print.BufferPrinter1_4.print(View,Buffer,boolean)</jent>
+<jent id="5" pid="1" type="method" span="110:2:158:2">org.gjt.sp.jedit.print.BufferPrinter1_4.getPageFormat()</jent>
+<jent id="6" pid="1" type="method" span="161:2:186:2">org.gjt.sp.jedit.print.BufferPrinter1_4.savePrintSpec()</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * BufferPrinter1_4.java - Main class that controls printing
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001 Slava Pestov
+ * Portions copyright (C) 2002 Thomas Dilts
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="36:14:36:30">BufferPrinter1_4</jtok>
+<jtok eid="1" type="line_comment" span="38:2:38:28">//{{{ getPrintJob() method</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="39:17:39:27">PrinterJob</jtok>
+<jtok eid="2" type="method_name" span="39:28:39:39">getPrintJob</jtok>
+<jtok eid="2" type="parameter_type" span="39:40:39:46">String</jtok>
+<jtok eid="2" type="parameter_name" span="39:47:39:54">jobName</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:3:41:6">job</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:9:41:19">PrinterJob</jtok>
+<jtok eid="2" type="method_call" span="41:20:41:33">getPrinterJob</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:3:43:9">format</jtok>
+<jtok eid="2" type="constructor_call" span="43:16:43:44">HashPrintRequestAttributeSet</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:3:45:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="45:10:45:18">settings</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:21:45:26">jEdit</jtok>
+<jtok eid="2" type="method_call" span="45:27:45:47">getSettingsDirectory</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:6:46:14">settings</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="48:4:48:10">String</jtok>
+<jtok eid="2" type="local_variable_name" span="48:11:48:24">printSpecPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:27:48:40">MiscUtilities</jtok>
+<jtok eid="2" type="method_call" span="48:41:48:54">constructPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:5:49:13">settings</jtok>
+<jtok eid="2" type="string_literal" span="49:15:49:26">"printspec"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="50:4:50:8">File</jtok>
+<jtok eid="2" type="local_variable_name" span="50:9:50:22">filePrintSpec</jtok>
+<jtok eid="2" type="constructor_call" span="50:29:50:33">File</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:34:50:47">printSpecPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:8:52:21">filePrintSpec</jtok>
+<jtok eid="2" type="method_call" span="52:22:52:28">exists</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:6:56:21">FileInputStream</jtok>
+<jtok eid="2" type="local_variable_name" span="56:22:56:28">fileIn</jtok>
+<jtok eid="2" type="constructor_call" span="56:35:56:50">FileInputStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:51:56:64">filePrintSpec</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:6:57:23">ObjectInputStream</jtok>
+<jtok eid="2" type="local_variable_name" span="57:24:57:28">obIn</jtok>
+<jtok eid="2" type="constructor_call" span="57:35:57:52">ObjectInputStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:53:57:59">fileIn</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:6:58:12">format</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="58:16:58:44">HashPrintRequestAttributeSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:45:58:49">obIn</jtok>
+<jtok eid="2" type="method_call" span="58:50:58:60">readObject</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="60:11:60:20">Exception</jtok>
+<jtok eid="2" type="local_variable_name" span="60:21:60:22">e</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:6:62:9">Log</jtok>
+<jtok eid="2" type="method_call" span="62:10:62:13">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:14:62:17">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="62:18:62:23">ERROR</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:24:62:40">BufferPrinter1_4</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:47:62:48">e</jtok>
+<jtok eid="2" type="line_comment" span="64:5:64:83">//for backwards compatibility, the color variable is stored also as a property</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:8:65:13">jEdit</jtok>
+<jtok eid="2" type="method_call" span="65:14:65:32">getBooleanProperty</jtok>
+<jtok eid="2" type="string_literal" span="65:33:65:46">"print.color"</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:6:66:12">format</jtok>
+<jtok eid="2" type="method_call" span="66:13:66:16">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:17:66:29">Chromaticity</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:30:66:35">COLOR</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:6:68:12">format</jtok>
+<jtok eid="2" type="method_call" span="68:13:68:16">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:17:68:29">Chromaticity</jtok>
+<jtok eid="2" type="qualified_name_ref" span="68:30:68:40">MONOCHROME</jtok>
+<jtok eid="2" type="line_comment" span="70:5:70:67">//no need to always keep the same job name for every printout.</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:5:71:11">format</jtok>
+<jtok eid="2" type="method_call" span="71:12:71:15">add</jtok>
+<jtok eid="2" type="constructor_call" span="71:20:71:27">JobName</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:28:71:35">jobName</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:10:75:13">job</jtok>
+<jtok eid="1" type="line_comment" span="76:4:76:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:26">//{{{ pageSetup() method</jtok>
+<jtok eid="3" type="method_name" span="79:21:79:30">pageSetup</jtok>
+<jtok eid="3" type="parameter_type" span="79:31:79:35">View</jtok>
+<jtok eid="3" type="parameter_name" span="79:36:79:40">view</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="81:3:81:13">PrinterJob</jtok>
+<jtok eid="3" type="local_variable_name" span="81:14:81:20">prnJob</jtok>
+<jtok eid="3" type="method_call" span="81:23:81:34">getPrintJob</jtok>
+<jtok eid="3" type="string_literal" span="81:35:81:50">"PageSetupOnly"</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:6:82:12">prnJob</jtok>
+<jtok eid="3" type="method_call" span="82:13:82:23">pageDialog</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:24:82:30">format</jtok>
+<jtok eid="3" type="method_call" span="83:4:83:17">savePrintSpec</jtok>
+<jtok eid="1" type="line_comment" span="84:4:84:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="86:2:86:22">//{{{ print() method</jtok>
+<jtok eid="4" type="method_name" span="87:21:87:26">print</jtok>
+<jtok eid="4" type="parameter_type" span="87:33:87:37">View</jtok>
+<jtok eid="4" type="parameter_name" span="87:38:87:42">view</jtok>
+<jtok eid="4" type="parameter_type" span="87:50:87:56">Buffer</jtok>
+<jtok eid="4" type="parameter_name" span="87:57:87:63">buffer</jtok>
+<jtok eid="4" type="parameter_name" span="87:73:87:82">selection</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:3:89:6">job</jtok>
+<jtok eid="4" type="method_call" span="89:9:89:20">getPrintJob</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:21:89:27">buffer</jtok>
+<jtok eid="4" type="method_call" span="89:28:89:35">getPath</jtok>
+<jtok eid="4" type="local_variable_name" span="91:11:91:17">header</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:20:91:25">jEdit</jtok>
+<jtok eid="4" type="method_call" span="91:26:91:44">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="91:45:91:59">"print.header"</jtok>
+<jtok eid="4" type="local_variable_name" span="92:11:92:17">footer</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:20:92:25">jEdit</jtok>
+<jtok eid="4" type="method_call" span="92:26:92:44">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="92:45:92:59">"print.footer"</jtok>
+<jtok eid="4" type="local_variable_name" span="93:11:93:22">lineNumbers</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:25:93:30">jEdit</jtok>
+<jtok eid="4" type="method_call" span="93:31:93:49">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="93:50:93:69">"print.lineNumbers"</jtok>
+<jtok eid="4" type="local_variable_name" span="94:11:94:16">color</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:19:94:24">jEdit</jtok>
+<jtok eid="4" type="method_call" span="94:25:94:43">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="94:44:94:57">"print.color"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="95:3:95:7">Font</jtok>
+<jtok eid="4" type="local_variable_name" span="95:8:95:12">font</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:15:95:20">jEdit</jtok>
+<jtok eid="4" type="method_call" span="95:21:95:36">getFontProperty</jtok>
+<jtok eid="4" type="string_literal" span="95:37:95:49">"print.font"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="97:3:97:18">BufferPrintable</jtok>
+<jtok eid="4" type="local_variable_name" span="97:19:97:28">printable</jtok>
+<jtok eid="4" type="constructor_call" span="97:35:97:50">BufferPrintable</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:51:97:54">job</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:55:97:61">format</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:62:97:66">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:4:98:10">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:11:98:15">font</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:16:98:22">header</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:23:98:29">footer</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:30:98:41">lineNumbers</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:42:98:47">color</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:3:99:6">job</jtok>
+<jtok eid="4" type="method_call" span="99:7:99:19">setPrintable</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:20:99:29">printable</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:7:101:10">job</jtok>
+<jtok eid="4" type="method_call" span="101:11:101:22">printDialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="101:23:101:29">format</jtok>
+<jtok eid="4" type="method_call" span="104:3:104:16">savePrintSpec</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:3:106:12">printable</jtok>
+<jtok eid="4" type="method_call" span="106:13:106:18">print</jtok>
+<jtok eid="1" type="line_comment" span="107:4:107:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="109:2:109:30">//{{{ getPageFormat() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="110:16:110:26">PageFormat</jtok>
+<jtok eid="5" type="method_name" span="110:27:110:40">getPageFormat</jtok>
+<jtok eid="5" type="line_comment" span="112:3:112:60">//convert from PrintRequestAttributeSet to the pageFormat</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="113:3:113:13">PrinterJob</jtok>
+<jtok eid="5" type="local_variable_name" span="113:14:113:20">prnJob</jtok>
+<jtok eid="5" type="method_call" span="113:21:113:32">getPrintJob</jtok>
+<jtok eid="5" type="string_literal" span="113:33:113:36">" "</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="114:3:114:13">PageFormat</jtok>
+<jtok eid="5" type="local_variable_name" span="114:14:114:16">pf</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:17:114:23">prnJob</jtok>
+<jtok eid="5" type="method_call" span="114:24:114:35">defaultPage</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="115:3:115:8">Paper</jtok>
+<jtok eid="5" type="local_variable_name" span="115:9:115:12">pap</jtok>
+<jtok eid="5" type="primary_name_ref" span="115:13:115:15">pf</jtok>
+<jtok eid="5" type="method_call" span="115:16:115:24">getPaper</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="117:3:117:16">MediaSizeName</jtok>
+<jtok eid="5" type="local_variable_name" span="117:17:117:22">media</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="117:24:117:37">MediaSizeName</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:38:117:44">format</jtok>
+<jtok eid="5" type="method_call" span="117:45:117:48">get</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:31:118:36">Media</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="119:3:119:12">MediaSize</jtok>
+<jtok eid="5" type="local_variable_name" span="119:13:119:15">ms</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:16:119:25">MediaSize</jtok>
+<jtok eid="5" type="method_call" span="119:26:119:45">getMediaSizeForName</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:46:119:51">media</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="121:3:121:21">MediaPrintableArea</jtok>
+<jtok eid="5" type="local_variable_name" span="121:22:121:31">mediaarea</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="121:33:121:51">MediaPrintableArea</jtok>
+<jtok eid="5" type="primary_name_ref" span="121:52:121:58">format</jtok>
+<jtok eid="5" type="method_call" span="121:59:121:62">get</jtok>
+<jtok eid="5" type="primary_name_ref" span="122:40:122:58">MediaPrintableArea</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:6:123:15">mediaarea</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:4:124:7">pap</jtok>
+<jtok eid="5" type="method_call" span="124:8:124:24">setImageableArea</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:26:124:35">mediaarea</jtok>
+<jtok eid="5" type="method_call" span="124:36:124:40">getX</jtok>
+<jtok eid="5" type="primary_name_ref" span="124:41:124:59">MediaPrintableArea</jtok>
+<jtok eid="5" type="qualified_name_ref" span="124:60:124:64">INCH</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:26:125:35">mediaarea</jtok>
+<jtok eid="5" type="method_call" span="125:36:125:40">getY</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:41:125:59">MediaPrintableArea</jtok>
+<jtok eid="5" type="qualified_name_ref" span="125:60:125:64">INCH</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:26:126:35">mediaarea</jtok>
+<jtok eid="5" type="method_call" span="126:36:126:44">getWidth</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:45:126:63">MediaPrintableArea</jtok>
+<jtok eid="5" type="qualified_name_ref" span="126:64:126:68">INCH</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:26:127:35">mediaarea</jtok>
+<jtok eid="5" type="method_call" span="127:36:127:45">getHeight</jtok>
+<jtok eid="5" type="primary_name_ref" span="127:46:127:64">MediaPrintableArea</jtok>
+<jtok eid="5" type="qualified_name_ref" span="127:65:127:69">INCH</jtok>
+<jtok eid="5" type="primary_name_ref" span="128:6:128:8">ms</jtok>
+<jtok eid="5" type="primary_name_ref" span="129:4:129:7">pap</jtok>
+<jtok eid="5" type="method_call" span="129:8:129:15">setSize</jtok>
+<jtok eid="5" type="primary_name_ref" span="129:17:129:19">ms</jtok>
+<jtok eid="5" type="method_call" span="129:20:129:24">getX</jtok>
+<jtok eid="5" type="primary_name_ref" span="129:25:129:34">MediaSize</jtok>
+<jtok eid="5" type="qualified_name_ref" span="129:35:129:39">INCH</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:17:130:19">ms</jtok>
+<jtok eid="5" type="method_call" span="130:20:130:24">getY</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:25:130:34">MediaSize</jtok>
+<jtok eid="5" type="qualified_name_ref" span="130:35:130:39">INCH</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:3:131:5">pf</jtok>
+<jtok eid="5" type="method_call" span="131:6:131:14">setPaper</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:15:131:18">pap</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="133:3:133:23">OrientationRequested</jtok>
+<jtok eid="5" type="local_variable_name" span="133:24:133:35">orientation</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="133:37:133:57">OrientationRequested</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:58:133:64">format</jtok>
+<jtok eid="5" type="method_call" span="133:65:133:68">get</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:44:134:64">OrientationRequested</jtok>
+<jtok eid="5" type="primary_name_ref" span="135:6:135:17">orientation</jtok>
+<jtok eid="5" type="primary_name_ref" span="137:7:137:18">orientation</jtok>
+<jtok eid="5" type="method_call" span="137:19:137:27">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="137:31:137:51">OrientationRequested</jtok>
+<jtok eid="5" type="qualified_name_ref" span="137:52:137:61">LANDSCAPE</jtok>
+<jtok eid="5" type="method_call" span="137:62:137:70">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:5:139:7">pf</jtok>
+<jtok eid="5" type="method_call" span="139:8:139:22">setOrientation</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:23:139:33">PageFormat</jtok>
+<jtok eid="5" type="qualified_name_ref" span="139:34:139:43">LANDSCAPE</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:12:141:23">orientation</jtok>
+<jtok eid="5" type="method_call" span="141:24:141:32">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:36:141:56">OrientationRequested</jtok>
+<jtok eid="5" type="qualified_name_ref" span="141:57:141:74">REVERSE_LANDSCAPE</jtok>
+<jtok eid="5" type="method_call" span="141:75:141:83">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:5:143:7">pf</jtok>
+<jtok eid="5" type="method_call" span="143:8:143:22">setOrientation</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:23:143:33">PageFormat</jtok>
+<jtok eid="5" type="qualified_name_ref" span="143:34:143:51">REVERSE_LANDSCAPE</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:12:145:23">orientation</jtok>
+<jtok eid="5" type="method_call" span="145:24:145:32">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:36:145:56">OrientationRequested</jtok>
+<jtok eid="5" type="qualified_name_ref" span="145:57:145:65">PORTRAIT</jtok>
+<jtok eid="5" type="method_call" span="145:66:145:74">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="147:5:147:7">pf</jtok>
+<jtok eid="5" type="method_call" span="147:8:147:22">setOrientation</jtok>
+<jtok eid="5" type="primary_name_ref" span="147:23:147:33">PageFormat</jtok>
+<jtok eid="5" type="qualified_name_ref" span="147:34:147:42">PORTRAIT</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:12:149:23">orientation</jtok>
+<jtok eid="5" type="method_call" span="149:24:149:32">getValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:36:149:56">OrientationRequested</jtok>
+<jtok eid="5" type="qualified_name_ref" span="149:57:149:73">REVERSE_PORTRAIT</jtok>
+<jtok eid="5" type="method_call" span="149:74:149:82">getValue</jtok>
+<jtok eid="5" type="line_comment" span="151:5:151:21">//doesnt exist??</jtok>
+<jtok eid="5" type="line_comment" span="152:5:152:54">//pf.setOrientation(PageFormat.REVERSE_PORTRAIT);</jtok>
+<jtok eid="5" type="line_comment" span="153:5:153:39">//then just do the next best thing</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:5:154:7">pf</jtok>
+<jtok eid="5" type="method_call" span="154:8:154:22">setOrientation</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:23:154:33">PageFormat</jtok>
+<jtok eid="5" type="qualified_name_ref" span="154:34:154:42">PORTRAIT</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:10:157:12">pf</jtok>
+<jtok eid="1" type="line_comment" span="158:4:158:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:30">//{{{ savePrintSpec() method</jtok>
+<jtok eid="6" type="method_name" span="161:22:161:35">savePrintSpec</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="163:3:163:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="163:10:163:18">settings</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:21:163:26">jEdit</jtok>
+<jtok eid="6" type="method_call" span="163:27:163:47">getSettingsDirectory</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:6:164:14">settings</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="167:3:167:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="167:10:167:23">printSpecPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:26:167:39">MiscUtilities</jtok>
+<jtok eid="6" type="method_call" span="167:40:167:53">constructPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:4:168:12">settings</jtok>
+<jtok eid="6" type="string_literal" span="168:14:168:25">"printspec"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="169:3:169:7">File</jtok>
+<jtok eid="6" type="local_variable_name" span="169:8:169:21">filePrintSpec</jtok>
+<jtok eid="6" type="constructor_call" span="169:28:169:32">File</jtok>
+<jtok eid="6" type="primary_name_ref" span="169:33:169:46">printSpecPath</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="173:4:173:20">FileOutputStream</jtok>
+<jtok eid="6" type="local_variable_name" span="173:21:173:28">fileOut</jtok>
+<jtok eid="6" type="constructor_call" span="173:33:173:49">FileOutputStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:50:173:63">filePrintSpec</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="174:4:174:22">ObjectOutputStream</jtok>
+<jtok eid="6" type="local_variable_name" span="174:23:174:28">obOut</jtok>
+<jtok eid="6" type="constructor_call" span="174:33:174:51">ObjectOutputStream</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:52:174:59">fileOut</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:4:175:9">obOut</jtok>
+<jtok eid="6" type="method_call" span="175:10:175:21">writeObject</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:22:175:28">format</jtok>
+<jtok eid="6" type="line_comment" span="176:4:176:82">//for backwards compatibility, the color variable is stored also as a property</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="177:4:177:16">Chromaticity</jtok>
+<jtok eid="6" type="local_variable_name" span="177:17:177:19">cc</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="177:21:177:33">Chromaticity</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:34:177:40">format</jtok>
+<jtok eid="6" type="method_call" span="177:41:177:44">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:45:177:57">Chromaticity</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:8:178:10">cc</jtok>
+<jtok eid="6" type="primary_name_ref" span="179:5:179:10">jEdit</jtok>
+<jtok eid="6" type="method_call" span="179:11:179:29">setBooleanProperty</jtok>
+<jtok eid="6" type="string_literal" span="179:30:179:43">"print.color"</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:6:180:8">cc</jtok>
+<jtok eid="6" type="method_call" span="180:9:180:17">getValue</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:21:180:33">Chromaticity</jtok>
+<jtok eid="6" type="qualified_name_ref" span="180:34:180:39">COLOR</jtok>
+<jtok eid="6" type="method_call" span="180:40:180:48">getValue</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="182:9:182:18">Exception</jtok>
+<jtok eid="6" type="local_variable_name" span="182:19:182:20">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="184:4:184:5">e</jtok>
+<jtok eid="6" type="method_call" span="184:6:184:21">printStackTrace</jtok>
+<jtok eid="1" type="line_comment" span="187:2:187:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="189:2:189:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="190:17:190:41">PrintRequestAttributeSet</jtok>
+<jtok eid="1" type="field_name" span="190:42:190:48">format</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="191:17:191:27">PrinterJob</jtok>
+<jtok eid="1" type="field_name" span="191:28:191:31">job</jtok>
+<jtok eid="1" type="line_comment" span="192:2:192:7">//}}}</jtok>
+</jdoc>

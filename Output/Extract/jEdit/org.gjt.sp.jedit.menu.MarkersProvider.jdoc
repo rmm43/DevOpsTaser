@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.menu.MarkersProvider" jls="java5">
+<jent id="0" type="file" span="0:0:184:2">Source/jEdit/org/gjt/sp/jedit/menu/MarkersProvider.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:184:1">org.gjt.sp.jedit.menu.MarkersProvider</jent>
+<jent id="2" pid="1" type="method" span="37:2:40:2">org.gjt.sp.jedit.menu.MarkersProvider.updateEveryTime()</jent>
+<jent id="3" pid="1" type="method" span="43:2:90:2">org.gjt.sp.jedit.menu.MarkersProvider.update(JMenu)</jent>
+<jent id="4" pid="3" type="class" span="81:4:87:4">org.gjt.sp.jedit.menu.MarkersProvider.update(JMenu).$1</jent>
+<jent id="5" pid="4" type="method" span="82:5:86:5">org.gjt.sp.jedit.menu.MarkersProvider.update(JMenu).$1.actionPerformed(ActionEvent)</jent>
+<jent id="6" pid="1" type="class" span="93:2:183:2">org.gjt.sp.jedit.menu.MarkersProvider.MarkersMenuItem</jent>
+<jent id="7" pid="6" type="method" span="96:3:105:3">org.gjt.sp.jedit.menu.MarkersProvider.MarkersMenuItem.MarkersMenuItem(Buffer,int,char)</jent>
+<jent id="8" pid="6" type="method" span="108:3:120:3">org.gjt.sp.jedit.menu.MarkersProvider.MarkersMenuItem.getPreferredSize()</jent>
+<jent id="9" pid="6" type="method" span="123:3:142:3">org.gjt.sp.jedit.menu.MarkersProvider.MarkersMenuItem.paint(Graphics)</jent>
+<jent id="10" pid="6" type="method" span="152:3:167:3">org.gjt.sp.jedit.menu.MarkersProvider.MarkersMenuItem.getShortcut()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * MarkersProvider.java - Markers menu
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="34:14:34:29">MarkersProvider</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:41:34:60">DynamicMenuProvider</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:32">//{{{ updateEveryTime() method</jtok>
+<jtok eid="2" type="method_name" span="37:17:37:32">updateEveryTime</jtok>
+<jtok eid="1" type="line_comment" span="40:4:40:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="42:2:42:23">//{{{ update() method</jtok>
+<jtok eid="3" type="method_name" span="43:14:43:20">update</jtok>
+<jtok eid="3" type="parameter_type" span="43:21:43:26">JMenu</jtok>
+<jtok eid="3" type="parameter_name" span="43:27:43:31">menu</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="45:9:45:13">View</jtok>
+<jtok eid="3" type="local_variable_name" span="45:14:45:18">view</jtok>
+<jtok eid="3" type="primary_name_ref" span="45:21:45:33">GUIUtilities</jtok>
+<jtok eid="3" type="method_call" span="45:34:45:41">getView</jtok>
+<jtok eid="3" type="primary_name_ref" span="45:42:45:46">menu</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="46:3:46:9">Buffer</jtok>
+<jtok eid="3" type="local_variable_name" span="46:10:46:16">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:19:46:23">view</jtok>
+<jtok eid="3" type="method_call" span="46:24:46:33">getBuffer</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:3:48:7">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:8:48:14">Marker</jtok>
+<jtok eid="3" type="local_variable_name" span="48:16:48:23">markers</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:26:48:32">buffer</jtok>
+<jtok eid="3" type="method_call" span="48:33:48:43">getMarkers</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:6:50:13">markers</jtok>
+<jtok eid="3" type="method_call" span="50:14:50:21">isEmpty</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="52:4:52:13">JMenuItem</jtok>
+<jtok eid="3" type="local_variable_name" span="52:14:52:16">mi</jtok>
+<jtok eid="3" type="constructor_call" span="52:23:52:32">JMenuItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:33:52:38">jEdit</jtok>
+<jtok eid="3" type="method_call" span="52:39:52:50">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="53:5:53:23">"no-markers.label"</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:4:54:6">mi</jtok>
+<jtok eid="3" type="method_call" span="54:7:54:17">setEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:4:55:8">menu</jtok>
+<jtok eid="3" type="method_call" span="55:9:55:12">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:13:55:15">mi</jtok>
+<jtok eid="3" type="local_variable_name" span="59:7:59:15">maxItems</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:18:59:23">jEdit</jtok>
+<jtok eid="3" type="method_call" span="59:24:59:42">getIntegerProperty</jtok>
+<jtok eid="3" type="string_literal" span="59:43:59:59">"menu.spillover"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="61:3:61:8">JMenu</jtok>
+<jtok eid="3" type="local_variable_name" span="61:9:61:16">current</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:19:61:23">menu</jtok>
+<jtok eid="3" type="local_variable_name" span="63:11:63:12">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:18:63:19">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:22:63:29">markers</jtok>
+<jtok eid="3" type="method_call" span="63:30:63:34">size</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:38:63:39">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="65:10:65:16">Marker</jtok>
+<jtok eid="3" type="local_variable_name" span="65:17:65:23">marker</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:26:65:33">markers</jtok>
+<jtok eid="3" type="method_call" span="65:34:65:37">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:38:65:39">i</jtok>
+<jtok eid="3" type="local_variable_name" span="66:8:66:14">lineNo</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:17:66:23">buffer</jtok>
+<jtok eid="3" type="method_call" span="66:24:66:39">getLineOfOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:40:66:46">marker</jtok>
+<jtok eid="3" type="method_call" span="66:47:66:58">getPosition</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:7:68:14">current</jtok>
+<jtok eid="3" type="method_call" span="68:15:68:27">getItemCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:33:68:41">maxItems</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:45:68:46">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:50:68:57">markers</jtok>
+<jtok eid="3" type="method_call" span="68:58:68:62">size</jtok>
+<jtok eid="3" type="line_comment" span="70:5:70:30">//current.addSeparator();</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:5:71:10">JMenu</jtok>
+<jtok eid="3" type="local_variable_name" span="71:11:71:21">newCurrent</jtok>
+<jtok eid="3" type="constructor_call" span="71:28:71:33">JMenu</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:6:72:11">jEdit</jtok>
+<jtok eid="3" type="method_call" span="72:12:72:23">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="73:6:73:19">"common.more"</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:5:74:12">current</jtok>
+<jtok eid="3" type="method_call" span="74:13:74:16">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:17:74:27">newCurrent</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:5:75:12">current</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:15:75:25">newCurrent</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="78:4:78:13">JMenuItem</jtok>
+<jtok eid="3" type="local_variable_name" span="78:14:78:16">mi</jtok>
+<jtok eid="3" type="constructor_call" span="78:23:78:38">MarkersMenuItem</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:39:78:45">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:5:79:11">lineNo</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:12:79:18">marker</jtok>
+<jtok eid="3" type="method_call" span="79:19:79:30">getShortcut</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:4:80:6">mi</jtok>
+<jtok eid="3" type="method_call" span="80:7:80:24">addActionListener</jtok>
+<jtok eid="3" type="constructor_call" span="80:29:80:43">ActionListener</jtok>
+<jtok eid="5" type="method_name" span="82:17:82:32">actionPerformed</jtok>
+<jtok eid="5" type="parameter_type" span="82:33:82:44">ActionEvent</jtok>
+<jtok eid="5" type="parameter_name" span="82:45:82:48">evt</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:6:84:10">view</jtok>
+<jtok eid="5" type="method_call" span="84:11:84:22">getTextArea</jtok>
+<jtok eid="5" type="method_call" span="84:25:84:41">setCaretPosition</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:7:85:13">marker</jtok>
+<jtok eid="5" type="method_call" span="85:14:85:25">getPosition</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:4:88:11">current</jtok>
+<jtok eid="3" type="method_call" span="88:12:88:15">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:16:88:18">mi</jtok>
+<jtok eid="1" type="line_comment" span="90:4:90:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="92:2:92:29">//{{{ MarkersMenuItem class</jtok>
+<jtok eid="6" type="class_name" span="93:15:93:30">MarkersMenuItem</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="93:39:93:48">JMenuItem</jtok>
+<jtok eid="6" type="line_comment" span="95:3:95:36">//{{{ MarkersMenuItem constructor</jtok>
+<jtok eid="7" type="method_name" span="96:3:96:18">MarkersMenuItem</jtok>
+<jtok eid="7" type="parameter_type" span="96:19:96:25">Buffer</jtok>
+<jtok eid="7" type="parameter_name" span="96:26:96:32">buffer</jtok>
+<jtok eid="7" type="parameter_name" span="96:38:96:44">lineNo</jtok>
+<jtok eid="7" type="parameter_name" span="96:51:96:59">shortcut</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="98:4:98:10">String</jtok>
+<jtok eid="7" type="local_variable_name" span="98:11:98:15">text</jtok>
+<jtok eid="7" type="primary_name_ref" span="98:18:98:24">buffer</jtok>
+<jtok eid="7" type="method_call" span="98:25:98:36">getLineText</jtok>
+<jtok eid="7" type="primary_name_ref" span="98:37:98:43">lineNo</jtok>
+<jtok eid="7" type="method_call" span="98:45:98:49">trim</jtok>
+<jtok eid="7" type="primary_name_ref" span="99:7:99:11">text</jtok>
+<jtok eid="7" type="method_call" span="99:12:99:18">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:5:100:9">text</jtok>
+<jtok eid="7" type="primary_name_ref" span="100:12:100:17">jEdit</jtok>
+<jtok eid="7" type="method_call" span="100:18:100:29">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="100:30:100:50">"markers.blank-line"</jtok>
+<jtok eid="7" type="method_call" span="101:4:101:11">setText</jtok>
+<jtok eid="7" type="primary_name_ref" span="101:13:101:19">lineNo</jtok>
+<jtok eid="7" type="string_literal" span="101:27:101:31">": "</jtok>
+<jtok eid="7" type="primary_name_ref" span="101:34:101:38">text</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:4:103:16">shortcutProp</jtok>
+<jtok eid="7" type="string_literal" span="103:19:103:41">"goto-marker.shortcut"</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:4:104:19">MarkersMenuItem</jtok>
+<jtok eid="7" type="qualified_name_ref" span="104:25:104:33">shortcut</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:36:104:44">shortcut</jtok>
+<jtok eid="6" type="line_comment" span="105:5:105:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="107:3:107:34">//{{{ getPreferredSize() method</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="108:10:108:19">Dimension</jtok>
+<jtok eid="8" type="method_name" span="108:20:108:36">getPreferredSize</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="110:4:110:13">Dimension</jtok>
+<jtok eid="8" type="local_variable_name" span="110:14:110:15">d</jtok>
+<jtok eid="8" type="method_call" span="110:24:110:40">getPreferredSize</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="112:4:112:10">String</jtok>
+<jtok eid="8" type="local_variable_name" span="112:11:112:19">shortcut</jtok>
+<jtok eid="8" type="method_call" span="112:22:112:33">getShortcut</jtok>
+<jtok eid="8" type="primary_name_ref" span="114:7:114:15">shortcut</jtok>
+<jtok eid="8" type="primary_name_ref" span="116:5:116:6">d</jtok>
+<jtok eid="8" type="qualified_name_ref" span="116:7:116:12">width</jtok>
+<jtok eid="8" type="method_call" span="116:17:116:31">getFontMetrics</jtok>
+<jtok eid="8" type="primary_name_ref" span="116:32:116:47">acceleratorFont</jtok>
+<jtok eid="8" type="method_call" span="117:7:117:18">stringWidth</jtok>
+<jtok eid="8" type="primary_name_ref" span="117:19:117:27">shortcut</jtok>
+<jtok eid="8" type="primary_name_ref" span="119:11:119:12">d</jtok>
+<jtok eid="6" type="line_comment" span="120:5:120:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="122:3:122:23">//{{{ paint() method</jtok>
+<jtok eid="9" type="method_name" span="123:15:123:20">paint</jtok>
+<jtok eid="9" type="parameter_type" span="123:21:123:29">Graphics</jtok>
+<jtok eid="9" type="parameter_name" span="123:30:123:31">g</jtok>
+<jtok eid="9" type="method_call" span="125:10:125:15">paint</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:16:125:17">g</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="127:4:127:10">String</jtok>
+<jtok eid="9" type="local_variable_name" span="127:11:127:19">shortcut</jtok>
+<jtok eid="9" type="method_call" span="127:22:127:33">getShortcut</jtok>
+<jtok eid="9" type="primary_name_ref" span="129:7:129:15">shortcut</jtok>
+<jtok eid="9" type="primary_name_ref" span="131:5:131:6">g</jtok>
+<jtok eid="9" type="method_call" span="131:7:131:14">setFont</jtok>
+<jtok eid="9" type="primary_name_ref" span="131:15:131:30">acceleratorFont</jtok>
+<jtok eid="9" type="primary_name_ref" span="132:5:132:6">g</jtok>
+<jtok eid="9" type="method_call" span="132:7:132:15">setColor</jtok>
+<jtok eid="9" type="method_call" span="132:16:132:24">getModel</jtok>
+<jtok eid="9" type="method_call" span="132:27:132:34">isArmed</jtok>
+<jtok eid="9" type="primary_name_ref" span="133:6:133:36">acceleratorSelectionForeground</jtok>
+<jtok eid="9" type="primary_name_ref" span="134:6:134:27">acceleratorForeground</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="135:5:135:16">FontMetrics</jtok>
+<jtok eid="9" type="local_variable_name" span="135:17:135:19">fm</jtok>
+<jtok eid="9" type="primary_name_ref" span="135:22:135:23">g</jtok>
+<jtok eid="9" type="method_call" span="135:24:135:38">getFontMetrics</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="136:5:136:11">Insets</jtok>
+<jtok eid="9" type="local_variable_name" span="136:12:136:18">insets</jtok>
+<jtok eid="9" type="method_call" span="136:21:136:30">getInsets</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:5:137:6">g</jtok>
+<jtok eid="9" type="method_call" span="137:7:137:17">drawString</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:18:137:26">shortcut</jtok>
+<jtok eid="9" type="method_call" span="137:27:137:35">getWidth</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:41:137:43">fm</jtok>
+<jtok eid="9" type="method_call" span="137:44:137:55">stringWidth</jtok>
+<jtok eid="9" type="primary_name_ref" span="138:6:138:14">shortcut</jtok>
+<jtok eid="9" type="primary_name_ref" span="138:18:138:24">insets</jtok>
+<jtok eid="9" type="qualified_name_ref" span="138:25:138:30">right</jtok>
+<jtok eid="9" type="primary_name_ref" span="138:33:138:39">insets</jtok>
+<jtok eid="9" type="qualified_name_ref" span="138:40:138:44">left</jtok>
+<jtok eid="9" type="method_call" span="139:6:139:13">getFont</jtok>
+<jtok eid="9" type="method_call" span="139:16:139:23">getSize</jtok>
+<jtok eid="9" type="primary_name_ref" span="139:29:139:35">insets</jtok>
+<jtok eid="9" type="qualified_name_ref" span="139:36:139:39">top</jtok>
+<jtok eid="9" type="block_comment" span="140:6:140:28">/* XXX magic number */</jtok>
+<jtok eid="6" type="line_comment" span="142:5:142:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="144:3:144:24">//{{{ Private members</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="145:11:145:17">String</jtok>
+<jtok eid="6" type="field_name" span="145:18:145:30">shortcutProp</jtok>
+<jtok eid="6" type="field_name" span="146:16:146:24">shortcut</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="147:18:147:22">Font</jtok>
+<jtok eid="6" type="field_name" span="147:23:147:38">acceleratorFont</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="148:18:148:23">Color</jtok>
+<jtok eid="6" type="field_name" span="148:24:148:45">acceleratorForeground</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="149:18:149:23">Color</jtok>
+<jtok eid="6" type="field_name" span="149:24:149:54">acceleratorSelectionForeground</jtok>
+<jtok eid="6" type="line_comment" span="151:3:151:29">//{{{ getShortcut() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="152:11:152:17">String</jtok>
+<jtok eid="10" type="method_name" span="152:18:152:29">getShortcut</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:7:154:15">shortcut</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="158:5:158:11">String</jtok>
+<jtok eid="10" type="local_variable_name" span="158:12:158:26">shortcutPrefix</jtok>
+<jtok eid="10" type="primary_name_ref" span="158:29:158:34">jEdit</jtok>
+<jtok eid="10" type="method_call" span="158:35:158:46">getProperty</jtok>
+<jtok eid="10" type="primary_name_ref" span="158:47:158:59">shortcutProp</jtok>
+<jtok eid="10" type="primary_name_ref" span="160:8:160:22">shortcutPrefix</jtok>
+<jtok eid="10" type="primary_name_ref" span="164:13:164:27">shortcutPrefix</jtok>
+<jtok eid="10" type="primary_name_ref" span="164:36:164:44">shortcut</jtok>
+<jtok eid="6" type="line_comment" span="167:5:167:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="169:3:169:26">//{{{ Class initializer</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:4:172:19">acceleratorFont</jtok>
+<jtok eid="6" type="primary_name_ref" span="172:22:172:31">UIManager</jtok>
+<jtok eid="6" type="method_call" span="172:32:172:39">getFont</jtok>
+<jtok eid="6" type="string_literal" span="172:40:172:66">"MenuItem.acceleratorFont"</jtok>
+<jtok eid="6" type="primary_name_ref" span="173:4:173:19">acceleratorFont</jtok>
+<jtok eid="6" type="constructor_call" span="173:26:173:30">Font</jtok>
+<jtok eid="6" type="string_literal" span="173:31:173:43">"Monospaced"</jtok>
+<jtok eid="6" type="primary_name_ref" span="174:5:174:20">acceleratorFont</jtok>
+<jtok eid="6" type="method_call" span="174:21:174:29">getStyle</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:5:175:20">acceleratorFont</jtok>
+<jtok eid="6" type="method_call" span="175:21:175:28">getSize</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:4:176:25">acceleratorForeground</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:28:176:37">UIManager</jtok>
+<jtok eid="6" type="method_call" span="177:6:177:14">getColor</jtok>
+<jtok eid="6" type="string_literal" span="177:15:177:47">"MenuItem.acceleratorForeground"</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:4:178:34">acceleratorSelectionForeground</jtok>
+<jtok eid="6" type="primary_name_ref" span="178:37:178:46">UIManager</jtok>
+<jtok eid="6" type="method_call" span="179:6:179:14">getColor</jtok>
+<jtok eid="6" type="string_literal" span="179:15:179:56">"MenuItem.acceleratorSelectionForeground"</jtok>
+<jtok eid="6" type="line_comment" span="180:5:180:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="182:3:182:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:4:183:9">//}}}</jtok>
+</jdoc>

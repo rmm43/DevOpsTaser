@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="com.microstar.xml.HandlerBase" jls="java5">
+<jent id="0" type="file" span="0:0:192:2">Source/jEdit/com/microstar/xml/HandlerBase.java</jent>
+<jent id="1" pid="0" type="class" span="42:1:192:1">com.microstar.xml.HandlerBase</jent>
+<jent id="2" pid="1" type="method" span="50:3:53:3">com.microstar.xml.HandlerBase.startDocument()</jent>
+<jent id="3" pid="1" type="method" span="61:3:64:3">com.microstar.xml.HandlerBase.endDocument()</jent>
+<jent id="4" pid="1" type="method" span="73:3:77:3">com.microstar.xml.HandlerBase.resolveEntity(String,String)</jent>
+<jent id="5" pid="1" type="method" span="86:3:89:3">com.microstar.xml.HandlerBase.startExternalEntity(String)</jent>
+<jent id="6" pid="1" type="method" span="97:3:100:3">com.microstar.xml.HandlerBase.endExternalEntity(String)</jent>
+<jent id="7" pid="1" type="method" span="108:3:111:3">com.microstar.xml.HandlerBase.doctypeDecl(String,String,String)</jent>
+<jent id="8" pid="1" type="method" span="119:3:122:3">com.microstar.xml.HandlerBase.attribute(String,String,boolean)</jent>
+<jent id="9" pid="1" type="method" span="130:3:133:3">com.microstar.xml.HandlerBase.startElement(String)</jent>
+<jent id="10" pid="1" type="method" span="141:3:144:3">com.microstar.xml.HandlerBase.endElement(String)</jent>
+<jent id="11" pid="1" type="method" span="152:3:155:3">com.microstar.xml.HandlerBase.charData(char,int,int)</jent>
+<jent id="12" pid="1" type="method" span="163:3:166:3">com.microstar.xml.HandlerBase.ignorableWhitespace(char,int,int)</jent>
+<jent id="13" pid="1" type="method" span="174:3:177:3">com.microstar.xml.HandlerBase.processingInstruction(String,String)</jent>
+<jent id="14" pid="1" type="method" span="186:3:190:3">com.microstar.xml.HandlerBase.error(String,String,int,int)</jent>
+<jtok eid="0" type="line_comment" span="1:1:1:63">// HandlerBase.java: Simple base class for AElfred processors.</jtok>
+<jtok eid="0" type="line_comment" span="2:1:2:49">// NO WARRANTY! See README, and copyright below.</jtok>
+<jtok eid="0" type="line_comment" span="3:1:3:60">// $Id: HandlerBase.java 12845 2008-06-13 19:42:59Z ezust $</jtok>
+<jtok eid="0" type="block_comment" span="12:1:41:5">/**
+  * Convenience base class for AElfred handlers.
+  * &lt;p&gt;This base class implements the XmlHandler interface with
+  * (mostly empty) default handlers.  You are not required to use this,
+  * but if you need to handle only a few events, you might find
+  * it convenient to extend this class rather than implementing
+  * the entire interface.  This example overrides only the
+  * &lt;code&gt;charData&lt;/code&gt; method, using the defaults for the others:
+  * &lt;pre&gt;
+  * import com.microstar.xml.HandlerBase;
+  *
+  * public class MyHandler extends HandlerBase {
+  *   public void charData (char ch[], int start, int length)
+  *   {
+  *     System.out.println("Data: " + new String (ch, start, length));
+  *   }
+  * }
+  * &lt;/pre&gt;
+  * &lt;p&gt;This class is optional, but if you use it, you must also
+  * include the &lt;code&gt;XmlException&lt;/code&gt; class.
+  * &lt;p&gt;Do not extend this if you are using SAX; extend
+  * &lt;code&gt;org.xml.sax.HandlerBase&lt;/code&gt; instead.
+  * @author Copyright (c) 1998 by Microstar Software Ltd.
+  * @author written by David Megginson &amp;lt;dmeggins@microstar.com&amp;gt;
+  * @version 1.1
+  * @see XmlHandler
+  * @see XmlException
+  * @see org.xml.sax.HandlerBase
+  * @deprecated use org.xml.sax.helpers.DefaultHandler
+  */</jtok>
+<jtok eid="1" type="class_name" span="42:14:42:25">HandlerBase</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:37:42:47">XmlHandler</jtok>
+<jtok eid="1" type="block_comment" span="44:3:49:7">/**
+    * Handle the start of the document.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#startDocument
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="2" type="method_name" span="50:15:50:28">startDocument</jtok>
+<jtok eid="2" type="throws" span="51:12:51:16">java</jtok>
+<jtok eid="2" type="throws" span="51:17:51:21">lang</jtok>
+<jtok eid="2" type="throws" span="51:22:51:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="55:3:60:7">/**
+    * Handle the end of the document.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#endDocument
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="3" type="method_name" span="61:15:61:26">endDocument</jtok>
+<jtok eid="3" type="throws" span="62:12:62:16">java</jtok>
+<jtok eid="3" type="throws" span="62:17:62:21">lang</jtok>
+<jtok eid="3" type="throws" span="62:22:62:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="66:3:72:7">/**
+    * Resolve an external entity.
+    * &lt;p&gt;The default implementation simply returns the supplied
+    * system identifier.
+    * @see com.microstar.xml.XmlHandler#resolveEntity
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="73:10:73:16">Object</jtok>
+<jtok eid="4" type="method_name" span="73:17:73:30">resolveEntity</jtok>
+<jtok eid="4" type="parameter_type" span="73:32:73:38">String</jtok>
+<jtok eid="4" type="parameter_name" span="73:39:73:47">publicId</jtok>
+<jtok eid="4" type="parameter_type" span="73:49:73:55">String</jtok>
+<jtok eid="4" type="parameter_name" span="73:56:73:64">systemId</jtok>
+<jtok eid="4" type="throws" span="74:12:74:16">java</jtok>
+<jtok eid="4" type="throws" span="74:17:74:21">lang</jtok>
+<jtok eid="4" type="throws" span="74:22:74:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="80:3:85:7">/**
+    * Handle the start of an external entity.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#startExternalEntity
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="5" type="method_name" span="86:15:86:34">startExternalEntity</jtok>
+<jtok eid="5" type="parameter_type" span="86:36:86:42">String</jtok>
+<jtok eid="5" type="parameter_name" span="86:43:86:51">systemId</jtok>
+<jtok eid="5" type="throws" span="87:12:87:16">java</jtok>
+<jtok eid="5" type="throws" span="87:17:87:21">lang</jtok>
+<jtok eid="5" type="throws" span="87:22:87:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="91:3:96:7">/**
+    * Handle the end of an external entity.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#endExternalEntity
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="6" type="method_name" span="97:15:97:32">endExternalEntity</jtok>
+<jtok eid="6" type="parameter_type" span="97:34:97:40">String</jtok>
+<jtok eid="6" type="parameter_name" span="97:41:97:49">systemId</jtok>
+<jtok eid="6" type="throws" span="98:12:98:16">java</jtok>
+<jtok eid="6" type="throws" span="98:17:98:21">lang</jtok>
+<jtok eid="6" type="throws" span="98:22:98:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="102:3:107:7">/**
+    * Handle a document type declaration.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#doctypeDecl
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="7" type="method_name" span="108:15:108:26">doctypeDecl</jtok>
+<jtok eid="7" type="parameter_type" span="108:28:108:34">String</jtok>
+<jtok eid="7" type="parameter_name" span="108:35:108:39">name</jtok>
+<jtok eid="7" type="parameter_type" span="108:41:108:47">String</jtok>
+<jtok eid="7" type="parameter_name" span="108:48:108:56">publicId</jtok>
+<jtok eid="7" type="parameter_type" span="108:58:108:64">String</jtok>
+<jtok eid="7" type="parameter_name" span="108:65:108:73">systemId</jtok>
+<jtok eid="7" type="throws" span="109:12:109:16">java</jtok>
+<jtok eid="7" type="throws" span="109:17:109:21">lang</jtok>
+<jtok eid="7" type="throws" span="109:22:109:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="113:3:118:7">/**
+    * Handle an attribute assignment.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#attribute
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="8" type="method_name" span="119:15:119:24">attribute</jtok>
+<jtok eid="8" type="parameter_type" span="119:26:119:32">String</jtok>
+<jtok eid="8" type="parameter_name" span="119:33:119:38">aname</jtok>
+<jtok eid="8" type="parameter_type" span="119:40:119:46">String</jtok>
+<jtok eid="8" type="parameter_name" span="119:47:119:52">value</jtok>
+<jtok eid="8" type="parameter_name" span="119:62:119:73">isSpecified</jtok>
+<jtok eid="8" type="throws" span="120:12:120:16">java</jtok>
+<jtok eid="8" type="throws" span="120:17:120:21">lang</jtok>
+<jtok eid="8" type="throws" span="120:22:120:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="124:3:129:7">/**
+    * Handle the start of an element.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#startElement
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="9" type="method_name" span="130:15:130:27">startElement</jtok>
+<jtok eid="9" type="parameter_type" span="130:29:130:35">String</jtok>
+<jtok eid="9" type="parameter_name" span="130:36:130:42">elname</jtok>
+<jtok eid="9" type="throws" span="131:12:131:16">java</jtok>
+<jtok eid="9" type="throws" span="131:17:131:21">lang</jtok>
+<jtok eid="9" type="throws" span="131:22:131:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="135:3:140:7">/**
+    * Handle the end of an element.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#endElement
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="10" type="method_name" span="141:15:141:25">endElement</jtok>
+<jtok eid="10" type="parameter_type" span="141:27:141:33">String</jtok>
+<jtok eid="10" type="parameter_name" span="141:34:141:40">elname</jtok>
+<jtok eid="10" type="throws" span="142:12:142:16">java</jtok>
+<jtok eid="10" type="throws" span="142:17:142:21">lang</jtok>
+<jtok eid="10" type="throws" span="142:22:142:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="146:3:151:7">/**
+    * Handle character data.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#charData
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="11" type="method_name" span="152:15:152:23">charData</jtok>
+<jtok eid="11" type="parameter_name" span="152:30:152:32">ch</jtok>
+<jtok eid="11" type="parameter_name" span="152:40:152:45">start</jtok>
+<jtok eid="11" type="parameter_name" span="152:51:152:57">length</jtok>
+<jtok eid="11" type="throws" span="153:12:153:16">java</jtok>
+<jtok eid="11" type="throws" span="153:17:153:21">lang</jtok>
+<jtok eid="11" type="throws" span="153:22:153:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="157:3:162:7">/**
+    * Handle ignorable whitespace.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#ignorableWhitespace
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="12" type="method_name" span="163:15:163:34">ignorableWhitespace</jtok>
+<jtok eid="12" type="parameter_name" span="163:41:163:43">ch</jtok>
+<jtok eid="12" type="parameter_name" span="163:51:163:56">start</jtok>
+<jtok eid="12" type="parameter_name" span="163:62:163:68">length</jtok>
+<jtok eid="12" type="throws" span="164:12:164:16">java</jtok>
+<jtok eid="12" type="throws" span="164:17:164:21">lang</jtok>
+<jtok eid="12" type="throws" span="164:22:164:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="168:3:173:7">/**
+    * Handle a processing instruction.
+    * &lt;p&gt;The default implementation does nothing.
+    * @see com.microstar.xml.XmlHandler#processingInstruction
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="13" type="method_name" span="174:15:174:36">processingInstruction</jtok>
+<jtok eid="13" type="parameter_type" span="174:38:174:44">String</jtok>
+<jtok eid="13" type="parameter_name" span="174:45:174:51">target</jtok>
+<jtok eid="13" type="parameter_type" span="174:53:174:59">String</jtok>
+<jtok eid="13" type="parameter_name" span="174:60:174:64">data</jtok>
+<jtok eid="13" type="throws" span="175:12:175:16">java</jtok>
+<jtok eid="13" type="throws" span="175:17:175:21">lang</jtok>
+<jtok eid="13" type="throws" span="175:22:175:31">Exception</jtok>
+<jtok eid="1" type="block_comment" span="179:3:185:7">/**
+    * Throw an exception for a fatal error.
+    * &lt;p&gt;The default implementation throws &lt;code&gt;XmlException&lt;/code&gt;.
+    * @see com.microstar.xml.XmlHandler#error
+    * @exception com.microstar.xml.XmlException A specific parsing error.
+    * @exception java.lang.Exception Derived methods may throw exceptions.
+    */</jtok>
+<jtok eid="14" type="method_name" span="186:15:186:20">error</jtok>
+<jtok eid="14" type="parameter_type" span="186:22:186:28">String</jtok>
+<jtok eid="14" type="parameter_name" span="186:29:186:36">message</jtok>
+<jtok eid="14" type="parameter_type" span="186:38:186:44">String</jtok>
+<jtok eid="14" type="parameter_name" span="186:45:186:53">systemId</jtok>
+<jtok eid="14" type="parameter_name" span="186:59:186:63">line</jtok>
+<jtok eid="14" type="parameter_name" span="186:69:186:75">column</jtok>
+<jtok eid="14" type="throws" span="187:12:187:24">XmlException</jtok>
+<jtok eid="14" type="throws" span="187:26:187:30">java</jtok>
+<jtok eid="14" type="throws" span="187:31:187:35">lang</jtok>
+<jtok eid="14" type="throws" span="187:36:187:45">Exception</jtok>
+<jtok eid="14" type="constructor_call" span="189:15:189:27">XmlException</jtok>
+<jtok eid="14" type="primary_name_ref" span="189:28:189:35">message</jtok>
+<jtok eid="14" type="primary_name_ref" span="189:37:189:45">systemId</jtok>
+<jtok eid="14" type="primary_name_ref" span="189:47:189:51">line</jtok>
+<jtok eid="14" type="primary_name_ref" span="189:53:189:59">column</jtok>
+</jdoc>

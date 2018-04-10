@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.SearchGroup" jls="java5">
+<jent id="0" type="file" span="0:0:410:1">Source/jabref/src/java/net/sf/jabref/groups/SearchGroup.java</jent>
+<jent id="1" pid="0" type="class" span="47:1:410:1">net.sf.jabref.groups.SearchGroup</jent>
+<jent id="2" pid="1" type="method" span="70:2:102:2">net.sf.jabref.groups.SearchGroup.SearchGroup(String,String,boolean,boolean,int)</jent>
+<jent id="3" pid="1" type="method" span="111:2:149:2">net.sf.jabref.groups.SearchGroup.fromString(String,BibtexDatabase,int)</jent>
+<jent id="4" pid="1" type="method" span="151:5:153:5">net.sf.jabref.groups.SearchGroup.getTypeId()</jent>
+<jent id="5" pid="1" type="method" span="158:2:160:2">net.sf.jabref.groups.SearchGroup.getSearchRule()</jent>
+<jent id="6" pid="1" type="method" span="166:2:172:2">net.sf.jabref.groups.SearchGroup.toString()</jent>
+<jent id="7" pid="1" type="method" span="174:2:176:2">net.sf.jabref.groups.SearchGroup.getSearchExpression()</jent>
+<jent id="8" pid="1" type="method" span="178:2:180:2">net.sf.jabref.groups.SearchGroup.supportsAdd()</jent>
+<jent id="9" pid="1" type="method" span="182:2:184:2">net.sf.jabref.groups.SearchGroup.supportsRemove()</jent>
+<jent id="10" pid="1" type="method" span="186:2:189:2">net.sf.jabref.groups.SearchGroup.add(BibtexEntry[])</jent>
+<jent id="11" pid="1" type="method" span="191:2:194:2">net.sf.jabref.groups.SearchGroup.remove(BibtexEntry[])</jent>
+<jent id="12" pid="1" type="method" span="196:2:205:2">net.sf.jabref.groups.SearchGroup.equals(Object)</jent>
+<jent id="13" pid="1" type="method" span="213:2:215:2">net.sf.jabref.groups.SearchGroup.contains(Map&lt;String,String&gt;,BibtexEntry)</jent>
+<jent id="14" pid="1" type="method" span="217:2:220:2">net.sf.jabref.groups.SearchGroup.contains(BibtexEntry)</jent>
+<jent id="15" pid="1" type="method" span="222:2:234:2">net.sf.jabref.groups.SearchGroup.applyRule(Map&lt;String,String&gt;,BibtexEntry)</jent>
+<jent id="16" pid="1" type="method" span="236:2:248:2">net.sf.jabref.groups.SearchGroup.deepCopy()</jent>
+<jent id="17" pid="1" type="method" span="250:2:252:2">net.sf.jabref.groups.SearchGroup.isCaseSensitive()</jent>
+<jent id="18" pid="1" type="method" span="254:2:256:2">net.sf.jabref.groups.SearchGroup.isRegExp()</jent>
+<jent id="19" pid="1" type="method" span="258:2:260:2">net.sf.jabref.groups.SearchGroup.isDynamic()</jent>
+<jent id="20" pid="1" type="method" span="262:2:265:2">net.sf.jabref.groups.SearchGroup.getDescription()</jent>
+<jent id="21" pid="1" type="method" span="267:2:292:2">net.sf.jabref.groups.SearchGroup.getDescriptionForPreview(String,AST,boolean,boolean)</jent>
+<jent id="22" pid="1" type="method" span="294:2:385:2">net.sf.jabref.groups.SearchGroup.describeNode(AST,boolean,boolean,boolean,boolean)</jent>
+<jent id="23" pid="1" type="method" span="387:2:409:2">net.sf.jabref.groups.SearchGroup.getShortDescription()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ All programs in this directory and subdirectories are published under the 
+ GNU General Public License as described below.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by the Free 
+ Software Foundation; either version 2 of the License, or (at your option) 
+ any later version.
+
+ This program is distributed in the hope that it will be useful, but WITHOUT 
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ more details.
+
+ You should have received a copy of the GNU General Public License along 
+ with this program; if not, write to the Free Software Foundation, Inc., 59 
+ Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+ */</jtok>
+<jtok eid="0" type="block_comment" span="41:1:46:4">/**
+ * @author jzieren
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
+ */</jtok>
+<jtok eid="1" type="class_name" span="47:14:47:25">SearchGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:34:47:47">AbstractGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:59:47:69">SearchRule</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:22:48:28">String</jtok>
+<jtok eid="1" type="field_name" span="48:29:48:31">ID</jtok>
+<jtok eid="1" type="string_literal" span="48:34:48:48">"SearchGroup:"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:16:50:22">String</jtok>
+<jtok eid="1" type="field_name" span="50:23:50:41">m_searchExpression</jtok>
+<jtok eid="1" type="field_name" span="52:24:52:39">m_caseSensitive</jtok>
+<jtok eid="1" type="field_name" span="54:24:54:32">m_regExp</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="56:16:56:19">AST</jtok>
+<jtok eid="1" type="field_name" span="56:20:56:25">m_ast</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:23:58:49">SearchExpressionTreeParser</jtok>
+<jtok eid="1" type="field_name" span="58:50:58:62">m_treeParser</jtok>
+<jtok eid="1" type="constructor_call" span="58:69:58:95">SearchExpressionTreeParser</jtok>
+<jtok eid="1" type="block_comment" span="60:2:64:5">/**
+	 * If m_searchExpression is in valid syntax for advanced search, &lt;b&gt;this
+	 * &lt;/b&gt; will do the search; otherwise, either &lt;b&gt;RegExpRule &lt;/b&gt; or
+	 * &lt;b&gt;SimpleSearchRule &lt;/b&gt; will be used.
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:16:65:26">SearchRule</jtok>
+<jtok eid="1" type="field_name" span="65:27:65:39">m_searchRule</jtok>
+<jtok eid="1" type="block_comment" span="67:2:69:5">/**
+	 * Creates a SearchGroup with the specified properties.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="70:9:70:20">SearchGroup</jtok>
+<jtok eid="2" type="parameter_type" span="70:21:70:27">String</jtok>
+<jtok eid="2" type="parameter_name" span="70:28:70:32">name</jtok>
+<jtok eid="2" type="parameter_type" span="70:34:70:40">String</jtok>
+<jtok eid="2" type="parameter_name" span="70:41:70:57">searchExpression</jtok>
+<jtok eid="2" type="parameter_name" span="71:12:71:25">caseSensitive</jtok>
+<jtok eid="2" type="parameter_name" span="71:35:71:41">regExp</jtok>
+<jtok eid="2" type="parameter_name" span="71:47:71:54">context</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:9:72:13">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:15:72:22">context</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:3:73:21">m_searchExpression</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:24:73:40">searchExpression</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:3:74:18">m_caseSensitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:21:74:34">caseSensitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:3:75:11">m_regExp</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:14:75:20">regExp</jtok>
+<jtok eid="2" type="line_comment" span="77:3:77:16">// create AST</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="78:3:78:6">AST</jtok>
+<jtok eid="2" type="local_variable_name" span="78:7:78:10">ast</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="80:4:80:26">SearchExpressionParser</jtok>
+<jtok eid="2" type="local_variable_name" span="80:27:80:33">parser</jtok>
+<jtok eid="2" type="constructor_call" span="80:40:80:62">SearchExpressionParser</jtok>
+<jtok eid="2" type="constructor_call" span="81:10:81:31">SearchExpressionLexer</jtok>
+<jtok eid="2" type="constructor_call" span="81:36:81:48">StringReader</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:8:82:26">m_searchExpression</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:4:83:10">parser</jtok>
+<jtok eid="2" type="qualified_name_ref" span="83:11:83:24">caseSensitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:27:83:42">m_caseSensitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:4:84:10">parser</jtok>
+<jtok eid="2" type="qualified_name_ref" span="84:11:84:16">regex</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:19:84:27">m_regExp</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:4:85:10">parser</jtok>
+<jtok eid="2" type="method_call" span="85:11:85:27">searchExpression</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:4:86:7">ast</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:10:86:16">parser</jtok>
+<jtok eid="2" type="method_call" span="86:17:86:23">getAST</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="87:12:87:21">Exception</jtok>
+<jtok eid="2" type="local_variable_name" span="87:22:87:23">e</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:4:88:7">ast</jtok>
+<jtok eid="2" type="line_comment" span="89:4:89:67">// nothing to do; set m_ast to null -&gt; regular plaintext search</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:3:91:8">m_ast</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:11:91:14">ast</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:7:93:12">m_ast</jtok>
+<jtok eid="2" type="line_comment" span="93:24:93:45">// do advanced search</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:4:94:16">m_searchRule</jtok>
+<jtok eid="2" type="line_comment" span="95:12:95:34">// do plaintext search</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:8:96:16">m_regExp</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:5:97:17">m_searchRule</jtok>
+<jtok eid="2" type="constructor_call" span="97:24:97:34">RegExpRule</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:35:97:50">m_caseSensitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:5:99:17">m_searchRule</jtok>
+<jtok eid="2" type="constructor_call" span="99:24:99:40">SimpleSearchRule</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:41:99:56">m_caseSensitive</jtok>
+<jtok eid="1" type="block_comment" span="104:2:110:5">/**
+	 * Parses s and recreates the SearchGroup from it.
+	 * 
+	 * @param s
+	 *            The String representation obtained from
+	 *            SearchGroup.toString(), or null if incompatible
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="111:16:111:29">AbstractGroup</jtok>
+<jtok eid="3" type="method_name" span="111:30:111:40">fromString</jtok>
+<jtok eid="3" type="parameter_type" span="111:41:111:47">String</jtok>
+<jtok eid="3" type="parameter_name" span="111:48:111:49">s</jtok>
+<jtok eid="3" type="parameter_type" span="111:51:111:65">BibtexDatabase</jtok>
+<jtok eid="3" type="parameter_name" span="111:66:111:68">db</jtok>
+<jtok eid="3" type="parameter_name" span="112:8:112:15">version</jtok>
+<jtok eid="3" type="throws" span="112:24:112:33">Exception</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:8:113:9">s</jtok>
+<jtok eid="3" type="method_call" span="113:10:113:20">startsWith</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:21:113:23">ID</jtok>
+<jtok eid="3" type="constructor_call" span="114:14:114:23">Exception</jtok>
+<jtok eid="3" type="string_literal" span="115:6:115:61">"Internal error: SearchGroup cannot be created from \""</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:64:115:65">s</jtok>
+<jtok eid="3" type="string_literal" span="116:8:116:14">"\". "</jtok>
+<jtok eid="3" type="string_literal" span="117:8:117:58">"Please report this on www.sf.net/projects/jabref"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="118:3:118:24">QuotedStringTokenizer</jtok>
+<jtok eid="3" type="local_variable_name" span="118:25:118:28">tok</jtok>
+<jtok eid="3" type="constructor_call" span="118:35:118:56">QuotedStringTokenizer</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:57:118:58">s</jtok>
+<jtok eid="3" type="method_call" span="118:59:118:68">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:69:118:71">ID</jtok>
+<jtok eid="3" type="method_call" span="119:6:119:12">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:17:119:26">SEPARATOR</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:28:119:38">QUOTE_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:11:120:18">version</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="124:4:124:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="124:11:124:15">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:18:124:21">tok</jtok>
+<jtok eid="3" type="method_call" span="124:22:124:31">nextToken</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="125:4:125:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="125:11:125:21">expression</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:24:125:27">tok</jtok>
+<jtok eid="3" type="method_call" span="125:28:125:37">nextToken</jtok>
+<jtok eid="3" type="local_variable_name" span="126:12:126:25">caseSensitive</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:28:126:35">Integer</jtok>
+<jtok eid="3" type="method_call" span="126:36:126:44">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:45:126:48">tok</jtok>
+<jtok eid="3" type="method_call" span="126:49:126:58">nextToken</jtok>
+<jtok eid="3" type="local_variable_name" span="127:12:127:18">regExp</jtok>
+<jtok eid="3" type="primary_name_ref" span="127:21:127:28">Integer</jtok>
+<jtok eid="3" type="method_call" span="127:29:127:37">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="127:38:127:41">tok</jtok>
+<jtok eid="3" type="method_call" span="127:42:127:51">nextToken</jtok>
+<jtok eid="3" type="line_comment" span="128:4:128:66">// version 0 contained 4 additional booleans to specify search</jtok>
+<jtok eid="3" type="line_comment" span="129:4:129:68">// fields; these are ignored now, all fields are always searched</jtok>
+<jtok eid="3" type="constructor_call" span="130:15:130:26">SearchGroup</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:27:130:31">Util</jtok>
+<jtok eid="3" type="method_call" span="130:32:130:39">unquote</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:40:130:44">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:46:130:56">QUOTE_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:59:130:63">Util</jtok>
+<jtok eid="3" type="method_call" span="131:7:131:14">unquote</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:15:131:25">expression</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:27:131:37">QUOTE_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:40:131:53">caseSensitive</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:55:131:61">regExp</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:6:132:19">AbstractGroup</jtok>
+<jtok eid="3" type="qualified_name_ref" span="132:20:132:31">INDEPENDENT</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="135:4:135:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="135:11:135:15">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:18:135:21">tok</jtok>
+<jtok eid="3" type="method_call" span="135:22:135:31">nextToken</jtok>
+<jtok eid="3" type="local_variable_name" span="136:8:136:15">context</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:18:136:25">Integer</jtok>
+<jtok eid="3" type="method_call" span="136:26:136:34">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:35:136:38">tok</jtok>
+<jtok eid="3" type="method_call" span="136:39:136:48">nextToken</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="137:4:137:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="137:11:137:21">expression</jtok>
+<jtok eid="3" type="primary_name_ref" span="137:24:137:27">tok</jtok>
+<jtok eid="3" type="method_call" span="137:28:137:37">nextToken</jtok>
+<jtok eid="3" type="local_variable_name" span="138:12:138:25">caseSensitive</jtok>
+<jtok eid="3" type="primary_name_ref" span="138:28:138:35">Integer</jtok>
+<jtok eid="3" type="method_call" span="138:36:138:44">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="138:45:138:48">tok</jtok>
+<jtok eid="3" type="method_call" span="138:49:138:58">nextToken</jtok>
+<jtok eid="3" type="local_variable_name" span="139:12:139:18">regExp</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:21:139:28">Integer</jtok>
+<jtok eid="3" type="method_call" span="139:29:139:37">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:38:139:41">tok</jtok>
+<jtok eid="3" type="method_call" span="139:42:139:51">nextToken</jtok>
+<jtok eid="3" type="line_comment" span="140:4:140:66">// version 0 contained 4 additional booleans to specify search</jtok>
+<jtok eid="3" type="line_comment" span="141:4:141:68">// fields; these are ignored now, all fields are always searched</jtok>
+<jtok eid="3" type="constructor_call" span="142:15:142:26">SearchGroup</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:27:142:31">Util</jtok>
+<jtok eid="3" type="method_call" span="142:32:142:39">unquote</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:40:142:44">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:46:142:56">QUOTE_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:59:142:63">Util</jtok>
+<jtok eid="3" type="method_call" span="143:7:143:14">unquote</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:15:143:25">expression</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:27:143:37">QUOTE_CHAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:40:143:53">caseSensitive</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:55:143:61">regExp</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:6:144:13">context</jtok>
+<jtok eid="3" type="constructor_call" span="147:14:147:41">UnsupportedVersionException</jtok>
+<jtok eid="3" type="string_literal" span="147:42:147:55">"SearchGroup"</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:57:147:64">version</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="151:12:151:18">String</jtok>
+<jtok eid="4" type="method_name" span="151:19:151:28">getTypeId</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:16:152:18">ID</jtok>
+<jtok eid="1" type="block_comment" span="155:5:157:5">/**
+	 * @see net.sf.jabref.groups.AbstractGroup#getSearchRule()
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="158:9:158:19">SearchRule</jtok>
+<jtok eid="5" type="method_name" span="158:20:158:33">getSearchRule</jtok>
+<jtok eid="1" type="block_comment" span="162:2:165:5">/**
+	 * Returns a String representation of this object that can be used to
+	 * reconstruct it.
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="166:9:166:15">String</jtok>
+<jtok eid="6" type="method_name" span="166:16:166:24">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:10:167:12">ID</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:15:167:19">Util</jtok>
+<jtok eid="6" type="method_call" span="167:20:167:25">quote</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:26:167:32">m_name</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:34:167:43">SEPARATOR</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:45:167:55">QUOTE_CHAR</jtok>
+<jtok eid="6" type="primary_name_ref" span="167:59:167:68">SEPARATOR</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:7:168:16">m_context</jtok>
+<jtok eid="6" type="primary_name_ref" span="168:19:168:28">SEPARATOR</jtok>
+<jtok eid="6" type="primary_name_ref" span="169:7:169:11">Util</jtok>
+<jtok eid="6" type="method_call" span="169:12:169:17">quote</jtok>
+<jtok eid="6" type="primary_name_ref" span="169:18:169:36">m_searchExpression</jtok>
+<jtok eid="6" type="primary_name_ref" span="169:38:169:47">SEPARATOR</jtok>
+<jtok eid="6" type="primary_name_ref" span="169:49:169:59">QUOTE_CHAR</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:7:170:16">SEPARATOR</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:20:170:35">m_caseSensitive</jtok>
+<jtok eid="6" type="string_literal" span="170:38:170:41">"1"</jtok>
+<jtok eid="6" type="string_literal" span="170:44:170:47">"0"</jtok>
+<jtok eid="6" type="primary_name_ref" span="170:51:170:60">SEPARATOR</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:8:171:16">m_regExp</jtok>
+<jtok eid="6" type="string_literal" span="171:19:171:22">"1"</jtok>
+<jtok eid="6" type="string_literal" span="171:25:171:28">"0"</jtok>
+<jtok eid="6" type="primary_name_ref" span="171:32:171:41">SEPARATOR</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="174:9:174:15">String</jtok>
+<jtok eid="7" type="method_name" span="174:16:174:35">getSearchExpression</jtok>
+<jtok eid="7" type="primary_name_ref" span="175:10:175:28">m_searchExpression</jtok>
+<jtok eid="8" type="method_name" span="178:17:178:28">supportsAdd</jtok>
+<jtok eid="9" type="method_name" span="182:17:182:31">supportsRemove</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="186:9:186:29">AbstractUndoableEdit</jtok>
+<jtok eid="10" type="method_name" span="186:30:186:33">add</jtok>
+<jtok eid="10" type="parameter_type" span="186:34:186:45">BibtexEntry</jtok>
+<jtok eid="10" type="parameter_name" span="186:48:186:55">entries</jtok>
+<jtok eid="10" type="line_comment" span="187:3:187:41">// nothing to do, add is not supported</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="191:9:191:29">AbstractUndoableEdit</jtok>
+<jtok eid="11" type="method_name" span="191:30:191:36">remove</jtok>
+<jtok eid="11" type="parameter_type" span="191:37:191:48">BibtexEntry</jtok>
+<jtok eid="11" type="parameter_name" span="191:51:191:58">entries</jtok>
+<jtok eid="11" type="line_comment" span="192:3:192:44">// nothing to do, remove is not supported</jtok>
+<jtok eid="12" type="method_name" span="196:17:196:23">equals</jtok>
+<jtok eid="12" type="parameter_type" span="196:24:196:30">Object</jtok>
+<jtok eid="12" type="parameter_name" span="196:31:196:32">o</jtok>
+<jtok eid="12" type="primary_name_ref" span="197:9:197:10">o</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="197:22:197:33">SearchGroup</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="199:3:199:14">SearchGroup</jtok>
+<jtok eid="12" type="local_variable_name" span="199:15:199:20">other</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="199:24:199:35">SearchGroup</jtok>
+<jtok eid="12" type="primary_name_ref" span="199:37:199:38">o</jtok>
+<jtok eid="12" type="primary_name_ref" span="200:10:200:16">m_name</jtok>
+<jtok eid="12" type="method_call" span="200:17:200:23">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="200:24:200:29">other</jtok>
+<jtok eid="12" type="qualified_name_ref" span="200:30:200:36">m_name</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:8:201:26">m_searchExpression</jtok>
+<jtok eid="12" type="method_call" span="201:27:201:33">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="201:34:201:39">other</jtok>
+<jtok eid="12" type="qualified_name_ref" span="201:40:201:58">m_searchExpression</jtok>
+<jtok eid="12" type="primary_name_ref" span="202:8:202:23">m_caseSensitive</jtok>
+<jtok eid="12" type="primary_name_ref" span="202:27:202:32">other</jtok>
+<jtok eid="12" type="qualified_name_ref" span="202:33:202:48">m_caseSensitive</jtok>
+<jtok eid="12" type="primary_name_ref" span="203:8:203:16">m_regExp</jtok>
+<jtok eid="12" type="primary_name_ref" span="203:20:203:25">other</jtok>
+<jtok eid="12" type="qualified_name_ref" span="203:26:203:34">m_regExp</jtok>
+<jtok eid="12" type="method_call" span="204:20:204:42">getHierarchicalContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="204:48:204:53">other</jtok>
+<jtok eid="12" type="method_call" span="204:54:204:76">getHierarchicalContext</jtok>
+<jtok eid="1" type="block_comment" span="207:2:212:5">/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sf.jabref.groups.AbstractGroup#contains(java.util.Map,
+	 *      net.sf.jabref.BibtexEntry)
+	 */</jtok>
+<jtok eid="13" type="method_name" span="213:17:213:25">contains</jtok>
+<jtok eid="13" type="parameter_type" span="213:26:213:29">Map</jtok>
+<jtok eid="13" type="parameter_type" span="213:30:213:36">String</jtok>
+<jtok eid="13" type="parameter_type" span="213:38:213:44">String</jtok>
+<jtok eid="13" type="parameter_name" span="213:46:213:59">searchOptions</jtok>
+<jtok eid="13" type="parameter_type" span="213:61:213:72">BibtexEntry</jtok>
+<jtok eid="13" type="parameter_name" span="213:73:213:78">entry</jtok>
+<jtok eid="13" type="method_call" span="214:10:214:19">applyRule</jtok>
+<jtok eid="13" type="primary_name_ref" span="214:20:214:33">searchOptions</jtok>
+<jtok eid="13" type="primary_name_ref" span="214:35:214:40">entry</jtok>
+<jtok eid="14" type="method_name" span="217:17:217:25">contains</jtok>
+<jtok eid="14" type="parameter_type" span="217:26:217:37">BibtexEntry</jtok>
+<jtok eid="14" type="parameter_name" span="217:38:217:43">entry</jtok>
+<jtok eid="14" type="line_comment" span="218:3:218:19">// use dummy map</jtok>
+<jtok eid="14" type="method_call" span="219:10:219:18">contains</jtok>
+<jtok eid="14" type="constructor_call" span="219:23:219:30">HashMap</jtok>
+<jtok eid="14" type="constructor_call" span="219:31:219:37">String</jtok>
+<jtok eid="14" type="constructor_call" span="219:39:219:45">String</jtok>
+<jtok eid="14" type="primary_name_ref" span="219:50:219:55">entry</jtok>
+<jtok eid="15" type="method_name" span="222:13:222:22">applyRule</jtok>
+<jtok eid="15" type="parameter_type" span="222:23:222:26">Map</jtok>
+<jtok eid="15" type="parameter_type" span="222:27:222:33">String</jtok>
+<jtok eid="15" type="parameter_type" span="222:35:222:41">String</jtok>
+<jtok eid="15" type="parameter_name" span="222:43:222:56">searchOptions</jtok>
+<jtok eid="15" type="parameter_type" span="222:58:222:69">BibtexEntry</jtok>
+<jtok eid="15" type="parameter_name" span="222:70:222:75">entry</jtok>
+<jtok eid="15" type="primary_name_ref" span="223:7:223:12">m_ast</jtok>
+<jtok eid="15" type="line_comment" span="224:4:224:61">// the searchOptions object is a dummy; we need to insert</jtok>
+<jtok eid="15" type="line_comment" span="225:4:225:36">// the actual search expression.</jtok>
+<jtok eid="15" type="primary_name_ref" span="226:4:226:17">searchOptions</jtok>
+<jtok eid="15" type="method_call" span="226:18:226:21">put</jtok>
+<jtok eid="15" type="string_literal" span="226:22:226:30">"option"</jtok>
+<jtok eid="15" type="primary_name_ref" span="226:32:226:50">m_searchExpression</jtok>
+<jtok eid="15" type="primary_name_ref" span="227:11:227:23">m_searchRule</jtok>
+<jtok eid="15" type="method_call" span="227:24:227:33">applyRule</jtok>
+<jtok eid="15" type="primary_name_ref" span="227:34:227:47">searchOptions</jtok>
+<jtok eid="15" type="primary_name_ref" span="227:49:227:54">entry</jtok>
+<jtok eid="15" type="primary_name_ref" span="230:11:230:23">m_treeParser</jtok>
+<jtok eid="15" type="method_call" span="230:24:230:29">apply</jtok>
+<jtok eid="15" type="primary_name_ref" span="230:30:230:35">m_ast</jtok>
+<jtok eid="15" type="primary_name_ref" span="230:37:230:42">entry</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="231:12:231:32">RecognitionException</jtok>
+<jtok eid="15" type="local_variable_name" span="231:33:231:34">e</jtok>
+<jtok eid="15" type="line_comment" span="232:14:232:40">// this should never occur</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="236:9:236:22">AbstractGroup</jtok>
+<jtok eid="16" type="method_name" span="236:23:236:31">deepCopy</jtok>
+<jtok eid="16" type="constructor_call" span="238:15:238:26">SearchGroup</jtok>
+<jtok eid="16" type="primary_name_ref" span="238:27:238:33">m_name</jtok>
+<jtok eid="16" type="primary_name_ref" span="238:35:238:53">m_searchExpression</jtok>
+<jtok eid="16" type="primary_name_ref" span="238:55:238:70">m_caseSensitive</jtok>
+<jtok eid="16" type="primary_name_ref" span="239:6:239:14">m_regExp</jtok>
+<jtok eid="16" type="primary_name_ref" span="239:16:239:25">m_context</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="240:12:240:21">Throwable</jtok>
+<jtok eid="16" type="local_variable_name" span="240:22:240:23">t</jtok>
+<jtok eid="16" type="line_comment" span="241:4:241:66">// this should never happen, because the constructor obviously</jtok>
+<jtok eid="16" type="line_comment" span="242:4:242:45">// succeeded in creating _this_ instance!</jtok>
+<jtok eid="16" type="primary_name_ref" span="243:4:243:10">System</jtok>
+<jtok eid="16" type="qualified_name_ref" span="243:11:243:14">err</jtok>
+<jtok eid="16" type="method_call" span="243:15:243:22">println</jtok>
+<jtok eid="16" type="string_literal" span="243:23:243:51">"Internal error: Exception "</jtok>
+<jtok eid="16" type="primary_name_ref" span="243:54:243:55">t</jtok>
+<jtok eid="16" type="string_literal" span="244:8:244:38">" in SearchGroup.deepCopy(). "</jtok>
+<jtok eid="16" type="string_literal" span="245:8:245:58">"Please report this on www.sf.net/projects/jabref"</jtok>
+<jtok eid="17" type="method_name" span="250:17:250:32">isCaseSensitive</jtok>
+<jtok eid="17" type="primary_name_ref" span="251:10:251:25">m_caseSensitive</jtok>
+<jtok eid="18" type="method_name" span="254:17:254:25">isRegExp</jtok>
+<jtok eid="18" type="primary_name_ref" span="255:10:255:18">m_regExp</jtok>
+<jtok eid="19" type="method_name" span="258:17:258:26">isDynamic</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="262:9:262:15">String</jtok>
+<jtok eid="20" type="method_name" span="262:16:262:30">getDescription</jtok>
+<jtok eid="20" type="method_call" span="263:10:263:34">getDescriptionForPreview</jtok>
+<jtok eid="20" type="primary_name_ref" span="263:35:263:53">m_searchExpression</jtok>
+<jtok eid="20" type="primary_name_ref" span="263:55:263:60">m_ast</jtok>
+<jtok eid="20" type="primary_name_ref" span="263:62:263:77">m_caseSensitive</jtok>
+<jtok eid="20" type="primary_name_ref" span="264:5:264:13">m_regExp</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="267:16:267:22">String</jtok>
+<jtok eid="21" type="method_name" span="267:23:267:47">getDescriptionForPreview</jtok>
+<jtok eid="21" type="parameter_type" span="267:48:267:54">String</jtok>
+<jtok eid="21" type="parameter_name" span="267:55:267:59">expr</jtok>
+<jtok eid="21" type="parameter_type" span="267:61:267:64">AST</jtok>
+<jtok eid="21" type="parameter_name" span="267:65:267:68">ast</jtok>
+<jtok eid="21" type="parameter_name" span="268:12:268:25">caseSensitive</jtok>
+<jtok eid="21" type="parameter_name" span="268:35:268:41">regExp</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="269:3:269:15">StringBuffer</jtok>
+<jtok eid="21" type="local_variable_name" span="269:16:269:18">sb</jtok>
+<jtok eid="21" type="constructor_call" span="269:25:269:37">StringBuffer</jtok>
+<jtok eid="21" type="primary_name_ref" span="270:7:270:10">ast</jtok>
+<jtok eid="21" type="primary_name_ref" span="271:4:271:6">sb</jtok>
+<jtok eid="21" type="method_call" span="271:7:271:13">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="271:14:271:20">regExp</jtok>
+<jtok eid="21" type="primary_name_ref" span="271:23:271:30">Globals</jtok>
+<jtok eid="21" type="method_call" span="271:31:271:35">lang</jtok>
+<jtok eid="21" type="string_literal" span="272:12:272:102">"This group contains entries in which any field contains the regular expression &lt;b&gt;%0&lt;/b&gt;"</jtok>
+<jtok eid="21" type="primary_name_ref" span="273:21:273:25">Util</jtok>
+<jtok eid="21" type="method_call" span="273:26:273:38">quoteForHTML</jtok>
+<jtok eid="21" type="primary_name_ref" span="273:39:273:43">expr</jtok>
+<jtok eid="21" type="primary_name_ref" span="274:23:274:30">Globals</jtok>
+<jtok eid="21" type="method_call" span="274:31:274:35">lang</jtok>
+<jtok eid="21" type="string_literal" span="275:29:275:105">"This group contains entries in which any field contains the term &lt;b&gt;%0&lt;/b&gt;"</jtok>
+<jtok eid="21" type="primary_name_ref" span="276:29:276:33">Util</jtok>
+<jtok eid="21" type="method_call" span="276:34:276:46">quoteForHTML</jtok>
+<jtok eid="21" type="primary_name_ref" span="276:47:276:51">expr</jtok>
+<jtok eid="21" type="primary_name_ref" span="277:13:277:15">sb</jtok>
+<jtok eid="21" type="method_call" span="277:16:277:22">append</jtok>
+<jtok eid="21" type="string_literal" span="277:23:277:27">" ("</jtok>
+<jtok eid="21" type="method_call" span="277:29:277:35">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="277:36:277:49">caseSensitive</jtok>
+<jtok eid="21" type="primary_name_ref" span="277:52:277:59">Globals</jtok>
+<jtok eid="21" type="method_call" span="277:60:277:64">lang</jtok>
+<jtok eid="21" type="string_literal" span="277:65:277:81">"case sensitive"</jtok>
+<jtok eid="21" type="primary_name_ref" span="278:23:278:30">Globals</jtok>
+<jtok eid="21" type="method_call" span="278:31:278:35">lang</jtok>
+<jtok eid="21" type="string_literal" span="278:36:278:54">"case insensitive"</jtok>
+<jtok eid="21" type="method_call" span="278:57:278:63">append</jtok>
+<jtok eid="21" type="string_literal" span="278:64:278:69">"). "</jtok>
+<jtok eid="21" type="primary_name_ref" span="279:4:279:6">sb</jtok>
+<jtok eid="21" type="method_call" span="279:7:279:13">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="279:14:279:21">Globals</jtok>
+<jtok eid="21" type="method_call" span="279:22:279:26">lang</jtok>
+<jtok eid="21" type="string_literal" span="280:21:280:89">"Entries cannot be manually assigned to or removed from this group."</jtok>
+<jtok eid="21" type="primary_name_ref" span="281:13:281:15">sb</jtok>
+<jtok eid="21" type="method_call" span="281:16:281:22">append</jtok>
+<jtok eid="21" type="string_literal" span="281:23:281:32">"&lt;p&gt;&lt;br&gt;"</jtok>
+<jtok eid="21" type="method_call" span="281:34:281:40">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="281:41:281:48">Globals</jtok>
+<jtok eid="21" type="method_call" span="281:49:281:53">lang</jtok>
+<jtok eid="21" type="string_literal" span="282:21:282:128">"Hint%c To search specific fields only, enter for example%c&lt;p&gt;&lt;tt&gt;author%esmith and title%eelectrical&lt;/tt&gt;"</jtok>
+<jtok eid="21" type="primary_name_ref" span="283:11:283:13">sb</jtok>
+<jtok eid="21" type="method_call" span="283:14:283:22">toString</jtok>
+<jtok eid="21" type="line_comment" span="285:3:285:41">// describe advanced search expression</jtok>
+<jtok eid="21" type="primary_name_ref" span="286:9:286:11">sb</jtok>
+<jtok eid="21" type="method_call" span="286:12:286:18">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="286:19:286:26">Globals</jtok>
+<jtok eid="21" type="method_call" span="286:27:286:31">lang</jtok>
+<jtok eid="21" type="string_literal" span="286:32:286:70">"This group contains entries in which"</jtok>
+<jtok eid="21" type="method_call" span="286:73:286:79">append</jtok>
+<jtok eid="21" type="string_literal" span="286:80:286:83">" "</jtok>
+<jtok eid="21" type="primary_name_ref" span="287:3:287:5">sb</jtok>
+<jtok eid="21" type="method_call" span="287:6:287:12">append</jtok>
+<jtok eid="21" type="method_call" span="287:13:287:25">describeNode</jtok>
+<jtok eid="21" type="primary_name_ref" span="287:26:287:29">ast</jtok>
+<jtok eid="21" type="primary_name_ref" span="287:31:287:37">regExp</jtok>
+<jtok eid="21" type="primary_name_ref" span="288:3:288:5">sb</jtok>
+<jtok eid="21" type="method_call" span="288:6:288:12">append</jtok>
+<jtok eid="21" type="string_literal" span="288:13:288:17">". "</jtok>
+<jtok eid="21" type="primary_name_ref" span="289:3:289:5">sb</jtok>
+<jtok eid="21" type="method_call" span="289:6:289:12">append</jtok>
+<jtok eid="21" type="primary_name_ref" span="289:13:289:26">caseSensitive</jtok>
+<jtok eid="21" type="primary_name_ref" span="289:29:289:36">Globals</jtok>
+<jtok eid="21" type="method_call" span="289:37:289:41">lang</jtok>
+<jtok eid="21" type="string_literal" span="289:42:289:73">"The search is case sensitive."</jtok>
+<jtok eid="21" type="primary_name_ref" span="290:7:290:14">Globals</jtok>
+<jtok eid="21" type="method_call" span="290:15:290:19">lang</jtok>
+<jtok eid="21" type="string_literal" span="290:20:290:53">"The search is case insensitive."</jtok>
+<jtok eid="21" type="primary_name_ref" span="291:10:291:12">sb</jtok>
+<jtok eid="21" type="method_call" span="291:13:291:21">toString</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="294:19:294:25">String</jtok>
+<jtok eid="22" type="method_name" span="294:26:294:38">describeNode</jtok>
+<jtok eid="22" type="parameter_type" span="294:39:294:42">AST</jtok>
+<jtok eid="22" type="parameter_name" span="294:43:294:47">node</jtok>
+<jtok eid="22" type="parameter_name" span="294:57:294:63">regExp</jtok>
+<jtok eid="22" type="parameter_name" span="295:12:295:15">not</jtok>
+<jtok eid="22" type="parameter_name" span="295:25:295:28">and</jtok>
+<jtok eid="22" type="parameter_name" span="295:38:295:40">or</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="296:3:296:15">StringBuffer</jtok>
+<jtok eid="22" type="local_variable_name" span="296:16:296:18">sb</jtok>
+<jtok eid="22" type="constructor_call" span="296:25:296:37">StringBuffer</jtok>
+<jtok eid="22" type="primary_name_ref" span="297:11:297:15">node</jtok>
+<jtok eid="22" type="method_call" span="297:16:297:23">getType</jtok>
+<jtok eid="22" type="primary_name_ref" span="298:8:298:44">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="298:45:298:48">And</jtok>
+<jtok eid="22" type="primary_name_ref" span="299:8:299:11">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="300:17:300:19">sb</jtok>
+<jtok eid="22" type="method_call" span="300:20:300:26">append</jtok>
+<jtok eid="22" type="primary_name_ref" span="300:27:300:34">Globals</jtok>
+<jtok eid="22" type="method_call" span="300:35:300:39">lang</jtok>
+<jtok eid="22" type="string_literal" span="300:40:300:45">"not"</jtok>
+<jtok eid="22" type="method_call" span="300:48:300:54">append</jtok>
+<jtok eid="22" type="string_literal" span="300:55:300:58">" "</jtok>
+<jtok eid="22" type="line_comment" span="301:4:301:72">// if there was an "or" in this subtree so far, braces may be needed</jtok>
+<jtok eid="22" type="primary_name_ref" span="302:8:302:10">or</jtok>
+<jtok eid="22" type="primary_name_ref" span="302:14:302:17">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="303:5:303:7">sb</jtok>
+<jtok eid="22" type="method_call" span="303:8:303:14">append</jtok>
+<jtok eid="22" type="string_literal" span="303:15:303:18">"("</jtok>
+<jtok eid="22" type="primary_name_ref" span="304:13:304:15">sb</jtok>
+<jtok eid="22" type="method_call" span="304:16:304:22">append</jtok>
+<jtok eid="22" type="method_call" span="304:23:304:35">describeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="304:36:304:40">node</jtok>
+<jtok eid="22" type="method_call" span="304:41:304:54">getFirstChild</jtok>
+<jtok eid="22" type="primary_name_ref" span="304:58:304:64">regExp</jtok>
+<jtok eid="22" type="method_call" span="305:42:305:48">append</jtok>
+<jtok eid="22" type="string_literal" span="305:49:305:52">" "</jtok>
+<jtok eid="22" type="method_call" span="305:54:305:60">append</jtok>
+<jtok eid="22" type="primary_name_ref" span="305:61:305:68">Globals</jtok>
+<jtok eid="22" type="method_call" span="305:69:305:73">lang</jtok>
+<jtok eid="22" type="string_literal" span="305:74:305:79">"and"</jtok>
+<jtok eid="22" type="method_call" span="305:82:305:88">append</jtok>
+<jtok eid="22" type="string_literal" span="305:89:305:92">" "</jtok>
+<jtok eid="22" type="method_call" span="305:94:305:100">append</jtok>
+<jtok eid="22" type="method_call" span="305:101:305:113">describeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="305:114:305:118">node</jtok>
+<jtok eid="22" type="method_call" span="305:119:305:132">getFirstChild</jtok>
+<jtok eid="22" type="method_call" span="306:22:306:36">getNextSibling</jtok>
+<jtok eid="22" type="primary_name_ref" span="306:40:306:46">regExp</jtok>
+<jtok eid="22" type="primary_name_ref" span="307:8:307:10">or</jtok>
+<jtok eid="22" type="primary_name_ref" span="307:14:307:17">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="308:5:308:7">sb</jtok>
+<jtok eid="22" type="method_call" span="308:8:308:14">append</jtok>
+<jtok eid="22" type="string_literal" span="308:15:308:18">")"</jtok>
+<jtok eid="22" type="primary_name_ref" span="309:11:309:13">sb</jtok>
+<jtok eid="22" type="method_call" span="309:14:309:22">toString</jtok>
+<jtok eid="22" type="primary_name_ref" span="310:8:310:44">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="310:45:310:47">Or</jtok>
+<jtok eid="22" type="primary_name_ref" span="311:8:311:11">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="312:17:312:19">sb</jtok>
+<jtok eid="22" type="method_call" span="312:20:312:26">append</jtok>
+<jtok eid="22" type="primary_name_ref" span="312:27:312:34">Globals</jtok>
+<jtok eid="22" type="method_call" span="312:35:312:39">lang</jtok>
+<jtok eid="22" type="string_literal" span="312:40:312:45">"not"</jtok>
+<jtok eid="22" type="method_call" span="312:48:312:54">append</jtok>
+<jtok eid="22" type="string_literal" span="312:55:312:58">" "</jtok>
+<jtok eid="22" type="line_comment" span="313:4:313:66">// if there was an "and" in this subtree so far, braces may be</jtok>
+<jtok eid="22" type="line_comment" span="314:4:314:13">// needed</jtok>
+<jtok eid="22" type="primary_name_ref" span="315:8:315:11">and</jtok>
+<jtok eid="22" type="primary_name_ref" span="315:15:315:18">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="316:5:316:7">sb</jtok>
+<jtok eid="22" type="method_call" span="316:8:316:14">append</jtok>
+<jtok eid="22" type="string_literal" span="316:15:316:18">"("</jtok>
+<jtok eid="22" type="primary_name_ref" span="317:13:317:15">sb</jtok>
+<jtok eid="22" type="method_call" span="317:16:317:22">append</jtok>
+<jtok eid="22" type="method_call" span="317:23:317:35">describeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="317:36:317:40">node</jtok>
+<jtok eid="22" type="method_call" span="317:41:317:54">getFirstChild</jtok>
+<jtok eid="22" type="primary_name_ref" span="317:58:317:64">regExp</jtok>
+<jtok eid="22" type="method_call" span="318:42:318:48">append</jtok>
+<jtok eid="22" type="string_literal" span="318:49:318:52">" "</jtok>
+<jtok eid="22" type="method_call" span="318:54:318:60">append</jtok>
+<jtok eid="22" type="primary_name_ref" span="318:61:318:68">Globals</jtok>
+<jtok eid="22" type="method_call" span="318:69:318:73">lang</jtok>
+<jtok eid="22" type="string_literal" span="318:74:318:78">"or"</jtok>
+<jtok eid="22" type="method_call" span="318:81:318:87">append</jtok>
+<jtok eid="22" type="string_literal" span="318:88:318:91">" "</jtok>
+<jtok eid="22" type="method_call" span="318:93:318:99">append</jtok>
+<jtok eid="22" type="method_call" span="318:100:318:112">describeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="318:113:318:117">node</jtok>
+<jtok eid="22" type="method_call" span="318:118:318:131">getFirstChild</jtok>
+<jtok eid="22" type="method_call" span="319:22:319:36">getNextSibling</jtok>
+<jtok eid="22" type="primary_name_ref" span="319:40:319:46">regExp</jtok>
+<jtok eid="22" type="primary_name_ref" span="320:8:320:11">and</jtok>
+<jtok eid="22" type="primary_name_ref" span="320:15:320:18">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="321:5:321:7">sb</jtok>
+<jtok eid="22" type="method_call" span="321:8:321:14">append</jtok>
+<jtok eid="22" type="string_literal" span="321:15:321:18">")"</jtok>
+<jtok eid="22" type="primary_name_ref" span="322:11:322:13">sb</jtok>
+<jtok eid="22" type="method_call" span="322:14:322:22">toString</jtok>
+<jtok eid="22" type="primary_name_ref" span="323:8:323:44">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="323:45:323:48">Not</jtok>
+<jtok eid="22" type="method_call" span="324:11:324:23">describeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="324:24:324:28">node</jtok>
+<jtok eid="22" type="method_call" span="324:29:324:42">getFirstChild</jtok>
+<jtok eid="22" type="primary_name_ref" span="324:46:324:52">regExp</jtok>
+<jtok eid="22" type="primary_name_ref" span="324:55:324:58">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="325:6:325:9">and</jtok>
+<jtok eid="22" type="primary_name_ref" span="325:11:325:13">or</jtok>
+<jtok eid="22" type="primary_name_ref" span="327:4:327:8">node</jtok>
+<jtok eid="22" type="primary_name_ref" span="327:11:327:15">node</jtok>
+<jtok eid="22" type="method_call" span="327:16:327:29">getFirstChild</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="328:10:328:16">String</jtok>
+<jtok eid="22" type="local_variable_name" span="328:17:328:22">field</jtok>
+<jtok eid="22" type="primary_name_ref" span="328:25:328:29">node</jtok>
+<jtok eid="22" type="method_call" span="328:30:328:37">getText</jtok>
+<jtok eid="22" type="local_variable_name" span="329:18:329:33">regExpFieldSpec</jtok>
+<jtok eid="22" type="primary_name_ref" span="329:37:329:44">Pattern</jtok>
+<jtok eid="22" type="method_call" span="329:45:329:52">matches</jtok>
+<jtok eid="22" type="string_literal" span="329:53:329:59">"\\w+"</jtok>
+<jtok eid="22" type="primary_name_ref" span="329:61:329:66">field</jtok>
+<jtok eid="22" type="primary_name_ref" span="330:4:330:8">node</jtok>
+<jtok eid="22" type="primary_name_ref" span="330:11:330:15">node</jtok>
+<jtok eid="22" type="method_call" span="330:16:330:30">getNextSibling</jtok>
+<jtok eid="22" type="local_variable_name" span="331:14:331:18">type</jtok>
+<jtok eid="22" type="primary_name_ref" span="331:21:331:25">node</jtok>
+<jtok eid="22" type="method_call" span="331:26:331:33">getType</jtok>
+<jtok eid="22" type="primary_name_ref" span="332:4:332:8">node</jtok>
+<jtok eid="22" type="primary_name_ref" span="332:11:332:15">node</jtok>
+<jtok eid="22" type="method_call" span="332:16:332:30">getNextSibling</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="333:10:333:16">String</jtok>
+<jtok eid="22" type="local_variable_name" span="333:17:333:27">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="333:30:333:34">Util</jtok>
+<jtok eid="22" type="method_call" span="333:35:333:47">quoteForHTML</jtok>
+<jtok eid="22" type="primary_name_ref" span="333:48:333:52">node</jtok>
+<jtok eid="22" type="method_call" span="333:53:333:60">getText</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="334:10:334:16">String</jtok>
+<jtok eid="22" type="local_variable_name" span="334:17:334:32">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="334:35:334:50">regExpFieldSpec</jtok>
+<jtok eid="22" type="primary_name_ref" span="334:53:334:60">Globals</jtok>
+<jtok eid="22" type="method_call" span="334:61:334:65">lang</jtok>
+<jtok eid="22" type="string_literal" span="335:6:335:63">"any field that matches the regular expression &lt;b&gt;%0&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="336:21:336:25">Util</jtok>
+<jtok eid="22" type="method_call" span="336:26:336:38">quoteForHTML</jtok>
+<jtok eid="22" type="primary_name_ref" span="336:39:336:44">field</jtok>
+<jtok eid="22" type="primary_name_ref" span="336:49:336:56">Globals</jtok>
+<jtok eid="22" type="method_call" span="336:57:336:61">lang</jtok>
+<jtok eid="22" type="string_literal" span="336:62:336:83">"the field &lt;b&gt;%0&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="337:29:337:33">Util</jtok>
+<jtok eid="22" type="method_call" span="337:34:337:46">quoteForHTML</jtok>
+<jtok eid="22" type="primary_name_ref" span="337:47:337:52">field</jtok>
+<jtok eid="22" type="primary_name_ref" span="338:12:338:16">type</jtok>
+<jtok eid="22" type="primary_name_ref" span="339:9:339:45">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="339:46:339:62">LITERAL_contains</jtok>
+<jtok eid="22" type="primary_name_ref" span="340:9:340:45">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="340:46:340:51">EQUAL</jtok>
+<jtok eid="22" type="primary_name_ref" span="341:9:341:15">regExp</jtok>
+<jtok eid="22" type="primary_name_ref" span="342:13:342:16">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="342:19:342:26">Globals</jtok>
+<jtok eid="22" type="method_call" span="342:27:342:31">lang</jtok>
+<jtok eid="22" type="string_literal" span="343:14:343:67">"%0 doesn't contain the Regular Expression &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="344:29:344:44">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="344:46:344:56">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="345:10:345:17">Globals</jtok>
+<jtok eid="22" type="method_call" span="345:18:345:22">lang</jtok>
+<jtok eid="22" type="string_literal" span="346:16:346:62">"%0 contains the Regular Expression &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="347:37:347:52">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="347:54:347:64">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="348:12:348:15">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="348:18:348:25">Globals</jtok>
+<jtok eid="22" type="method_call" span="348:26:348:30">lang</jtok>
+<jtok eid="22" type="string_literal" span="349:7:349:46">"%0 doesn't contain the term &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="349:48:349:63">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="350:25:350:35">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="350:39:350:46">Globals</jtok>
+<jtok eid="22" type="method_call" span="350:47:350:51">lang</jtok>
+<jtok eid="22" type="string_literal" span="350:52:350:84">"%0 contains the term &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="351:33:351:48">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="351:50:351:60">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="352:9:352:45">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="352:46:352:61">LITERAL_matches</jtok>
+<jtok eid="22" type="primary_name_ref" span="353:9:353:45">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="353:46:353:52">EEQUAL</jtok>
+<jtok eid="22" type="primary_name_ref" span="354:9:354:15">regExp</jtok>
+<jtok eid="22" type="primary_name_ref" span="355:13:355:16">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="355:19:355:26">Globals</jtok>
+<jtok eid="22" type="method_call" span="355:27:355:31">lang</jtok>
+<jtok eid="22" type="string_literal" span="356:14:356:65">"%0 doesn't match the Regular Expression &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="357:29:357:44">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="357:46:357:56">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="358:10:358:17">Globals</jtok>
+<jtok eid="22" type="method_call" span="358:18:358:22">lang</jtok>
+<jtok eid="22" type="string_literal" span="359:37:359:82">"%0 matches the Regular Expression &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="360:37:360:52">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="360:54:360:64">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="361:12:361:15">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="361:18:361:25">Globals</jtok>
+<jtok eid="22" type="method_call" span="361:26:361:30">lang</jtok>
+<jtok eid="22" type="string_literal" span="362:7:362:44">"%0 doesn't match the term &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="363:25:363:40">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="363:42:363:52">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="364:9:364:16">Globals</jtok>
+<jtok eid="22" type="method_call" span="364:17:364:21">lang</jtok>
+<jtok eid="22" type="string_literal" span="364:22:364:53">"%0 matches the term &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="365:33:365:48">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="366:33:366:43">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="367:9:367:45">SearchExpressionTreeParserTokenTypes</jtok>
+<jtok eid="22" type="qualified_name_ref" span="367:46:367:52">NEQUAL</jtok>
+<jtok eid="22" type="primary_name_ref" span="368:9:368:15">regExp</jtok>
+<jtok eid="22" type="primary_name_ref" span="369:13:369:16">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="369:19:369:26">Globals</jtok>
+<jtok eid="22" type="method_call" span="369:27:369:31">lang</jtok>
+<jtok eid="22" type="string_literal" span="370:8:370:54">"%0 contains the Regular Expression &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="371:29:371:44">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="371:46:371:56">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="372:10:372:17">Globals</jtok>
+<jtok eid="22" type="method_call" span="372:18:372:22">lang</jtok>
+<jtok eid="22" type="string_literal" span="373:37:373:90">"%0 doesn't contain the Regular Expression &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="374:37:374:52">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="374:54:374:64">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="375:12:375:15">not</jtok>
+<jtok eid="22" type="primary_name_ref" span="375:18:375:25">Globals</jtok>
+<jtok eid="22" type="method_call" span="375:26:375:30">lang</jtok>
+<jtok eid="22" type="string_literal" span="375:31:375:63">"%0 contains the term &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="376:25:376:40">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="376:42:376:52">termQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="376:56:376:63">Globals</jtok>
+<jtok eid="22" type="method_call" span="376:64:376:68">lang</jtok>
+<jtok eid="22" type="string_literal" span="377:7:377:46">"%0 doesn't contain the term &lt;b&gt;%1&lt;/b&gt;"</jtok>
+<jtok eid="22" type="primary_name_ref" span="377:48:377:63">fieldSpecQuoted</jtok>
+<jtok eid="22" type="primary_name_ref" span="378:25:378:35">termQuoted</jtok>
+<jtok eid="22" type="string_literal" span="380:12:380:53">"Internal error: Unknown AST node type. "</jtok>
+<jtok eid="22" type="string_literal" span="381:9:381:59">"Please report this on www.sf.net/projects/jabref"</jtok>
+<jtok eid="22" type="line_comment" span="382:5:382:32">// this should never happen</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="387:9:387:15">String</jtok>
+<jtok eid="23" type="method_name" span="387:16:387:35">getShortDescription</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="388:3:388:15">StringBuffer</jtok>
+<jtok eid="23" type="local_variable_name" span="388:16:388:18">sb</jtok>
+<jtok eid="23" type="constructor_call" span="388:25:388:37">StringBuffer</jtok>
+<jtok eid="23" type="primary_name_ref" span="389:3:389:5">sb</jtok>
+<jtok eid="23" type="method_call" span="389:6:389:12">append</jtok>
+<jtok eid="23" type="string_literal" span="389:13:389:18">"&lt;b&gt;"</jtok>
+<jtok eid="23" type="primary_name_ref" span="390:7:390:14">Globals</jtok>
+<jtok eid="23" type="qualified_name_ref" span="390:15:390:20">prefs</jtok>
+<jtok eid="23" type="method_call" span="390:21:390:31">getBoolean</jtok>
+<jtok eid="23" type="string_literal" span="390:32:390:50">"groupShowDynamic"</jtok>
+<jtok eid="23" type="primary_name_ref" span="391:13:391:15">sb</jtok>
+<jtok eid="23" type="method_call" span="391:16:391:22">append</jtok>
+<jtok eid="23" type="string_literal" span="391:23:391:28">"&lt;i&gt;"</jtok>
+<jtok eid="23" type="method_call" span="391:30:391:36">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="391:37:391:41">Util</jtok>
+<jtok eid="23" type="method_call" span="391:42:391:54">quoteForHTML</jtok>
+<jtok eid="23" type="method_call" span="391:55:391:62">getName</jtok>
+<jtok eid="23" type="method_call" span="391:67:391:73">append</jtok>
+<jtok eid="23" type="string_literal" span="391:74:391:80">"&lt;/i&gt;"</jtok>
+<jtok eid="23" type="primary_name_ref" span="393:4:393:6">sb</jtok>
+<jtok eid="23" type="method_call" span="393:7:393:13">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="393:14:393:18">Util</jtok>
+<jtok eid="23" type="method_call" span="393:19:393:31">quoteForHTML</jtok>
+<jtok eid="23" type="method_call" span="393:32:393:39">getName</jtok>
+<jtok eid="23" type="block_comment" span="394:13:394:89">/*sb.append(Globals.lang("&lt;/b&gt; - dynamic group (search expression: &lt;b&gt;")).*/</jtok>
+<jtok eid="23" type="primary_name_ref" span="395:13:395:15">sb</jtok>
+<jtok eid="23" type="method_call" span="395:16:395:22">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="395:23:395:30">Globals</jtok>
+<jtok eid="23" type="method_call" span="395:31:395:35">lang</jtok>
+<jtok eid="23" type="string_literal" span="395:36:395:60">"&lt;/b&gt; - dynamic group ("</jtok>
+<jtok eid="23" type="primary_name_ref" span="395:63:395:70">Globals</jtok>
+<jtok eid="23" type="method_call" span="395:71:395:75">lang</jtok>
+<jtok eid="23" type="string_literal" span="395:76:395:100">"search expression: &lt;b&gt;"</jtok>
+<jtok eid="23" type="method_call" span="397:13:397:19">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="397:20:397:24">Util</jtok>
+<jtok eid="23" type="method_call" span="397:25:397:37">quoteForHTML</jtok>
+<jtok eid="23" type="primary_name_ref" span="397:38:397:56">m_searchExpression</jtok>
+<jtok eid="23" type="method_call" span="397:59:397:65">append</jtok>
+<jtok eid="23" type="string_literal" span="397:66:397:73">"&lt;/b&gt;)"</jtok>
+<jtok eid="23" type="method_call" span="398:11:398:33">getHierarchicalContext</jtok>
+<jtok eid="23" type="primary_name_ref" span="399:8:399:21">AbstractGroup</jtok>
+<jtok eid="23" type="qualified_name_ref" span="399:22:399:31">INCLUDING</jtok>
+<jtok eid="23" type="primary_name_ref" span="400:4:400:6">sb</jtok>
+<jtok eid="23" type="method_call" span="400:7:400:13">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="400:14:400:21">Globals</jtok>
+<jtok eid="23" type="method_call" span="400:22:400:26">lang</jtok>
+<jtok eid="23" type="string_literal" span="400:27:400:49">", includes subgroups"</jtok>
+<jtok eid="23" type="primary_name_ref" span="402:8:402:21">AbstractGroup</jtok>
+<jtok eid="23" type="qualified_name_ref" span="402:22:402:30">REFINING</jtok>
+<jtok eid="23" type="primary_name_ref" span="403:4:403:6">sb</jtok>
+<jtok eid="23" type="method_call" span="403:7:403:13">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="403:14:403:21">Globals</jtok>
+<jtok eid="23" type="method_call" span="403:22:403:26">lang</jtok>
+<jtok eid="23" type="string_literal" span="403:27:403:49">", refines supergroup"</jtok>
+<jtok eid="23" type="primary_name_ref" span="408:10:408:12">sb</jtok>
+<jtok eid="23" type="method_call" span="408:13:408:21">toString</jtok>
+</jdoc>

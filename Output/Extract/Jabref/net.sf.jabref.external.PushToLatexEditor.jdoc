@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.external.PushToLatexEditor" jls="java5">
+<jent id="0" type="file" span="0:0:113:1">Source/jabref/src/java/net/sf/jabref/external/PushToLatexEditor.java</jent>
+<jent id="1" pid="0" type="class" span="14:1:113:1">net.sf.jabref.external.PushToLatexEditor</jent>
+<jent id="2" pid="1" type="method" span="22:5:24:5">net.sf.jabref.external.PushToLatexEditor.getName()</jent>
+<jent id="3" pid="1" type="method" span="26:5:28:5">net.sf.jabref.external.PushToLatexEditor.getApplicationName()</jent>
+<jent id="4" pid="1" type="method" span="30:5:32:5">net.sf.jabref.external.PushToLatexEditor.getTooltip()</jent>
+<jent id="5" pid="1" type="method" span="34:5:36:5">net.sf.jabref.external.PushToLatexEditor.getIcon()</jent>
+<jent id="6" pid="1" type="method" span="38:5:40:5">net.sf.jabref.external.PushToLatexEditor.getKeyStrokeName()</jent>
+<jent id="7" pid="1" type="method" span="42:5:67:5">net.sf.jabref.external.PushToLatexEditor.pushEntries(BibtexDatabase,BibtexEntry[],String,MetaData)</jent>
+<jent id="8" pid="1" type="method" span="69:5:80:5">net.sf.jabref.external.PushToLatexEditor.operationCompleted(BasePanel)</jent>
+<jent id="9" pid="1" type="method" span="82:5:84:5">net.sf.jabref.external.PushToLatexEditor.requiresBibtexKeys()</jent>
+<jent id="10" pid="1" type="method" span="86:5:92:5">net.sf.jabref.external.PushToLatexEditor.getSettingsPanel()</jent>
+<jent id="11" pid="1" type="method" span="94:5:107:5">net.sf.jabref.external.PushToLatexEditor.initSettingsPanel()</jent>
+<jent id="12" pid="1" type="method" span="109:5:112:5">net.sf.jabref.external.PushToLatexEditor.storeSettings()</jent>
+<jtok eid="0" type="block_comment" span="11:1:13:4">/**
+ * Class for pushing entries into LatexEditor.
+ */</jtok>
+<jtok eid="1" type="class_name" span="14:14:14:31">PushToLatexEditor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="14:43:14:60">PushToApplication</jtok>
+<jtok eid="1" type="field_name" span="16:21:16:33">couldNotCall</jtok>
+<jtok eid="1" type="field_name" span="17:21:17:31">notDefined</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="18:13:18:19">JPanel</jtok>
+<jtok eid="1" type="field_name" span="18:20:18:28">settings</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="19:13:19:23">JTextField</jtok>
+<jtok eid="1" type="field_name" span="19:24:19:31">ledPath</jtok>
+<jtok eid="1" type="constructor_call" span="19:38:19:48">JTextField</jtok>
+<jtok eid="1" type="field_name" span="20:9:20:20">citeCommand</jtok>
+<jtok eid="1" type="constructor_call" span="20:27:20:37">JTextField</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="22:12:22:18">String</jtok>
+<jtok eid="2" type="method_name" span="22:19:22:26">getName</jtok>
+<jtok eid="2" type="primary_name_ref" span="23:16:23:23">Globals</jtok>
+<jtok eid="2" type="method_call" span="23:24:23:33">menuTitle</jtok>
+<jtok eid="2" type="string_literal" span="23:34:23:78">"Insert selected citations into LatexEditor"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="26:12:26:18">String</jtok>
+<jtok eid="3" type="method_name" span="26:19:26:37">getApplicationName</jtok>
+<jtok eid="3" type="string_literal" span="27:16:27:29">"LatexEditor"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="30:12:30:18">String</jtok>
+<jtok eid="4" type="method_name" span="30:19:30:29">getTooltip</jtok>
+<jtok eid="4" type="primary_name_ref" span="31:16:31:23">Globals</jtok>
+<jtok eid="4" type="method_call" span="31:24:31:28">lang</jtok>
+<jtok eid="4" type="string_literal" span="31:29:31:50">"Push to LatexEditor"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="34:12:34:16">Icon</jtok>
+<jtok eid="5" type="method_name" span="34:17:34:24">getIcon</jtok>
+<jtok eid="5" type="primary_name_ref" span="35:16:35:26">GUIGlobals</jtok>
+<jtok eid="5" type="method_call" span="35:27:35:35">getImage</jtok>
+<jtok eid="5" type="string_literal" span="35:36:35:42">"edit"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="38:12:38:18">String</jtok>
+<jtok eid="6" type="method_name" span="38:19:38:35">getKeyStrokeName</jtok>
+<jtok eid="7" type="method_name" span="42:17:42:28">pushEntries</jtok>
+<jtok eid="7" type="parameter_type" span="42:29:42:43">BibtexDatabase</jtok>
+<jtok eid="7" type="parameter_name" span="42:44:42:52">database</jtok>
+<jtok eid="7" type="parameter_type" span="42:54:42:65">BibtexEntry</jtok>
+<jtok eid="7" type="parameter_name" span="42:68:42:75">entries</jtok>
+<jtok eid="7" type="parameter_type" span="42:77:42:83">String</jtok>
+<jtok eid="7" type="parameter_name" span="42:84:42:93">keyString</jtok>
+<jtok eid="7" type="parameter_type" span="42:95:42:103">MetaData</jtok>
+<jtok eid="7" type="parameter_name" span="42:104:42:112">metaData</jtok>
+<jtok eid="7" type="primary_name_ref" span="44:9:44:21">couldNotCall</jtok>
+<jtok eid="7" type="primary_name_ref" span="45:9:45:19">notDefined</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="47:9:47:15">String</jtok>
+<jtok eid="7" type="local_variable_name" span="47:16:47:19">led</jtok>
+<jtok eid="7" type="primary_name_ref" span="47:22:47:29">Globals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="47:30:47:35">prefs</jtok>
+<jtok eid="7" type="method_call" span="47:36:47:39">get</jtok>
+<jtok eid="7" type="string_literal" span="47:40:47:57">"latexEditorPath"</jtok>
+<jtok eid="7" type="primary_name_ref" span="49:14:49:17">led</jtok>
+<jtok eid="7" type="primary_name_ref" span="49:31:49:34">led</jtok>
+<jtok eid="7" type="method_call" span="49:35:49:39">trim</jtok>
+<jtok eid="7" type="method_call" span="49:42:49:48">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="50:13:50:23">notDefined</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="55:13:55:25">StringBuffer</jtok>
+<jtok eid="7" type="local_variable_name" span="55:26:55:32">toSend</jtok>
+<jtok eid="7" type="constructor_call" span="55:39:55:51">StringBuffer</jtok>
+<jtok eid="7" type="string_literal" span="55:52:55:57">"-i "</jtok>
+<jtok eid="7" type="method_call" span="56:22:56:28">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="56:29:56:36">Globals</jtok>
+<jtok eid="7" type="qualified_name_ref" span="56:37:56:42">prefs</jtok>
+<jtok eid="7" type="method_call" span="56:43:56:46">get</jtok>
+<jtok eid="7" type="string_literal" span="56:47:56:63">"citeCommandLed"</jtok>
+<jtok eid="7" type="method_call" span="56:66:56:72">append</jtok>
+<jtok eid="7" type="string_literal" span="56:73:56:76">"{"</jtok>
+<jtok eid="7" type="method_call" span="57:22:57:28">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="57:29:57:38">keyString</jtok>
+<jtok eid="7" type="method_call" span="58:22:58:28">append</jtok>
+<jtok eid="7" type="string_literal" span="58:29:58:32">"}"</jtok>
+<jtok eid="7" type="primary_name_ref" span="59:13:59:20">Runtime</jtok>
+<jtok eid="7" type="method_call" span="59:21:59:31">getRuntime</jtok>
+<jtok eid="7" type="method_call" span="59:34:59:38">exec</jtok>
+<jtok eid="7" type="primary_name_ref" span="59:39:59:42">led</jtok>
+<jtok eid="7" type="string_literal" span="59:45:59:48">" "</jtok>
+<jtok eid="7" type="primary_name_ref" span="59:51:59:57">toSend</jtok>
+<jtok eid="7" type="method_call" span="59:58:59:66">toString</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="63:16:63:27">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="63:28:63:33">excep</jtok>
+<jtok eid="7" type="primary_name_ref" span="64:13:64:25">couldNotCall</jtok>
+<jtok eid="7" type="primary_name_ref" span="65:13:65:18">excep</jtok>
+<jtok eid="7" type="method_call" span="65:19:65:34">printStackTrace</jtok>
+<jtok eid="8" type="method_name" span="69:17:69:35">operationCompleted</jtok>
+<jtok eid="8" type="parameter_type" span="69:36:69:45">BasePanel</jtok>
+<jtok eid="8" type="parameter_name" span="69:46:69:51">panel</jtok>
+<jtok eid="8" type="primary_name_ref" span="70:13:70:23">notDefined</jtok>
+<jtok eid="8" type="primary_name_ref" span="71:13:71:18">panel</jtok>
+<jtok eid="8" type="method_call" span="71:19:71:25">output</jtok>
+<jtok eid="8" type="primary_name_ref" span="71:26:71:33">Globals</jtok>
+<jtok eid="8" type="method_call" span="71:34:71:38">lang</jtok>
+<jtok eid="8" type="string_literal" span="71:39:71:46">"Error"</jtok>
+<jtok eid="8" type="string_literal" span="71:50:71:54">": "</jtok>
+<jtok eid="8" type="primary_name_ref" span="72:21:72:28">Globals</jtok>
+<jtok eid="8" type="method_call" span="72:29:72:33">lang</jtok>
+<jtok eid="8" type="string_literal" span="72:34:72:58">"Path to %0 not defined"</jtok>
+<jtok eid="8" type="method_call" span="72:60:72:78">getApplicationName</jtok>
+<jtok eid="8" type="string_literal" span="72:82:72:85">"."</jtok>
+<jtok eid="8" type="primary_name_ref" span="74:18:74:30">couldNotCall</jtok>
+<jtok eid="8" type="primary_name_ref" span="75:13:75:18">panel</jtok>
+<jtok eid="8" type="method_call" span="75:19:75:25">output</jtok>
+<jtok eid="8" type="primary_name_ref" span="75:26:75:33">Globals</jtok>
+<jtok eid="8" type="method_call" span="75:34:75:38">lang</jtok>
+<jtok eid="8" type="string_literal" span="75:39:75:46">"Error"</jtok>
+<jtok eid="8" type="string_literal" span="75:50:75:54">": "</jtok>
+<jtok eid="8" type="primary_name_ref" span="75:57:75:64">Globals</jtok>
+<jtok eid="8" type="method_call" span="75:65:75:69">lang</jtok>
+<jtok eid="8" type="string_literal" span="75:70:75:97">"Could not call executable"</jtok>
+<jtok eid="8" type="string_literal" span="75:101:75:105">" '"</jtok>
+<jtok eid="8" type="primary_name_ref" span="76:22:76:29">Globals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="76:30:76:35">prefs</jtok>
+<jtok eid="8" type="method_call" span="76:36:76:39">get</jtok>
+<jtok eid="8" type="string_literal" span="76:40:76:57">"latexEditorPath"</jtok>
+<jtok eid="8" type="string_literal" span="76:61:76:65">"'."</jtok>
+<jtok eid="8" type="primary_name_ref" span="79:13:79:20">Globals</jtok>
+<jtok eid="8" type="method_call" span="79:21:79:25">lang</jtok>
+<jtok eid="8" type="string_literal" span="79:26:79:50">"Pushed citations to %0"</jtok>
+<jtok eid="8" type="string_literal" span="79:52:79:65">"LatexEditor"</jtok>
+<jtok eid="9" type="method_name" span="82:20:82:38">requiresBibtexKeys</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="86:12:86:18">JPanel</jtok>
+<jtok eid="10" type="method_name" span="86:19:86:35">getSettingsPanel</jtok>
+<jtok eid="10" type="primary_name_ref" span="87:13:87:21">settings</jtok>
+<jtok eid="10" type="method_call" span="88:13:88:30">initSettingsPanel</jtok>
+<jtok eid="10" type="primary_name_ref" span="89:9:89:16">ledPath</jtok>
+<jtok eid="10" type="method_call" span="89:17:89:24">setText</jtok>
+<jtok eid="10" type="primary_name_ref" span="89:25:89:32">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="89:33:89:38">prefs</jtok>
+<jtok eid="10" type="method_call" span="89:39:89:42">get</jtok>
+<jtok eid="10" type="string_literal" span="89:43:89:60">"latexEditorPath"</jtok>
+<jtok eid="10" type="primary_name_ref" span="90:9:90:20">citeCommand</jtok>
+<jtok eid="10" type="method_call" span="90:21:90:28">setText</jtok>
+<jtok eid="10" type="primary_name_ref" span="90:29:90:36">Globals</jtok>
+<jtok eid="10" type="qualified_name_ref" span="90:37:90:42">prefs</jtok>
+<jtok eid="10" type="method_call" span="90:43:90:46">get</jtok>
+<jtok eid="10" type="string_literal" span="90:47:90:63">"citeCommandLed"</jtok>
+<jtok eid="10" type="primary_name_ref" span="91:16:91:24">settings</jtok>
+<jtok eid="11" type="method_name" span="94:18:94:35">initSettingsPanel</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="95:9:95:27">DefaultFormBuilder</jtok>
+<jtok eid="11" type="local_variable_name" span="95:28:95:35">builder</jtok>
+<jtok eid="11" type="constructor_call" span="95:42:95:60">DefaultFormBuilder</jtok>
+<jtok eid="11" type="constructor_call" span="96:21:96:31">FormLayout</jtok>
+<jtok eid="11" type="string_literal" span="96:32:96:77">"left:pref, 4dlu, fill:pref, 4dlu, fill:pref"</jtok>
+<jtok eid="11" type="string_literal" span="96:79:96:81">""</jtok>
+<jtok eid="11" type="primary_name_ref" span="97:9:97:16">builder</jtok>
+<jtok eid="11" type="method_call" span="97:17:97:23">append</jtok>
+<jtok eid="11" type="constructor_call" span="97:28:97:34">JLabel</jtok>
+<jtok eid="11" type="primary_name_ref" span="97:35:97:42">Globals</jtok>
+<jtok eid="11" type="method_call" span="97:43:97:47">lang</jtok>
+<jtok eid="11" type="string_literal" span="97:48:97:79">"Path to LatexEditor (LEd.exe)"</jtok>
+<jtok eid="11" type="string_literal" span="97:83:97:86">":"</jtok>
+<jtok eid="11" type="primary_name_ref" span="98:9:98:16">builder</jtok>
+<jtok eid="11" type="method_call" span="98:17:98:23">append</jtok>
+<jtok eid="11" type="primary_name_ref" span="98:24:98:31">ledPath</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="99:9:99:21">BrowseAction</jtok>
+<jtok eid="11" type="local_variable_name" span="99:22:99:28">action</jtok>
+<jtok eid="11" type="constructor_call" span="99:35:99:47">BrowseAction</jtok>
+<jtok eid="11" type="primary_name_ref" span="99:54:99:61">ledPath</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="100:9:100:16">JButton</jtok>
+<jtok eid="11" type="local_variable_name" span="100:17:100:23">browse</jtok>
+<jtok eid="11" type="constructor_call" span="100:30:100:37">JButton</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:38:100:45">Globals</jtok>
+<jtok eid="11" type="method_call" span="100:46:100:50">lang</jtok>
+<jtok eid="11" type="string_literal" span="100:51:100:59">"Browse"</jtok>
+<jtok eid="11" type="primary_name_ref" span="101:9:101:15">browse</jtok>
+<jtok eid="11" type="method_call" span="101:16:101:33">addActionListener</jtok>
+<jtok eid="11" type="primary_name_ref" span="101:34:101:40">action</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:9:102:16">builder</jtok>
+<jtok eid="11" type="method_call" span="102:17:102:23">append</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:24:102:30">browse</jtok>
+<jtok eid="11" type="primary_name_ref" span="103:9:103:16">builder</jtok>
+<jtok eid="11" type="method_call" span="103:17:103:25">nextLine</jtok>
+<jtok eid="11" type="primary_name_ref" span="104:9:104:16">builder</jtok>
+<jtok eid="11" type="method_call" span="104:17:104:23">append</jtok>
+<jtok eid="11" type="primary_name_ref" span="104:24:104:31">Globals</jtok>
+<jtok eid="11" type="method_call" span="104:32:104:36">lang</jtok>
+<jtok eid="11" type="string_literal" span="104:37:104:51">"Cite command"</jtok>
+<jtok eid="11" type="string_literal" span="104:55:104:58">":"</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:9:105:16">builder</jtok>
+<jtok eid="11" type="method_call" span="105:17:105:23">append</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:24:105:35">citeCommand</jtok>
+<jtok eid="11" type="primary_name_ref" span="106:9:106:17">settings</jtok>
+<jtok eid="11" type="primary_name_ref" span="106:20:106:27">builder</jtok>
+<jtok eid="11" type="method_call" span="106:28:106:36">getPanel</jtok>
+<jtok eid="12" type="method_name" span="109:17:109:30">storeSettings</jtok>
+<jtok eid="12" type="primary_name_ref" span="110:9:110:16">Globals</jtok>
+<jtok eid="12" type="qualified_name_ref" span="110:17:110:22">prefs</jtok>
+<jtok eid="12" type="method_call" span="110:23:110:26">put</jtok>
+<jtok eid="12" type="string_literal" span="110:27:110:44">"latexEditorPath"</jtok>
+<jtok eid="12" type="primary_name_ref" span="110:46:110:53">ledPath</jtok>
+<jtok eid="12" type="method_call" span="110:54:110:61">getText</jtok>
+<jtok eid="12" type="primary_name_ref" span="111:9:111:16">Globals</jtok>
+<jtok eid="12" type="qualified_name_ref" span="111:17:111:22">prefs</jtok>
+<jtok eid="12" type="method_call" span="111:23:111:26">put</jtok>
+<jtok eid="12" type="string_literal" span="111:27:111:43">"citeCommandLed"</jtok>
+<jtok eid="12" type="primary_name_ref" span="111:45:111:56">citeCommand</jtok>
+<jtok eid="12" type="method_call" span="111:57:111:64">getText</jtok>
+</jdoc>

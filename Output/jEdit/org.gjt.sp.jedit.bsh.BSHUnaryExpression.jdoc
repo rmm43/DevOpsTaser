@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHUnaryExpression" jls="java5">
+<jent id="0" type="file" span="0:0:133:2">Source/jEdit/org/gjt/sp/jedit/bsh/BSHUnaryExpression.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:133:1">org.gjt.sp.jedit.bsh.BSHUnaryExpression</jent>
+<jent id="2" pid="1" type="method" span="42:5:42:45">org.gjt.sp.jedit.bsh.BSHUnaryExpression.BSHUnaryExpression(int)</jent>
+<jent id="3" pid="1" type="method" span="44:5:63:5">org.gjt.sp.jedit.bsh.BSHUnaryExpression.eval(CallStack,Interpreter)</jent>
+<jent id="4" pid="1" type="method" span="65:5:81:5">org.gjt.sp.jedit.bsh.BSHUnaryExpression.lhsUnaryOperation(LHS,boolean)</jent>
+<jent id="5" pid="1" type="method" span="83:5:95:5">org.gjt.sp.jedit.bsh.BSHUnaryExpression.unaryOperation(Object,int)</jent>
+<jent id="6" pid="1" type="method" span="97:5:132:5">org.gjt.sp.jedit.bsh.BSHUnaryExpression.primitiveWrapperUnaryOperation(Object,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="1" type="class_name" span="37:7:37:25">BSHUnaryExpression</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:34:37:44">SimpleNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:56:37:71">ParserConstants</jtok>
+<jtok eid="1" type="field_name" span="39:16:39:20">kind</jtok>
+<jtok eid="1" type="field_name" span="40:17:40:24">postfix</jtok>
+<jtok eid="2" type="method_name" span="42:5:42:23">BSHUnaryExpression</jtok>
+<jtok eid="2" type="parameter_name" span="42:28:42:30">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:40:42:42">id</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="44:12:44:18">Object</jtok>
+<jtok eid="3" type="method_name" span="44:19:44:23">eval</jtok>
+<jtok eid="3" type="parameter_type" span="44:25:44:34">CallStack</jtok>
+<jtok eid="3" type="parameter_name" span="44:35:44:44">callstack</jtok>
+<jtok eid="3" type="parameter_type" span="44:46:44:57">Interpreter</jtok>
+<jtok eid="3" type="parameter_name" span="44:58:44:69">interpreter</jtok>
+<jtok eid="3" type="throws" span="45:10:45:19">EvalError</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="47:9:47:19">SimpleNode</jtok>
+<jtok eid="3" type="local_variable_name" span="47:20:47:24">node</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="47:28:47:38">SimpleNode</jtok>
+<jtok eid="3" type="method_call" span="47:39:47:50">jjtGetChild</jtok>
+<jtok eid="3" type="line_comment" span="49:3:49:71">// If this is a unary increment of decrement (either pre or postfix)</jtok>
+<jtok eid="3" type="line_comment" span="50:3:50:67">// then we need an LHS to which to assign the result.  Otherwise</jtok>
+<jtok eid="3" type="line_comment" span="51:3:51:48">// just do the unary operation for the value.</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:9:53:13">kind</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:17:53:21">INCR</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:25:53:29">kind</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:33:53:37">DECR</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="54:5:54:8">LHS</jtok>
+<jtok eid="3" type="local_variable_name" span="54:9:54:12">lhs</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="54:17:54:37">BSHPrimaryExpression</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:38:54:42">node</jtok>
+<jtok eid="3" type="method_call" span="54:44:54:49">toLHS</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:6:55:15">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:17:55:28">interpreter</jtok>
+<jtok eid="3" type="method_call" span="56:12:56:29">lhsUnaryOperation</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:31:56:34">lhs</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:36:56:47">interpreter</jtok>
+<jtok eid="3" type="method_call" span="56:48:56:61">getStrictJava</jtok>
+<jtok eid="3" type="method_call" span="59:6:59:20">unaryOperation</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:22:59:26">node</jtok>
+<jtok eid="3" type="method_call" span="59:27:59:31">eval</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:32:59:41">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:43:59:54">interpreter</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:57:59:61">kind</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="60:13:60:26">UtilEvalError</jtok>
+<jtok eid="3" type="local_variable_name" span="60:27:60:28">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:10:61:11">e</jtok>
+<jtok eid="3" type="method_call" span="61:12:61:23">toEvalError</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:31:61:40">callstack</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="65:13:65:19">Object</jtok>
+<jtok eid="4" type="method_name" span="65:20:65:37">lhsUnaryOperation</jtok>
+<jtok eid="4" type="parameter_type" span="65:39:65:42">LHS</jtok>
+<jtok eid="4" type="parameter_name" span="65:43:65:46">lhs</jtok>
+<jtok eid="4" type="parameter_name" span="65:56:65:66">strictJava</jtok>
+<jtok eid="4" type="throws" span="66:10:66:23">UtilEvalError</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:14:68:25">Interpreter</jtok>
+<jtok eid="4" type="qualified_name_ref" span="68:26:68:31">DEBUG</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:34:68:45">Interpreter</jtok>
+<jtok eid="4" type="method_call" span="68:46:68:51">debug</jtok>
+<jtok eid="4" type="string_literal" span="68:52:68:71">"lhsUnaryOperation"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="69:9:69:15">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="69:16:69:24">prevalue</jtok>
+<jtok eid="4" type="local_variable_name" span="69:26:69:35">postvalue</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:9:70:17">prevalue</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:20:70:23">lhs</jtok>
+<jtok eid="4" type="method_call" span="70:24:70:32">getValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:9:71:18">postvalue</jtok>
+<jtok eid="4" type="method_call" span="71:21:71:35">unaryOperation</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:36:71:44">prevalue</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:46:71:50">kind</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="73:3:73:9">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="73:10:73:16">retVal</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:8:74:15">postfix</jtok>
+<jtok eid="4" type="primary_name_ref" span="75:4:75:10">retVal</jtok>
+<jtok eid="4" type="primary_name_ref" span="75:13:75:21">prevalue</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:4:77:10">retVal</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:13:77:22">postvalue</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:3:79:6">lhs</jtok>
+<jtok eid="4" type="method_call" span="79:7:79:13">assign</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:15:79:24">postvalue</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:26:79:36">strictJava</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:10:80:16">retVal</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="83:13:83:19">Object</jtok>
+<jtok eid="5" type="method_name" span="83:20:83:34">unaryOperation</jtok>
+<jtok eid="5" type="parameter_type" span="83:36:83:42">Object</jtok>
+<jtok eid="5" type="parameter_name" span="83:43:83:45">op</jtok>
+<jtok eid="5" type="parameter_name" span="83:51:83:55">kind</jtok>
+<jtok eid="5" type="throws" span="83:65:83:78">UtilEvalError</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:13:85:15">op</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="85:27:85:34">Boolean</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:38:85:40">op</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="85:52:85:61">Character</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:7:86:9">op</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="86:21:86:27">Number</jtok>
+<jtok eid="5" type="method_call" span="87:20:87:50">primitiveWrapperUnaryOperation</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:52:87:54">op</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:56:87:60">kind</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:16:89:18">op</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="89:30:89:39">Primitive</jtok>
+<jtok eid="5" type="constructor_call" span="90:23:90:36">UtilEvalError</jtok>
+<jtok eid="5" type="string_literal" span="90:38:90:56">"Unary operation "</jtok>
+<jtok eid="5" type="primary_name_ref" span="90:59:90:69">tokenImage</jtok>
+<jtok eid="5" type="primary_name_ref" span="90:70:90:74">kind</jtok>
+<jtok eid="5" type="string_literal" span="91:19:91:46">" inappropriate for object"</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:16:94:25">Primitive</jtok>
+<jtok eid="5" type="method_call" span="94:26:94:40">unaryOperation</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="94:42:94:51">Primitive</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:52:94:54">op</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:56:94:60">kind</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="97:13:97:19">Object</jtok>
+<jtok eid="6" type="method_name" span="97:20:97:50">primitiveWrapperUnaryOperation</jtok>
+<jtok eid="6" type="parameter_type" span="97:51:97:57">Object</jtok>
+<jtok eid="6" type="parameter_name" span="97:58:97:61">val</jtok>
+<jtok eid="6" type="parameter_name" span="97:67:97:71">kind</jtok>
+<jtok eid="6" type="throws" span="98:16:98:29">UtilEvalError</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="100:9:100:14">Class</jtok>
+<jtok eid="6" type="local_variable_name" span="100:15:100:26">operandType</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:29:100:32">val</jtok>
+<jtok eid="6" type="method_call" span="100:33:100:41">getClass</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="101:9:101:15">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="101:16:101:23">operand</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:26:101:35">Primitive</jtok>
+<jtok eid="6" type="method_call" span="101:36:101:52">promoteToInteger</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:53:101:56">val</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:14:103:21">operand</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="103:33:103:40">Boolean</jtok>
+<jtok eid="6" type="constructor_call" span="104:15:104:22">Boolean</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:5:105:14">Primitive</jtok>
+<jtok eid="6" type="method_call" span="105:15:105:36">booleanUnaryOperation</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="105:38:105:45">Boolean</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:46:105:53">operand</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:55:105:59">kind</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:8:107:15">operand</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="107:27:107:34">Integer</jtok>
+<jtok eid="6" type="local_variable_name" span="109:17:109:23">result</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:26:109:35">Primitive</jtok>
+<jtok eid="6" type="method_call" span="109:36:109:53">intUnaryOperation</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="109:55:109:62">Integer</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:63:109:70">operand</jtok>
+<jtok eid="6" type="primary_name_ref" span="109:72:109:76">kind</jtok>
+<jtok eid="6" type="line_comment" span="111:13:111:61">// ++ and -- must be cast back the original type</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:16:112:20">kind</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:24:112:28">INCR</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:32:112:36">kind</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:40:112:44">DECR</jtok>
+<jtok eid="6" type="primary_name_ref" span="114:20:114:31">operandType</jtok>
+<jtok eid="6" type="primary_name_ref" span="114:35:114:39">Byte</jtok>
+<jtok eid="6" type="qualified_name_ref" span="114:40:114:44">TYPE</jtok>
+<jtok eid="6" type="constructor_call" span="115:32:115:36">Byte</jtok>
+<jtok eid="6" type="primary_name_ref" span="115:43:115:49">result</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:20:116:31">operandType</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:35:116:40">Short</jtok>
+<jtok eid="6" type="qualified_name_ref" span="116:41:116:45">TYPE</jtok>
+<jtok eid="6" type="constructor_call" span="117:32:117:37">Short</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:45:117:51">result</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:20:118:31">operandType</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:35:118:44">Character</jtok>
+<jtok eid="6" type="qualified_name_ref" span="118:45:118:49">TYPE</jtok>
+<jtok eid="6" type="constructor_call" span="119:32:119:41">Character</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:48:119:54">result</jtok>
+<jtok eid="6" type="constructor_call" span="122:24:122:31">Integer</jtok>
+<jtok eid="6" type="primary_name_ref" span="122:32:122:38">result</jtok>
+<jtok eid="6" type="primary_name_ref" span="124:17:124:24">operand</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="124:36:124:40">Long</jtok>
+<jtok eid="6" type="constructor_call" span="125:24:125:28">Long</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:29:125:38">Primitive</jtok>
+<jtok eid="6" type="method_call" span="125:39:125:57">longUnaryOperation</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="125:59:125:63">Long</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:64:125:71">operand</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:73:125:77">kind</jtok>
+<jtok eid="6" type="primary_name_ref" span="126:17:126:24">operand</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="126:36:126:41">Float</jtok>
+<jtok eid="6" type="constructor_call" span="127:24:127:29">Float</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:30:127:39">Primitive</jtok>
+<jtok eid="6" type="method_call" span="127:40:127:59">floatUnaryOperation</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="127:61:127:66">Float</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:67:127:74">operand</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:76:127:80">kind</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:17:128:24">operand</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="128:36:128:42">Double</jtok>
+<jtok eid="6" type="constructor_call" span="129:24:129:30">Double</jtok>
+<jtok eid="6" type="primary_name_ref" span="129:31:129:40">Primitive</jtok>
+<jtok eid="6" type="method_call" span="129:41:129:61">doubleUnaryOperation</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="129:63:129:69">Double</jtok>
+<jtok eid="6" type="primary_name_ref" span="129:70:129:77">operand</jtok>
+<jtok eid="6" type="primary_name_ref" span="129:79:129:83">kind</jtok>
+<jtok eid="6" type="constructor_call" span="131:23:131:39">InterpreterError</jtok>
+<jtok eid="6" type="string_literal" span="131:40:131:92">"An error occurred.  Please call technical support."</jtok>
+</jdoc>

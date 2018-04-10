@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.help.HelpTOCPanel" jls="java5">
+<jent id="0" type="file" span="0:0:468:1">Source/jEdit/org/gjt/sp/jedit/help/HelpTOCPanel.java</jent>
+<jent id="1" pid="0" type="class" span="48:1:468:1">org.gjt.sp.jedit.help.HelpTOCPanel</jent>
+<jent id="2" pid="1" type="method" span="51:2:71:2">org.gjt.sp.jedit.help.HelpTOCPanel.HelpTOCPanel(HelpViewerInterface)</jent>
+<jent id="3" pid="1" type="method" span="74:2:88:2">org.gjt.sp.jedit.help.HelpTOCPanel.selectNode(String)</jent>
+<jent id="4" pid="1" type="method" span="91:2:119:2">org.gjt.sp.jedit.help.HelpTOCPanel.load()</jent>
+<jent id="5" pid="4" type="class" span="100:3:118:3">org.gjt.sp.jedit.help.HelpTOCPanel.load().$1</jent>
+<jent id="6" pid="5" type="method" span="101:4:117:4">org.gjt.sp.jedit.help.HelpTOCPanel.load().$1.run()</jent>
+<jent id="7" pid="1" type="method" span="129:2:135:2">org.gjt.sp.jedit.help.HelpTOCPanel.createNode(String,String)</jent>
+<jent id="8" pid="1" type="method" span="138:2:200:2">org.gjt.sp.jedit.help.HelpTOCPanel.createTOC()</jent>
+<jent id="9" pid="1" type="method" span="203:2:216:2">org.gjt.sp.jedit.help.HelpTOCPanel.loadTOC(DefaultMutableTreeNode,String)</jent>
+<jent id="10" pid="1" type="class" span="221:2:237:2">org.gjt.sp.jedit.help.HelpTOCPanel.HelpNode</jent>
+<jent id="11" pid="10" type="method" span="226:3:230:3">org.gjt.sp.jedit.help.HelpTOCPanel.HelpNode.HelpNode(String,String)</jent>
+<jent id="12" pid="10" type="method" span="233:3:236:3">org.gjt.sp.jedit.help.HelpTOCPanel.HelpNode.toString()</jent>
+<jent id="13" pid="1" type="class" span="240:2:308:2">org.gjt.sp.jedit.help.HelpTOCPanel.TOCHandler</jent>
+<jent id="14" pid="13" type="method" span="245:3:250:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCHandler.TOCHandler(DefaultMutableTreeNode,String)</jent>
+<jent id="15" pid="13" type="method" span="253:3:268:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCHandler.characters(char[],int,int)</jent>
+<jent id="16" pid="13" type="method" span="271:3:277:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCHandler.startElement(String,String,String,Attributes)</jent>
+<jent id="17" pid="13" type="method" span="280:3:299:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCHandler.endElement(String,String,String)</jent>
+<jent id="18" pid="1" type="class" span="311:2:433:2">org.gjt.sp.jedit.help.HelpTOCPanel.TOCTree</jent>
+<jent id="19" pid="18" type="method" span="314:3:318:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCTree.TOCTree()</jent>
+<jent id="20" pid="18" type="method" span="321:3:331:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCTree.getToolTipText(MouseEvent)</jent>
+<jent id="21" pid="18" type="method" span="349:3:375:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCTree.processKeyEvent(KeyEvent)</jent>
+<jent id="22" pid="18" type="method" span="378:3:423:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCTree.processMouseEvent(MouseEvent)</jent>
+<jent id="23" pid="18" type="method" span="426:3:432:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCTree.cellRectIsVisible(Rectangle)</jent>
+<jent id="24" pid="1" type="class" span="436:2:453:2">org.gjt.sp.jedit.help.HelpTOCPanel.TOCCellRenderer</jent>
+<jent id="25" pid="24" type="method" span="440:3:452:3">org.gjt.sp.jedit.help.HelpTOCPanel.TOCCellRenderer.getTreeCellRendererComponent(JTree,Object,boolean,boolean,boolean,int,boolean)</jent>
+<jent id="26" pid="1" type="class" span="456:2:467:2">org.gjt.sp.jedit.help.HelpTOCPanel.PluginCompare</jent>
+<jent id="27" pid="26" type="method" span="458:3:466:3">org.gjt.sp.jedit.help.HelpTOCPanel.PluginCompare.compare(Object,Object)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * HelpTOCPanel.java - Help table of contents
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="38:51:38:63">// for icons</jtok>
+<jtok eid="0" type="line_comment" span="46:1:46:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="48:14:48:26">HelpTOCPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:35:48:41">JPanel</jtok>
+<jtok eid="1" type="line_comment" span="50:2:50:32">//{{{ HelpTOCPanel constructor</jtok>
+<jtok eid="2" type="method_name" span="51:9:51:21">HelpTOCPanel</jtok>
+<jtok eid="2" type="parameter_type" span="51:22:51:41">HelpViewerInterface</jtok>
+<jtok eid="2" type="parameter_name" span="51:42:51:52">helpViewer</jtok>
+<jtok eid="2" type="constructor_call" span="53:13:53:25">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:8:55:18">helpViewer</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:21:55:31">helpViewer</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:3:56:8">nodes</jtok>
+<jtok eid="2" type="constructor_call" span="56:15:56:24">Hashtable</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:3:58:6">toc</jtok>
+<jtok eid="2" type="constructor_call" span="58:13:58:20">TOCTree</jtok>
+<jtok eid="2" type="line_comment" span="60:3:60:48">// looks bad with the OS X L&amp;F, apparently...</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:7:61:22">OperatingSystem</jtok>
+<jtok eid="2" type="method_call" span="61:23:61:32">isMacOSLF</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:4:62:7">toc</jtok>
+<jtok eid="2" type="method_call" span="62:8:62:25">putClientProperty</jtok>
+<jtok eid="2" type="string_literal" span="62:26:62:43">"JTree.lineStyle"</jtok>
+<jtok eid="2" type="string_literal" span="62:45:62:53">"Angled"</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:3:64:6">toc</jtok>
+<jtok eid="2" type="method_call" span="64:7:64:22">setCellRenderer</jtok>
+<jtok eid="2" type="constructor_call" span="64:27:64:42">TOCCellRenderer</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:3:65:6">toc</jtok>
+<jtok eid="2" type="method_call" span="65:7:65:18">setEditable</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:6">toc</jtok>
+<jtok eid="2" type="method_call" span="66:7:66:26">setShowsRootHandles</jtok>
+<jtok eid="2" type="method_call" span="68:3:68:6">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:7:68:19">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="68:20:68:26">CENTER</jtok>
+<jtok eid="2" type="constructor_call" span="68:31:68:42">JScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:43:68:46">toc</jtok>
+<jtok eid="2" type="method_call" span="70:3:70:7">load</jtok>
+<jtok eid="1" type="line_comment" span="71:4:71:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="73:2:73:27">//{{{ selectNode() method</jtok>
+<jtok eid="3" type="method_name" span="74:14:74:24">selectNode</jtok>
+<jtok eid="3" type="parameter_type" span="74:25:74:31">String</jtok>
+<jtok eid="3" type="parameter_name" span="74:32:74:40">shortURL</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:6:76:14">tocModel</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="79:3:79:25">DefaultMutableTreeNode</jtok>
+<jtok eid="3" type="local_variable_name" span="79:26:79:30">node</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="79:34:79:56">DefaultMutableTreeNode</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:57:79:62">nodes</jtok>
+<jtok eid="3" type="method_call" span="79:63:79:66">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:67:79:75">shortURL</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:6:81:10">node</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="84:3:84:11">TreePath</jtok>
+<jtok eid="3" type="local_variable_name" span="84:12:84:16">path</jtok>
+<jtok eid="3" type="constructor_call" span="84:23:84:31">TreePath</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:32:84:40">tocModel</jtok>
+<jtok eid="3" type="method_call" span="84:41:84:54">getPathToRoot</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:55:84:59">node</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:3:85:6">toc</jtok>
+<jtok eid="3" type="method_call" span="85:7:85:17">expandPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:18:85:22">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:3:86:6">toc</jtok>
+<jtok eid="3" type="method_call" span="86:7:86:23">setSelectionPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:24:86:28">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:3:87:6">toc</jtok>
+<jtok eid="3" type="method_call" span="87:7:87:26">scrollPathToVisible</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:27:87:31">path</jtok>
+<jtok eid="1" type="line_comment" span="88:4:88:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="90:2:90:21">//{{{ load() method</jtok>
+<jtok eid="4" type="method_name" span="91:14:91:18">load</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="93:3:93:19">DefaultTreeModel</jtok>
+<jtok eid="4" type="local_variable_name" span="93:20:93:25">empty</jtok>
+<jtok eid="4" type="constructor_call" span="93:32:93:48">DefaultTreeModel</jtok>
+<jtok eid="4" type="constructor_call" span="94:8:94:30">DefaultMutableTreeNode</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:4:95:9">jEdit</jtok>
+<jtok eid="4" type="method_call" span="95:10:95:21">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="95:22:95:46">"helpviewer.toc.loading"</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:3:96:6">toc</jtok>
+<jtok eid="4" type="method_call" span="96:7:96:15">setModel</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:16:96:21">empty</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:3:97:6">toc</jtok>
+<jtok eid="4" type="method_call" span="97:7:97:21">setRootVisible</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:3:99:13">VFSManager</jtok>
+<jtok eid="4" type="method_call" span="99:14:99:29">runInWorkThread</jtok>
+<jtok eid="4" type="constructor_call" span="99:34:99:42">Runnable</jtok>
+<jtok eid="6" type="method_name" span="101:16:101:19">run</jtok>
+<jtok eid="6" type="method_call" span="103:5:103:14">createTOC</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:5:104:13">tocModel</jtok>
+<jtok eid="6" type="method_call" span="104:14:104:20">reload</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:21:104:28">tocRoot</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:5:105:8">toc</jtok>
+<jtok eid="6" type="method_call" span="105:9:105:17">setModel</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:18:105:26">tocModel</jtok>
+<jtok eid="6" type="primary_name_ref" span="106:5:106:8">toc</jtok>
+<jtok eid="6" type="method_call" span="106:9:106:23">setRootVisible</jtok>
+<jtok eid="6" type="local_variable_name" span="107:13:107:14">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:20:107:21">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:23:107:30">tocRoot</jtok>
+<jtok eid="6" type="method_call" span="107:31:107:44">getChildCount</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:48:107:49">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="109:6:109:28">DefaultMutableTreeNode</jtok>
+<jtok eid="6" type="local_variable_name" span="109:29:109:33">node</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="110:8:110:30">DefaultMutableTreeNode</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:7:111:14">tocRoot</jtok>
+<jtok eid="6" type="method_call" span="111:15:111:25">getChildAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:26:111:27">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:6:112:9">toc</jtok>
+<jtok eid="6" type="method_call" span="112:10:112:20">expandPath</jtok>
+<jtok eid="6" type="constructor_call" span="112:25:112:33">TreePath</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:7:113:11">node</jtok>
+<jtok eid="6" type="method_call" span="113:12:113:19">getPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="115:8:115:18">helpViewer</jtok>
+<jtok eid="6" type="method_call" span="115:19:115:30">getShortURL</jtok>
+<jtok eid="6" type="method_call" span="116:6:116:16">selectNode</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:17:116:27">helpViewer</jtok>
+<jtok eid="6" type="method_call" span="116:28:116:39">getShortURL</jtok>
+<jtok eid="1" type="line_comment" span="119:4:119:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="121:2:121:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="122:10:122:29">HelpViewerInterface</jtok>
+<jtok eid="1" type="field_name" span="122:30:122:40">helpViewer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="123:10:123:26">DefaultTreeModel</jtok>
+<jtok eid="1" type="field_name" span="123:27:123:35">tocModel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="124:10:124:32">DefaultMutableTreeNode</jtok>
+<jtok eid="1" type="field_name" span="124:33:124:40">tocRoot</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="125:10:125:15">JTree</jtok>
+<jtok eid="1" type="field_name" span="125:16:125:19">toc</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="126:10:126:19">Hashtable</jtok>
+<jtok eid="1" type="field_name" span="126:20:126:25">nodes</jtok>
+<jtok eid="1" type="line_comment" span="128:2:128:27">//{{{ createNode() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="129:10:129:32">DefaultMutableTreeNode</jtok>
+<jtok eid="7" type="method_name" span="129:33:129:43">createNode</jtok>
+<jtok eid="7" type="parameter_type" span="129:44:129:50">String</jtok>
+<jtok eid="7" type="parameter_name" span="129:51:129:55">href</jtok>
+<jtok eid="7" type="parameter_type" span="129:57:129:63">String</jtok>
+<jtok eid="7" type="parameter_name" span="129:64:129:69">title</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="131:3:131:25">DefaultMutableTreeNode</jtok>
+<jtok eid="7" type="local_variable_name" span="131:26:131:30">node</jtok>
+<jtok eid="7" type="constructor_call" span="131:37:131:59">DefaultMutableTreeNode</jtok>
+<jtok eid="7" type="constructor_call" span="132:8:132:16">HelpNode</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:17:132:21">href</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:22:132:27">title</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:3:133:8">nodes</jtok>
+<jtok eid="7" type="method_call" span="133:9:133:12">put</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:13:133:17">href</jtok>
+<jtok eid="7" type="primary_name_ref" span="133:18:133:22">node</jtok>
+<jtok eid="7" type="primary_name_ref" span="134:10:134:14">node</jtok>
+<jtok eid="1" type="line_comment" span="135:4:135:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="137:2:137:26">//{{{ createTOC() method</jtok>
+<jtok eid="8" type="method_name" span="138:15:138:24">createTOC</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="140:3:140:13">EditPlugin</jtok>
+<jtok eid="8" type="local_variable_name" span="140:16:140:23">plugins</jtok>
+<jtok eid="8" type="primary_name_ref" span="140:26:140:31">jEdit</jtok>
+<jtok eid="8" type="method_call" span="140:32:140:42">getPlugins</jtok>
+<jtok eid="8" type="primary_name_ref" span="141:3:141:9">Arrays</jtok>
+<jtok eid="8" type="method_call" span="141:10:141:14">sort</jtok>
+<jtok eid="8" type="primary_name_ref" span="141:15:141:22">plugins</jtok>
+<jtok eid="8" type="constructor_call" span="141:27:141:40">PluginCompare</jtok>
+<jtok eid="8" type="primary_name_ref" span="142:3:142:10">tocRoot</jtok>
+<jtok eid="8" type="constructor_call" span="142:17:142:39">DefaultMutableTreeNode</jtok>
+<jtok eid="8" type="primary_name_ref" span="144:3:144:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="144:11:144:14">add</jtok>
+<jtok eid="8" type="method_call" span="144:15:144:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="144:26:144:40">"welcome.html"</jtok>
+<jtok eid="8" type="primary_name_ref" span="145:4:145:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="145:10:145:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="145:22:145:46">"helpviewer.toc.welcome"</jtok>
+<jtok eid="8" type="primary_name_ref" span="147:3:147:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="147:11:147:14">add</jtok>
+<jtok eid="8" type="method_call" span="147:15:147:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="147:26:147:38">"README.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="148:4:148:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="148:10:148:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="148:22:148:45">"helpviewer.toc.readme"</jtok>
+<jtok eid="8" type="primary_name_ref" span="149:3:149:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="149:11:149:14">add</jtok>
+<jtok eid="8" type="method_call" span="149:15:149:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="149:26:149:39">"CHANGES.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="150:4:150:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="150:10:150:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="150:22:150:46">"helpviewer.toc.changes"</jtok>
+<jtok eid="8" type="primary_name_ref" span="151:3:151:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="151:11:151:14">add</jtok>
+<jtok eid="8" type="method_call" span="151:15:151:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="151:26:151:36">"TODO.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="152:4:152:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="152:10:152:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="152:22:152:43">"helpviewer.toc.todo"</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:3:153:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="153:11:153:14">add</jtok>
+<jtok eid="8" type="method_call" span="153:15:153:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="153:26:153:39">"COPYING.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="154:4:154:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="154:10:154:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="154:22:154:46">"helpviewer.toc.copying"</jtok>
+<jtok eid="8" type="primary_name_ref" span="155:3:155:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="155:11:155:14">add</jtok>
+<jtok eid="8" type="method_call" span="155:15:155:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="155:26:155:43">"COPYING.DOC.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:4:156:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="156:10:156:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="156:22:156:50">"helpviewer.toc.copying-doc"</jtok>
+<jtok eid="8" type="primary_name_ref" span="157:3:157:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="157:11:157:14">add</jtok>
+<jtok eid="8" type="method_call" span="157:15:157:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="157:26:157:46">"Apache.LICENSE.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="158:4:158:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="158:10:158:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="158:22:158:53">"helpviewer.toc.copying-apache"</jtok>
+<jtok eid="8" type="primary_name_ref" span="159:3:159:10">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="159:11:159:14">add</jtok>
+<jtok eid="8" type="method_call" span="159:15:159:25">createNode</jtok>
+<jtok eid="8" type="string_literal" span="159:26:159:47">"COPYING.PLUGINS.txt"</jtok>
+<jtok eid="8" type="primary_name_ref" span="160:4:160:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="160:10:160:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="160:22:160:54">"helpviewer.toc.copying-plugins"</jtok>
+<jtok eid="8" type="method_call" span="162:3:162:10">loadTOC</jtok>
+<jtok eid="8" type="primary_name_ref" span="162:11:162:18">tocRoot</jtok>
+<jtok eid="8" type="string_literal" span="162:19:162:35">"news43/toc.xml"</jtok>
+<jtok eid="8" type="method_call" span="163:3:163:10">loadTOC</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:11:163:18">tocRoot</jtok>
+<jtok eid="8" type="string_literal" span="163:19:163:40">"users-guide/toc.xml"</jtok>
+<jtok eid="8" type="method_call" span="164:3:164:10">loadTOC</jtok>
+<jtok eid="8" type="primary_name_ref" span="164:11:164:18">tocRoot</jtok>
+<jtok eid="8" type="string_literal" span="164:19:164:32">"FAQ/toc.xml"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="167:3:167:25">DefaultMutableTreeNode</jtok>
+<jtok eid="8" type="local_variable_name" span="167:26:167:36">pluginTree</jtok>
+<jtok eid="8" type="constructor_call" span="167:43:167:65">DefaultMutableTreeNode</jtok>
+<jtok eid="8" type="primary_name_ref" span="168:4:168:9">jEdit</jtok>
+<jtok eid="8" type="method_call" span="168:10:168:21">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="168:22:168:46">"helpviewer.toc.plugins"</jtok>
+<jtok eid="8" type="local_variable_name" span="170:11:170:12">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="170:18:170:19">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="170:22:170:29">plugins</jtok>
+<jtok eid="8" type="qualified_name_ref" span="170:30:170:36">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="170:38:170:39">i</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="172:4:172:14">EditPlugin</jtok>
+<jtok eid="8" type="local_variable_name" span="172:15:172:21">plugin</jtok>
+<jtok eid="8" type="primary_name_ref" span="172:24:172:31">plugins</jtok>
+<jtok eid="8" type="primary_name_ref" span="172:32:172:33">i</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="174:4:174:10">String</jtok>
+<jtok eid="8" type="local_variable_name" span="174:11:174:15">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="174:18:174:24">plugin</jtok>
+<jtok eid="8" type="method_call" span="174:25:174:37">getClassName</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="176:4:176:10">String</jtok>
+<jtok eid="8" type="local_variable_name" span="176:11:176:15">docs</jtok>
+<jtok eid="8" type="primary_name_ref" span="176:18:176:23">jEdit</jtok>
+<jtok eid="8" type="method_call" span="176:24:176:35">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="176:36:176:45">"plugin."</jtok>
+<jtok eid="8" type="primary_name_ref" span="176:48:176:52">name</jtok>
+<jtok eid="8" type="string_literal" span="176:55:176:62">".docs"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="177:4:177:10">String</jtok>
+<jtok eid="8" type="local_variable_name" span="177:11:177:16">label</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:19:177:24">jEdit</jtok>
+<jtok eid="8" type="method_call" span="177:25:177:36">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="177:37:177:46">"plugin."</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:49:177:53">name</jtok>
+<jtok eid="8" type="string_literal" span="177:56:177:63">".name"</jtok>
+<jtok eid="8" type="primary_name_ref" span="178:7:178:11">docs</jtok>
+<jtok eid="8" type="primary_name_ref" span="180:8:180:13">label</jtok>
+<jtok eid="8" type="primary_name_ref" span="180:25:180:29">docs</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="182:6:182:12">String</jtok>
+<jtok eid="8" type="local_variable_name" span="182:13:182:17">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="182:20:182:26">plugin</jtok>
+<jtok eid="8" type="method_call" span="182:27:182:39">getPluginJAR</jtok>
+<jtok eid="8" type="method_call" span="183:8:183:22">getClassLoader</jtok>
+<jtok eid="8" type="method_call" span="184:8:184:25">getResourceAsPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="184:26:184:30">docs</jtok>
+<jtok eid="8" type="primary_name_ref" span="185:6:185:16">pluginTree</jtok>
+<jtok eid="8" type="method_call" span="185:17:185:20">add</jtok>
+<jtok eid="8" type="method_call" span="185:21:185:31">createNode</jtok>
+<jtok eid="8" type="primary_name_ref" span="186:7:186:11">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="186:12:186:17">label</jtok>
+<jtok eid="8" type="primary_name_ref" span="191:6:191:16">pluginTree</jtok>
+<jtok eid="8" type="method_call" span="191:17:191:30">getChildCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:4:192:11">tocRoot</jtok>
+<jtok eid="8" type="method_call" span="192:12:192:15">add</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:16:192:26">pluginTree</jtok>
+<jtok eid="8" type="line_comment" span="195:4:195:59">// so that HelpViewer constructor doesn't try to expand</jtok>
+<jtok eid="8" type="primary_name_ref" span="196:4:196:14">pluginTree</jtok>
+<jtok eid="8" type="method_call" span="198:3:198:10">loadTOC</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:11:198:18">tocRoot</jtok>
+<jtok eid="8" type="string_literal" span="198:19:198:32">"api/toc.xml"</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:3:199:11">tocModel</jtok>
+<jtok eid="8" type="constructor_call" span="199:18:199:34">DefaultTreeModel</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:35:199:42">tocRoot</jtok>
+<jtok eid="1" type="line_comment" span="200:4:200:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="202:2:202:24">//{{{ loadTOC() method</jtok>
+<jtok eid="9" type="method_name" span="203:15:203:22">loadTOC</jtok>
+<jtok eid="9" type="parameter_type" span="203:23:203:45">DefaultMutableTreeNode</jtok>
+<jtok eid="9" type="parameter_name" span="203:46:203:50">root</jtok>
+<jtok eid="9" type="parameter_type" span="203:52:203:58">String</jtok>
+<jtok eid="9" type="parameter_name" span="203:59:203:63">path</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="205:3:205:13">TOCHandler</jtok>
+<jtok eid="9" type="local_variable_name" span="205:14:205:15">h</jtok>
+<jtok eid="9" type="constructor_call" span="205:22:205:32">TOCHandler</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:33:205:37">root</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:38:205:51">MiscUtilities</jtok>
+<jtok eid="9" type="method_call" span="205:52:205:67">getParentOfPath</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:68:205:72">path</jtok>
+<jtok eid="9" type="primary_name_ref" span="208:4:208:16">XMLUtilities</jtok>
+<jtok eid="9" type="method_call" span="208:17:208:25">parseXML</jtok>
+<jtok eid="9" type="constructor_call" span="209:9:209:12">URL</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:13:209:23">helpViewer</jtok>
+<jtok eid="9" type="method_call" span="209:24:209:34">getBaseURL</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:14:210:18">path</jtok>
+<jtok eid="9" type="method_call" span="210:20:210:30">openStream</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:34:210:35">h</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="212:9:212:20">IOException</jtok>
+<jtok eid="9" type="local_variable_name" span="212:21:212:22">e</jtok>
+<jtok eid="9" type="primary_name_ref" span="214:4:214:7">Log</jtok>
+<jtok eid="9" type="method_call" span="214:8:214:11">log</jtok>
+<jtok eid="9" type="primary_name_ref" span="214:12:214:15">Log</jtok>
+<jtok eid="9" type="qualified_name_ref" span="214:16:214:21">ERROR</jtok>
+<jtok eid="9" type="primary_name_ref" span="214:27:214:28">e</jtok>
+<jtok eid="1" type="line_comment" span="216:4:216:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="218:2:218:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="220:2:220:22">//{{{ HelpNode class</jtok>
+<jtok eid="10" type="class_name" span="221:15:221:23">HelpNode</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="223:3:223:9">String</jtok>
+<jtok eid="10" type="field_name" span="223:10:223:14">href</jtok>
+<jtok eid="10" type="field_name" span="223:16:223:21">title</jtok>
+<jtok eid="10" type="line_comment" span="225:3:225:29">//{{{ HelpNode constructor</jtok>
+<jtok eid="11" type="method_name" span="226:3:226:11">HelpNode</jtok>
+<jtok eid="11" type="parameter_type" span="226:12:226:18">String</jtok>
+<jtok eid="11" type="parameter_name" span="226:19:226:23">href</jtok>
+<jtok eid="11" type="parameter_type" span="226:25:226:31">String</jtok>
+<jtok eid="11" type="parameter_name" span="226:32:226:37">title</jtok>
+<jtok eid="11" type="qualified_name_ref" span="228:9:228:13">href</jtok>
+<jtok eid="11" type="primary_name_ref" span="228:16:228:20">href</jtok>
+<jtok eid="11" type="qualified_name_ref" span="229:9:229:14">title</jtok>
+<jtok eid="11" type="primary_name_ref" span="229:17:229:22">title</jtok>
+<jtok eid="10" type="line_comment" span="230:5:230:10">//}}}</jtok>
+<jtok eid="10" type="line_comment" span="232:3:232:26">//{{{ toString() method</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="233:10:233:16">String</jtok>
+<jtok eid="12" type="method_name" span="233:17:233:25">toString</jtok>
+<jtok eid="12" type="primary_name_ref" span="235:11:235:16">title</jtok>
+<jtok eid="10" type="line_comment" span="236:5:236:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="237:4:237:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="239:2:239:24">//{{{ TOCHandler class</jtok>
+<jtok eid="13" type="class_name" span="240:8:240:18">TOCHandler</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="240:27:240:41">DefaultHandler</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="242:3:242:9">String</jtok>
+<jtok eid="13" type="field_name" span="242:10:242:13">dir</jtok>
+<jtok eid="13" type="line_comment" span="244:3:244:31">//{{{ TOCHandler constructor</jtok>
+<jtok eid="14" type="method_name" span="245:3:245:13">TOCHandler</jtok>
+<jtok eid="14" type="parameter_type" span="245:14:245:36">DefaultMutableTreeNode</jtok>
+<jtok eid="14" type="parameter_name" span="245:37:245:41">root</jtok>
+<jtok eid="14" type="parameter_type" span="245:43:245:49">String</jtok>
+<jtok eid="14" type="parameter_name" span="245:50:245:53">dir</jtok>
+<jtok eid="14" type="primary_name_ref" span="247:4:247:9">nodes</jtok>
+<jtok eid="14" type="constructor_call" span="247:16:247:21">Stack</jtok>
+<jtok eid="14" type="primary_name_ref" span="248:4:248:8">node</jtok>
+<jtok eid="14" type="primary_name_ref" span="248:11:248:15">root</jtok>
+<jtok eid="14" type="qualified_name_ref" span="249:9:249:12">dir</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:15:249:18">dir</jtok>
+<jtok eid="13" type="line_comment" span="250:5:250:10">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="252:3:252:28">//{{{ characters() method</jtok>
+<jtok eid="15" type="method_name" span="253:15:253:25">characters</jtok>
+<jtok eid="15" type="parameter_name" span="253:33:253:34">c</jtok>
+<jtok eid="15" type="parameter_name" span="253:40:253:43">off</jtok>
+<jtok eid="15" type="parameter_name" span="253:49:253:52">len</jtok>
+<jtok eid="15" type="primary_name_ref" span="255:7:255:10">tag</jtok>
+<jtok eid="15" type="method_call" span="255:11:255:17">equals</jtok>
+<jtok eid="15" type="string_literal" span="255:18:255:25">"TITLE"</jtok>
+<jtok eid="15" type="local_variable_name" span="257:13:257:31">firstNonWhitespace</jtok>
+<jtok eid="15" type="local_variable_name" span="258:13:258:14">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="258:20:258:21">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="258:24:258:27">len</jtok>
+<jtok eid="15" type="primary_name_ref" span="258:29:258:30">i</jtok>
+<jtok eid="15" type="local_variable_name" span="260:11:260:13">ch</jtok>
+<jtok eid="15" type="primary_name_ref" span="260:16:260:17">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="260:18:260:21">off</jtok>
+<jtok eid="15" type="primary_name_ref" span="260:24:260:25">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="261:11:261:29">firstNonWhitespace</jtok>
+<jtok eid="15" type="primary_name_ref" span="261:33:261:42">Character</jtok>
+<jtok eid="15" type="method_call" span="261:43:261:55">isWhitespace</jtok>
+<jtok eid="15" type="primary_name_ref" span="261:56:261:58">ch</jtok>
+<jtok eid="15" type="primary_name_ref" span="262:6:262:24">firstNonWhitespace</jtok>
+<jtok eid="15" type="primary_name_ref" span="263:6:263:11">title</jtok>
+<jtok eid="15" type="method_call" span="263:12:263:18">append</jtok>
+<jtok eid="15" type="primary_name_ref" span="263:19:263:21">ch</jtok>
+<jtok eid="13" type="line_comment" span="268:5:268:10">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="270:3:270:30">//{{{ startElement() method</jtok>
+<jtok eid="16" type="method_name" span="271:15:271:27">startElement</jtok>
+<jtok eid="16" type="parameter_type" span="271:28:271:34">String</jtok>
+<jtok eid="16" type="parameter_name" span="271:35:271:38">uri</jtok>
+<jtok eid="16" type="parameter_type" span="271:40:271:46">String</jtok>
+<jtok eid="16" type="parameter_name" span="271:47:271:56">localName</jtok>
+<jtok eid="16" type="parameter_type" span="272:7:272:13">String</jtok>
+<jtok eid="16" type="parameter_name" span="272:14:272:18">name</jtok>
+<jtok eid="16" type="parameter_type" span="272:20:272:30">Attributes</jtok>
+<jtok eid="16" type="parameter_name" span="272:31:272:36">attrs</jtok>
+<jtok eid="16" type="primary_name_ref" span="274:4:274:7">tag</jtok>
+<jtok eid="16" type="primary_name_ref" span="274:10:274:14">name</jtok>
+<jtok eid="16" type="primary_name_ref" span="275:8:275:12">name</jtok>
+<jtok eid="16" type="method_call" span="275:13:275:19">equals</jtok>
+<jtok eid="16" type="string_literal" span="275:20:275:27">"ENTRY"</jtok>
+<jtok eid="16" type="primary_name_ref" span="276:5:276:9">href</jtok>
+<jtok eid="16" type="primary_name_ref" span="276:12:276:17">attrs</jtok>
+<jtok eid="16" type="method_call" span="276:18:276:26">getValue</jtok>
+<jtok eid="16" type="string_literal" span="276:27:276:33">"HREF"</jtok>
+<jtok eid="13" type="line_comment" span="277:5:277:10">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="279:3:279:28">//{{{ endElement() method</jtok>
+<jtok eid="17" type="method_name" span="280:15:280:25">endElement</jtok>
+<jtok eid="17" type="parameter_type" span="280:26:280:32">String</jtok>
+<jtok eid="17" type="parameter_name" span="280:33:280:36">uri</jtok>
+<jtok eid="17" type="parameter_type" span="280:38:280:44">String</jtok>
+<jtok eid="17" type="parameter_name" span="280:45:280:54">localName</jtok>
+<jtok eid="17" type="parameter_type" span="280:56:280:62">String</jtok>
+<jtok eid="17" type="parameter_name" span="280:63:280:67">name</jtok>
+<jtok eid="17" type="primary_name_ref" span="282:7:282:11">name</jtok>
+<jtok eid="17" type="primary_name_ref" span="285:7:285:11">name</jtok>
+<jtok eid="17" type="method_call" span="285:12:285:18">equals</jtok>
+<jtok eid="17" type="string_literal" span="285:19:285:26">"TITLE"</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="287:5:287:27">DefaultMutableTreeNode</jtok>
+<jtok eid="17" type="local_variable_name" span="287:28:287:35">newNode</jtok>
+<jtok eid="17" type="method_call" span="287:38:287:48">createNode</jtok>
+<jtok eid="17" type="primary_name_ref" span="288:6:288:9">dir</jtok>
+<jtok eid="17" type="primary_name_ref" span="288:12:288:16">href</jtok>
+<jtok eid="17" type="primary_name_ref" span="288:17:288:22">title</jtok>
+<jtok eid="17" type="method_call" span="288:23:288:31">toString</jtok>
+<jtok eid="17" type="primary_name_ref" span="289:5:289:9">node</jtok>
+<jtok eid="17" type="method_call" span="289:10:289:13">add</jtok>
+<jtok eid="17" type="primary_name_ref" span="289:14:289:21">newNode</jtok>
+<jtok eid="17" type="primary_name_ref" span="290:5:290:10">nodes</jtok>
+<jtok eid="17" type="method_call" span="290:11:290:15">push</jtok>
+<jtok eid="17" type="primary_name_ref" span="290:16:290:20">node</jtok>
+<jtok eid="17" type="primary_name_ref" span="291:5:291:9">node</jtok>
+<jtok eid="17" type="primary_name_ref" span="291:12:291:19">newNode</jtok>
+<jtok eid="17" type="primary_name_ref" span="292:5:292:10">title</jtok>
+<jtok eid="17" type="method_call" span="292:11:292:20">setLength</jtok>
+<jtok eid="17" type="primary_name_ref" span="294:12:294:16">name</jtok>
+<jtok eid="17" type="method_call" span="294:17:294:23">equals</jtok>
+<jtok eid="17" type="string_literal" span="294:24:294:31">"ENTRY"</jtok>
+<jtok eid="17" type="primary_name_ref" span="296:5:296:9">node</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="296:13:296:35">DefaultMutableTreeNode</jtok>
+<jtok eid="17" type="primary_name_ref" span="296:36:296:41">nodes</jtok>
+<jtok eid="17" type="method_call" span="296:42:296:45">pop</jtok>
+<jtok eid="17" type="primary_name_ref" span="297:5:297:9">href</jtok>
+<jtok eid="13" type="line_comment" span="299:5:299:10">//}}}</jtok>
+<jtok eid="13" type="line_comment" span="301:3:301:24">//{{{ Private members</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="302:11:302:17">String</jtok>
+<jtok eid="13" type="field_name" span="302:18:302:21">tag</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="303:11:303:24">StringBuilder</jtok>
+<jtok eid="13" type="field_name" span="303:25:303:30">title</jtok>
+<jtok eid="13" type="constructor_call" span="303:37:303:50">StringBuilder</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="304:11:304:17">String</jtok>
+<jtok eid="13" type="field_name" span="304:18:304:22">href</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="305:11:305:33">DefaultMutableTreeNode</jtok>
+<jtok eid="13" type="field_name" span="305:34:305:38">node</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="306:11:306:16">Stack</jtok>
+<jtok eid="13" type="field_name" span="306:17:306:22">nodes</jtok>
+<jtok eid="13" type="line_comment" span="307:3:307:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="308:4:308:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="310:2:310:21">//{{{ TOCTree class</jtok>
+<jtok eid="18" type="class_name" span="311:8:311:15">TOCTree</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="311:24:311:29">JTree</jtok>
+<jtok eid="18" type="line_comment" span="313:3:313:28">//{{{ TOCTree constructor</jtok>
+<jtok eid="19" type="method_name" span="314:3:314:10">TOCTree</jtok>
+<jtok eid="19" type="primary_name_ref" span="316:4:316:18">ToolTipManager</jtok>
+<jtok eid="19" type="method_call" span="316:19:316:33">sharedInstance</jtok>
+<jtok eid="19" type="method_call" span="316:36:316:53">registerComponent</jtok>
+<jtok eid="19" type="primary_name_ref" span="317:4:317:18">selectionModel</jtok>
+<jtok eid="19" type="method_call" span="317:19:317:35">setSelectionMode</jtok>
+<jtok eid="19" type="primary_name_ref" span="317:36:317:57">SINGLE_TREE_SELECTION</jtok>
+<jtok eid="18" type="line_comment" span="318:5:318:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="320:3:320:32">//{{{ getToolTipText() method</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="321:16:321:22">String</jtok>
+<jtok eid="20" type="method_name" span="321:23:321:37">getToolTipText</jtok>
+<jtok eid="20" type="parameter_type" span="321:38:321:48">MouseEvent</jtok>
+<jtok eid="20" type="parameter_name" span="321:49:321:52">evt</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="323:4:323:12">TreePath</jtok>
+<jtok eid="20" type="local_variable_name" span="323:13:323:17">path</jtok>
+<jtok eid="20" type="method_call" span="323:20:323:38">getPathForLocation</jtok>
+<jtok eid="20" type="primary_name_ref" span="323:39:323:42">evt</jtok>
+<jtok eid="20" type="method_call" span="323:43:323:47">getX</jtok>
+<jtok eid="20" type="primary_name_ref" span="323:51:323:54">evt</jtok>
+<jtok eid="20" type="method_call" span="323:55:323:59">getY</jtok>
+<jtok eid="20" type="primary_name_ref" span="324:7:324:11">path</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="326:5:326:14">Rectangle</jtok>
+<jtok eid="20" type="local_variable_name" span="326:15:326:23">cellRect</jtok>
+<jtok eid="20" type="method_call" span="326:26:326:39">getPathBounds</jtok>
+<jtok eid="20" type="primary_name_ref" span="326:40:326:44">path</jtok>
+<jtok eid="20" type="primary_name_ref" span="327:8:327:16">cellRect</jtok>
+<jtok eid="20" type="method_call" span="327:29:327:46">cellRectIsVisible</jtok>
+<jtok eid="20" type="primary_name_ref" span="327:47:327:55">cellRect</jtok>
+<jtok eid="20" type="primary_name_ref" span="328:13:328:17">path</jtok>
+<jtok eid="20" type="method_call" span="328:18:328:38">getLastPathComponent</jtok>
+<jtok eid="20" type="method_call" span="328:41:328:49">toString</jtok>
+<jtok eid="18" type="line_comment" span="331:5:331:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="333:3:333:36">//{{{ getToolTipLocation() method</jtok>
+<jtok eid="18" type="block_comment" span="334:3:346:7">/* public final Point getToolTipLocation(MouseEvent evt)
+		{
+			TreePath path = getPathForLocation(evt.getX(), evt.getY());
+			if(path != null)
+			{
+				Rectangle cellRect = getPathBounds(path);
+				if(cellRect != null &amp;&amp; !cellRectIsVisible(cellRect))
+				{
+					return new Point(cellRect.x + 14, cellRect.y);
+				}
+			}
+			return null;
+		} */</jtok>
+<jtok eid="18" type="line_comment" span="346:8:346:13">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="348:3:348:33">//{{{ processKeyEvent() method</jtok>
+<jtok eid="21" type="method_name" span="349:15:349:30">processKeyEvent</jtok>
+<jtok eid="21" type="parameter_type" span="349:31:349:39">KeyEvent</jtok>
+<jtok eid="21" type="parameter_name" span="349:40:349:43">evt</jtok>
+<jtok eid="21" type="primary_name_ref" span="351:9:351:17">KeyEvent</jtok>
+<jtok eid="21" type="qualified_name_ref" span="351:18:351:29">KEY_PRESSED</jtok>
+<jtok eid="21" type="primary_name_ref" span="351:33:351:36">evt</jtok>
+<jtok eid="21" type="method_call" span="351:37:351:42">getID</jtok>
+<jtok eid="21" type="primary_name_ref" span="352:9:352:17">KeyEvent</jtok>
+<jtok eid="21" type="qualified_name_ref" span="352:18:352:26">VK_ENTER</jtok>
+<jtok eid="21" type="primary_name_ref" span="352:30:352:33">evt</jtok>
+<jtok eid="21" type="method_call" span="352:34:352:44">getKeyCode</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="354:5:354:13">TreePath</jtok>
+<jtok eid="21" type="local_variable_name" span="354:14:354:18">path</jtok>
+<jtok eid="21" type="method_call" span="354:21:354:37">getSelectionPath</jtok>
+<jtok eid="21" type="primary_name_ref" span="355:8:355:12">path</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="357:6:357:12">Object</jtok>
+<jtok eid="21" type="local_variable_name" span="357:13:357:16">obj</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="357:21:357:43">DefaultMutableTreeNode</jtok>
+<jtok eid="21" type="primary_name_ref" span="358:7:358:11">path</jtok>
+<jtok eid="21" type="method_call" span="358:12:358:32">getLastPathComponent</jtok>
+<jtok eid="21" type="method_call" span="359:8:359:21">getUserObject</jtok>
+<jtok eid="21" type="primary_name_ref" span="360:11:360:14">obj</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="360:26:360:34">HelpNode</jtok>
+<jtok eid="21" type="method_call" span="362:12:362:22">expandPath</jtok>
+<jtok eid="21" type="primary_name_ref" span="362:23:362:27">path</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="366:6:366:14">HelpNode</jtok>
+<jtok eid="21" type="local_variable_name" span="366:15:366:19">node</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="366:23:366:31">HelpNode</jtok>
+<jtok eid="21" type="primary_name_ref" span="366:32:366:35">obj</jtok>
+<jtok eid="21" type="primary_name_ref" span="367:6:367:16">helpViewer</jtok>
+<jtok eid="21" type="method_call" span="367:17:367:24">gotoURL</jtok>
+<jtok eid="21" type="primary_name_ref" span="367:25:367:29">node</jtok>
+<jtok eid="21" type="qualified_name_ref" span="367:30:367:34">href</jtok>
+<jtok eid="21" type="primary_name_ref" span="369:5:369:8">evt</jtok>
+<jtok eid="21" type="method_call" span="369:9:369:16">consume</jtok>
+<jtok eid="21" type="method_call" span="373:11:373:26">processKeyEvent</jtok>
+<jtok eid="21" type="primary_name_ref" span="373:27:373:30">evt</jtok>
+<jtok eid="18" type="line_comment" span="375:5:375:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="377:3:377:35">//{{{ processMouseEvent() method</jtok>
+<jtok eid="22" type="method_name" span="378:18:378:35">processMouseEvent</jtok>
+<jtok eid="22" type="parameter_type" span="378:36:378:46">MouseEvent</jtok>
+<jtok eid="22" type="parameter_name" span="378:47:378:50">evt</jtok>
+<jtok eid="22" type="line_comment" span="380:4:380:59">//ToolTipManager ttm = ToolTipManager.sharedInstance();</jtok>
+<jtok eid="22" type="primary_name_ref" span="382:11:382:14">evt</jtok>
+<jtok eid="22" type="method_call" span="382:15:382:20">getID</jtok>
+<jtok eid="22" type="block_comment" span="384:4:395:14">/* case MouseEvent.MOUSE_ENTERED:
+				toolTipInitialDelay = ttm.getInitialDelay();
+				toolTipReshowDelay = ttm.getReshowDelay();
+				ttm.setInitialDelay(200);
+				ttm.setReshowDelay(0);
+				super.processMouseEvent(evt);
+				break;
+			case MouseEvent.MOUSE_EXITED:
+				ttm.setInitialDelay(toolTipInitialDelay);
+				ttm.setReshowDelay(toolTipReshowDelay);
+				super.processMouseEvent(evt);
+				break; */</jtok>
+<jtok eid="22" type="primary_name_ref" span="396:9:396:19">MouseEvent</jtok>
+<jtok eid="22" type="qualified_name_ref" span="396:20:396:33">MOUSE_CLICKED</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="397:5:397:13">TreePath</jtok>
+<jtok eid="22" type="local_variable_name" span="397:14:397:18">path</jtok>
+<jtok eid="22" type="method_call" span="397:21:397:39">getPathForLocation</jtok>
+<jtok eid="22" type="primary_name_ref" span="397:40:397:43">evt</jtok>
+<jtok eid="22" type="method_call" span="397:44:397:48">getX</jtok>
+<jtok eid="22" type="primary_name_ref" span="397:51:397:54">evt</jtok>
+<jtok eid="22" type="method_call" span="397:55:397:59">getY</jtok>
+<jtok eid="22" type="primary_name_ref" span="398:8:398:12">path</jtok>
+<jtok eid="22" type="method_call" span="400:10:400:24">isPathSelected</jtok>
+<jtok eid="22" type="primary_name_ref" span="400:25:400:29">path</jtok>
+<jtok eid="22" type="method_call" span="401:7:401:23">setSelectionPath</jtok>
+<jtok eid="22" type="primary_name_ref" span="401:24:401:28">path</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="403:6:403:12">Object</jtok>
+<jtok eid="22" type="local_variable_name" span="403:13:403:16">obj</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="403:21:403:43">DefaultMutableTreeNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="404:7:404:11">path</jtok>
+<jtok eid="22" type="method_call" span="404:12:404:32">getLastPathComponent</jtok>
+<jtok eid="22" type="method_call" span="405:8:405:21">getUserObject</jtok>
+<jtok eid="22" type="primary_name_ref" span="406:11:406:14">obj</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="406:26:406:34">HelpNode</jtok>
+<jtok eid="22" type="method_call" span="408:12:408:22">expandPath</jtok>
+<jtok eid="22" type="primary_name_ref" span="408:23:408:27">path</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="412:6:412:14">HelpNode</jtok>
+<jtok eid="22" type="local_variable_name" span="412:15:412:19">node</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="412:23:412:31">HelpNode</jtok>
+<jtok eid="22" type="primary_name_ref" span="412:32:412:35">obj</jtok>
+<jtok eid="22" type="primary_name_ref" span="414:6:414:16">helpViewer</jtok>
+<jtok eid="22" type="method_call" span="414:17:414:24">gotoURL</jtok>
+<jtok eid="22" type="primary_name_ref" span="414:25:414:29">node</jtok>
+<jtok eid="22" type="qualified_name_ref" span="414:30:414:34">href</jtok>
+<jtok eid="22" type="method_call" span="417:11:417:28">processMouseEvent</jtok>
+<jtok eid="22" type="primary_name_ref" span="417:29:417:32">evt</jtok>
+<jtok eid="22" type="method_call" span="420:11:420:28">processMouseEvent</jtok>
+<jtok eid="22" type="primary_name_ref" span="420:29:420:32">evt</jtok>
+<jtok eid="18" type="line_comment" span="423:5:423:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="425:3:425:35">//{{{ cellRectIsVisible() method</jtok>
+<jtok eid="23" type="method_name" span="426:19:426:36">cellRectIsVisible</jtok>
+<jtok eid="23" type="parameter_type" span="426:37:426:46">Rectangle</jtok>
+<jtok eid="23" type="parameter_name" span="426:47:426:55">cellRect</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="428:4:428:13">Rectangle</jtok>
+<jtok eid="23" type="local_variable_name" span="428:14:428:16">vr</jtok>
+<jtok eid="23" type="primary_name_ref" span="428:19:428:26">TOCTree</jtok>
+<jtok eid="23" type="method_call" span="428:32:428:46">getVisibleRect</jtok>
+<jtok eid="23" type="primary_name_ref" span="429:11:429:13">vr</jtok>
+<jtok eid="23" type="method_call" span="429:14:429:22">contains</jtok>
+<jtok eid="23" type="primary_name_ref" span="429:23:429:31">cellRect</jtok>
+<jtok eid="23" type="qualified_name_ref" span="429:32:429:33">x</jtok>
+<jtok eid="23" type="primary_name_ref" span="429:34:429:42">cellRect</jtok>
+<jtok eid="23" type="qualified_name_ref" span="429:43:429:44">y</jtok>
+<jtok eid="23" type="primary_name_ref" span="430:5:430:7">vr</jtok>
+<jtok eid="23" type="method_call" span="430:8:430:16">contains</jtok>
+<jtok eid="23" type="primary_name_ref" span="430:17:430:25">cellRect</jtok>
+<jtok eid="23" type="qualified_name_ref" span="430:26:430:27">x</jtok>
+<jtok eid="23" type="primary_name_ref" span="430:30:430:38">cellRect</jtok>
+<jtok eid="23" type="qualified_name_ref" span="430:39:430:44">width</jtok>
+<jtok eid="23" type="primary_name_ref" span="431:5:431:13">cellRect</jtok>
+<jtok eid="23" type="qualified_name_ref" span="431:14:431:15">y</jtok>
+<jtok eid="23" type="primary_name_ref" span="431:18:431:26">cellRect</jtok>
+<jtok eid="23" type="qualified_name_ref" span="431:27:431:33">height</jtok>
+<jtok eid="18" type="line_comment" span="432:5:432:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="433:4:433:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="435:2:435:29">//{{{ TOCCellRenderer class</jtok>
+<jtok eid="24" type="class_name" span="436:8:436:23">TOCCellRenderer</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="436:32:436:55">DefaultTreeCellRenderer</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="438:3:438:14">EmptyBorder</jtok>
+<jtok eid="24" type="field_name" span="438:15:438:21">border</jtok>
+<jtok eid="24" type="constructor_call" span="438:28:438:39">EmptyBorder</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="440:10:440:19">Component</jtok>
+<jtok eid="25" type="method_name" span="440:20:440:48">getTreeCellRendererComponent</jtok>
+<jtok eid="25" type="parameter_type" span="440:49:440:54">JTree</jtok>
+<jtok eid="25" type="parameter_name" span="440:55:440:59">tree</jtok>
+<jtok eid="25" type="parameter_type" span="441:4:441:10">Object</jtok>
+<jtok eid="25" type="parameter_name" span="441:11:441:16">value</jtok>
+<jtok eid="25" type="parameter_name" span="441:26:441:29">sel</jtok>
+<jtok eid="25" type="parameter_name" span="441:39:441:47">expanded</jtok>
+<jtok eid="25" type="parameter_name" span="442:12:442:16">leaf</jtok>
+<jtok eid="25" type="parameter_name" span="442:22:442:25">row</jtok>
+<jtok eid="25" type="parameter_name" span="442:35:442:40">focus</jtok>
+<jtok eid="25" type="method_call" span="444:10:444:38">getTreeCellRendererComponent</jtok>
+<jtok eid="25" type="primary_name_ref" span="444:39:444:43">tree</jtok>
+<jtok eid="25" type="primary_name_ref" span="444:44:444:49">value</jtok>
+<jtok eid="25" type="primary_name_ref" span="444:50:444:53">sel</jtok>
+<jtok eid="25" type="primary_name_ref" span="445:5:445:13">expanded</jtok>
+<jtok eid="25" type="primary_name_ref" span="445:14:445:18">leaf</jtok>
+<jtok eid="25" type="primary_name_ref" span="445:19:445:22">row</jtok>
+<jtok eid="25" type="primary_name_ref" span="445:23:445:28">focus</jtok>
+<jtok eid="25" type="method_call" span="446:4:446:11">setIcon</jtok>
+<jtok eid="25" type="primary_name_ref" span="446:12:446:16">leaf</jtok>
+<jtok eid="25" type="primary_name_ref" span="446:19:446:35">FileCellRenderer</jtok>
+<jtok eid="25" type="qualified_name_ref" span="446:36:446:44">fileIcon</jtok>
+<jtok eid="25" type="primary_name_ref" span="447:8:447:16">expanded</jtok>
+<jtok eid="25" type="primary_name_ref" span="447:19:447:35">FileCellRenderer</jtok>
+<jtok eid="25" type="qualified_name_ref" span="447:36:447:47">openDirIcon</jtok>
+<jtok eid="25" type="primary_name_ref" span="448:7:448:23">FileCellRenderer</jtok>
+<jtok eid="25" type="qualified_name_ref" span="448:24:448:31">dirIcon</jtok>
+<jtok eid="25" type="method_call" span="449:4:449:13">setBorder</jtok>
+<jtok eid="25" type="primary_name_ref" span="449:14:449:20">border</jtok>
+<jtok eid="1" type="line_comment" span="453:4:453:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="455:2:455:27">//{{{ PluginCompare class</jtok>
+<jtok eid="26" type="class_name" span="456:15:456:28">PluginCompare</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="456:40:456:50">Comparator</jtok>
+<jtok eid="27" type="method_name" span="458:14:458:21">compare</jtok>
+<jtok eid="27" type="parameter_type" span="458:22:458:28">Object</jtok>
+<jtok eid="27" type="parameter_name" span="458:29:458:31">o1</jtok>
+<jtok eid="27" type="parameter_type" span="458:33:458:39">Object</jtok>
+<jtok eid="27" type="parameter_name" span="458:40:458:42">o2</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="460:4:460:14">EditPlugin</jtok>
+<jtok eid="27" type="local_variable_name" span="460:15:460:17">p1</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="460:21:460:31">EditPlugin</jtok>
+<jtok eid="27" type="primary_name_ref" span="460:32:460:34">o1</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="461:4:461:14">EditPlugin</jtok>
+<jtok eid="27" type="local_variable_name" span="461:15:461:17">p2</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="461:21:461:31">EditPlugin</jtok>
+<jtok eid="27" type="primary_name_ref" span="461:32:461:34">o2</jtok>
+<jtok eid="27" type="primary_name_ref" span="462:11:462:28">StandardUtilities</jtok>
+<jtok eid="27" type="method_call" span="462:29:462:43">compareStrings</jtok>
+<jtok eid="27" type="primary_name_ref" span="463:5:463:10">jEdit</jtok>
+<jtok eid="27" type="method_call" span="463:11:463:22">getProperty</jtok>
+<jtok eid="27" type="string_literal" span="463:23:463:32">"plugin."</jtok>
+<jtok eid="27" type="primary_name_ref" span="463:35:463:37">p1</jtok>
+<jtok eid="27" type="method_call" span="463:38:463:50">getClassName</jtok>
+<jtok eid="27" type="string_literal" span="463:55:463:62">".name"</jtok>
+<jtok eid="27" type="primary_name_ref" span="464:5:464:10">jEdit</jtok>
+<jtok eid="27" type="method_call" span="464:11:464:22">getProperty</jtok>
+<jtok eid="27" type="string_literal" span="464:23:464:32">"plugin."</jtok>
+<jtok eid="27" type="primary_name_ref" span="464:35:464:37">p2</jtok>
+<jtok eid="27" type="method_call" span="464:38:464:50">getClassName</jtok>
+<jtok eid="27" type="string_literal" span="464:55:464:62">".name"</jtok>
+<jtok eid="1" type="line_comment" span="467:4:467:9">//}}}</jtok>
+</jdoc>

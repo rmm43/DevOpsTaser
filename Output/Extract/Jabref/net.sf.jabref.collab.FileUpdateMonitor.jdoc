@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.collab.FileUpdateMonitor" jls="java5">
+<jent id="0" type="file" span="0:0:242:1">Source/jabref/src/java/net/sf/jabref/collab/FileUpdateMonitor.java</jent>
+<jent id="1" pid="0" type="class" span="14:1:242:1">net.sf.jabref.collab.FileUpdateMonitor</jent>
+<jent id="2" pid="1" type="method" span="22:3:24:3">net.sf.jabref.collab.FileUpdateMonitor.FileUpdateMonitor()</jent>
+<jent id="3" pid="1" type="method" span="26:3:52:3">net.sf.jabref.collab.FileUpdateMonitor.run()</jent>
+<jent id="4" pid="1" type="method" span="57:3:59:3">net.sf.jabref.collab.FileUpdateMonitor.stopMonitoring()</jent>
+<jent id="5" pid="1" type="method" span="67:3:75:3">net.sf.jabref.collab.FileUpdateMonitor.addUpdateListener(FileUpdateListener,File)</jent>
+<jent id="6" pid="1" type="method" span="81:5:92:5">net.sf.jabref.collab.FileUpdateMonitor.hasBeenModified(String)</jent>
+<jent id="7" pid="1" type="method" span="101:5:106:5">net.sf.jabref.collab.FileUpdateMonitor.perturbTimestamp(String)</jent>
+<jent id="8" pid="1" type="method" span="112:3:114:3">net.sf.jabref.collab.FileUpdateMonitor.removeUpdateListener(String)</jent>
+<jent id="9" pid="1" type="method" span="116:3:123:3">net.sf.jabref.collab.FileUpdateMonitor.updateTimeStamp(String)</jent>
+<jent id="10" pid="1" type="method" span="125:3:132:3">net.sf.jabref.collab.FileUpdateMonitor.changeFile(String,File)</jent>
+<jent id="11" pid="1" type="method" span="141:3:146:3">net.sf.jabref.collab.FileUpdateMonitor.getTempFile(String)</jent>
+<jent id="12" pid="1" type="class" span="151:3:227:3">net.sf.jabref.collab.FileUpdateMonitor.Entry</jent>
+<jent id="13" pid="12" type="method" span="157:5:165:5">net.sf.jabref.collab.FileUpdateMonitor.Entry.Entry(FileUpdateListener,File)</jent>
+<jent id="14" pid="12" type="method" span="172:5:178:5">net.sf.jabref.collab.FileUpdateMonitor.Entry.hasBeenUpdated()</jent>
+<jent id="15" pid="12" type="method" span="180:5:187:5">net.sf.jabref.collab.FileUpdateMonitor.Entry.updateTimeStamp()</jent>
+<jent id="16" pid="12" type="method" span="189:5:202:5">net.sf.jabref.collab.FileUpdateMonitor.Entry.copy()</jent>
+<jent id="17" pid="12" type="method" span="207:5:211:5">net.sf.jabref.collab.FileUpdateMonitor.Entry.notifyListener()</jent>
+<jent id="18" pid="12" type="method" span="216:5:218:5">net.sf.jabref.collab.FileUpdateMonitor.Entry.notifyFileRemoved()</jent>
+<jent id="19" pid="1" type="method" span="229:3:241:3">net.sf.jabref.collab.FileUpdateMonitor.getTempFile()</jent>
+<jtok eid="0" type="block_comment" span="10:1:13:4">/**
+ * This thread monitors a set of files, each associated with a FileUpdateListener, for changes
+* in the file's last modification time stamp. The
+ */</jtok>
+<jtok eid="1" type="class_name" span="14:14:14:31">FileUpdateMonitor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="14:40:14:46">Thread</jtok>
+<jtok eid="1" type="field_name" span="16:13:16:17">WAIT</jtok>
+<jtok eid="1" type="field_name" span="17:14:17:20">tmpNum</jtok>
+<jtok eid="1" type="field_name" span="18:7:18:9">no</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="19:3:19:10">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="19:11:19:17">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="19:19:19:24">Entry</jtok>
+<jtok eid="1" type="field_name" span="19:26:19:33">entries</jtok>
+<jtok eid="1" type="constructor_call" span="19:40:19:47">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="19:48:19:54">String</jtok>
+<jtok eid="1" type="constructor_call" span="19:56:19:61">Entry</jtok>
+<jtok eid="1" type="field_name" span="20:11:20:18">running</jtok>
+<jtok eid="2" type="method_name" span="22:10:22:27">FileUpdateMonitor</jtok>
+<jtok eid="2" type="method_call" span="23:5:23:16">setPriority</jtok>
+<jtok eid="2" type="primary_name_ref" span="23:17:23:29">MIN_PRIORITY</jtok>
+<jtok eid="3" type="method_name" span="26:15:26:18">run</jtok>
+<jtok eid="3" type="primary_name_ref" span="27:5:27:12">running</jtok>
+<jtok eid="3" type="line_comment" span="29:5:29:73">// The running variable is used to make the thread stop when needed.</jtok>
+<jtok eid="3" type="primary_name_ref" span="30:12:30:19">running</jtok>
+<jtok eid="3" type="line_comment" span="31:7:31:42">//System.out.println("Polling...");</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="32:7:32:15">Iterator</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="32:16:32:22">String</jtok>
+<jtok eid="3" type="local_variable_name" span="32:24:32:25">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="32:28:32:35">entries</jtok>
+<jtok eid="3" type="method_call" span="32:36:32:42">keySet</jtok>
+<jtok eid="3" type="method_call" span="32:45:32:53">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="33:13:33:14">i</jtok>
+<jtok eid="3" type="method_call" span="33:15:33:22">hasNext</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="34:9:34:14">Entry</jtok>
+<jtok eid="3" type="local_variable_name" span="34:15:34:16">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="34:19:34:26">entries</jtok>
+<jtok eid="3" type="method_call" span="34:27:34:30">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="34:31:34:32">i</jtok>
+<jtok eid="3" type="method_call" span="34:33:34:37">next</jtok>
+<jtok eid="3" type="primary_name_ref" span="36:15:36:16">e</jtok>
+<jtok eid="3" type="method_call" span="36:17:36:31">hasBeenUpdated</jtok>
+<jtok eid="3" type="primary_name_ref" span="37:13:37:14">e</jtok>
+<jtok eid="3" type="method_call" span="37:15:37:29">notifyListener</jtok>
+<jtok eid="3" type="line_comment" span="39:11:39:17">//else</jtok>
+<jtok eid="3" type="line_comment" span="40:11:40:77">//System.out.println("File '"+e.file.getPath()+"' not modified.");</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="41:18:41:29">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="41:30:41:32">ex</jtok>
+<jtok eid="3" type="primary_name_ref" span="42:11:42:12">e</jtok>
+<jtok eid="3" type="method_call" span="42:13:42:30">notifyFileRemoved</jtok>
+<jtok eid="3" type="line_comment" span="46:7:46:64">// Sleep for a while before starting a new polling round.</jtok>
+<jtok eid="3" type="method_call" span="48:9:48:14">sleep</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:15:48:19">WAIT</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="49:16:49:36">InterruptedException</jtok>
+<jtok eid="3" type="local_variable_name" span="49:37:49:39">ex</jtok>
+<jtok eid="1" type="block_comment" span="54:3:56:6">/**
+   * Cause the thread to stop monitoring. It will finish the current round before stopping.
+   */</jtok>
+<jtok eid="4" type="method_name" span="57:15:57:29">stopMonitoring</jtok>
+<jtok eid="4" type="primary_name_ref" span="58:5:58:12">running</jtok>
+<jtok eid="1" type="block_comment" span="61:3:66:6">/**
+   * Add a new file to monitor. Returns a handle for accessing the entry.
+   * @param ul FileUpdateListener The listener to notify when the file changes.
+   * @param file File The file to monitor.
+   * @throws IOException if the file does not exist.
+   */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="67:10:67:16">String</jtok>
+<jtok eid="5" type="method_name" span="67:17:67:34">addUpdateListener</jtok>
+<jtok eid="5" type="parameter_type" span="67:35:67:53">FileUpdateListener</jtok>
+<jtok eid="5" type="parameter_name" span="67:54:67:56">ul</jtok>
+<jtok eid="5" type="parameter_type" span="67:58:67:62">File</jtok>
+<jtok eid="5" type="parameter_name" span="67:63:67:67">file</jtok>
+<jtok eid="5" type="throws" span="67:76:67:87">IOException</jtok>
+<jtok eid="5" type="line_comment" span="68:6:68:44">// System.out.println(file.getPath());</jtok>
+<jtok eid="5" type="primary_name_ref" span="69:10:69:14">file</jtok>
+<jtok eid="5" type="method_call" span="69:15:69:21">exists</jtok>
+<jtok eid="5" type="constructor_call" span="70:17:70:28">IOException</jtok>
+<jtok eid="5" type="string_literal" span="70:29:70:45">"File not found"</jtok>
+<jtok eid="5" type="primary_name_ref" span="71:5:71:7">no</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="72:5:72:11">String</jtok>
+<jtok eid="5" type="local_variable_name" span="72:12:72:15">key</jtok>
+<jtok eid="5" type="string_literal" span="72:18:72:20">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="72:21:72:23">no</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:5:73:12">entries</jtok>
+<jtok eid="5" type="method_call" span="73:13:73:16">put</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:17:73:20">key</jtok>
+<jtok eid="5" type="constructor_call" span="73:26:73:31">Entry</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:32:73:34">ul</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:36:73:40">file</jtok>
+<jtok eid="5" type="primary_name_ref" span="74:12:74:15">key</jtok>
+<jtok eid="1" type="block_comment" span="77:5:80:8">/**
+     * Forces a check on the file, and returns the result. Does not
+     * force a report to all listeners before the next routine check.
+     */</jtok>
+<jtok eid="6" type="method_name" span="81:20:81:35">hasBeenModified</jtok>
+<jtok eid="6" type="parameter_type" span="81:36:81:42">String</jtok>
+<jtok eid="6" type="parameter_name" span="81:43:81:49">handle</jtok>
+<jtok eid="6" type="throws" span="81:58:81:82">IllegalArgumentException</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="82:2:82:8">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="82:9:82:10">o</jtok>
+<jtok eid="6" type="primary_name_ref" span="82:13:82:20">entries</jtok>
+<jtok eid="6" type="method_call" span="82:21:82:24">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="82:25:82:31">handle</jtok>
+<jtok eid="6" type="primary_name_ref" span="83:6:83:7">o</jtok>
+<jtok eid="6" type="line_comment" span="85:9:85:70">//	    throw new IllegalArgumentException("Entry not found");</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="87:15:87:20">Entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:21:87:22">o</jtok>
+<jtok eid="6" type="method_call" span="87:24:87:38">hasBeenUpdated</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="88:11:88:22">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="88:23:88:25">ex</jtok>
+<jtok eid="6" type="line_comment" span="89:6:89:58">// Thrown if file has been removed. We return false.</jtok>
+<jtok eid="1" type="block_comment" span="94:5:100:8">/**
+     * Change the stored timestamp for the given file. If the timestamp equals
+     * the file's timestamp on disk, after this call the file will appear to
+     * have been modified. Used if a file has been modified, and the change
+     * scan fails, in order to ensure successive checks.
+     * @param handle the handle to the correct file.
+     */</jtok>
+<jtok eid="7" type="method_name" span="101:17:101:33">perturbTimestamp</jtok>
+<jtok eid="7" type="parameter_type" span="101:34:101:40">String</jtok>
+<jtok eid="7" type="parameter_name" span="101:41:101:47">handle</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="102:9:102:15">Object</jtok>
+<jtok eid="7" type="local_variable_name" span="102:16:102:17">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="102:20:102:27">entries</jtok>
+<jtok eid="7" type="method_call" span="102:28:102:31">get</jtok>
+<jtok eid="7" type="primary_name_ref" span="102:32:102:38">handle</jtok>
+<jtok eid="7" type="primary_name_ref" span="103:13:103:14">o</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="105:11:105:16">Entry</jtok>
+<jtok eid="7" type="primary_name_ref" span="105:17:105:18">o</jtok>
+<jtok eid="7" type="qualified_name_ref" span="105:20:105:29">timeStamp</jtok>
+<jtok eid="1" type="block_comment" span="108:3:111:6">/**
+   * Removes a listener from the monitor.
+   * @param handle String The handle for the listener to remove.
+   */</jtok>
+<jtok eid="8" type="method_name" span="112:15:112:35">removeUpdateListener</jtok>
+<jtok eid="8" type="parameter_type" span="112:36:112:42">String</jtok>
+<jtok eid="8" type="parameter_name" span="112:43:112:49">handle</jtok>
+<jtok eid="8" type="primary_name_ref" span="113:5:113:12">entries</jtok>
+<jtok eid="8" type="method_call" span="113:13:113:19">remove</jtok>
+<jtok eid="8" type="primary_name_ref" span="113:20:113:26">handle</jtok>
+<jtok eid="9" type="method_name" span="116:15:116:30">updateTimeStamp</jtok>
+<jtok eid="9" type="parameter_type" span="116:31:116:37">String</jtok>
+<jtok eid="9" type="parameter_name" span="116:38:116:41">key</jtok>
+<jtok eid="9" type="throws" span="116:50:116:74">IllegalArgumentException</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="117:5:117:11">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="117:12:117:13">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="117:16:117:23">entries</jtok>
+<jtok eid="9" type="method_call" span="117:24:117:27">get</jtok>
+<jtok eid="9" type="primary_name_ref" span="117:28:117:31">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="118:9:118:10">o</jtok>
+<jtok eid="9" type="constructor_call" span="119:17:119:41">IllegalArgumentException</jtok>
+<jtok eid="9" type="string_literal" span="119:42:119:59">"Entry not found"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="120:5:120:10">Entry</jtok>
+<jtok eid="9" type="local_variable_name" span="120:11:120:16">entry</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="120:20:120:25">Entry</jtok>
+<jtok eid="9" type="primary_name_ref" span="120:26:120:27">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="121:5:121:10">entry</jtok>
+<jtok eid="9" type="method_call" span="121:11:121:26">updateTimeStamp</jtok>
+<jtok eid="10" type="method_name" span="125:15:125:25">changeFile</jtok>
+<jtok eid="10" type="parameter_type" span="125:26:125:32">String</jtok>
+<jtok eid="10" type="parameter_name" span="125:33:125:36">key</jtok>
+<jtok eid="10" type="parameter_type" span="125:38:125:42">File</jtok>
+<jtok eid="10" type="parameter_name" span="125:43:125:47">file</jtok>
+<jtok eid="10" type="throws" span="125:56:125:67">IOException</jtok>
+<jtok eid="10" type="throws" span="125:69:125:93">IllegalArgumentException</jtok>
+<jtok eid="10" type="primary_name_ref" span="126:10:126:14">file</jtok>
+<jtok eid="10" type="method_call" span="126:15:126:21">exists</jtok>
+<jtok eid="10" type="constructor_call" span="127:17:127:28">IOException</jtok>
+<jtok eid="10" type="string_literal" span="127:29:127:45">"File not found"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="128:5:128:11">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="128:12:128:13">o</jtok>
+<jtok eid="10" type="primary_name_ref" span="128:16:128:23">entries</jtok>
+<jtok eid="10" type="method_call" span="128:24:128:27">get</jtok>
+<jtok eid="10" type="primary_name_ref" span="128:28:128:31">key</jtok>
+<jtok eid="10" type="primary_name_ref" span="129:9:129:10">o</jtok>
+<jtok eid="10" type="constructor_call" span="130:17:130:41">IllegalArgumentException</jtok>
+<jtok eid="10" type="string_literal" span="130:42:130:59">"Entry not found"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="131:7:131:12">Entry</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:13:131:14">o</jtok>
+<jtok eid="10" type="qualified_name_ref" span="131:16:131:20">file</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:23:131:27">file</jtok>
+<jtok eid="1" type="block_comment" span="134:3:140:6">/**
+   * Method for getting the temporary file used for this database. The tempfile
+   * is used for comparison with the changed on-disk version.
+   * @param key String The handle for this monitor.
+   * @throws IllegalArgumentException If the handle doesn't correspond to an entry.
+   * @return File The temporary file.
+   */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="141:10:141:14">File</jtok>
+<jtok eid="11" type="method_name" span="141:15:141:26">getTempFile</jtok>
+<jtok eid="11" type="parameter_type" span="141:27:141:33">String</jtok>
+<jtok eid="11" type="parameter_name" span="141:34:141:37">key</jtok>
+<jtok eid="11" type="throws" span="141:46:141:70">IllegalArgumentException</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="142:5:142:11">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="142:12:142:13">o</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:16:142:23">entries</jtok>
+<jtok eid="11" type="method_call" span="142:24:142:27">get</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:28:142:31">key</jtok>
+<jtok eid="11" type="primary_name_ref" span="143:9:143:10">o</jtok>
+<jtok eid="11" type="constructor_call" span="144:17:144:41">IllegalArgumentException</jtok>
+<jtok eid="11" type="string_literal" span="144:42:144:59">"Entry not found"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="145:14:145:19">Entry</jtok>
+<jtok eid="11" type="primary_name_ref" span="145:20:145:21">o</jtok>
+<jtok eid="11" type="qualified_name_ref" span="145:23:145:30">tmpFile</jtok>
+<jtok eid="1" type="block_comment" span="148:3:150:6">/**
+   * A class containing the File, the FileUpdateListener and the current time stamp for one file.
+   */</jtok>
+<jtok eid="12" type="class_name" span="151:9:151:14">Entry</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="152:5:152:23">FileUpdateListener</jtok>
+<jtok eid="12" type="field_name" span="152:24:152:32">listener</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="153:5:153:9">File</jtok>
+<jtok eid="12" type="field_name" span="153:10:153:14">file</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="154:5:154:9">File</jtok>
+<jtok eid="12" type="field_name" span="154:10:154:17">tmpFile</jtok>
+<jtok eid="12" type="field_name" span="155:10:155:19">timeStamp</jtok>
+<jtok eid="12" type="field_name" span="155:21:155:29">fileSize</jtok>
+<jtok eid="13" type="method_name" span="157:12:157:17">Entry</jtok>
+<jtok eid="13" type="parameter_type" span="157:18:157:36">FileUpdateListener</jtok>
+<jtok eid="13" type="parameter_name" span="157:37:157:39">ul</jtok>
+<jtok eid="13" type="parameter_type" span="157:41:157:45">File</jtok>
+<jtok eid="13" type="parameter_name" span="157:46:157:47">f</jtok>
+<jtok eid="13" type="primary_name_ref" span="158:7:158:15">listener</jtok>
+<jtok eid="13" type="primary_name_ref" span="158:18:158:20">ul</jtok>
+<jtok eid="13" type="primary_name_ref" span="159:7:159:11">file</jtok>
+<jtok eid="13" type="primary_name_ref" span="159:14:159:15">f</jtok>
+<jtok eid="13" type="primary_name_ref" span="160:7:160:16">timeStamp</jtok>
+<jtok eid="13" type="primary_name_ref" span="160:19:160:23">file</jtok>
+<jtok eid="13" type="method_call" span="160:24:160:36">lastModified</jtok>
+<jtok eid="13" type="primary_name_ref" span="161:7:161:15">fileSize</jtok>
+<jtok eid="13" type="primary_name_ref" span="161:18:161:22">file</jtok>
+<jtok eid="13" type="method_call" span="161:23:161:29">length</jtok>
+<jtok eid="13" type="primary_name_ref" span="162:7:162:14">tmpFile</jtok>
+<jtok eid="13" type="method_call" span="162:17:162:28">getTempFile</jtok>
+<jtok eid="13" type="primary_name_ref" span="163:7:163:14">tmpFile</jtok>
+<jtok eid="13" type="method_call" span="163:15:163:27">deleteOnExit</jtok>
+<jtok eid="13" type="method_call" span="164:7:164:11">copy</jtok>
+<jtok eid="12" type="block_comment" span="167:5:171:8">/**
+     * Check if time stamp or the file size has changed.
+     * @throws IOException if the file does no longer exist.
+     * @return boolean true if the file has changed.
+     */</jtok>
+<jtok eid="14" type="method_name" span="172:20:172:34">hasBeenUpdated</jtok>
+<jtok eid="14" type="throws" span="172:44:172:55">IOException</jtok>
+<jtok eid="14" type="local_variable_name" span="173:12:173:20">modified</jtok>
+<jtok eid="14" type="primary_name_ref" span="173:23:173:27">file</jtok>
+<jtok eid="14" type="method_call" span="173:28:173:40">lastModified</jtok>
+<jtok eid="14" type="local_variable_name" span="174:12:174:23">fileSizeNow</jtok>
+<jtok eid="14" type="primary_name_ref" span="174:26:174:30">file</jtok>
+<jtok eid="14" type="method_call" span="174:31:174:37">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="175:11:175:19">modified</jtok>
+<jtok eid="14" type="constructor_call" span="176:19:176:30">IOException</jtok>
+<jtok eid="14" type="string_literal" span="176:31:176:45">"File deleted"</jtok>
+<jtok eid="14" type="primary_name_ref" span="177:14:177:23">timeStamp</jtok>
+<jtok eid="14" type="primary_name_ref" span="177:27:177:35">modified</jtok>
+<jtok eid="14" type="primary_name_ref" span="177:39:177:47">fileSize</jtok>
+<jtok eid="14" type="primary_name_ref" span="177:51:177:62">fileSizeNow</jtok>
+<jtok eid="15" type="method_name" span="180:17:180:32">updateTimeStamp</jtok>
+<jtok eid="15" type="primary_name_ref" span="181:7:181:16">timeStamp</jtok>
+<jtok eid="15" type="primary_name_ref" span="181:19:181:23">file</jtok>
+<jtok eid="15" type="method_call" span="181:24:181:36">lastModified</jtok>
+<jtok eid="15" type="primary_name_ref" span="182:11:182:20">timeStamp</jtok>
+<jtok eid="15" type="method_call" span="183:9:183:26">notifyFileRemoved</jtok>
+<jtok eid="15" type="primary_name_ref" span="184:7:184:15">fileSize</jtok>
+<jtok eid="15" type="primary_name_ref" span="184:18:184:22">file</jtok>
+<jtok eid="15" type="method_call" span="184:23:184:29">length</jtok>
+<jtok eid="15" type="method_call" span="186:7:186:11">copy</jtok>
+<jtok eid="16" type="method_name" span="189:20:189:24">copy</jtok>
+<jtok eid="16" type="line_comment" span="191:2:191:53">//Util.pr("&lt;copy file=\""+tmpFile.getPath()+"\"&gt;");</jtok>
+<jtok eid="16" type="local_variable_name" span="192:15:192:18">res</jtok>
+<jtok eid="16" type="primary_name_ref" span="194:9:194:12">res</jtok>
+<jtok eid="16" type="primary_name_ref" span="194:15:194:19">Util</jtok>
+<jtok eid="16" type="method_call" span="194:20:194:28">copyFile</jtok>
+<jtok eid="16" type="primary_name_ref" span="194:29:194:33">file</jtok>
+<jtok eid="16" type="primary_name_ref" span="194:35:194:42">tmpFile</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="195:16:195:27">IOException</jtok>
+<jtok eid="16" type="local_variable_name" span="195:28:195:30">ex</jtok>
+<jtok eid="16" type="primary_name_ref" span="196:9:196:16">Globals</jtok>
+<jtok eid="16" type="method_call" span="196:17:196:23">logger</jtok>
+<jtok eid="16" type="string_literal" span="196:24:196:57">"Cannot copy to temporary file '"</jtok>
+<jtok eid="16" type="primary_name_ref" span="196:58:196:65">tmpFile</jtok>
+<jtok eid="16" type="method_call" span="196:66:196:73">getPath</jtok>
+<jtok eid="16" type="string_literal" span="196:76:196:79">"'"</jtok>
+<jtok eid="16" type="line_comment" span="198:7:198:28">//Util.pr("&lt;/copy&gt;");</jtok>
+<jtok eid="16" type="primary_name_ref" span="199:14:199:17">res</jtok>
+<jtok eid="16" type="line_comment" span="201:7:201:21">//return true;</jtok>
+<jtok eid="12" type="block_comment" span="204:5:206:8">/**
+     * Call the listener method to signal that the file has changed.
+     */</jtok>
+<jtok eid="17" type="method_name" span="207:17:207:31">notifyListener</jtok>
+<jtok eid="17" type="line_comment" span="208:7:208:28">// Update time stamp.</jtok>
+<jtok eid="17" type="primary_name_ref" span="209:7:209:16">timeStamp</jtok>
+<jtok eid="17" type="primary_name_ref" span="209:19:209:23">file</jtok>
+<jtok eid="17" type="method_call" span="209:24:209:36">lastModified</jtok>
+<jtok eid="17" type="primary_name_ref" span="210:7:210:15">listener</jtok>
+<jtok eid="17" type="method_call" span="210:16:210:27">fileUpdated</jtok>
+<jtok eid="12" type="block_comment" span="213:5:215:8">/**
+     * Call the listener method to signal that the file has been removed.
+     */</jtok>
+<jtok eid="18" type="method_name" span="216:17:216:34">notifyFileRemoved</jtok>
+<jtok eid="18" type="primary_name_ref" span="217:7:217:15">listener</jtok>
+<jtok eid="18" type="method_call" span="217:16:217:27">fileRemoved</jtok>
+<jtok eid="12" type="block_comment" span="220:5:226:8">/*public void finalize() {
+      try {
+        tmpFile.delete();
+      } catch (Throwable e) {
+        Globals.logger("Cannot delete temporary file '"+tmpFile.getPath()+"'");
+      }
+    }*/</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="229:23:229:27">File</jtok>
+<jtok eid="19" type="method_name" span="229:28:229:39">getTempFile</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="230:5:230:9">File</jtok>
+<jtok eid="19" type="local_variable_name" span="230:10:230:11">f</jtok>
+<jtok eid="19" type="line_comment" span="231:5:231:36">// Globals.prefs.get("tempDir")</jtok>
+<jtok eid="19" type="line_comment" span="232:5:232:77">//while ((f = File.createTempFile("jabref"+(tmpNum++), null)).exists());</jtok>
+<jtok eid="19" type="primary_name_ref" span="234:6:234:7">f</jtok>
+<jtok eid="19" type="primary_name_ref" span="234:10:234:14">File</jtok>
+<jtok eid="19" type="method_call" span="234:15:234:29">createTempFile</jtok>
+<jtok eid="19" type="string_literal" span="234:30:234:38">"jabref"</jtok>
+<jtok eid="19" type="primary_name_ref" span="235:9:235:10">f</jtok>
+<jtok eid="19" type="method_call" span="235:11:235:23">deleteOnExit</jtok>
+<jtok eid="19" type="line_comment" span="236:2:236:36">//System.out.println(f.getPath());</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="237:14:237:25">IOException</jtok>
+<jtok eid="19" type="local_variable_name" span="237:26:237:28">ex</jtok>
+<jtok eid="19" type="primary_name_ref" span="238:2:238:4">ex</jtok>
+<jtok eid="19" type="method_call" span="238:5:238:20">printStackTrace</jtok>
+<jtok eid="19" type="primary_name_ref" span="240:12:240:13">f</jtok>
+</jdoc>

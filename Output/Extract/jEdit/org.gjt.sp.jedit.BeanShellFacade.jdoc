@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.BeanShellFacade" jls="java5">
+<jent id="0" type="file" span="0:0:324:2">Source/jEdit/org/gjt/sp/jedit/BeanShellFacade.java</jent>
+<jent id="1" pid="0" type="class" span="46:1:324:1">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;</jent>
+<jent id="2" pid="1" type="method" span="49:2:57:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.BeanShellFacade()</jent>
+<jent id="3" pid="1" type="method" span="64:2:71:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.init()</jent>
+<jent id="4" pid="1" type="method" span="77:2:88:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.evalSelection(T,TextArea)</jent>
+<jent id="5" pid="1" type="method" span="96:2:99:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.eval(T,String)</jent>
+<jent id="6" pid="1" type="method" span="109:2:123:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.eval(T,NameSpace,String)</jent>
+<jent id="7" pid="1" type="method" span="138:2:167:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;._eval(T,NameSpace,String)</jent>
+<jent id="8" pid="1" type="method" span="179:2:198:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.cacheBlock(String,String,boolean)</jent>
+<jent id="9" pid="1" type="method" span="209:2:249:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.runCachedBlock(BshMethod,T,NameSpace)</jent>
+<jent id="10" pid="1" type="method" span="255:2:258:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.getNameSpace()</jent>
+<jent id="11" pid="1" type="method" span="265:2:268:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.resetClassManager()</jent>
+<jent id="12" pid="1" type="method" span="271:2:272:23">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.setupDefaultVariables(NameSpace,T)</jent>
+<jent id="13" pid="1" type="method" span="276:2:277:23">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.resetDefaultVariables(NameSpace)</jent>
+<jent id="14" pid="1" type="method" span="281:2:281:76">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.handleException(T,String,Throwable)</jent>
+<jent id="15" pid="1" type="method" span="285:2:288:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.createInterpreter(NameSpace)</jent>
+<jent id="16" pid="1" type="method" span="295:2:316:2">org.gjt.sp.jedit.BeanShellFacade&lt;T&gt;.unwrapException(Exception)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BeanShellFacade.java - A BeanShell facade
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2007 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="38:1:38:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="40:1:45:4">/**
+ * This class will be the interface for beanshell interaction.
+ * In jEdit it will be used with the static methods of {@link BeanShell}
+ * @author Matthieu Casanova
+ * @since jEdit 4.3pre13
+ */</jtok>
+<jtok eid="1" type="class_name" span="46:23:46:38">BeanShellFacade</jtok>
+<jtok eid="1" type="type_parameter_name" span="46:39:46:40">T</jtok>
+<jtok eid="1" type="line_comment" span="48:2:48:35">//{{{ BeanShellFacade constructor</jtok>
+<jtok eid="2" type="method_name" span="49:12:49:27">BeanShellFacade</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:3:51:15">classManager</jtok>
+<jtok eid="2" type="constructor_call" span="51:22:51:38">ClassManagerImpl</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:3:52:9">global</jtok>
+<jtok eid="2" type="constructor_call" span="52:16:52:25">NameSpace</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:26:52:38">classManager</jtok>
+<jtok eid="2" type="string_literal" span="53:4:53:42">"jEdit embedded BeanShell interpreter"</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:19">interpForMethods</jtok>
+<jtok eid="2" type="method_call" span="55:22:55:39">createInterpreter</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:40:55:46">global</jtok>
+<jtok eid="2" type="method_call" span="56:3:56:7">init</jtok>
+<jtok eid="1" type="line_comment" span="57:4:57:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="59:2:59:21">//{{{ init() method</jtok>
+<jtok eid="1" type="block_comment" span="60:2:63:5">/**
+	 * Initialize things. It is called by the constructor.
+	 * You can override it to import other packages
+	 */</jtok>
+<jtok eid="3" type="method_name" span="64:17:64:21">init</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:3:66:9">global</jtok>
+<jtok eid="3" type="method_call" span="66:10:66:23">importPackage</jtok>
+<jtok eid="3" type="string_literal" span="66:24:66:42">"org.gjt.sp.jedit"</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:3:67:9">global</jtok>
+<jtok eid="3" type="method_call" span="67:10:67:23">importPackage</jtok>
+<jtok eid="3" type="string_literal" span="67:24:67:49">"org.gjt.sp.jedit.buffer"</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:3:68:9">global</jtok>
+<jtok eid="3" type="method_call" span="68:10:68:23">importPackage</jtok>
+<jtok eid="3" type="string_literal" span="68:24:68:49">"org.gjt.sp.jedit.syntax"</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:3:69:9">global</jtok>
+<jtok eid="3" type="method_call" span="69:10:69:23">importPackage</jtok>
+<jtok eid="3" type="string_literal" span="69:24:69:51">"org.gjt.sp.jedit.textarea"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:3:70:9">global</jtok>
+<jtok eid="3" type="method_call" span="70:10:70:23">importPackage</jtok>
+<jtok eid="3" type="string_literal" span="70:24:70:41">"org.gjt.sp.util"</jtok>
+<jtok eid="1" type="line_comment" span="71:4:71:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="73:2:73:30">//{{{ evalSelection() method</jtok>
+<jtok eid="1" type="block_comment" span="74:2:76:5">/**
+	 * Evaluates the text selected in the specified text area.
+	 */</jtok>
+<jtok eid="4" type="method_name" span="77:14:77:27">evalSelection</jtok>
+<jtok eid="4" type="parameter_type" span="77:28:77:29">T</jtok>
+<jtok eid="4" type="parameter_name" span="77:30:77:35">param</jtok>
+<jtok eid="4" type="parameter_type" span="77:37:77:45">TextArea</jtok>
+<jtok eid="4" type="parameter_name" span="77:46:77:54">textArea</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="79:3:79:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="79:10:79:17">command</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:20:79:28">textArea</jtok>
+<jtok eid="4" type="method_call" span="79:29:79:44">getSelectedText</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:6:80:13">command</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:4:82:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="82:13:82:23">getToolkit</jtok>
+<jtok eid="4" type="method_call" span="82:26:82:30">beep</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="85:3:85:9">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="85:10:85:21">returnValue</jtok>
+<jtok eid="4" type="method_call" span="85:24:85:28">eval</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:29:85:34">param</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:35:85:41">global</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:42:85:49">command</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:6:86:17">returnValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:4:87:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="87:13:87:28">setSelectedText</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:29:87:40">returnValue</jtok>
+<jtok eid="4" type="method_call" span="87:41:87:49">toString</jtok>
+<jtok eid="1" type="line_comment" span="88:4:88:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="90:2:90:21">//{{{ eval() method</jtok>
+<jtok eid="1" type="block_comment" span="91:2:95:5">/**
+	 * Evaluates the specified BeanShell expression with the global namespace
+	 * @param param The parameter
+	 * @param command The expression
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="96:9:96:15">Object</jtok>
+<jtok eid="5" type="method_name" span="96:16:96:20">eval</jtok>
+<jtok eid="5" type="parameter_type" span="96:21:96:22">T</jtok>
+<jtok eid="5" type="parameter_name" span="96:23:96:28">param</jtok>
+<jtok eid="5" type="parameter_type" span="96:30:96:36">String</jtok>
+<jtok eid="5" type="parameter_name" span="96:37:96:44">command</jtok>
+<jtok eid="5" type="method_call" span="98:10:98:14">eval</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:15:98:20">param</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:22:98:28">global</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:30:98:37">command</jtok>
+<jtok eid="1" type="line_comment" span="99:4:99:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="101:2:101:21">//{{{ eval() method</jtok>
+<jtok eid="1" type="block_comment" span="102:2:108:5">/**
+	 * Evaluates the specified BeanShell expression. Errors are reported in
+	 * a dialog box.
+	 * @param param The parameter
+	 * @param namespace The namespace
+	 * @param command The expression
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="109:9:109:15">Object</jtok>
+<jtok eid="6" type="method_name" span="109:16:109:20">eval</jtok>
+<jtok eid="6" type="parameter_type" span="109:21:109:22">T</jtok>
+<jtok eid="6" type="parameter_name" span="109:23:109:28">param</jtok>
+<jtok eid="6" type="parameter_type" span="109:30:109:39">NameSpace</jtok>
+<jtok eid="6" type="parameter_name" span="109:40:109:49">namespace</jtok>
+<jtok eid="6" type="parameter_type" span="109:51:109:57">String</jtok>
+<jtok eid="6" type="parameter_name" span="109:58:109:65">command</jtok>
+<jtok eid="6" type="method_call" span="113:11:113:16">_eval</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:17:113:22">param</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:23:113:32">namespace</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:33:113:40">command</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="115:9:115:18">Throwable</jtok>
+<jtok eid="6" type="local_variable_name" span="115:19:115:20">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:4:117:7">Log</jtok>
+<jtok eid="6" type="method_call" span="117:8:117:11">log</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:12:117:15">Log</jtok>
+<jtok eid="6" type="qualified_name_ref" span="117:16:117:21">ERROR</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:22:117:37">BeanShellFacade</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:44:117:45">e</jtok>
+<jtok eid="6" type="method_call" span="119:4:119:19">handleException</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:20:119:25">param</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:31:119:32">e</jtok>
+<jtok eid="1" type="line_comment" span="123:4:123:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="125:2:125:22">//{{{ _eval() method</jtok>
+<jtok eid="1" type="block_comment" span="126:2:137:5">/**
+	 * Evaluates the specified BeanShell expression. Unlike
+	 * &lt;code&gt;eval()&lt;/code&gt;, this method passes any exceptions to the caller.
+	 *
+	 * @param view The view. Within the script, references to
+	 * &lt;code&gt;buffer&lt;/code&gt;, &lt;code&gt;textArea&lt;/code&gt; and &lt;code&gt;editPane&lt;/code&gt;
+	 * are determined with reference to this parameter.
+	 * @param namespace The namespace
+	 * @param command The expression
+	 * @exception Exception instances are thrown when various BeanShell
+	 * errors occur
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="138:9:138:15">Object</jtok>
+<jtok eid="7" type="method_name" span="138:16:138:21">_eval</jtok>
+<jtok eid="7" type="parameter_type" span="138:22:138:23">T</jtok>
+<jtok eid="7" type="parameter_name" span="138:24:138:28">view</jtok>
+<jtok eid="7" type="parameter_type" span="138:30:138:39">NameSpace</jtok>
+<jtok eid="7" type="parameter_name" span="138:40:138:49">namespace</jtok>
+<jtok eid="7" type="parameter_type" span="138:51:138:57">String</jtok>
+<jtok eid="7" type="parameter_name" span="138:58:138:65">command</jtok>
+<jtok eid="7" type="throws" span="139:10:139:19">Exception</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="141:3:141:14">Interpreter</jtok>
+<jtok eid="7" type="local_variable_name" span="141:15:141:21">interp</jtok>
+<jtok eid="7" type="method_call" span="141:24:141:41">createInterpreter</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:42:141:51">namespace</jtok>
+<jtok eid="7" type="method_call" span="145:4:145:25">setupDefaultVariables</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:26:145:35">namespace</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:36:145:40">view</jtok>
+<jtok eid="7" type="primary_name_ref" span="146:7:146:12">Debug</jtok>
+<jtok eid="7" type="qualified_name_ref" span="146:13:146:28">BEANSHELL_DEBUG</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:5:147:8">Log</jtok>
+<jtok eid="7" type="method_call" span="147:9:147:12">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:13:147:16">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="147:17:147:22">DEBUG</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:23:147:38">BeanShellFacade</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:45:147:52">command</jtok>
+<jtok eid="7" type="primary_name_ref" span="148:11:148:17">interp</jtok>
+<jtok eid="7" type="method_call" span="148:18:148:22">eval</jtok>
+<jtok eid="7" type="primary_name_ref" span="148:23:148:30">command</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="150:9:150:18">Exception</jtok>
+<jtok eid="7" type="local_variable_name" span="150:19:150:20">e</jtok>
+<jtok eid="7" type="method_call" span="152:4:152:19">unwrapException</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:20:152:21">e</jtok>
+<jtok eid="7" type="line_comment" span="153:4:153:19">// never called</jtok>
+<jtok eid="7" type="method_call" span="160:5:160:26">resetDefaultVariables</jtok>
+<jtok eid="7" type="primary_name_ref" span="160:27:160:36">namespace</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="162:10:162:23">UtilEvalError</jtok>
+<jtok eid="7" type="local_variable_name" span="162:24:162:25">e</jtok>
+<jtok eid="7" type="line_comment" span="164:5:164:18">// do nothing</jtok>
+<jtok eid="1" type="line_comment" span="167:4:167:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="169:2:169:27">//{{{ cacheBlock() method</jtok>
+<jtok eid="1" type="block_comment" span="170:2:178:5">/**
+	 * Caches a block of code, returning a handle that can be passed to
+	 * runCachedBlock().
+	 * @param id An identifier.
+	 * @param code The code
+	 * @param namespace If true, the namespace will be set
+	 * @exception Exception instances are thrown when various BeanShell errors
+	 * occur
+	 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="179:9:179:18">BshMethod</jtok>
+<jtok eid="8" type="method_name" span="179:19:179:29">cacheBlock</jtok>
+<jtok eid="8" type="parameter_type" span="179:30:179:36">String</jtok>
+<jtok eid="8" type="parameter_name" span="179:37:179:39">id</jtok>
+<jtok eid="8" type="parameter_type" span="179:41:179:47">String</jtok>
+<jtok eid="8" type="parameter_name" span="179:48:179:52">code</jtok>
+<jtok eid="8" type="parameter_name" span="179:62:179:71">namespace</jtok>
+<jtok eid="8" type="throws" span="180:10:180:19">Exception</jtok>
+<jtok eid="8" type="line_comment" span="182:3:182:59">// Make local namespace so that the method could be GCed</jtok>
+<jtok eid="8" type="line_comment" span="183:3:183:32">// if it becomes unnecessary.</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="184:3:184:12">NameSpace</jtok>
+<jtok eid="8" type="local_variable_name" span="184:13:184:18">local</jtok>
+<jtok eid="8" type="constructor_call" span="184:25:184:34">NameSpace</jtok>
+<jtok eid="8" type="primary_name_ref" span="184:35:184:41">global</jtok>
+<jtok eid="8" type="string_literal" span="184:43:184:56">"__internal_"</jtok>
+<jtok eid="8" type="primary_name_ref" span="184:59:184:61">id</jtok>
+<jtok eid="8" type="line_comment" span="185:3:185:63">// This name should be unique enough not to shadow any outer</jtok>
+<jtok eid="8" type="line_comment" span="186:3:186:17">// identifier.</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="187:3:187:9">String</jtok>
+<jtok eid="8" type="local_variable_name" span="187:10:187:14">name</jtok>
+<jtok eid="8" type="string_literal" span="187:17:187:36">"__runCachedMethod"</jtok>
+<jtok eid="8" type="primary_name_ref" span="188:6:188:15">namespace</jtok>
+<jtok eid="8" type="method_call" span="190:4:190:9">_eval</jtok>
+<jtok eid="8" type="primary_name_ref" span="190:15:190:20">local</jtok>
+<jtok eid="8" type="primary_name_ref" span="190:21:190:25">name</jtok>
+<jtok eid="8" type="string_literal" span="190:28:190:65">"(ns) {\nthis.callstack.set(0,ns);\n"</jtok>
+<jtok eid="8" type="primary_name_ref" span="190:68:190:72">code</jtok>
+<jtok eid="8" type="string_literal" span="190:75:190:80">"\n}"</jtok>
+<jtok eid="8" type="primary_name_ref" span="191:11:191:16">local</jtok>
+<jtok eid="8" type="method_call" span="191:17:191:26">getMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="191:27:191:31">name</jtok>
+<jtok eid="8" type="constructor_call" span="191:36:191:41">Class</jtok>
+<jtok eid="8" type="primary_name_ref" span="191:46:191:55">NameSpace</jtok>
+<jtok eid="8" type="method_call" span="195:4:195:9">_eval</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:15:195:20">local</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:21:195:25">name</jtok>
+<jtok eid="8" type="string_literal" span="195:28:195:36">"() {\n"</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:39:195:43">code</jtok>
+<jtok eid="8" type="string_literal" span="195:46:195:51">"\n}"</jtok>
+<jtok eid="8" type="primary_name_ref" span="196:11:196:16">local</jtok>
+<jtok eid="8" type="method_call" span="196:17:196:26">getMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="196:27:196:31">name</jtok>
+<jtok eid="8" type="constructor_call" span="196:36:196:41">Class</jtok>
+<jtok eid="1" type="line_comment" span="198:4:198:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="200:2:200:31">//{{{ runCachedBlock() method</jtok>
+<jtok eid="1" type="block_comment" span="201:2:208:5">/**
+	 * Runs a cached block of code in the specified namespace. Faster than
+	 * evaluating the block each time.
+	 * @param method The method instance returned by cacheBlock()
+	 * @param namespace The namespace to run the code in
+	 * @exception Exception instances are thrown when various BeanShell
+	 * errors occur
+	 */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="209:9:209:15">Object</jtok>
+<jtok eid="9" type="method_name" span="209:16:209:30">runCachedBlock</jtok>
+<jtok eid="9" type="parameter_type" span="209:31:209:40">BshMethod</jtok>
+<jtok eid="9" type="parameter_name" span="209:41:209:47">method</jtok>
+<jtok eid="9" type="parameter_type" span="209:49:209:50">T</jtok>
+<jtok eid="9" type="parameter_name" span="209:51:209:56">param</jtok>
+<jtok eid="9" type="parameter_type" span="210:3:210:12">NameSpace</jtok>
+<jtok eid="9" type="parameter_name" span="210:13:210:22">namespace</jtok>
+<jtok eid="9" type="throws" span="210:31:210:40">Exception</jtok>
+<jtok eid="9" type="local_variable_name" span="212:11:212:23">useNamespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="213:6:213:15">namespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="215:4:215:16">useNamespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="216:4:216:13">namespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="216:16:216:22">global</jtok>
+<jtok eid="9" type="primary_name_ref" span="219:4:219:16">useNamespace</jtok>
+<jtok eid="9" type="method_call" span="223:4:223:25">setupDefaultVariables</jtok>
+<jtok eid="9" type="primary_name_ref" span="223:26:223:35">namespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="223:36:223:41">param</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="225:4:225:10">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="225:11:225:17">retVal</jtok>
+<jtok eid="9" type="primary_name_ref" span="225:20:225:26">method</jtok>
+<jtok eid="9" type="method_call" span="225:27:225:33">invoke</jtok>
+<jtok eid="9" type="primary_name_ref" span="225:34:225:46">useNamespace</jtok>
+<jtok eid="9" type="constructor_call" span="226:11:226:17">Object</jtok>
+<jtok eid="9" type="primary_name_ref" span="226:22:226:31">namespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="227:7:227:14">NO_ARGS</jtok>
+<jtok eid="9" type="primary_name_ref" span="228:5:228:21">interpForMethods</jtok>
+<jtok eid="9" type="constructor_call" span="228:26:228:35">CallStack</jtok>
+<jtok eid="9" type="primary_name_ref" span="229:7:229:13">retVal</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="229:25:229:34">Primitive</jtok>
+<jtok eid="9" type="primary_name_ref" span="231:8:231:14">retVal</jtok>
+<jtok eid="9" type="primary_name_ref" span="231:18:231:27">Primitive</jtok>
+<jtok eid="9" type="qualified_name_ref" span="231:28:231:32">VOID</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="234:15:234:24">Primitive</jtok>
+<jtok eid="9" type="primary_name_ref" span="234:25:234:31">retVal</jtok>
+<jtok eid="9" type="method_call" span="234:33:234:41">getValue</jtok>
+<jtok eid="9" type="primary_name_ref" span="237:12:237:18">retVal</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="239:9:239:18">Exception</jtok>
+<jtok eid="9" type="local_variable_name" span="239:19:239:20">e</jtok>
+<jtok eid="9" type="method_call" span="241:4:241:19">unwrapException</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:20:241:21">e</jtok>
+<jtok eid="9" type="line_comment" span="242:4:242:19">// never called</jtok>
+<jtok eid="9" type="method_call" span="247:4:247:25">resetDefaultVariables</jtok>
+<jtok eid="9" type="primary_name_ref" span="247:26:247:35">namespace</jtok>
+<jtok eid="1" type="line_comment" span="249:4:249:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="251:2:251:29">//{{{ getNameSpace() method</jtok>
+<jtok eid="1" type="block_comment" span="252:2:254:5">/**
+	 * Returns the global namespace.
+	 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="255:9:255:18">NameSpace</jtok>
+<jtok eid="10" type="method_name" span="255:19:255:31">getNameSpace</jtok>
+<jtok eid="10" type="primary_name_ref" span="257:10:257:16">global</jtok>
+<jtok eid="1" type="line_comment" span="258:4:258:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="260:2:260:34">//{{{ resetClassManager() method</jtok>
+<jtok eid="1" type="block_comment" span="261:2:264:5">/**
+	 * Causes BeanShell internal structures to drop references to cached
+	 * Class instances.
+	 */</jtok>
+<jtok eid="11" type="method_name" span="265:7:265:24">resetClassManager</jtok>
+<jtok eid="11" type="primary_name_ref" span="267:3:267:15">classManager</jtok>
+<jtok eid="11" type="method_call" span="267:16:267:21">reset</jtok>
+<jtok eid="1" type="line_comment" span="268:4:268:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="270:2:270:38">//{{{ setupDefaultVariables() method</jtok>
+<jtok eid="12" type="method_name" span="271:26:271:47">setupDefaultVariables</jtok>
+<jtok eid="12" type="parameter_type" span="271:48:271:57">NameSpace</jtok>
+<jtok eid="12" type="parameter_name" span="271:58:271:67">namespace</jtok>
+<jtok eid="12" type="parameter_type" span="271:69:271:70">T</jtok>
+<jtok eid="12" type="parameter_name" span="271:71:271:76">param</jtok>
+<jtok eid="12" type="throws" span="272:10:272:23">UtilEvalError</jtok>
+<jtok eid="1" type="line_comment" span="273:2:273:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="275:2:275:38">//{{{ resetDefaultVariables() method</jtok>
+<jtok eid="13" type="method_name" span="276:26:276:47">resetDefaultVariables</jtok>
+<jtok eid="13" type="parameter_type" span="276:48:276:57">NameSpace</jtok>
+<jtok eid="13" type="parameter_name" span="276:58:276:67">namespace</jtok>
+<jtok eid="13" type="throws" span="277:10:277:23">UtilEvalError</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="280:2:280:32">//{{{ handleException() method</jtok>
+<jtok eid="14" type="method_name" span="281:26:281:41">handleException</jtok>
+<jtok eid="14" type="parameter_type" span="281:42:281:43">T</jtok>
+<jtok eid="14" type="parameter_name" span="281:44:281:49">param</jtok>
+<jtok eid="14" type="parameter_type" span="281:51:281:57">String</jtok>
+<jtok eid="14" type="parameter_name" span="281:58:281:62">path</jtok>
+<jtok eid="14" type="parameter_type" span="281:64:281:73">Throwable</jtok>
+<jtok eid="14" type="parameter_name" span="281:74:281:75">t</jtok>
+<jtok eid="1" type="line_comment" span="282:2:282:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="284:2:284:34">//{{{ createInterpreter() method</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="285:19:285:30">Interpreter</jtok>
+<jtok eid="15" type="method_name" span="285:31:285:48">createInterpreter</jtok>
+<jtok eid="15" type="parameter_type" span="285:49:285:58">NameSpace</jtok>
+<jtok eid="15" type="parameter_name" span="285:59:285:68">nameSpace</jtok>
+<jtok eid="15" type="constructor_call" span="287:14:287:25">Interpreter</jtok>
+<jtok eid="15" type="primary_name_ref" span="287:31:287:37">System</jtok>
+<jtok eid="15" type="qualified_name_ref" span="287:38:287:41">out</jtok>
+<jtok eid="15" type="primary_name_ref" span="287:42:287:48">System</jtok>
+<jtok eid="15" type="qualified_name_ref" span="287:49:287:52">err</jtok>
+<jtok eid="15" type="primary_name_ref" span="287:59:287:68">nameSpace</jtok>
+<jtok eid="1" type="line_comment" span="288:4:288:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="290:2:290:32">//{{{ unwrapException() method</jtok>
+<jtok eid="1" type="block_comment" span="291:2:294:5">/**
+	 * This extracts an exception from a 'wrapping' exception, as BeanShell
+	 * sometimes throws. This gives the user a more accurate error traceback
+	 */</jtok>
+<jtok eid="16" type="method_name" span="295:24:295:39">unwrapException</jtok>
+<jtok eid="16" type="parameter_type" span="295:40:295:49">Exception</jtok>
+<jtok eid="16" type="parameter_name" span="295:50:295:51">e</jtok>
+<jtok eid="16" type="throws" span="295:60:295:69">Exception</jtok>
+<jtok eid="16" type="primary_name_ref" span="297:6:297:7">e</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="297:19:297:30">TargetError</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="299:4:299:13">Throwable</jtok>
+<jtok eid="16" type="local_variable_name" span="299:14:299:15">t</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="299:20:299:31">TargetError</jtok>
+<jtok eid="16" type="primary_name_ref" span="299:32:299:33">e</jtok>
+<jtok eid="16" type="method_call" span="299:35:299:44">getTarget</jtok>
+<jtok eid="16" type="primary_name_ref" span="300:7:300:8">t</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="300:20:300:29">Exception</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="301:12:301:21">Exception</jtok>
+<jtok eid="16" type="primary_name_ref" span="301:22:301:23">t</jtok>
+<jtok eid="16" type="primary_name_ref" span="302:12:302:13">t</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="302:25:302:30">Error</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="303:12:303:17">Error</jtok>
+<jtok eid="16" type="primary_name_ref" span="303:18:303:19">t</jtok>
+<jtok eid="16" type="primary_name_ref" span="306:6:306:7">e</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="306:19:306:44">InvocationTargetException</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="308:4:308:13">Throwable</jtok>
+<jtok eid="16" type="local_variable_name" span="308:14:308:15">t</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="308:20:308:45">InvocationTargetException</jtok>
+<jtok eid="16" type="primary_name_ref" span="308:46:308:47">e</jtok>
+<jtok eid="16" type="method_call" span="308:49:308:67">getTargetException</jtok>
+<jtok eid="16" type="primary_name_ref" span="309:7:309:8">t</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="309:20:309:29">Exception</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="310:12:310:21">Exception</jtok>
+<jtok eid="16" type="primary_name_ref" span="310:22:310:23">t</jtok>
+<jtok eid="16" type="primary_name_ref" span="311:12:311:13">t</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="311:25:311:30">Error</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="312:12:312:17">Error</jtok>
+<jtok eid="16" type="primary_name_ref" span="312:18:312:19">t</jtok>
+<jtok eid="16" type="primary_name_ref" span="315:9:315:10">e</jtok>
+<jtok eid="1" type="line_comment" span="316:4:316:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="318:2:318:24">//{{{ Static variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="319:12:319:21">NameSpace</jtok>
+<jtok eid="1" type="field_name" span="319:22:319:28">global</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="320:12:320:27">BshClassManager</jtok>
+<jtok eid="1" type="field_name" span="320:28:320:40">classManager</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="321:17:321:28">Interpreter</jtok>
+<jtok eid="1" type="field_name" span="321:29:321:45">interpForMethods</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="322:23:322:29">Object</jtok>
+<jtok eid="1" type="field_name" span="322:32:322:39">NO_ARGS</jtok>
+<jtok eid="1" type="constructor_call" span="322:46:322:52">Object</jtok>
+<jtok eid="1" type="line_comment" span="323:2:323:7">//}}}</jtok>
+</jdoc>

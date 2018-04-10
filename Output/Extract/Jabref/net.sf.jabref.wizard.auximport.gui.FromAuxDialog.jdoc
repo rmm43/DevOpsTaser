@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.wizard.auximport.gui.FromAuxDialog" jls="java5">
+<jent id="0" type="file" span="0:0:479:1">Source/jabref/src/java/net/sf/jabref/wizard/auximport/gui/FromAuxDialog.java</jent>
+<jent id="1" pid="0" type="class" span="81:1:430:1">net.sf.jabref.wizard.auximport.gui.FromAuxDialog</jent>
+<jent id="2" pid="1" type="method" span="104:3:122:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.FromAuxDialog(JabRefFrame,String,boolean,JTabbedPane)</jent>
+<jent id="3" pid="1" type="method" span="124:3:188:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.jbInit(JabRefFrame)</jent>
+<jent id="4" pid="3" type="class" span="181:5:186:5">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.jbInit(JabRefFrame).$1</jent>
+<jent id="5" pid="4" type="method" span="182:7:185:7">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.jbInit(JabRefFrame).$1.actionPerformed(ActionEvent)</jent>
+<jent id="6" pid="1" type="method" span="190:3:243:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.initOptionsPanel(JabRefFrame)</jent>
+<jent id="7" pid="1" type="method" span="245:3:291:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.initStatusPanel()</jent>
+<jent id="8" pid="1" type="method" span="296:5:322:5">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.getDescriptionPanel()</jent>
+<jent id="9" pid="1" type="method" span="326:3:330:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.ok_actionPerformed(ActionEvent)</jent>
+<jent id="10" pid="1" type="method" span="332:3:335:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.Cancel_actionPerformed(ActionEvent)</jent>
+<jent id="11" pid="1" type="method" span="337:3:385:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.generate_actionPerformed(ActionEvent)</jent>
+<jent id="12" pid="1" type="method" span="387:3:390:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.okPressed()</jent>
+<jent id="13" pid="1" type="method" span="392:3:395:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.getGenerateDB()</jent>
+<jent id="14" pid="1" type="class" span="402:3:428:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.BrowseAction</jent>
+<jent id="15" pid="14" type="method" span="408:5:413:5">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.BrowseAction.BrowseAction(JTextField,JabRefFrame)</jent>
+<jent id="16" pid="14" type="method" span="415:5:427:5">net.sf.jabref.wizard.auximport.gui.FromAuxDialog.BrowseAction.actionPerformed(ActionEvent)</jent>
+<jent id="17" pid="0" type="class" span="433:1:447:1">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_ok_actionAdapter</jent>
+<jent id="18" pid="17" type="method" span="438:3:441:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_ok_actionAdapter.FromAuxDialog_ok_actionAdapter(FromAuxDialog)</jent>
+<jent id="19" pid="17" type="method" span="443:3:446:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_ok_actionAdapter.actionPerformed(ActionEvent)</jent>
+<jent id="20" pid="0" type="class" span="449:1:463:1">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_Cancel_actionAdapter</jent>
+<jent id="21" pid="20" type="method" span="454:3:457:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_Cancel_actionAdapter.FromAuxDialog_Cancel_actionAdapter(FromAuxDialog)</jent>
+<jent id="22" pid="20" type="method" span="459:3:462:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_Cancel_actionAdapter.actionPerformed(ActionEvent)</jent>
+<jent id="23" pid="0" type="class" span="465:1:479:1">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_generate_actionAdapter</jent>
+<jent id="24" pid="23" type="method" span="470:3:473:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_generate_actionAdapter.FromAuxDialog_generate_actionAdapter(FromAuxDialog)</jent>
+<jent id="25" pid="23" type="method" span="475:3:478:3">net.sf.jabref.wizard.auximport.gui.FromAuxDialog_generate_actionAdapter.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2004 R. Nagel
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="0" type="line_comment" span="28:1:28:80">// A wizard dialog for generating a new sub database from existing TeX aux file</jtok>
+<jtok eid="0" type="line_comment" span="29:1:29:3">//</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:35">// created by : r.nagel 23.08.2004</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:3">//</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:33">// modified : 18.04.2006 r.nagel</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:44">//            insert a "short info" section</jtok>
+<jtok eid="1" type="class_name" span="81:14:81:27">FromAuxDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="82:13:82:20">JDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="84:11:84:17">JPanel</jtok>
+<jtok eid="1" type="field_name" span="84:18:84:29">statusPanel</jtok>
+<jtok eid="1" type="constructor_call" span="84:36:84:42">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="85:11:85:17">JPanel</jtok>
+<jtok eid="1" type="field_name" span="85:18:85:25">buttons</jtok>
+<jtok eid="1" type="constructor_call" span="85:32:85:38">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="86:11:86:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="86:19:86:27">okButton</jtok>
+<jtok eid="1" type="constructor_call" span="86:34:86:41">JButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="87:11:87:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="87:19:87:31">cancelButton</jtok>
+<jtok eid="1" type="constructor_call" span="87:38:87:45">JButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="88:11:88:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="88:19:88:33">generateButton</jtok>
+<jtok eid="1" type="constructor_call" span="88:40:88:47">JButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="90:11:90:20">JComboBox</jtok>
+<jtok eid="1" type="field_name" span="90:21:90:30">dbChooser</jtok>
+<jtok eid="1" type="constructor_call" span="90:37:90:46">JComboBox</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="91:11:91:21">JTextField</jtok>
+<jtok eid="1" type="field_name" span="91:22:91:34">auxFileField</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="92:11:92:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="92:19:92:38">browseAuxFileButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="94:11:94:16">JList</jtok>
+<jtok eid="1" type="field_name" span="94:17:94:29">notFoundList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="95:11:95:20">JTextArea</jtok>
+<jtok eid="1" type="field_name" span="95:21:95:32">statusInfos</jtok>
+<jtok eid="1" type="line_comment" span="97:3:97:41">// all open databases from JabRefFrame</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="98:11:98:22">JTabbedPane</jtok>
+<jtok eid="1" type="field_name" span="98:23:98:39">parentTabbedPane</jtok>
+<jtok eid="1" type="field_name" span="100:19:100:28">okPressed</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="102:11:102:26">AuxSubGenerator</jtok>
+<jtok eid="1" type="field_name" span="102:27:102:36">auxParser</jtok>
+<jtok eid="2" type="method_name" span="104:10:104:23">FromAuxDialog</jtok>
+<jtok eid="2" type="parameter_type" span="104:25:104:36">JabRefFrame</jtok>
+<jtok eid="2" type="parameter_name" span="104:37:104:42">frame</jtok>
+<jtok eid="2" type="parameter_type" span="104:44:104:50">String</jtok>
+<jtok eid="2" type="parameter_name" span="104:51:104:56">title</jtok>
+<jtok eid="2" type="parameter_name" span="104:66:104:71">modal</jtok>
+<jtok eid="2" type="parameter_type" span="105:25:105:36">JTabbedPane</jtok>
+<jtok eid="2" type="parameter_name" span="105:37:105:46">viewedDBs</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:12:107:17">frame</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:19:107:24">title</jtok>
+<jtok eid="2" type="primary_name_ref" span="107:26:107:31">modal</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:5:109:21">parentTabbedPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:24:109:33">viewedDBs</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:5:111:14">auxParser</jtok>
+<jtok eid="2" type="constructor_call" span="111:21:111:36">AuxSubGenerator</jtok>
+<jtok eid="2" type="method_call" span="115:7:115:13">jbInit</jtok>
+<jtok eid="2" type="primary_name_ref" span="115:15:115:20">frame</jtok>
+<jtok eid="2" type="method_call" span="116:7:116:11">pack</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="118:13:118:22">Exception</jtok>
+<jtok eid="2" type="local_variable_name" span="118:23:118:25">ex</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:7:120:9">ex</jtok>
+<jtok eid="2" type="method_call" span="120:10:120:25">printStackTrace</jtok>
+<jtok eid="3" type="method_name" span="124:16:124:22">jbInit</jtok>
+<jtok eid="3" type="parameter_type" span="124:24:124:35">JabRefFrame</jtok>
+<jtok eid="3" type="parameter_name" span="124:36:124:42">parent</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="126:5:126:11">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="126:12:126:18">panel1</jtok>
+<jtok eid="3" type="constructor_call" span="126:25:126:31">JPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:5:128:11">panel1</jtok>
+<jtok eid="3" type="method_call" span="128:12:128:21">setLayout</jtok>
+<jtok eid="3" type="constructor_call" span="128:27:128:39">BorderLayout</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:5:129:13">okButton</jtok>
+<jtok eid="3" type="method_call" span="129:14:129:21">setText</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:23:129:30">Globals</jtok>
+<jtok eid="3" type="method_call" span="129:31:129:35">lang</jtok>
+<jtok eid="3" type="string_literal" span="129:37:129:41">"Ok"</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:5:130:13">okButton</jtok>
+<jtok eid="3" type="method_call" span="130:14:130:24">setEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:5:131:13">okButton</jtok>
+<jtok eid="3" type="method_call" span="131:14:131:31">addActionListener</jtok>
+<jtok eid="3" type="constructor_call" span="131:37:131:67">FromAuxDialog_ok_actionAdapter</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:5:132:17">cancelButton</jtok>
+<jtok eid="3" type="method_call" span="132:18:132:25">setText</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:27:132:34">Globals</jtok>
+<jtok eid="3" type="method_call" span="132:35:132:39">lang</jtok>
+<jtok eid="3" type="string_literal" span="132:41:132:49">"Cancel"</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:5:133:17">cancelButton</jtok>
+<jtok eid="3" type="method_call" span="133:18:133:35">addActionListener</jtok>
+<jtok eid="3" type="constructor_call" span="133:41:133:75">FromAuxDialog_Cancel_actionAdapter</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:5:134:19">generateButton</jtok>
+<jtok eid="3" type="method_call" span="134:20:134:27">setText</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:29:134:36">Globals</jtok>
+<jtok eid="3" type="method_call" span="134:37:134:41">lang</jtok>
+<jtok eid="3" type="string_literal" span="134:43:134:53">"Generate"</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:5:135:19">generateButton</jtok>
+<jtok eid="3" type="method_call" span="135:20:135:37">addActionListener</jtok>
+<jtok eid="3" type="constructor_call" span="135:43:135:79">FromAuxDialog_generate_actionAdapter</jtok>
+<jtok eid="3" type="method_call" span="137:5:137:21">initOptionsPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="137:23:137:29">parent</jtok>
+<jtok eid="3" type="method_call" span="139:5:139:20">initStatusPanel</jtok>
+<jtok eid="3" type="line_comment" span="141:5:141:26">// insert the buttons</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="142:5:142:21">ButtonBarBuilder</jtok>
+<jtok eid="3" type="local_variable_name" span="142:22:142:24">bb</jtok>
+<jtok eid="3" type="constructor_call" span="142:31:142:47">ButtonBarBuilder</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="143:5:143:11">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="143:12:143:23">buttonPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:26:143:28">bb</jtok>
+<jtok eid="3" type="method_call" span="143:29:143:37">getPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:5:144:16">buttonPanel</jtok>
+<jtok eid="3" type="method_call" span="144:17:144:26">setBorder</jtok>
+<jtok eid="3" type="primary_name_ref" span="144:27:144:40">BorderFactory</jtok>
+<jtok eid="3" type="method_call" span="144:41:144:58">createEmptyBorder</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:5:146:7">bb</jtok>
+<jtok eid="3" type="method_call" span="146:8:146:15">addGlue</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:5:147:7">bb</jtok>
+<jtok eid="3" type="method_call" span="147:8:147:18">addGridded</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:20:147:34">generateButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="148:5:148:7">bb</jtok>
+<jtok eid="3" type="method_call" span="148:8:148:18">addGridded</jtok>
+<jtok eid="3" type="primary_name_ref" span="148:20:148:28">okButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:5:149:7">bb</jtok>
+<jtok eid="3" type="method_call" span="149:8:149:18">addGridded</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:20:149:32">cancelButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:5:150:7">bb</jtok>
+<jtok eid="3" type="method_call" span="150:8:150:15">addGlue</jtok>
+<jtok eid="3" type="method_call" span="151:10:151:18">setModal</jtok>
+<jtok eid="3" type="method_call" span="152:10:152:22">setResizable</jtok>
+<jtok eid="3" type="method_call" span="153:10:153:18">setTitle</jtok>
+<jtok eid="3" type="primary_name_ref" span="153:20:153:27">Globals</jtok>
+<jtok eid="3" type="method_call" span="153:28:153:32">lang</jtok>
+<jtok eid="3" type="string_literal" span="153:34:153:51">"AUX file import"</jtok>
+<jtok eid="3" type="method_call" span="154:5:154:19">getContentPane</jtok>
+<jtok eid="3" type="method_call" span="154:22:154:25">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:27:154:33">panel1</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="156:5:156:11">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="156:12:156:16">desc</jtok>
+<jtok eid="3" type="method_call" span="156:19:156:38">getDescriptionPanel</jtok>
+<jtok eid="3" type="line_comment" span="157:5:157:30">// some help is available</jtok>
+<jtok eid="3" type="primary_name_ref" span="158:9:158:13">desc</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:7:160:13">panel1</jtok>
+<jtok eid="3" type="method_call" span="160:14:160:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:19:160:23">desc</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:25:160:37">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="160:38:160:43">NORTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="161:7:161:13">panel1</jtok>
+<jtok eid="3" type="method_call" span="161:14:161:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="161:19:161:30">buttonPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="161:32:161:44">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="161:45:161:50">SOUTH</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="163:7:163:13">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="163:14:163:24">centerPane</jtok>
+<jtok eid="3" type="constructor_call" span="163:31:163:37">JPanel</jtok>
+<jtok eid="3" type="constructor_call" span="163:43:163:55">BorderLayout</jtok>
+<jtok eid="3" type="primary_name_ref" span="164:7:164:17">centerPane</jtok>
+<jtok eid="3" type="method_call" span="164:18:164:21">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="164:23:164:30">buttons</jtok>
+<jtok eid="3" type="primary_name_ref" span="164:32:164:44">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="164:45:164:50">NORTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="165:7:165:17">centerPane</jtok>
+<jtok eid="3" type="method_call" span="165:18:165:21">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="165:23:165:34">statusPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="165:36:165:48">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="165:49:165:55">CENTER</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:7:168:13">panel1</jtok>
+<jtok eid="3" type="method_call" span="168:14:168:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:19:168:29">centerPane</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:31:168:43">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="168:44:168:50">CENTER</jtok>
+<jtok eid="3" type="line_comment" span="170:11:170:59">// generate a view without the "short info" area</jtok>
+<jtok eid="3" type="primary_name_ref" span="172:7:172:13">panel1</jtok>
+<jtok eid="3" type="method_call" span="172:14:172:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="172:19:172:26">buttons</jtok>
+<jtok eid="3" type="primary_name_ref" span="172:28:172:40">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="172:41:172:46">NORTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:7:173:13">panel1</jtok>
+<jtok eid="3" type="method_call" span="173:14:173:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:19:173:30">buttonPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:32:173:44">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="173:45:173:50">SOUTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="174:7:174:13">panel1</jtok>
+<jtok eid="3" type="method_call" span="174:14:174:17">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="174:19:174:30">statusPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="174:32:174:44">BorderLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="174:45:174:51">CENTER</jtok>
+<jtok eid="3" type="line_comment" span="176:5:176:21">// Key bindings:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="177:5:177:14">ActionMap</jtok>
+<jtok eid="3" type="local_variable_name" span="177:15:177:17">am</jtok>
+<jtok eid="3" type="primary_name_ref" span="177:20:177:31">statusPanel</jtok>
+<jtok eid="3" type="method_call" span="177:32:177:44">getActionMap</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="178:5:178:13">InputMap</jtok>
+<jtok eid="3" type="local_variable_name" span="178:14:178:16">im</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:19:178:30">statusPanel</jtok>
+<jtok eid="3" type="method_call" span="178:31:178:42">getInputMap</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:44:178:54">JComponent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="178:55:178:77">WHEN_IN_FOCUSED_WINDOW</jtok>
+<jtok eid="3" type="primary_name_ref" span="179:5:179:7">im</jtok>
+<jtok eid="3" type="method_call" span="179:8:179:11">put</jtok>
+<jtok eid="3" type="primary_name_ref" span="179:13:179:19">parent</jtok>
+<jtok eid="3" type="method_call" span="179:20:179:25">prefs</jtok>
+<jtok eid="3" type="method_call" span="179:28:179:34">getKey</jtok>
+<jtok eid="3" type="string_literal" span="179:36:179:50">"Close dialog"</jtok>
+<jtok eid="3" type="string_literal" span="179:54:179:61">"close"</jtok>
+<jtok eid="3" type="primary_name_ref" span="180:5:180:7">am</jtok>
+<jtok eid="3" type="method_call" span="180:8:180:11">put</jtok>
+<jtok eid="3" type="string_literal" span="180:13:180:20">"close"</jtok>
+<jtok eid="3" type="constructor_call" span="180:26:180:40">AbstractAction</jtok>
+<jtok eid="5" type="method_name" span="182:19:182:34">actionPerformed</jtok>
+<jtok eid="5" type="parameter_type" span="182:36:182:47">ActionEvent</jtok>
+<jtok eid="5" type="parameter_name" span="182:48:182:49">e</jtok>
+<jtok eid="5" type="method_call" span="184:9:184:16">dispose</jtok>
+<jtok eid="6" type="method_name" span="190:16:190:32">initOptionsPanel</jtok>
+<jtok eid="6" type="parameter_type" span="190:34:190:45">JabRefFrame</jtok>
+<jtok eid="6" type="parameter_name" span="190:46:190:52">parent</jtok>
+<jtok eid="6" type="line_comment" span="192:5:192:47">// collect the names of all open databases</jtok>
+<jtok eid="6" type="local_variable_name" span="193:9:193:12">len</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:15:193:31">parentTabbedPane</jtok>
+<jtok eid="6" type="method_call" span="193:32:193:43">getTabCount</jtok>
+<jtok eid="6" type="local_variable_name" span="194:15:194:16">t</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:23:194:24">t</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:27:194:30">len</jtok>
+<jtok eid="6" type="primary_name_ref" span="194:33:194:34">t</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:7:196:16">dbChooser</jtok>
+<jtok eid="6" type="method_call" span="196:17:196:24">addItem</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:26:196:42">parentTabbedPane</jtok>
+<jtok eid="6" type="method_call" span="196:43:196:53">getTitleAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:55:196:56">t</jtok>
+<jtok eid="6" type="line_comment" span="199:5:199:18">// panel view</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="200:5:200:18">GridBagLayout</jtok>
+<jtok eid="6" type="local_variable_name" span="200:19:200:22">gbl</jtok>
+<jtok eid="6" type="constructor_call" span="200:29:200:42">GridBagLayout</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="201:5:201:23">GridBagConstraints</jtok>
+<jtok eid="6" type="local_variable_name" span="201:24:201:27">con</jtok>
+<jtok eid="6" type="constructor_call" span="201:34:201:52">GridBagConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:5:202:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="202:9:202:16">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:5:203:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="203:9:203:15">insets</jtok>
+<jtok eid="6" type="constructor_call" span="203:22:203:28">Insets</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:5:204:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="204:9:204:13">fill</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:16:204:34">GridBagConstraints</jtok>
+<jtok eid="6" type="qualified_name_ref" span="204:35:204:45">HORIZONTAL</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="206:5:206:17">TitledBorder</jtok>
+<jtok eid="6" type="local_variable_name" span="206:18:206:24">border</jtok>
+<jtok eid="6" type="constructor_call" span="206:31:206:43">TitledBorder</jtok>
+<jtok eid="6" type="primary_name_ref" span="206:45:206:58">BorderFactory</jtok>
+<jtok eid="6" type="method_call" span="206:59:206:75">createLineBorder</jtok>
+<jtok eid="6" type="constructor_call" span="207:13:207:18">Color</jtok>
+<jtok eid="6" type="primary_name_ref" span="208:45:208:52">Globals</jtok>
+<jtok eid="6" type="method_call" span="208:53:208:57">lang</jtok>
+<jtok eid="6" type="string_literal" span="208:59:208:68">"Options"</jtok>
+<jtok eid="6" type="primary_name_ref" span="209:5:209:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="209:13:209:22">setBorder</jtok>
+<jtok eid="6" type="primary_name_ref" span="209:24:209:30">border</jtok>
+<jtok eid="6" type="primary_name_ref" span="210:5:210:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="210:13:210:22">setLayout</jtok>
+<jtok eid="6" type="primary_name_ref" span="210:24:210:27">gbl</jtok>
+<jtok eid="6" type="line_comment" span="212:5:212:16">// Database</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="213:5:213:11">JLabel</jtok>
+<jtok eid="6" type="local_variable_name" span="213:12:213:16">lab1</jtok>
+<jtok eid="6" type="constructor_call" span="213:23:213:29">JLabel</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:31:213:38">Globals</jtok>
+<jtok eid="6" type="method_call" span="213:39:213:43">lang</jtok>
+<jtok eid="6" type="string_literal" span="213:45:213:65">"Reference database"</jtok>
+<jtok eid="6" type="string_literal" span="213:70:213:73">":"</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:5:214:9">lab1</jtok>
+<jtok eid="6" type="method_call" span="214:10:214:32">setHorizontalAlignment</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:34:214:48">SwingConstants</jtok>
+<jtok eid="6" type="qualified_name_ref" span="214:49:214:53">LEFT</jtok>
+<jtok eid="6" type="primary_name_ref" span="215:5:215:8">gbl</jtok>
+<jtok eid="6" type="method_call" span="215:9:215:23">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="215:25:215:29">lab1</jtok>
+<jtok eid="6" type="primary_name_ref" span="215:31:215:34">con</jtok>
+<jtok eid="6" type="primary_name_ref" span="216:5:216:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="216:13:216:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="216:18:216:22">lab1</jtok>
+<jtok eid="6" type="primary_name_ref" span="217:5:217:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="217:9:217:18">gridwidth</jtok>
+<jtok eid="6" type="primary_name_ref" span="217:21:217:39">GridBagConstraints</jtok>
+<jtok eid="6" type="qualified_name_ref" span="217:40:217:49">REMAINDER</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:5:218:8">gbl</jtok>
+<jtok eid="6" type="method_call" span="218:9:218:23">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:25:218:34">dbChooser</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:36:218:39">con</jtok>
+<jtok eid="6" type="primary_name_ref" span="219:5:219:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="219:13:219:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="219:18:219:27">dbChooser</jtok>
+<jtok eid="6" type="line_comment" span="221:5:221:11">// AUX</jtok>
+<jtok eid="6" type="primary_name_ref" span="222:5:222:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="222:9:222:18">gridwidth</jtok>
+<jtok eid="6" type="primary_name_ref" span="223:5:223:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="223:9:223:16">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="224:5:224:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="224:9:224:15">insets</jtok>
+<jtok eid="6" type="constructor_call" span="224:22:224:28">Insets</jtok>
+<jtok eid="6" type="primary_name_ref" span="225:5:225:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="225:9:225:13">fill</jtok>
+<jtok eid="6" type="primary_name_ref" span="225:16:225:34">GridBagConstraints</jtok>
+<jtok eid="6" type="qualified_name_ref" span="225:35:225:39">BOTH</jtok>
+<jtok eid="6" type="primary_name_ref" span="226:5:226:9">lab1</jtok>
+<jtok eid="6" type="constructor_call" span="226:16:226:22">JLabel</jtok>
+<jtok eid="6" type="primary_name_ref" span="226:24:226:31">Globals</jtok>
+<jtok eid="6" type="method_call" span="226:32:226:36">lang</jtok>
+<jtok eid="6" type="string_literal" span="226:38:226:54">"LaTeX AUX file"</jtok>
+<jtok eid="6" type="string_literal" span="226:59:226:62">":"</jtok>
+<jtok eid="6" type="primary_name_ref" span="227:5:227:9">lab1</jtok>
+<jtok eid="6" type="method_call" span="227:10:227:32">setHorizontalAlignment</jtok>
+<jtok eid="6" type="primary_name_ref" span="227:34:227:48">SwingConstants</jtok>
+<jtok eid="6" type="qualified_name_ref" span="227:49:227:53">LEFT</jtok>
+<jtok eid="6" type="primary_name_ref" span="228:5:228:8">gbl</jtok>
+<jtok eid="6" type="method_call" span="228:9:228:23">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="228:25:228:29">lab1</jtok>
+<jtok eid="6" type="primary_name_ref" span="228:31:228:34">con</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:5:229:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="229:13:229:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:18:229:22">lab1</jtok>
+<jtok eid="6" type="primary_name_ref" span="230:5:230:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="230:9:230:16">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="231:5:231:17">auxFileField</jtok>
+<jtok eid="6" type="constructor_call" span="231:24:231:34">JTextField</jtok>
+<jtok eid="6" type="string_literal" span="231:36:231:38">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="232:5:232:8">gbl</jtok>
+<jtok eid="6" type="method_call" span="232:9:232:23">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="232:25:232:37">auxFileField</jtok>
+<jtok eid="6" type="primary_name_ref" span="232:39:232:42">con</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:5:233:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="233:13:233:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:18:233:30">auxFileField</jtok>
+<jtok eid="6" type="primary_name_ref" span="234:5:234:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="234:9:234:16">weightx</jtok>
+<jtok eid="6" type="primary_name_ref" span="235:5:235:8">con</jtok>
+<jtok eid="6" type="qualified_name_ref" span="235:9:235:15">insets</jtok>
+<jtok eid="6" type="constructor_call" span="235:22:235:28">Insets</jtok>
+<jtok eid="6" type="primary_name_ref" span="236:5:236:24">browseAuxFileButton</jtok>
+<jtok eid="6" type="constructor_call" span="236:31:236:38">JButton</jtok>
+<jtok eid="6" type="primary_name_ref" span="236:40:236:47">Globals</jtok>
+<jtok eid="6" type="method_call" span="236:48:236:52">lang</jtok>
+<jtok eid="6" type="string_literal" span="236:54:236:62">"Browse"</jtok>
+<jtok eid="6" type="primary_name_ref" span="237:5:237:24">browseAuxFileButton</jtok>
+<jtok eid="6" type="method_call" span="237:25:237:42">addActionListener</jtok>
+<jtok eid="6" type="constructor_call" span="237:48:237:60">BrowseAction</jtok>
+<jtok eid="6" type="primary_name_ref" span="238:9:238:21">auxFileField</jtok>
+<jtok eid="6" type="primary_name_ref" span="239:9:239:15">parent</jtok>
+<jtok eid="6" type="primary_name_ref" span="240:5:240:8">gbl</jtok>
+<jtok eid="6" type="method_call" span="240:9:240:23">setConstraints</jtok>
+<jtok eid="6" type="primary_name_ref" span="240:25:240:44">browseAuxFileButton</jtok>
+<jtok eid="6" type="primary_name_ref" span="240:46:240:49">con</jtok>
+<jtok eid="6" type="primary_name_ref" span="241:5:241:12">buttons</jtok>
+<jtok eid="6" type="method_call" span="241:13:241:16">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="241:18:241:37">browseAuxFileButton</jtok>
+<jtok eid="7" type="method_name" span="245:16:245:31">initStatusPanel</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="247:5:247:18">GridBagLayout</jtok>
+<jtok eid="7" type="local_variable_name" span="247:19:247:22">gbl</jtok>
+<jtok eid="7" type="constructor_call" span="247:29:247:42">GridBagLayout</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="248:5:248:23">GridBagConstraints</jtok>
+<jtok eid="7" type="local_variable_name" span="248:24:248:27">con</jtok>
+<jtok eid="7" type="constructor_call" span="248:34:248:52">GridBagConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="249:5:249:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="249:9:249:16">weightx</jtok>
+<jtok eid="7" type="primary_name_ref" span="250:5:250:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="250:9:250:15">insets</jtok>
+<jtok eid="7" type="constructor_call" span="250:22:250:28">Insets</jtok>
+<jtok eid="7" type="primary_name_ref" span="251:5:251:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="251:9:251:13">fill</jtok>
+<jtok eid="7" type="primary_name_ref" span="251:16:251:34">GridBagConstraints</jtok>
+<jtok eid="7" type="qualified_name_ref" span="251:35:251:45">HORIZONTAL</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="253:5:253:17">TitledBorder</jtok>
+<jtok eid="7" type="local_variable_name" span="253:18:253:31">titledBorder1</jtok>
+<jtok eid="7" type="constructor_call" span="253:38:253:50">TitledBorder</jtok>
+<jtok eid="7" type="primary_name_ref" span="254:9:254:22">BorderFactory</jtok>
+<jtok eid="7" type="method_call" span="254:23:254:39">createLineBorder</jtok>
+<jtok eid="7" type="constructor_call" span="255:17:255:22">Color</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:9:256:16">Globals</jtok>
+<jtok eid="7" type="method_call" span="256:17:256:21">lang</jtok>
+<jtok eid="7" type="string_literal" span="256:23:256:32">"Results"</jtok>
+<jtok eid="7" type="primary_name_ref" span="258:5:258:16">statusPanel</jtok>
+<jtok eid="7" type="method_call" span="258:17:258:26">setLayout</jtok>
+<jtok eid="7" type="primary_name_ref" span="258:28:258:31">gbl</jtok>
+<jtok eid="7" type="primary_name_ref" span="259:5:259:16">statusPanel</jtok>
+<jtok eid="7" type="method_call" span="259:17:259:26">setBorder</jtok>
+<jtok eid="7" type="primary_name_ref" span="259:28:259:41">titledBorder1</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="261:5:261:11">JLabel</jtok>
+<jtok eid="7" type="local_variable_name" span="261:12:261:16">lab1</jtok>
+<jtok eid="7" type="constructor_call" span="261:23:261:29">JLabel</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:31:261:38">Globals</jtok>
+<jtok eid="7" type="method_call" span="261:39:261:43">lang</jtok>
+<jtok eid="7" type="string_literal" span="261:45:261:69">"Unknown bibtex entries"</jtok>
+<jtok eid="7" type="string_literal" span="261:74:261:77">":"</jtok>
+<jtok eid="7" type="primary_name_ref" span="262:5:262:9">lab1</jtok>
+<jtok eid="7" type="method_call" span="262:10:262:32">setHorizontalAlignment</jtok>
+<jtok eid="7" type="primary_name_ref" span="262:34:262:48">SwingConstants</jtok>
+<jtok eid="7" type="qualified_name_ref" span="262:49:262:53">LEFT</jtok>
+<jtok eid="7" type="primary_name_ref" span="263:5:263:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="263:9:263:18">gridwidth</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:5:264:8">gbl</jtok>
+<jtok eid="7" type="method_call" span="264:9:264:23">setConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:25:264:29">lab1</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:31:264:34">con</jtok>
+<jtok eid="7" type="primary_name_ref" span="265:5:265:16">statusPanel</jtok>
+<jtok eid="7" type="method_call" span="265:17:265:20">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="265:22:265:26">lab1</jtok>
+<jtok eid="7" type="primary_name_ref" span="267:5:267:9">lab1</jtok>
+<jtok eid="7" type="constructor_call" span="267:16:267:22">JLabel</jtok>
+<jtok eid="7" type="primary_name_ref" span="267:24:267:31">Globals</jtok>
+<jtok eid="7" type="method_call" span="267:32:267:36">lang</jtok>
+<jtok eid="7" type="string_literal" span="267:38:267:48">"Messages"</jtok>
+<jtok eid="7" type="string_literal" span="267:53:267:56">":"</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:5:268:9">lab1</jtok>
+<jtok eid="7" type="method_call" span="268:10:268:32">setHorizontalAlignment</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:34:268:48">SwingConstants</jtok>
+<jtok eid="7" type="qualified_name_ref" span="268:49:268:53">LEFT</jtok>
+<jtok eid="7" type="primary_name_ref" span="269:5:269:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="269:9:269:18">gridwidth</jtok>
+<jtok eid="7" type="primary_name_ref" span="269:21:269:39">GridBagConstraints</jtok>
+<jtok eid="7" type="qualified_name_ref" span="269:40:269:49">REMAINDER</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:5:270:8">gbl</jtok>
+<jtok eid="7" type="method_call" span="270:9:270:23">setConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:25:270:29">lab1</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:31:270:34">con</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:5:271:16">statusPanel</jtok>
+<jtok eid="7" type="method_call" span="271:17:271:20">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:22:271:26">lab1</jtok>
+<jtok eid="7" type="primary_name_ref" span="273:5:273:17">notFoundList</jtok>
+<jtok eid="7" type="constructor_call" span="273:24:273:29">JList</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="274:5:274:16">JScrollPane</jtok>
+<jtok eid="7" type="local_variable_name" span="274:17:274:31">listScrollPane</jtok>
+<jtok eid="7" type="constructor_call" span="274:38:274:49">JScrollPane</jtok>
+<jtok eid="7" type="primary_name_ref" span="274:51:274:63">notFoundList</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:5:275:19">listScrollPane</jtok>
+<jtok eid="7" type="method_call" span="275:20:275:36">setPreferredSize</jtok>
+<jtok eid="7" type="constructor_call" span="275:42:275:51">Dimension</jtok>
+<jtok eid="7" type="primary_name_ref" span="276:5:276:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="276:9:276:18">gridwidth</jtok>
+<jtok eid="7" type="primary_name_ref" span="277:5:277:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="277:9:277:16">weightx</jtok>
+<jtok eid="7" type="primary_name_ref" span="278:5:278:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="278:9:278:19">gridheight</jtok>
+<jtok eid="7" type="primary_name_ref" span="279:5:279:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="279:9:279:15">insets</jtok>
+<jtok eid="7" type="constructor_call" span="279:22:279:28">Insets</jtok>
+<jtok eid="7" type="primary_name_ref" span="280:5:280:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="280:9:280:13">fill</jtok>
+<jtok eid="7" type="primary_name_ref" span="280:16:280:34">GridBagConstraints</jtok>
+<jtok eid="7" type="qualified_name_ref" span="280:35:280:39">BOTH</jtok>
+<jtok eid="7" type="primary_name_ref" span="281:5:281:8">gbl</jtok>
+<jtok eid="7" type="method_call" span="281:9:281:23">setConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="281:25:281:39">listScrollPane</jtok>
+<jtok eid="7" type="primary_name_ref" span="281:41:281:44">con</jtok>
+<jtok eid="7" type="primary_name_ref" span="282:5:282:16">statusPanel</jtok>
+<jtok eid="7" type="method_call" span="282:17:282:20">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="282:22:282:36">listScrollPane</jtok>
+<jtok eid="7" type="primary_name_ref" span="284:5:284:16">statusInfos</jtok>
+<jtok eid="7" type="constructor_call" span="284:23:284:32">JTextArea</jtok>
+<jtok eid="7" type="string_literal" span="284:34:284:36">""</jtok>
+<jtok eid="7" type="primary_name_ref" span="285:5:285:16">statusInfos</jtok>
+<jtok eid="7" type="method_call" span="285:17:285:26">setBorder</jtok>
+<jtok eid="7" type="primary_name_ref" span="285:28:285:41">BorderFactory</jtok>
+<jtok eid="7" type="method_call" span="285:42:285:60">createEtchedBorder</jtok>
+<jtok eid="7" type="primary_name_ref" span="286:5:286:16">statusInfos</jtok>
+<jtok eid="7" type="method_call" span="286:17:286:28">setEditable</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:5:287:8">con</jtok>
+<jtok eid="7" type="qualified_name_ref" span="287:9:287:19">gridheight</jtok>
+<jtok eid="7" type="primary_name_ref" span="288:5:288:8">gbl</jtok>
+<jtok eid="7" type="method_call" span="288:9:288:23">setConstraints</jtok>
+<jtok eid="7" type="primary_name_ref" span="288:25:288:36">statusInfos</jtok>
+<jtok eid="7" type="primary_name_ref" span="288:38:288:41">con</jtok>
+<jtok eid="7" type="primary_name_ref" span="289:5:289:16">statusPanel</jtok>
+<jtok eid="7" type="method_call" span="289:17:289:20">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="289:22:289:33">statusInfos</jtok>
+<jtok eid="1" type="line_comment" span="293:1:293:79">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="295:3:295:61">// returns a "short info" panel, if something is available</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="296:13:296:19">JPanel</jtok>
+<jtok eid="8" type="method_name" span="296:20:296:39">getDescriptionPanel</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="297:9:297:15">JPanel</jtok>
+<jtok eid="8" type="local_variable_name" span="297:16:297:20">back</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="299:9:299:20">JEditorPane</jtok>
+<jtok eid="8" type="local_variable_name" span="299:21:299:29">infoText</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="301:9:301:12">URL</jtok>
+<jtok eid="8" type="local_variable_name" span="301:13:301:20">infoURL</jtok>
+<jtok eid="8" type="primary_name_ref" span="301:23:301:29">JabRef</jtok>
+<jtok eid="8" type="method_call" span="301:36:301:47">getResource</jtok>
+<jtok eid="8" type="primary_name_ref" span="301:48:301:58">GUIGlobals</jtok>
+<jtok eid="8" type="method_call" span="301:59:301:76">getLocaleHelpPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:13:302:23">GUIGlobals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="302:24:302:38">shortAuxImport</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:13:303:20">infoURL</jtok>
+<jtok eid="8" type="primary_name_ref" span="305:17:305:25">infoText</jtok>
+<jtok eid="8" type="constructor_call" span="305:32:305:43">JEditorPane</jtok>
+<jtok eid="8" type="primary_name_ref" span="306:17:306:25">infoText</jtok>
+<jtok eid="8" type="method_call" span="306:26:306:37">setEditable</jtok>
+<jtok eid="8" type="primary_name_ref" span="307:17:307:25">infoText</jtok>
+<jtok eid="8" type="method_call" span="307:26:307:42">setPreferredSize</jtok>
+<jtok eid="8" type="constructor_call" span="307:47:307:56">Dimension</jtok>
+<jtok eid="8" type="primary_name_ref" span="308:17:308:25">infoText</jtok>
+<jtok eid="8" type="method_call" span="308:26:308:40">setMinimumSize</jtok>
+<jtok eid="8" type="constructor_call" span="308:45:308:54">Dimension</jtok>
+<jtok eid="8" type="primary_name_ref" span="309:17:309:25">infoText</jtok>
+<jtok eid="8" type="method_call" span="309:26:309:33">setPage</jtok>
+<jtok eid="8" type="primary_name_ref" span="309:34:309:41">infoURL</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:17:310:25">infoText</jtok>
+<jtok eid="8" type="method_call" span="310:26:310:39">setBackground</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:40:310:50">GUIGlobals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="310:51:310:60">infoField</jtok>
+<jtok eid="8" type="primary_name_ref" span="311:17:311:25">infoText</jtok>
+<jtok eid="8" type="method_call" span="311:26:311:35">setBorder</jtok>
+<jtok eid="8" type="constructor_call" span="311:40:311:52">EtchedBorder</jtok>
+<jtok eid="8" type="primary_name_ref" span="311:53:311:65">EtchedBorder</jtok>
+<jtok eid="8" type="qualified_name_ref" span="311:66:311:73">LOWERED</jtok>
+<jtok eid="8" type="line_comment" span="313:17:313:27">// content</jtok>
+<jtok eid="8" type="primary_name_ref" span="314:17:314:21">back</jtok>
+<jtok eid="8" type="constructor_call" span="314:28:314:34">JPanel</jtok>
+<jtok eid="8" type="primary_name_ref" span="315:17:315:21">back</jtok>
+<jtok eid="8" type="method_call" span="315:22:315:31">setLayout</jtok>
+<jtok eid="8" type="constructor_call" span="315:36:315:48">BorderLayout</jtok>
+<jtok eid="8" type="primary_name_ref" span="316:17:316:21">back</jtok>
+<jtok eid="8" type="method_call" span="316:22:316:25">add</jtok>
+<jtok eid="8" type="primary_name_ref" span="316:26:316:34">infoText</jtok>
+<jtok eid="8" type="primary_name_ref" span="316:36:316:48">BorderLayout</jtok>
+<jtok eid="8" type="qualified_name_ref" span="316:49:316:59">PAGE_START</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="317:22:317:33">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="317:34:317:35">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="321:16:321:20">back</jtok>
+<jtok eid="1" type="line_comment" span="324:1:324:79">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="9" type="method_name" span="326:8:326:26">ok_actionPerformed</jtok>
+<jtok eid="9" type="parameter_type" span="326:28:326:39">ActionEvent</jtok>
+<jtok eid="9" type="parameter_name" span="326:40:326:41">e</jtok>
+<jtok eid="9" type="primary_name_ref" span="328:5:328:14">okPressed</jtok>
+<jtok eid="9" type="method_call" span="329:5:329:12">dispose</jtok>
+<jtok eid="10" type="method_name" span="332:8:332:30">Cancel_actionPerformed</jtok>
+<jtok eid="10" type="parameter_type" span="332:32:332:43">ActionEvent</jtok>
+<jtok eid="10" type="parameter_name" span="332:44:332:45">e</jtok>
+<jtok eid="10" type="method_call" span="334:5:334:12">dispose</jtok>
+<jtok eid="11" type="method_name" span="337:8:337:32">generate_actionPerformed</jtok>
+<jtok eid="11" type="parameter_type" span="337:34:337:45">ActionEvent</jtok>
+<jtok eid="11" type="parameter_name" span="337:46:337:47">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="339:5:339:19">generateButton</jtok>
+<jtok eid="11" type="method_call" span="339:20:339:30">setEnabled</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="340:5:340:14">BasePanel</jtok>
+<jtok eid="11" type="local_variable_name" span="340:15:340:17">bp</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="340:22:340:31">BasePanel</jtok>
+<jtok eid="11" type="primary_name_ref" span="340:34:340:50">parentTabbedPane</jtok>
+<jtok eid="11" type="method_call" span="340:51:340:65">getComponentAt</jtok>
+<jtok eid="11" type="primary_name_ref" span="341:9:341:18">dbChooser</jtok>
+<jtok eid="11" type="method_call" span="341:19:341:35">getSelectedIndex</jtok>
+<jtok eid="11" type="primary_name_ref" span="342:5:342:17">notFoundList</jtok>
+<jtok eid="11" type="method_call" span="342:18:342:27">removeAll</jtok>
+<jtok eid="11" type="primary_name_ref" span="343:5:343:16">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="343:17:343:24">setText</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="344:5:344:19">BibtexDatabase</jtok>
+<jtok eid="11" type="local_variable_name" span="344:20:344:27">refBase</jtok>
+<jtok eid="11" type="primary_name_ref" span="344:30:344:32">bp</jtok>
+<jtok eid="11" type="method_call" span="344:33:344:44">getDatabase</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="345:5:345:11">String</jtok>
+<jtok eid="11" type="local_variable_name" span="345:12:345:19">auxName</jtok>
+<jtok eid="11" type="primary_name_ref" span="345:22:345:34">auxFileField</jtok>
+<jtok eid="11" type="method_call" span="345:35:345:42">getText</jtok>
+<jtok eid="11" type="primary_name_ref" span="347:10:347:17">auxName</jtok>
+<jtok eid="11" type="primary_name_ref" span="349:14:349:21">refBase</jtok>
+<jtok eid="11" type="primary_name_ref" span="349:37:349:44">auxName</jtok>
+<jtok eid="11" type="method_call" span="349:45:349:51">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="351:9:351:18">auxParser</jtok>
+<jtok eid="11" type="method_call" span="351:19:351:24">clear</jtok>
+<jtok eid="11" type="primary_name_ref" span="352:9:352:21">notFoundList</jtok>
+<jtok eid="11" type="method_call" span="352:22:352:33">setListData</jtok>
+<jtok eid="11" type="primary_name_ref" span="352:35:352:44">auxParser</jtok>
+<jtok eid="11" type="method_call" span="352:45:352:53">generate</jtok>
+<jtok eid="11" type="primary_name_ref" span="352:55:352:62">auxName</jtok>
+<jtok eid="11" type="primary_name_ref" span="352:64:352:71">refBase</jtok>
+<jtok eid="11" type="primary_name_ref" span="354:9:354:20">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="354:21:354:27">append</jtok>
+<jtok eid="11" type="primary_name_ref" span="354:29:354:36">Globals</jtok>
+<jtok eid="11" type="method_call" span="354:37:354:41">lang</jtok>
+<jtok eid="11" type="string_literal" span="354:43:354:61">"keys in database"</jtok>
+<jtok eid="11" type="string_literal" span="354:66:354:69">" "</jtok>
+<jtok eid="11" type="primary_name_ref" span="355:29:355:36">refBase</jtok>
+<jtok eid="11" type="method_call" span="355:37:355:50">getEntryCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="356:9:356:20">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="356:21:356:27">append</jtok>
+<jtok eid="11" type="string_literal" span="356:29:356:33">"\n"</jtok>
+<jtok eid="11" type="primary_name_ref" span="356:36:356:43">Globals</jtok>
+<jtok eid="11" type="method_call" span="356:44:356:48">lang</jtok>
+<jtok eid="11" type="string_literal" span="356:50:356:69">"found in aux file"</jtok>
+<jtok eid="11" type="string_literal" span="356:74:356:77">" "</jtok>
+<jtok eid="11" type="primary_name_ref" span="357:29:357:38">auxParser</jtok>
+<jtok eid="11" type="method_call" span="357:39:357:56">getFoundKeysInAux</jtok>
+<jtok eid="11" type="primary_name_ref" span="358:9:358:20">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="358:21:358:27">append</jtok>
+<jtok eid="11" type="string_literal" span="358:29:358:33">"\n"</jtok>
+<jtok eid="11" type="primary_name_ref" span="358:36:358:43">Globals</jtok>
+<jtok eid="11" type="method_call" span="358:44:358:48">lang</jtok>
+<jtok eid="11" type="string_literal" span="358:50:358:60">"resolved"</jtok>
+<jtok eid="11" type="string_literal" span="358:65:358:68">" "</jtok>
+<jtok eid="11" type="primary_name_ref" span="359:29:359:38">auxParser</jtok>
+<jtok eid="11" type="method_call" span="359:39:359:59">getResolvedKeysCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="360:9:360:20">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="360:21:360:27">append</jtok>
+<jtok eid="11" type="string_literal" span="360:29:360:33">"\n"</jtok>
+<jtok eid="11" type="primary_name_ref" span="360:36:360:43">Globals</jtok>
+<jtok eid="11" type="method_call" span="360:44:360:48">lang</jtok>
+<jtok eid="11" type="string_literal" span="360:50:360:61">"not found"</jtok>
+<jtok eid="11" type="string_literal" span="360:66:360:69">" "</jtok>
+<jtok eid="11" type="primary_name_ref" span="361:29:361:38">auxParser</jtok>
+<jtok eid="11" type="method_call" span="361:39:361:62">getNotResolvedKeysCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="362:9:362:20">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="362:21:362:27">append</jtok>
+<jtok eid="11" type="string_literal" span="362:29:362:33">"\n"</jtok>
+<jtok eid="11" type="primary_name_ref" span="362:36:362:43">Globals</jtok>
+<jtok eid="11" type="method_call" span="362:44:362:48">lang</jtok>
+<jtok eid="11" type="string_literal" span="362:50:362:84">"crossreferenced entries included"</jtok>
+<jtok eid="11" type="string_literal" span="362:89:362:92">" "</jtok>
+<jtok eid="11" type="primary_name_ref" span="363:29:363:38">auxParser</jtok>
+<jtok eid="11" type="method_call" span="363:39:363:69">getCrossreferencedEntriesCount</jtok>
+<jtok eid="11" type="local_variable_name" span="366:13:366:19">nested</jtok>
+<jtok eid="11" type="primary_name_ref" span="366:22:366:31">auxParser</jtok>
+<jtok eid="11" type="method_call" span="366:32:366:51">getNestedAuxCounter</jtok>
+<jtok eid="11" type="primary_name_ref" span="367:14:367:20">nested</jtok>
+<jtok eid="11" type="primary_name_ref" span="369:11:369:22">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="369:23:369:29">append</jtok>
+<jtok eid="11" type="string_literal" span="369:31:369:35">"\n"</jtok>
+<jtok eid="11" type="primary_name_ref" span="369:38:369:45">Globals</jtok>
+<jtok eid="11" type="method_call" span="369:46:369:50">lang</jtok>
+<jtok eid="11" type="string_literal" span="369:52:369:70">"nested_aux_files"</jtok>
+<jtok eid="11" type="string_literal" span="369:75:369:78">" "</jtok>
+<jtok eid="11" type="primary_name_ref" span="370:31:370:37">nested</jtok>
+<jtok eid="11" type="primary_name_ref" span="373:9:373:17">okButton</jtok>
+<jtok eid="11" type="method_call" span="373:18:373:28">setEnabled</jtok>
+<jtok eid="11" type="line_comment" span="377:5:377:73">// the generated database contains no entries -&gt; no active ok-button</jtok>
+<jtok eid="11" type="primary_name_ref" span="378:10:378:19">auxParser</jtok>
+<jtok eid="11" type="method_call" span="378:20:378:40">getGeneratedDatabase</jtok>
+<jtok eid="11" type="method_call" span="378:43:378:56">getEntryCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="380:7:380:18">statusInfos</jtok>
+<jtok eid="11" type="method_call" span="380:19:380:25">append</jtok>
+<jtok eid="11" type="string_literal" span="380:27:380:31">"\n"</jtok>
+<jtok eid="11" type="primary_name_ref" span="380:34:380:41">Globals</jtok>
+<jtok eid="11" type="method_call" span="380:42:380:46">lang</jtok>
+<jtok eid="11" type="string_literal" span="380:48:380:64">"empty database"</jtok>
+<jtok eid="11" type="primary_name_ref" span="381:7:381:15">okButton</jtok>
+<jtok eid="11" type="method_call" span="381:16:381:26">setEnabled</jtok>
+<jtok eid="11" type="primary_name_ref" span="384:5:384:19">generateButton</jtok>
+<jtok eid="11" type="method_call" span="384:20:384:30">setEnabled</jtok>
+<jtok eid="12" type="method_name" span="387:18:387:27">okPressed</jtok>
+<jtok eid="12" type="primary_name_ref" span="389:12:389:21">okPressed</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="392:10:392:24">BibtexDatabase</jtok>
+<jtok eid="13" type="method_name" span="392:25:392:38">getGenerateDB</jtok>
+<jtok eid="13" type="primary_name_ref" span="394:12:394:21">auxParser</jtok>
+<jtok eid="13" type="method_call" span="394:22:394:42">getGeneratedDatabase</jtok>
+<jtok eid="1" type="line_comment" span="397:1:397:79">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="block_comment" span="399:3:401:6">/**
+   * Action used to produce a "Browse" button for one of the text fields.
+   */</jtok>
+<jtok eid="14" type="class_name" span="402:9:402:21">BrowseAction</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="403:15:403:29">AbstractAction</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="405:13:405:23">JTextField</jtok>
+<jtok eid="14" type="field_name" span="405:24:405:28">comp</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="406:13:406:24">JabRefFrame</jtok>
+<jtok eid="14" type="field_name" span="406:25:406:31">_frame</jtok>
+<jtok eid="15" type="method_name" span="408:12:408:24">BrowseAction</jtok>
+<jtok eid="15" type="parameter_type" span="408:26:408:36">JTextField</jtok>
+<jtok eid="15" type="parameter_name" span="408:37:408:39">tc</jtok>
+<jtok eid="15" type="parameter_type" span="408:41:408:52">JabRefFrame</jtok>
+<jtok eid="15" type="parameter_name" span="408:53:408:58">frame</jtok>
+<jtok eid="15" type="primary_name_ref" span="410:14:410:21">Globals</jtok>
+<jtok eid="15" type="method_call" span="410:22:410:26">lang</jtok>
+<jtok eid="15" type="string_literal" span="410:28:410:36">"Browse"</jtok>
+<jtok eid="15" type="primary_name_ref" span="411:7:411:13">_frame</jtok>
+<jtok eid="15" type="primary_name_ref" span="411:16:411:21">frame</jtok>
+<jtok eid="15" type="primary_name_ref" span="412:7:412:11">comp</jtok>
+<jtok eid="15" type="primary_name_ref" span="412:14:412:16">tc</jtok>
+<jtok eid="16" type="method_name" span="415:17:415:32">actionPerformed</jtok>
+<jtok eid="16" type="parameter_type" span="415:34:415:45">ActionEvent</jtok>
+<jtok eid="16" type="parameter_name" span="415:46:415:47">e</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="417:7:417:13">String</jtok>
+<jtok eid="16" type="local_variable_name" span="417:14:417:20">chosen</jtok>
+<jtok eid="16" type="primary_name_ref" span="418:7:418:13">chosen</jtok>
+<jtok eid="16" type="primary_name_ref" span="418:16:418:27">FileDialogs</jtok>
+<jtok eid="16" type="method_call" span="418:28:418:38">getNewFile</jtok>
+<jtok eid="16" type="primary_name_ref" span="418:40:418:46">_frame</jtok>
+<jtok eid="16" type="constructor_call" span="419:19:419:23">File</jtok>
+<jtok eid="16" type="primary_name_ref" span="419:25:419:29">comp</jtok>
+<jtok eid="16" type="method_call" span="419:30:419:37">getText</jtok>
+<jtok eid="16" type="string_literal" span="420:36:420:42">".aux"</jtok>
+<jtok eid="16" type="primary_name_ref" span="421:36:421:48">JFileChooser</jtok>
+<jtok eid="16" type="qualified_name_ref" span="421:49:421:60">OPEN_DIALOG</jtok>
+<jtok eid="16" type="primary_name_ref" span="422:12:422:18">chosen</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="424:9:424:13">File</jtok>
+<jtok eid="16" type="local_variable_name" span="424:14:424:21">newFile</jtok>
+<jtok eid="16" type="constructor_call" span="424:28:424:32">File</jtok>
+<jtok eid="16" type="primary_name_ref" span="424:34:424:40">chosen</jtok>
+<jtok eid="16" type="primary_name_ref" span="425:9:425:13">comp</jtok>
+<jtok eid="16" type="method_call" span="425:14:425:21">setText</jtok>
+<jtok eid="16" type="primary_name_ref" span="425:23:425:30">newFile</jtok>
+<jtok eid="16" type="method_call" span="425:31:425:38">getPath</jtok>
+<jtok eid="0" type="line_comment" span="432:1:432:48">// ----------- helper class -------------------</jtok>
+<jtok eid="17" type="class_name" span="433:7:433:37">FromAuxDialog_ok_actionAdapter</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="434:16:434:20">java</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="434:21:434:24">awt</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="434:25:434:30">event</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="434:31:434:45">ActionListener</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="436:3:436:16">FromAuxDialog</jtok>
+<jtok eid="17" type="field_name" span="436:17:436:24">adaptee</jtok>
+<jtok eid="18" type="method_name" span="438:3:438:33">FromAuxDialog_ok_actionAdapter</jtok>
+<jtok eid="18" type="parameter_type" span="438:35:438:48">FromAuxDialog</jtok>
+<jtok eid="18" type="parameter_name" span="438:49:438:56">adaptee</jtok>
+<jtok eid="18" type="qualified_name_ref" span="440:10:440:17">adaptee</jtok>
+<jtok eid="18" type="primary_name_ref" span="440:20:440:27">adaptee</jtok>
+<jtok eid="19" type="method_name" span="443:15:443:30">actionPerformed</jtok>
+<jtok eid="19" type="parameter_type" span="443:32:443:43">ActionEvent</jtok>
+<jtok eid="19" type="parameter_name" span="443:44:443:45">e</jtok>
+<jtok eid="19" type="primary_name_ref" span="445:5:445:12">adaptee</jtok>
+<jtok eid="19" type="method_call" span="445:13:445:31">ok_actionPerformed</jtok>
+<jtok eid="19" type="primary_name_ref" span="445:33:445:34">e</jtok>
+<jtok eid="20" type="class_name" span="449:7:449:41">FromAuxDialog_Cancel_actionAdapter</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="450:16:450:20">java</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="450:21:450:24">awt</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="450:25:450:30">event</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="450:31:450:45">ActionListener</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="452:3:452:16">FromAuxDialog</jtok>
+<jtok eid="20" type="field_name" span="452:17:452:24">adaptee</jtok>
+<jtok eid="21" type="method_name" span="454:3:454:37">FromAuxDialog_Cancel_actionAdapter</jtok>
+<jtok eid="21" type="parameter_type" span="454:39:454:52">FromAuxDialog</jtok>
+<jtok eid="21" type="parameter_name" span="454:53:454:60">adaptee</jtok>
+<jtok eid="21" type="qualified_name_ref" span="456:10:456:17">adaptee</jtok>
+<jtok eid="21" type="primary_name_ref" span="456:20:456:27">adaptee</jtok>
+<jtok eid="22" type="method_name" span="459:15:459:30">actionPerformed</jtok>
+<jtok eid="22" type="parameter_type" span="459:32:459:43">ActionEvent</jtok>
+<jtok eid="22" type="parameter_name" span="459:44:459:45">e</jtok>
+<jtok eid="22" type="primary_name_ref" span="461:5:461:12">adaptee</jtok>
+<jtok eid="22" type="method_call" span="461:13:461:35">Cancel_actionPerformed</jtok>
+<jtok eid="22" type="primary_name_ref" span="461:37:461:38">e</jtok>
+<jtok eid="23" type="class_name" span="465:7:465:43">FromAuxDialog_generate_actionAdapter</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="466:16:466:20">java</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="466:21:466:24">awt</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="466:25:466:30">event</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="466:31:466:45">ActionListener</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="468:3:468:16">FromAuxDialog</jtok>
+<jtok eid="23" type="field_name" span="468:17:468:24">adaptee</jtok>
+<jtok eid="24" type="method_name" span="470:3:470:39">FromAuxDialog_generate_actionAdapter</jtok>
+<jtok eid="24" type="parameter_type" span="470:41:470:54">FromAuxDialog</jtok>
+<jtok eid="24" type="parameter_name" span="470:55:470:62">adaptee</jtok>
+<jtok eid="24" type="qualified_name_ref" span="472:10:472:17">adaptee</jtok>
+<jtok eid="24" type="primary_name_ref" span="472:20:472:27">adaptee</jtok>
+<jtok eid="25" type="method_name" span="475:15:475:30">actionPerformed</jtok>
+<jtok eid="25" type="parameter_type" span="475:32:475:43">ActionEvent</jtok>
+<jtok eid="25" type="parameter_name" span="475:44:475:45">e</jtok>
+<jtok eid="25" type="primary_name_ref" span="477:5:477:12">adaptee</jtok>
+<jtok eid="25" type="method_call" span="477:13:477:37">generate_actionPerformed</jtok>
+<jtok eid="25" type="primary_name_ref" span="477:39:477:40">e</jtok>
+</jdoc>

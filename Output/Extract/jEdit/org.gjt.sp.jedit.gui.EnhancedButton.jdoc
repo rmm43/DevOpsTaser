@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.EnhancedButton" jls="java5">
+<jent id="0" type="file" span="0:0:114:2">Source/jEdit/org/gjt/sp/jedit/gui/EnhancedButton.java</jent>
+<jent id="1" pid="0" type="class" span="32:1:114:1">org.gjt.sp.jedit.gui.EnhancedButton</jent>
+<jent id="2" pid="1" type="method" span="35:2:66:2">org.gjt.sp.jedit.gui.EnhancedButton.EnhancedButton(Icon,String,String,ActionContext)</jent>
+<jent id="3" pid="1" type="method" span="69:2:72:2">org.gjt.sp.jedit.gui.EnhancedButton.isFocusTraversable()</jent>
+<jent id="4" pid="1" type="class" span="79:2:113:2">org.gjt.sp.jedit.gui.EnhancedButton.MouseHandler</jent>
+<jent id="5" pid="4" type="method" span="83:3:91:3">org.gjt.sp.jedit.gui.EnhancedButton.MouseHandler.mouseReleased(MouseEvent)</jent>
+<jent id="6" pid="4" type="method" span="93:3:102:3">org.gjt.sp.jedit.gui.EnhancedButton.MouseHandler.mouseEntered(MouseEvent)</jent>
+<jent id="7" pid="4" type="method" span="104:3:112:3">org.gjt.sp.jedit.gui.EnhancedButton.MouseHandler.mouseExited(MouseEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * EnhancedButton.java - Tool bar button
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="32:14:32:28">EnhancedButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:37:32:51">RolloverButton</jtok>
+<jtok eid="1" type="line_comment" span="34:2:34:34">//{{{ EnhancedButton constructor</jtok>
+<jtok eid="2" type="method_name" span="35:9:35:23">EnhancedButton</jtok>
+<jtok eid="2" type="parameter_type" span="35:24:35:28">Icon</jtok>
+<jtok eid="2" type="parameter_name" span="35:29:35:33">icon</jtok>
+<jtok eid="2" type="parameter_type" span="35:35:35:41">String</jtok>
+<jtok eid="2" type="parameter_name" span="35:42:35:49">toolTip</jtok>
+<jtok eid="2" type="parameter_type" span="35:51:35:57">String</jtok>
+<jtok eid="2" type="parameter_name" span="35:58:35:64">action</jtok>
+<jtok eid="2" type="parameter_type" span="36:3:36:16">ActionContext</jtok>
+<jtok eid="2" type="parameter_name" span="36:17:36:24">context</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:9:38:13">icon</jtok>
+<jtok eid="2" type="qualified_name_ref" span="40:8:40:14">action</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:17:40:23">action</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:6:42:12">action</jtok>
+<jtok eid="2" type="line_comment" span="44:4:44:36">// set the name of this button :</jtok>
+<jtok eid="2" type="line_comment" span="45:4:45:60">// for instance, if the action is 'vfs.browser.previous'</jtok>
+<jtok eid="2" type="line_comment" span="46:4:46:34">// the name will be 'previous'</jtok>
+<jtok eid="2" type="line_comment" span="47:4:47:59">// this helps greatly in testing the UI with Fest-Swing</jtok>
+<jtok eid="2" type="local_variable_name" span="48:8:48:15">iSuffix</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:18:48:24">action</jtok>
+<jtok eid="2" type="method_call" span="48:25:48:36">lastIndexOf</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:7:49:14">iSuffix</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:20:49:27">iSuffix</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:31:49:37">action</jtok>
+<jtok eid="2" type="method_call" span="49:38:49:44">length</jtok>
+<jtok eid="2" type="method_call" span="51:5:51:12">setName</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:13:51:19">action</jtok>
+<jtok eid="2" type="method_call" span="55:5:55:12">setName</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:13:55:19">action</jtok>
+<jtok eid="2" type="method_call" span="55:20:55:29">substring</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:30:55:37">iSuffix</jtok>
+<jtok eid="2" type="method_call" span="58:4:58:14">setEnabled</jtok>
+<jtok eid="2" type="method_call" span="59:4:59:21">addActionListener</jtok>
+<jtok eid="2" type="constructor_call" span="59:26:59:36">EditAction</jtok>
+<jtok eid="2" type="constructor_call" span="59:37:59:44">Wrapper</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:45:59:52">context</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:53:59:59">action</jtok>
+<jtok eid="2" type="method_call" span="60:4:60:20">addMouseListener</jtok>
+<jtok eid="2" type="constructor_call" span="60:25:60:37">MouseHandler</jtok>
+<jtok eid="2" type="method_call" span="63:4:63:14">setEnabled</jtok>
+<jtok eid="2" type="method_call" span="65:3:65:17">setToolTipText</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:18:65:25">toolTip</jtok>
+<jtok eid="1" type="line_comment" span="66:4:66:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="68:2:68:35">//{{{ isFocusTraversable() method</jtok>
+<jtok eid="3" type="method_name" span="69:17:69:35">isFocusTraversable</jtok>
+<jtok eid="1" type="line_comment" span="72:4:72:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="74:2:74:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:10:75:16">String</jtok>
+<jtok eid="1" type="field_name" span="75:17:75:23">action</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:26">//{{{ MouseHandler class</jtok>
+<jtok eid="4" type="class_name" span="79:8:79:20">MouseHandler</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="79:29:79:41">MouseAdapter</jtok>
+<jtok eid="4" type="field_name" span="81:11:81:17">msgSet</jtok>
+<jtok eid="5" type="method_name" span="83:15:83:28">mouseReleased</jtok>
+<jtok eid="5" type="parameter_type" span="83:29:83:39">MouseEvent</jtok>
+<jtok eid="5" type="parameter_name" span="83:40:83:43">evt</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:7:85:13">msgSet</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:5:87:17">GUIUtilities</jtok>
+<jtok eid="5" type="method_call" span="87:18:87:25">getView</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="87:27:87:36">Component</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:37:87:40">evt</jtok>
+<jtok eid="5" type="method_call" span="87:41:87:50">getSource</jtok>
+<jtok eid="5" type="method_call" span="88:7:88:16">getStatus</jtok>
+<jtok eid="5" type="method_call" span="88:19:88:29">setMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:5:89:11">msgSet</jtok>
+<jtok eid="6" type="method_name" span="93:15:93:27">mouseEntered</jtok>
+<jtok eid="6" type="parameter_type" span="93:28:93:38">MouseEvent</jtok>
+<jtok eid="6" type="parameter_name" span="93:39:93:42">evt</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="95:4:95:10">String</jtok>
+<jtok eid="6" type="local_variable_name" span="95:11:95:14">msg</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:17:95:22">jEdit</jtok>
+<jtok eid="6" type="method_call" span="95:23:95:34">getProperty</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:35:95:41">action</jtok>
+<jtok eid="6" type="string_literal" span="95:44:95:57">".mouse-over"</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:7:96:10">msg</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:5:98:17">GUIUtilities</jtok>
+<jtok eid="6" type="method_call" span="98:18:98:25">getView</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="98:27:98:36">Component</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:37:98:40">evt</jtok>
+<jtok eid="6" type="method_call" span="98:41:98:50">getSource</jtok>
+<jtok eid="6" type="method_call" span="99:7:99:16">getStatus</jtok>
+<jtok eid="6" type="method_call" span="99:19:99:29">setMessage</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:30:99:33">msg</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:5:100:11">msgSet</jtok>
+<jtok eid="7" type="method_name" span="104:15:104:26">mouseExited</jtok>
+<jtok eid="7" type="parameter_type" span="104:27:104:37">MouseEvent</jtok>
+<jtok eid="7" type="parameter_name" span="104:38:104:41">evt</jtok>
+<jtok eid="7" type="primary_name_ref" span="106:7:106:13">msgSet</jtok>
+<jtok eid="7" type="primary_name_ref" span="108:5:108:17">GUIUtilities</jtok>
+<jtok eid="7" type="method_call" span="108:18:108:25">getView</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="108:27:108:36">Component</jtok>
+<jtok eid="7" type="primary_name_ref" span="108:37:108:40">evt</jtok>
+<jtok eid="7" type="method_call" span="108:41:108:50">getSource</jtok>
+<jtok eid="7" type="method_call" span="109:7:109:16">getStatus</jtok>
+<jtok eid="7" type="method_call" span="109:19:109:29">setMessage</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:5:110:11">msgSet</jtok>
+<jtok eid="1" type="line_comment" span="113:4:113:9">//}}}</jtok>
+</jdoc>

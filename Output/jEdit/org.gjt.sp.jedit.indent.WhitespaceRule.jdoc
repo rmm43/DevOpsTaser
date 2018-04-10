@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.indent.WhitespaceRule" jls="java5">
+<jent id="0" type="file" span="0:0:80:1">Source/jEdit/org/gjt/sp/jedit/indent/WhitespaceRule.java</jent>
+<jent id="1" pid="0" type="class" span="46:1:79:1">org.gjt.sp.jedit.indent.WhitespaceRule</jent>
+<jent id="2" pid="1" type="method" span="49:2:77:2">org.gjt.sp.jedit.indent.WhitespaceRule.apply(JEditBuffer,int,int,int,List&lt;IndentAction&gt;)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * WhitespaceRule.java
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2007 Marcelo Vanzin
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="29:1:45:4">/**
+ * Whitespace rule. This rule cancels all indent actions in the
+ * following case:
+ *
+ * &lt;ul&gt;
+ * &lt;li&gt;The previous line is all whitespace&lt;/li&gt;
+ * &lt;li&gt;The current line is not empty&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;The result is that this rule won't allow the indentation to be
+ * increased, only decreased (by rules triggered by unindentThisLine).
+ * If the requirements above do not apply, this rule does nothing.&lt;/p&gt;
+ *
+ * @author Marcelo Vanzin
+ * @version $Id: WhitespaceRule.java 15614 2009-06-30 07:21:56Z voituk $
+ * @since jEdit 4.3pre10
+ */</jtok>
+<jtok eid="1" type="class_name" span="46:14:46:28">WhitespaceRule</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:40:46:50">IndentRule</jtok>
+<jtok eid="2" type="method_name" span="49:14:49:19">apply</jtok>
+<jtok eid="2" type="parameter_type" span="49:20:49:31">JEditBuffer</jtok>
+<jtok eid="2" type="parameter_name" span="49:32:49:38">buffer</jtok>
+<jtok eid="2" type="parameter_name" span="49:44:49:57">thisLineIndex</jtok>
+<jtok eid="2" type="parameter_name" span="50:10:50:23">prevLineIndex</jtok>
+<jtok eid="2" type="parameter_name" span="50:29:50:46">prevPrevLineIndex</jtok>
+<jtok eid="2" type="parameter_type" span="51:6:51:10">List</jtok>
+<jtok eid="2" type="parameter_type" span="51:11:51:23">IndentAction</jtok>
+<jtok eid="2" type="parameter_name" span="51:25:51:38">indentActions</jtok>
+<jtok eid="2" type="block_comment" span="53:3:53:60">/* Don't apply this rule if the current line is empty. */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="54:3:54:15">CharSequence</jtok>
+<jtok eid="2" type="local_variable_name" span="54:16:54:23">current</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:26:54:32">buffer</jtok>
+<jtok eid="2" type="method_call" span="54:33:54:47">getLineSegment</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:48:54:61">thisLineIndex</jtok>
+<jtok eid="2" type="local_variable_name" span="55:11:55:16">found</jtok>
+<jtok eid="2" type="local_variable_name" span="56:12:56:13">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:19:56:20">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:23:56:30">current</jtok>
+<jtok eid="2" type="method_call" span="56:31:56:37">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:41:56:42">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:9:58:18">Character</jtok>
+<jtok eid="2" type="method_call" span="58:19:58:31">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:32:58:39">current</jtok>
+<jtok eid="2" type="method_call" span="58:40:58:46">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:47:58:48">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:5:60:10">found</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:8:64:13">found</jtok>
+<jtok eid="2" type="block_comment" span="67:3:67:45">/* Check if the previous line is empty. */</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:7:68:20">prevLineIndex</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="69:4:69:16">CharSequence</jtok>
+<jtok eid="2" type="local_variable_name" span="69:17:69:25">previous</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:28:69:34">buffer</jtok>
+<jtok eid="2" type="method_call" span="69:35:69:49">getLineSegment</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:50:69:63">prevLineIndex</jtok>
+<jtok eid="2" type="local_variable_name" span="70:13:70:14">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:20:70:21">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:24:70:32">previous</jtok>
+<jtok eid="2" type="method_call" span="70:33:70:39">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:43:70:44">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:10:72:19">Character</jtok>
+<jtok eid="2" type="method_call" span="72:20:72:32">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:33:72:41">previous</jtok>
+<jtok eid="2" type="method_call" span="72:42:72:48">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:49:72:50">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:3:76:16">indentActions</jtok>
+<jtok eid="2" type="method_call" span="76:17:76:20">add</jtok>
+<jtok eid="2" type="constructor_call" span="76:25:76:37">IndentAction</jtok>
+<jtok eid="2" type="constructor_call" span="76:38:76:48">NoIncrease</jtok>
+</jdoc>

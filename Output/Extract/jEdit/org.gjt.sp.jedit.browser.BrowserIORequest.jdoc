@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.browser.BrowserIORequest" jls="java5">
+<jent id="0" type="file" span="0:0:343:2">Source/jEdit/org/gjt/sp/jedit/browser/BrowserIORequest.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:343:1">org.gjt.sp.jedit.browser.BrowserIORequest</jent>
+<jent id="2" pid="1" type="method" span="71:2:82:2">org.gjt.sp.jedit.browser.BrowserIORequest.BrowserIORequest(int,VFSBrowser,Object,VFS,String,String,Object[])</jent>
+<jent id="3" pid="1" type="method" span="85:2:102:2">org.gjt.sp.jedit.browser.BrowserIORequest.run()</jent>
+<jent id="4" pid="1" type="method" span="105:2:130:2">org.gjt.sp.jedit.browser.BrowserIORequest.toString()</jent>
+<jent id="5" pid="1" type="method" span="145:2:190:2">org.gjt.sp.jedit.browser.BrowserIORequest.listDirectory()</jent>
+<jent id="6" pid="1" type="method" span="193:2:234:2">org.gjt.sp.jedit.browser.BrowserIORequest.delete()</jent>
+<jent id="7" pid="1" type="method" span="237:2:297:2">org.gjt.sp.jedit.browser.BrowserIORequest.rename()</jent>
+<jent id="8" pid="1" type="method" span="300:2:340:2">org.gjt.sp.jedit.browser.BrowserIORequest.mkdir()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BrowserIORequest.java - VFS browser I/O request
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="32:1:36:4">/**
+ * A browser I/O request.
+ * @author Slava Pestov
+ * @version $Id: BrowserIORequest.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:7:37:23">BrowserIORequest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:32:37:43">WorkRequest</jtok>
+<jtok eid="1" type="line_comment" span="39:2:39:21">//{{{ Request types</jtok>
+<jtok eid="1" type="block_comment" span="40:2:42:5">/**
+	 * Directory listing I/O request.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="43:26:43:40">LIST_DIRECTORY</jtok>
+<jtok eid="1" type="block_comment" span="45:2:47:5">/**
+	 * Delete file I/O request.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="48:26:48:32">DELETE</jtok>
+<jtok eid="1" type="block_comment" span="50:2:52:5">/**
+	 * Rename file I/O request.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="53:26:53:32">RENAME</jtok>
+<jtok eid="1" type="block_comment" span="55:2:57:5">/**
+	 * Make directory I/O request.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="58:26:58:31">MKDIR</jtok>
+<jtok eid="1" type="line_comment" span="59:2:59:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:36">//{{{ BrowserIORequest constructor</jtok>
+<jtok eid="1" type="block_comment" span="62:2:70:5">/**
+	 * Creates a new browser I/O request.
+	 * @param type The request type
+	 * @param browser The VFS browser instance
+	 * @param path1 The first path name to operate on
+	 * @param path2 The second path name to operate on
+	 * @param loadInfo A two-element array filled out by the request;
+	 * element 1 is the canonical path, element 2 is the file list.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="71:2:71:18">BrowserIORequest</jtok>
+<jtok eid="2" type="parameter_name" span="71:23:71:27">type</jtok>
+<jtok eid="2" type="parameter_type" span="71:29:71:39">VFSBrowser</jtok>
+<jtok eid="2" type="parameter_name" span="71:40:71:47">browser</jtok>
+<jtok eid="2" type="parameter_type" span="72:3:72:9">Object</jtok>
+<jtok eid="2" type="parameter_name" span="72:10:72:17">session</jtok>
+<jtok eid="2" type="parameter_type" span="72:19:72:22">VFS</jtok>
+<jtok eid="2" type="parameter_name" span="72:23:72:26">vfs</jtok>
+<jtok eid="2" type="parameter_type" span="72:28:72:34">String</jtok>
+<jtok eid="2" type="parameter_name" span="72:35:72:40">path1</jtok>
+<jtok eid="2" type="parameter_type" span="72:42:72:48">String</jtok>
+<jtok eid="2" type="parameter_name" span="72:49:72:54">path2</jtok>
+<jtok eid="2" type="parameter_type" span="73:3:73:9">Object</jtok>
+<jtok eid="2" type="parameter_name" span="73:12:73:20">loadInfo</jtok>
+<jtok eid="2" type="qualified_name_ref" span="75:8:75:12">type</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:15:75:19">type</jtok>
+<jtok eid="2" type="qualified_name_ref" span="76:8:76:15">browser</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:18:76:25">browser</jtok>
+<jtok eid="2" type="qualified_name_ref" span="77:8:77:15">session</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:18:77:25">session</jtok>
+<jtok eid="2" type="qualified_name_ref" span="78:8:78:11">vfs</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:14:78:17">vfs</jtok>
+<jtok eid="2" type="qualified_name_ref" span="79:8:79:13">path1</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:16:79:21">path1</jtok>
+<jtok eid="2" type="qualified_name_ref" span="80:8:80:13">path2</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:16:80:21">path2</jtok>
+<jtok eid="2" type="qualified_name_ref" span="81:8:81:16">loadInfo</jtok>
+<jtok eid="2" type="primary_name_ref" span="81:19:81:27">loadInfo</jtok>
+<jtok eid="1" type="line_comment" span="82:4:82:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="84:2:84:20">//{{{ run() method</jtok>
+<jtok eid="3" type="method_name" span="85:14:85:17">run</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:10:87:14">type</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:8:89:22">LIST_DIRECTORY</jtok>
+<jtok eid="3" type="method_call" span="90:4:90:17">listDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:8:92:14">DELETE</jtok>
+<jtok eid="3" type="method_call" span="93:4:93:10">delete</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:8:95:14">RENAME</jtok>
+<jtok eid="3" type="method_call" span="96:4:96:10">rename</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:8:98:13">MKDIR</jtok>
+<jtok eid="3" type="method_call" span="99:4:99:9">mkdir</jtok>
+<jtok eid="1" type="line_comment" span="102:4:102:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="104:2:104:25">//{{{ toString() method</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="105:9:105:15">String</jtok>
+<jtok eid="4" type="method_name" span="105:16:105:24">toString</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="107:3:107:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="107:10:107:20">typeString</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:10:108:14">type</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:8:110:22">LIST_DIRECTORY</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:4:111:14">typeString</jtok>
+<jtok eid="4" type="string_literal" span="111:17:111:33">"LIST_DIRECTORY"</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:8:113:14">DELETE</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:4:114:14">typeString</jtok>
+<jtok eid="4" type="string_literal" span="114:17:114:25">"DELETE"</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:8:116:14">RENAME</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:4:117:14">typeString</jtok>
+<jtok eid="4" type="string_literal" span="117:17:117:25">"RENAME"</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:8:119:13">MKDIR</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:4:120:14">typeString</jtok>
+<jtok eid="4" type="string_literal" span="120:17:120:24">"MKDIR"</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:4:123:14">typeString</jtok>
+<jtok eid="4" type="string_literal" span="123:17:123:29">"UNKNOWN!!!"</jtok>
+<jtok eid="4" type="method_call" span="127:10:127:18">getClass</jtok>
+<jtok eid="4" type="method_call" span="127:21:127:28">getName</jtok>
+<jtok eid="4" type="string_literal" span="127:33:127:41">"[type="</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:44:127:54">typeString</jtok>
+<jtok eid="4" type="string_literal" span="128:6:128:13">",vfs="</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:16:128:19">vfs</jtok>
+<jtok eid="4" type="string_literal" span="128:22:128:31">",path1="</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:34:128:39">path1</jtok>
+<jtok eid="4" type="string_literal" span="129:6:129:15">",path2="</jtok>
+<jtok eid="4" type="primary_name_ref" span="129:18:129:23">path2</jtok>
+<jtok eid="4" type="string_literal" span="129:26:129:29">"]"</jtok>
+<jtok eid="1" type="line_comment" span="130:4:130:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="132:2:132:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="134:2:134:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="field_name" span="135:14:135:18">type</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="136:10:136:20">VFSBrowser</jtok>
+<jtok eid="1" type="field_name" span="136:21:136:28">browser</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="137:10:137:16">Object</jtok>
+<jtok eid="1" type="field_name" span="137:17:137:24">session</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="138:10:138:13">VFS</jtok>
+<jtok eid="1" type="field_name" span="138:14:138:17">vfs</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="139:10:139:16">String</jtok>
+<jtok eid="1" type="field_name" span="139:17:139:22">path1</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="140:10:140:16">String</jtok>
+<jtok eid="1" type="field_name" span="140:17:140:22">path2</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="141:10:141:16">Object</jtok>
+<jtok eid="1" type="field_name" span="141:19:141:27">loadInfo</jtok>
+<jtok eid="1" type="line_comment" span="142:2:142:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="144:2:144:30">//{{{ listDirectory() method</jtok>
+<jtok eid="5" type="method_name" span="145:15:145:28">listDirectory</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="147:3:147:10">VFSFile</jtok>
+<jtok eid="5" type="local_variable_name" span="147:13:147:22">directory</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="149:3:149:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="149:12:149:16">args</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:21:149:26">path1</jtok>
+<jtok eid="5" type="method_call" span="150:3:150:12">setStatus</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:13:150:18">jEdit</jtok>
+<jtok eid="5" type="method_call" span="150:19:150:30">getProperty</jtok>
+<jtok eid="5" type="string_literal" span="150:31:150:61">"vfs.status.listing-directory"</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:62:150:66">args</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="152:3:152:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="152:10:152:19">canonPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="152:22:152:27">path1</jtok>
+<jtok eid="5" type="method_call" span="156:4:156:16">setAbortable</jtok>
+<jtok eid="5" type="primary_name_ref" span="158:4:158:13">canonPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="158:16:158:19">vfs</jtok>
+<jtok eid="5" type="method_call" span="158:20:158:30">_canonPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="158:31:158:38">session</jtok>
+<jtok eid="5" type="primary_name_ref" span="158:39:158:44">path1</jtok>
+<jtok eid="5" type="primary_name_ref" span="158:45:158:52">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:4:159:13">directory</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:16:159:19">vfs</jtok>
+<jtok eid="5" type="method_call" span="159:20:159:30">_listFiles</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:31:159:38">session</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:39:159:48">canonPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:49:159:56">browser</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="161:9:161:20">IOException</jtok>
+<jtok eid="5" type="local_variable_name" span="161:21:161:23">io</jtok>
+<jtok eid="5" type="method_call" span="163:4:163:16">setAbortable</jtok>
+<jtok eid="5" type="primary_name_ref" span="164:4:164:7">Log</jtok>
+<jtok eid="5" type="method_call" span="164:8:164:11">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="164:12:164:15">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="164:16:164:21">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="164:27:164:29">io</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="165:4:165:10">String</jtok>
+<jtok eid="5" type="local_variable_name" span="165:13:165:15">pp</jtok>
+<jtok eid="5" type="primary_name_ref" span="165:20:165:22">io</jtok>
+<jtok eid="5" type="method_call" span="165:23:165:31">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="166:4:166:14">VFSManager</jtok>
+<jtok eid="5" type="method_call" span="166:15:166:20">error</jtok>
+<jtok eid="5" type="primary_name_ref" span="166:21:166:28">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="166:29:166:34">path1</jtok>
+<jtok eid="5" type="string_literal" span="166:35:166:60">"ioerror.directory-error"</jtok>
+<jtok eid="5" type="primary_name_ref" span="166:61:166:63">pp</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="168:9:168:19">WorkThread</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="168:20:168:25">Abort</jtok>
+<jtok eid="5" type="local_variable_name" span="168:26:168:27">a</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:5:175:8">vfs</jtok>
+<jtok eid="5" type="method_call" span="175:9:175:23">_endVFSSession</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:24:175:31">session</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:32:175:39">browser</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="177:10:177:21">IOException</jtok>
+<jtok eid="5" type="local_variable_name" span="177:22:177:24">io</jtok>
+<jtok eid="5" type="method_call" span="179:5:179:17">setAbortable</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:5:180:8">Log</jtok>
+<jtok eid="5" type="method_call" span="180:9:180:12">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:13:180:16">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="180:17:180:22">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:28:180:30">io</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="181:5:181:11">String</jtok>
+<jtok eid="5" type="local_variable_name" span="181:14:181:16">pp</jtok>
+<jtok eid="5" type="primary_name_ref" span="181:21:181:23">io</jtok>
+<jtok eid="5" type="method_call" span="181:24:181:32">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="182:5:182:15">VFSManager</jtok>
+<jtok eid="5" type="method_call" span="182:16:182:21">error</jtok>
+<jtok eid="5" type="primary_name_ref" span="182:22:182:29">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="182:30:182:35">path1</jtok>
+<jtok eid="5" type="string_literal" span="182:36:182:61">"ioerror.directory-error"</jtok>
+<jtok eid="5" type="primary_name_ref" span="182:62:182:64">pp</jtok>
+<jtok eid="5" type="method_call" span="186:3:186:15">setAbortable</jtok>
+<jtok eid="5" type="primary_name_ref" span="188:3:188:11">loadInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="188:17:188:26">canonPath</jtok>
+<jtok eid="5" type="primary_name_ref" span="189:3:189:11">loadInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="189:17:189:26">directory</jtok>
+<jtok eid="1" type="line_comment" span="190:4:190:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="192:2:192:23">//{{{ delete() method</jtok>
+<jtok eid="6" type="method_name" span="193:15:193:21">delete</jtok>
+<jtok eid="6" type="method_call" span="197:4:197:16">setAbortable</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="198:4:198:10">String</jtok>
+<jtok eid="6" type="local_variable_name" span="198:13:198:17">args</jtok>
+<jtok eid="6" type="primary_name_ref" span="198:22:198:27">path1</jtok>
+<jtok eid="6" type="method_call" span="199:4:199:13">setStatus</jtok>
+<jtok eid="6" type="primary_name_ref" span="199:14:199:19">jEdit</jtok>
+<jtok eid="6" type="method_call" span="199:20:199:31">getProperty</jtok>
+<jtok eid="6" type="string_literal" span="199:32:199:53">"vfs.status.deleting"</jtok>
+<jtok eid="6" type="primary_name_ref" span="199:54:199:58">args</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:5:203:10">path1</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:13:203:16">vfs</jtok>
+<jtok eid="6" type="method_call" span="203:17:203:27">_canonPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:28:203:35">session</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:36:203:41">path1</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:42:203:49">browser</jtok>
+<jtok eid="6" type="primary_name_ref" span="206:9:206:12">vfs</jtok>
+<jtok eid="6" type="method_call" span="206:13:206:20">_delete</jtok>
+<jtok eid="6" type="primary_name_ref" span="206:21:206:28">session</jtok>
+<jtok eid="6" type="primary_name_ref" span="206:29:206:34">path1</jtok>
+<jtok eid="6" type="primary_name_ref" span="206:35:206:42">browser</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:6:207:16">VFSManager</jtok>
+<jtok eid="6" type="method_call" span="207:17:207:22">error</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:23:207:30">browser</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:31:207:36">path1</jtok>
+<jtok eid="6" type="string_literal" span="207:37:207:59">"ioerror.delete-error"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="209:10:209:21">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="209:22:209:24">io</jtok>
+<jtok eid="6" type="method_call" span="211:5:211:17">setAbortable</jtok>
+<jtok eid="6" type="primary_name_ref" span="212:5:212:8">Log</jtok>
+<jtok eid="6" type="method_call" span="212:9:212:12">log</jtok>
+<jtok eid="6" type="primary_name_ref" span="212:13:212:16">Log</jtok>
+<jtok eid="6" type="qualified_name_ref" span="212:17:212:22">ERROR</jtok>
+<jtok eid="6" type="primary_name_ref" span="212:28:212:30">io</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="213:5:213:11">String</jtok>
+<jtok eid="6" type="local_variable_name" span="213:14:213:16">pp</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:21:213:23">io</jtok>
+<jtok eid="6" type="method_call" span="213:24:213:32">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:5:214:15">VFSManager</jtok>
+<jtok eid="6" type="method_call" span="214:16:214:21">error</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:22:214:29">browser</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:30:214:35">path1</jtok>
+<jtok eid="6" type="string_literal" span="214:36:214:61">"ioerror.directory-error"</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:62:214:64">pp</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="217:9:217:19">WorkThread</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="217:20:217:25">Abort</jtok>
+<jtok eid="6" type="local_variable_name" span="217:26:217:27">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="224:5:224:8">vfs</jtok>
+<jtok eid="6" type="method_call" span="224:9:224:23">_endVFSSession</jtok>
+<jtok eid="6" type="primary_name_ref" span="224:24:224:31">session</jtok>
+<jtok eid="6" type="primary_name_ref" span="224:32:224:39">browser</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="226:10:226:21">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="226:22:226:24">io</jtok>
+<jtok eid="6" type="method_call" span="228:5:228:17">setAbortable</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:5:229:8">Log</jtok>
+<jtok eid="6" type="method_call" span="229:9:229:12">log</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:13:229:16">Log</jtok>
+<jtok eid="6" type="qualified_name_ref" span="229:17:229:22">ERROR</jtok>
+<jtok eid="6" type="primary_name_ref" span="229:28:229:30">io</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="230:5:230:11">String</jtok>
+<jtok eid="6" type="local_variable_name" span="230:14:230:16">pp</jtok>
+<jtok eid="6" type="primary_name_ref" span="230:21:230:23">io</jtok>
+<jtok eid="6" type="method_call" span="230:24:230:32">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="231:5:231:15">VFSManager</jtok>
+<jtok eid="6" type="method_call" span="231:16:231:21">error</jtok>
+<jtok eid="6" type="primary_name_ref" span="231:22:231:29">browser</jtok>
+<jtok eid="6" type="primary_name_ref" span="231:30:231:35">path1</jtok>
+<jtok eid="6" type="string_literal" span="231:36:231:61">"ioerror.directory-error"</jtok>
+<jtok eid="6" type="primary_name_ref" span="231:62:231:64">pp</jtok>
+<jtok eid="1" type="line_comment" span="234:4:234:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="236:2:236:23">//{{{ rename() method</jtok>
+<jtok eid="7" type="method_name" span="237:15:237:21">rename</jtok>
+<jtok eid="7" type="method_call" span="241:4:241:16">setAbortable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="242:4:242:10">String</jtok>
+<jtok eid="7" type="local_variable_name" span="242:13:242:17">args</jtok>
+<jtok eid="7" type="primary_name_ref" span="242:22:242:27">path1</jtok>
+<jtok eid="7" type="primary_name_ref" span="242:29:242:34">path2</jtok>
+<jtok eid="7" type="method_call" span="243:4:243:13">setStatus</jtok>
+<jtok eid="7" type="primary_name_ref" span="243:14:243:19">jEdit</jtok>
+<jtok eid="7" type="method_call" span="243:20:243:31">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="243:32:243:53">"vfs.status.renaming"</jtok>
+<jtok eid="7" type="primary_name_ref" span="243:54:243:58">args</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:5:247:10">path1</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:13:247:16">vfs</jtok>
+<jtok eid="7" type="method_call" span="247:17:247:27">_canonPath</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:28:247:35">session</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:36:247:41">path1</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:42:247:49">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:5:248:10">path2</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:13:248:16">vfs</jtok>
+<jtok eid="7" type="method_call" span="248:17:248:27">_canonPath</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:28:248:35">session</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:36:248:41">path2</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:42:248:49">browser</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="250:5:250:12">VFSFile</jtok>
+<jtok eid="7" type="local_variable_name" span="250:13:250:17">file</jtok>
+<jtok eid="7" type="primary_name_ref" span="250:20:250:23">vfs</jtok>
+<jtok eid="7" type="method_call" span="250:24:250:32">_getFile</jtok>
+<jtok eid="7" type="primary_name_ref" span="250:33:250:40">session</jtok>
+<jtok eid="7" type="primary_name_ref" span="250:41:250:46">path2</jtok>
+<jtok eid="7" type="primary_name_ref" span="250:47:250:54">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="251:8:251:12">file</jtok>
+<jtok eid="7" type="primary_name_ref" span="253:10:253:25">OperatingSystem</jtok>
+<jtok eid="7" type="method_call" span="253:26:253:45">isCaseInsensitiveFS</jtok>
+<jtok eid="7" type="primary_name_ref" span="254:10:254:15">path1</jtok>
+<jtok eid="7" type="method_call" span="254:16:254:32">equalsIgnoreCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="254:33:254:38">path2</jtok>
+<jtok eid="7" type="line_comment" span="256:7:256:35">// allow user to change name</jtok>
+<jtok eid="7" type="line_comment" span="257:7:257:14">// case</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:7:261:17">VFSManager</jtok>
+<jtok eid="7" type="method_call" span="261:18:261:23">error</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:24:261:31">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:32:261:37">path1</jtok>
+<jtok eid="7" type="string_literal" span="262:8:262:31">"ioerror.rename-exists"</jtok>
+<jtok eid="7" type="constructor_call" span="263:12:263:18">String</jtok>
+<jtok eid="7" type="primary_name_ref" span="263:23:263:28">path2</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:9:268:12">vfs</jtok>
+<jtok eid="7" type="method_call" span="268:13:268:20">_rename</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:21:268:28">session</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:29:268:34">path1</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:35:268:40">path2</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:41:268:48">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="269:6:269:16">VFSManager</jtok>
+<jtok eid="7" type="method_call" span="269:17:269:22">error</jtok>
+<jtok eid="7" type="primary_name_ref" span="269:23:269:30">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="269:31:269:36">path1</jtok>
+<jtok eid="7" type="string_literal" span="269:37:269:59">"ioerror.rename-error"</jtok>
+<jtok eid="7" type="constructor_call" span="270:11:270:17">String</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:22:270:27">path2</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="272:10:272:21">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="272:22:272:24">io</jtok>
+<jtok eid="7" type="method_call" span="274:5:274:17">setAbortable</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:5:275:8">Log</jtok>
+<jtok eid="7" type="method_call" span="275:9:275:12">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:13:275:16">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="275:17:275:22">ERROR</jtok>
+<jtok eid="7" type="primary_name_ref" span="275:28:275:30">io</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="276:5:276:11">String</jtok>
+<jtok eid="7" type="local_variable_name" span="276:14:276:16">pp</jtok>
+<jtok eid="7" type="primary_name_ref" span="276:21:276:23">io</jtok>
+<jtok eid="7" type="method_call" span="276:24:276:32">toString</jtok>
+<jtok eid="7" type="primary_name_ref" span="277:5:277:15">VFSManager</jtok>
+<jtok eid="7" type="method_call" span="277:16:277:21">error</jtok>
+<jtok eid="7" type="primary_name_ref" span="277:22:277:29">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="277:30:277:35">path1</jtok>
+<jtok eid="7" type="string_literal" span="277:36:277:61">"ioerror.directory-error"</jtok>
+<jtok eid="7" type="primary_name_ref" span="277:62:277:64">pp</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="280:9:280:19">WorkThread</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="280:20:280:25">Abort</jtok>
+<jtok eid="7" type="local_variable_name" span="280:26:280:27">a</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:5:287:8">vfs</jtok>
+<jtok eid="7" type="method_call" span="287:9:287:23">_endVFSSession</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:24:287:31">session</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:32:287:39">browser</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="289:10:289:21">IOException</jtok>
+<jtok eid="7" type="local_variable_name" span="289:22:289:24">io</jtok>
+<jtok eid="7" type="method_call" span="291:5:291:17">setAbortable</jtok>
+<jtok eid="7" type="primary_name_ref" span="292:5:292:8">Log</jtok>
+<jtok eid="7" type="method_call" span="292:9:292:12">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="292:13:292:16">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="292:17:292:22">ERROR</jtok>
+<jtok eid="7" type="primary_name_ref" span="292:28:292:30">io</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="293:5:293:11">String</jtok>
+<jtok eid="7" type="local_variable_name" span="293:14:293:16">pp</jtok>
+<jtok eid="7" type="primary_name_ref" span="293:21:293:23">io</jtok>
+<jtok eid="7" type="method_call" span="293:24:293:32">toString</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:5:294:15">VFSManager</jtok>
+<jtok eid="7" type="method_call" span="294:16:294:21">error</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:22:294:29">browser</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:30:294:35">path1</jtok>
+<jtok eid="7" type="string_literal" span="294:36:294:61">"ioerror.directory-error"</jtok>
+<jtok eid="7" type="primary_name_ref" span="294:62:294:64">pp</jtok>
+<jtok eid="1" type="line_comment" span="297:4:297:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="299:2:299:22">//{{{ mkdir() method</jtok>
+<jtok eid="8" type="method_name" span="300:15:300:20">mkdir</jtok>
+<jtok eid="8" type="method_call" span="304:4:304:16">setAbortable</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="305:4:305:10">String</jtok>
+<jtok eid="8" type="local_variable_name" span="305:13:305:17">args</jtok>
+<jtok eid="8" type="primary_name_ref" span="305:22:305:27">path1</jtok>
+<jtok eid="8" type="method_call" span="306:4:306:13">setStatus</jtok>
+<jtok eid="8" type="primary_name_ref" span="306:14:306:19">jEdit</jtok>
+<jtok eid="8" type="method_call" span="306:20:306:31">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="306:32:306:50">"vfs.status.mkdir"</jtok>
+<jtok eid="8" type="primary_name_ref" span="306:51:306:55">args</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:5:310:10">path1</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:13:310:16">vfs</jtok>
+<jtok eid="8" type="method_call" span="310:17:310:27">_canonPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:28:310:35">session</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:36:310:41">path1</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:42:310:49">browser</jtok>
+<jtok eid="8" type="primary_name_ref" span="312:9:312:12">vfs</jtok>
+<jtok eid="8" type="method_call" span="312:13:312:19">_mkdir</jtok>
+<jtok eid="8" type="primary_name_ref" span="312:20:312:27">session</jtok>
+<jtok eid="8" type="primary_name_ref" span="312:28:312:33">path1</jtok>
+<jtok eid="8" type="primary_name_ref" span="312:34:312:41">browser</jtok>
+<jtok eid="8" type="primary_name_ref" span="313:6:313:16">VFSManager</jtok>
+<jtok eid="8" type="method_call" span="313:17:313:22">error</jtok>
+<jtok eid="8" type="primary_name_ref" span="313:23:313:30">browser</jtok>
+<jtok eid="8" type="primary_name_ref" span="313:31:313:36">path1</jtok>
+<jtok eid="8" type="string_literal" span="313:37:313:58">"ioerror.mkdir-error"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="315:10:315:21">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="315:22:315:24">io</jtok>
+<jtok eid="8" type="method_call" span="317:5:317:17">setAbortable</jtok>
+<jtok eid="8" type="primary_name_ref" span="318:5:318:8">Log</jtok>
+<jtok eid="8" type="method_call" span="318:9:318:12">log</jtok>
+<jtok eid="8" type="primary_name_ref" span="318:13:318:16">Log</jtok>
+<jtok eid="8" type="qualified_name_ref" span="318:17:318:22">ERROR</jtok>
+<jtok eid="8" type="primary_name_ref" span="318:28:318:30">io</jtok>
+<jtok eid="8" type="primary_name_ref" span="319:5:319:9">args</jtok>
+<jtok eid="8" type="primary_name_ref" span="319:15:319:17">io</jtok>
+<jtok eid="8" type="method_call" span="319:18:319:26">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="320:5:320:15">VFSManager</jtok>
+<jtok eid="8" type="method_call" span="320:16:320:21">error</jtok>
+<jtok eid="8" type="primary_name_ref" span="320:22:320:29">browser</jtok>
+<jtok eid="8" type="primary_name_ref" span="320:30:320:35">path1</jtok>
+<jtok eid="8" type="string_literal" span="320:36:320:45">"ioerror"</jtok>
+<jtok eid="8" type="primary_name_ref" span="320:46:320:50">args</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="323:9:323:19">WorkThread</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="323:20:323:25">Abort</jtok>
+<jtok eid="8" type="local_variable_name" span="323:26:323:27">a</jtok>
+<jtok eid="8" type="primary_name_ref" span="330:5:330:8">vfs</jtok>
+<jtok eid="8" type="method_call" span="330:9:330:23">_endVFSSession</jtok>
+<jtok eid="8" type="primary_name_ref" span="330:24:330:31">session</jtok>
+<jtok eid="8" type="primary_name_ref" span="330:32:330:39">browser</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="332:10:332:21">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="332:22:332:24">io</jtok>
+<jtok eid="8" type="method_call" span="334:5:334:17">setAbortable</jtok>
+<jtok eid="8" type="primary_name_ref" span="335:5:335:8">Log</jtok>
+<jtok eid="8" type="method_call" span="335:9:335:12">log</jtok>
+<jtok eid="8" type="primary_name_ref" span="335:13:335:16">Log</jtok>
+<jtok eid="8" type="qualified_name_ref" span="335:17:335:22">ERROR</jtok>
+<jtok eid="8" type="primary_name_ref" span="335:28:335:30">io</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="336:5:336:11">String</jtok>
+<jtok eid="8" type="local_variable_name" span="336:14:336:18">args</jtok>
+<jtok eid="8" type="primary_name_ref" span="336:23:336:25">io</jtok>
+<jtok eid="8" type="method_call" span="336:26:336:34">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="337:5:337:15">VFSManager</jtok>
+<jtok eid="8" type="method_call" span="337:16:337:21">error</jtok>
+<jtok eid="8" type="primary_name_ref" span="337:22:337:29">browser</jtok>
+<jtok eid="8" type="primary_name_ref" span="337:30:337:35">path1</jtok>
+<jtok eid="8" type="string_literal" span="337:36:337:45">"ioerror"</jtok>
+<jtok eid="8" type="primary_name_ref" span="337:46:337:50">args</jtok>
+<jtok eid="1" type="line_comment" span="340:4:340:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="342:2:342:7">//}}}</jtok>
+</jdoc>

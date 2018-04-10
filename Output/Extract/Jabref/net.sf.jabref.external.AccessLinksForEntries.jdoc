@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.external.AccessLinksForEntries" jls="java5">
+<jent id="0" type="file" span="0:0:210:1">Source/jabref/src/java/net/sf/jabref/external/AccessLinksForEntries.java</jent>
+<jent id="1" pid="0" type="class" span="33:1:210:1">net.sf.jabref.external.AccessLinksForEntries</jent>
+<jent id="2" pid="1" type="method" span="42:5:55:5">net.sf.jabref.external.AccessLinksForEntries.getExternalLinksForEntries(List&lt;BibtexEntry&gt;)</jent>
+<jent id="3" pid="1" type="method" span="74:5:158:5">net.sf.jabref.external.AccessLinksForEntries.copyExternalLinksToDirectory(List&lt;FileListEntry&gt;,File,MetaData,JProgressBar,boolean,ActionListener)</jent>
+<jent id="4" pid="3" type="class" span="79:69:85:9">net.sf.jabref.external.AccessLinksForEntries.copyExternalLinksToDirectory(List&lt;FileListEntry&gt;,File,MetaData,JProgressBar,boolean,ActionListener).$1</jent>
+<jent id="5" pid="4" type="method" span="80:13:84:13">net.sf.jabref.external.AccessLinksForEntries.copyExternalLinksToDirectory(List&lt;FileListEntry&gt;,File,MetaData,JProgressBar,boolean,ActionListener).$1.run()</jent>
+<jent id="6" pid="3" type="class" span="142:81:146:21">net.sf.jabref.external.AccessLinksForEntries.copyExternalLinksToDirectory(List&lt;FileListEntry&gt;,File,MetaData,JProgressBar,boolean,ActionListener).$2</jent>
+<jent id="7" pid="6" type="method" span="143:25:145:25">net.sf.jabref.external.AccessLinksForEntries.copyExternalLinksToDirectory(List&lt;FileListEntry&gt;,File,MetaData,JProgressBar,boolean,ActionListener).$2.run()</jent>
+<jent id="8" pid="1" type="class" span="161:5:207:5">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles</jent>
+<jent id="9" pid="8" type="method" span="164:9:167:9">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles.SaveWithLinkedFiles(BasePanel)</jent>
+<jent id="10" pid="8" type="method" span="170:9:206:9">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles.action()</jent>
+<jent id="11" pid="10" type="class" span="192:50:202:13">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles.action().$1</jent>
+<jent id="12" pid="11" type="method" span="193:17:201:17">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles.action().$1.run()</jent>
+<jent id="13" pid="12" type="class" span="196:50:200:29">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles.action().$1.run().$1</jent>
+<jent id="14" pid="13" type="method" span="197:33:199:33">net.sf.jabref.external.AccessLinksForEntries.SaveWithLinkedFiles.action().$1.run().$1.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="28:1:32:4">/**
+ * This class handles the task of looking up all external files linked for a set
+ * of entries. This is useful for tasks where the user wants e.g. to send a database
+ * with external files included.
+ */</jtok>
+<jtok eid="1" type="class_name" span="33:14:33:35">AccessLinksForEntries</jtok>
+<jtok eid="1" type="block_comment" span="35:5:41:8">/**
+     * Look up all external files linked from (at least) one of the entries in a set.
+     * This method does not verify the links.
+     *
+     * @param entries The set of entries.
+     * @return A list of FileListEntry objects pointing to the external files.
+     */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="42:19:42:23">List</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="42:24:42:37">FileListEntry</jtok>
+<jtok eid="2" type="method_name" span="42:39:42:65">getExternalLinksForEntries</jtok>
+<jtok eid="2" type="parameter_type" span="42:66:42:70">List</jtok>
+<jtok eid="2" type="parameter_type" span="42:71:42:82">BibtexEntry</jtok>
+<jtok eid="2" type="parameter_name" span="42:84:42:91">entries</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="43:9:43:13">List</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="43:14:43:27">FileListEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="43:29:43:34">files</jtok>
+<jtok eid="2" type="constructor_call" span="43:41:43:50">ArrayList</jtok>
+<jtok eid="2" type="constructor_call" span="43:51:43:64">FileListEntry</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="44:9:44:27">FileListTableModel</jtok>
+<jtok eid="2" type="local_variable_name" span="44:28:44:33">model</jtok>
+<jtok eid="2" type="constructor_call" span="44:40:44:58">FileListTableModel</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:14:45:22">Iterator</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="45:23:45:34">BibtexEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="45:36:45:44">iterator</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:47:45:54">entries</jtok>
+<jtok eid="2" type="method_call" span="45:55:45:63">iterator</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:67:45:75">iterator</jtok>
+<jtok eid="2" type="method_call" span="45:76:45:83">hasNext</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:13:46:24">BibtexEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="46:25:46:30">entry</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:33:46:41">iterator</jtok>
+<jtok eid="2" type="method_call" span="46:42:46:46">next</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="47:13:47:19">String</jtok>
+<jtok eid="2" type="local_variable_name" span="47:20:47:25">links</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:28:47:33">entry</jtok>
+<jtok eid="2" type="method_call" span="47:34:47:42">getField</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:43:47:53">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="47:54:47:64">FILE_FIELD</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:17:48:22">links</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:13:50:18">model</jtok>
+<jtok eid="2" type="method_call" span="50:19:50:29">setContent</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:30:50:35">links</jtok>
+<jtok eid="2" type="local_variable_name" span="51:22:51:23">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:27:51:28">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:29:51:34">model</jtok>
+<jtok eid="2" type="method_call" span="51:35:51:46">getRowCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:50:51:51">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:17:52:22">files</jtok>
+<jtok eid="2" type="method_call" span="52:23:52:26">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:27:52:32">model</jtok>
+<jtok eid="2" type="method_call" span="52:33:52:41">getEntry</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:42:52:43">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:16:54:21">files</jtok>
+<jtok eid="1" type="block_comment" span="57:5:73:8">/**
+     * Take a list of external links and copy the referred files to a given directory.
+     * This method should be run off the Event Dispatch Thread. A progress bar, if given,
+     * will be updated on the EDT.
+     *
+     * @param files The list of file links.
+     * @param toDir The directory to copy the files to.
+     * @param metaData The MetaData for the database containing the external links. This is needed
+     *  because the database might have its own file directory.
+     * @param prog A JProgressBar which will be updated to show the progress of the process.
+     *  This argument can be null if no progress bar is needed.
+     * @param deleteOriginalFiles if true, the files in their original locations will be deleted
+     *  after copying, for each file whose source directory is different from the destination
+     *  directory differs.
+     * @param callback An ActionListener which should be notified when the process is finished.
+     *  This parameter can be null if no callback is needed.
+     */</jtok>
+<jtok eid="3" type="method_name" span="74:24:74:52">copyExternalLinksToDirectory</jtok>
+<jtok eid="3" type="parameter_type" span="74:59:74:63">List</jtok>
+<jtok eid="3" type="parameter_type" span="74:64:74:77">FileListEntry</jtok>
+<jtok eid="3" type="parameter_name" span="74:79:74:84">files</jtok>
+<jtok eid="3" type="parameter_type" span="74:86:74:90">File</jtok>
+<jtok eid="3" type="parameter_name" span="74:91:74:96">toDir</jtok>
+<jtok eid="3" type="parameter_type" span="75:53:75:61">MetaData</jtok>
+<jtok eid="3" type="parameter_name" span="75:62:75:70">metaData</jtok>
+<jtok eid="3" type="parameter_type" span="75:78:75:90">JProgressBar</jtok>
+<jtok eid="3" type="parameter_name" span="75:91:75:95">prog</jtok>
+<jtok eid="3" type="parameter_name" span="76:61:76:80">deleteOriginalFiles</jtok>
+<jtok eid="3" type="parameter_type" span="77:59:77:73">ActionListener</jtok>
+<jtok eid="3" type="parameter_name" span="77:74:77:82">callback</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:13:79:17">prog</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:27:79:41">SwingUtilities</jtok>
+<jtok eid="3" type="method_call" span="79:42:79:53">invokeLater</jtok>
+<jtok eid="3" type="constructor_call" span="79:58:79:66">Runnable</jtok>
+<jtok eid="5" type="method_name" span="80:25:80:28">run</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:17:81:21">prog</jtok>
+<jtok eid="5" type="method_call" span="81:22:81:32">setMaximum</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:33:81:38">files</jtok>
+<jtok eid="5" type="method_call" span="81:39:81:43">size</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:17:82:21">prog</jtok>
+<jtok eid="5" type="method_call" span="82:22:82:30">setValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:17:83:21">prog</jtok>
+<jtok eid="5" type="method_call" span="83:22:83:38">setIndeterminate</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="87:9:87:12">Set</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="87:13:87:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="87:21:87:30">fileNames</jtok>
+<jtok eid="3" type="constructor_call" span="87:37:87:44">HashSet</jtok>
+<jtok eid="3" type="constructor_call" span="87:45:87:51">String</jtok>
+<jtok eid="3" type="local_variable_name" span="89:13:89:14">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="91:14:91:22">Iterator</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="91:23:91:36">FileListEntry</jtok>
+<jtok eid="3" type="local_variable_name" span="91:38:91:46">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:49:91:54">files</jtok>
+<jtok eid="3" type="method_call" span="91:55:91:63">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:67:91:75">iterator</jtok>
+<jtok eid="3" type="method_call" span="91:76:91:83">hasNext</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="92:13:92:26">FileListEntry</jtok>
+<jtok eid="3" type="local_variable_name" span="92:27:92:32">entry</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:35:92:43">iterator</jtok>
+<jtok eid="3" type="method_call" span="92:44:92:48">next</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="93:13:93:17">File</jtok>
+<jtok eid="3" type="local_variable_name" span="93:18:93:22">file</jtok>
+<jtok eid="3" type="constructor_call" span="93:29:93:33">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:34:93:39">entry</jtok>
+<jtok eid="3" type="method_call" span="93:40:93:47">getLink</jtok>
+<jtok eid="3" type="line_comment" span="95:13:95:59">// We try to check the extension for the file:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="96:13:96:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="96:20:96:24">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:27:96:31">file</jtok>
+<jtok eid="3" type="method_call" span="96:32:96:39">getName</jtok>
+<jtok eid="3" type="local_variable_name" span="97:17:97:20">pos</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:23:97:27">name</jtok>
+<jtok eid="3" type="method_call" span="97:28:97:39">lastIndexOf</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="98:13:98:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="98:20:98:29">extension</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:34:98:37">pos</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:48:98:51">pos</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:54:98:58">name</jtok>
+<jtok eid="3" type="method_call" span="98:59:98:65">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:76:98:80">name</jtok>
+<jtok eid="3" type="method_call" span="98:81:98:90">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:91:98:94">pos</jtok>
+<jtok eid="3" type="method_call" span="99:18:99:22">trim</jtok>
+<jtok eid="3" type="method_call" span="99:25:99:36">toLowerCase</jtok>
+<jtok eid="3" type="line_comment" span="101:13:101:71">// Find the default directory for this field type, if any:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="102:13:102:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="102:20:102:23">dir</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:26:102:34">metaData</jtok>
+<jtok eid="3" type="method_call" span="102:35:102:51">getFileDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:52:102:61">extension</jtok>
+<jtok eid="3" type="line_comment" span="103:13:103:54">// Include the standard "file" directory:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="104:13:104:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="104:20:104:27">fileDir</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:30:104:38">metaData</jtok>
+<jtok eid="3" type="method_call" span="104:39:104:55">getFileDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:56:104:66">GUIGlobals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="104:67:104:77">FILE_FIELD</jtok>
+<jtok eid="3" type="line_comment" span="106:13:106:54">// Include the directory of the bib file:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="107:13:107:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="107:20:107:31">databaseDir</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:34:107:42">metaData</jtok>
+<jtok eid="3" type="method_call" span="107:43:107:50">getFile</jtok>
+<jtok eid="3" type="method_call" span="107:53:107:62">getParent</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="108:13:108:17">File</jtok>
+<jtok eid="3" type="local_variable_name" span="108:18:108:21">tmp</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:24:108:28">Util</jtok>
+<jtok eid="3" type="method_call" span="108:29:108:43">expandFilename</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:44:108:49">entry</jtok>
+<jtok eid="3" type="method_call" span="108:50:108:57">getLink</jtok>
+<jtok eid="3" type="constructor_call" span="109:25:109:31">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:36:109:39">dir</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:41:109:48">fileDir</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:50:109:61">databaseDir</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:17:110:20">tmp</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:17:111:21">file</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:24:111:27">tmp</jtok>
+<jtok eid="3" type="line_comment" span="113:13:113:61">// Check if we have arrived at an existing file:</jtok>
+<jtok eid="3" type="primary_name_ref" span="114:17:114:21">file</jtok>
+<jtok eid="3" type="method_call" span="114:22:114:28">exists</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:21:115:30">fileNames</jtok>
+<jtok eid="3" type="method_call" span="115:31:115:39">contains</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:40:115:44">name</jtok>
+<jtok eid="3" type="line_comment" span="116:21:116:68">// Oops, a file of that name already exists....</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:21:119:30">fileNames</jtok>
+<jtok eid="3" type="method_call" span="119:31:119:34">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:35:119:39">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="120:21:120:25">File</jtok>
+<jtok eid="3" type="local_variable_name" span="120:26:120:37">destination</jtok>
+<jtok eid="3" type="constructor_call" span="120:44:120:48">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:49:120:54">toDir</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:56:120:60">name</jtok>
+<jtok eid="3" type="line_comment" span="122:21:122:77">// Check if the source and destination locations differ:</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:26:123:37">destination</jtok>
+<jtok eid="3" type="method_call" span="123:38:123:44">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:45:123:49">file</jtok>
+<jtok eid="3" type="line_comment" span="125:29:125:46">// Copy the file:</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:29:126:33">Util</jtok>
+<jtok eid="3" type="method_call" span="126:34:126:42">copyFile</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:43:126:47">file</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:49:126:60">destination</jtok>
+<jtok eid="3" type="line_comment" span="127:29:127:70">// Delete the original file if requested:</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:33:128:52">deleteOriginalFiles</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:33:129:37">file</jtok>
+<jtok eid="3" type="method_call" span="129:38:129:44">delete</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="131:34:131:45">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="131:46:131:48">ex</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:29:132:31">ex</jtok>
+<jtok eid="3" type="method_call" span="132:32:132:47">printStackTrace</jtok>
+<jtok eid="3" type="line_comment" span="136:25:136:75">// Destination and source is the same. Do nothing.</jtok>
+<jtok eid="3" type="line_comment" span="138:21:138:44">// Update progress bar:</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:21:139:22">i</jtok>
+<jtok eid="3" type="local_variable_name" span="140:31:140:32">j</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:35:140:36">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:25:142:29">prog</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:39:142:53">SwingUtilities</jtok>
+<jtok eid="3" type="method_call" span="142:54:142:65">invokeLater</jtok>
+<jtok eid="3" type="constructor_call" span="142:70:142:78">Runnable</jtok>
+<jtok eid="7" type="method_name" span="143:37:143:40">run</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:29:144:33">prog</jtok>
+<jtok eid="7" type="method_call" span="144:34:144:42">setValue</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:43:144:44">j</jtok>
+<jtok eid="3" type="line_comment" span="150:17:150:71">// The link could not be resolved to an existing file.</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:13:155:21">callback</jtok>
+<jtok eid="3" type="primary_name_ref" span="156:13:156:21">callback</jtok>
+<jtok eid="3" type="method_call" span="156:22:156:37">actionPerformed</jtok>
+<jtok eid="8" type="class_name" span="161:25:161:44">SaveWithLinkedFiles</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="161:53:161:63">BaseAction</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="162:17:162:26">BasePanel</jtok>
+<jtok eid="8" type="field_name" span="162:27:162:32">panel</jtok>
+<jtok eid="9" type="method_name" span="164:16:164:35">SaveWithLinkedFiles</jtok>
+<jtok eid="9" type="parameter_type" span="164:36:164:45">BasePanel</jtok>
+<jtok eid="9" type="parameter_name" span="164:46:164:51">panel</jtok>
+<jtok eid="9" type="qualified_name_ref" span="166:18:166:23">panel</jtok>
+<jtok eid="9" type="primary_name_ref" span="166:26:166:31">panel</jtok>
+<jtok eid="8" type="annotation_ref" span="169:10:169:18">Override</jtok>
+<jtok eid="10" type="method_name" span="170:21:170:27">action</jtok>
+<jtok eid="10" type="throws" span="170:37:170:46">Throwable</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="172:13:172:22">ArrayList</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="172:23:172:34">BibtexEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="172:36:172:43">entries</jtok>
+<jtok eid="10" type="constructor_call" span="172:50:172:59">ArrayList</jtok>
+<jtok eid="10" type="constructor_call" span="172:60:172:71">BibtexEntry</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="173:13:173:24">BibtexEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="173:27:173:30">sel</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:33:173:38">panel</jtok>
+<jtok eid="10" type="method_call" span="173:39:173:57">getSelectedEntries</jtok>
+<jtok eid="10" type="local_variable_name" span="174:22:174:23">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="174:29:174:30">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="174:33:174:36">sel</jtok>
+<jtok eid="10" type="qualified_name_ref" span="174:37:174:43">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="174:45:174:46">i</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="175:17:175:28">BibtexEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="175:29:175:40">bibtexEntry</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:43:175:46">sel</jtok>
+<jtok eid="10" type="primary_name_ref" span="175:47:175:48">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="176:17:176:24">entries</jtok>
+<jtok eid="10" type="method_call" span="176:25:176:28">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="176:29:176:40">bibtexEntry</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="178:19:178:23">List</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="178:24:178:37">FileListEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="178:39:178:44">links</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:21:179:42">AccessLinksForEntries</jtok>
+<jtok eid="10" type="method_call" span="179:43:179:69">getExternalLinksForEntries</jtok>
+<jtok eid="10" type="primary_name_ref" span="179:70:179:77">entries</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="180:18:180:26">Iterator</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="180:27:180:40">FileListEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="180:42:180:50">iterator</jtok>
+<jtok eid="10" type="primary_name_ref" span="180:53:180:58">links</jtok>
+<jtok eid="10" type="method_call" span="180:59:180:67">iterator</jtok>
+<jtok eid="10" type="primary_name_ref" span="180:71:180:79">iterator</jtok>
+<jtok eid="10" type="method_call" span="180:80:180:87">hasNext</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="181:17:181:30">FileListEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="181:31:181:36">entry</jtok>
+<jtok eid="10" type="primary_name_ref" span="181:39:181:47">iterator</jtok>
+<jtok eid="10" type="method_call" span="181:48:181:52">next</jtok>
+<jtok eid="10" type="primary_name_ref" span="182:17:182:23">System</jtok>
+<jtok eid="10" type="qualified_name_ref" span="182:24:182:27">out</jtok>
+<jtok eid="10" type="method_call" span="182:28:182:35">println</jtok>
+<jtok eid="10" type="string_literal" span="182:36:182:44">"Link: "</jtok>
+<jtok eid="10" type="primary_name_ref" span="182:47:182:52">entry</jtok>
+<jtok eid="10" type="method_call" span="182:53:182:60">getLink</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="185:19:185:31">JProgressBar</jtok>
+<jtok eid="10" type="local_variable_name" span="185:32:185:36">prog</jtok>
+<jtok eid="10" type="constructor_call" span="185:43:185:55">JProgressBar</jtok>
+<jtok eid="10" type="primary_name_ref" span="186:13:186:17">prog</jtok>
+<jtok eid="10" type="method_call" span="186:18:186:34">setIndeterminate</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="187:19:187:26">JDialog</jtok>
+<jtok eid="10" type="local_variable_name" span="187:27:187:31">diag</jtok>
+<jtok eid="10" type="constructor_call" span="187:38:187:45">JDialog</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:46:187:51">panel</jtok>
+<jtok eid="10" type="method_call" span="187:52:187:57">frame</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:13:188:17">diag</jtok>
+<jtok eid="10" type="method_call" span="188:18:188:32">getContentPane</jtok>
+<jtok eid="10" type="method_call" span="188:35:188:38">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:39:188:43">prog</jtok>
+<jtok eid="10" type="primary_name_ref" span="188:45:188:57">BorderLayout</jtok>
+<jtok eid="10" type="qualified_name_ref" span="188:58:188:64">CENTER</jtok>
+<jtok eid="10" type="primary_name_ref" span="189:13:189:17">diag</jtok>
+<jtok eid="10" type="method_call" span="189:18:189:22">pack</jtok>
+<jtok eid="10" type="primary_name_ref" span="190:13:190:17">diag</jtok>
+<jtok eid="10" type="method_call" span="190:18:190:39">setLocationRelativeTo</jtok>
+<jtok eid="10" type="primary_name_ref" span="190:40:190:45">panel</jtok>
+<jtok eid="10" type="method_call" span="190:46:190:51">frame</jtok>
+<jtok eid="10" type="primary_name_ref" span="191:13:191:17">diag</jtok>
+<jtok eid="10" type="method_call" span="191:18:191:28">setVisible</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="192:13:192:19">Thread</jtok>
+<jtok eid="10" type="local_variable_name" span="192:20:192:21">t</jtok>
+<jtok eid="10" type="constructor_call" span="192:28:192:34">Thread</jtok>
+<jtok eid="10" type="constructor_call" span="192:39:192:47">Runnable</jtok>
+<jtok eid="12" type="method_name" span="193:29:193:32">run</jtok>
+<jtok eid="12" type="primary_name_ref" span="194:21:194:42">AccessLinksForEntries</jtok>
+<jtok eid="12" type="method_call" span="194:43:194:71">copyExternalLinksToDirectory</jtok>
+<jtok eid="12" type="primary_name_ref" span="194:72:194:77">links</jtok>
+<jtok eid="12" type="constructor_call" span="195:33:195:37">File</jtok>
+<jtok eid="12" type="string_literal" span="195:38:195:55">"/home/alver/tmp"</jtok>
+<jtok eid="12" type="primary_name_ref" span="195:58:195:63">panel</jtok>
+<jtok eid="12" type="method_call" span="195:64:195:72">metaData</jtok>
+<jtok eid="12" type="primary_name_ref" span="195:76:195:80">prog</jtok>
+<jtok eid="12" type="constructor_call" span="196:33:196:47">ActionListener</jtok>
+<jtok eid="14" type="method_name" span="197:45:197:60">actionPerformed</jtok>
+<jtok eid="14" type="parameter_type" span="197:61:197:72">ActionEvent</jtok>
+<jtok eid="14" type="parameter_name" span="197:73:197:84">actionEvent</jtok>
+<jtok eid="14" type="primary_name_ref" span="198:37:198:41">diag</jtok>
+<jtok eid="14" type="method_call" span="198:42:198:49">dispose</jtok>
+<jtok eid="10" type="primary_name_ref" span="203:13:203:14">t</jtok>
+<jtok eid="10" type="method_call" span="203:15:203:20">start</jtok>
+</jdoc>

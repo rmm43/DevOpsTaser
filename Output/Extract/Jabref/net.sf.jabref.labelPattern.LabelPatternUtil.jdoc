@@ -1,0 +1,1844 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.labelPattern.LabelPatternUtil" jls="java5">
+<jent id="0" type="file" span="0:0:958:1">Source/jabref/src/java/net/sf/jabref/labelPattern/LabelPatternUtil.java</jent>
+<jent id="1" pid="0" type="class" span="22:1:958:1">net.sf.jabref.labelPattern.LabelPatternUtil</jent>
+<jent id="2" pid="1" type="method" span="34:5:36:5">net.sf.jabref.labelPattern.LabelPatternUtil.updateDefaultPattern()</jent>
+<jent id="3" pid="1" type="method" span="48:5:96:5">net.sf.jabref.labelPattern.LabelPatternUtil.split(String)</jent>
+<jent id="4" pid="1" type="method" span="106:5:212:5">net.sf.jabref.labelPattern.LabelPatternUtil.makeLabel(LabelPattern,BibtexDatabase,BibtexEntry)</jent>
+<jent id="5" pid="1" type="method" span="221:5:254:5">net.sf.jabref.labelPattern.LabelPatternUtil.applyModifiers(String,String[],int)</jent>
+<jent id="6" pid="1" type="method" span="256:5:418:5">net.sf.jabref.labelPattern.LabelPatternUtil.makeLabel(BibtexEntry,String)</jent>
+<jent id="7" pid="1" type="method" span="427:5:430:5">net.sf.jabref.labelPattern.LabelPatternUtil.getField(BibtexEntry,String)</jent>
+<jent id="8" pid="1" type="method" span="440:5:446:5">net.sf.jabref.labelPattern.LabelPatternUtil.getAddition(int)</jent>
+<jent id="9" pid="1" type="method" span="449:5:484:5">net.sf.jabref.labelPattern.LabelPatternUtil.getTitleWords(int,BibtexEntry)</jent>
+<jent id="10" pid="1" type="method" span="492:5:515:5">net.sf.jabref.labelPattern.LabelPatternUtil.isLabelUnique(String)</jent>
+<jent id="11" pid="1" type="method" span="528:5:535:5">net.sf.jabref.labelPattern.LabelPatternUtil.firstAuthor(String)</jent>
+<jent id="12" pid="1" type="method" span="548:5:562:5">net.sf.jabref.labelPattern.LabelPatternUtil.firstAuthorVonAndLast(String)</jent>
+<jent id="13" pid="1" type="method" span="569:5:577:5">net.sf.jabref.labelPattern.LabelPatternUtil.lastAuthor(String)</jent>
+<jent id="14" pid="1" type="method" span="584:5:597:5">net.sf.jabref.labelPattern.LabelPatternUtil.allAuthors(String)</jent>
+<jent id="15" pid="1" type="method" span="604:5:639:5">net.sf.jabref.labelPattern.LabelPatternUtil.authorsAlpha(String)</jent>
+<jent id="16" pid="1" type="method" span="647:5:661:5">net.sf.jabref.labelPattern.LabelPatternUtil.NAuthors(String,int)</jent>
+<jent id="17" pid="1" type="method" span="670:5:691:5">net.sf.jabref.labelPattern.LabelPatternUtil.oneAuthorPlusIni(String)</jent>
+<jent id="18" pid="1" type="method" span="701:5:716:5">net.sf.jabref.labelPattern.LabelPatternUtil.authAuthEa(String)</jent>
+<jent id="19" pid="1" type="method" span="726:5:741:5">net.sf.jabref.labelPattern.LabelPatternUtil.authEtal(String)</jent>
+<jent id="20" pid="1" type="method" span="746:5:758:5">net.sf.jabref.labelPattern.LabelPatternUtil.authN_M(String,int,int)</jent>
+<jent id="21" pid="1" type="method" span="784:5:807:5">net.sf.jabref.labelPattern.LabelPatternUtil.authshort(String)</jent>
+<jent id="22" pid="1" type="method" span="839:5:867:5">net.sf.jabref.labelPattern.LabelPatternUtil.authIniN(String,int)</jent>
+<jent id="23" pid="1" type="method" span="882:5:894:5">net.sf.jabref.labelPattern.LabelPatternUtil.firstPage(String)</jent>
+<jent id="24" pid="1" type="method" span="907:5:919:5">net.sf.jabref.labelPattern.LabelPatternUtil.lastPage(String)</jent>
+<jent id="25" pid="1" type="method" span="927:9:956:9">net.sf.jabref.labelPattern.LabelPatternUtil.parseFieldMarker(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:3:4">/*
+ * Created on 13-Dec-2003
+ */</jtok>
+<jtok eid="0" type="block_comment" span="14:1:17:4">/**
+ *
+ * @author Ulrik Stervbo (ulriks AT ruc.dk)
+ */</jtok>
+<jtok eid="0" type="block_comment" span="18:1:21:4">/**
+ * This is the utility class of the LabelPattern package.
+ * @author Ulrik Stervbo (ulriks AT ruc.dk)
+ */</jtok>
+<jtok eid="1" type="class_name" span="22:14:22:30">LabelPatternUtil</jtok>
+<jtok eid="1" type="line_comment" span="24:5:24:84">// All single characters that we can use for extending a key to make it unique:</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="25:20:25:26">String</jtok>
+<jtok eid="1" type="field_name" span="25:27:25:32">CHARS</jtok>
+<jtok eid="1" type="string_literal" span="25:35:25:63">"abcdefghijklmnopqrstuvwxyz"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="27:19:27:28">ArrayList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="27:29:27:35">String</jtok>
+<jtok eid="1" type="field_name" span="27:37:27:57">DEFAULT_LABELPATTERN</jtok>
+<jtok eid="1" type="method_call" span="29:9:29:29">updateDefaultPattern</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:20:32:34">BibtexDatabase</jtok>
+<jtok eid="1" type="field_name" span="32:35:32:38">_db</jtok>
+<jtok eid="2" type="method_name" span="34:24:34:44">updateDefaultPattern</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:9:35:29">DEFAULT_LABELPATTERN</jtok>
+<jtok eid="2" type="method_call" span="35:32:35:37">split</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:38:35:55">JabRefPreferences</jtok>
+<jtok eid="2" type="method_call" span="35:56:35:67">getInstance</jtok>
+<jtok eid="2" type="method_call" span="35:70:35:73">get</jtok>
+<jtok eid="2" type="string_literal" span="35:74:35:95">"defaultLabelPattern"</jtok>
+<jtok eid="1" type="block_comment" span="38:5:47:8">/**
+     * This method takes a string of the form [field1]spacer[field2]spacer[field3]...,
+     * where the fields are the (required) fields of a BibTex entry. The string is split
+     * into fields and spacers by recognizing the [ and ].
+     *
+     * @param labelPattern a &lt;code&gt;String&lt;/code&gt;
+     * @return an &lt;code&gt;ArrayList&lt;/code&gt; The first item of the list
+     * is a string representation of the key pattern (the parameter),
+     * the second item is the spacer character (a &lt;code&gt;String&lt;/code&gt;).
+     */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:19:48:28">ArrayList</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:29:48:35">String</jtok>
+<jtok eid="3" type="method_name" span="48:37:48:42">split</jtok>
+<jtok eid="3" type="parameter_type" span="48:43:48:49">String</jtok>
+<jtok eid="3" type="parameter_name" span="48:50:48:62">labelPattern</jtok>
+<jtok eid="3" type="line_comment" span="49:9:49:67">// A holder for fields of the entry to be used for the key</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="50:9:50:18">ArrayList</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="50:19:50:25">String</jtok>
+<jtok eid="3" type="local_variable_name" span="50:27:50:33">_alist</jtok>
+<jtok eid="3" type="constructor_call" span="50:40:50:49">ArrayList</jtok>
+<jtok eid="3" type="constructor_call" span="50:50:50:56">String</jtok>
+<jtok eid="3" type="line_comment" span="52:9:52:72">// Before we do anything, we add the parameter to the ArrayLIst</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:9:53:15">_alist</jtok>
+<jtok eid="3" type="method_call" span="53:16:53:19">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:20:53:32">labelPattern</jtok>
+<jtok eid="3" type="line_comment" span="55:9:55:55">//String[] ss = labelPattern.split("\\[|\\]");</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="56:9:56:24">StringTokenizer</jtok>
+<jtok eid="3" type="local_variable_name" span="56:25:56:28">tok</jtok>
+<jtok eid="3" type="constructor_call" span="56:35:56:50">StringTokenizer</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:51:56:63">labelPattern</jtok>
+<jtok eid="3" type="string_literal" span="56:65:56:69">"[]"</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:16:57:19">tok</jtok>
+<jtok eid="3" type="method_call" span="57:20:57:33">hasMoreTokens</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:13:58:19">_alist</jtok>
+<jtok eid="3" type="method_call" span="58:20:58:23">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:24:58:27">tok</jtok>
+<jtok eid="3" type="method_call" span="58:28:58:37">nextToken</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:16:60:22">_alist</jtok>
+<jtok eid="3" type="block_comment" span="62:9:95:24">/*
+       // Regular expresion for identifying the fields
+       Pattern pi = Pattern.compile("\\[\\w*\\]");
+       // Regular expresion for identifying the spacer
+       Pattern ps = Pattern.compile("\\].()*\\[");
+
+       // The matcher for the field
+       Matcher mi = pi.matcher(labelPattern);
+       // The matcher for the spacer char
+       Matcher ms = ps.matcher(labelPattern);
+
+       // Before we do anything, we add the parameter to the ArrayLIst
+       _alist.add(labelPattern);
+
+       // If we can find the spacer character
+       if(ms.find()){
+     String t_spacer = ms.group();
+      // Remove the `]' and `[' at the ends
+      // We cant imagine a spacer of omre than one character.
+      t_spacer = t_spacer.substring(1,2);
+      _alist.add(t_spacer);
+       }
+
+       while(mi.find()){
+     // Get the matched string
+     String t_str = mi.group();
+      int _sindex = 1;
+      int _eindex = t_str.length() -1;
+      // Remove the `[' and `]' at the ends
+      t_str = t_str.substring(_sindex, _eindex);
+     _alist.add(t_str);
+       }
+
+       return _alist;*/</jtok>
+<jtok eid="1" type="block_comment" span="98:5:105:8">/**
+     * Generates a BibTeX label according to the pattern for a given entry type, and
+     * returns the &lt;code&gt;Bibtexentry&lt;/code&gt; with the unique label.
+     * @param table a &lt;code&gt;LabelPattern&lt;/code&gt;
+     * @param database a &lt;code&gt;BibtexDatabase&lt;/code&gt;
+     * @param _entry a &lt;code&gt;BibtexEntry&lt;/code&gt;
+     * @return modified Bibtexentry
+     */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="106:19:106:30">BibtexEntry</jtok>
+<jtok eid="4" type="method_name" span="106:31:106:40">makeLabel</jtok>
+<jtok eid="4" type="parameter_type" span="106:41:106:53">LabelPattern</jtok>
+<jtok eid="4" type="parameter_name" span="106:54:106:59">table</jtok>
+<jtok eid="4" type="parameter_type" span="107:9:107:23">BibtexDatabase</jtok>
+<jtok eid="4" type="parameter_name" span="107:24:107:32">database</jtok>
+<jtok eid="4" type="parameter_type" span="107:34:107:45">BibtexEntry</jtok>
+<jtok eid="4" type="parameter_name" span="107:46:107:52">_entry</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:9:108:12">_db</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:15:108:23">database</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="109:9:109:18">ArrayList</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="109:19:109:25">String</jtok>
+<jtok eid="4" type="local_variable_name" span="109:27:109:30">_al</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="110:9:110:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="110:16:110:22">_label</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="111:9:111:21">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="111:22:111:25">_sb</jtok>
+<jtok eid="4" type="constructor_call" span="111:32:111:44">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="112:17:112:27">forceUpper</jtok>
+<jtok eid="4" type="local_variable_name" span="112:37:112:47">forceLower</jtok>
+<jtok eid="4" type="line_comment" span="115:13:115:37">// get the type of entry</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="116:13:116:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="116:20:116:25">_type</jtok>
+<jtok eid="4" type="primary_name_ref" span="116:28:116:34">_entry</jtok>
+<jtok eid="4" type="method_call" span="116:35:116:42">getType</jtok>
+<jtok eid="4" type="method_call" span="116:45:116:52">getName</jtok>
+<jtok eid="4" type="method_call" span="116:55:116:66">toLowerCase</jtok>
+<jtok eid="4" type="line_comment" span="117:13:117:59">// Get the arrayList corrosponding to the type</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:13:118:16">_al</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:19:118:24">table</jtok>
+<jtok eid="4" type="method_call" span="118:25:118:33">getValue</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:34:118:39">_type</jtok>
+<jtok eid="4" type="local_variable_name" span="119:17:119:24">_alSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:27:119:30">_al</jtok>
+<jtok eid="4" type="method_call" span="119:31:119:35">size</jtok>
+<jtok eid="4" type="local_variable_name" span="120:21:120:26">field</jtok>
+<jtok eid="4" type="local_variable_name" span="121:22:121:23">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:29:121:30">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:33:121:40">_alSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:42:121:43">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="122:17:122:23">String</jtok>
+<jtok eid="4" type="local_variable_name" span="122:24:122:27">val</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:30:122:33">_al</jtok>
+<jtok eid="4" type="method_call" span="122:34:122:37">get</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:38:122:39">i</jtok>
+<jtok eid="4" type="method_call" span="122:41:122:49">toString</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:21:123:24">val</jtok>
+<jtok eid="4" type="method_call" span="123:25:123:31">equals</jtok>
+<jtok eid="4" type="string_literal" span="123:32:123:35">"["</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:21:124:26">field</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:28:125:31">val</jtok>
+<jtok eid="4" type="method_call" span="125:32:125:38">equals</jtok>
+<jtok eid="4" type="string_literal" span="125:39:125:42">"]"</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:21:126:26">field</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:28:127:33">field</jtok>
+<jtok eid="4" type="block_comment" span="128:21:134:24">/*
+                     * Edited by Seb Wills &lt;saw27@mrao.cam.ac.uk&gt; on 13-Apr-2004
+                     * Added new pseudo-fields "shortyear" and "veryshorttitle",
+                     * and and ":lower" modifier for all fields (in a way easily
+                     * extended to other modifiers). Helpfile
+                     * help/LabelPatterns.html updated accordingly.
+                     */</jtok>
+<jtok eid="4" type="line_comment" span="135:21:135:76">// check whether there is a modifier on the end such as</jtok>
+<jtok eid="4" type="line_comment" span="136:21:136:32">// ":lower"</jtok>
+<jtok eid="4" type="line_comment" span="137:21:137:47">// String modifier = null;</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="138:21:138:27">String</jtok>
+<jtok eid="4" type="local_variable_name" span="138:30:138:35">parts</jtok>
+<jtok eid="4" type="method_call" span="138:38:138:54">parseFieldMarker</jtok>
+<jtok eid="4" type="primary_name_ref" span="138:55:138:58">val</jtok>
+<jtok eid="4" type="line_comment" span="138:60:138:77">//val.split(":");</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="140:21:140:27">String</jtok>
+<jtok eid="4" type="local_variable_name" span="140:28:140:33">label</jtok>
+<jtok eid="4" type="method_call" span="140:36:140:45">makeLabel</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:46:140:52">_entry</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:54:140:59">parts</jtok>
+<jtok eid="4" type="line_comment" span="142:21:142:49">// apply modifier if present</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:25:143:30">parts</jtok>
+<jtok eid="4" type="qualified_name_ref" span="143:31:143:37">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:25:144:30">label</jtok>
+<jtok eid="4" type="method_call" span="144:33:144:47">applyModifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:48:144:53">label</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:55:144:60">parts</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:21:146:24">_sb</jtok>
+<jtok eid="4" type="method_call" span="146:25:146:31">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:32:146:37">label</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:21:149:24">_sb</jtok>
+<jtok eid="4" type="method_call" span="149:25:149:31">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:32:149:35">val</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="152:18:152:27">Exception</jtok>
+<jtok eid="4" type="local_variable_name" span="152:28:152:29">e</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:13:153:19">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="153:20:153:23">err</jtok>
+<jtok eid="4" type="method_call" span="153:24:153:31">println</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:32:153:33">e</jtok>
+<jtok eid="4" type="line_comment" span="157:9:157:55">// Remove all illegal characters from the key.</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:9:158:15">_label</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:18:158:22">Util</jtok>
+<jtok eid="4" type="method_call" span="158:23:158:36">checkLegalKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:37:158:40">_sb</jtok>
+<jtok eid="4" type="method_call" span="158:41:158:49">toString</jtok>
+<jtok eid="4" type="line_comment" span="160:9:160:35">// Patch by Toralf Senger:</jtok>
+<jtok eid="4" type="line_comment" span="161:9:161:60">// Remove Regular Expressions while generating Keys</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="162:9:162:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="162:16:162:21">regex</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:24:162:31">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="162:32:162:37">prefs</jtok>
+<jtok eid="4" type="method_call" span="162:38:162:41">get</jtok>
+<jtok eid="4" type="string_literal" span="162:42:162:59">"KeyPatternRegex"</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:14:163:19">regex</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:33:163:38">regex</jtok>
+<jtok eid="4" type="method_call" span="163:39:163:43">trim</jtok>
+<jtok eid="4" type="method_call" span="163:46:163:52">length</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="164:13:164:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="164:20:164:31">replacement</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:34:164:41">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="164:42:164:47">prefs</jtok>
+<jtok eid="4" type="method_call" span="164:48:164:51">get</jtok>
+<jtok eid="4" type="string_literal" span="164:52:164:75">"KeyPatternReplacement"</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:13:165:19">_label</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:22:165:28">_label</jtok>
+<jtok eid="4" type="method_call" span="165:29:165:39">replaceAll</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:40:165:45">regex</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:47:165:58">replacement</jtok>
+<jtok eid="4" type="primary_name_ref" span="168:13:168:23">forceUpper</jtok>
+<jtok eid="4" type="primary_name_ref" span="169:13:169:19">_label</jtok>
+<jtok eid="4" type="primary_name_ref" span="169:22:169:28">_label</jtok>
+<jtok eid="4" type="method_call" span="169:29:169:40">toUpperCase</jtok>
+<jtok eid="4" type="primary_name_ref" span="171:13:171:23">forceLower</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:13:172:19">_label</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:22:172:28">_label</jtok>
+<jtok eid="4" type="method_call" span="172:29:172:40">toLowerCase</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="175:9:175:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="175:16:175:22">oldKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:25:175:31">_entry</jtok>
+<jtok eid="4" type="method_call" span="175:32:175:42">getCiteKey</jtok>
+<jtok eid="4" type="local_variable_name" span="176:13:176:23">occurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:26:176:29">_db</jtok>
+<jtok eid="4" type="method_call" span="176:30:176:54">getNumberOfKeyOccurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:55:176:61">_label</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:14:178:20">oldKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:33:178:39">oldKey</jtok>
+<jtok eid="4" type="method_call" span="178:40:178:46">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:47:178:53">_label</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:13:179:23">occurences</jtok>
+<jtok eid="4" type="line_comment" span="179:27:179:67">// No change, so we can accept one dupe.</jtok>
+<jtok eid="4" type="primary_name_ref" span="181:13:181:23">occurences</jtok>
+<jtok eid="4" type="line_comment" span="182:13:182:56">// No dupes found, so we can just go ahead.</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:18:183:24">_label</jtok>
+<jtok eid="4" type="method_call" span="183:25:183:31">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:32:183:38">oldKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:17:184:20">_db</jtok>
+<jtok eid="4" type="method_call" span="184:21:184:39">setCiteKeyForEntry</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:40:184:46">_entry</jtok>
+<jtok eid="4" type="method_call" span="184:47:184:52">getId</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:56:184:62">_label</jtok>
+<jtok eid="4" type="line_comment" span="187:13:187:64">// The key is already in use, so we must modify it.</jtok>
+<jtok eid="4" type="local_variable_name" span="188:17:188:23">number</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="190:13:190:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="190:20:190:29">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:32:190:38">_label</jtok>
+<jtok eid="4" type="method_call" span="190:41:190:52">getAddition</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:53:190:59">number</jtok>
+<jtok eid="4" type="primary_name_ref" span="191:13:191:23">occurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="191:26:191:29">_db</jtok>
+<jtok eid="4" type="method_call" span="191:30:191:54">getNumberOfKeyOccurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="191:55:191:64">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="193:18:193:24">oldKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="193:37:193:43">oldKey</jtok>
+<jtok eid="4" type="method_call" span="193:44:193:50">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="193:51:193:60">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="194:17:194:27">occurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="196:20:196:30">occurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="197:17:197:23">number</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:17:198:26">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:29:198:35">_label</jtok>
+<jtok eid="4" type="method_call" span="198:38:198:49">getAddition</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:50:198:56">number</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:17:200:27">occurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:30:200:33">_db</jtok>
+<jtok eid="4" type="method_call" span="200:34:200:58">getNumberOfKeyOccurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:59:200:68">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="201:22:201:28">oldKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="201:41:201:47">oldKey</jtok>
+<jtok eid="4" type="method_call" span="201:48:201:54">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="201:55:201:64">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="202:21:202:31">occurences</jtok>
+<jtok eid="4" type="primary_name_ref" span="205:18:205:27">moddedKey</jtok>
+<jtok eid="4" type="method_call" span="205:28:205:34">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="205:35:205:41">oldKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="206:17:206:20">_db</jtok>
+<jtok eid="4" type="method_call" span="206:21:206:39">setCiteKeyForEntry</jtok>
+<jtok eid="4" type="primary_name_ref" span="206:40:206:46">_entry</jtok>
+<jtok eid="4" type="method_call" span="206:47:206:52">getId</jtok>
+<jtok eid="4" type="primary_name_ref" span="206:56:206:65">moddedKey</jtok>
+<jtok eid="4" type="primary_name_ref" span="210:16:210:22">_entry</jtok>
+<jtok eid="4" type="block_comment" span="211:9:211:54">/** End of edit, Morten Alver 2004.02.04.  */</jtok>
+<jtok eid="1" type="block_comment" span="214:5:220:8">/**
+     * Applies modifiers to a label generated based on a field marker.
+     * @param label The generated label.
+     * @param parts String array containing the modifiers.
+     * @param offset The number of initial items in the modifiers array to skip.
+     * @return The modified label.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="221:19:221:25">String</jtok>
+<jtok eid="5" type="method_name" span="221:26:221:40">applyModifiers</jtok>
+<jtok eid="5" type="parameter_type" span="221:41:221:47">String</jtok>
+<jtok eid="5" type="parameter_name" span="221:48:221:53">label</jtok>
+<jtok eid="5" type="parameter_type" span="221:55:221:61">String</jtok>
+<jtok eid="5" type="parameter_name" span="221:64:221:69">parts</jtok>
+<jtok eid="5" type="parameter_name" span="221:75:221:81">offset</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:13:222:18">parts</jtok>
+<jtok eid="5" type="qualified_name_ref" span="222:19:222:25">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:28:222:34">offset</jtok>
+<jtok eid="5" type="local_variable_name" span="223:22:223:23">j</jtok>
+<jtok eid="5" type="primary_name_ref" span="223:26:223:32">offset</jtok>
+<jtok eid="5" type="primary_name_ref" span="223:34:223:35">j</jtok>
+<jtok eid="5" type="primary_name_ref" span="223:38:223:43">parts</jtok>
+<jtok eid="5" type="qualified_name_ref" span="223:44:223:50">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="223:52:223:53">j</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="224:17:224:23">String</jtok>
+<jtok eid="5" type="local_variable_name" span="224:24:224:32">modifier</jtok>
+<jtok eid="5" type="primary_name_ref" span="224:35:224:40">parts</jtok>
+<jtok eid="5" type="primary_name_ref" span="224:41:224:42">j</jtok>
+<jtok eid="5" type="primary_name_ref" span="226:21:226:29">modifier</jtok>
+<jtok eid="5" type="method_call" span="226:30:226:36">equals</jtok>
+<jtok eid="5" type="string_literal" span="226:37:226:44">"lower"</jtok>
+<jtok eid="5" type="primary_name_ref" span="227:21:227:26">label</jtok>
+<jtok eid="5" type="primary_name_ref" span="227:29:227:34">label</jtok>
+<jtok eid="5" type="method_call" span="227:35:227:46">toLowerCase</jtok>
+<jtok eid="5" type="primary_name_ref" span="228:28:228:36">modifier</jtok>
+<jtok eid="5" type="method_call" span="228:37:228:43">equals</jtok>
+<jtok eid="5" type="string_literal" span="228:44:228:51">"upper"</jtok>
+<jtok eid="5" type="primary_name_ref" span="229:21:229:26">label</jtok>
+<jtok eid="5" type="primary_name_ref" span="229:29:229:34">label</jtok>
+<jtok eid="5" type="method_call" span="229:35:229:46">toUpperCase</jtok>
+<jtok eid="5" type="primary_name_ref" span="230:28:230:36">modifier</jtok>
+<jtok eid="5" type="method_call" span="230:37:230:43">equals</jtok>
+<jtok eid="5" type="string_literal" span="230:44:230:50">"abbr"</jtok>
+<jtok eid="5" type="line_comment" span="231:21:231:45">// Abbreviate - that is,</jtok>
+<jtok eid="5" type="line_comment" span="232:21:232:64">// System.out.println(_sbvalue.toString());</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="233:21:233:33">StringBuffer</jtok>
+<jtok eid="5" type="local_variable_name" span="233:34:233:38">abbr</jtok>
+<jtok eid="5" type="constructor_call" span="233:45:233:57">StringBuffer</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="234:21:234:27">String</jtok>
+<jtok eid="5" type="local_variable_name" span="234:30:234:35">words</jtok>
+<jtok eid="5" type="primary_name_ref" span="234:38:234:43">label</jtok>
+<jtok eid="5" type="method_call" span="234:44:234:52">toString</jtok>
+<jtok eid="5" type="method_call" span="234:55:234:65">replaceAll</jtok>
+<jtok eid="5" type="string_literal" span="234:66:234:77">"[\\{\\}']"</jtok>
+<jtok eid="5" type="string_literal" span="234:78:234:80">""</jtok>
+<jtok eid="5" type="method_call" span="235:30:235:35">split</jtok>
+<jtok eid="5" type="string_literal" span="235:36:235:47">"[ \r\n\"]"</jtok>
+<jtok eid="5" type="local_variable_name" span="236:30:236:34">word</jtok>
+<jtok eid="5" type="primary_name_ref" span="236:40:236:44">word</jtok>
+<jtok eid="5" type="primary_name_ref" span="236:47:236:52">words</jtok>
+<jtok eid="5" type="qualified_name_ref" span="236:53:236:59">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="236:61:236:65">word</jtok>
+<jtok eid="5" type="primary_name_ref" span="237:29:237:34">words</jtok>
+<jtok eid="5" type="primary_name_ref" span="237:35:237:39">word</jtok>
+<jtok eid="5" type="method_call" span="237:41:237:47">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="238:29:238:33">abbr</jtok>
+<jtok eid="5" type="method_call" span="238:34:238:40">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="238:41:238:46">words</jtok>
+<jtok eid="5" type="primary_name_ref" span="238:47:238:51">word</jtok>
+<jtok eid="5" type="method_call" span="238:53:238:59">charAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="239:21:239:26">label</jtok>
+<jtok eid="5" type="primary_name_ref" span="239:29:239:33">abbr</jtok>
+<jtok eid="5" type="method_call" span="239:34:239:42">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:28:241:36">modifier</jtok>
+<jtok eid="5" type="method_call" span="241:37:241:47">startsWith</jtok>
+<jtok eid="5" type="string_literal" span="241:48:241:51">"("</jtok>
+<jtok eid="5" type="primary_name_ref" span="241:56:241:64">modifier</jtok>
+<jtok eid="5" type="method_call" span="241:65:241:73">endsWith</jtok>
+<jtok eid="5" type="string_literal" span="241:74:241:77">")"</jtok>
+<jtok eid="5" type="line_comment" span="242:21:242:85">// Alternate text modifier in parentheses. Should be inserted if</jtok>
+<jtok eid="5" type="line_comment" span="243:21:243:43">// the label is empty:</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:25:244:30">label</jtok>
+<jtok eid="5" type="method_call" span="244:31:244:37">equals</jtok>
+<jtok eid="5" type="string_literal" span="244:38:244:40">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:46:244:54">modifier</jtok>
+<jtok eid="5" type="method_call" span="244:55:244:61">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="245:32:245:40">modifier</jtok>
+<jtok eid="5" type="method_call" span="245:41:245:50">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="245:54:245:62">modifier</jtok>
+<jtok eid="5" type="method_call" span="245:63:245:69">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="248:21:248:28">Globals</jtok>
+<jtok eid="5" type="method_call" span="249:26:249:32">logger</jtok>
+<jtok eid="5" type="string_literal" span="249:33:249:76">"Key generator warning: unknown modifier '"</jtok>
+<jtok eid="5" type="primary_name_ref" span="250:31:250:39">modifier</jtok>
+<jtok eid="5" type="string_literal" span="250:42:250:46">"'."</jtok>
+<jtok eid="5" type="primary_name_ref" span="253:16:253:21">label</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="256:19:256:25">String</jtok>
+<jtok eid="6" type="method_name" span="256:26:256:35">makeLabel</jtok>
+<jtok eid="6" type="parameter_type" span="256:36:256:47">BibtexEntry</jtok>
+<jtok eid="6" type="parameter_name" span="256:48:256:54">_entry</jtok>
+<jtok eid="6" type="parameter_type" span="256:56:256:62">String</jtok>
+<jtok eid="6" type="parameter_name" span="256:63:256:66">val</jtok>
+<jtok eid="6" type="primary_name_ref" span="259:17:259:20">val</jtok>
+<jtok eid="6" type="method_call" span="259:21:259:31">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="259:32:259:38">"auth"</jtok>
+<jtok eid="6" type="primary_name_ref" span="259:43:259:46">val</jtok>
+<jtok eid="6" type="method_call" span="259:47:259:57">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="259:58:259:68">"pureauth"</jtok>
+<jtok eid="6" type="block_comment" span="261:17:270:20">/*
+                 * For label code "auth...": if there is no author, but there
+                 * are editor(s) (e.g. for an Edited Book), use the editor(s)
+                 * instead. (saw27@mrao.cam.ac.uk). This is what most people
+                 * want, but in case somebody really needs a field which expands
+                 * to nothing if there is no author (e.g. someone who uses both
+                 * "auth" and "ed" in the same label), we provide an alternative
+                 * form "pureauth..." which does not do this fallback
+                 * substitution of editor.
+                 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="271:17:271:23">String</jtok>
+<jtok eid="6" type="local_variable_name" span="271:24:271:34">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="271:37:271:43">_entry</jtok>
+<jtok eid="6" type="method_call" span="271:44:271:52">getField</jtok>
+<jtok eid="6" type="string_literal" span="271:53:271:61">"author"</jtok>
+<jtok eid="6" type="primary_name_ref" span="273:21:273:24">val</jtok>
+<jtok eid="6" type="method_call" span="273:25:273:35">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="273:36:273:42">"pure"</jtok>
+<jtok eid="6" type="line_comment" span="274:21:274:65">// remove the "pure" prefix so the remaining</jtok>
+<jtok eid="6" type="line_comment" span="275:21:275:64">// code in this section functions correctly</jtok>
+<jtok eid="6" type="primary_name_ref" span="276:21:276:24">val</jtok>
+<jtok eid="6" type="primary_name_ref" span="276:27:276:30">val</jtok>
+<jtok eid="6" type="method_call" span="276:31:276:40">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="278:25:278:35">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="278:47:278:57">authString</jtok>
+<jtok eid="6" type="method_call" span="278:58:278:64">equals</jtok>
+<jtok eid="6" type="string_literal" span="278:65:278:67">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="279:25:279:35">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="279:38:279:44">_entry</jtok>
+<jtok eid="6" type="method_call" span="279:45:279:53">getField</jtok>
+<jtok eid="6" type="string_literal" span="279:54:279:62">"editor"</jtok>
+<jtok eid="6" type="line_comment" span="283:17:283:65">// Gather all author-related checks, so we don't</jtok>
+<jtok eid="6" type="line_comment" span="284:17:284:47">// have to check all the time.</jtok>
+<jtok eid="6" type="primary_name_ref" span="285:21:285:24">val</jtok>
+<jtok eid="6" type="method_call" span="285:25:285:31">equals</jtok>
+<jtok eid="6" type="string_literal" span="285:32:285:38">"auth"</jtok>
+<jtok eid="6" type="method_call" span="286:28:286:39">firstAuthor</jtok>
+<jtok eid="6" type="primary_name_ref" span="286:40:286:50">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="287:28:287:31">val</jtok>
+<jtok eid="6" type="method_call" span="287:32:287:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="287:39:287:48">"authors"</jtok>
+<jtok eid="6" type="method_call" span="288:28:288:38">allAuthors</jtok>
+<jtok eid="6" type="primary_name_ref" span="288:39:288:49">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="289:28:289:31">val</jtok>
+<jtok eid="6" type="method_call" span="289:32:289:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="289:39:289:53">"authorsAlpha"</jtok>
+<jtok eid="6" type="method_call" span="290:25:290:37">authorsAlpha</jtok>
+<jtok eid="6" type="primary_name_ref" span="290:38:290:48">authString</jtok>
+<jtok eid="6" type="line_comment" span="292:17:292:43">// Last author's last name</jtok>
+<jtok eid="6" type="primary_name_ref" span="293:26:293:29">val</jtok>
+<jtok eid="6" type="method_call" span="293:30:293:36">equals</jtok>
+<jtok eid="6" type="string_literal" span="293:37:293:49">"authorLast"</jtok>
+<jtok eid="6" type="method_call" span="294:28:294:38">lastAuthor</jtok>
+<jtok eid="6" type="primary_name_ref" span="294:39:294:49">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="295:28:295:31">val</jtok>
+<jtok eid="6" type="method_call" span="295:32:295:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="295:39:295:50">"authorIni"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="296:21:296:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="296:28:296:29">s</jtok>
+<jtok eid="6" type="method_call" span="296:32:296:48">oneAuthorPlusIni</jtok>
+<jtok eid="6" type="primary_name_ref" span="296:49:296:59">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="297:28:297:29">s</jtok>
+<jtok eid="6" type="string_literal" span="297:40:297:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="297:45:297:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="298:28:298:31">val</jtok>
+<jtok eid="6" type="method_call" span="298:32:298:39">matches</jtok>
+<jtok eid="6" type="string_literal" span="298:40:298:55">"authIni[\\d]+"</jtok>
+<jtok eid="6" type="local_variable_name" span="299:25:299:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="299:31:299:38">Integer</jtok>
+<jtok eid="6" type="method_call" span="299:39:299:47">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="299:48:299:51">val</jtok>
+<jtok eid="6" type="method_call" span="299:52:299:61">substring</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="300:21:300:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="300:28:300:29">s</jtok>
+<jtok eid="6" type="method_call" span="300:32:300:40">authIniN</jtok>
+<jtok eid="6" type="primary_name_ref" span="300:41:300:51">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="300:53:300:56">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="301:28:301:29">s</jtok>
+<jtok eid="6" type="string_literal" span="301:40:301:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="301:45:301:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="302:28:302:31">val</jtok>
+<jtok eid="6" type="method_call" span="302:32:302:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="302:39:302:53">"auth.auth.ea"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="303:21:303:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="303:28:303:29">s</jtok>
+<jtok eid="6" type="method_call" span="303:32:303:42">authAuthEa</jtok>
+<jtok eid="6" type="primary_name_ref" span="303:43:303:53">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="304:28:304:29">s</jtok>
+<jtok eid="6" type="string_literal" span="304:40:304:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="304:45:304:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="305:28:305:31">val</jtok>
+<jtok eid="6" type="method_call" span="305:32:305:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="305:39:305:50">"auth.etal"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="306:21:306:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="306:28:306:29">s</jtok>
+<jtok eid="6" type="method_call" span="306:32:306:40">authEtal</jtok>
+<jtok eid="6" type="primary_name_ref" span="306:41:306:51">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="307:28:307:29">s</jtok>
+<jtok eid="6" type="string_literal" span="307:40:307:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="307:45:307:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="308:28:308:31">val</jtok>
+<jtok eid="6" type="method_call" span="308:32:308:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="308:39:308:50">"authshort"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="309:21:309:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="309:28:309:29">s</jtok>
+<jtok eid="6" type="method_call" span="309:32:309:41">authshort</jtok>
+<jtok eid="6" type="primary_name_ref" span="309:42:309:52">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="310:28:310:29">s</jtok>
+<jtok eid="6" type="string_literal" span="310:40:310:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="310:45:310:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="311:28:311:31">val</jtok>
+<jtok eid="6" type="method_call" span="311:32:311:39">matches</jtok>
+<jtok eid="6" type="string_literal" span="311:40:311:59">"auth[\\d]+_[\\d]+"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="312:21:312:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="312:30:312:34">nums</jtok>
+<jtok eid="6" type="primary_name_ref" span="312:37:312:40">val</jtok>
+<jtok eid="6" type="method_call" span="312:41:312:50">substring</jtok>
+<jtok eid="6" type="method_call" span="312:54:312:59">split</jtok>
+<jtok eid="6" type="string_literal" span="312:60:312:63">"_"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="313:21:313:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="313:28:313:29">s</jtok>
+<jtok eid="6" type="method_call" span="313:32:313:39">authN_M</jtok>
+<jtok eid="6" type="primary_name_ref" span="313:40:313:50">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="313:52:313:59">Integer</jtok>
+<jtok eid="6" type="method_call" span="313:60:313:68">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="313:69:313:73">nums</jtok>
+<jtok eid="6" type="primary_name_ref" span="314:25:314:32">Integer</jtok>
+<jtok eid="6" type="method_call" span="314:33:314:41">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="314:42:314:46">nums</jtok>
+<jtok eid="6" type="primary_name_ref" span="315:28:315:29">s</jtok>
+<jtok eid="6" type="string_literal" span="315:40:315:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="315:45:315:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="316:28:316:31">val</jtok>
+<jtok eid="6" type="method_call" span="316:32:316:39">matches</jtok>
+<jtok eid="6" type="string_literal" span="316:40:316:50">"auth\\d+"</jtok>
+<jtok eid="6" type="line_comment" span="317:21:317:71">// authN. First N chars of the first author's last</jtok>
+<jtok eid="6" type="line_comment" span="318:21:318:29">// name.</jtok>
+<jtok eid="6" type="local_variable_name" span="320:25:320:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="320:31:320:38">Integer</jtok>
+<jtok eid="6" type="method_call" span="320:39:320:47">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="320:48:320:51">val</jtok>
+<jtok eid="6" type="method_call" span="320:52:320:61">substring</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="321:21:321:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="321:28:321:30">fa</jtok>
+<jtok eid="6" type="method_call" span="321:33:321:44">firstAuthor</jtok>
+<jtok eid="6" type="primary_name_ref" span="321:45:321:55">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="322:25:322:27">fa</jtok>
+<jtok eid="6" type="string_literal" span="323:32:323:34">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="324:25:324:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="324:31:324:33">fa</jtok>
+<jtok eid="6" type="method_call" span="324:34:324:40">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="325:25:325:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="325:31:325:33">fa</jtok>
+<jtok eid="6" type="method_call" span="325:34:325:40">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:28:326:30">fa</jtok>
+<jtok eid="6" type="method_call" span="326:31:326:40">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="326:44:326:47">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="327:28:327:31">val</jtok>
+<jtok eid="6" type="method_call" span="327:32:327:39">matches</jtok>
+<jtok eid="6" type="string_literal" span="327:40:327:53">"authors\\d+"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="328:21:328:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="328:28:328:29">s</jtok>
+<jtok eid="6" type="method_call" span="328:32:328:40">NAuthors</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:41:328:51">authString</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:53:328:60">Integer</jtok>
+<jtok eid="6" type="method_call" span="328:61:328:69">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="328:70:328:73">val</jtok>
+<jtok eid="6" type="method_call" span="329:26:329:35">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="330:28:330:29">s</jtok>
+<jtok eid="6" type="string_literal" span="330:40:330:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="330:45:330:46">s</jtok>
+<jtok eid="6" type="line_comment" span="332:21:332:68">// This "auth" business was a dead end, so just</jtok>
+<jtok eid="6" type="line_comment" span="333:21:333:41">// use it literally:</jtok>
+<jtok eid="6" type="method_call" span="334:28:334:36">getField</jtok>
+<jtok eid="6" type="primary_name_ref" span="334:37:334:43">_entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="334:45:334:48">val</jtok>
+<jtok eid="6" type="primary_name_ref" span="336:24:336:27">val</jtok>
+<jtok eid="6" type="method_call" span="336:28:336:38">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="336:39:336:43">"ed"</jtok>
+<jtok eid="6" type="line_comment" span="337:17:337:69">// Gather all markers starting with "ed" here, so we</jtok>
+<jtok eid="6" type="line_comment" span="338:17:338:53">// don't have to check all the time.</jtok>
+<jtok eid="6" type="primary_name_ref" span="339:21:339:24">val</jtok>
+<jtok eid="6" type="method_call" span="339:25:339:31">equals</jtok>
+<jtok eid="6" type="string_literal" span="339:32:339:38">"edtr"</jtok>
+<jtok eid="6" type="method_call" span="340:28:340:39">firstAuthor</jtok>
+<jtok eid="6" type="primary_name_ref" span="340:40:340:46">_entry</jtok>
+<jtok eid="6" type="method_call" span="340:47:340:55">getField</jtok>
+<jtok eid="6" type="string_literal" span="340:56:340:64">"editor"</jtok>
+<jtok eid="6" type="method_call" span="340:66:340:74">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="341:28:341:31">val</jtok>
+<jtok eid="6" type="method_call" span="341:32:341:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="341:39:341:48">"editors"</jtok>
+<jtok eid="6" type="method_call" span="342:28:342:38">allAuthors</jtok>
+<jtok eid="6" type="primary_name_ref" span="342:39:342:45">_entry</jtok>
+<jtok eid="6" type="method_call" span="342:46:342:54">getField</jtok>
+<jtok eid="6" type="string_literal" span="342:55:342:63">"editor"</jtok>
+<jtok eid="6" type="method_call" span="342:65:342:73">toString</jtok>
+<jtok eid="6" type="line_comment" span="343:17:343:43">// Last author's last name</jtok>
+<jtok eid="6" type="primary_name_ref" span="344:28:344:31">val</jtok>
+<jtok eid="6" type="method_call" span="344:32:344:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="344:39:344:51">"editorLast"</jtok>
+<jtok eid="6" type="method_call" span="345:28:345:38">lastAuthor</jtok>
+<jtok eid="6" type="primary_name_ref" span="345:39:345:45">_entry</jtok>
+<jtok eid="6" type="method_call" span="345:46:345:54">getField</jtok>
+<jtok eid="6" type="string_literal" span="345:55:345:63">"editor"</jtok>
+<jtok eid="6" type="method_call" span="345:65:345:73">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="346:28:346:31">val</jtok>
+<jtok eid="6" type="method_call" span="346:32:346:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="346:39:346:50">"editorIni"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="347:21:347:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="347:28:347:29">s</jtok>
+<jtok eid="6" type="method_call" span="347:32:347:48">oneAuthorPlusIni</jtok>
+<jtok eid="6" type="primary_name_ref" span="347:49:347:55">_entry</jtok>
+<jtok eid="6" type="method_call" span="347:56:347:64">getField</jtok>
+<jtok eid="6" type="string_literal" span="347:65:347:73">"editor"</jtok>
+<jtok eid="6" type="method_call" span="348:26:348:34">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="349:28:349:29">s</jtok>
+<jtok eid="6" type="string_literal" span="349:40:349:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="349:45:349:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="350:28:350:31">val</jtok>
+<jtok eid="6" type="method_call" span="350:32:350:39">matches</jtok>
+<jtok eid="6" type="string_literal" span="350:40:350:55">"edtrIni[\\d]+"</jtok>
+<jtok eid="6" type="local_variable_name" span="351:25:351:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="351:31:351:38">Integer</jtok>
+<jtok eid="6" type="method_call" span="351:39:351:47">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="351:48:351:51">val</jtok>
+<jtok eid="6" type="method_call" span="351:52:351:61">substring</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="352:21:352:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="352:28:352:29">s</jtok>
+<jtok eid="6" type="method_call" span="352:32:352:40">authIniN</jtok>
+<jtok eid="6" type="primary_name_ref" span="352:41:352:47">_entry</jtok>
+<jtok eid="6" type="method_call" span="352:48:352:56">getField</jtok>
+<jtok eid="6" type="string_literal" span="352:57:352:65">"editor"</jtok>
+<jtok eid="6" type="method_call" span="352:67:352:75">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="352:79:352:82">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="353:28:353:29">s</jtok>
+<jtok eid="6" type="string_literal" span="353:40:353:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="353:45:353:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="354:28:354:31">val</jtok>
+<jtok eid="6" type="method_call" span="354:32:354:39">matches</jtok>
+<jtok eid="6" type="string_literal" span="354:40:354:59">"edtr[\\d]+_[\\d]+"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="355:21:355:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="355:30:355:34">nums</jtok>
+<jtok eid="6" type="primary_name_ref" span="355:37:355:40">val</jtok>
+<jtok eid="6" type="method_call" span="355:41:355:50">substring</jtok>
+<jtok eid="6" type="method_call" span="355:54:355:59">split</jtok>
+<jtok eid="6" type="string_literal" span="355:60:355:63">"_"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="356:21:356:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="356:28:356:29">s</jtok>
+<jtok eid="6" type="method_call" span="356:32:356:39">authN_M</jtok>
+<jtok eid="6" type="primary_name_ref" span="356:40:356:46">_entry</jtok>
+<jtok eid="6" type="method_call" span="356:47:356:55">getField</jtok>
+<jtok eid="6" type="string_literal" span="356:56:356:64">"editor"</jtok>
+<jtok eid="6" type="method_call" span="356:66:356:74">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="357:25:357:32">Integer</jtok>
+<jtok eid="6" type="method_call" span="357:33:357:41">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="357:42:357:46">nums</jtok>
+<jtok eid="6" type="primary_name_ref" span="358:25:358:32">Integer</jtok>
+<jtok eid="6" type="method_call" span="358:33:358:41">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="358:42:358:46">nums</jtok>
+<jtok eid="6" type="primary_name_ref" span="359:28:359:29">s</jtok>
+<jtok eid="6" type="string_literal" span="359:40:359:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="359:45:359:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="360:28:360:31">val</jtok>
+<jtok eid="6" type="method_call" span="360:32:360:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="360:39:360:53">"edtr.edtr.ea"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="361:21:361:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="361:28:361:29">s</jtok>
+<jtok eid="6" type="method_call" span="361:32:361:42">authAuthEa</jtok>
+<jtok eid="6" type="primary_name_ref" span="361:43:361:49">_entry</jtok>
+<jtok eid="6" type="method_call" span="361:50:361:58">getField</jtok>
+<jtok eid="6" type="string_literal" span="361:59:361:67">"editor"</jtok>
+<jtok eid="6" type="method_call" span="361:69:361:77">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="362:28:362:29">s</jtok>
+<jtok eid="6" type="string_literal" span="362:40:362:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="362:45:362:46">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="363:28:363:31">val</jtok>
+<jtok eid="6" type="method_call" span="363:32:363:38">equals</jtok>
+<jtok eid="6" type="string_literal" span="363:39:363:50">"edtrshort"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="364:21:364:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="364:28:364:29">s</jtok>
+<jtok eid="6" type="method_call" span="364:32:364:41">authshort</jtok>
+<jtok eid="6" type="primary_name_ref" span="364:42:364:48">_entry</jtok>
+<jtok eid="6" type="method_call" span="364:49:364:57">getField</jtok>
+<jtok eid="6" type="string_literal" span="364:58:364:66">"editor"</jtok>
+<jtok eid="6" type="method_call" span="364:68:364:76">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="365:28:365:29">s</jtok>
+<jtok eid="6" type="string_literal" span="365:40:365:42">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="365:45:365:46">s</jtok>
+<jtok eid="6" type="line_comment" span="367:17:367:67">// authN. First N chars of the first author's last</jtok>
+<jtok eid="6" type="line_comment" span="368:17:368:25">// name.</jtok>
+<jtok eid="6" type="primary_name_ref" span="369:26:369:29">val</jtok>
+<jtok eid="6" type="method_call" span="369:30:369:37">matches</jtok>
+<jtok eid="6" type="string_literal" span="369:38:369:48">"edtr\\d+"</jtok>
+<jtok eid="6" type="local_variable_name" span="370:25:370:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="370:31:370:38">Integer</jtok>
+<jtok eid="6" type="method_call" span="370:39:370:47">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="370:48:370:51">val</jtok>
+<jtok eid="6" type="method_call" span="370:52:370:61">substring</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="371:21:371:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="371:28:371:30">fa</jtok>
+<jtok eid="6" type="method_call" span="371:33:371:44">firstAuthor</jtok>
+<jtok eid="6" type="primary_name_ref" span="371:45:371:51">_entry</jtok>
+<jtok eid="6" type="method_call" span="371:52:371:60">getField</jtok>
+<jtok eid="6" type="string_literal" span="371:61:371:69">"editor"</jtok>
+<jtok eid="6" type="method_call" span="372:26:372:34">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="373:25:373:27">fa</jtok>
+<jtok eid="6" type="string_literal" span="374:32:374:34">""</jtok>
+<jtok eid="6" type="primary_name_ref" span="375:25:375:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="375:31:375:33">fa</jtok>
+<jtok eid="6" type="method_call" span="375:34:375:40">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="376:25:376:28">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="376:31:376:33">fa</jtok>
+<jtok eid="6" type="method_call" span="376:34:376:40">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="377:28:377:30">fa</jtok>
+<jtok eid="6" type="method_call" span="377:31:377:40">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="377:44:377:47">num</jtok>
+<jtok eid="6" type="line_comment" span="379:21:379:66">// This "ed" business was a dead end, so just</jtok>
+<jtok eid="6" type="line_comment" span="380:21:380:41">// use it literally:</jtok>
+<jtok eid="6" type="method_call" span="381:28:381:36">getField</jtok>
+<jtok eid="6" type="primary_name_ref" span="381:37:381:43">_entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="381:45:381:48">val</jtok>
+<jtok eid="6" type="primary_name_ref" span="383:24:383:27">val</jtok>
+<jtok eid="6" type="method_call" span="383:28:383:34">equals</jtok>
+<jtok eid="6" type="string_literal" span="383:35:383:46">"firstpage"</jtok>
+<jtok eid="6" type="method_call" span="384:24:384:33">firstPage</jtok>
+<jtok eid="6" type="primary_name_ref" span="384:34:384:40">_entry</jtok>
+<jtok eid="6" type="method_call" span="384:41:384:49">getField</jtok>
+<jtok eid="6" type="string_literal" span="384:50:384:57">"pages"</jtok>
+<jtok eid="6" type="primary_name_ref" span="385:24:385:27">val</jtok>
+<jtok eid="6" type="method_call" span="385:28:385:34">equals</jtok>
+<jtok eid="6" type="string_literal" span="385:35:385:45">"lastpage"</jtok>
+<jtok eid="6" type="method_call" span="386:24:386:32">lastPage</jtok>
+<jtok eid="6" type="primary_name_ref" span="386:33:386:39">_entry</jtok>
+<jtok eid="6" type="method_call" span="386:40:386:48">getField</jtok>
+<jtok eid="6" type="string_literal" span="386:49:386:56">"pages"</jtok>
+<jtok eid="6" type="primary_name_ref" span="387:24:387:27">val</jtok>
+<jtok eid="6" type="method_call" span="387:28:387:34">equals</jtok>
+<jtok eid="6" type="string_literal" span="387:35:387:47">"shorttitle"</jtok>
+<jtok eid="6" type="method_call" span="388:24:388:37">getTitleWords</jtok>
+<jtok eid="6" type="primary_name_ref" span="388:41:388:47">_entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="389:24:389:27">val</jtok>
+<jtok eid="6" type="method_call" span="389:28:389:34">equals</jtok>
+<jtok eid="6" type="string_literal" span="389:35:389:46">"shortyear"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="390:17:390:23">String</jtok>
+<jtok eid="6" type="local_variable_name" span="390:24:390:26">ss</jtok>
+<jtok eid="6" type="primary_name_ref" span="390:29:390:35">_entry</jtok>
+<jtok eid="6" type="method_call" span="390:36:390:44">getField</jtok>
+<jtok eid="6" type="string_literal" span="390:45:390:51">"year"</jtok>
+<jtok eid="6" type="primary_name_ref" span="391:21:391:23">ss</jtok>
+<jtok eid="6" type="method_call" span="391:24:391:34">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="391:35:391:39">"in"</jtok>
+<jtok eid="6" type="primary_name_ref" span="391:44:391:46">ss</jtok>
+<jtok eid="6" type="method_call" span="391:47:391:57">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="391:58:391:63">"sub"</jtok>
+<jtok eid="6" type="string_literal" span="392:28:392:32">"IP"</jtok>
+<jtok eid="6" type="primary_name_ref" span="393:28:393:30">ss</jtok>
+<jtok eid="6" type="method_call" span="393:31:393:37">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="394:28:394:30">ss</jtok>
+<jtok eid="6" type="method_call" span="394:31:394:40">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="394:41:394:43">ss</jtok>
+<jtok eid="6" type="method_call" span="394:44:394:50">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="396:28:396:30">ss</jtok>
+<jtok eid="6" type="primary_name_ref" span="398:24:398:27">val</jtok>
+<jtok eid="6" type="method_call" span="398:28:398:34">equals</jtok>
+<jtok eid="6" type="string_literal" span="398:35:398:51">"veryshorttitle"</jtok>
+<jtok eid="6" type="method_call" span="399:24:399:37">getTitleWords</jtok>
+<jtok eid="6" type="primary_name_ref" span="399:41:399:47">_entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="400:24:400:27">val</jtok>
+<jtok eid="6" type="method_call" span="400:28:400:35">matches</jtok>
+<jtok eid="6" type="string_literal" span="400:36:400:49">"keyword\\d+"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="401:17:401:30">StringBuilder</jtok>
+<jtok eid="6" type="local_variable_name" span="401:31:401:33">sb</jtok>
+<jtok eid="6" type="constructor_call" span="401:40:401:53">StringBuilder</jtok>
+<jtok eid="6" type="local_variable_name" span="402:21:402:24">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="402:27:402:34">Integer</jtok>
+<jtok eid="6" type="method_call" span="402:35:402:43">parseInt</jtok>
+<jtok eid="6" type="primary_name_ref" span="402:44:402:47">val</jtok>
+<jtok eid="6" type="method_call" span="402:48:402:57">substring</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="403:17:403:23">String</jtok>
+<jtok eid="6" type="local_variable_name" span="403:24:403:26">kw</jtok>
+<jtok eid="6" type="method_call" span="403:29:403:37">getField</jtok>
+<jtok eid="6" type="primary_name_ref" span="403:38:403:44">_entry</jtok>
+<jtok eid="6" type="string_literal" span="403:46:403:56">"keywords"</jtok>
+<jtok eid="6" type="primary_name_ref" span="404:21:404:23">kw</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="405:21:405:27">String</jtok>
+<jtok eid="6" type="local_variable_name" span="405:30:405:38">keywords</jtok>
+<jtok eid="6" type="primary_name_ref" span="405:41:405:43">kw</jtok>
+<jtok eid="6" type="method_call" span="405:44:405:49">split</jtok>
+<jtok eid="6" type="string_literal" span="405:50:405:60">"[,;]\\s*"</jtok>
+<jtok eid="6" type="primary_name_ref" span="406:26:406:29">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="406:39:406:42">num</jtok>
+<jtok eid="6" type="primary_name_ref" span="406:45:406:53">keywords</jtok>
+<jtok eid="6" type="qualified_name_ref" span="406:54:406:60">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="407:25:407:27">sb</jtok>
+<jtok eid="6" type="method_call" span="407:28:407:34">append</jtok>
+<jtok eid="6" type="primary_name_ref" span="407:35:407:43">keywords</jtok>
+<jtok eid="6" type="primary_name_ref" span="407:44:407:47">num</jtok>
+<jtok eid="6" type="method_call" span="407:53:407:57">trim</jtok>
+<jtok eid="6" type="primary_name_ref" span="409:24:409:26">sb</jtok>
+<jtok eid="6" type="method_call" span="409:27:409:35">toString</jtok>
+<jtok eid="6" type="line_comment" span="411:17:411:54">// we havent seen any special demands</jtok>
+<jtok eid="6" type="method_call" span="412:24:412:32">getField</jtok>
+<jtok eid="6" type="primary_name_ref" span="412:33:412:39">_entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="412:41:412:44">val</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="414:18:414:38">NullPointerException</jtok>
+<jtok eid="6" type="local_variable_name" span="414:39:414:41">ex</jtok>
+<jtok eid="6" type="string_literal" span="415:20:415:22">""</jtok>
+<jtok eid="1" type="block_comment" span="420:5:426:8">/**
+     * Look up a field of a BibtexEntry, returning its String value, or an
+     * empty string if it isn't set.
+     * @param entry The entry.
+     * @param field The field to look up.
+     * @return The field value.
+     */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="427:20:427:26">String</jtok>
+<jtok eid="7" type="method_name" span="427:27:427:35">getField</jtok>
+<jtok eid="7" type="parameter_type" span="427:36:427:47">BibtexEntry</jtok>
+<jtok eid="7" type="parameter_name" span="427:48:427:53">entry</jtok>
+<jtok eid="7" type="parameter_type" span="427:55:427:61">String</jtok>
+<jtok eid="7" type="parameter_name" span="427:62:427:67">field</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="428:9:428:15">Object</jtok>
+<jtok eid="7" type="local_variable_name" span="428:16:428:17">o</jtok>
+<jtok eid="7" type="primary_name_ref" span="428:20:428:25">entry</jtok>
+<jtok eid="7" type="method_call" span="428:26:428:34">getField</jtok>
+<jtok eid="7" type="primary_name_ref" span="428:35:428:40">field</jtok>
+<jtok eid="7" type="primary_name_ref" span="429:16:429:17">o</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="429:29:429:35">String</jtok>
+<jtok eid="7" type="primary_name_ref" span="429:36:429:37">o</jtok>
+<jtok eid="7" type="string_literal" span="429:40:429:42">""</jtok>
+<jtok eid="1" type="block_comment" span="432:5:439:8">/**
+     * Computes an appendix to a BibTeX key that could make it unique. We use
+     * a-z for numbers 0-25, and then aa-az, ba-bz, etc.
+     * 
+     * @param number
+     *            The appendix number.
+     * @return The String to append.
+     */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="440:20:440:26">String</jtok>
+<jtok eid="8" type="method_name" span="440:27:440:38">getAddition</jtok>
+<jtok eid="8" type="parameter_name" span="440:43:440:49">number</jtok>
+<jtok eid="8" type="primary_name_ref" span="441:13:441:19">number</jtok>
+<jtok eid="8" type="primary_name_ref" span="441:23:441:28">CHARS</jtok>
+<jtok eid="8" type="method_call" span="441:29:441:35">length</jtok>
+<jtok eid="8" type="local_variable_name" span="442:17:442:25">lastChar</jtok>
+<jtok eid="8" type="primary_name_ref" span="442:28:442:34">number</jtok>
+<jtok eid="8" type="primary_name_ref" span="442:37:442:42">CHARS</jtok>
+<jtok eid="8" type="method_call" span="442:43:442:49">length</jtok>
+<jtok eid="8" type="method_call" span="443:20:443:31">getAddition</jtok>
+<jtok eid="8" type="primary_name_ref" span="443:32:443:38">number</jtok>
+<jtok eid="8" type="primary_name_ref" span="443:39:443:44">CHARS</jtok>
+<jtok eid="8" type="method_call" span="443:45:443:51">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="443:59:443:64">CHARS</jtok>
+<jtok eid="8" type="method_call" span="443:65:443:74">substring</jtok>
+<jtok eid="8" type="primary_name_ref" span="443:75:443:83">lastChar</jtok>
+<jtok eid="8" type="primary_name_ref" span="443:85:443:93">lastChar</jtok>
+<jtok eid="8" type="primary_name_ref" span="445:20:445:25">CHARS</jtok>
+<jtok eid="8" type="method_call" span="445:26:445:35">substring</jtok>
+<jtok eid="8" type="primary_name_ref" span="445:36:445:42">number</jtok>
+<jtok eid="8" type="primary_name_ref" span="445:44:445:50">number</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="449:12:449:18">String</jtok>
+<jtok eid="9" type="method_name" span="449:19:449:32">getTitleWords</jtok>
+<jtok eid="9" type="parameter_name" span="449:37:449:43">number</jtok>
+<jtok eid="9" type="parameter_type" span="449:45:449:56">BibtexEntry</jtok>
+<jtok eid="9" type="parameter_name" span="449:57:449:63">_entry</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="450:9:450:15">String</jtok>
+<jtok eid="9" type="local_variable_name" span="450:16:450:18">ss</jtok>
+<jtok eid="9" type="constructor_call" span="450:26:450:45">RemoveLatexCommands</jtok>
+<jtok eid="9" type="method_call" span="450:49:450:55">format</jtok>
+<jtok eid="9" type="primary_name_ref" span="450:56:450:62">_entry</jtok>
+<jtok eid="9" type="method_call" span="450:63:450:71">getField</jtok>
+<jtok eid="9" type="string_literal" span="450:72:450:79">"title"</jtok>
+<jtok eid="9" type="method_call" span="450:81:450:89">toString</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="451:9:451:21">StringBuffer</jtok>
+<jtok eid="9" type="local_variable_name" span="451:22:451:30">_sbvalue</jtok>
+<jtok eid="9" type="constructor_call" span="451:37:451:49">StringBuffer</jtok>
+<jtok eid="9" type="local_variable_name" span="452:9:452:16">current</jtok>
+<jtok eid="9" type="local_variable_name" span="453:13:453:16">piv</jtok>
+<jtok eid="9" type="local_variable_name" span="453:20:453:25">words</jtok>
+<jtok eid="9" type="line_comment" span="455:9:455:58">// sorry for being English-centric. I guess these</jtok>
+<jtok eid="9" type="line_comment" span="456:9:456:58">// words should really be an editable preference.</jtok>
+<jtok eid="9" type="label_name" span="457:9:457:14">mainl</jtok>
+<jtok eid="9" type="primary_name_ref" span="457:24:457:27">piv</jtok>
+<jtok eid="9" type="primary_name_ref" span="457:30:457:32">ss</jtok>
+<jtok eid="9" type="method_call" span="457:33:457:39">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="457:47:457:52">words</jtok>
+<jtok eid="9" type="primary_name_ref" span="457:55:457:61">number</jtok>
+<jtok eid="9" type="primary_name_ref" span="458:13:458:20">current</jtok>
+<jtok eid="9" type="constructor_call" span="458:27:458:39">StringBuffer</jtok>
+<jtok eid="9" type="line_comment" span="459:13:459:34">// Get the next word:</jtok>
+<jtok eid="9" type="primary_name_ref" span="460:21:460:24">piv</jtok>
+<jtok eid="9" type="primary_name_ref" span="460:25:460:27">ss</jtok>
+<jtok eid="9" type="method_call" span="460:28:460:34">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="460:42:460:51">Character</jtok>
+<jtok eid="9" type="method_call" span="460:52:460:64">isWhitespace</jtok>
+<jtok eid="9" type="primary_name_ref" span="460:65:460:67">ss</jtok>
+<jtok eid="9" type="method_call" span="460:68:460:74">charAt</jtok>
+<jtok eid="9" type="primary_name_ref" span="460:75:460:78">piv</jtok>
+<jtok eid="9" type="primary_name_ref" span="461:17:461:24">current</jtok>
+<jtok eid="9" type="method_call" span="461:25:461:31">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="461:32:461:34">ss</jtok>
+<jtok eid="9" type="method_call" span="461:35:461:41">charAt</jtok>
+<jtok eid="9" type="primary_name_ref" span="461:42:461:45">piv</jtok>
+<jtok eid="9" type="primary_name_ref" span="462:17:462:20">piv</jtok>
+<jtok eid="9" type="line_comment" span="463:17:463:77">//System.out.println(".. "+piv+" '"+current.toString()+"'");</jtok>
+<jtok eid="9" type="primary_name_ref" span="465:13:465:16">piv</jtok>
+<jtok eid="9" type="line_comment" span="466:13:466:34">// Check if it is ok:</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="467:13:467:19">String</jtok>
+<jtok eid="9" type="local_variable_name" span="467:20:467:24">word</jtok>
+<jtok eid="9" type="primary_name_ref" span="467:27:467:34">current</jtok>
+<jtok eid="9" type="method_call" span="467:35:467:43">toString</jtok>
+<jtok eid="9" type="method_call" span="467:46:467:50">trim</jtok>
+<jtok eid="9" type="primary_name_ref" span="468:17:468:21">word</jtok>
+<jtok eid="9" type="method_call" span="468:22:468:28">length</jtok>
+<jtok eid="9" type="label_ref" span="469:26:469:31">mainl</jtok>
+<jtok eid="9" type="local_variable_name" span="470:21:470:23">_i</jtok>
+<jtok eid="9" type="primary_name_ref" span="470:27:470:29">_i</jtok>
+<jtok eid="9" type="primary_name_ref" span="470:31:470:38">Globals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="470:39:470:49">SKIP_WORDS</jtok>
+<jtok eid="9" type="qualified_name_ref" span="470:50:470:56">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="470:58:470:60">_i</jtok>
+<jtok eid="9" type="primary_name_ref" span="471:21:471:25">word</jtok>
+<jtok eid="9" type="method_call" span="471:26:471:42">equalsIgnoreCase</jtok>
+<jtok eid="9" type="primary_name_ref" span="471:43:471:50">Globals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="471:51:471:61">SKIP_WORDS</jtok>
+<jtok eid="9" type="primary_name_ref" span="471:62:471:64">_i</jtok>
+<jtok eid="9" type="label_ref" span="472:30:472:35">mainl</jtok>
+<jtok eid="9" type="line_comment" span="476:13:476:54">// If we get here, the word was accepted.</jtok>
+<jtok eid="9" type="primary_name_ref" span="477:17:477:25">_sbvalue</jtok>
+<jtok eid="9" type="method_call" span="477:26:477:32">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="478:17:478:25">_sbvalue</jtok>
+<jtok eid="9" type="method_call" span="478:26:478:32">append</jtok>
+<jtok eid="9" type="string_literal" span="478:33:478:36">" "</jtok>
+<jtok eid="9" type="primary_name_ref" span="479:13:479:21">_sbvalue</jtok>
+<jtok eid="9" type="method_call" span="479:22:479:28">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="479:29:479:33">word</jtok>
+<jtok eid="9" type="primary_name_ref" span="480:13:480:18">words</jtok>
+<jtok eid="9" type="primary_name_ref" span="483:16:483:24">_sbvalue</jtok>
+<jtok eid="9" type="method_call" span="483:25:483:33">toString</jtok>
+<jtok eid="1" type="block_comment" span="487:5:491:8">/**
+     * Tests whether a given label is unique.
+     * @param label a &lt;code&gt;String&lt;/code&gt;
+     * @return &lt;code&gt;true&lt;/code&gt; if and only if the &lt;code&gt;label&lt;/code&gt; is unique
+     */</jtok>
+<jtok eid="10" type="method_name" span="492:27:492:40">isLabelUnique</jtok>
+<jtok eid="10" type="parameter_type" span="492:41:492:47">String</jtok>
+<jtok eid="10" type="parameter_name" span="492:48:492:53">label</jtok>
+<jtok eid="10" type="local_variable_name" span="493:17:493:26">_isUnique</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="494:9:494:20">BibtexEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="494:21:494:27">_entry</jtok>
+<jtok eid="10" type="local_variable_name" span="495:13:495:20">_dbSize</jtok>
+<jtok eid="10" type="primary_name_ref" span="495:23:495:26">_db</jtok>
+<jtok eid="10" type="method_call" span="495:27:495:40">getEntryCount</jtok>
+<jtok eid="10" type="line_comment" span="496:9:496:60">// run through the whole DB and check the key field</jtok>
+<jtok eid="10" type="line_comment" span="497:9:497:65">// if this could be made recursive I would be very happy</jtok>
+<jtok eid="10" type="line_comment" span="498:9:498:66">// it kinda sux that we have to run through the whole db.</jtok>
+<jtok eid="10" type="line_comment" span="499:9:499:69">// The idea here is that if we meet NO match, the _duplicate</jtok>
+<jtok eid="10" type="line_comment" span="500:9:500:30">// field will be true</jtok>
+<jtok eid="10" type="local_variable_name" span="502:18:502:19">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="502:25:502:26">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="502:29:502:36">_dbSize</jtok>
+<jtok eid="10" type="primary_name_ref" span="502:38:502:39">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:13:503:19">_entry</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:22:503:25">_db</jtok>
+<jtok eid="10" type="method_call" span="503:26:503:38">getEntryById</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:39:503:45">String</jtok>
+<jtok eid="10" type="method_call" span="503:46:503:53">valueOf</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:54:503:55">i</jtok>
+<jtok eid="10" type="line_comment" span="505:13:505:78">// oh my! there is a match! we better set the uniqueness to false</jtok>
+<jtok eid="10" type="line_comment" span="506:13:506:52">// and leave this for-loop all together</jtok>
+<jtok eid="10" type="primary_name_ref" span="507:17:507:23">_entry</jtok>
+<jtok eid="10" type="method_call" span="507:24:507:32">getField</jtok>
+<jtok eid="10" type="primary_name_ref" span="507:33:507:45">BibtexFields</jtok>
+<jtok eid="10" type="qualified_name_ref" span="507:46:507:55">KEY_FIELD</jtok>
+<jtok eid="10" type="method_call" span="507:57:507:63">equals</jtok>
+<jtok eid="10" type="primary_name_ref" span="507:64:507:69">label</jtok>
+<jtok eid="10" type="primary_name_ref" span="508:17:508:26">_isUnique</jtok>
+<jtok eid="10" type="primary_name_ref" span="513:16:513:25">_isUnique</jtok>
+<jtok eid="1" type="block_comment" span="517:5:527:8">/**
+     * Gets the last name of the first author/editor
+     * 
+     * @param authorField
+     *            a &lt;code&gt;String&lt;/code&gt;
+     * @return the surname of an author/editor or "" if no author was found
+     *    This method is guaranteed to never return null.
+     * 
+     * @throws NullPointerException
+     *             if authorField == null
+     */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="528:19:528:25">String</jtok>
+<jtok eid="11" type="method_name" span="528:26:528:37">firstAuthor</jtok>
+<jtok eid="11" type="parameter_type" span="528:38:528:44">String</jtok>
+<jtok eid="11" type="parameter_name" span="528:45:528:56">authorField</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="529:9:529:19">AuthorList</jtok>
+<jtok eid="11" type="local_variable_name" span="529:20:529:22">al</jtok>
+<jtok eid="11" type="primary_name_ref" span="529:25:529:35">AuthorList</jtok>
+<jtok eid="11" type="method_call" span="529:36:529:49">getAuthorList</jtok>
+<jtok eid="11" type="primary_name_ref" span="529:50:529:61">authorField</jtok>
+<jtok eid="11" type="primary_name_ref" span="530:13:530:15">al</jtok>
+<jtok eid="11" type="method_call" span="530:16:530:20">size</jtok>
+<jtok eid="11" type="string_literal" span="531:20:531:22">""</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="532:9:532:15">String</jtok>
+<jtok eid="11" type="local_variable_name" span="532:16:532:17">s</jtok>
+<jtok eid="11" type="primary_name_ref" span="532:20:532:22">al</jtok>
+<jtok eid="11" type="method_call" span="532:23:532:32">getAuthor</jtok>
+<jtok eid="11" type="method_call" span="532:36:532:43">getLast</jtok>
+<jtok eid="11" type="primary_name_ref" span="533:16:533:17">s</jtok>
+<jtok eid="11" type="primary_name_ref" span="533:28:533:29">s</jtok>
+<jtok eid="11" type="string_literal" span="533:32:533:34">""</jtok>
+<jtok eid="1" type="block_comment" span="537:5:547:8">/**
+     * Gets the von part and the last name of the first author/editor
+     *
+     * @param authorField
+     *            a &lt;code&gt;String&lt;/code&gt;
+     * @return the von part and surname of an author/editor or "" if no author was found.
+     *  This method is guaranteed to never return null.
+     *
+     * @throws NullPointerException
+     *             if authorField == null
+     */</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="548:19:548:25">String</jtok>
+<jtok eid="12" type="method_name" span="548:26:548:47">firstAuthorVonAndLast</jtok>
+<jtok eid="12" type="parameter_type" span="548:48:548:54">String</jtok>
+<jtok eid="12" type="parameter_name" span="548:55:548:66">authorField</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="549:9:549:19">AuthorList</jtok>
+<jtok eid="12" type="local_variable_name" span="549:20:549:22">al</jtok>
+<jtok eid="12" type="primary_name_ref" span="549:25:549:35">AuthorList</jtok>
+<jtok eid="12" type="method_call" span="549:36:549:49">getAuthorList</jtok>
+<jtok eid="12" type="primary_name_ref" span="549:50:549:61">authorField</jtok>
+<jtok eid="12" type="primary_name_ref" span="550:13:550:15">al</jtok>
+<jtok eid="12" type="method_call" span="550:16:550:20">size</jtok>
+<jtok eid="12" type="string_literal" span="551:20:551:22">""</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="552:9:552:15">String</jtok>
+<jtok eid="12" type="local_variable_name" span="552:16:552:17">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="552:20:552:22">al</jtok>
+<jtok eid="12" type="method_call" span="552:23:552:32">getAuthor</jtok>
+<jtok eid="12" type="method_call" span="552:36:552:42">getVon</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="553:9:553:22">StringBuilder</jtok>
+<jtok eid="12" type="local_variable_name" span="553:23:553:25">sb</jtok>
+<jtok eid="12" type="constructor_call" span="553:32:553:45">StringBuilder</jtok>
+<jtok eid="12" type="primary_name_ref" span="554:13:554:14">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="555:13:555:15">sb</jtok>
+<jtok eid="12" type="method_call" span="555:16:555:22">append</jtok>
+<jtok eid="12" type="primary_name_ref" span="555:23:555:24">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="556:13:556:15">sb</jtok>
+<jtok eid="12" type="method_call" span="556:16:556:22">append</jtok>
+<jtok eid="12" type="primary_name_ref" span="558:9:558:10">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="558:13:558:15">al</jtok>
+<jtok eid="12" type="method_call" span="558:16:558:25">getAuthor</jtok>
+<jtok eid="12" type="method_call" span="558:29:558:36">getLast</jtok>
+<jtok eid="12" type="primary_name_ref" span="559:13:559:14">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="560:13:560:15">sb</jtok>
+<jtok eid="12" type="method_call" span="560:16:560:22">append</jtok>
+<jtok eid="12" type="primary_name_ref" span="560:23:560:24">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="561:16:561:18">sb</jtok>
+<jtok eid="12" type="method_call" span="561:19:561:27">toString</jtok>
+<jtok eid="1" type="block_comment" span="564:5:568:8">/**
+     * Gets the last name of the last author/editor
+     * @param authorField a &lt;code&gt;String&lt;/code&gt;
+     * @return the sur name of an author/editor
+     */</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="569:20:569:26">String</jtok>
+<jtok eid="13" type="method_name" span="569:27:569:37">lastAuthor</jtok>
+<jtok eid="13" type="parameter_type" span="569:38:569:44">String</jtok>
+<jtok eid="13" type="parameter_name" span="569:45:569:56">authorField</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="570:9:570:15">String</jtok>
+<jtok eid="13" type="local_variable_name" span="570:18:570:24">tokens</jtok>
+<jtok eid="13" type="primary_name_ref" span="570:27:570:37">AuthorList</jtok>
+<jtok eid="13" type="method_call" span="570:38:570:65">fixAuthorForAlphabetization</jtok>
+<jtok eid="13" type="primary_name_ref" span="570:66:570:77">authorField</jtok>
+<jtok eid="13" type="method_call" span="570:79:570:84">split</jtok>
+<jtok eid="13" type="string_literal" span="570:85:570:96">"\\band\\b"</jtok>
+<jtok eid="13" type="primary_name_ref" span="571:13:571:19">tokens</jtok>
+<jtok eid="13" type="qualified_name_ref" span="571:20:571:26">length</jtok>
+<jtok eid="13" type="line_comment" span="571:34:571:55">// if author is empty</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="572:13:572:19">String</jtok>
+<jtok eid="13" type="local_variable_name" span="572:22:572:32">lastAuthor</jtok>
+<jtok eid="13" type="primary_name_ref" span="572:35:572:41">tokens</jtok>
+<jtok eid="13" type="primary_name_ref" span="572:42:572:48">tokens</jtok>
+<jtok eid="13" type="qualified_name_ref" span="572:49:572:55">length</jtok>
+<jtok eid="13" type="method_call" span="572:59:572:69">replaceAll</jtok>
+<jtok eid="13" type="string_literal" span="572:70:572:76">"\\s+"</jtok>
+<jtok eid="13" type="string_literal" span="572:78:572:81">" "</jtok>
+<jtok eid="13" type="method_call" span="572:83:572:87">trim</jtok>
+<jtok eid="13" type="method_call" span="572:90:572:95">split</jtok>
+<jtok eid="13" type="string_literal" span="572:96:572:99">" "</jtok>
+<jtok eid="13" type="primary_name_ref" span="573:20:573:30">lastAuthor</jtok>
+<jtok eid="13" type="string_literal" span="576:21:576:23">""</jtok>
+<jtok eid="1" type="block_comment" span="579:5:583:8">/**
+     * Gets the last name of all authors/editors
+     * @param authorField a &lt;code&gt;String&lt;/code&gt;
+     * @return the sur name of all authors/editors
+     */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="584:20:584:26">String</jtok>
+<jtok eid="14" type="method_name" span="584:27:584:37">allAuthors</jtok>
+<jtok eid="14" type="parameter_type" span="584:38:584:44">String</jtok>
+<jtok eid="14" type="parameter_name" span="584:45:584:56">authorField</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="585:9:585:15">String</jtok>
+<jtok eid="14" type="local_variable_name" span="585:16:585:22">author</jtok>
+<jtok eid="14" type="string_literal" span="585:25:585:27">""</jtok>
+<jtok eid="14" type="line_comment" span="586:9:586:67">// This code was part of 'ApplyRule' in 'ArticleLabelRule'</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="587:9:587:15">String</jtok>
+<jtok eid="14" type="local_variable_name" span="587:18:587:24">tokens</jtok>
+<jtok eid="14" type="primary_name_ref" span="587:27:587:37">AuthorList</jtok>
+<jtok eid="14" type="method_call" span="587:38:587:65">fixAuthorForAlphabetization</jtok>
+<jtok eid="14" type="primary_name_ref" span="587:66:587:77">authorField</jtok>
+<jtok eid="14" type="method_call" span="587:79:587:84">split</jtok>
+<jtok eid="14" type="string_literal" span="587:85:587:96">"\\band\\b"</jtok>
+<jtok eid="14" type="local_variable_name" span="588:13:588:14">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="589:16:589:22">tokens</jtok>
+<jtok eid="14" type="qualified_name_ref" span="589:23:589:29">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="589:32:589:33">i</jtok>
+<jtok eid="14" type="line_comment" span="590:13:590:65">// convert lastname, firstname to firstname lastname</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="591:13:591:19">String</jtok>
+<jtok eid="14" type="local_variable_name" span="591:22:591:33">firstAuthor</jtok>
+<jtok eid="14" type="primary_name_ref" span="591:36:591:42">tokens</jtok>
+<jtok eid="14" type="primary_name_ref" span="591:43:591:44">i</jtok>
+<jtok eid="14" type="method_call" span="591:46:591:56">replaceAll</jtok>
+<jtok eid="14" type="string_literal" span="591:57:591:63">"\\s+"</jtok>
+<jtok eid="14" type="string_literal" span="591:65:591:68">" "</jtok>
+<jtok eid="14" type="method_call" span="591:70:591:74">trim</jtok>
+<jtok eid="14" type="method_call" span="591:77:591:82">split</jtok>
+<jtok eid="14" type="string_literal" span="591:83:591:86">" "</jtok>
+<jtok eid="14" type="line_comment" span="592:13:592:35">// lastname, firstname</jtok>
+<jtok eid="14" type="primary_name_ref" span="593:13:593:19">author</jtok>
+<jtok eid="14" type="primary_name_ref" span="593:23:593:34">firstAuthor</jtok>
+<jtok eid="14" type="primary_name_ref" span="594:13:594:14">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="596:16:596:22">author</jtok>
+<jtok eid="1" type="block_comment" span="599:5:603:8">/**
+     * Returns the authors according to the BibTeX-alpha-Style
+     * @param authorField string containing the value of the author field
+     * @return the initials of all authornames
+     */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="604:20:604:26">String</jtok>
+<jtok eid="15" type="method_name" span="604:27:604:39">authorsAlpha</jtok>
+<jtok eid="15" type="parameter_type" span="604:40:604:46">String</jtok>
+<jtok eid="15" type="parameter_name" span="604:47:604:58">authorField</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="605:6:605:12">String</jtok>
+<jtok eid="15" type="local_variable_name" span="605:13:605:20">authors</jtok>
+<jtok eid="15" type="string_literal" span="605:23:605:25">""</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="607:6:607:12">String</jtok>
+<jtok eid="15" type="local_variable_name" span="607:13:607:25">fixedAuthors</jtok>
+<jtok eid="15" type="primary_name_ref" span="607:28:607:38">AuthorList</jtok>
+<jtok eid="15" type="method_call" span="607:39:607:67">fixAuthor_lastNameOnlyCommas</jtok>
+<jtok eid="15" type="primary_name_ref" span="607:68:607:79">authorField</jtok>
+<jtok eid="15" type="line_comment" span="609:6:609:46">// drop the "and" before the last author</jtok>
+<jtok eid="15" type="line_comment" span="610:6:610:35">// -&gt; makes processing easier</jtok>
+<jtok eid="15" type="primary_name_ref" span="611:6:611:18">fixedAuthors</jtok>
+<jtok eid="15" type="primary_name_ref" span="611:21:611:33">fixedAuthors</jtok>
+<jtok eid="15" type="method_call" span="611:34:611:41">replace</jtok>
+<jtok eid="15" type="string_literal" span="611:42:611:49">" and "</jtok>
+<jtok eid="15" type="string_literal" span="611:51:611:55">", "</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="613:6:613:12">String</jtok>
+<jtok eid="15" type="local_variable_name" span="613:15:613:21">tokens</jtok>
+<jtok eid="15" type="primary_name_ref" span="613:24:613:36">fixedAuthors</jtok>
+<jtok eid="15" type="method_call" span="613:37:613:42">split</jtok>
+<jtok eid="15" type="string_literal" span="613:43:613:46">","</jtok>
+<jtok eid="15" type="local_variable_name" span="614:10:614:13">max</jtok>
+<jtok eid="15" type="primary_name_ref" span="614:17:614:23">tokens</jtok>
+<jtok eid="15" type="qualified_name_ref" span="614:24:614:30">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="614:41:614:47">tokens</jtok>
+<jtok eid="15" type="qualified_name_ref" span="614:48:614:54">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="615:10:615:13">max</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="616:4:616:10">String</jtok>
+<jtok eid="15" type="local_variable_name" span="616:13:616:24">firstAuthor</jtok>
+<jtok eid="15" type="primary_name_ref" span="616:27:616:33">tokens</jtok>
+<jtok eid="15" type="method_call" span="616:37:616:47">replaceAll</jtok>
+<jtok eid="15" type="string_literal" span="616:48:616:54">"\\s+"</jtok>
+<jtok eid="15" type="string_literal" span="616:56:616:59">" "</jtok>
+<jtok eid="15" type="method_call" span="616:61:616:65">trim</jtok>
+<jtok eid="15" type="method_call" span="616:68:616:73">split</jtok>
+<jtok eid="15" type="string_literal" span="616:74:616:77">" "</jtok>
+<jtok eid="15" type="line_comment" span="617:4:617:69">// take first letter of any "prefixes" (e.g. van der Aalst -&gt; vd)</jtok>
+<jtok eid="15" type="local_variable_name" span="618:13:618:14">j</jtok>
+<jtok eid="15" type="primary_name_ref" span="618:18:618:19">j</jtok>
+<jtok eid="15" type="primary_name_ref" span="618:20:618:31">firstAuthor</jtok>
+<jtok eid="15" type="qualified_name_ref" span="618:32:618:38">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="618:42:618:43">j</jtok>
+<jtok eid="15" type="primary_name_ref" span="619:5:619:12">authors</jtok>
+<jtok eid="15" type="primary_name_ref" span="619:15:619:22">authors</jtok>
+<jtok eid="15" type="method_call" span="619:23:619:29">concat</jtok>
+<jtok eid="15" type="primary_name_ref" span="619:30:619:41">firstAuthor</jtok>
+<jtok eid="15" type="primary_name_ref" span="619:42:619:43">j</jtok>
+<jtok eid="15" type="method_call" span="619:45:619:54">substring</jtok>
+<jtok eid="15" type="line_comment" span="621:4:621:47">// append last part of last name completely</jtok>
+<jtok eid="15" type="primary_name_ref" span="622:4:622:11">authors</jtok>
+<jtok eid="15" type="primary_name_ref" span="622:14:622:21">authors</jtok>
+<jtok eid="15" type="method_call" span="622:22:622:28">concat</jtok>
+<jtok eid="15" type="primary_name_ref" span="622:29:622:40">firstAuthor</jtok>
+<jtok eid="15" type="primary_name_ref" span="622:41:622:52">firstAuthor</jtok>
+<jtok eid="15" type="qualified_name_ref" span="622:53:622:59">length</jtok>
+<jtok eid="15" type="method_call" span="622:63:622:72">substring</jtok>
+<jtok eid="15" type="primary_name_ref" span="623:21:623:25">Math</jtok>
+<jtok eid="15" type="method_call" span="623:26:623:29">min</jtok>
+<jtok eid="15" type="primary_name_ref" span="623:33:623:44">firstAuthor</jtok>
+<jtok eid="15" type="primary_name_ref" span="623:45:623:56">firstAuthor</jtok>
+<jtok eid="15" type="qualified_name_ref" span="623:57:623:63">length</jtok>
+<jtok eid="15" type="method_call" span="623:67:623:73">length</jtok>
+<jtok eid="15" type="local_variable_name" span="625:16:625:17">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="625:23:625:24">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="625:27:625:30">max</jtok>
+<jtok eid="15" type="primary_name_ref" span="625:32:625:33">i</jtok>
+<jtok eid="15" type="line_comment" span="626:8:626:41">// replace all whitespaces by " "</jtok>
+<jtok eid="15" type="line_comment" span="627:8:627:36">// split the lastname at " "</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="628:8:628:14">String</jtok>
+<jtok eid="15" type="local_variable_name" span="628:17:628:26">curAuthor</jtok>
+<jtok eid="15" type="primary_name_ref" span="628:29:628:35">tokens</jtok>
+<jtok eid="15" type="primary_name_ref" span="628:36:628:37">i</jtok>
+<jtok eid="15" type="method_call" span="628:39:628:49">replaceAll</jtok>
+<jtok eid="15" type="string_literal" span="628:50:628:56">"\\s+"</jtok>
+<jtok eid="15" type="string_literal" span="628:58:628:61">" "</jtok>
+<jtok eid="15" type="method_call" span="628:63:628:67">trim</jtok>
+<jtok eid="15" type="method_call" span="628:70:628:75">split</jtok>
+<jtok eid="15" type="string_literal" span="628:76:628:79">" "</jtok>
+<jtok eid="15" type="local_variable_name" span="629:17:629:18">j</jtok>
+<jtok eid="15" type="primary_name_ref" span="629:22:629:23">j</jtok>
+<jtok eid="15" type="primary_name_ref" span="629:24:629:33">curAuthor</jtok>
+<jtok eid="15" type="qualified_name_ref" span="629:34:629:40">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="629:42:629:43">j</jtok>
+<jtok eid="15" type="line_comment" span="630:9:630:56">// use first character of each part of lastname</jtok>
+<jtok eid="15" type="primary_name_ref" span="631:9:631:16">authors</jtok>
+<jtok eid="15" type="primary_name_ref" span="631:19:631:26">authors</jtok>
+<jtok eid="15" type="method_call" span="631:27:631:33">concat</jtok>
+<jtok eid="15" type="primary_name_ref" span="631:34:631:43">curAuthor</jtok>
+<jtok eid="15" type="primary_name_ref" span="631:44:631:45">j</jtok>
+<jtok eid="15" type="method_call" span="631:47:631:56">substring</jtok>
+<jtok eid="15" type="primary_name_ref" span="634:11:634:17">tokens</jtok>
+<jtok eid="15" type="qualified_name_ref" span="634:18:634:24">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="635:8:635:15">authors</jtok>
+<jtok eid="15" type="primary_name_ref" span="635:18:635:25">authors</jtok>
+<jtok eid="15" type="method_call" span="635:26:635:32">concat</jtok>
+<jtok eid="15" type="string_literal" span="635:33:635:36">"+"</jtok>
+<jtok eid="15" type="primary_name_ref" span="638:13:638:20">authors</jtok>
+<jtok eid="1" type="block_comment" span="641:5:646:8">/**
+     * Gets the surnames of the first N authors and appends EtAl if there are more than N authors
+     * @param authorField a &lt;code&gt;String&lt;/code&gt;
+     * @param n the number of desired authors
+     * @return Gets the surnames of the first N authors and appends EtAl if there are more than N authors
+     */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="647:20:647:26">String</jtok>
+<jtok eid="16" type="method_name" span="647:27:647:35">NAuthors</jtok>
+<jtok eid="16" type="parameter_type" span="647:36:647:42">String</jtok>
+<jtok eid="16" type="parameter_name" span="647:43:647:54">authorField</jtok>
+<jtok eid="16" type="parameter_name" span="647:60:647:61">n</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="648:9:648:15">String</jtok>
+<jtok eid="16" type="local_variable_name" span="648:16:648:22">author</jtok>
+<jtok eid="16" type="string_literal" span="648:25:648:27">""</jtok>
+<jtok eid="16" type="line_comment" span="649:9:649:67">// This code was part of 'ApplyRule' in 'ArticleLabelRule'</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="650:9:650:15">String</jtok>
+<jtok eid="16" type="local_variable_name" span="650:18:650:24">tokens</jtok>
+<jtok eid="16" type="primary_name_ref" span="650:27:650:37">AuthorList</jtok>
+<jtok eid="16" type="method_call" span="650:38:650:65">fixAuthorForAlphabetization</jtok>
+<jtok eid="16" type="primary_name_ref" span="650:66:650:77">authorField</jtok>
+<jtok eid="16" type="method_call" span="650:79:650:84">split</jtok>
+<jtok eid="16" type="string_literal" span="650:85:650:96">"\\band\\b"</jtok>
+<jtok eid="16" type="local_variable_name" span="651:13:651:14">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="652:16:652:22">tokens</jtok>
+<jtok eid="16" type="qualified_name_ref" span="652:23:652:29">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="652:32:652:33">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="652:37:652:38">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="652:41:652:42">n</jtok>
+<jtok eid="16" type="line_comment" span="653:13:653:65">// convert lastname, firstname to firstname lastname</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="654:13:654:19">String</jtok>
+<jtok eid="16" type="local_variable_name" span="654:22:654:33">firstAuthor</jtok>
+<jtok eid="16" type="primary_name_ref" span="654:36:654:42">tokens</jtok>
+<jtok eid="16" type="primary_name_ref" span="654:43:654:44">i</jtok>
+<jtok eid="16" type="method_call" span="654:46:654:56">replaceAll</jtok>
+<jtok eid="16" type="string_literal" span="654:57:654:63">"\\s+"</jtok>
+<jtok eid="16" type="string_literal" span="654:65:654:68">" "</jtok>
+<jtok eid="16" type="method_call" span="654:70:654:74">trim</jtok>
+<jtok eid="16" type="method_call" span="654:77:654:82">split</jtok>
+<jtok eid="16" type="string_literal" span="654:83:654:86">" "</jtok>
+<jtok eid="16" type="line_comment" span="655:13:655:35">// lastname, firstname</jtok>
+<jtok eid="16" type="primary_name_ref" span="656:13:656:19">author</jtok>
+<jtok eid="16" type="primary_name_ref" span="656:23:656:34">firstAuthor</jtok>
+<jtok eid="16" type="primary_name_ref" span="657:13:657:14">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="659:13:659:19">tokens</jtok>
+<jtok eid="16" type="qualified_name_ref" span="659:20:659:26">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="659:30:659:31">n</jtok>
+<jtok eid="16" type="primary_name_ref" span="659:40:659:46">author</jtok>
+<jtok eid="16" type="primary_name_ref" span="660:16:660:22">author</jtok>
+<jtok eid="16" type="string_literal" span="660:26:660:32">"EtAl"</jtok>
+<jtok eid="1" type="block_comment" span="663:5:669:8">/**
+     * Gets the first part of the last name of the first
+     * author/editor, and appends the last name initial of the
+     * remaining authors/editors.
+     * @param authorField a &lt;code&gt;String&lt;/code&gt;
+     * @return the sur name of all authors/editors
+     */</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="670:20:670:26">String</jtok>
+<jtok eid="17" type="method_name" span="670:27:670:43">oneAuthorPlusIni</jtok>
+<jtok eid="17" type="parameter_type" span="670:44:670:50">String</jtok>
+<jtok eid="17" type="parameter_name" span="670:51:670:62">authorField</jtok>
+<jtok eid="17" type="local_variable_name" span="671:19:671:33">CHARS_OF_FIRST</jtok>
+<jtok eid="17" type="primary_name_ref" span="672:9:672:20">authorField</jtok>
+<jtok eid="17" type="primary_name_ref" span="672:23:672:33">AuthorList</jtok>
+<jtok eid="17" type="method_call" span="672:34:672:61">fixAuthorForAlphabetization</jtok>
+<jtok eid="17" type="primary_name_ref" span="672:62:672:73">authorField</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="673:9:673:15">String</jtok>
+<jtok eid="17" type="local_variable_name" span="673:16:673:22">author</jtok>
+<jtok eid="17" type="string_literal" span="673:25:673:27">""</jtok>
+<jtok eid="17" type="line_comment" span="674:9:674:67">// This code was part of 'ApplyRule' in 'ArticleLabelRule'</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="675:9:675:15">String</jtok>
+<jtok eid="17" type="local_variable_name" span="675:18:675:24">tokens</jtok>
+<jtok eid="17" type="primary_name_ref" span="675:27:675:38">authorField</jtok>
+<jtok eid="17" type="method_call" span="675:39:675:44">split</jtok>
+<jtok eid="17" type="string_literal" span="675:45:675:56">"\\band\\b"</jtok>
+<jtok eid="17" type="local_variable_name" span="676:13:676:14">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="677:13:677:19">tokens</jtok>
+<jtok eid="17" type="qualified_name_ref" span="677:20:677:26">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="678:20:678:26">author</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="680:9:680:15">String</jtok>
+<jtok eid="17" type="local_variable_name" span="680:18:680:29">firstAuthor</jtok>
+<jtok eid="17" type="primary_name_ref" span="680:32:680:38">tokens</jtok>
+<jtok eid="17" type="method_call" span="680:42:680:52">replaceAll</jtok>
+<jtok eid="17" type="string_literal" span="680:53:680:59">"\\s+"</jtok>
+<jtok eid="17" type="string_literal" span="680:61:680:64">" "</jtok>
+<jtok eid="17" type="method_call" span="680:66:680:71">split</jtok>
+<jtok eid="17" type="string_literal" span="680:72:680:75">" "</jtok>
+<jtok eid="17" type="primary_name_ref" span="681:9:681:15">author</jtok>
+<jtok eid="17" type="primary_name_ref" span="681:18:681:29">firstAuthor</jtok>
+<jtok eid="17" type="method_call" span="681:33:681:42">substring</jtok>
+<jtok eid="17" type="primary_name_ref" span="682:13:682:17">Math</jtok>
+<jtok eid="17" type="method_call" span="682:18:682:21">min</jtok>
+<jtok eid="17" type="primary_name_ref" span="682:22:682:36">CHARS_OF_FIRST</jtok>
+<jtok eid="17" type="primary_name_ref" span="683:17:683:28">firstAuthor</jtok>
+<jtok eid="17" type="method_call" span="683:32:683:38">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="684:16:684:22">tokens</jtok>
+<jtok eid="17" type="qualified_name_ref" span="684:23:684:29">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="684:32:684:33">i</jtok>
+<jtok eid="17" type="line_comment" span="685:13:685:65">// convert lastname, firstname to firstname lastname</jtok>
+<jtok eid="17" type="primary_name_ref" span="686:13:686:19">author</jtok>
+<jtok eid="17" type="primary_name_ref" span="686:23:686:29">tokens</jtok>
+<jtok eid="17" type="primary_name_ref" span="686:30:686:31">i</jtok>
+<jtok eid="17" type="method_call" span="686:33:686:37">trim</jtok>
+<jtok eid="17" type="method_call" span="686:40:686:46">charAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="687:13:687:14">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="689:16:689:22">author</jtok>
+<jtok eid="1" type="block_comment" span="693:5:700:8">/**
+     * auth.auth.ea format:
+     * Isaac Newton and James Maxwell and Albert Einstein (1960)
+     * Isaac Newton and James Maxwell (1960)
+     *  give:
+     * Newton.Maxwell.ea
+     * Newton.Maxwell
+     */</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="701:20:701:26">String</jtok>
+<jtok eid="18" type="method_name" span="701:27:701:37">authAuthEa</jtok>
+<jtok eid="18" type="parameter_type" span="701:38:701:44">String</jtok>
+<jtok eid="18" type="parameter_name" span="701:45:701:56">authorField</jtok>
+<jtok eid="18" type="primary_name_ref" span="702:9:702:20">authorField</jtok>
+<jtok eid="18" type="primary_name_ref" span="702:23:702:33">AuthorList</jtok>
+<jtok eid="18" type="method_call" span="702:34:702:61">fixAuthorForAlphabetization</jtok>
+<jtok eid="18" type="primary_name_ref" span="702:62:702:73">authorField</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="703:9:703:21">StringBuffer</jtok>
+<jtok eid="18" type="local_variable_name" span="703:22:703:28">author</jtok>
+<jtok eid="18" type="constructor_call" span="703:35:703:47">StringBuffer</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="705:9:705:15">String</jtok>
+<jtok eid="18" type="local_variable_name" span="705:18:705:24">tokens</jtok>
+<jtok eid="18" type="primary_name_ref" span="705:27:705:38">authorField</jtok>
+<jtok eid="18" type="method_call" span="705:39:705:44">split</jtok>
+<jtok eid="18" type="string_literal" span="705:45:705:56">"\\band\\b"</jtok>
+<jtok eid="18" type="primary_name_ref" span="706:13:706:19">tokens</jtok>
+<jtok eid="18" type="qualified_name_ref" span="706:20:706:26">length</jtok>
+<jtok eid="18" type="string_literal" span="707:20:707:22">""</jtok>
+<jtok eid="18" type="primary_name_ref" span="709:9:709:15">author</jtok>
+<jtok eid="18" type="method_call" span="709:16:709:22">append</jtok>
+<jtok eid="18" type="primary_name_ref" span="709:24:709:30">tokens</jtok>
+<jtok eid="18" type="method_call" span="709:34:709:39">split</jtok>
+<jtok eid="18" type="string_literal" span="709:40:709:43">","</jtok>
+<jtok eid="18" type="primary_name_ref" span="710:13:710:19">tokens</jtok>
+<jtok eid="18" type="qualified_name_ref" span="710:20:710:26">length</jtok>
+<jtok eid="18" type="primary_name_ref" span="711:13:711:19">author</jtok>
+<jtok eid="18" type="method_call" span="711:20:711:26">append</jtok>
+<jtok eid="18" type="string_literal" span="711:27:711:30">"."</jtok>
+<jtok eid="18" type="method_call" span="711:32:711:38">append</jtok>
+<jtok eid="18" type="primary_name_ref" span="711:40:711:46">tokens</jtok>
+<jtok eid="18" type="method_call" span="711:50:711:55">split</jtok>
+<jtok eid="18" type="string_literal" span="711:56:711:59">","</jtok>
+<jtok eid="18" type="primary_name_ref" span="712:13:712:19">tokens</jtok>
+<jtok eid="18" type="qualified_name_ref" span="712:20:712:26">length</jtok>
+<jtok eid="18" type="primary_name_ref" span="713:13:713:19">author</jtok>
+<jtok eid="18" type="method_call" span="713:20:713:26">append</jtok>
+<jtok eid="18" type="string_literal" span="713:27:713:32">".ea"</jtok>
+<jtok eid="18" type="primary_name_ref" span="715:16:715:22">author</jtok>
+<jtok eid="18" type="method_call" span="715:23:715:31">toString</jtok>
+<jtok eid="1" type="block_comment" span="718:5:725:8">/**
+     * auth.etal format:
+     * Isaac Newton and James Maxwell and Albert Einstein (1960)
+     * Isaac Newton and James Maxwell (1960)
+     *  give:
+     * Newton.etal
+     * Newton.Maxwell
+     */</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="726:20:726:26">String</jtok>
+<jtok eid="19" type="method_name" span="726:27:726:35">authEtal</jtok>
+<jtok eid="19" type="parameter_type" span="726:36:726:42">String</jtok>
+<jtok eid="19" type="parameter_name" span="726:43:726:54">authorField</jtok>
+<jtok eid="19" type="primary_name_ref" span="727:9:727:20">authorField</jtok>
+<jtok eid="19" type="primary_name_ref" span="727:23:727:33">AuthorList</jtok>
+<jtok eid="19" type="method_call" span="727:34:727:61">fixAuthorForAlphabetization</jtok>
+<jtok eid="19" type="primary_name_ref" span="727:62:727:73">authorField</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="728:9:728:21">StringBuffer</jtok>
+<jtok eid="19" type="local_variable_name" span="728:22:728:28">author</jtok>
+<jtok eid="19" type="constructor_call" span="728:35:728:47">StringBuffer</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="730:9:730:15">String</jtok>
+<jtok eid="19" type="local_variable_name" span="730:18:730:24">tokens</jtok>
+<jtok eid="19" type="primary_name_ref" span="730:27:730:38">authorField</jtok>
+<jtok eid="19" type="method_call" span="730:39:730:44">split</jtok>
+<jtok eid="19" type="string_literal" span="730:45:730:56">"\\band\\b"</jtok>
+<jtok eid="19" type="primary_name_ref" span="731:13:731:19">tokens</jtok>
+<jtok eid="19" type="qualified_name_ref" span="731:20:731:26">length</jtok>
+<jtok eid="19" type="string_literal" span="732:20:732:22">""</jtok>
+<jtok eid="19" type="primary_name_ref" span="734:9:734:15">author</jtok>
+<jtok eid="19" type="method_call" span="734:16:734:22">append</jtok>
+<jtok eid="19" type="primary_name_ref" span="734:24:734:30">tokens</jtok>
+<jtok eid="19" type="method_call" span="734:34:734:39">split</jtok>
+<jtok eid="19" type="string_literal" span="734:40:734:43">","</jtok>
+<jtok eid="19" type="primary_name_ref" span="735:13:735:19">tokens</jtok>
+<jtok eid="19" type="qualified_name_ref" span="735:20:735:26">length</jtok>
+<jtok eid="19" type="primary_name_ref" span="736:13:736:19">author</jtok>
+<jtok eid="19" type="method_call" span="736:20:736:26">append</jtok>
+<jtok eid="19" type="string_literal" span="736:27:736:30">"."</jtok>
+<jtok eid="19" type="method_call" span="736:32:736:38">append</jtok>
+<jtok eid="19" type="primary_name_ref" span="736:40:736:46">tokens</jtok>
+<jtok eid="19" type="method_call" span="736:50:736:55">split</jtok>
+<jtok eid="19" type="string_literal" span="736:56:736:59">","</jtok>
+<jtok eid="19" type="primary_name_ref" span="737:18:737:24">tokens</jtok>
+<jtok eid="19" type="qualified_name_ref" span="737:25:737:31">length</jtok>
+<jtok eid="19" type="primary_name_ref" span="738:13:738:19">author</jtok>
+<jtok eid="19" type="method_call" span="738:20:738:26">append</jtok>
+<jtok eid="19" type="string_literal" span="738:27:738:34">".etal"</jtok>
+<jtok eid="19" type="primary_name_ref" span="740:16:740:22">author</jtok>
+<jtok eid="19" type="method_call" span="740:23:740:31">toString</jtok>
+<jtok eid="1" type="block_comment" span="743:5:745:8">/**
+     * The first N characters of the Mth author/editor.
+     */</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="746:20:746:26">String</jtok>
+<jtok eid="20" type="method_name" span="746:27:746:34">authN_M</jtok>
+<jtok eid="20" type="parameter_type" span="746:35:746:41">String</jtok>
+<jtok eid="20" type="parameter_name" span="746:42:746:53">authorField</jtok>
+<jtok eid="20" type="parameter_name" span="746:59:746:60">n</jtok>
+<jtok eid="20" type="parameter_name" span="746:66:746:67">m</jtok>
+<jtok eid="20" type="primary_name_ref" span="747:9:747:20">authorField</jtok>
+<jtok eid="20" type="primary_name_ref" span="747:23:747:33">AuthorList</jtok>
+<jtok eid="20" type="method_call" span="747:34:747:61">fixAuthorForAlphabetization</jtok>
+<jtok eid="20" type="primary_name_ref" span="747:62:747:73">authorField</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="749:9:749:15">String</jtok>
+<jtok eid="20" type="local_variable_name" span="749:18:749:24">tokens</jtok>
+<jtok eid="20" type="primary_name_ref" span="749:27:749:38">authorField</jtok>
+<jtok eid="20" type="method_call" span="749:39:749:44">split</jtok>
+<jtok eid="20" type="string_literal" span="749:45:749:56">"\\band\\b"</jtok>
+<jtok eid="20" type="primary_name_ref" span="750:14:750:20">tokens</jtok>
+<jtok eid="20" type="qualified_name_ref" span="750:21:750:27">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="750:31:750:32">m</jtok>
+<jtok eid="20" type="primary_name_ref" span="750:38:750:39">n</jtok>
+<jtok eid="20" type="primary_name_ref" span="750:47:750:48">m</jtok>
+<jtok eid="20" type="string_literal" span="751:20:751:22">""</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="753:9:753:15">String</jtok>
+<jtok eid="20" type="local_variable_name" span="753:16:753:24">lastName</jtok>
+<jtok eid="20" type="primary_name_ref" span="753:28:753:34">tokens</jtok>
+<jtok eid="20" type="primary_name_ref" span="753:35:753:36">m</jtok>
+<jtok eid="20" type="method_call" span="753:38:753:43">split</jtok>
+<jtok eid="20" type="string_literal" span="753:44:753:47">","</jtok>
+<jtok eid="20" type="method_call" span="753:53:753:57">trim</jtok>
+<jtok eid="20" type="primary_name_ref" span="754:13:754:21">lastName</jtok>
+<jtok eid="20" type="method_call" span="754:22:754:28">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="754:34:754:35">n</jtok>
+<jtok eid="20" type="primary_name_ref" span="755:20:755:28">lastName</jtok>
+<jtok eid="20" type="primary_name_ref" span="757:20:757:28">lastName</jtok>
+<jtok eid="20" type="method_call" span="757:29:757:38">substring</jtok>
+<jtok eid="20" type="primary_name_ref" span="757:42:757:43">n</jtok>
+<jtok eid="1" type="block_comment" span="760:5:783:8">/**
+     * authshort format:
+     * added by Kolja Brix, kbx@users.sourceforge.net
+     *
+     * given author names
+     * 
+     *   Isaac Newton and James Maxwell and Albert Einstein and N. Bohr
+     * 
+     *   Isaac Newton and James Maxwell and Albert Einstein
+     *   
+     *   Isaac Newton and James Maxwell
+     *   
+     *   Isaac Newton
+     * 
+     * yield
+     * 
+     *   NME+
+     *   
+     *   NME
+     *   
+     *   NM
+     *   
+     *   Newton
+     */</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="784:20:784:26">String</jtok>
+<jtok eid="21" type="method_name" span="784:27:784:36">authshort</jtok>
+<jtok eid="21" type="parameter_type" span="784:37:784:43">String</jtok>
+<jtok eid="21" type="parameter_name" span="784:44:784:55">authorField</jtok>
+<jtok eid="21" type="primary_name_ref" span="785:9:785:20">authorField</jtok>
+<jtok eid="21" type="primary_name_ref" span="785:23:785:33">AuthorList</jtok>
+<jtok eid="21" type="method_call" span="785:34:785:61">fixAuthorForAlphabetization</jtok>
+<jtok eid="21" type="primary_name_ref" span="785:62:785:73">authorField</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="786:9:786:21">StringBuffer</jtok>
+<jtok eid="21" type="local_variable_name" span="786:22:786:28">author</jtok>
+<jtok eid="21" type="constructor_call" span="786:35:786:47">StringBuffer</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="787:9:787:15">String</jtok>
+<jtok eid="21" type="local_variable_name" span="787:18:787:24">tokens</jtok>
+<jtok eid="21" type="primary_name_ref" span="787:27:787:38">authorField</jtok>
+<jtok eid="21" type="method_call" span="787:39:787:44">split</jtok>
+<jtok eid="21" type="string_literal" span="787:45:787:56">"\\band\\b"</jtok>
+<jtok eid="21" type="local_variable_name" span="788:13:788:14">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="790:13:790:19">tokens</jtok>
+<jtok eid="21" type="qualified_name_ref" span="790:20:790:26">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="792:13:792:19">author</jtok>
+<jtok eid="21" type="method_call" span="792:20:792:26">append</jtok>
+<jtok eid="21" type="method_call" span="792:27:792:34">authN_M</jtok>
+<jtok eid="21" type="primary_name_ref" span="792:35:792:46">authorField</jtok>
+<jtok eid="21" type="primary_name_ref" span="792:47:792:58">authorField</jtok>
+<jtok eid="21" type="method_call" span="792:59:792:65">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="794:20:794:26">tokens</jtok>
+<jtok eid="21" type="qualified_name_ref" span="794:27:794:33">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="796:20:796:26">tokens</jtok>
+<jtok eid="21" type="qualified_name_ref" span="796:27:796:33">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="796:36:796:37">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="796:41:796:42">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="797:17:797:23">author</jtok>
+<jtok eid="21" type="method_call" span="797:24:797:30">append</jtok>
+<jtok eid="21" type="method_call" span="797:31:797:38">authN_M</jtok>
+<jtok eid="21" type="primary_name_ref" span="797:39:797:50">authorField</jtok>
+<jtok eid="21" type="primary_name_ref" span="797:53:797:54">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="798:17:798:18">i</jtok>
+<jtok eid="21" type="primary_name_ref" span="801:17:801:23">tokens</jtok>
+<jtok eid="21" type="qualified_name_ref" span="801:24:801:30">length</jtok>
+<jtok eid="21" type="primary_name_ref" span="802:17:802:23">author</jtok>
+<jtok eid="21" type="method_call" span="802:24:802:30">append</jtok>
+<jtok eid="21" type="string_literal" span="802:31:802:34">"+"</jtok>
+<jtok eid="21" type="primary_name_ref" span="806:16:806:22">author</jtok>
+<jtok eid="21" type="method_call" span="806:23:806:31">toString</jtok>
+<jtok eid="1" type="block_comment" span="809:5:838:8">/**
+     * authIniN format:
+     * 
+     * Each author gets (N div #authors) chars, the remaining (N mod #authors)
+     * chars are equally distributed to the authors first in the row.
+     * 
+     * If (N &lt; #authors), only the first N authors get mentioned.
+     * 
+     * For example if
+     * 
+     * a) I. Newton and J. Maxwell and A. Einstein and N. Bohr (..)
+     * 
+     * b) I. Newton and J. Maxwell and A. Einstein
+     * 
+     * c) I. Newton and J. Maxwell
+     * 
+     * d) I. Newton
+     * 
+     * authIni4 gives: a) NMEB, b) NeME, c) NeMa, d) Newt
+     * 
+     * @param authorField
+     *            The authors to format.
+     * 
+     * @param n
+     *            The maximum number of characters this string will be long. A
+     *            negative number or zero will lead to "" be returned.
+     * 
+     * @throws NullPointerException
+     *             if authorField is null and n &gt; 0
+     */</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="839:19:839:25">String</jtok>
+<jtok eid="22" type="method_name" span="839:26:839:34">authIniN</jtok>
+<jtok eid="22" type="parameter_type" span="839:35:839:41">String</jtok>
+<jtok eid="22" type="parameter_name" span="839:42:839:53">authorField</jtok>
+<jtok eid="22" type="parameter_name" span="839:59:839:60">n</jtok>
+<jtok eid="22" type="primary_name_ref" span="841:13:841:14">n</jtok>
+<jtok eid="22" type="string_literal" span="842:20:842:22">""</jtok>
+<jtok eid="22" type="primary_name_ref" span="844:9:844:20">authorField</jtok>
+<jtok eid="22" type="primary_name_ref" span="844:23:844:33">AuthorList</jtok>
+<jtok eid="22" type="method_call" span="844:34:844:61">fixAuthorForAlphabetization</jtok>
+<jtok eid="22" type="primary_name_ref" span="844:62:844:73">authorField</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="845:9:845:21">StringBuffer</jtok>
+<jtok eid="22" type="local_variable_name" span="845:22:845:28">author</jtok>
+<jtok eid="22" type="constructor_call" span="845:35:845:47">StringBuffer</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="846:9:846:15">String</jtok>
+<jtok eid="22" type="local_variable_name" span="846:18:846:24">tokens</jtok>
+<jtok eid="22" type="primary_name_ref" span="846:27:846:38">authorField</jtok>
+<jtok eid="22" type="method_call" span="846:39:846:44">split</jtok>
+<jtok eid="22" type="string_literal" span="846:45:846:56">"\\band\\b"</jtok>
+<jtok eid="22" type="local_variable_name" span="847:13:847:14">i</jtok>
+<jtok eid="22" type="local_variable_name" span="848:13:848:21">charsAll</jtok>
+<jtok eid="22" type="primary_name_ref" span="848:24:848:25">n</jtok>
+<jtok eid="22" type="primary_name_ref" span="848:28:848:34">tokens</jtok>
+<jtok eid="22" type="qualified_name_ref" span="848:35:848:41">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="850:13:850:19">tokens</jtok>
+<jtok eid="22" type="qualified_name_ref" span="850:20:850:26">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="851:20:851:26">author</jtok>
+<jtok eid="22" type="method_call" span="851:27:851:35">toString</jtok>
+<jtok eid="22" type="primary_name_ref" span="854:16:854:22">tokens</jtok>
+<jtok eid="22" type="qualified_name_ref" span="854:23:854:29">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="854:32:854:33">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="855:18:855:19">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="855:23:855:24">n</jtok>
+<jtok eid="22" type="primary_name_ref" span="855:27:855:33">tokens</jtok>
+<jtok eid="22" type="qualified_name_ref" span="855:34:855:40">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="856:17:856:23">author</jtok>
+<jtok eid="22" type="method_call" span="856:24:856:30">append</jtok>
+<jtok eid="22" type="method_call" span="856:31:856:38">authN_M</jtok>
+<jtok eid="22" type="primary_name_ref" span="856:39:856:50">authorField</jtok>
+<jtok eid="22" type="primary_name_ref" span="856:51:856:59">charsAll</jtok>
+<jtok eid="22" type="primary_name_ref" span="856:62:856:63">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="858:17:858:23">author</jtok>
+<jtok eid="22" type="method_call" span="858:24:858:30">append</jtok>
+<jtok eid="22" type="method_call" span="858:31:858:38">authN_M</jtok>
+<jtok eid="22" type="primary_name_ref" span="858:39:858:50">authorField</jtok>
+<jtok eid="22" type="primary_name_ref" span="858:51:858:59">charsAll</jtok>
+<jtok eid="22" type="primary_name_ref" span="858:60:858:61">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="860:13:860:14">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="863:13:863:19">author</jtok>
+<jtok eid="22" type="method_call" span="863:20:863:26">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="863:32:863:33">n</jtok>
+<jtok eid="22" type="primary_name_ref" span="864:20:864:26">author</jtok>
+<jtok eid="22" type="method_call" span="864:27:864:35">toString</jtok>
+<jtok eid="22" type="primary_name_ref" span="866:20:866:26">author</jtok>
+<jtok eid="22" type="method_call" span="866:27:866:35">toString</jtok>
+<jtok eid="22" type="method_call" span="866:38:866:47">substring</jtok>
+<jtok eid="22" type="primary_name_ref" span="866:51:866:52">n</jtok>
+<jtok eid="1" type="block_comment" span="870:5:881:8">/**
+     * Split the pages field into separate numbers and return the lowest
+     * 
+     * @param pages
+     *            (may not be null) a pages string such as 42--111 or
+     *            7,41,73--97 or 43+
+     * 
+     * @return the first page number or "" if no number is found in the string
+     * 
+     * @throws NullPointerException
+     *             if pages is null
+     */</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="882:19:882:25">String</jtok>
+<jtok eid="23" type="method_name" span="882:26:882:35">firstPage</jtok>
+<jtok eid="23" type="parameter_type" span="882:36:882:42">String</jtok>
+<jtok eid="23" type="parameter_name" span="882:43:882:48">pages</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="883:9:883:15">String</jtok>
+<jtok eid="23" type="local_variable_name" span="883:18:883:24">_pages</jtok>
+<jtok eid="23" type="primary_name_ref" span="883:27:883:32">pages</jtok>
+<jtok eid="23" type="method_call" span="883:33:883:38">split</jtok>
+<jtok eid="23" type="string_literal" span="883:39:883:45">"\\D+"</jtok>
+<jtok eid="23" type="local_variable_name" span="884:13:884:19">result</jtok>
+<jtok eid="23" type="primary_name_ref" span="884:22:884:29">Integer</jtok>
+<jtok eid="23" type="qualified_name_ref" span="884:30:884:39">MAX_VALUE</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="885:14:885:20">String</jtok>
+<jtok eid="23" type="local_variable_name" span="885:21:885:22">n</jtok>
+<jtok eid="23" type="primary_name_ref" span="885:25:885:31">_pages</jtok>
+<jtok eid="23" type="primary_name_ref" span="886:17:886:18">n</jtok>
+<jtok eid="23" type="method_call" span="886:19:886:26">matches</jtok>
+<jtok eid="23" type="string_literal" span="886:27:886:33">"\\d+"</jtok>
+<jtok eid="23" type="primary_name_ref" span="887:17:887:23">result</jtok>
+<jtok eid="23" type="primary_name_ref" span="887:26:887:30">Math</jtok>
+<jtok eid="23" type="method_call" span="887:31:887:34">min</jtok>
+<jtok eid="23" type="primary_name_ref" span="887:35:887:42">Integer</jtok>
+<jtok eid="23" type="method_call" span="887:43:887:51">parseInt</jtok>
+<jtok eid="23" type="primary_name_ref" span="887:52:887:53">n</jtok>
+<jtok eid="23" type="primary_name_ref" span="887:56:887:62">result</jtok>
+<jtok eid="23" type="primary_name_ref" span="890:13:890:19">result</jtok>
+<jtok eid="23" type="primary_name_ref" span="890:23:890:30">Integer</jtok>
+<jtok eid="23" type="qualified_name_ref" span="890:31:890:40">MAX_VALUE</jtok>
+<jtok eid="23" type="string_literal" span="891:20:891:22">""</jtok>
+<jtok eid="23" type="primary_name_ref" span="893:20:893:26">String</jtok>
+<jtok eid="23" type="method_call" span="893:27:893:34">valueOf</jtok>
+<jtok eid="23" type="primary_name_ref" span="893:35:893:41">result</jtok>
+<jtok eid="1" type="block_comment" span="896:5:906:8">/**
+     * Split the pages field into separate numbers and return the highest
+     * 
+     * @param pages
+     *            a pages string such as 42--111 or 7,41,73--97 or 43+
+     * 
+     * @return the first page number or "" if no number is found in the string
+     * 
+     * @throws NullPointerException
+     *             if pages is null.
+     */</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="907:19:907:25">String</jtok>
+<jtok eid="24" type="method_name" span="907:26:907:34">lastPage</jtok>
+<jtok eid="24" type="parameter_type" span="907:35:907:41">String</jtok>
+<jtok eid="24" type="parameter_name" span="907:42:907:47">pages</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="908:9:908:15">String</jtok>
+<jtok eid="24" type="local_variable_name" span="908:18:908:24">_pages</jtok>
+<jtok eid="24" type="primary_name_ref" span="908:27:908:32">pages</jtok>
+<jtok eid="24" type="method_call" span="908:33:908:38">split</jtok>
+<jtok eid="24" type="string_literal" span="908:39:908:45">"\\D+"</jtok>
+<jtok eid="24" type="local_variable_name" span="909:13:909:19">result</jtok>
+<jtok eid="24" type="primary_name_ref" span="909:22:909:29">Integer</jtok>
+<jtok eid="24" type="qualified_name_ref" span="909:30:909:39">MIN_VALUE</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="910:14:910:20">String</jtok>
+<jtok eid="24" type="local_variable_name" span="910:21:910:22">n</jtok>
+<jtok eid="24" type="primary_name_ref" span="910:25:910:31">_pages</jtok>
+<jtok eid="24" type="primary_name_ref" span="911:17:911:18">n</jtok>
+<jtok eid="24" type="method_call" span="911:19:911:26">matches</jtok>
+<jtok eid="24" type="string_literal" span="911:27:911:33">"\\d+"</jtok>
+<jtok eid="24" type="primary_name_ref" span="912:17:912:23">result</jtok>
+<jtok eid="24" type="primary_name_ref" span="912:26:912:30">Math</jtok>
+<jtok eid="24" type="method_call" span="912:31:912:34">max</jtok>
+<jtok eid="24" type="primary_name_ref" span="912:35:912:42">Integer</jtok>
+<jtok eid="24" type="method_call" span="912:43:912:51">parseInt</jtok>
+<jtok eid="24" type="primary_name_ref" span="912:52:912:53">n</jtok>
+<jtok eid="24" type="primary_name_ref" span="912:56:912:62">result</jtok>
+<jtok eid="24" type="primary_name_ref" span="915:13:915:19">result</jtok>
+<jtok eid="24" type="primary_name_ref" span="915:23:915:30">Integer</jtok>
+<jtok eid="24" type="qualified_name_ref" span="915:31:915:40">MIN_VALUE</jtok>
+<jtok eid="24" type="string_literal" span="916:20:916:22">""</jtok>
+<jtok eid="24" type="primary_name_ref" span="918:20:918:26">String</jtok>
+<jtok eid="24" type="method_call" span="918:27:918:34">valueOf</jtok>
+<jtok eid="24" type="primary_name_ref" span="918:35:918:41">result</jtok>
+<jtok eid="1" type="block_comment" span="921:5:926:12">/**
+         * Parse a field marker with modifiers, possibly containing a parenthesised modifier,
+         * as well as escaped colons and parentheses.
+         * @param arg The argument string.
+         * @return An array of strings representing the parts of the marker
+         */</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="927:23:927:29">String</jtok>
+<jtok eid="25" type="method_name" span="927:32:927:48">parseFieldMarker</jtok>
+<jtok eid="25" type="parameter_type" span="927:49:927:55">String</jtok>
+<jtok eid="25" type="parameter_name" span="927:56:927:59">arg</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="928:13:928:17">List</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="928:18:928:24">String</jtok>
+<jtok eid="25" type="local_variable_name" span="928:26:928:31">parts</jtok>
+<jtok eid="25" type="constructor_call" span="928:38:928:47">ArrayList</jtok>
+<jtok eid="25" type="constructor_call" span="928:48:928:54">String</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="929:13:929:26">StringBuilder</jtok>
+<jtok eid="25" type="local_variable_name" span="929:27:929:34">current</jtok>
+<jtok eid="25" type="constructor_call" span="929:41:929:54">StringBuilder</jtok>
+<jtok eid="25" type="local_variable_name" span="930:21:930:28">escaped</jtok>
+<jtok eid="25" type="local_variable_name" span="931:17:931:30">inParenthesis</jtok>
+<jtok eid="25" type="local_variable_name" span="932:22:932:23">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="932:27:932:28">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="932:29:932:32">arg</jtok>
+<jtok eid="25" type="method_call" span="932:33:932:39">length</jtok>
+<jtok eid="25" type="primary_name_ref" span="932:43:932:44">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="933:22:933:25">arg</jtok>
+<jtok eid="25" type="method_call" span="933:26:933:32">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="933:33:933:34">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="933:48:933:55">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="933:60:933:73">inParenthesis</jtok>
+<jtok eid="25" type="primary_name_ref" span="934:21:934:26">parts</jtok>
+<jtok eid="25" type="method_call" span="934:27:934:30">add</jtok>
+<jtok eid="25" type="primary_name_ref" span="934:31:934:38">current</jtok>
+<jtok eid="25" type="method_call" span="934:39:934:47">toString</jtok>
+<jtok eid="25" type="primary_name_ref" span="935:21:935:28">current</jtok>
+<jtok eid="25" type="constructor_call" span="935:35:935:48">StringBuilder</jtok>
+<jtok eid="25" type="primary_name_ref" span="936:29:936:32">arg</jtok>
+<jtok eid="25" type="method_call" span="936:33:936:39">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="936:40:936:41">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="936:55:936:62">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="937:21:937:34">inParenthesis</jtok>
+<jtok eid="25" type="primary_name_ref" span="938:21:938:28">current</jtok>
+<jtok eid="25" type="method_call" span="938:29:938:35">append</jtok>
+<jtok eid="25" type="primary_name_ref" span="938:36:938:39">arg</jtok>
+<jtok eid="25" type="method_call" span="938:40:938:46">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="938:47:938:48">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="939:29:939:32">arg</jtok>
+<jtok eid="25" type="method_call" span="939:33:939:39">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="939:40:939:41">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="939:55:939:62">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="939:67:939:80">inParenthesis</jtok>
+<jtok eid="25" type="primary_name_ref" span="940:21:940:34">inParenthesis</jtok>
+<jtok eid="25" type="primary_name_ref" span="941:21:941:28">current</jtok>
+<jtok eid="25" type="method_call" span="941:29:941:35">append</jtok>
+<jtok eid="25" type="primary_name_ref" span="941:36:941:39">arg</jtok>
+<jtok eid="25" type="method_call" span="941:40:941:46">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="941:47:941:48">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="942:28:942:31">arg</jtok>
+<jtok eid="25" type="method_call" span="942:32:942:38">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="942:39:942:40">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="943:25:943:32">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="944:25:944:32">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="945:25:945:32">current</jtok>
+<jtok eid="25" type="method_call" span="945:33:945:39">append</jtok>
+<jtok eid="25" type="primary_name_ref" span="945:40:945:43">arg</jtok>
+<jtok eid="25" type="method_call" span="945:44:945:50">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="945:51:945:52">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="947:25:947:32">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="948:28:948:35">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="949:21:949:28">current</jtok>
+<jtok eid="25" type="method_call" span="949:29:949:35">append</jtok>
+<jtok eid="25" type="primary_name_ref" span="949:36:949:39">arg</jtok>
+<jtok eid="25" type="method_call" span="949:40:949:46">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="949:47:949:48">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="950:21:950:28">escaped</jtok>
+<jtok eid="25" type="primary_name_ref" span="952:21:952:28">current</jtok>
+<jtok eid="25" type="method_call" span="952:29:952:35">append</jtok>
+<jtok eid="25" type="primary_name_ref" span="952:36:952:39">arg</jtok>
+<jtok eid="25" type="method_call" span="952:40:952:46">charAt</jtok>
+<jtok eid="25" type="primary_name_ref" span="952:47:952:48">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="954:13:954:18">parts</jtok>
+<jtok eid="25" type="method_call" span="954:19:954:22">add</jtok>
+<jtok eid="25" type="primary_name_ref" span="954:23:954:30">current</jtok>
+<jtok eid="25" type="method_call" span="954:31:954:39">toString</jtok>
+<jtok eid="25" type="primary_name_ref" span="955:20:955:25">parts</jtok>
+<jtok eid="25" type="method_call" span="955:26:955:33">toArray</jtok>
+<jtok eid="25" type="constructor_call" span="955:38:955:44">String</jtok>
+<jtok eid="25" type="primary_name_ref" span="955:45:955:50">parts</jtok>
+<jtok eid="25" type="method_call" span="955:51:955:55">size</jtok>
+</jdoc>

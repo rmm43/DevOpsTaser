@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="installer.TarOutputStream" jls="java5">
+<jent id="0" type="file" span="0:0:330:1">Source/jEdit/installer/TarOutputStream.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:329:2">installer.TarOutputStream</jent>
+<jent id="2" pid="1" type="method" span="50:2:54:3">installer.TarOutputStream.TarOutputStream(OutputStream)</jent>
+<jent id="3" pid="1" type="method" span="56:2:60:3">installer.TarOutputStream.TarOutputStream(OutputStream,int)</jent>
+<jent id="4" pid="1" type="method" span="62:2:74:3">installer.TarOutputStream.TarOutputStream(OutputStream,int,int)</jent>
+<jent id="5" pid="1" type="method" span="81:2:85:3">installer.TarOutputStream.setDebug(boolean)</jent>
+<jent id="6" pid="1" type="method" span="92:2:96:3">installer.TarOutputStream.setBufferDebug(boolean)</jent>
+<jent id="7" pid="1" type="method" span="103:2:108:3">installer.TarOutputStream.finish()</jent>
+<jent id="8" pid="1" type="method" span="116:2:122:3">installer.TarOutputStream.close()</jent>
+<jent id="9" pid="1" type="method" span="129:2:133:3">installer.TarOutputStream.getRecordSize()</jent>
+<jent id="10" pid="1" type="method" span="146:2:165:3">installer.TarOutputStream.putNextEntry(TarEntry)</jent>
+<jent id="11" pid="1" type="method" span="176:2:196:3">installer.TarOutputStream.closeEntry()</jent>
+<jent id="12" pid="1" type="method" span="205:2:211:3">installer.TarOutputStream.write(int)</jent>
+<jent id="13" pid="1" type="method" span="221:2:226:3">installer.TarOutputStream.write(byte[])</jent>
+<jent id="14" pid="1" type="method" span="243:2:314:3">installer.TarOutputStream.write(byte[],int,int)</jent>
+<jent id="15" pid="1" type="method" span="320:2:327:3">installer.TarOutputStream.writeEOFRecord()</jent>
+<jtok eid="0" type="block_comment" span="1:1:14:3">/*
+** Authored by Timothy Gerard Endres
+** &lt;mailto:time@gjt.org&gt;  &lt;http://www.trustice.com&gt;
+** 
+** This work has been placed into the public domain.
+** You may use this work in any way and for any purpose you wish.
+**
+** THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY OF ANY KIND,
+** NOT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY. THE AUTHOR
+** OF THIS SOFTWARE, ASSUMES _NO_ RESPONSIBILITY FOR ANY
+** CONSEQUENCE RESULTING FROM THE USE, MODIFICATION, OR
+** REDISTRIBUTION OF THIS SOFTWARE. 
+** 
+*/</jtok>
+<jtok eid="0" type="block_comment" span="21:1:33:4">/**
+ * The TarOutputStream writes a UNIX tar archive as an OutputStream.
+ * Methods are provided to put entries, and then write their contents
+ * by writing to this stream using write().
+ *
+ *
+ * @version $Revision: 12504 $
+ * @author Timothy Gerard Endres,
+ *  &lt;a href="mailto:time@gjt.org"&gt;time@trustice.com&lt;/a&gt;.
+ * @see TarBuffer
+ * @see TarHeader
+ * @see TarEntry
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:8:37:23">TarOutputStream</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:10:38:28">FilterOutputStream</jtok>
+<jtok eid="1" type="field_name" span="40:22:40:27">debug</jtok>
+<jtok eid="1" type="field_name" span="41:19:41:27">currSize</jtok>
+<jtok eid="1" type="field_name" span="42:19:42:28">currBytes</jtok>
+<jtok eid="1" type="field_name" span="43:21:43:27">oneBuf</jtok>
+<jtok eid="1" type="field_name" span="44:21:44:30">recordBuf</jtok>
+<jtok eid="1" type="field_name" span="45:19:45:27">assemLen</jtok>
+<jtok eid="1" type="field_name" span="46:21:46:29">assemBuf</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:12:47:21">TarBuffer</jtok>
+<jtok eid="1" type="field_name" span="47:24:47:30">buffer</jtok>
+<jtok eid="2" type="method_name" span="51:2:51:17">TarOutputStream</jtok>
+<jtok eid="2" type="parameter_type" span="51:19:51:31">OutputStream</jtok>
+<jtok eid="2" type="parameter_name" span="51:32:51:34">os</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:9:53:11">os</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:13:53:22">TarBuffer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:23:53:38">DEFAULT_BLKSIZE</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:40:53:49">TarBuffer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:50:53:65">DEFAULT_RCDSIZE</jtok>
+<jtok eid="3" type="method_name" span="57:2:57:17">TarOutputStream</jtok>
+<jtok eid="3" type="parameter_type" span="57:19:57:31">OutputStream</jtok>
+<jtok eid="3" type="parameter_name" span="57:32:57:34">os</jtok>
+<jtok eid="3" type="parameter_name" span="57:40:57:49">blockSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:9:59:11">os</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:13:59:22">blockSize</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:24:59:33">TarBuffer</jtok>
+<jtok eid="3" type="qualified_name_ref" span="59:34:59:49">DEFAULT_RCDSIZE</jtok>
+<jtok eid="4" type="method_name" span="63:2:63:17">TarOutputStream</jtok>
+<jtok eid="4" type="parameter_type" span="63:19:63:31">OutputStream</jtok>
+<jtok eid="4" type="parameter_name" span="63:32:63:34">os</jtok>
+<jtok eid="4" type="parameter_name" span="63:40:63:49">blockSize</jtok>
+<jtok eid="4" type="parameter_name" span="63:55:63:65">recordSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:10:65:12">os</jtok>
+<jtok eid="4" type="qualified_name_ref" span="67:8:67:14">buffer</jtok>
+<jtok eid="4" type="constructor_call" span="67:21:67:30">TarBuffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:32:67:34">os</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:36:67:45">blockSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:47:67:57">recordSize</jtok>
+<jtok eid="4" type="qualified_name_ref" span="69:8:69:13">debug</jtok>
+<jtok eid="4" type="qualified_name_ref" span="70:8:70:16">assemLen</jtok>
+<jtok eid="4" type="qualified_name_ref" span="71:8:71:16">assemBuf</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:29:71:39">recordSize</jtok>
+<jtok eid="4" type="qualified_name_ref" span="72:8:72:17">recordBuf</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:30:72:40">recordSize</jtok>
+<jtok eid="4" type="qualified_name_ref" span="73:8:73:14">oneBuf</jtok>
+<jtok eid="1" type="block_comment" span="76:2:80:5">/**
+	 * Sets the debugging flag.
+	 *
+	 * @param debugF True to turn on debugging.
+	 */</jtok>
+<jtok eid="5" type="method_name" span="82:2:82:10">setDebug</jtok>
+<jtok eid="5" type="parameter_name" span="82:20:82:26">debugF</jtok>
+<jtok eid="5" type="qualified_name_ref" span="84:8:84:13">debug</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:16:84:22">debugF</jtok>
+<jtok eid="1" type="block_comment" span="87:2:91:5">/**
+	 * Sets the debugging flag in this stream's TarBuffer.
+	 *
+	 * @param debugF True to turn on debugging.
+	 */</jtok>
+<jtok eid="6" type="method_name" span="93:2:93:16">setBufferDebug</jtok>
+<jtok eid="6" type="parameter_name" span="93:26:93:31">debug</jtok>
+<jtok eid="6" type="qualified_name_ref" span="95:8:95:14">buffer</jtok>
+<jtok eid="6" type="method_call" span="95:15:95:23">setDebug</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:25:95:30">debug</jtok>
+<jtok eid="1" type="block_comment" span="98:2:101:5">/**
+	 * Ends the TAR archive without closing the underlying OutputStream.
+	 * The result is that the EOF record of nulls is written.
+	 */</jtok>
+<jtok eid="7" type="method_name" span="104:2:104:8">finish</jtok>
+<jtok eid="7" type="throws" span="105:10:105:21">IOException</jtok>
+<jtok eid="7" type="method_call" span="107:8:107:22">writeEOFRecord</jtok>
+<jtok eid="1" type="block_comment" span="110:2:114:5">/**
+	 * Ends the TAR archive and closes the underlying OutputStream.
+	 * This means that finish() is called followed by calling the
+	 * TarBuffer's close().
+	 */</jtok>
+<jtok eid="8" type="method_name" span="117:2:117:7">close</jtok>
+<jtok eid="8" type="throws" span="118:10:118:21">IOException</jtok>
+<jtok eid="8" type="method_call" span="120:8:120:14">finish</jtok>
+<jtok eid="8" type="qualified_name_ref" span="121:8:121:14">buffer</jtok>
+<jtok eid="8" type="method_call" span="121:15:121:20">close</jtok>
+<jtok eid="1" type="block_comment" span="124:2:128:5">/**
+	 * Get the record size being used by this stream's TarBuffer.
+	 *
+	 * @return The TarBuffer record size.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="130:2:130:15">getRecordSize</jtok>
+<jtok eid="9" type="qualified_name_ref" span="132:15:132:21">buffer</jtok>
+<jtok eid="9" type="method_call" span="132:22:132:35">getRecordSize</jtok>
+<jtok eid="1" type="block_comment" span="135:2:145:5">/**
+	 * Put an entry on the output stream. This writes the entry's
+	 * header record and positions the output stream for writing
+	 * the contents of the entry. Once this method is called, the
+	 * stream is ready for calls to write() to write the entry's
+	 * contents. Once the contents are written, closeEntry()
+	 * &lt;B&gt;MUST&lt;/B&gt; be called to ensure that all buffered data
+	 * is completely written to the output stream.
+	 *
+	 * @param entry The TarEntry to be written to the archive.
+	 */</jtok>
+<jtok eid="10" type="method_name" span="147:2:147:14">putNextEntry</jtok>
+<jtok eid="10" type="parameter_type" span="147:16:147:24">TarEntry</jtok>
+<jtok eid="10" type="parameter_name" span="147:25:147:30">entry</jtok>
+<jtok eid="10" type="throws" span="148:10:148:21">IOException</jtok>
+<jtok eid="10" type="primary_name_ref" span="150:8:150:13">entry</jtok>
+<jtok eid="10" type="method_call" span="150:14:150:23">getHeader</jtok>
+<jtok eid="10" type="qualified_name_ref" span="150:26:150:30">name</jtok>
+<jtok eid="10" type="method_call" span="150:31:150:37">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="150:42:150:51">TarHeader</jtok>
+<jtok eid="10" type="qualified_name_ref" span="150:52:150:59">NAMELEN</jtok>
+<jtok eid="10" type="constructor_call" span="151:14:151:36">InvalidHeaderException</jtok>
+<jtok eid="10" type="string_literal" span="152:7:152:20">"file name '"</jtok>
+<jtok eid="10" type="primary_name_ref" span="152:23:152:28">entry</jtok>
+<jtok eid="10" type="method_call" span="152:29:152:38">getHeader</jtok>
+<jtok eid="10" type="qualified_name_ref" span="152:41:152:45">name</jtok>
+<jtok eid="10" type="string_literal" span="153:8:153:28">"' is too long ( &gt; "</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:8:154:17">TarHeader</jtok>
+<jtok eid="10" type="qualified_name_ref" span="154:18:154:25">NAMELEN</jtok>
+<jtok eid="10" type="string_literal" span="154:28:154:38">" bytes )"</jtok>
+<jtok eid="10" type="primary_name_ref" span="156:3:156:8">entry</jtok>
+<jtok eid="10" type="method_call" span="156:9:156:25">writeEntryHeader</jtok>
+<jtok eid="10" type="qualified_name_ref" span="156:32:156:41">recordBuf</jtok>
+<jtok eid="10" type="qualified_name_ref" span="157:8:157:14">buffer</jtok>
+<jtok eid="10" type="method_call" span="157:15:157:26">writeRecord</jtok>
+<jtok eid="10" type="qualified_name_ref" span="157:33:157:42">recordBuf</jtok>
+<jtok eid="10" type="qualified_name_ref" span="159:8:159:17">currBytes</jtok>
+<jtok eid="10" type="primary_name_ref" span="161:8:161:13">entry</jtok>
+<jtok eid="10" type="method_call" span="161:14:161:25">isDirectory</jtok>
+<jtok eid="10" type="qualified_name_ref" span="162:9:162:17">currSize</jtok>
+<jtok eid="10" type="qualified_name_ref" span="164:9:164:17">currSize</jtok>
+<jtok eid="10" type="primary_name_ref" span="164:25:164:30">entry</jtok>
+<jtok eid="10" type="method_call" span="164:31:164:38">getSize</jtok>
+<jtok eid="1" type="block_comment" span="167:2:175:5">/**
+	 * Close an entry. This method MUST be called for all file
+	 * entries that contain data. The reason is that we must
+	 * buffer data written to the stream in order to satisfy
+	 * the buffer's record based writes. Thus, there may be
+	 * data fragments still being assembled that must be written
+	 * to the output stream before this entry is closed and the
+	 * next entry written.
+	 */</jtok>
+<jtok eid="11" type="method_name" span="177:2:177:12">closeEntry</jtok>
+<jtok eid="11" type="throws" span="178:10:178:21">IOException</jtok>
+<jtok eid="11" type="qualified_name_ref" span="180:13:180:21">assemLen</jtok>
+<jtok eid="11" type="local_variable_name" span="182:14:182:15">i</jtok>
+<jtok eid="11" type="qualified_name_ref" span="182:23:182:31">assemLen</jtok>
+<jtok eid="11" type="primary_name_ref" span="182:34:182:35">i</jtok>
+<jtok eid="11" type="qualified_name_ref" span="182:43:182:51">assemBuf</jtok>
+<jtok eid="11" type="qualified_name_ref" span="182:52:182:58">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="182:63:182:64">i</jtok>
+<jtok eid="11" type="qualified_name_ref" span="183:10:183:18">assemBuf</jtok>
+<jtok eid="11" type="primary_name_ref" span="183:19:183:20">i</jtok>
+<jtok eid="11" type="qualified_name_ref" span="185:9:185:15">buffer</jtok>
+<jtok eid="11" type="method_call" span="185:16:185:27">writeRecord</jtok>
+<jtok eid="11" type="qualified_name_ref" span="185:34:185:42">assemBuf</jtok>
+<jtok eid="11" type="qualified_name_ref" span="187:9:187:18">currBytes</jtok>
+<jtok eid="11" type="qualified_name_ref" span="187:27:187:35">assemLen</jtok>
+<jtok eid="11" type="qualified_name_ref" span="188:9:188:17">assemLen</jtok>
+<jtok eid="11" type="qualified_name_ref" span="191:13:191:22">currBytes</jtok>
+<jtok eid="11" type="qualified_name_ref" span="191:30:191:38">currSize</jtok>
+<jtok eid="11" type="constructor_call" span="192:14:192:25">IOException</jtok>
+<jtok eid="11" type="string_literal" span="193:7:193:26">"entry closed at '"</jtok>
+<jtok eid="11" type="qualified_name_ref" span="193:34:193:43">currBytes</jtok>
+<jtok eid="11" type="string_literal" span="194:8:194:24">"' before the '"</jtok>
+<jtok eid="11" type="qualified_name_ref" span="194:32:194:40">currSize</jtok>
+<jtok eid="11" type="string_literal" span="195:8:195:54">"' bytes specified in the header were written"</jtok>
+<jtok eid="1" type="block_comment" span="198:2:204:5">/**
+	 * Writes a byte to the current tar archive entry.
+	 *
+	 * This method simply calls read( byte[], int, int ).
+	 *
+	 * @param b The byte written.
+	 */</jtok>
+<jtok eid="12" type="method_name" span="206:2:206:7">write</jtok>
+<jtok eid="12" type="parameter_name" span="206:13:206:14">b</jtok>
+<jtok eid="12" type="throws" span="207:10:207:21">IOException</jtok>
+<jtok eid="12" type="qualified_name_ref" span="209:8:209:14">oneBuf</jtok>
+<jtok eid="12" type="primary_name_ref" span="209:27:209:28">b</jtok>
+<jtok eid="12" type="method_call" span="210:8:210:13">write</jtok>
+<jtok eid="12" type="qualified_name_ref" span="210:20:210:26">oneBuf</jtok>
+<jtok eid="1" type="block_comment" span="213:2:220:5">/**
+	 * Writes bytes to the current tar archive entry.
+	 *
+	 * This method simply calls read( byte[], int, int ).
+	 *
+	 * @param wBuf The buffer to write to the archive.
+	 * @return The number of bytes read, or -1 at EOF.
+	 */</jtok>
+<jtok eid="13" type="method_name" span="222:2:222:7">write</jtok>
+<jtok eid="13" type="parameter_name" span="222:16:222:20">wBuf</jtok>
+<jtok eid="13" type="throws" span="223:10:223:21">IOException</jtok>
+<jtok eid="13" type="method_call" span="225:8:225:13">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="225:15:225:19">wBuf</jtok>
+<jtok eid="13" type="primary_name_ref" span="225:24:225:28">wBuf</jtok>
+<jtok eid="13" type="qualified_name_ref" span="225:29:225:35">length</jtok>
+<jtok eid="1" type="block_comment" span="228:2:242:5">/**
+	 * Writes bytes to the current tar archive entry. This method
+	 * is aware of the current entry and will throw an exception if
+	 * you attempt to write bytes past the length specified for the
+	 * current entry. The method is also (painfully) aware of the
+	 * record buffering required by TarBuffer, and manages buffers
+	 * that are not a multiple of recordsize in length, including
+	 * assembling records from small buffers.
+	 *
+	 * This method simply calls read( byte[], int, int ).
+	 *
+	 * @param wBuf The buffer to write to the archive.
+	 * @param wOffset The offset in the buffer from which to get bytes.
+	 * @param numToWrite The number of bytes to write.
+	 */</jtok>
+<jtok eid="14" type="method_name" span="244:2:244:7">write</jtok>
+<jtok eid="14" type="parameter_name" span="244:16:244:20">wBuf</jtok>
+<jtok eid="14" type="parameter_name" span="244:26:244:33">wOffset</jtok>
+<jtok eid="14" type="parameter_name" span="244:39:244:49">numToWrite</jtok>
+<jtok eid="14" type="throws" span="245:10:245:21">IOException</jtok>
+<jtok eid="14" type="qualified_name_ref" span="247:14:247:23">currBytes</jtok>
+<jtok eid="14" type="primary_name_ref" span="247:26:247:36">numToWrite</jtok>
+<jtok eid="14" type="qualified_name_ref" span="247:45:247:53">currSize</jtok>
+<jtok eid="14" type="constructor_call" span="248:14:248:25">IOException</jtok>
+<jtok eid="14" type="string_literal" span="249:7:249:27">"request to write '"</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:30:249:40">numToWrite</jtok>
+<jtok eid="14" type="string_literal" span="250:8:250:45">"' bytes exceeds size in header of '"</jtok>
+<jtok eid="14" type="qualified_name_ref" span="251:13:251:21">currSize</jtok>
+<jtok eid="14" type="string_literal" span="251:24:251:33">"' bytes"</jtok>
+<jtok eid="14" type="line_comment" span="253:3:253:5">//</jtok>
+<jtok eid="14" type="line_comment" span="254:3:254:38">// We have to deal with assembly!!!</jtok>
+<jtok eid="14" type="line_comment" span="255:3:255:65">// The programmer can be writing little 32 byte chunks for all</jtok>
+<jtok eid="14" type="line_comment" span="256:3:256:65">// we know, and we must assemble complete records for writing.</jtok>
+<jtok eid="14" type="line_comment" span="257:3:257:66">// REVIEW Maybe this should be in TarBuffer? Could that help to</jtok>
+<jtok eid="14" type="line_comment" span="258:3:258:50">//        eliminate some of the buffer copying.</jtok>
+<jtok eid="14" type="line_comment" span="259:3:259:5">//</jtok>
+<jtok eid="14" type="qualified_name_ref" span="260:13:260:21">assemLen</jtok>
+<jtok eid="14" type="qualified_name_ref" span="262:15:262:23">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="262:26:262:36">numToWrite</jtok>
+<jtok eid="14" type="qualified_name_ref" span="262:47:262:56">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="262:57:262:63">length</jtok>
+<jtok eid="14" type="local_variable_name" span="264:9:264:13">aLen</jtok>
+<jtok eid="14" type="qualified_name_ref" span="264:21:264:30">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="264:31:264:37">length</jtok>
+<jtok eid="14" type="qualified_name_ref" span="264:45:264:53">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="266:5:266:11">System</jtok>
+<jtok eid="14" type="method_call" span="266:12:266:21">arraycopy</jtok>
+<jtok eid="14" type="qualified_name_ref" span="267:13:267:21">assemBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="267:31:267:40">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="267:50:267:58">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="269:5:269:11">System</jtok>
+<jtok eid="14" type="method_call" span="269:12:269:21">arraycopy</jtok>
+<jtok eid="14" type="primary_name_ref" span="270:8:270:12">wBuf</jtok>
+<jtok eid="14" type="primary_name_ref" span="270:14:270:21">wOffset</jtok>
+<jtok eid="14" type="qualified_name_ref" span="270:28:270:37">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="270:44:270:52">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="270:54:270:58">aLen</jtok>
+<jtok eid="14" type="qualified_name_ref" span="272:10:272:16">buffer</jtok>
+<jtok eid="14" type="method_call" span="272:17:272:28">writeRecord</jtok>
+<jtok eid="14" type="qualified_name_ref" span="272:35:272:44">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="274:10:274:19">currBytes</jtok>
+<jtok eid="14" type="qualified_name_ref" span="274:28:274:37">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="274:38:274:44">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="276:5:276:12">wOffset</jtok>
+<jtok eid="14" type="primary_name_ref" span="276:16:276:20">aLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="277:5:277:15">numToWrite</jtok>
+<jtok eid="14" type="primary_name_ref" span="277:19:277:23">aLen</jtok>
+<jtok eid="14" type="qualified_name_ref" span="278:10:278:18">assemLen</jtok>
+<jtok eid="14" type="line_comment" span="280:9:280:69">// ( (this.assemLen + numToWrite ) &lt; this.recordBuf.length )</jtok>
+<jtok eid="14" type="primary_name_ref" span="282:5:282:11">System</jtok>
+<jtok eid="14" type="method_call" span="282:12:282:21">arraycopy</jtok>
+<jtok eid="14" type="primary_name_ref" span="283:8:283:12">wBuf</jtok>
+<jtok eid="14" type="primary_name_ref" span="283:14:283:21">wOffset</jtok>
+<jtok eid="14" type="qualified_name_ref" span="283:28:283:36">assemBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="284:12:284:20">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="284:22:284:32">numToWrite</jtok>
+<jtok eid="14" type="primary_name_ref" span="285:5:285:12">wOffset</jtok>
+<jtok eid="14" type="primary_name_ref" span="285:16:285:26">numToWrite</jtok>
+<jtok eid="14" type="qualified_name_ref" span="286:10:286:18">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="286:22:286:32">numToWrite</jtok>
+<jtok eid="14" type="primary_name_ref" span="287:5:287:15">numToWrite</jtok>
+<jtok eid="14" type="primary_name_ref" span="287:19:287:29">numToWrite</jtok>
+<jtok eid="14" type="line_comment" span="291:3:291:5">//</jtok>
+<jtok eid="14" type="line_comment" span="292:3:292:38">// When we get here we have EITHER:</jtok>
+<jtok eid="14" type="line_comment" span="293:3:293:37">//   o An empty "assemble" buffer.</jtok>
+<jtok eid="14" type="line_comment" span="294:3:294:45">//   o No bytes to write (numToWrite == 0)</jtok>
+<jtok eid="14" type="line_comment" span="295:3:295:5">//</jtok>
+<jtok eid="14" type="primary_name_ref" span="297:11:297:21">numToWrite</jtok>
+<jtok eid="14" type="primary_name_ref" span="299:9:299:19">numToWrite</jtok>
+<jtok eid="14" type="qualified_name_ref" span="299:27:299:36">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="299:37:299:43">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="301:5:301:11">System</jtok>
+<jtok eid="14" type="method_call" span="301:12:301:21">arraycopy</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:8:302:12">wBuf</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:14:302:21">wOffset</jtok>
+<jtok eid="14" type="qualified_name_ref" span="302:28:302:36">assemBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="302:43:302:51">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:53:302:63">numToWrite</jtok>
+<jtok eid="14" type="qualified_name_ref" span="303:10:303:18">assemLen</jtok>
+<jtok eid="14" type="primary_name_ref" span="303:22:303:32">numToWrite</jtok>
+<jtok eid="14" type="qualified_name_ref" span="307:9:307:15">buffer</jtok>
+<jtok eid="14" type="method_call" span="307:16:307:27">writeRecord</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:29:307:33">wBuf</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:35:307:42">wOffset</jtok>
+<jtok eid="14" type="local_variable_name" span="309:8:309:11">num</jtok>
+<jtok eid="14" type="qualified_name_ref" span="309:19:309:28">recordBuf</jtok>
+<jtok eid="14" type="qualified_name_ref" span="309:29:309:35">length</jtok>
+<jtok eid="14" type="qualified_name_ref" span="310:9:310:18">currBytes</jtok>
+<jtok eid="14" type="primary_name_ref" span="310:22:310:25">num</jtok>
+<jtok eid="14" type="primary_name_ref" span="311:4:311:14">numToWrite</jtok>
+<jtok eid="14" type="primary_name_ref" span="311:18:311:21">num</jtok>
+<jtok eid="14" type="primary_name_ref" span="312:4:312:11">wOffset</jtok>
+<jtok eid="14" type="primary_name_ref" span="312:15:312:18">num</jtok>
+<jtok eid="1" type="block_comment" span="316:2:319:5">/**
+	 * Write an EOF (end of archive) record to the tar archive.
+	 * An EOF record consists of a record of all zeros.
+	 */</jtok>
+<jtok eid="15" type="method_name" span="321:2:321:16">writeEOFRecord</jtok>
+<jtok eid="15" type="throws" span="322:10:322:21">IOException</jtok>
+<jtok eid="15" type="local_variable_name" span="324:13:324:14">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="324:21:324:22">i</jtok>
+<jtok eid="15" type="qualified_name_ref" span="324:30:324:39">recordBuf</jtok>
+<jtok eid="15" type="qualified_name_ref" span="324:40:324:46">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="324:51:324:52">i</jtok>
+<jtok eid="15" type="qualified_name_ref" span="325:9:325:18">recordBuf</jtok>
+<jtok eid="15" type="primary_name_ref" span="325:19:325:20">i</jtok>
+<jtok eid="15" type="qualified_name_ref" span="326:8:326:14">buffer</jtok>
+<jtok eid="15" type="method_call" span="326:15:326:26">writeRecord</jtok>
+<jtok eid="15" type="qualified_name_ref" span="326:33:326:42">recordBuf</jtok>
+</jdoc>

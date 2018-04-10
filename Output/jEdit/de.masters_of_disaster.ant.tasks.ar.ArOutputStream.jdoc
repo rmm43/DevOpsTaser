@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="de.masters_of_disaster.ant.tasks.ar.ArOutputStream" jls="java5">
+<jent id="0" type="file" span="0:0:167:2">Source/jEdit/de/masters_of_disaster/ant/tasks/ar/ArOutputStream.java</jent>
+<jent id="1" pid="0" type="class" span="12:1:167:1">de.masters_of_disaster.ant.tasks.ar.ArOutputStream</jent>
+<jent id="2" pid="1" type="method" span="32:5:39:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.ArOutputStream(OutputStream)</jent>
+<jent id="3" pid="1" type="method" span="41:5:52:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.setLongFileMode(int)</jent>
+<jent id="4" pid="1" type="method" span="65:5:93:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.putNextEntry(ArEntry)</jent>
+<jent id="5" pid="1" type="method" span="100:5:116:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.closeEntry()</jent>
+<jent id="6" pid="1" type="method" span="125:5:128:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.write(int)</jent>
+<jent id="7" pid="1" type="method" span="137:5:139:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.write(byte[])</jent>
+<jent id="8" pid="1" type="method" span="151:5:166:5">de.masters_of_disaster.ant.tasks.ar.ArOutputStream.write(byte[],int,int)</jent>
+<jtok eid="0" type="block_comment" span="7:1:11:4">/**
+ * The ArOutputStream writes an ar archive as an OutputStream.
+ * Methods are provided to put entries, and then write their contents
+ * by writing to this stream using write().
+ */</jtok>
+<jtok eid="1" type="class_name" span="12:14:12:28">ArOutputStream</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="12:37:12:55">FilterOutputStream</jtok>
+<jtok eid="1" type="block_comment" span="13:5:13:92">/** Fail if a long file name is required in the archive or the name contains spaces. */</jtok>
+<jtok eid="1" type="field_name" span="14:29:14:43">LONGFILE_ERROR</jtok>
+<jtok eid="1" type="block_comment" span="16:5:16:83">/** Long paths will be truncated in the archive. Spaces are replaced by '_' */</jtok>
+<jtok eid="1" type="field_name" span="17:29:17:46">LONGFILE_TRUNCATE</jtok>
+<jtok eid="1" type="block_comment" span="19:5:19:102">/** GNU ar variant is used to store long file names and file names with spaced in the archive. */</jtok>
+<jtok eid="1" type="field_name" span="20:29:20:41">LONGFILE_GNU</jtok>
+<jtok eid="1" type="block_comment" span="22:5:22:102">/** BSD ar variant is used to store long file names and file names with spaced in the archive. */</jtok>
+<jtok eid="1" type="field_name" span="23:29:23:41">LONGFILE_BSD</jtok>
+<jtok eid="1" type="field_name" span="25:25:25:33">currSize</jtok>
+<jtok eid="1" type="field_name" span="26:25:26:34">currBytes</jtok>
+<jtok eid="1" type="field_name" span="27:25:27:31">oneBuf</jtok>
+<jtok eid="1" type="field_name" span="28:25:28:37">longFileMode</jtok>
+<jtok eid="1" type="primary_name_ref" span="28:40:28:54">LONGFILE_ERROR</jtok>
+<jtok eid="1" type="field_name" span="29:25:29:39">writingStarted</jtok>
+<jtok eid="1" type="field_name" span="30:25:30:32">inEntry</jtok>
+<jtok eid="2" type="method_name" span="32:12:32:26">ArOutputStream</jtok>
+<jtok eid="2" type="parameter_type" span="32:27:32:39">OutputStream</jtok>
+<jtok eid="2" type="parameter_name" span="32:40:32:42">os</jtok>
+<jtok eid="2" type="method_call" span="32:51:32:62">IOException</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:15:33:17">os</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:18:34:20">os</jtok>
+<jtok eid="2" type="constructor_call" span="35:20:35:40">NullPointerException</jtok>
+<jtok eid="2" type="string_literal" span="35:41:35:62">"os must not be null"</jtok>
+<jtok eid="2" type="qualified_name_ref" span="37:14:37:17">out</jtok>
+<jtok eid="2" type="method_call" span="37:18:37:23">write</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:24:37:35">ArConstants</jtok>
+<jtok eid="2" type="qualified_name_ref" span="37:36:37:43">ARMAGIC</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:46:37:57">ArConstants</jtok>
+<jtok eid="2" type="qualified_name_ref" span="37:58:37:65">ARMAGIC</jtok>
+<jtok eid="2" type="qualified_name_ref" span="37:66:37:72">length</jtok>
+<jtok eid="2" type="qualified_name_ref" span="38:14:38:20">oneBuf</jtok>
+<jtok eid="3" type="method_name" span="41:17:41:32">setLongFileMode</jtok>
+<jtok eid="3" type="parameter_name" span="41:37:41:49">longFileMode</jtok>
+<jtok eid="3" type="primary_name_ref" span="42:10:42:24">writingStarted</jtok>
+<jtok eid="3" type="constructor_call" span="43:20:43:41">IllegalStateException</jtok>
+<jtok eid="3" type="string_literal" span="43:42:43:113">"longFileMode cannot be changed after writing to the archive has begun"</jtok>
+<jtok eid="3" type="primary_name_ref" span="45:13:45:25">LONGFILE_GNU</jtok>
+<jtok eid="3" type="primary_name_ref" span="45:29:45:41">longFileMode</jtok>
+<jtok eid="3" type="constructor_call" span="46:23:46:52">UnsupportedOperationException</jtok>
+<jtok eid="3" type="string_literal" span="46:53:46:88">"GNU variant isn't implemented yet"</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:13:48:25">LONGFILE_BSD</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:29:48:41">longFileMode</jtok>
+<jtok eid="3" type="constructor_call" span="49:23:49:52">UnsupportedOperationException</jtok>
+<jtok eid="3" type="string_literal" span="49:53:49:88">"BSD variant isn't implemented yet"</jtok>
+<jtok eid="3" type="qualified_name_ref" span="51:14:51:26">longFileMode</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:29:51:41">longFileMode</jtok>
+<jtok eid="1" type="block_comment" span="54:5:64:8">/**
+     * Put an entry on the output stream. This writes the entry's
+     * header record and positions the output stream for writing
+     * the contents of the entry. Once this method is called, the
+     * stream is ready for calls to write() to write the entry's
+     * contents. Once the contents are written, closeEntry()
+     * &lt;B&gt;MUST&lt;/B&gt; be called to ensure that all buffered data
+     * is completely written to the output stream.
+     *
+     * @param entry The ArEntry to be written to the archive.
+     */</jtok>
+<jtok eid="4" type="method_name" span="65:17:65:29">putNextEntry</jtok>
+<jtok eid="4" type="parameter_type" span="65:30:65:37">ArEntry</jtok>
+<jtok eid="4" type="parameter_name" span="65:38:65:43">entry</jtok>
+<jtok eid="4" type="throws" span="65:52:65:63">IOException</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:6:66:20">writingStarted</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:10:67:17">inEntry</jtok>
+<jtok eid="4" type="constructor_call" span="68:20:68:31">IOException</jtok>
+<jtok eid="4" type="string_literal" span="68:32:68:94">"the current entry has to be closed before starting a new one"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="70:9:70:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="70:16:70:24">filename</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:27:70:32">entry</jtok>
+<jtok eid="4" type="method_call" span="70:33:70:44">getFilename</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:14:71:22">filename</jtok>
+<jtok eid="4" type="method_call" span="71:23:71:29">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:35:71:46">ArConstants</jtok>
+<jtok eid="4" type="qualified_name_ref" span="71:47:71:54">NAMELEN</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:19:72:31">longFileMode</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:35:72:52">LONGFILE_TRUNCATE</jtok>
+<jtok eid="4" type="constructor_call" span="73:23:73:39">RuntimeException</jtok>
+<jtok eid="4" type="string_literal" span="73:40:73:54">"file name \""</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:57:73:62">entry</jtok>
+<jtok eid="4" type="method_call" span="73:63:73:74">getFilename</jtok>
+<jtok eid="4" type="string_literal" span="74:44:74:65">"\" is too long ( &gt; "</jtok>
+<jtok eid="4" type="primary_name_ref" span="75:44:75:55">ArConstants</jtok>
+<jtok eid="4" type="qualified_name_ref" span="75:56:75:63">NAMELEN</jtok>
+<jtok eid="4" type="string_literal" span="75:66:75:76">" bytes )"</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:19:77:27">filename</jtok>
+<jtok eid="4" type="method_call" span="77:28:77:35">indexOf</jtok>
+<jtok eid="4" type="primary_name_ref" span="78:17:78:29">longFileMode</jtok>
+<jtok eid="4" type="primary_name_ref" span="78:33:78:50">LONGFILE_TRUNCATE</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:17:79:22">entry</jtok>
+<jtok eid="4" type="method_call" span="79:23:79:34">setFilename</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:35:79:43">filename</jtok>
+<jtok eid="4" type="method_call" span="79:44:79:51">replace</jtok>
+<jtok eid="4" type="constructor_call" span="81:27:81:43">RuntimeException</jtok>
+<jtok eid="4" type="string_literal" span="81:44:81:58">"file name \""</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:61:81:66">entry</jtok>
+<jtok eid="4" type="method_call" span="81:67:81:78">getFilename</jtok>
+<jtok eid="4" type="string_literal" span="82:48:82:68">"\" contains spaces"</jtok>
+<jtok eid="4" type="local_variable_name" span="86:16:86:25">headerBuf</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:37:86:48">ArConstants</jtok>
+<jtok eid="4" type="qualified_name_ref" span="86:49:86:61">HEADERLENGTH</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:9:87:14">entry</jtok>
+<jtok eid="4" type="method_call" span="87:15:87:31">writeEntryHeader</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:32:87:41">headerBuf</jtok>
+<jtok eid="4" type="qualified_name_ref" span="88:14:88:17">out</jtok>
+<jtok eid="4" type="method_call" span="88:18:88:23">write</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:24:88:33">headerBuf</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:36:88:47">ArConstants</jtok>
+<jtok eid="4" type="qualified_name_ref" span="88:48:88:60">HEADERLENGTH</jtok>
+<jtok eid="4" type="qualified_name_ref" span="90:14:90:23">currBytes</jtok>
+<jtok eid="4" type="qualified_name_ref" span="91:14:91:22">currSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:31:91:36">entry</jtok>
+<jtok eid="4" type="method_call" span="91:37:91:44">getSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:9:92:16">inEntry</jtok>
+<jtok eid="1" type="block_comment" span="95:5:99:8">/**
+     * Close an entry. This method MUST be called for all file
+     * entries that contain data. The reason is that we must
+     * pad an entries data if it is of odd size.
+     */</jtok>
+<jtok eid="5" type="method_name" span="100:17:100:27">closeEntry</jtok>
+<jtok eid="5" type="throws" span="100:37:100:48">IOException</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:14:101:21">inEntry</jtok>
+<jtok eid="5" type="constructor_call" span="102:23:102:34">IOException</jtok>
+<jtok eid="5" type="string_literal" span="102:35:102:69">"we are not in an entry currently"</jtok>
+<jtok eid="5" type="qualified_name_ref" span="105:18:105:27">currBytes</jtok>
+<jtok eid="5" type="qualified_name_ref" span="105:35:105:43">currSize</jtok>
+<jtok eid="5" type="constructor_call" span="106:23:106:34">IOException</jtok>
+<jtok eid="5" type="string_literal" span="106:35:106:54">"entry closed at '"</jtok>
+<jtok eid="5" type="qualified_name_ref" span="106:62:106:71">currBytes</jtok>
+<jtok eid="5" type="string_literal" span="107:37:107:53">"' before the '"</jtok>
+<jtok eid="5" type="qualified_name_ref" span="107:61:107:69">currSize</jtok>
+<jtok eid="5" type="string_literal" span="108:37:108:83">"' bytes specified in the header were written"</jtok>
+<jtok eid="5" type="qualified_name_ref" span="111:24:111:32">currSize</jtok>
+<jtok eid="5" type="qualified_name_ref" span="112:18:112:21">out</jtok>
+<jtok eid="5" type="method_call" span="112:22:112:27">write</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:28:112:39">ArConstants</jtok>
+<jtok eid="5" type="qualified_name_ref" span="112:40:112:47">PADDING</jtok>
+<jtok eid="5" type="primary_name_ref" span="115:9:115:16">inEntry</jtok>
+<jtok eid="1" type="block_comment" span="118:5:124:8">/**
+     * Writes a byte to the current ar archive entry.
+     *
+     * This method simply calls write( byte[], int, int ).
+     *
+     * @param b The byte to write to the archive.
+     */</jtok>
+<jtok eid="6" type="method_name" span="125:17:125:22">write</jtok>
+<jtok eid="6" type="parameter_name" span="125:27:125:28">b</jtok>
+<jtok eid="6" type="throws" span="125:37:125:48">IOException</jtok>
+<jtok eid="6" type="qualified_name_ref" span="126:14:126:20">oneBuf</jtok>
+<jtok eid="6" type="primary_name_ref" span="126:33:126:34">b</jtok>
+<jtok eid="6" type="method_call" span="127:14:127:19">write</jtok>
+<jtok eid="6" type="qualified_name_ref" span="127:25:127:31">oneBuf</jtok>
+<jtok eid="1" type="block_comment" span="130:5:136:8">/**
+     * Writes bytes to the current ar archive entry.
+     *
+     * This method simply calls write( byte[], int, int ).
+     *
+     * @param wBuf The buffer to write to the archive.
+     */</jtok>
+<jtok eid="7" type="method_name" span="137:17:137:22">write</jtok>
+<jtok eid="7" type="parameter_name" span="137:30:137:34">wBuf</jtok>
+<jtok eid="7" type="throws" span="137:43:137:54">IOException</jtok>
+<jtok eid="7" type="method_call" span="138:14:138:19">write</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:20:138:24">wBuf</jtok>
+<jtok eid="7" type="primary_name_ref" span="138:29:138:33">wBuf</jtok>
+<jtok eid="7" type="qualified_name_ref" span="138:34:138:40">length</jtok>
+<jtok eid="1" type="block_comment" span="141:5:150:8">/**
+     * Writes bytes to the current ar archive entry. This method
+     * is aware of the current entry and will throw an exception if
+     * you attempt to write bytes past the length specified for the
+     * current entry.
+     *
+     * @param wBuf The buffer to write to the archive.
+     * @param wOffset The offset in the buffer from which to get bytes.
+     * @param numToWrite The number of bytes to write.
+     */</jtok>
+<jtok eid="8" type="method_name" span="151:17:151:22">write</jtok>
+<jtok eid="8" type="parameter_name" span="151:30:151:34">wBuf</jtok>
+<jtok eid="8" type="parameter_name" span="151:40:151:47">wOffset</jtok>
+<jtok eid="8" type="parameter_name" span="151:53:151:63">numToWrite</jtok>
+<jtok eid="8" type="throws" span="151:72:151:83">IOException</jtok>
+<jtok eid="8" type="primary_name_ref" span="152:14:152:21">inEntry</jtok>
+<jtok eid="8" type="constructor_call" span="153:23:153:34">IOException</jtok>
+<jtok eid="8" type="string_literal" span="153:35:153:69">"we are not in an entry currently"</jtok>
+<jtok eid="8" type="qualified_name_ref" span="156:19:156:28">currBytes</jtok>
+<jtok eid="8" type="primary_name_ref" span="156:31:156:41">numToWrite</jtok>
+<jtok eid="8" type="qualified_name_ref" span="156:50:156:58">currSize</jtok>
+<jtok eid="8" type="constructor_call" span="157:23:157:34">IOException</jtok>
+<jtok eid="8" type="string_literal" span="157:35:157:55">"request to write '"</jtok>
+<jtok eid="8" type="primary_name_ref" span="157:58:157:68">numToWrite</jtok>
+<jtok eid="8" type="string_literal" span="158:37:158:74">"' bytes exceeds size in header of '"</jtok>
+<jtok eid="8" type="qualified_name_ref" span="159:42:159:50">currSize</jtok>
+<jtok eid="8" type="string_literal" span="159:53:159:62">"' bytes"</jtok>
+<jtok eid="8" type="primary_name_ref" span="162:13:162:23">numToWrite</jtok>
+<jtok eid="8" type="qualified_name_ref" span="163:18:163:21">out</jtok>
+<jtok eid="8" type="method_call" span="163:22:163:27">write</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:28:163:32">wBuf</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:33:163:40">wOffset</jtok>
+<jtok eid="8" type="primary_name_ref" span="163:41:163:51">numToWrite</jtok>
+<jtok eid="8" type="qualified_name_ref" span="164:18:164:27">currBytes</jtok>
+<jtok eid="8" type="primary_name_ref" span="164:31:164:41">numToWrite</jtok>
+</jdoc>

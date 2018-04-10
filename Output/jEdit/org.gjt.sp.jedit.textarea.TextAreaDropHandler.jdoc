@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.TextAreaDropHandler" jls="java5">
+<jent id="0" type="file" span="0:0:100:2">Source/jEdit/org/gjt/sp/jedit/textarea/TextAreaDropHandler.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:100:1">org.gjt.sp.jedit.textarea.TextAreaDropHandler</jent>
+<jent id="2" pid="1" type="method" span="44:2:47:2">org.gjt.sp.jedit.textarea.TextAreaDropHandler.TextAreaDropHandler(TextArea)</jent>
+<jent id="3" pid="1" type="method" span="51:2:58:2">org.gjt.sp.jedit.textarea.TextAreaDropHandler.dragEnter(DropTargetDragEvent)</jent>
+<jent id="4" pid="1" type="method" span="62:2:75:2">org.gjt.sp.jedit.textarea.TextAreaDropHandler.dragOver(DropTargetDragEvent)</jent>
+<jent id="5" pid="1" type="method" span="79:2:90:2">org.gjt.sp.jedit.textarea.TextAreaDropHandler.dragExit(DropTargetEvent)</jent>
+<jent id="6" pid="1" type="method" span="93:2:99:2">org.gjt.sp.jedit.textarea.TextAreaDropHandler.drop(DropTargetDropEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * TextAreaTransferHandler.java - Drag and drop support
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="33:1:36:4">/**
+ * @author Slava Pestov
+ * @version $Id: TextAreaDropHandler.java 15570 2009-06-25 00:43:57Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:7:37:26">TextAreaDropHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:35:37:52">DropTargetAdapter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:16:39:24">TextArea</jtok>
+<jtok eid="1" type="field_name" span="39:25:39:33">textArea</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:10:40:21">JEditBuffer</jtok>
+<jtok eid="1" type="field_name" span="40:22:40:33">savedBuffer</jtok>
+<jtok eid="1" type="field_name" span="41:14:41:24">savedCaret</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:39">//{{{ TextAreaDropHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="44:2:44:21">TextAreaDropHandler</jtok>
+<jtok eid="2" type="parameter_type" span="44:22:44:30">TextArea</jtok>
+<jtok eid="2" type="parameter_name" span="44:31:44:39">textArea</jtok>
+<jtok eid="2" type="qualified_name_ref" span="46:8:46:16">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:19:46:27">textArea</jtok>
+<jtok eid="1" type="line_comment" span="47:4:47:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:26">//{{{ dragEnter() method</jtok>
+<jtok eid="1" type="annotation_ref" span="50:3:50:11">Override</jtok>
+<jtok eid="3" type="method_name" span="51:14:51:23">dragEnter</jtok>
+<jtok eid="3" type="parameter_type" span="51:24:51:43">DropTargetDragEvent</jtok>
+<jtok eid="3" type="parameter_name" span="51:44:51:48">dtde</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:3:53:6">Log</jtok>
+<jtok eid="3" type="method_call" span="53:7:53:10">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:11:53:14">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="53:15:53:20">DEBUG</jtok>
+<jtok eid="3" type="string_literal" span="53:26:53:38">"Drag enter"</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:3:54:14">savedBuffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:17:54:25">textArea</jtok>
+<jtok eid="3" type="method_call" span="54:26:54:35">getBuffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:3:55:11">textArea</jtok>
+<jtok eid="3" type="method_call" span="55:12:55:29">setDragInProgress</jtok>
+<jtok eid="3" type="line_comment" span="56:3:56:46">//textArea.getBuffer().beginCompoundEdit();</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:3:57:13">savedCaret</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:16:57:24">textArea</jtok>
+<jtok eid="3" type="method_call" span="57:25:57:41">getCaretPosition</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:25">//{{{ dragOver() method</jtok>
+<jtok eid="1" type="annotation_ref" span="61:3:61:11">Override</jtok>
+<jtok eid="4" type="method_name" span="62:14:62:22">dragOver</jtok>
+<jtok eid="4" type="parameter_type" span="62:23:62:42">DropTargetDragEvent</jtok>
+<jtok eid="4" type="parameter_name" span="62:43:62:47">dtde</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="64:3:64:8">Point</jtok>
+<jtok eid="4" type="local_variable_name" span="64:9:64:10">p</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:13:64:17">dtde</jtok>
+<jtok eid="4" type="method_call" span="64:18:64:29">getLocation</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:3:65:4">p</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:7:65:21">SwingUtilities</jtok>
+<jtok eid="4" type="method_call" span="65:22:65:34">convertPoint</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:35:65:43">textArea</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:44:65:45">p</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:4:66:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="66:13:66:23">getPainter</jtok>
+<jtok eid="4" type="local_variable_name" span="67:7:67:10">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:13:67:21">textArea</jtok>
+<jtok eid="4" type="method_call" span="67:22:67:32">xyToOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:33:67:34">p</jtok>
+<jtok eid="4" type="qualified_name_ref" span="67:35:67:36">x</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:37:67:38">p</jtok>
+<jtok eid="4" type="qualified_name_ref" span="67:39:67:40">y</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:6:68:14">textArea</jtok>
+<jtok eid="4" type="method_call" span="68:15:68:25">getPainter</jtok>
+<jtok eid="4" type="method_call" span="68:28:68:47">isBlockCaretEnabled</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:7:69:15">textArea</jtok>
+<jtok eid="4" type="method_call" span="69:16:69:34">isOverwriteEnabled</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:6:70:9">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:4:72:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="72:13:72:30">moveCaretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:31:72:34">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:5:73:13">TextArea</jtok>
+<jtok eid="4" type="qualified_name_ref" span="73:14:73:29">ELECTRIC_SCROLL</jtok>
+<jtok eid="1" type="line_comment" span="75:4:75:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="77:2:77:25">//{{{ dragExit() method</jtok>
+<jtok eid="1" type="annotation_ref" span="78:3:78:11">Override</jtok>
+<jtok eid="5" type="method_name" span="79:14:79:22">dragExit</jtok>
+<jtok eid="5" type="parameter_type" span="79:23:79:38">DropTargetEvent</jtok>
+<jtok eid="5" type="parameter_name" span="79:39:79:43">dtde</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:3:81:6">Log</jtok>
+<jtok eid="5" type="method_call" span="81:7:81:10">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:11:81:14">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="81:15:81:20">DEBUG</jtok>
+<jtok eid="5" type="string_literal" span="81:26:81:37">"Drag exit"</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:3:82:11">textArea</jtok>
+<jtok eid="5" type="method_call" span="82:12:82:29">setDragInProgress</jtok>
+<jtok eid="5" type="line_comment" span="83:3:83:44">//textArea.getBuffer().endCompoundEdit();</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:6:84:14">textArea</jtok>
+<jtok eid="5" type="method_call" span="84:15:84:24">getBuffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:30:84:41">savedBuffer</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:4:86:12">textArea</jtok>
+<jtok eid="5" type="method_call" span="86:13:86:30">moveCaretPosition</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:31:86:41">savedCaret</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:5:87:13">TextArea</jtok>
+<jtok eid="5" type="qualified_name_ref" span="87:14:87:29">ELECTRIC_SCROLL</jtok>
+<jtok eid="5" type="primary_name_ref" span="89:3:89:14">savedBuffer</jtok>
+<jtok eid="1" type="line_comment" span="90:4:90:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="92:2:92:21">//{{{ drop() method</jtok>
+<jtok eid="6" type="method_name" span="93:14:93:18">drop</jtok>
+<jtok eid="6" type="parameter_type" span="93:19:93:38">DropTargetDropEvent</jtok>
+<jtok eid="6" type="parameter_name" span="93:39:93:43">dtde</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:3:95:6">Log</jtok>
+<jtok eid="6" type="method_call" span="95:7:95:10">log</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:11:95:14">Log</jtok>
+<jtok eid="6" type="qualified_name_ref" span="95:15:95:20">DEBUG</jtok>
+<jtok eid="6" type="string_literal" span="95:26:95:32">"Drop"</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:3:96:11">textArea</jtok>
+<jtok eid="6" type="method_call" span="96:12:96:29">setDragInProgress</jtok>
+<jtok eid="6" type="line_comment" span="97:3:97:44">//textArea.getBuffer().endCompoundEdit();</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:3:98:14">savedBuffer</jtok>
+<jtok eid="1" type="line_comment" span="99:4:99:9">//}}}</jtok>
+</jdoc>

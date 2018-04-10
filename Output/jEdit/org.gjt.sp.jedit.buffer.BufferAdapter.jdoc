@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.buffer.BufferAdapter" jls="java5">
+<jent id="0" type="file" span="0:0:138:2">Source/jEdit/org/gjt/sp/jedit/buffer/BufferAdapter.java</jent>
+<jent id="1" pid="0" type="class" span="32:1:138:1">org.gjt.sp.jedit.buffer.BufferAdapter</jent>
+<jent id="2" pid="1" type="method" span="42:2:44:2">org.gjt.sp.jedit.buffer.BufferAdapter.foldLevelChanged(JEditBuffer,int,int)</jent>
+<jent id="3" pid="1" type="method" span="56:2:57:30">org.gjt.sp.jedit.buffer.BufferAdapter.contentInserted(JEditBuffer,int,int,int,int)</jent>
+<jent id="4" pid="1" type="method" span="70:2:72:2">org.gjt.sp.jedit.buffer.BufferAdapter.preContentInserted(JEditBuffer,int,int,int,int)</jent>
+<jent id="5" pid="1" type="method" span="85:2:86:30">org.gjt.sp.jedit.buffer.BufferAdapter.preContentRemoved(JEditBuffer,int,int,int,int)</jent>
+<jent id="6" pid="1" type="method" span="99:2:100:30">org.gjt.sp.jedit.buffer.BufferAdapter.contentRemoved(JEditBuffer,int,int,int,int)</jent>
+<jent id="7" pid="1" type="method" span="113:2:113:55">org.gjt.sp.jedit.buffer.BufferAdapter.transactionComplete(JEditBuffer)</jent>
+<jent id="8" pid="1" type="method" span="126:2:126:54">org.gjt.sp.jedit.buffer.BufferAdapter.foldHandlerChanged(JEditBuffer)</jent>
+<jent id="9" pid="1" type="method" span="136:2:136:48">org.gjt.sp.jedit.buffer.BufferAdapter.bufferLoaded(JEditBuffer)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BufferAdapter.java - Buffer listener adapter
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="25:1:31:4">/**
+ * An adapter you can subclass to avoid having to implement all the methods
+ * of the {@link BufferListener} interface.
+ * @author Slava Pestov
+ * @version $Id: BufferAdapter.java 12504 2008-04-22 23:12:43Z ezust $
+ * @since jEdit 4.3pre3
+ */</jtok>
+<jtok eid="1" type="class_name" span="32:23:32:36">BufferAdapter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:48:32:62">BufferListener</jtok>
+<jtok eid="1" type="line_comment" span="34:2:34:33">//{{{ foldLevelChanged() method</jtok>
+<jtok eid="1" type="block_comment" span="35:2:41:5">/**
+	 * Called when line fold levels change.
+	 * @param buffer The buffer in question
+	 * @param start The start line number
+	 * @param end The end line number
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="2" type="method_name" span="42:14:42:30">foldLevelChanged</jtok>
+<jtok eid="2" type="parameter_type" span="42:31:42:42">JEditBuffer</jtok>
+<jtok eid="2" type="parameter_name" span="42:43:42:49">buffer</jtok>
+<jtok eid="2" type="parameter_name" span="42:55:42:60">start</jtok>
+<jtok eid="2" type="parameter_name" span="42:66:42:69">end</jtok>
+<jtok eid="1" type="line_comment" span="44:4:44:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="46:2:46:32">//{{{ contentInserted() method</jtok>
+<jtok eid="1" type="block_comment" span="47:2:55:5">/**
+	 * Called when text is inserted into the buffer.
+	 * @param buffer The buffer in question
+	 * @param startLine The first line
+	 * @param offset The start offset, from the beginning of the buffer
+	 * @param numLines The number of lines inserted
+	 * @param length The number of characters inserted
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="3" type="method_name" span="56:14:56:29">contentInserted</jtok>
+<jtok eid="3" type="parameter_type" span="56:30:56:41">JEditBuffer</jtok>
+<jtok eid="3" type="parameter_name" span="56:42:56:48">buffer</jtok>
+<jtok eid="3" type="parameter_name" span="56:54:56:63">startLine</jtok>
+<jtok eid="3" type="parameter_name" span="56:69:56:75">offset</jtok>
+<jtok eid="3" type="parameter_name" span="57:7:57:15">numLines</jtok>
+<jtok eid="3" type="parameter_name" span="57:21:57:27">length</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:7">//}}}</jtok>
+<jtok eid="1" type="block_comment" span="60:2:69:5">/**
+	 * Called when text is about to be inserted in the buffer.
+	 *
+	 * @param buffer    The buffer in question
+	 * @param startLine The first line
+	 * @param offset    The start offset, from the beginning of the buffer
+	 * @param numLines  The number of lines inserted
+	 * @param length    The number of characters inserted
+	 * @since jEdit 4.3pre11
+	 */</jtok>
+<jtok eid="4" type="method_name" span="70:14:70:32">preContentInserted</jtok>
+<jtok eid="4" type="parameter_type" span="70:33:70:44">JEditBuffer</jtok>
+<jtok eid="4" type="parameter_name" span="70:45:70:51">buffer</jtok>
+<jtok eid="4" type="parameter_name" span="70:57:70:66">startLine</jtok>
+<jtok eid="4" type="parameter_name" span="70:72:70:78">offset</jtok>
+<jtok eid="4" type="parameter_name" span="70:84:70:92">numLines</jtok>
+<jtok eid="4" type="parameter_name" span="70:98:70:104">length</jtok>
+<jtok eid="1" type="line_comment" span="74:2:74:34">//{{{ preContentRemoved() method</jtok>
+<jtok eid="1" type="block_comment" span="75:2:84:5">/**
+	 * Called when text is about to be removed from the buffer, but is
+	 * still present.
+	 * @param buffer The buffer in question
+	 * @param startLine The first line
+	 * @param offset The start offset, from the beginning of the buffer
+	 * @param numLines The number of lines to be removed
+	 * @param length The number of characters to be removed
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="5" type="method_name" span="85:14:85:31">preContentRemoved</jtok>
+<jtok eid="5" type="parameter_type" span="85:32:85:43">JEditBuffer</jtok>
+<jtok eid="5" type="parameter_name" span="85:44:85:50">buffer</jtok>
+<jtok eid="5" type="parameter_name" span="85:56:85:65">startLine</jtok>
+<jtok eid="5" type="parameter_name" span="85:71:85:77">offset</jtok>
+<jtok eid="5" type="parameter_name" span="86:7:86:15">numLines</jtok>
+<jtok eid="5" type="parameter_name" span="86:21:86:27">length</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="89:2:89:31">//{{{ contentRemoved() method</jtok>
+<jtok eid="1" type="block_comment" span="90:2:98:5">/**
+	 * Called when text is removed from the buffer.
+	 * @param buffer The buffer in question
+	 * @param startLine The first line
+	 * @param offset The start offset, from the beginning of the buffer
+	 * @param numLines The number of lines removed
+	 * @param length The number of characters removed
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="6" type="method_name" span="99:14:99:28">contentRemoved</jtok>
+<jtok eid="6" type="parameter_type" span="99:29:99:40">JEditBuffer</jtok>
+<jtok eid="6" type="parameter_name" span="99:41:99:47">buffer</jtok>
+<jtok eid="6" type="parameter_name" span="99:53:99:62">startLine</jtok>
+<jtok eid="6" type="parameter_name" span="99:68:99:74">offset</jtok>
+<jtok eid="6" type="parameter_name" span="100:7:100:15">numLines</jtok>
+<jtok eid="6" type="parameter_name" span="100:21:100:27">length</jtok>
+<jtok eid="1" type="line_comment" span="101:2:101:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="103:2:103:36">//{{{ transactionComplete() method</jtok>
+<jtok eid="1" type="block_comment" span="104:2:112:5">/**
+	 * Called after an undo or compound edit has finished. The text area
+	 * uses this event to queue up and collapse cleanup operations so they
+	 * are only run once during a long transaction (such as a "Replace All"
+	 * operation.)
+	 *
+	 * @param buffer The buffer in question
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="7" type="method_name" span="113:14:113:33">transactionComplete</jtok>
+<jtok eid="7" type="parameter_type" span="113:34:113:45">JEditBuffer</jtok>
+<jtok eid="7" type="parameter_name" span="113:46:113:52">buffer</jtok>
+<jtok eid="1" type="line_comment" span="114:2:114:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:35">//{{{ foldHandlerChanged() method</jtok>
+<jtok eid="1" type="block_comment" span="117:2:125:5">/**
+	 * Called to notify the text area that folds need to be collapsed if
+	 * the "collapseFolds" property is set. This method is called after the
+	 * buffer has been loaded, and also if the user changes the fold
+	 * handler.
+	 *
+	 * @param buffer The buffer in question
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="8" type="method_name" span="126:14:126:32">foldHandlerChanged</jtok>
+<jtok eid="8" type="parameter_type" span="126:33:126:44">JEditBuffer</jtok>
+<jtok eid="8" type="parameter_name" span="126:45:126:51">buffer</jtok>
+<jtok eid="1" type="line_comment" span="127:2:127:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="129:2:129:35">//{{{ foldHandlerChanged() method</jtok>
+<jtok eid="1" type="block_comment" span="130:2:135:5">/**
+	 * Called to notify the text area that the buffer has been reloaded.
+	 *
+	 * @param buffer The buffer in question
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="9" type="method_name" span="136:14:136:26">bufferLoaded</jtok>
+<jtok eid="9" type="parameter_type" span="136:27:136:38">JEditBuffer</jtok>
+<jtok eid="9" type="parameter_name" span="136:39:136:45">buffer</jtok>
+<jtok eid="1" type="line_comment" span="137:2:137:7">//}}}</jtok>
+</jdoc>

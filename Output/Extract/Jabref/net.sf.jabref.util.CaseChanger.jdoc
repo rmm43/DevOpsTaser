@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.util.CaseChanger" jls="java5">
+<jent id="0" type="file" span="0:0:177:1">Source/jabref/src/java/net/sf/jabref/util/CaseChanger.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:177:1">net.sf.jabref.util.CaseChanger</jent>
+<jent id="2" pid="1" type="method" span="81:2:83:2">net.sf.jabref.util.CaseChanger.getModeName(int)</jent>
+<jent id="3" pid="1" type="method" span="86:2:88:2">net.sf.jabref.util.CaseChanger.getModeNames()</jent>
+<jent id="4" pid="1" type="method" span="91:2:93:2">net.sf.jabref.util.CaseChanger.getNumModes()</jent>
+<jent id="5" pid="1" type="method" span="101:2:108:2">net.sf.jabref.util.CaseChanger.changeCase(String[],int)</jent>
+<jent id="6" pid="1" type="method" span="120:2:122:5">net.sf.jabref.util.CaseChanger.changeCase(String,int)</jent>
+<jent id="7" pid="1" type="method" span="137:2:176:2">net.sf.jabref.util.CaseChanger.changeCase(String,int,boolean)</jent>
+<jtok eid="0" type="block_comment" span="3:1:20:4">/* Mp3dings - manage mp3 meta-information
+ * Copyright (C) 2003 Moritz Ringler
+ * $Id: CaseChanger.java 2900 2009-02-24 17:29:11Z mortenalver $
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="28:1:36:4">/**
+ * 
+ * Class with static methods for changing the case of strings and arrays of
+ * strings.
+ * 
+ * @author Moritz Ringler
+ * 
+ * @version $Revision: 2900 $ ($Date: 2009-02-24 18:29:11 +0100 (Tue, 24 Feb 2009) $)
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:25">CaseChanger</jtok>
+<jtok eid="1" type="block_comment" span="39:2:39:18">/** Lowercase */</jtok>
+<jtok eid="1" type="field_name" span="40:26:40:31">LOWER</jtok>
+<jtok eid="1" type="block_comment" span="42:2:42:18">/** Uppercase */</jtok>
+<jtok eid="1" type="field_name" span="43:26:43:31">UPPER</jtok>
+<jtok eid="1" type="block_comment" span="45:2:45:41">/** First letter of string uppercase */</jtok>
+<jtok eid="1" type="field_name" span="46:26:46:37">UPPER_FIRST</jtok>
+<jtok eid="1" type="block_comment" span="48:2:48:44">/** First letter of each word uppercase */</jtok>
+<jtok eid="1" type="field_name" span="49:26:49:42">UPPER_EACH_FIRST</jtok>
+<jtok eid="1" type="block_comment" span="51:2:53:5">/**
+	 * I don't think it is thread-safe to use the same matcher at the same time for all calls.
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="54:23:54:30">Pattern</jtok>
+<jtok eid="1" type="field_name" span="54:31:54:41">UF_PATTERN</jtok>
+<jtok eid="1" type="primary_name_ref" span="54:44:54:51">Pattern</jtok>
+<jtok eid="1" type="method_call" span="54:52:54:59">compile</jtok>
+<jtok eid="1" type="string_literal" span="54:60:54:68">"\\b\\w"</jtok>
+<jtok eid="1" type="line_comment" span="57:2:57:46">// private final static Matcher UF_MATCHER =</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:50">// // Pattern.compile("(?i)\\b\\w").matcher("");</jtok>
+<jtok eid="1" type="line_comment" span="59:2:59:43">// Pattern.compile("\\b\\w").matcher("");</jtok>
+<jtok eid="1" type="block_comment" span="61:2:61:35">/* you can add more modes here */</jtok>
+<jtok eid="1" type="field_name" span="62:27:62:35">numModes</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:23:64:29">String</jtok>
+<jtok eid="1" type="field_name" span="64:32:64:41">modeNames</jtok>
+<jtok eid="1" type="string_literal" span="64:46:64:53">"lower"</jtok>
+<jtok eid="1" type="string_literal" span="64:55:64:62">"UPPER"</jtok>
+<jtok eid="1" type="string_literal" span="64:64:64:77">"Upper first"</jtok>
+<jtok eid="1" type="string_literal" span="64:79:64:97">"Upper Each First"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:26:66:33">HashSet</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:34:66:40">String</jtok>
+<jtok eid="1" type="field_name" span="66:42:66:57">notToCapitalize</jtok>
+<jtok eid="1" type="constructor_call" span="66:64:66:71">HashSet</jtok>
+<jtok eid="1" type="constructor_call" span="66:72:66:78">String</jtok>
+<jtok eid="1" type="primary_name_ref" span="69:9:69:24">notToCapitalize</jtok>
+<jtok eid="1" type="method_call" span="69:25:69:28">add</jtok>
+<jtok eid="1" type="string_literal" span="69:29:69:33">"of"</jtok>
+<jtok eid="1" type="primary_name_ref" span="70:9:70:24">notToCapitalize</jtok>
+<jtok eid="1" type="method_call" span="70:25:70:28">add</jtok>
+<jtok eid="1" type="string_literal" span="70:29:70:34">"and"</jtok>
+<jtok eid="1" type="primary_name_ref" span="71:9:71:24">notToCapitalize</jtok>
+<jtok eid="1" type="method_call" span="71:25:71:28">add</jtok>
+<jtok eid="1" type="string_literal" span="71:29:71:34">"the"</jtok>
+<jtok eid="1" type="block_comment" span="74:2:80:5">/**
+	 * Gets the name of a case changing mode
+	 * 
+	 * @param mode
+	 *            by default one of LOWER, UPPER, UPPER_FIRST or
+	 *            UPPER_EACH_FIRST
+	 */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="81:16:81:22">String</jtok>
+<jtok eid="2" type="method_name" span="81:23:81:34">getModeName</jtok>
+<jtok eid="2" type="parameter_name" span="81:39:81:43">mode</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:10:82:19">modeNames</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:20:82:24">mode</jtok>
+<jtok eid="1" type="block_comment" span="85:2:85:60">/** Gets the names of all available case changing modes */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="86:16:86:22">String</jtok>
+<jtok eid="3" type="method_name" span="86:25:86:37">getModeNames</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:10:87:19">modeNames</jtok>
+<jtok eid="1" type="block_comment" span="90:2:90:57">/** Gets the number of available case changing modes */</jtok>
+<jtok eid="4" type="method_name" span="91:20:91:31">getNumModes</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:10:92:18">numModes</jtok>
+<jtok eid="1" type="block_comment" span="95:2:100:5">/**
+	 * Changes the case of the specified strings. wrapper for
+	 * {@link #changeCase(String input, int mode)}
+	 * 
+	 * @see #changeCase(String input, int mode)
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="101:16:101:22">String</jtok>
+<jtok eid="5" type="method_name" span="101:25:101:35">changeCase</jtok>
+<jtok eid="5" type="parameter_type" span="101:36:101:42">String</jtok>
+<jtok eid="5" type="parameter_name" span="101:45:101:50">input</jtok>
+<jtok eid="5" type="parameter_name" span="101:56:101:60">mode</jtok>
+<jtok eid="5" type="local_variable_name" span="102:7:102:8">n</jtok>
+<jtok eid="5" type="primary_name_ref" span="102:11:102:16">input</jtok>
+<jtok eid="5" type="qualified_name_ref" span="102:17:102:23">length</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="103:3:103:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="103:12:103:18">output</jtok>
+<jtok eid="5" type="constructor_call" span="103:25:103:31">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:32:103:33">n</jtok>
+<jtok eid="5" type="local_variable_name" span="104:12:104:13">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:19:104:20">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:23:104:24">n</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:26:104:27">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:4:105:10">output</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:11:105:12">i</jtok>
+<jtok eid="5" type="method_call" span="105:16:105:26">changeCase</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:27:105:32">input</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:33:105:34">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="105:37:105:41">mode</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:10:107:16">output</jtok>
+<jtok eid="1" type="block_comment" span="110:2:119:5">/**
+	 * Changes the case of the specified string
+	 * 
+	 * @param input
+	 *            String to change
+	 * @param mode
+	 *            by default one of LOWER, UPPER, UPPER_FIRST or
+	 *            UPPER_EACH_FIRST
+	 * @return casechanged string
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="120:16:120:22">String</jtok>
+<jtok eid="6" type="method_name" span="120:23:120:33">changeCase</jtok>
+<jtok eid="6" type="parameter_type" span="120:34:120:40">String</jtok>
+<jtok eid="6" type="parameter_name" span="120:41:120:46">input</jtok>
+<jtok eid="6" type="parameter_name" span="120:52:120:56">mode</jtok>
+<jtok eid="6" type="method_call" span="121:16:121:26">changeCase</jtok>
+<jtok eid="6" type="primary_name_ref" span="121:27:121:32">input</jtok>
+<jtok eid="6" type="primary_name_ref" span="121:34:121:38">mode</jtok>
+<jtok eid="1" type="block_comment" span="124:5:136:5">/**
+	 * Changes the case of the specified string
+	 *
+	 * @param input
+	 *            String to change
+	 * @param mode
+	 *            by default one of LOWER, UPPER, UPPER_FIRST or
+	 *            UPPER_EACH_FIRST
+     * @param skipSmallWords
+     *            In UPPER_EACH_FIRST mode, do not capitalize words like of, the, and,
+     *            unless at the start of the string.
+	 * @return casechanged string
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="137:16:137:22">String</jtok>
+<jtok eid="7" type="method_name" span="137:23:137:33">changeCase</jtok>
+<jtok eid="7" type="parameter_type" span="137:34:137:40">String</jtok>
+<jtok eid="7" type="parameter_name" span="137:41:137:46">input</jtok>
+<jtok eid="7" type="parameter_name" span="137:52:137:56">mode</jtok>
+<jtok eid="7" type="parameter_name" span="137:66:137:80">skipSmallWords</jtok>
+<jtok eid="7" type="primary_name_ref" span="139:11:139:15">mode</jtok>
+<jtok eid="7" type="primary_name_ref" span="140:8:140:13">UPPER</jtok>
+<jtok eid="7" type="primary_name_ref" span="141:11:141:16">input</jtok>
+<jtok eid="7" type="method_call" span="141:17:141:28">toUpperCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="142:8:142:13">LOWER</jtok>
+<jtok eid="7" type="primary_name_ref" span="143:11:143:16">input</jtok>
+<jtok eid="7" type="method_call" span="143:17:143:28">toLowerCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="144:8:144:19">UPPER_FIRST</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="145:4:145:10">String</jtok>
+<jtok eid="7" type="local_variable_name" span="145:11:145:12">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="145:15:145:20">input</jtok>
+<jtok eid="7" type="method_call" span="145:21:145:32">toLowerCase</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="147:4:147:11">Matcher</jtok>
+<jtok eid="7" type="local_variable_name" span="147:12:147:19">matcher</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:22:147:32">UF_PATTERN</jtok>
+<jtok eid="7" type="method_call" span="147:33:147:40">matcher</jtok>
+<jtok eid="7" type="primary_name_ref" span="147:41:147:42">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="149:8:149:15">matcher</jtok>
+<jtok eid="7" type="method_call" span="149:16:149:20">find</jtok>
+<jtok eid="7" type="primary_name_ref" span="150:12:150:19">matcher</jtok>
+<jtok eid="7" type="method_call" span="150:20:150:32">replaceFirst</jtok>
+<jtok eid="7" type="primary_name_ref" span="150:33:150:40">matcher</jtok>
+<jtok eid="7" type="method_call" span="150:41:150:46">group</jtok>
+<jtok eid="7" type="method_call" span="150:50:150:61">toUpperCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="152:12:152:17">input</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:8:155:24">UPPER_EACH_FIRST</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="156:4:156:10">String</jtok>
+<jtok eid="7" type="local_variable_name" span="156:11:156:12">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="156:15:156:20">input</jtok>
+<jtok eid="7" type="method_call" span="156:21:156:32">toLowerCase</jtok>
+<jtok eid="7" type="local_variable_name" span="157:12:157:17">found</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="158:13:158:19">String</jtok>
+<jtok eid="7" type="local_variable_name" span="158:22:158:27">words</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:30:158:31">s</jtok>
+<jtok eid="7" type="method_call" span="158:32:158:37">split</jtok>
+<jtok eid="7" type="string_literal" span="158:38:158:44">"\\s+"</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="159:13:159:26">StringBuilder</jtok>
+<jtok eid="7" type="local_variable_name" span="159:27:159:29">sb</jtok>
+<jtok eid="7" type="constructor_call" span="159:36:159:49">StringBuilder</jtok>
+<jtok eid="7" type="local_variable_name" span="160:22:160:23">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="160:29:160:30">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="160:33:160:38">words</jtok>
+<jtok eid="7" type="qualified_name_ref" span="160:39:160:45">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="160:47:160:48">i</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="161:17:161:23">String</jtok>
+<jtok eid="7" type="local_variable_name" span="161:24:161:28">word</jtok>
+<jtok eid="7" type="primary_name_ref" span="161:31:161:36">words</jtok>
+<jtok eid="7" type="primary_name_ref" span="161:37:161:38">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:22:162:23">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:34:162:48">skipSmallWords</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:53:162:68">notToCapitalize</jtok>
+<jtok eid="7" type="method_call" span="162:69:162:77">contains</jtok>
+<jtok eid="7" type="primary_name_ref" span="162:78:162:82">word</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:21:163:23">sb</jtok>
+<jtok eid="7" type="method_call" span="163:24:163:30">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:31:163:35">Util</jtok>
+<jtok eid="7" type="method_call" span="163:36:163:41">nCase</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:42:163:46">word</jtok>
+<jtok eid="7" type="primary_name_ref" span="165:21:165:23">sb</jtok>
+<jtok eid="7" type="method_call" span="165:24:165:30">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="165:31:165:35">word</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:21:166:22">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:25:166:30">words</jtok>
+<jtok eid="7" type="qualified_name_ref" span="166:31:166:37">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:21:167:23">sb</jtok>
+<jtok eid="7" type="method_call" span="167:24:167:30">append</jtok>
+<jtok eid="7" type="string_literal" span="167:31:167:34">" "</jtok>
+<jtok eid="7" type="primary_name_ref" span="170:20:170:22">sb</jtok>
+<jtok eid="7" type="method_call" span="170:23:170:31">toString</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:11:174:16">input</jtok>
+</jdoc>

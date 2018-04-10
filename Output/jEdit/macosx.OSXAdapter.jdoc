@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="macosx.OSXAdapter" jls="java5">
+<jent id="0" type="file" span="0:0:187:1">Source/jEdit/jars/MacOSX/macosx/OSXAdapter.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:187:1">macosx.OSXAdapter</jent>
+<jent id="2" pid="1" type="method" span="51:2:55:2">macosx.OSXAdapter.OSXAdapter(String,Object,Method)</jent>
+<jent id="3" pid="1" type="method" span="59:2:61:2">macosx.OSXAdapter.setQuitHandler(Object,Method)</jent>
+<jent id="4" pid="1" type="method" span="65:2:79:2">macosx.OSXAdapter.setAboutHandler(Object,Method)</jent>
+<jent id="5" pid="1" type="method" span="83:2:97:2">macosx.OSXAdapter.setPreferencesHandler(Object,Method)</jent>
+<jent id="6" pid="1" type="method" span="102:2:119:2">macosx.OSXAdapter.setFileHandler(Object,Method)</jent>
+<jent id="7" pid="6" type="class" span="103:68:118:3">macosx.OSXAdapter.setFileHandler(Object,Method).$1</jent>
+<jent id="8" pid="7" type="method" span="106:4:117:4">macosx.OSXAdapter.setFileHandler(Object,Method).$1.callTarget(Object)</jent>
+<jent id="9" pid="1" type="method" span="121:2:123:2">macosx.OSXAdapter.setReOpenApplicationHandler(Object,Method)</jent>
+<jent id="10" pid="1" type="method" span="126:2:143:2">macosx.OSXAdapter.setHandler(OSXAdapter)</jent>
+<jent id="11" pid="1" type="method" span="148:2:154:2">macosx.OSXAdapter.callTarget(Object)</jent>
+<jent id="12" pid="1" type="method" span="158:2:165:2">macosx.OSXAdapter.invoke(Object,Method,Object[])</jent>
+<jent id="13" pid="1" type="method" span="169:2:171:2">macosx.OSXAdapter.isCorrectMethod(Method,Object[])</jent>
+<jent id="14" pid="1" type="method" span="175:2:186:2">macosx.OSXAdapter.setApplicationEventHandled(Object,boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * :tabSize=4:indentSize=4:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * OSXAdapter.java - An adapter which communicates with the native functions of osx
+ * Copyright (C) 2008 Seph M. Soliman
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="39:1:39:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="41:14:41:24">OSXAdapter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:36:41:53">InvocationHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:12:43:18">Object</jtok>
+<jtok eid="1" type="field_name" span="43:19:43:31">targetObject</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:12:44:18">Method</jtok>
+<jtok eid="1" type="field_name" span="44:19:44:31">targetMethod</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:12:45:18">String</jtok>
+<jtok eid="1" type="field_name" span="45:19:45:33">proxySignature</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:9:47:15">Object</jtok>
+<jtok eid="1" type="field_name" span="47:16:47:33">macOSXApplication</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:105">// Each OSXAdapter has the name of the EAWT method it intends to listen for (handleAbout, for example),</jtok>
+<jtok eid="1" type="line_comment" span="50:2:50:97">// the Object that will ultimately perform the task, and the Method to be called on that Object</jtok>
+<jtok eid="2" type="method_name" span="51:12:51:22">OSXAdapter</jtok>
+<jtok eid="2" type="parameter_type" span="51:23:51:29">String</jtok>
+<jtok eid="2" type="parameter_name" span="51:30:51:44">proxySignature</jtok>
+<jtok eid="2" type="parameter_type" span="51:46:51:52">Object</jtok>
+<jtok eid="2" type="parameter_name" span="51:53:51:59">target</jtok>
+<jtok eid="2" type="parameter_type" span="51:61:51:67">Method</jtok>
+<jtok eid="2" type="parameter_name" span="51:68:51:75">handler</jtok>
+<jtok eid="2" type="qualified_name_ref" span="52:8:52:22">proxySignature</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:25:52:39">proxySignature</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:8:53:20">targetObject</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:23:53:29">target</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:8:54:20">targetMethod</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:23:54:30">handler</jtok>
+<jtok eid="1" type="line_comment" span="57:2:57:89">// Pass this method an Object and Method equipped to perform application shutdown logic</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:91">// The method passed should return a boolean stating whether or not the quit should occur</jtok>
+<jtok eid="3" type="method_name" span="59:21:59:35">setQuitHandler</jtok>
+<jtok eid="3" type="parameter_type" span="59:36:59:42">Object</jtok>
+<jtok eid="3" type="parameter_name" span="59:43:59:49">target</jtok>
+<jtok eid="3" type="parameter_type" span="59:51:59:57">Method</jtok>
+<jtok eid="3" type="parameter_name" span="59:58:59:69">quitHandler</jtok>
+<jtok eid="3" type="method_call" span="60:3:60:13">setHandler</jtok>
+<jtok eid="3" type="constructor_call" span="60:18:60:28">OSXAdapter</jtok>
+<jtok eid="3" type="string_literal" span="60:29:60:41">"handleQuit"</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:43:60:49">target</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:51:60:62">quitHandler</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:79">// Pass this method an Object and Method equipped to display application info</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:87">// They will be called when the About menu item is selected from the application menu</jtok>
+<jtok eid="4" type="method_name" span="65:21:65:36">setAboutHandler</jtok>
+<jtok eid="4" type="parameter_type" span="65:37:65:43">Object</jtok>
+<jtok eid="4" type="parameter_name" span="65:44:65:50">target</jtok>
+<jtok eid="4" type="parameter_type" span="65:52:65:58">Method</jtok>
+<jtok eid="4" type="parameter_name" span="65:59:65:71">aboutHandler</jtok>
+<jtok eid="4" type="local_variable_name" span="66:11:66:26">enableAboutMenu</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:30:66:36">target</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:48:66:60">aboutHandler</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:7:67:22">enableAboutMenu</jtok>
+<jtok eid="4" type="method_call" span="68:4:68:14">setHandler</jtok>
+<jtok eid="4" type="constructor_call" span="68:19:68:29">OSXAdapter</jtok>
+<jtok eid="4" type="string_literal" span="68:30:68:43">"handleAbout"</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:45:68:51">target</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:53:68:65">aboutHandler</jtok>
+<jtok eid="4" type="line_comment" span="70:3:70:71">// If we're setting a handler, enable the About menu item by calling</jtok>
+<jtok eid="4" type="line_comment" span="71:3:71:45">// com.apple.eawt.Application reflectively</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="73:4:73:10">Method</jtok>
+<jtok eid="4" type="local_variable_name" span="73:11:73:28">enableAboutMethod</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:31:73:48">macOSXApplication</jtok>
+<jtok eid="4" type="method_call" span="73:49:73:57">getClass</jtok>
+<jtok eid="4" type="method_call" span="73:60:73:77">getDeclaredMethod</jtok>
+<jtok eid="4" type="string_literal" span="73:78:73:99">"setEnabledAboutMenu"</jtok>
+<jtok eid="4" type="constructor_call" span="73:105:73:110">Class</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:4:74:21">enableAboutMethod</jtok>
+<jtok eid="4" type="method_call" span="74:22:74:28">invoke</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:29:74:46">macOSXApplication</jtok>
+<jtok eid="4" type="constructor_call" span="74:52:74:58">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:63:74:70">Boolean</jtok>
+<jtok eid="4" type="method_call" span="74:71:74:78">valueOf</jtok>
+<jtok eid="4" type="primary_name_ref" span="74:79:74:94">enableAboutMenu</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="75:12:75:21">Exception</jtok>
+<jtok eid="4" type="local_variable_name" span="75:22:75:24">ex</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:4:76:10">System</jtok>
+<jtok eid="4" type="qualified_name_ref" span="76:11:76:14">err</jtok>
+<jtok eid="4" type="method_call" span="76:15:76:22">println</jtok>
+<jtok eid="4" type="string_literal" span="76:23:76:67">"OSXAdapter could not access the About Menu"</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:4:77:6">ex</jtok>
+<jtok eid="4" type="method_call" span="77:7:77:22">printStackTrace</jtok>
+<jtok eid="1" type="line_comment" span="81:2:81:84">// Pass this method an Object and a Method equipped to display application options</jtok>
+<jtok eid="1" type="line_comment" span="82:2:82:93">// They will be called when the Preferences menu item is selected from the application menu</jtok>
+<jtok eid="5" type="method_name" span="83:21:83:42">setPreferencesHandler</jtok>
+<jtok eid="5" type="parameter_type" span="83:43:83:49">Object</jtok>
+<jtok eid="5" type="parameter_name" span="83:50:83:56">target</jtok>
+<jtok eid="5" type="parameter_type" span="83:58:83:64">Method</jtok>
+<jtok eid="5" type="parameter_name" span="83:65:83:77">prefsHandler</jtok>
+<jtok eid="5" type="local_variable_name" span="84:11:84:26">enablePrefsMenu</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:30:84:36">target</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:48:84:60">prefsHandler</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:7:85:22">enablePrefsMenu</jtok>
+<jtok eid="5" type="method_call" span="86:4:86:14">setHandler</jtok>
+<jtok eid="5" type="constructor_call" span="86:19:86:29">OSXAdapter</jtok>
+<jtok eid="5" type="string_literal" span="86:30:86:49">"handlePreferences"</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:51:86:57">target</jtok>
+<jtok eid="5" type="primary_name_ref" span="86:59:86:71">prefsHandler</jtok>
+<jtok eid="5" type="line_comment" span="88:3:88:77">// If we're setting a handler, enable the Preferences menu item by calling</jtok>
+<jtok eid="5" type="line_comment" span="89:3:89:45">// com.apple.eawt.Application reflectively</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="91:4:91:10">Method</jtok>
+<jtok eid="5" type="local_variable_name" span="91:11:91:28">enablePrefsMethod</jtok>
+<jtok eid="5" type="primary_name_ref" span="91:31:91:48">macOSXApplication</jtok>
+<jtok eid="5" type="method_call" span="91:49:91:57">getClass</jtok>
+<jtok eid="5" type="method_call" span="91:60:91:77">getDeclaredMethod</jtok>
+<jtok eid="5" type="string_literal" span="91:78:91:105">"setEnabledPreferencesMenu"</jtok>
+<jtok eid="5" type="constructor_call" span="91:111:91:116">Class</jtok>
+<jtok eid="5" type="primary_name_ref" span="92:4:92:21">enablePrefsMethod</jtok>
+<jtok eid="5" type="method_call" span="92:22:92:28">invoke</jtok>
+<jtok eid="5" type="primary_name_ref" span="92:29:92:46">macOSXApplication</jtok>
+<jtok eid="5" type="constructor_call" span="92:52:92:58">Object</jtok>
+<jtok eid="5" type="primary_name_ref" span="92:63:92:70">Boolean</jtok>
+<jtok eid="5" type="method_call" span="92:71:92:78">valueOf</jtok>
+<jtok eid="5" type="primary_name_ref" span="92:79:92:94">enablePrefsMenu</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="93:12:93:21">Exception</jtok>
+<jtok eid="5" type="local_variable_name" span="93:22:93:24">ex</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:4:94:10">System</jtok>
+<jtok eid="5" type="qualified_name_ref" span="94:11:94:14">err</jtok>
+<jtok eid="5" type="method_call" span="94:15:94:22">println</jtok>
+<jtok eid="5" type="string_literal" span="94:23:94:67">"OSXAdapter could not access the About Menu"</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:4:95:6">ex</jtok>
+<jtok eid="5" type="method_call" span="95:7:95:22">printStackTrace</jtok>
+<jtok eid="1" type="line_comment" span="99:2:99:95">// Pass this method an Object and a Method equipped to handle document events from the Finder</jtok>
+<jtok eid="1" type="line_comment" span="100:2:100:93">// Documents are registered with the Finder via the CFBundleDocumentTypes dictionary in the</jtok>
+<jtok eid="1" type="line_comment" span="101:2:101:36">// application bundle's Info.plist</jtok>
+<jtok eid="6" type="method_name" span="102:21:102:35">setFileHandler</jtok>
+<jtok eid="6" type="parameter_type" span="102:36:102:42">Object</jtok>
+<jtok eid="6" type="parameter_name" span="102:43:102:49">target</jtok>
+<jtok eid="6" type="parameter_type" span="102:51:102:57">Method</jtok>
+<jtok eid="6" type="parameter_name" span="102:58:102:69">fileHandler</jtok>
+<jtok eid="6" type="method_call" span="103:3:103:13">setHandler</jtok>
+<jtok eid="6" type="constructor_call" span="103:18:103:28">OSXAdapter</jtok>
+<jtok eid="6" type="string_literal" span="103:29:103:45">"handleOpenFile"</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:47:103:53">target</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:55:103:66">fileHandler</jtok>
+<jtok eid="7" type="line_comment" span="104:4:104:64">// Override OSXAdapter.callTarget to send information on the</jtok>
+<jtok eid="7" type="line_comment" span="105:4:105:24">// file to be opened</jtok>
+<jtok eid="8" type="method_name" span="106:19:106:29">callTarget</jtok>
+<jtok eid="8" type="parameter_type" span="106:30:106:36">Object</jtok>
+<jtok eid="8" type="parameter_name" span="106:37:106:47">appleEvent</jtok>
+<jtok eid="8" type="primary_name_ref" span="107:9:107:19">appleEvent</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="109:7:109:13">Method</jtok>
+<jtok eid="8" type="local_variable_name" span="109:14:109:31">getFilenameMethod</jtok>
+<jtok eid="8" type="primary_name_ref" span="109:34:109:44">appleEvent</jtok>
+<jtok eid="8" type="method_call" span="109:45:109:53">getClass</jtok>
+<jtok eid="8" type="method_call" span="109:56:109:73">getDeclaredMethod</jtok>
+<jtok eid="8" type="string_literal" span="109:74:109:87">"getFilename"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="109:90:109:95">Class</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="110:7:110:13">String</jtok>
+<jtok eid="8" type="local_variable_name" span="110:14:110:22">filename</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="110:26:110:32">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="110:34:110:51">getFilenameMethod</jtok>
+<jtok eid="8" type="method_call" span="110:52:110:58">invoke</jtok>
+<jtok eid="8" type="primary_name_ref" span="110:59:110:69">appleEvent</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="110:72:110:78">Object</jtok>
+<jtok eid="8" type="qualified_name_ref" span="111:12:111:24">targetMethod</jtok>
+<jtok eid="8" type="method_call" span="111:25:111:31">invoke</jtok>
+<jtok eid="8" type="qualified_name_ref" span="111:37:111:49">targetObject</jtok>
+<jtok eid="8" type="constructor_call" span="111:55:111:61">Object</jtok>
+<jtok eid="8" type="primary_name_ref" span="111:66:111:74">filename</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="112:15:112:24">Exception</jtok>
+<jtok eid="8" type="local_variable_name" span="112:25:112:27">ex</jtok>
+<jtok eid="9" type="method_name" span="121:21:121:48">setReOpenApplicationHandler</jtok>
+<jtok eid="9" type="parameter_type" span="121:49:121:55">Object</jtok>
+<jtok eid="9" type="parameter_name" span="121:56:121:62">target</jtok>
+<jtok eid="9" type="parameter_type" span="121:64:121:70">Method</jtok>
+<jtok eid="9" type="parameter_name" span="121:71:121:81">appHandler</jtok>
+<jtok eid="9" type="method_call" span="122:3:122:13">setHandler</jtok>
+<jtok eid="9" type="constructor_call" span="122:18:122:28">OSXAdapter</jtok>
+<jtok eid="9" type="string_literal" span="122:29:122:54">"handleReOpenApplication"</jtok>
+<jtok eid="9" type="primary_name_ref" span="122:56:122:62">target</jtok>
+<jtok eid="9" type="primary_name_ref" span="122:64:122:74">appHandler</jtok>
+<jtok eid="1" type="line_comment" span="125:2:125:103">// setHandler creates a Proxy object from the passed OSXAdapter and adds it as an ApplicationListener</jtok>
+<jtok eid="10" type="method_name" span="126:21:126:31">setHandler</jtok>
+<jtok eid="10" type="parameter_type" span="126:32:126:42">OSXAdapter</jtok>
+<jtok eid="10" type="parameter_name" span="126:43:126:50">adapter</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="128:4:128:9">Class</jtok>
+<jtok eid="10" type="local_variable_name" span="128:10:128:26">applicationClass</jtok>
+<jtok eid="10" type="primary_name_ref" span="128:29:128:34">Class</jtok>
+<jtok eid="10" type="method_call" span="128:35:128:42">forName</jtok>
+<jtok eid="10" type="string_literal" span="128:43:128:71">"com.apple.eawt.Application"</jtok>
+<jtok eid="10" type="primary_name_ref" span="129:8:129:25">macOSXApplication</jtok>
+<jtok eid="10" type="primary_name_ref" span="130:5:130:22">macOSXApplication</jtok>
+<jtok eid="10" type="primary_name_ref" span="130:25:130:41">applicationClass</jtok>
+<jtok eid="10" type="method_call" span="130:42:130:56">getConstructor</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="130:58:130:63">Class</jtok>
+<jtok eid="10" type="method_call" span="130:72:130:83">newInstance</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="130:85:130:91">Object</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="132:4:132:9">Class</jtok>
+<jtok eid="10" type="local_variable_name" span="132:10:132:34">applicationListenerClass</jtok>
+<jtok eid="10" type="primary_name_ref" span="132:37:132:42">Class</jtok>
+<jtok eid="10" type="method_call" span="132:43:132:50">forName</jtok>
+<jtok eid="10" type="string_literal" span="132:51:132:87">"com.apple.eawt.ApplicationListener"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="133:4:133:10">Method</jtok>
+<jtok eid="10" type="local_variable_name" span="133:11:133:28">addListenerMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="133:31:133:47">applicationClass</jtok>
+<jtok eid="10" type="method_call" span="133:48:133:65">getDeclaredMethod</jtok>
+<jtok eid="10" type="string_literal" span="133:66:133:90">"addApplicationListener"</jtok>
+<jtok eid="10" type="constructor_call" span="133:96:133:101">Class</jtok>
+<jtok eid="10" type="primary_name_ref" span="133:106:133:130">applicationListenerClass</jtok>
+<jtok eid="10" type="line_comment" span="134:4:134:111">// Create a proxy object around this handler that can be reflectively added as an Apple ApplicationListener</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="135:4:135:10">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="135:11:135:26">osxAdapterProxy</jtok>
+<jtok eid="10" type="primary_name_ref" span="135:29:135:34">Proxy</jtok>
+<jtok eid="10" type="method_call" span="135:35:135:51">newProxyInstance</jtok>
+<jtok eid="10" type="primary_name_ref" span="135:52:135:62">OSXAdapter</jtok>
+<jtok eid="10" type="method_call" span="135:69:135:83">getClassLoader</jtok>
+<jtok eid="10" type="constructor_call" span="135:91:135:96">Class</jtok>
+<jtok eid="10" type="primary_name_ref" span="135:101:135:125">applicationListenerClass</jtok>
+<jtok eid="10" type="primary_name_ref" span="135:129:135:136">adapter</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:4:136:21">addListenerMethod</jtok>
+<jtok eid="10" type="method_call" span="136:22:136:28">invoke</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:29:136:46">macOSXApplication</jtok>
+<jtok eid="10" type="constructor_call" span="136:52:136:58">Object</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:63:136:78">osxAdapterProxy</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="137:12:137:34">ClassNotFoundException</jtok>
+<jtok eid="10" type="local_variable_name" span="137:35:137:39">cnfe</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:4:138:10">System</jtok>
+<jtok eid="10" type="qualified_name_ref" span="138:11:138:14">err</jtok>
+<jtok eid="10" type="method_call" span="138:15:138:22">println</jtok>
+<jtok eid="10" type="string_literal" span="138:23:138:129">"This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled ("</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:132:138:136">cnfe</jtok>
+<jtok eid="10" type="string_literal" span="138:139:138:142">")"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="139:12:139:21">Exception</jtok>
+<jtok eid="10" type="local_variable_name" span="139:22:139:24">ex</jtok>
+<jtok eid="10" type="line_comment" span="139:29:139:133">// Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application methods</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:4:140:10">System</jtok>
+<jtok eid="10" type="qualified_name_ref" span="140:11:140:14">err</jtok>
+<jtok eid="10" type="method_call" span="140:15:140:22">println</jtok>
+<jtok eid="10" type="string_literal" span="140:23:140:65">"Mac OS X Adapter could not talk to EAWT:"</jtok>
+<jtok eid="10" type="primary_name_ref" span="141:4:141:6">ex</jtok>
+<jtok eid="10" type="method_call" span="141:7:141:22">printStackTrace</jtok>
+<jtok eid="1" type="line_comment" span="145:2:145:64">// Override this method to perform any operations on the event</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:42">// that comes with the various callbacks</jtok>
+<jtok eid="1" type="line_comment" span="147:2:147:44">// See setFileHandler above for an example</jtok>
+<jtok eid="11" type="method_name" span="148:17:148:27">callTarget</jtok>
+<jtok eid="11" type="parameter_type" span="148:28:148:34">Object</jtok>
+<jtok eid="11" type="parameter_name" span="148:35:148:45">appleEvent</jtok>
+<jtok eid="11" type="throws" span="148:54:148:79">InvocationTargetException</jtok>
+<jtok eid="11" type="throws" span="148:81:148:103">IllegalAccessException</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="149:3:149:9">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="149:10:149:16">result</jtok>
+<jtok eid="11" type="primary_name_ref" span="149:19:149:31">targetMethod</jtok>
+<jtok eid="11" type="method_call" span="149:32:149:38">invoke</jtok>
+<jtok eid="11" type="primary_name_ref" span="149:39:149:51">targetObject</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="149:54:149:60">Object</jtok>
+<jtok eid="11" type="primary_name_ref" span="150:7:150:13">result</jtok>
+<jtok eid="11" type="primary_name_ref" span="153:10:153:17">Boolean</jtok>
+<jtok eid="11" type="method_call" span="153:18:153:25">valueOf</jtok>
+<jtok eid="11" type="primary_name_ref" span="153:26:153:32">result</jtok>
+<jtok eid="11" type="method_call" span="153:33:153:41">toString</jtok>
+<jtok eid="11" type="method_call" span="153:45:153:57">booleanValue</jtok>
+<jtok eid="1" type="line_comment" span="156:2:156:37">// InvocationHandler implementation</jtok>
+<jtok eid="1" type="line_comment" span="157:2:157:115">// This is the entry point for our proxy object; it is called every time an ApplicationListener method is invoked</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="158:9:158:15">Object</jtok>
+<jtok eid="12" type="method_name" span="158:16:158:22">invoke</jtok>
+<jtok eid="12" type="parameter_type" span="158:24:158:30">Object</jtok>
+<jtok eid="12" type="parameter_name" span="158:31:158:36">proxy</jtok>
+<jtok eid="12" type="parameter_type" span="158:38:158:44">Method</jtok>
+<jtok eid="12" type="parameter_name" span="158:45:158:51">method</jtok>
+<jtok eid="12" type="parameter_type" span="158:53:158:59">Object</jtok>
+<jtok eid="12" type="parameter_name" span="158:62:158:66">args</jtok>
+<jtok eid="12" type="throws" span="158:75:158:84">Throwable</jtok>
+<jtok eid="12" type="method_call" span="159:7:159:22">isCorrectMethod</jtok>
+<jtok eid="12" type="primary_name_ref" span="159:23:159:29">method</jtok>
+<jtok eid="12" type="primary_name_ref" span="159:31:159:35">args</jtok>
+<jtok eid="12" type="local_variable_name" span="160:12:160:19">handled</jtok>
+<jtok eid="12" type="method_call" span="160:22:160:32">callTarget</jtok>
+<jtok eid="12" type="primary_name_ref" span="160:33:160:37">args</jtok>
+<jtok eid="12" type="method_call" span="161:4:161:30">setApplicationEventHandled</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:31:161:35">args</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:40:161:47">handled</jtok>
+<jtok eid="12" type="line_comment" span="163:3:163:93">// All of the ApplicationListener methods are void; return null regardless of what happens</jtok>
+<jtok eid="1" type="line_comment" span="167:2:167:103">// Compare the method that was called to the intended method when the OSXAdapter instance was created</jtok>
+<jtok eid="1" type="line_comment" span="168:2:168:57">// (e.g. handleAbout, handleQuit, handleOpenFile, etc.)</jtok>
+<jtok eid="13" type="method_name" span="169:20:169:35">isCorrectMethod</jtok>
+<jtok eid="13" type="parameter_type" span="169:36:169:42">Method</jtok>
+<jtok eid="13" type="parameter_name" span="169:43:169:49">method</jtok>
+<jtok eid="13" type="parameter_type" span="169:51:169:57">Object</jtok>
+<jtok eid="13" type="parameter_name" span="169:60:169:64">args</jtok>
+<jtok eid="13" type="primary_name_ref" span="170:11:170:23">targetMethod</jtok>
+<jtok eid="13" type="primary_name_ref" span="170:35:170:49">proxySignature</jtok>
+<jtok eid="13" type="method_call" span="170:50:170:56">equals</jtok>
+<jtok eid="13" type="primary_name_ref" span="170:57:170:63">method</jtok>
+<jtok eid="13" type="method_call" span="170:64:170:71">getName</jtok>
+<jtok eid="13" type="primary_name_ref" span="170:78:170:82">args</jtok>
+<jtok eid="13" type="qualified_name_ref" span="170:83:170:89">length</jtok>
+<jtok eid="1" type="line_comment" span="173:2:173:92">// It is important to mark the ApplicationEvent as handled and cancel the default behavior</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:97">// This method checks for a boolean result from the proxy method and sets the event accordingly</jtok>
+<jtok eid="14" type="method_name" span="175:17:175:43">setApplicationEventHandled</jtok>
+<jtok eid="14" type="parameter_type" span="175:44:175:50">Object</jtok>
+<jtok eid="14" type="parameter_name" span="175:51:175:56">event</jtok>
+<jtok eid="14" type="parameter_name" span="175:66:175:73">handled</jtok>
+<jtok eid="14" type="primary_name_ref" span="176:7:176:12">event</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="178:5:178:11">Method</jtok>
+<jtok eid="14" type="local_variable_name" span="178:12:178:28">setHandledMethod</jtok>
+<jtok eid="14" type="primary_name_ref" span="178:31:178:36">event</jtok>
+<jtok eid="14" type="method_call" span="178:37:178:45">getClass</jtok>
+<jtok eid="14" type="method_call" span="178:48:178:65">getDeclaredMethod</jtok>
+<jtok eid="14" type="string_literal" span="178:66:178:78">"setHandled"</jtok>
+<jtok eid="14" type="constructor_call" span="178:84:178:89">Class</jtok>
+<jtok eid="14" type="line_comment" span="179:5:179:66">// If the target method returns a boolean, use that as a hint</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:5:180:21">setHandledMethod</jtok>
+<jtok eid="14" type="method_call" span="180:22:180:28">invoke</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:29:180:34">event</jtok>
+<jtok eid="14" type="constructor_call" span="180:40:180:46">Object</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:51:180:58">Boolean</jtok>
+<jtok eid="14" type="method_call" span="180:59:180:66">valueOf</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:67:180:74">handled</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="181:13:181:22">Exception</jtok>
+<jtok eid="14" type="local_variable_name" span="181:23:181:25">ex</jtok>
+<jtok eid="14" type="primary_name_ref" span="182:5:182:11">System</jtok>
+<jtok eid="14" type="qualified_name_ref" span="182:12:182:15">err</jtok>
+<jtok eid="14" type="method_call" span="182:16:182:23">println</jtok>
+<jtok eid="14" type="string_literal" span="182:24:182:79">"OSXAdapter was unable to handle an ApplicationEvent: "</jtok>
+<jtok eid="14" type="primary_name_ref" span="182:82:182:87">event</jtok>
+<jtok eid="14" type="primary_name_ref" span="183:5:183:7">ex</jtok>
+<jtok eid="14" type="method_call" span="183:8:183:23">printStackTrace</jtok>
+</jdoc>

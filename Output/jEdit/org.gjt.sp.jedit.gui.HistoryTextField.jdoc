@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.HistoryTextField" jls="java5">
+<jent id="0" type="file" span="0:0:412:2">Source/jEdit/org/gjt/sp/jedit/gui/HistoryTextField.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:412:1">org.gjt.sp.jedit.gui.HistoryTextField</jent>
+<jent id="2" pid="1" type="method" span="48:2:51:2">org.gjt.sp.jedit.gui.HistoryTextField.HistoryTextField()</jent>
+<jent id="3" pid="1" type="method" span="58:2:61:2">org.gjt.sp.jedit.gui.HistoryTextField.HistoryTextField(String)</jent>
+<jent id="4" pid="1" type="method" span="73:2:76:2">org.gjt.sp.jedit.gui.HistoryTextField.HistoryTextField(String,boolean)</jent>
+<jent id="5" pid="1" type="method" span="90:2:108:2">org.gjt.sp.jedit.gui.HistoryTextField.HistoryTextField(String,boolean,boolean)</jent>
+<jent id="6" pid="5" type="class" span="94:3:99:3">org.gjt.sp.jedit.gui.HistoryTextField.HistoryTextField(String,boolean,boolean).$1</jent>
+<jent id="7" pid="6" type="method" span="95:4:98:4">org.gjt.sp.jedit.gui.HistoryTextField.HistoryTextField(String,boolean,boolean).$1.fireActionPerformed()</jent>
+<jent id="8" pid="1" type="method" span="116:2:119:2">org.gjt.sp.jedit.gui.HistoryTextField.setInstantPopups(boolean)</jent>
+<jent id="9" pid="1" type="method" span="127:2:130:2">org.gjt.sp.jedit.gui.HistoryTextField.getInstantPopups()</jent>
+<jent id="10" pid="1" type="method" span="138:2:141:2">org.gjt.sp.jedit.gui.HistoryTextField.setEnterAddsToHistory(boolean)</jent>
+<jent id="11" pid="1" type="method" span="149:2:152:2">org.gjt.sp.jedit.gui.HistoryTextField.setEnterAddsToHistory()</jent>
+<jent id="12" pid="1" type="method" span="159:2:162:2">org.gjt.sp.jedit.gui.HistoryTextField.setSelectAllOnFocus(boolean)</jent>
+<jent id="13" pid="1" type="method" span="169:2:172:2">org.gjt.sp.jedit.gui.HistoryTextField.setSelectAllOnFocus()</jent>
+<jent id="14" pid="1" type="method" span="178:2:181:2">org.gjt.sp.jedit.gui.HistoryTextField.getModel()</jent>
+<jent id="15" pid="1" type="method" span="189:2:199:2">org.gjt.sp.jedit.gui.HistoryTextField.setModel(String)</jent>
+<jent id="16" pid="1" type="method" span="205:2:208:2">org.gjt.sp.jedit.gui.HistoryTextField.addCurrentToHistory()</jent>
+<jent id="17" pid="1" type="method" span="214:2:218:2">org.gjt.sp.jedit.gui.HistoryTextField.setText(String)</jent>
+<jent id="18" pid="1" type="method" span="224:2:227:2">org.gjt.sp.jedit.gui.HistoryTextField.fireActionPerformed()</jent>
+<jent id="19" pid="1" type="method" span="232:2:282:2">org.gjt.sp.jedit.gui.HistoryTextField.processKeyEvent(KeyEvent)</jent>
+<jent id="20" pid="1" type="method" span="285:2:313:2">org.gjt.sp.jedit.gui.HistoryTextField.processMouseEvent(MouseEvent)</jent>
+<jent id="21" pid="1" type="class" span="330:2:371:2">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler</jent>
+<jent id="22" pid="21" type="method" span="335:3:338:3">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler.mousePressed(MouseEvent)</jent>
+<jent id="23" pid="21" type="method" span="341:3:351:3">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler.mouseReleased(MouseEvent)</jent>
+<jent id="24" pid="23" type="class" span="344:4:350:4">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler.mouseReleased(MouseEvent).$1</jent>
+<jent id="25" pid="24" type="method" span="345:5:349:5">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler.mouseReleased(MouseEvent).$1.run()</jent>
+<jent id="26" pid="21" type="method" span="354:3:364:3">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler.mouseMoved(MouseEvent)</jent>
+<jent id="27" pid="21" type="method" span="367:3:370:3">org.gjt.sp.jedit.gui.HistoryTextField.MouseHandler.mouseDragged(MouseEvent)</jent>
+<jent id="28" pid="1" type="class" span="374:2:409:2">org.gjt.sp.jedit.gui.HistoryTextField.HistoryBorder</jent>
+<jent id="29" pid="28" type="method" span="378:3:403:3">org.gjt.sp.jedit.gui.HistoryTextField.HistoryBorder.paintBorder(Component,Graphics,int,int,int,int)</jent>
+<jent id="30" pid="28" type="method" span="405:3:408:3">org.gjt.sp.jedit.gui.HistoryTextField.HistoryBorder.getBorderInsets(Component)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * HistoryTextField.java - Text field with a history
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2000, 2001 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="36:1:40:4">/**
+ * Text field with an arrow-key accessable history.
+ * @author Slava Pestov
+ * @version $Id: HistoryTextField.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:14:41:30">HistoryTextField</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:39:41:49">JTextField</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:36">//{{{ HistoryTextField constructor</jtok>
+<jtok eid="1" type="block_comment" span="44:2:47:5">/**
+	 * Creates a new history text field.
+	 * @since jEdit 3.2pre5
+	 */</jtok>
+<jtok eid="2" type="method_name" span="48:9:48:25">HistoryTextField</jtok>
+<jtok eid="1" type="line_comment" span="51:4:51:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="53:2:53:36">//{{{ HistoryTextField constructor</jtok>
+<jtok eid="1" type="block_comment" span="54:2:57:5">/**
+	 * Creates a new history text field.
+	 * @param name The history model name
+	 */</jtok>
+<jtok eid="3" type="method_name" span="58:9:58:25">HistoryTextField</jtok>
+<jtok eid="3" type="parameter_type" span="58:26:58:32">String</jtok>
+<jtok eid="3" type="parameter_name" span="58:33:58:37">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:8:60:12">name</jtok>
+<jtok eid="1" type="line_comment" span="61:4:61:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:36">//{{{ HistoryTextField constructor</jtok>
+<jtok eid="1" type="block_comment" span="64:2:72:5">/**
+	 * Creates a new history text field.
+	 * @param name The history model name
+	 * @param instantPopups If true, selecting a value from the history
+	 * popup will immediately fire an ActionEvent. If false, the user
+	 * will have to press 'Enter' first
+	 *
+	 * @since jEdit 2.2pre5
+	 */</jtok>
+<jtok eid="4" type="method_name" span="73:9:73:25">HistoryTextField</jtok>
+<jtok eid="4" type="parameter_type" span="73:26:73:32">String</jtok>
+<jtok eid="4" type="parameter_name" span="73:33:73:37">name</jtok>
+<jtok eid="4" type="parameter_name" span="73:47:73:60">instantPopups</jtok>
+<jtok eid="4" type="primary_name_ref" span="75:8:75:12">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="75:13:75:26">instantPopups</jtok>
+<jtok eid="1" type="line_comment" span="76:4:76:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:36">//{{{ HistoryTextField constructor</jtok>
+<jtok eid="1" type="block_comment" span="79:2:89:5">/**
+	 * Creates a new history text field.
+	 * @param name The history model name
+	 * @param instantPopups If true, selecting a value from the history
+	 * popup will immediately fire an ActionEvent. If false, the user
+	 * will have to press 'Enter' first
+	 * @param enterAddsToHistory If true, pressing the Enter key will
+	 * automatically add the currently entered text to the history.
+	 *
+	 * @since jEdit 2.6pre5
+	 */</jtok>
+<jtok eid="5" type="method_name" span="90:9:90:25">HistoryTextField</jtok>
+<jtok eid="5" type="parameter_type" span="90:26:90:32">String</jtok>
+<jtok eid="5" type="parameter_name" span="90:33:90:37">name</jtok>
+<jtok eid="5" type="parameter_name" span="90:47:90:60">instantPopups</jtok>
+<jtok eid="5" type="parameter_name" span="91:11:91:29">enterAddsToHistory</jtok>
+<jtok eid="5" type="primary_name_ref" span="93:3:93:13">controller</jtok>
+<jtok eid="5" type="constructor_call" span="93:20:93:31">HistoryText</jtok>
+<jtok eid="7" type="method_name" span="95:16:95:35">fireActionPerformed</jtok>
+<jtok eid="7" type="primary_name_ref" span="97:5:97:21">HistoryTextField</jtok>
+<jtok eid="7" type="method_call" span="97:27:97:46">fireActionPerformed</jtok>
+<jtok eid="5" type="method_call" span="101:3:101:11">setModel</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:12:101:16">name</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="102:3:102:15">MouseHandler</jtok>
+<jtok eid="5" type="local_variable_name" span="102:16:102:28">mouseHandler</jtok>
+<jtok eid="5" type="constructor_call" span="102:35:102:47">MouseHandler</jtok>
+<jtok eid="5" type="method_call" span="103:3:103:19">addMouseListener</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:20:103:32">mouseHandler</jtok>
+<jtok eid="5" type="method_call" span="104:3:104:25">addMouseMotionListener</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:26:104:38">mouseHandler</jtok>
+<jtok eid="5" type="method_call" span="106:3:106:19">setInstantPopups</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:20:106:33">instantPopups</jtok>
+<jtok eid="5" type="method_call" span="107:3:107:24">setEnterAddsToHistory</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:25:107:43">enterAddsToHistory</jtok>
+<jtok eid="1" type="line_comment" span="108:4:108:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="110:2:110:33">//{{{ setInstantPopups() method</jtok>
+<jtok eid="1" type="block_comment" span="111:2:115:5">/**
+	 * Sets if selecting a value from the popup should immediately fire
+	 * an ActionEvent.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="8" type="method_name" span="116:14:116:30">setInstantPopups</jtok>
+<jtok eid="8" type="parameter_name" span="116:39:116:52">instantPopups</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:3:118:13">controller</jtok>
+<jtok eid="8" type="method_call" span="118:14:118:30">setInstantPopups</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:31:118:44">instantPopups</jtok>
+<jtok eid="1" type="line_comment" span="119:4:119:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="121:2:121:33">//{{{ getInstantPopups() method</jtok>
+<jtok eid="1" type="block_comment" span="122:2:126:5">/**
+	 * Returns if selecting a value from the popup should immediately fire
+	 * an ActionEvent.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="9" type="method_name" span="127:17:127:33">getInstantPopups</jtok>
+<jtok eid="9" type="primary_name_ref" span="129:10:129:20">controller</jtok>
+<jtok eid="9" type="method_call" span="129:21:129:37">getInstantPopups</jtok>
+<jtok eid="1" type="line_comment" span="130:4:130:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="132:2:132:38">//{{{ setEnterAddsToHistory() method</jtok>
+<jtok eid="1" type="block_comment" span="133:2:137:5">/**
+	 * Sets if pressing Enter should automatically add the currently
+	 * entered text to the history.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="10" type="method_name" span="138:14:138:35">setEnterAddsToHistory</jtok>
+<jtok eid="10" type="parameter_name" span="138:44:138:62">enterAddsToHistory</jtok>
+<jtok eid="10" type="qualified_name_ref" span="140:8:140:26">enterAddsToHistory</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:29:140:47">enterAddsToHistory</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:38">//{{{ getEnterAddsToHistory() method</jtok>
+<jtok eid="1" type="block_comment" span="144:2:148:5">/**
+	 * Returns if pressing Enter should automatically add the currently
+	 * entered text to the history.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="11" type="method_name" span="149:17:149:38">setEnterAddsToHistory</jtok>
+<jtok eid="11" type="primary_name_ref" span="151:10:151:28">enterAddsToHistory</jtok>
+<jtok eid="1" type="line_comment" span="152:4:152:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="154:2:154:36">//{{{ setSelectAllOnFocus() method</jtok>
+<jtok eid="1" type="block_comment" span="155:2:158:5">/**
+	 * Sets if all text should be selected when the field gets focus.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="12" type="method_name" span="159:14:159:33">setSelectAllOnFocus</jtok>
+<jtok eid="12" type="parameter_name" span="159:42:159:58">selectAllOnFocus</jtok>
+<jtok eid="12" type="qualified_name_ref" span="161:8:161:24">selectAllOnFocus</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:27:161:43">selectAllOnFocus</jtok>
+<jtok eid="1" type="line_comment" span="162:4:162:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="164:2:164:36">//{{{ getSelectAllOnFocus() method</jtok>
+<jtok eid="1" type="block_comment" span="165:2:168:5">/**
+	 * Returns if all text should be selected when the field gets focus.
+	 * @since jEdit 4.0pre3
+	 */</jtok>
+<jtok eid="13" type="method_name" span="169:17:169:36">setSelectAllOnFocus</jtok>
+<jtok eid="13" type="primary_name_ref" span="171:10:171:26">selectAllOnFocus</jtok>
+<jtok eid="1" type="line_comment" span="172:4:172:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:25">//{{{ getModel() method</jtok>
+<jtok eid="1" type="block_comment" span="175:2:177:5">/**
+	 * Returns the underlying history model.
+	 */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="178:9:178:21">HistoryModel</jtok>
+<jtok eid="14" type="method_name" span="178:22:178:30">getModel</jtok>
+<jtok eid="14" type="primary_name_ref" span="180:10:180:20">controller</jtok>
+<jtok eid="14" type="method_call" span="180:21:180:29">getModel</jtok>
+<jtok eid="1" type="line_comment" span="181:4:181:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:25">//{{{ setModel() method</jtok>
+<jtok eid="1" type="block_comment" span="184:2:188:5">/**
+	 * Sets the history list model.
+	 * @param name The model name
+	 * @since jEdit 2.3pre3
+	 */</jtok>
+<jtok eid="15" type="method_name" span="189:14:189:22">setModel</jtok>
+<jtok eid="15" type="parameter_type" span="189:23:189:29">String</jtok>
+<jtok eid="15" type="parameter_name" span="189:30:189:34">name</jtok>
+<jtok eid="15" type="primary_name_ref" span="191:3:191:13">controller</jtok>
+<jtok eid="15" type="method_call" span="191:14:191:22">setModel</jtok>
+<jtok eid="15" type="primary_name_ref" span="191:23:191:27">name</jtok>
+<jtok eid="15" type="primary_name_ref" span="193:6:193:10">name</jtok>
+<jtok eid="15" type="method_call" span="195:4:195:13">setBorder</jtok>
+<jtok eid="15" type="constructor_call" span="195:18:195:32">CompoundBorder</jtok>
+<jtok eid="15" type="method_call" span="195:38:195:47">getBorder</jtok>
+<jtok eid="15" type="constructor_call" span="195:55:195:68">HistoryBorder</jtok>
+<jtok eid="15" type="method_call" span="198:3:198:10">repaint</jtok>
+<jtok eid="1" type="line_comment" span="199:4:199:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="201:2:201:36">//{{{ addCurrentToHistory() method</jtok>
+<jtok eid="1" type="block_comment" span="202:2:204:5">/**
+	 * Adds the currently entered item to the history.
+	 */</jtok>
+<jtok eid="16" type="method_name" span="205:14:205:33">addCurrentToHistory</jtok>
+<jtok eid="16" type="primary_name_ref" span="207:3:207:13">controller</jtok>
+<jtok eid="16" type="method_call" span="207:14:207:33">addCurrentToHistory</jtok>
+<jtok eid="1" type="line_comment" span="208:4:208:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="210:2:210:24">//{{{ setText() method</jtok>
+<jtok eid="1" type="block_comment" span="211:2:213:5">/**
+	 * Sets the displayed text.
+	 */</jtok>
+<jtok eid="17" type="method_name" span="214:14:214:21">setText</jtok>
+<jtok eid="17" type="parameter_type" span="214:22:214:28">String</jtok>
+<jtok eid="17" type="parameter_name" span="214:29:214:33">text</jtok>
+<jtok eid="17" type="method_call" span="216:9:216:16">setText</jtok>
+<jtok eid="17" type="primary_name_ref" span="216:17:216:21">text</jtok>
+<jtok eid="17" type="primary_name_ref" span="217:3:217:13">controller</jtok>
+<jtok eid="17" type="method_call" span="217:14:217:22">setIndex</jtok>
+<jtok eid="1" type="line_comment" span="218:4:218:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="220:2:220:36">//{{{ fireActionPerformed() method</jtok>
+<jtok eid="1" type="block_comment" span="221:2:223:5">/**
+	 * Make it public.
+	 */</jtok>
+<jtok eid="18" type="method_name" span="224:14:224:33">fireActionPerformed</jtok>
+<jtok eid="18" type="method_call" span="226:9:226:28">fireActionPerformed</jtok>
+<jtok eid="1" type="line_comment" span="227:4:227:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="229:2:229:25">//{{{ Protected members</jtok>
+<jtok eid="1" type="line_comment" span="231:2:231:32">//{{{ processKeyEvent() method</jtok>
+<jtok eid="19" type="method_name" span="232:17:232:32">processKeyEvent</jtok>
+<jtok eid="19" type="parameter_type" span="232:33:232:41">KeyEvent</jtok>
+<jtok eid="19" type="parameter_name" span="232:42:232:45">evt</jtok>
+<jtok eid="19" type="method_call" span="234:7:234:16">isEnabled</jtok>
+<jtok eid="19" type="primary_name_ref" span="237:6:237:9">evt</jtok>
+<jtok eid="19" type="method_call" span="237:10:237:15">getID</jtok>
+<jtok eid="19" type="primary_name_ref" span="237:21:237:29">KeyEvent</jtok>
+<jtok eid="19" type="qualified_name_ref" span="237:30:237:41">KEY_PRESSED</jtok>
+<jtok eid="19" type="primary_name_ref" span="239:11:239:14">evt</jtok>
+<jtok eid="19" type="method_call" span="239:15:239:25">getKeyCode</jtok>
+<jtok eid="19" type="primary_name_ref" span="241:9:241:17">KeyEvent</jtok>
+<jtok eid="19" type="qualified_name_ref" span="241:18:241:26">VK_ENTER</jtok>
+<jtok eid="19" type="primary_name_ref" span="242:8:242:26">enterAddsToHistory</jtok>
+<jtok eid="19" type="method_call" span="243:6:243:25">addCurrentToHistory</jtok>
+<jtok eid="19" type="primary_name_ref" span="245:8:245:11">evt</jtok>
+<jtok eid="19" type="method_call" span="245:12:245:24">getModifiers</jtok>
+<jtok eid="19" type="method_call" span="247:6:247:25">fireActionPerformed</jtok>
+<jtok eid="19" type="primary_name_ref" span="248:6:248:9">evt</jtok>
+<jtok eid="19" type="method_call" span="248:10:248:17">consume</jtok>
+<jtok eid="19" type="primary_name_ref" span="251:9:251:17">KeyEvent</jtok>
+<jtok eid="19" type="qualified_name_ref" span="251:18:251:23">VK_UP</jtok>
+<jtok eid="19" type="primary_name_ref" span="252:8:252:11">evt</jtok>
+<jtok eid="19" type="method_call" span="252:12:252:23">isShiftDown</jtok>
+<jtok eid="19" type="primary_name_ref" span="253:6:253:16">controller</jtok>
+<jtok eid="19" type="method_call" span="253:17:253:33">doBackwardSearch</jtok>
+<jtok eid="19" type="primary_name_ref" span="255:6:255:16">controller</jtok>
+<jtok eid="19" type="method_call" span="255:17:255:32">historyPrevious</jtok>
+<jtok eid="19" type="primary_name_ref" span="256:5:256:8">evt</jtok>
+<jtok eid="19" type="method_call" span="256:9:256:16">consume</jtok>
+<jtok eid="19" type="primary_name_ref" span="258:9:258:17">KeyEvent</jtok>
+<jtok eid="19" type="qualified_name_ref" span="258:18:258:25">VK_DOWN</jtok>
+<jtok eid="19" type="primary_name_ref" span="259:8:259:11">evt</jtok>
+<jtok eid="19" type="method_call" span="259:12:259:23">isShiftDown</jtok>
+<jtok eid="19" type="primary_name_ref" span="260:6:260:16">controller</jtok>
+<jtok eid="19" type="method_call" span="260:17:260:32">doForwardSearch</jtok>
+<jtok eid="19" type="primary_name_ref" span="261:13:261:16">evt</jtok>
+<jtok eid="19" type="method_call" span="261:17:261:26">isAltDown</jtok>
+<jtok eid="19" type="primary_name_ref" span="263:6:263:16">controller</jtok>
+<jtok eid="19" type="method_call" span="263:17:263:30">showPopupMenu</jtok>
+<jtok eid="19" type="primary_name_ref" span="264:7:264:10">evt</jtok>
+<jtok eid="19" type="method_call" span="264:11:264:22">isShiftDown</jtok>
+<jtok eid="19" type="primary_name_ref" span="267:6:267:16">controller</jtok>
+<jtok eid="19" type="method_call" span="267:17:267:28">historyNext</jtok>
+<jtok eid="19" type="primary_name_ref" span="268:5:268:8">evt</jtok>
+<jtok eid="19" type="method_call" span="268:9:268:16">consume</jtok>
+<jtok eid="19" type="primary_name_ref" span="270:9:270:17">KeyEvent</jtok>
+<jtok eid="19" type="qualified_name_ref" span="270:18:270:24">VK_TAB</jtok>
+<jtok eid="19" type="primary_name_ref" span="271:8:271:11">evt</jtok>
+<jtok eid="19" type="method_call" span="271:12:271:25">isControlDown</jtok>
+<jtok eid="19" type="primary_name_ref" span="273:6:273:16">controller</jtok>
+<jtok eid="19" type="method_call" span="273:17:273:33">doBackwardSearch</jtok>
+<jtok eid="19" type="primary_name_ref" span="274:6:274:9">evt</jtok>
+<jtok eid="19" type="method_call" span="274:10:274:17">consume</jtok>
+<jtok eid="19" type="primary_name_ref" span="280:7:280:10">evt</jtok>
+<jtok eid="19" type="method_call" span="280:11:280:21">isConsumed</jtok>
+<jtok eid="19" type="method_call" span="281:10:281:25">processKeyEvent</jtok>
+<jtok eid="19" type="primary_name_ref" span="281:26:281:29">evt</jtok>
+<jtok eid="1" type="line_comment" span="282:4:282:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="284:2:284:34">//{{{ processMouseEvent() method</jtok>
+<jtok eid="20" type="method_name" span="285:17:285:34">processMouseEvent</jtok>
+<jtok eid="20" type="parameter_type" span="285:35:285:45">MouseEvent</jtok>
+<jtok eid="20" type="parameter_name" span="285:46:285:49">evt</jtok>
+<jtok eid="20" type="method_call" span="287:7:287:16">isEnabled</jtok>
+<jtok eid="20" type="primary_name_ref" span="290:10:290:13">evt</jtok>
+<jtok eid="20" type="method_call" span="290:14:290:19">getID</jtok>
+<jtok eid="20" type="primary_name_ref" span="292:8:292:18">MouseEvent</jtok>
+<jtok eid="20" type="qualified_name_ref" span="292:19:292:32">MOUSE_PRESSED</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="293:4:293:10">Border</jtok>
+<jtok eid="20" type="local_variable_name" span="293:11:293:17">border</jtok>
+<jtok eid="20" type="method_call" span="293:20:293:29">getBorder</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="294:4:294:10">Insets</jtok>
+<jtok eid="20" type="local_variable_name" span="294:11:294:17">insets</jtok>
+<jtok eid="20" type="primary_name_ref" span="294:20:294:26">border</jtok>
+<jtok eid="20" type="method_call" span="294:27:294:42">getBorderInsets</jtok>
+<jtok eid="20" type="primary_name_ref" span="294:43:294:59">HistoryTextField</jtok>
+<jtok eid="20" type="primary_name_ref" span="296:7:296:10">evt</jtok>
+<jtok eid="20" type="method_call" span="296:11:296:15">getX</jtok>
+<jtok eid="20" type="method_call" span="296:21:296:29">getWidth</jtok>
+<jtok eid="20" type="primary_name_ref" span="296:34:296:40">insets</jtok>
+<jtok eid="20" type="qualified_name_ref" span="296:41:296:46">right</jtok>
+<jtok eid="20" type="primary_name_ref" span="297:8:297:20">GUIUtilities</jtok>
+<jtok eid="20" type="method_call" span="297:21:297:35">isPopupTrigger</jtok>
+<jtok eid="20" type="primary_name_ref" span="297:36:297:39">evt</jtok>
+<jtok eid="20" type="primary_name_ref" span="299:5:299:15">controller</jtok>
+<jtok eid="20" type="method_call" span="299:16:299:29">showPopupMenu</jtok>
+<jtok eid="20" type="primary_name_ref" span="299:30:299:33">evt</jtok>
+<jtok eid="20" type="method_call" span="299:34:299:45">isShiftDown</jtok>
+<jtok eid="20" type="method_call" span="302:11:302:28">processMouseEvent</jtok>
+<jtok eid="20" type="primary_name_ref" span="302:29:302:32">evt</jtok>
+<jtok eid="20" type="primary_name_ref" span="305:8:305:18">MouseEvent</jtok>
+<jtok eid="20" type="qualified_name_ref" span="305:19:305:31">MOUSE_EXITED</jtok>
+<jtok eid="20" type="method_call" span="306:4:306:13">setCursor</jtok>
+<jtok eid="20" type="primary_name_ref" span="306:14:306:20">Cursor</jtok>
+<jtok eid="20" type="method_call" span="306:21:306:37">getDefaultCursor</jtok>
+<jtok eid="20" type="method_call" span="307:10:307:27">processMouseEvent</jtok>
+<jtok eid="20" type="primary_name_ref" span="307:28:307:31">evt</jtok>
+<jtok eid="20" type="method_call" span="310:10:310:27">processMouseEvent</jtok>
+<jtok eid="20" type="primary_name_ref" span="310:28:310:31">evt</jtok>
+<jtok eid="1" type="line_comment" span="313:4:313:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="315:2:315:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="317:2:317:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="319:2:319:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="320:10:320:21">HistoryText</jtok>
+<jtok eid="1" type="field_name" span="320:22:320:32">controller</jtok>
+<jtok eid="1" type="field_name" span="321:18:321:36">enterAddsToHistory</jtok>
+<jtok eid="1" type="field_name" span="322:18:322:34">selectAllOnFocus</jtok>
+<jtok eid="1" type="line_comment" span="323:2:323:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="325:2:325:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="327:2:327:21">//{{{ Inner classes</jtok>
+<jtok eid="1" type="line_comment" span="329:2:329:26">//{{{ MouseHandler class</jtok>
+<jtok eid="21" type="class_name" span="330:8:330:20">MouseHandler</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="330:29:330:46">MouseInputAdapter</jtok>
+<jtok eid="21" type="field_name" span="332:11:332:20">selectAll</jtok>
+<jtok eid="21" type="line_comment" span="334:3:334:30">//{{{ mousePressed() method</jtok>
+<jtok eid="22" type="method_name" span="335:15:335:27">mousePressed</jtok>
+<jtok eid="22" type="parameter_type" span="335:28:335:38">MouseEvent</jtok>
+<jtok eid="22" type="parameter_name" span="335:39:335:42">evt</jtok>
+<jtok eid="22" type="primary_name_ref" span="337:4:337:13">selectAll</jtok>
+<jtok eid="22" type="method_call" span="337:18:337:26">hasFocus</jtok>
+<jtok eid="22" type="primary_name_ref" span="337:32:337:48">selectAllOnFocus</jtok>
+<jtok eid="21" type="line_comment" span="338:5:338:10">//}}}</jtok>
+<jtok eid="21" type="line_comment" span="340:3:340:31">//{{{ mouseReleased() method</jtok>
+<jtok eid="23" type="method_name" span="341:15:341:28">mouseReleased</jtok>
+<jtok eid="23" type="parameter_type" span="341:29:341:39">MouseEvent</jtok>
+<jtok eid="23" type="parameter_name" span="341:40:341:43">evt</jtok>
+<jtok eid="23" type="primary_name_ref" span="343:4:343:18">SwingUtilities</jtok>
+<jtok eid="23" type="method_call" span="343:19:343:30">invokeLater</jtok>
+<jtok eid="23" type="constructor_call" span="343:35:343:43">Runnable</jtok>
+<jtok eid="25" type="method_name" span="345:17:345:20">run</jtok>
+<jtok eid="25" type="primary_name_ref" span="347:9:347:18">selectAll</jtok>
+<jtok eid="25" type="method_call" span="348:7:348:16">selectAll</jtok>
+<jtok eid="21" type="line_comment" span="351:5:351:10">//}}}</jtok>
+<jtok eid="21" type="line_comment" span="353:3:353:28">//{{{ mouseMoved() method</jtok>
+<jtok eid="26" type="method_name" span="354:15:354:25">mouseMoved</jtok>
+<jtok eid="26" type="parameter_type" span="354:26:354:36">MouseEvent</jtok>
+<jtok eid="26" type="parameter_name" span="354:37:354:40">evt</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="356:4:356:10">Border</jtok>
+<jtok eid="26" type="local_variable_name" span="356:11:356:17">border</jtok>
+<jtok eid="26" type="method_call" span="356:20:356:29">getBorder</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="357:4:357:10">Insets</jtok>
+<jtok eid="26" type="local_variable_name" span="357:11:357:17">insets</jtok>
+<jtok eid="26" type="primary_name_ref" span="357:20:357:26">border</jtok>
+<jtok eid="26" type="method_call" span="357:27:357:42">getBorderInsets</jtok>
+<jtok eid="26" type="primary_name_ref" span="357:43:357:59">HistoryTextField</jtok>
+<jtok eid="26" type="primary_name_ref" span="359:7:359:10">evt</jtok>
+<jtok eid="26" type="method_call" span="359:11:359:15">getX</jtok>
+<jtok eid="26" type="method_call" span="359:21:359:29">getWidth</jtok>
+<jtok eid="26" type="primary_name_ref" span="359:34:359:40">insets</jtok>
+<jtok eid="26" type="qualified_name_ref" span="359:41:359:46">right</jtok>
+<jtok eid="26" type="method_call" span="360:5:360:14">setCursor</jtok>
+<jtok eid="26" type="primary_name_ref" span="360:15:360:21">Cursor</jtok>
+<jtok eid="26" type="method_call" span="360:22:360:38">getDefaultCursor</jtok>
+<jtok eid="26" type="method_call" span="362:5:362:14">setCursor</jtok>
+<jtok eid="26" type="primary_name_ref" span="362:15:362:21">Cursor</jtok>
+<jtok eid="26" type="method_call" span="362:22:362:41">getPredefinedCursor</jtok>
+<jtok eid="26" type="primary_name_ref" span="363:6:363:12">Cursor</jtok>
+<jtok eid="26" type="qualified_name_ref" span="363:13:363:24">TEXT_CURSOR</jtok>
+<jtok eid="21" type="line_comment" span="364:5:364:10">//}}}</jtok>
+<jtok eid="21" type="line_comment" span="366:3:366:30">//{{{ mouseDragged() method</jtok>
+<jtok eid="27" type="method_name" span="367:15:367:27">mouseDragged</jtok>
+<jtok eid="27" type="parameter_type" span="367:28:367:38">MouseEvent</jtok>
+<jtok eid="27" type="parameter_name" span="367:39:367:42">evt</jtok>
+<jtok eid="27" type="primary_name_ref" span="369:4:369:13">selectAll</jtok>
+<jtok eid="21" type="line_comment" span="370:5:370:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="371:4:371:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="373:2:373:27">//{{{ HistoryBorder class</jtok>
+<jtok eid="28" type="class_name" span="374:15:374:28">HistoryBorder</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="374:37:374:51">AbstractBorder</jtok>
+<jtok eid="28" type="field_name" span="376:20:376:25">WIDTH</jtok>
+<jtok eid="29" type="method_name" span="378:15:378:26">paintBorder</jtok>
+<jtok eid="29" type="parameter_type" span="378:27:378:36">Component</jtok>
+<jtok eid="29" type="parameter_name" span="378:37:378:38">c</jtok>
+<jtok eid="29" type="parameter_type" span="378:40:378:48">Graphics</jtok>
+<jtok eid="29" type="parameter_name" span="378:49:378:50">g</jtok>
+<jtok eid="29" type="parameter_name" span="379:8:379:9">x</jtok>
+<jtok eid="29" type="parameter_name" span="379:15:379:16">y</jtok>
+<jtok eid="29" type="parameter_name" span="379:22:379:23">w</jtok>
+<jtok eid="29" type="parameter_name" span="379:29:379:30">h</jtok>
+<jtok eid="29" type="primary_name_ref" span="381:4:381:5">g</jtok>
+<jtok eid="29" type="method_call" span="381:6:381:15">translate</jtok>
+<jtok eid="29" type="primary_name_ref" span="381:16:381:17">x</jtok>
+<jtok eid="29" type="primary_name_ref" span="381:18:381:19">w</jtok>
+<jtok eid="29" type="primary_name_ref" span="381:20:381:25">WIDTH</jtok>
+<jtok eid="29" type="primary_name_ref" span="381:26:381:27">y</jtok>
+<jtok eid="29" type="line_comment" span="383:4:383:23">//if(c.isEnabled())</jtok>
+<jtok eid="29" type="line_comment" span="384:4:384:7">//{</jtok>
+<jtok eid="29" type="line_comment" span="385:4:385:34">//	// vertical separation line</jtok>
+<jtok eid="29" type="line_comment" span="386:4:386:57">//	g.setColor(UIManager.getColor("controlDkShadow"));</jtok>
+<jtok eid="29" type="line_comment" span="387:4:387:27">//	g.drawLine(0,0,0,h);</jtok>
+<jtok eid="29" type="line_comment" span="388:4:388:7">//}</jtok>
+<jtok eid="29" type="line_comment" span="390:4:390:17">// down arrow</jtok>
+<jtok eid="29" type="local_variable_name" span="391:8:391:10">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="391:13:391:18">WIDTH</jtok>
+<jtok eid="29" type="local_variable_name" span="392:8:392:10">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="392:13:392:14">h</jtok>
+<jtok eid="29" type="primary_name_ref" span="393:4:393:5">g</jtok>
+<jtok eid="29" type="method_call" span="393:6:393:14">setColor</jtok>
+<jtok eid="29" type="primary_name_ref" span="393:15:393:24">UIManager</jtok>
+<jtok eid="29" type="method_call" span="393:25:393:33">getColor</jtok>
+<jtok eid="29" type="primary_name_ref" span="393:34:393:35">c</jtok>
+<jtok eid="29" type="method_call" span="393:36:393:45">isEnabled</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="394:10:394:26">HistoryTextField</jtok>
+<jtok eid="29" type="primary_name_ref" span="394:27:394:28">c</jtok>
+<jtok eid="29" type="method_call" span="394:30:394:38">getModel</jtok>
+<jtok eid="29" type="string_literal" span="395:7:395:29">"TextField.foreground"</jtok>
+<jtok eid="29" type="string_literal" span="395:32:395:62">"TextField.disabledForeground"</jtok>
+<jtok eid="29" type="primary_name_ref" span="396:4:396:5">g</jtok>
+<jtok eid="29" type="method_call" span="396:6:396:14">drawLine</jtok>
+<jtok eid="29" type="primary_name_ref" span="396:15:396:17">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="396:20:396:22">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="396:25:396:27">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="396:30:396:32">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="397:4:397:5">g</jtok>
+<jtok eid="29" type="method_call" span="397:6:397:14">drawLine</jtok>
+<jtok eid="29" type="primary_name_ref" span="397:15:397:17">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="397:20:397:22">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="397:25:397:27">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="397:30:397:32">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="398:4:398:5">g</jtok>
+<jtok eid="29" type="method_call" span="398:6:398:14">drawLine</jtok>
+<jtok eid="29" type="primary_name_ref" span="398:15:398:17">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="398:20:398:22">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="398:25:398:27">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="398:30:398:32">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="399:4:399:5">g</jtok>
+<jtok eid="29" type="method_call" span="399:6:399:14">drawLine</jtok>
+<jtok eid="29" type="primary_name_ref" span="399:15:399:17">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="399:20:399:22">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="399:25:399:27">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="399:30:399:32">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="400:4:400:5">g</jtok>
+<jtok eid="29" type="method_call" span="400:6:400:14">drawLine</jtok>
+<jtok eid="29" type="primary_name_ref" span="400:15:400:17">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="400:20:400:22">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="400:25:400:27">w2</jtok>
+<jtok eid="29" type="primary_name_ref" span="400:30:400:32">h2</jtok>
+<jtok eid="29" type="primary_name_ref" span="402:4:402:5">g</jtok>
+<jtok eid="29" type="method_call" span="402:6:402:15">translate</jtok>
+<jtok eid="29" type="primary_name_ref" span="402:18:402:19">x</jtok>
+<jtok eid="29" type="primary_name_ref" span="402:20:402:21">w</jtok>
+<jtok eid="29" type="primary_name_ref" span="402:22:402:27">WIDTH</jtok>
+<jtok eid="29" type="primary_name_ref" span="402:31:402:32">y</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="405:10:405:16">Insets</jtok>
+<jtok eid="30" type="method_name" span="405:17:405:32">getBorderInsets</jtok>
+<jtok eid="30" type="parameter_type" span="405:33:405:42">Component</jtok>
+<jtok eid="30" type="parameter_name" span="405:43:405:44">c</jtok>
+<jtok eid="30" type="constructor_call" span="407:15:407:21">Insets</jtok>
+<jtok eid="30" type="primary_name_ref" span="407:28:407:33">WIDTH</jtok>
+<jtok eid="1" type="line_comment" span="409:4:409:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="411:2:411:7">//}}}</jtok>
+</jdoc>

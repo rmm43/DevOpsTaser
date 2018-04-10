@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.MouseHandler" jls="java5">
+<jent id="0" type="file" span="0:0:177:2">Source/jEdit/org/gjt/sp/jedit/textarea/MouseHandler.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:177:1">org.gjt.sp.jedit.textarea.MouseHandler</jent>
+<jent id="2" pid="1" type="method" span="41:2:45:2">org.gjt.sp.jedit.textarea.MouseHandler.MouseHandler(JEditTextArea)</jent>
+<jent id="3" pid="1" type="method" span="49:2:131:2">org.gjt.sp.jedit.textarea.MouseHandler.mousePressed(MouseEvent)</jent>
+<jent id="4" pid="1" type="method" span="135:2:172:2">org.gjt.sp.jedit.textarea.MouseHandler.mouseReleased(MouseEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * MouseHandler.java
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2005 Slava Pestov
+ * Portions copyright (C) 2000 Ollie Rutherfurd
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="35:1:37:4">/** The mouseHandler used for jEdit.
+ *
+ */</jtok>
+<jtok eid="1" type="class_name" span="38:14:38:26">MouseHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:35:38:55">TextAreaMouseHandler</jtok>
+<jtok eid="1" type="line_comment" span="40:2:40:32">//{{{ MouseHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="41:9:41:21">MouseHandler</jtok>
+<jtok eid="2" type="parameter_type" span="41:22:41:35">JEditTextArea</jtok>
+<jtok eid="2" type="parameter_name" span="41:36:41:44">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:9:43:17">textArea</jtok>
+<jtok eid="2" type="qualified_name_ref" span="44:8:44:16">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:19:44:27">textArea</jtok>
+<jtok eid="1" type="line_comment" span="45:4:45:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:29">//{{{ mousePressed() method</jtok>
+<jtok eid="1" type="annotation_ref" span="48:3:48:11">Override</jtok>
+<jtok eid="3" type="method_name" span="49:14:49:26">mousePressed</jtok>
+<jtok eid="3" type="parameter_type" span="49:27:49:37">MouseEvent</jtok>
+<jtok eid="3" type="parameter_name" span="49:38:49:41">evt</jtok>
+<jtok eid="3" type="method_call" span="51:3:51:13">showCursor</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:3:53:10">control</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:14:53:29">OperatingSystem</jtok>
+<jtok eid="3" type="method_call" span="53:30:53:37">isMacOS</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:43:53:46">evt</jtok>
+<jtok eid="3" type="method_call" span="53:47:53:57">isMetaDown</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:9:54:24">OperatingSystem</jtok>
+<jtok eid="3" type="method_call" span="54:25:54:32">isMacOS</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:38:54:41">evt</jtok>
+<jtok eid="3" type="method_call" span="54:42:54:55">isControlDown</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:3:56:30">ctrlForRectangularSelection</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:33:56:41">textArea</jtok>
+<jtok eid="3" type="method_call" span="56:42:56:71">isCtrlForRectangularSelection</jtok>
+<jtok eid="3" type="line_comment" span="58:3:58:53">// so that Home &lt;mouse click&gt; Home is not the same</jtok>
+<jtok eid="3" type="line_comment" span="59:3:59:37">// as pressing Home twice in a row</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:3:60:11">textArea</jtok>
+<jtok eid="3" type="method_call" span="60:12:60:27">getInputHandler</jtok>
+<jtok eid="3" type="method_call" span="60:30:60:50">resetLastActionCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:3:62:16">quickCopyDrag</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:20:62:28">textArea</jtok>
+<jtok eid="3" type="method_call" span="62:29:62:47">isQuickCopyEnabled</jtok>
+<jtok eid="3" type="method_call" span="63:4:63:18">isMiddleButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:19:63:22">evt</jtok>
+<jtok eid="3" type="method_call" span="63:23:63:35">getModifiers</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:7:65:20">quickCopyDrag</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:4:67:12">textArea</jtok>
+<jtok eid="3" type="method_call" span="67:13:67:25">requestFocus</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:4:68:12">TextArea</jtok>
+<jtok eid="3" type="qualified_name_ref" span="68:13:68:29">focusedComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:32:68:40">textArea</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:6:71:14">textArea</jtok>
+<jtok eid="3" type="method_call" span="71:15:71:24">getBuffer</jtok>
+<jtok eid="3" type="method_call" span="71:27:71:36">isLoading</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:3:73:10">EditBus</jtok>
+<jtok eid="3" type="method_call" span="73:11:73:15">send</jtok>
+<jtok eid="3" type="constructor_call" span="73:20:73:36">PositionChanging</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:37:73:45">textArea</jtok>
+<jtok eid="3" type="local_variable_name" span="74:7:74:8">x</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:11:74:14">evt</jtok>
+<jtok eid="3" type="method_call" span="74:15:74:19">getX</jtok>
+<jtok eid="3" type="local_variable_name" span="75:7:75:8">y</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:11:75:14">evt</jtok>
+<jtok eid="3" type="method_call" span="75:15:75:19">getY</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:3:77:12">dragStart</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:15:77:23">textArea</jtok>
+<jtok eid="3" type="method_call" span="77:24:77:34">xyToOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:35:77:36">x</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:37:77:38">y</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:6:78:14">textArea</jtok>
+<jtok eid="3" type="method_call" span="78:15:78:25">getPainter</jtok>
+<jtok eid="3" type="method_call" span="78:28:78:47">isBlockCaretEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:7:79:15">textArea</jtok>
+<jtok eid="3" type="method_call" span="79:16:79:34">isOverwriteEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:3:80:16">dragStartLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:19:80:27">textArea</jtok>
+<jtok eid="3" type="method_call" span="80:28:80:43">getLineOfOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:44:80:53">dragStart</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:3:81:18">dragStartOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:21:81:30">dragStart</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:33:81:41">textArea</jtok>
+<jtok eid="3" type="method_call" span="81:42:81:60">getLineStartOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:4:82:17">dragStartLine</jtok>
+<jtok eid="3" type="method_call" span="84:6:84:20">isPopupTrigger</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:21:84:24">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:7:85:15">textArea</jtok>
+<jtok eid="3" type="method_call" span="85:16:85:34">getRightClickPopup</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:7:87:15">textArea</jtok>
+<jtok eid="3" type="method_call" span="87:16:87:40">isRightClickPopupEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:5:88:13">textArea</jtok>
+<jtok eid="3" type="method_call" span="88:14:88:32">handlePopupTrigger</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:33:88:36">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:3:92:10">dragged</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:3:94:11">textArea</jtok>
+<jtok eid="3" type="qualified_name_ref" span="94:12:94:17">blink</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:3:95:11">textArea</jtok>
+<jtok eid="3" type="method_call" span="95:12:95:26">invalidateLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:27:95:35">textArea</jtok>
+<jtok eid="3" type="method_call" span="95:36:95:48">getCaretLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:3:97:13">clickCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:16:97:19">evt</jtok>
+<jtok eid="3" type="method_call" span="97:20:97:33">getClickCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:6:99:14">textArea</jtok>
+<jtok eid="3" type="method_call" span="99:15:99:28">isDragEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:7:100:15">textArea</jtok>
+<jtok eid="3" type="qualified_name_ref" span="100:16:100:32">selectionManager</jtok>
+<jtok eid="3" type="method_call" span="100:33:100:48">insideSelection</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:49:100:50">x</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:51:100:52">y</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:7:101:17">clickCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:27:101:30">evt</jtok>
+<jtok eid="3" type="method_call" span="101:31:101:42">isShiftDown</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:4:103:20">maybeDragAndDrop</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:4:105:12">textArea</jtok>
+<jtok eid="3" type="method_call" span="105:13:105:30">moveCaretPosition</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:31:105:40">dragStart</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:3:109:19">maybeDragAndDrop</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:6:111:19">quickCopyDrag</jtok>
+<jtok eid="3" type="line_comment" span="113:4:113:44">// ignore double clicks of middle button</jtok>
+<jtok eid="3" type="method_call" span="114:4:114:17">doSingleClick</jtok>
+<jtok eid="3" type="primary_name_ref" span="114:18:114:21">evt</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:11:118:21">clickCount</jtok>
+<jtok eid="3" type="method_call" span="121:5:121:18">doSingleClick</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:19:121:22">evt</jtok>
+<jtok eid="3" type="method_call" span="124:5:124:18">doDoubleClick</jtok>
+<jtok eid="3" type="line_comment" span="126:13:126:22">//case 3:</jtok>
+<jtok eid="3" type="method_call" span="127:5:127:18">doTripleClick</jtok>
+<jtok eid="1" type="line_comment" span="131:4:131:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="133:2:133:30">//{{{ mouseReleased() method</jtok>
+<jtok eid="1" type="annotation_ref" span="134:3:134:11">Override</jtok>
+<jtok eid="4" type="method_name" span="135:14:135:27">mouseReleased</jtok>
+<jtok eid="4" type="parameter_type" span="135:28:135:38">MouseEvent</jtok>
+<jtok eid="4" type="parameter_name" span="135:39:135:42">evt</jtok>
+<jtok eid="4" type="line_comment" span="137:3:137:48">// middle mouse button drag inserts selection</jtok>
+<jtok eid="4" type="line_comment" span="138:3:138:23">// at caret position</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="139:3:139:12">Selection</jtok>
+<jtok eid="4" type="local_variable_name" span="139:13:139:16">sel</jtok>
+<jtok eid="4" type="primary_name_ref" span="139:19:139:27">textArea</jtok>
+<jtok eid="4" type="method_call" span="139:28:139:48">getSelectionAtOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="139:49:139:58">dragStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:6:140:13">dragged</jtok>
+<jtok eid="4" type="primary_name_ref" span="140:17:140:20">sel</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:4:142:13">Registers</jtok>
+<jtok eid="4" type="method_call" span="142:14:142:25">setRegister</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:30:142:38">textArea</jtok>
+<jtok eid="4" type="method_call" span="142:39:142:54">getSelectedText</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:55:142:58">sel</jtok>
+<jtok eid="4" type="primary_name_ref" span="143:7:143:20">quickCopyDrag</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:5:145:13">textArea</jtok>
+<jtok eid="4" type="method_call" span="145:14:145:33">removeFromSelection</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:34:145:37">sel</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:5:146:14">Registers</jtok>
+<jtok eid="4" type="method_call" span="146:15:146:20">paste</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:21:146:29">TextArea</jtok>
+<jtok eid="4" type="qualified_name_ref" span="146:30:146:46">focusedComponent</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:10:147:13">sel</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="147:25:147:34">Selection</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="147:35:147:39">Rect</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:5:149:13">TextArea</jtok>
+<jtok eid="4" type="qualified_name_ref" span="149:14:149:30">focusedComponent</jtok>
+<jtok eid="4" type="method_call" span="149:31:149:43">requestFocus</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:12:152:19">dragged</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:23:152:31">textArea</jtok>
+<jtok eid="4" type="method_call" span="152:32:152:50">isQuickCopyEnabled</jtok>
+<jtok eid="4" type="method_call" span="153:4:153:18">isMiddleButton</jtok>
+<jtok eid="4" type="primary_name_ref" span="153:19:153:22">evt</jtok>
+<jtok eid="4" type="method_call" span="153:23:153:35">getModifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:4:155:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="155:13:155:25">requestFocus</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:4:156:12">TextArea</jtok>
+<jtok eid="4" type="qualified_name_ref" span="156:13:156:29">focusedComponent</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:32:156:40">textArea</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:4:158:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="158:13:158:29">setCaretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="158:30:158:39">dragStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:8:159:16">textArea</jtok>
+<jtok eid="4" type="method_call" span="159:17:159:27">isEditable</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:5:160:13">textArea</jtok>
+<jtok eid="4" type="method_call" span="160:14:160:24">getToolkit</jtok>
+<jtok eid="4" type="method_call" span="160:27:160:31">beep</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:5:162:14">Registers</jtok>
+<jtok eid="4" type="method_call" span="162:15:162:20">paste</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:21:162:29">textArea</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:34:162:41">control</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:11:164:27">maybeDragAndDrop</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:8:165:16">textArea</jtok>
+<jtok eid="4" type="method_call" span="165:17:165:43">isMultipleSelectionEnabled</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:4:167:12">textArea</jtok>
+<jtok eid="4" type="method_call" span="167:13:167:23">selectNone</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:3:170:19">maybeDragAndDrop</jtok>
+<jtok eid="4" type="primary_name_ref" span="171:3:171:10">dragged</jtok>
+<jtok eid="1" type="line_comment" span="172:4:172:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="175:10:175:23">JEditTextArea</jtok>
+<jtok eid="1" type="field_name" span="175:24:175:32">textArea</jtok>
+<jtok eid="1" type="line_comment" span="176:2:176:7">//}}}</jtok>
+</jdoc>

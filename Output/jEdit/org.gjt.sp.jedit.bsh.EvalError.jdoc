@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.EvalError" jls="java5">
+<jent id="0" type="file" span="0:0:173:1">Source/jEdit/org/gjt/sp/jedit/bsh/EvalError.java</jent>
+<jent id="1" pid="0" type="class" span="47:1:172:1">org.gjt.sp.jedit.bsh.EvalError</jent>
+<jent id="2" pid="1" type="method" span="56:2:62:2">org.gjt.sp.jedit.bsh.EvalError.EvalError(String,SimpleNode,CallStack)</jent>
+<jent id="3" pid="1" type="method" span="67:2:82:2">org.gjt.sp.jedit.bsh.EvalError.toString()</jent>
+<jent id="4" pid="1" type="method" span="87:2:92:2">org.gjt.sp.jedit.bsh.EvalError.reThrow(String)</jent>
+<jent id="5" pid="1" type="method" span="98:2:100:2">org.gjt.sp.jedit.bsh.EvalError.getNode()</jent>
+<jent id="6" pid="1" type="method" span="102:2:104:2">org.gjt.sp.jedit.bsh.EvalError.setNode(SimpleNode)</jent>
+<jent id="7" pid="1" type="method" span="106:2:111:2">org.gjt.sp.jedit.bsh.EvalError.getErrorText()</jent>
+<jent id="8" pid="1" type="method" span="113:2:118:2">org.gjt.sp.jedit.bsh.EvalError.getErrorLineNumber()</jent>
+<jent id="9" pid="1" type="method" span="120:2:125:2">org.gjt.sp.jedit.bsh.EvalError.getErrorSourceFile()</jent>
+<jent id="10" pid="1" type="method" span="127:2:149:2">org.gjt.sp.jedit.bsh.EvalError.getScriptStackTrace()</jent>
+<jent id="11" pid="1" type="method" span="154:2:154:47">org.gjt.sp.jedit.bsh.EvalError.getMessage()</jent>
+<jent id="12" pid="1" type="method" span="156:2:156:52">org.gjt.sp.jedit.bsh.EvalError.setMessage(String)</jent>
+<jent id="13" pid="1" type="method" span="161:2:170:2">org.gjt.sp.jedit.bsh.EvalError.prependMessage(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="37:1:46:3">/**
+	EvalError indicates that we cannot continue evaluating the script
+	or the script has thrown an exception.
+
+	EvalError may be thrown for a script syntax error, an evaluation 
+	error such as referring to an undefined variable, an internal error.
+	&lt;p&gt;
+	
+	@see TargetError
+*/</jtok>
+<jtok eid="1" type="class_name" span="47:14:47:23">EvalError</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:32:47:41">Exception</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="49:2:49:12">SimpleNode</jtok>
+<jtok eid="1" type="field_name" span="49:13:49:17">node</jtok>
+<jtok eid="1" type="line_comment" span="51:2:51:72">// Note: no way to mutate the Throwable message, must maintain our own</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:2:52:8">String</jtok>
+<jtok eid="1" type="field_name" span="52:9:52:16">message</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="54:2:54:11">CallStack</jtok>
+<jtok eid="1" type="field_name" span="54:12:54:21">callstack</jtok>
+<jtok eid="2" type="method_name" span="56:9:56:18">EvalError</jtok>
+<jtok eid="2" type="parameter_type" span="56:20:56:26">String</jtok>
+<jtok eid="2" type="parameter_name" span="56:27:56:28">s</jtok>
+<jtok eid="2" type="parameter_type" span="56:30:56:40">SimpleNode</jtok>
+<jtok eid="2" type="parameter_name" span="56:41:56:45">node</jtok>
+<jtok eid="2" type="parameter_type" span="56:47:56:56">CallStack</jtok>
+<jtok eid="2" type="parameter_name" span="56:57:56:66">callstack</jtok>
+<jtok eid="2" type="method_call" span="57:3:57:13">setMessage</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:14:57:15">s</jtok>
+<jtok eid="2" type="qualified_name_ref" span="58:8:58:12">node</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:15:58:19">node</jtok>
+<jtok eid="2" type="line_comment" span="59:3:59:47">// freeze the callstack for the stack trace.</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:8:60:17">callstack</jtok>
+<jtok eid="2" type="qualified_name_ref" span="61:9:61:18">callstack</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:21:61:30">callstack</jtok>
+<jtok eid="2" type="method_call" span="61:31:61:35">copy</jtok>
+<jtok eid="1" type="block_comment" span="64:2:66:4">/**
+		Print the error with line number and stack trace.
+	*/</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="67:9:67:15">String</jtok>
+<jtok eid="3" type="method_name" span="67:16:67:24">toString</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:3:69:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="69:10:69:15">trace</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:8:70:12">node</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:4:71:9">trace</jtok>
+<jtok eid="3" type="string_literal" span="71:12:71:26">" : at Line: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:28:71:32">node</jtok>
+<jtok eid="3" type="method_call" span="71:33:71:46">getLineNumber</jtok>
+<jtok eid="3" type="string_literal" span="72:7:72:21">" : in file: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:23:72:27">node</jtok>
+<jtok eid="3" type="method_call" span="72:28:72:41">getSourceFile</jtok>
+<jtok eid="3" type="string_literal" span="73:7:73:12">" : "</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:13:73:17">node</jtok>
+<jtok eid="3" type="method_call" span="73:18:73:25">getText</jtok>
+<jtok eid="3" type="line_comment" span="75:4:75:42">// Users should not normally see this.</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:4:76:9">trace</jtok>
+<jtok eid="3" type="string_literal" span="76:12:76:37">": &lt;at unknown location&gt;"</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:8:78:17">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:4:79:9">trace</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:12:79:17">trace</jtok>
+<jtok eid="3" type="string_literal" span="79:19:79:23">"\n"</jtok>
+<jtok eid="3" type="method_call" span="79:26:79:45">getScriptStackTrace</jtok>
+<jtok eid="3" type="method_call" span="81:10:81:20">getMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:25:81:30">trace</jtok>
+<jtok eid="1" type="block_comment" span="84:2:86:4">/**
+		Re-throw the error, prepending the specified message.
+	*/</jtok>
+<jtok eid="4" type="method_name" span="87:14:87:21">reThrow</jtok>
+<jtok eid="4" type="parameter_type" span="87:23:87:29">String</jtok>
+<jtok eid="4" type="parameter_name" span="87:30:87:33">msg</jtok>
+<jtok eid="4" type="throws" span="88:10:88:19">EvalError</jtok>
+<jtok eid="4" type="method_call" span="90:3:90:17">prependMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="90:19:90:22">msg</jtok>
+<jtok eid="1" type="block_comment" span="94:2:97:4">/**
+		The error has trace info associated with it. 
+		i.e. It has an AST node that can print its location and source text.
+	*/</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="98:2:98:12">SimpleNode</jtok>
+<jtok eid="5" type="method_name" span="98:13:98:20">getNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:10:99:14">node</jtok>
+<jtok eid="6" type="method_name" span="102:7:102:14">setNode</jtok>
+<jtok eid="6" type="parameter_type" span="102:16:102:26">SimpleNode</jtok>
+<jtok eid="6" type="parameter_name" span="102:27:102:31">node</jtok>
+<jtok eid="6" type="qualified_name_ref" span="103:8:103:12">node</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:15:103:19">node</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="106:9:106:15">String</jtok>
+<jtok eid="7" type="method_name" span="106:16:106:28">getErrorText</jtok>
+<jtok eid="7" type="primary_name_ref" span="107:8:107:12">node</jtok>
+<jtok eid="7" type="primary_name_ref" span="108:11:108:15">node</jtok>
+<jtok eid="7" type="method_call" span="108:16:108:23">getText</jtok>
+<jtok eid="7" type="string_literal" span="110:11:110:28">"&lt;unknown error&gt;"</jtok>
+<jtok eid="8" type="method_name" span="113:13:113:31">getErrorLineNumber</jtok>
+<jtok eid="8" type="primary_name_ref" span="114:8:114:12">node</jtok>
+<jtok eid="8" type="primary_name_ref" span="115:11:115:15">node</jtok>
+<jtok eid="8" type="method_call" span="115:16:115:29">getLineNumber</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="120:9:120:15">String</jtok>
+<jtok eid="9" type="method_name" span="120:16:120:34">getErrorSourceFile</jtok>
+<jtok eid="9" type="primary_name_ref" span="121:8:121:12">node</jtok>
+<jtok eid="9" type="primary_name_ref" span="122:11:122:15">node</jtok>
+<jtok eid="9" type="method_call" span="122:16:122:29">getSourceFile</jtok>
+<jtok eid="9" type="string_literal" span="124:11:124:27">"&lt;unknown file&gt;"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="127:9:127:15">String</jtok>
+<jtok eid="10" type="method_name" span="127:16:127:35">getScriptStackTrace</jtok>
+<jtok eid="10" type="primary_name_ref" span="129:8:129:17">callstack</jtok>
+<jtok eid="10" type="string_literal" span="130:11:130:22">"&lt;Unknown&gt;"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="132:3:132:9">String</jtok>
+<jtok eid="10" type="local_variable_name" span="132:10:132:15">trace</jtok>
+<jtok eid="10" type="string_literal" span="132:18:132:20">""</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="133:3:133:12">CallStack</jtok>
+<jtok eid="10" type="local_variable_name" span="133:13:133:18">stack</jtok>
+<jtok eid="10" type="primary_name_ref" span="133:21:133:30">callstack</jtok>
+<jtok eid="10" type="method_call" span="133:31:133:35">copy</jtok>
+<jtok eid="10" type="primary_name_ref" span="134:11:134:16">stack</jtok>
+<jtok eid="10" type="method_call" span="134:17:134:22">depth</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="136:4:136:13">NameSpace</jtok>
+<jtok eid="10" type="local_variable_name" span="136:14:136:16">ns</jtok>
+<jtok eid="10" type="primary_name_ref" span="136:19:136:24">stack</jtok>
+<jtok eid="10" type="method_call" span="136:25:136:28">pop</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="137:4:137:14">SimpleNode</jtok>
+<jtok eid="10" type="local_variable_name" span="137:15:137:19">node</jtok>
+<jtok eid="10" type="primary_name_ref" span="137:22:137:24">ns</jtok>
+<jtok eid="10" type="method_call" span="137:25:137:32">getNode</jtok>
+<jtok eid="10" type="primary_name_ref" span="138:9:138:11">ns</jtok>
+<jtok eid="10" type="qualified_name_ref" span="138:12:138:20">isMethod</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:5:140:10">trace</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:13:140:18">trace</jtok>
+<jtok eid="10" type="string_literal" span="140:21:140:45">"\nCalled from method: "</jtok>
+<jtok eid="10" type="primary_name_ref" span="140:48:140:50">ns</jtok>
+<jtok eid="10" type="method_call" span="140:51:140:58">getName</jtok>
+<jtok eid="10" type="primary_name_ref" span="141:10:141:14">node</jtok>
+<jtok eid="10" type="primary_name_ref" span="142:6:142:11">trace</jtok>
+<jtok eid="10" type="string_literal" span="142:15:142:29">" : at Line: "</jtok>
+<jtok eid="10" type="primary_name_ref" span="142:31:142:35">node</jtok>
+<jtok eid="10" type="method_call" span="142:36:142:49">getLineNumber</jtok>
+<jtok eid="10" type="string_literal" span="143:9:143:23">" : in file: "</jtok>
+<jtok eid="10" type="primary_name_ref" span="143:25:143:29">node</jtok>
+<jtok eid="10" type="method_call" span="143:30:143:43">getSourceFile</jtok>
+<jtok eid="10" type="string_literal" span="144:9:144:14">" : "</jtok>
+<jtok eid="10" type="primary_name_ref" span="144:15:144:19">node</jtok>
+<jtok eid="10" type="method_call" span="144:20:144:27">getText</jtok>
+<jtok eid="10" type="primary_name_ref" span="148:10:148:15">trace</jtok>
+<jtok eid="1" type="block_comment" span="151:2:153:4">/**
+		@see #toString() for a full display of the information
+	*/</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="154:9:154:15">String</jtok>
+<jtok eid="11" type="method_name" span="154:16:154:26">getMessage</jtok>
+<jtok eid="11" type="primary_name_ref" span="154:38:154:45">message</jtok>
+<jtok eid="12" type="method_name" span="156:14:156:24">setMessage</jtok>
+<jtok eid="12" type="parameter_type" span="156:26:156:32">String</jtok>
+<jtok eid="12" type="parameter_name" span="156:33:156:34">s</jtok>
+<jtok eid="12" type="primary_name_ref" span="156:39:156:46">message</jtok>
+<jtok eid="12" type="primary_name_ref" span="156:49:156:50">s</jtok>
+<jtok eid="1" type="block_comment" span="158:2:160:4">/**
+		Prepend the message if it is non-null.
+	*/</jtok>
+<jtok eid="13" type="method_name" span="161:17:161:31">prependMessage</jtok>
+<jtok eid="13" type="parameter_type" span="161:33:161:39">String</jtok>
+<jtok eid="13" type="parameter_name" span="161:40:161:41">s</jtok>
+<jtok eid="13" type="primary_name_ref" span="163:8:163:9">s</jtok>
+<jtok eid="13" type="primary_name_ref" span="166:8:166:15">message</jtok>
+<jtok eid="13" type="primary_name_ref" span="167:4:167:11">message</jtok>
+<jtok eid="13" type="primary_name_ref" span="167:14:167:15">s</jtok>
+<jtok eid="13" type="primary_name_ref" span="169:4:169:11">message</jtok>
+<jtok eid="13" type="primary_name_ref" span="169:14:169:15">s</jtok>
+<jtok eid="13" type="string_literal" span="169:18:169:23">" : "</jtok>
+<jtok eid="13" type="primary_name_ref" span="169:25:169:32">message</jtok>
+</jdoc>

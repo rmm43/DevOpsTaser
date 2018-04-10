@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.AbstractGroup" jls="java5">
+<jent id="0" type="file" span="0:0:230:1">Source/jabref/src/java/net/sf/jabref/groups/AbstractGroup.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:230:1">net.sf.jabref.groups.AbstractGroup</jent>
+<jent id="2" pid="1" type="method" span="48:5:48:39">net.sf.jabref.groups.AbstractGroup.getTypeId()</jent>
+<jent id="3" pid="1" type="method" span="50:5:53:2">net.sf.jabref.groups.AbstractGroup.AbstractGroup(String,int)</jent>
+<jent id="4" pid="1" type="method" span="80:2:80:44">net.sf.jabref.groups.AbstractGroup.getSearchRule()</jent>
+<jent id="5" pid="1" type="method" span="92:2:103:2">net.sf.jabref.groups.AbstractGroup.fromString(String,BibtexDatabase,int)</jent>
+<jent id="6" pid="1" type="method" span="106:2:108:2">net.sf.jabref.groups.AbstractGroup.getName()</jent>
+<jent id="7" pid="1" type="method" span="111:2:113:2">net.sf.jabref.groups.AbstractGroup.setName(String)</jent>
+<jent id="8" pid="1" type="method" span="119:2:119:39">net.sf.jabref.groups.AbstractGroup.supportsAdd()</jent>
+<jent id="9" pid="1" type="method" span="125:2:125:42">net.sf.jabref.groups.AbstractGroup.supportsRemove()</jent>
+<jent id="10" pid="1" type="method" span="134:2:134:65">net.sf.jabref.groups.AbstractGroup.add(BibtexEntry[])</jent>
+<jent id="11" pid="1" type="method" span="143:2:143:68">net.sf.jabref.groups.AbstractGroup.remove(BibtexEntry[])</jent>
+<jent id="12" pid="1" type="method" span="150:2:150:88">net.sf.jabref.groups.AbstractGroup.contains(Map&lt;String,String&gt;,BibtexEntry)</jent>
+<jent id="13" pid="1" type="method" span="155:2:155:53">net.sf.jabref.groups.AbstractGroup.contains(BibtexEntry)</jent>
+<jent id="14" pid="1" type="method" span="161:2:166:2">net.sf.jabref.groups.AbstractGroup.containsAny(BibtexEntry[])</jent>
+<jent id="15" pid="1" type="method" span="172:2:177:2">net.sf.jabref.groups.AbstractGroup.containsAll(BibtexEntry[])</jent>
+<jent id="16" pid="1" type="method" span="185:2:185:37">net.sf.jabref.groups.AbstractGroup.isDynamic()</jent>
+<jent id="17" pid="1" type="method" span="189:2:194:2">net.sf.jabref.groups.AbstractGroup.setHierarchicalContext(int)</jent>
+<jent id="18" pid="1" type="method" span="197:2:199:2">net.sf.jabref.groups.AbstractGroup.getHierarchicalContext()</jent>
+<jent id="19" pid="1" type="method" span="203:2:203:41">net.sf.jabref.groups.AbstractGroup.getDescription()</jent>
+<jent id="20" pid="1" type="method" span="208:2:208:42">net.sf.jabref.groups.AbstractGroup.deepCopy()</jent>
+<jent id="21" pid="1" type="method" span="211:2:211:46">net.sf.jabref.groups.AbstractGroup.getShortDescription()</jent>
+<jent id="22" pid="1" type="method" span="226:9:229:9">net.sf.jabref.groups.AbstractGroup.refreshForNewDatabase(BibtexDatabase)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ All programs in this directory and subdirectories are published under the 
+ GNU General Public License as described below.
+
+ This program is free software; you can redistribute it and/or modify it 
+ under the terms of the GNU General Public License as published by the Free 
+ Software Foundation; either version 2 of the License, or (at your option) 
+ any later version.
+
+ This program is distributed in the hope that it will be useful, but WITHOUT 
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ more details.
+
+ You should have received a copy of the GNU General Public License along 
+ with this program; if not, write to the Free Software Foundation, Inc., 59 
+ Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+ */</jtok>
+<jtok eid="0" type="block_comment" span="33:1:35:4">/**
+ * A group of BibtexEntries.
+ */</jtok>
+<jtok eid="1" type="class_name" span="36:23:36:36">AbstractGroup</jtok>
+<jtok eid="1" type="block_comment" span="38:5:38:59">/** The group's name (every type of group has one). */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:12:39:18">String</jtok>
+<jtok eid="1" type="field_name" span="39:19:39:25">m_name</jtok>
+<jtok eid="1" type="block_comment" span="41:2:45:5">/**
+	 * The hierarchical context of the group (INDEPENDENT, REFINING, or
+	 * INCLUDING). Defaults to INDEPENDENT, which will be used if and
+	 * only if the context specified in the constructor is invalid.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="46:16:46:25">m_context</jtok>
+<jtok eid="1" type="primary_name_ref" span="46:28:46:39">INDEPENDENT</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="48:21:48:27">String</jtok>
+<jtok eid="2" type="method_name" span="48:28:48:37">getTypeId</jtok>
+<jtok eid="3" type="method_name" span="50:12:50:25">AbstractGroup</jtok>
+<jtok eid="3" type="parameter_type" span="50:26:50:32">String</jtok>
+<jtok eid="3" type="parameter_name" span="50:33:50:37">name</jtok>
+<jtok eid="3" type="parameter_name" span="50:43:50:50">context</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:3:51:9">m_name</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:12:51:16">name</jtok>
+<jtok eid="3" type="method_call" span="52:3:52:25">setHierarchicalContext</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:26:52:33">context</jtok>
+<jtok eid="1" type="block_comment" span="55:2:55:71">/** Group's contents are independent of its hierarchical position. */</jtok>
+<jtok eid="1" type="field_name" span="56:26:56:37">INDEPENDENT</jtok>
+<jtok eid="1" type="block_comment" span="57:2:60:5">/**
+	 * Group's content is the intersection of its own content with its
+	 * supergroup's content.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="61:26:61:34">REFINING</jtok>
+<jtok eid="1" type="block_comment" span="62:2:65:5">/**
+	 * Group's content is the union of its own content with its subgroups'
+	 * content.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="66:26:66:35">INCLUDING</jtok>
+<jtok eid="1" type="block_comment" span="68:2:68:65">/** Character used for quoting in the string representation. */</jtok>
+<jtok eid="1" type="field_name" span="69:30:69:40">QUOTE_CHAR</jtok>
+<jtok eid="1" type="block_comment" span="71:2:74:5">/**
+	 * For separating units (e.g. name, which every group has) in the string
+	 * representation
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:25:75:31">String</jtok>
+<jtok eid="1" type="field_name" span="75:32:75:41">SEPARATOR</jtok>
+<jtok eid="1" type="string_literal" span="75:44:75:47">";"</jtok>
+<jtok eid="1" type="block_comment" span="77:2:79:5">/**
+	 * @return A search rule that will identify this group's entries.
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="80:18:80:28">SearchRule</jtok>
+<jtok eid="4" type="method_name" span="80:29:80:42">getSearchRule</jtok>
+<jtok eid="1" type="block_comment" span="82:2:91:5">/**
+	 * Re-create a group instance from a textual representation.
+	 * 
+	 * @param s
+	 *            The result from the group's toString() method.
+	 * @return New instance of the encoded group.
+	 * @throws Exception
+	 *             If an error occured and a group could not be created, e.g.
+	 *             due to a malformed regular expression.
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="92:16:92:29">AbstractGroup</jtok>
+<jtok eid="5" type="method_name" span="92:30:92:40">fromString</jtok>
+<jtok eid="5" type="parameter_type" span="92:41:92:47">String</jtok>
+<jtok eid="5" type="parameter_name" span="92:48:92:49">s</jtok>
+<jtok eid="5" type="parameter_type" span="92:51:92:65">BibtexDatabase</jtok>
+<jtok eid="5" type="parameter_name" span="92:66:92:68">db</jtok>
+<jtok eid="5" type="parameter_name" span="93:8:93:15">version</jtok>
+<jtok eid="5" type="throws" span="93:24:93:33">Exception</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:7:94:8">s</jtok>
+<jtok eid="5" type="method_call" span="94:9:94:19">startsWith</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:20:94:32">KeywordGroup</jtok>
+<jtok eid="5" type="qualified_name_ref" span="94:33:94:35">ID</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:11:95:23">KeywordGroup</jtok>
+<jtok eid="5" type="method_call" span="95:24:95:34">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:35:95:36">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:38:95:40">db</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:42:95:49">version</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:7:96:8">s</jtok>
+<jtok eid="5" type="method_call" span="96:9:96:19">startsWith</jtok>
+<jtok eid="5" type="primary_name_ref" span="96:20:96:35">AllEntriesGroup</jtok>
+<jtok eid="5" type="qualified_name_ref" span="96:36:96:38">ID</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:11:97:26">AllEntriesGroup</jtok>
+<jtok eid="5" type="method_call" span="97:27:97:37">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:38:97:39">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:41:97:43">db</jtok>
+<jtok eid="5" type="primary_name_ref" span="97:45:97:52">version</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:7:98:8">s</jtok>
+<jtok eid="5" type="method_call" span="98:9:98:19">startsWith</jtok>
+<jtok eid="5" type="primary_name_ref" span="98:20:98:31">SearchGroup</jtok>
+<jtok eid="5" type="qualified_name_ref" span="98:32:98:34">ID</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:11:99:22">SearchGroup</jtok>
+<jtok eid="5" type="method_call" span="99:23:99:33">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:34:99:35">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:37:99:39">db</jtok>
+<jtok eid="5" type="primary_name_ref" span="99:41:99:48">version</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:7:100:8">s</jtok>
+<jtok eid="5" type="method_call" span="100:9:100:19">startsWith</jtok>
+<jtok eid="5" type="primary_name_ref" span="100:20:100:33">ExplicitGroup</jtok>
+<jtok eid="5" type="qualified_name_ref" span="100:34:100:36">ID</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:11:101:24">ExplicitGroup</jtok>
+<jtok eid="5" type="method_call" span="101:25:101:35">fromString</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:36:101:37">s</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:39:101:41">db</jtok>
+<jtok eid="5" type="primary_name_ref" span="101:43:101:50">version</jtok>
+<jtok eid="5" type="line_comment" span="102:16:102:32">// unknown group</jtok>
+<jtok eid="1" type="block_comment" span="105:2:105:68">/** Returns this group's name, e.g. for display in a list/tree. */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="106:15:106:21">String</jtok>
+<jtok eid="6" type="method_name" span="106:22:106:29">getName</jtok>
+<jtok eid="6" type="primary_name_ref" span="107:10:107:16">m_name</jtok>
+<jtok eid="1" type="block_comment" span="110:2:110:31">/** Sets the group's name. */</jtok>
+<jtok eid="7" type="method_name" span="111:20:111:27">setName</jtok>
+<jtok eid="7" type="parameter_type" span="111:28:111:34">String</jtok>
+<jtok eid="7" type="parameter_name" span="111:35:111:39">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:3:112:9">m_name</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:12:112:16">name</jtok>
+<jtok eid="1" type="block_comment" span="115:2:118:5">/**
+	 * @return true if this type of group supports the explicit adding of
+	 *         entries.
+	 */</jtok>
+<jtok eid="8" type="method_name" span="119:26:119:37">supportsAdd</jtok>
+<jtok eid="1" type="block_comment" span="121:2:124:5">/**
+	 * @return true if this type of group supports the explicit removal of
+	 *         entries.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="125:26:125:40">supportsRemove</jtok>
+<jtok eid="1" type="block_comment" span="127:2:133:5">/**
+	 * Adds the specified entries to this group.
+	 * 
+	 * @return If this group or one or more entries was/were modified as a
+	 *         result of this operation, an object is returned that allows to
+	 *         undo this change. null is returned otherwise.
+	 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="134:18:134:38">AbstractUndoableEdit</jtok>
+<jtok eid="10" type="method_name" span="134:39:134:42">add</jtok>
+<jtok eid="10" type="parameter_type" span="134:43:134:54">BibtexEntry</jtok>
+<jtok eid="10" type="parameter_name" span="134:57:134:64">entries</jtok>
+<jtok eid="1" type="block_comment" span="136:2:142:5">/**
+	 * Removes the specified entries from this group.
+	 * 
+	 * @return If this group or one or more entries was/were modified as a
+	 *         result of this operation, an object is returned that allows to
+	 *         undo this change. null is returned otherwise.
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="143:18:143:38">AbstractUndoableEdit</jtok>
+<jtok eid="11" type="method_name" span="143:39:143:45">remove</jtok>
+<jtok eid="11" type="parameter_type" span="143:46:143:57">BibtexEntry</jtok>
+<jtok eid="11" type="parameter_name" span="143:60:143:67">entries</jtok>
+<jtok eid="1" type="block_comment" span="145:2:149:5">/**
+	 * @param searchOptions
+	 *            The search options to apply.
+	 * @return true if this group contains the specified entry, false otherwise.
+	 */</jtok>
+<jtok eid="12" type="method_name" span="150:26:150:34">contains</jtok>
+<jtok eid="12" type="parameter_type" span="150:35:150:38">Map</jtok>
+<jtok eid="12" type="parameter_type" span="150:39:150:45">String</jtok>
+<jtok eid="12" type="parameter_type" span="150:47:150:53">String</jtok>
+<jtok eid="12" type="parameter_name" span="150:55:150:68">searchOptions</jtok>
+<jtok eid="12" type="parameter_type" span="150:70:150:81">BibtexEntry</jtok>
+<jtok eid="12" type="parameter_name" span="150:82:150:87">entry</jtok>
+<jtok eid="1" type="block_comment" span="152:2:154:5">/**
+	 * @return true if this group contains the specified entry, false otherwise.
+	 */</jtok>
+<jtok eid="13" type="method_name" span="155:26:155:34">contains</jtok>
+<jtok eid="13" type="parameter_type" span="155:35:155:46">BibtexEntry</jtok>
+<jtok eid="13" type="parameter_name" span="155:47:155:52">entry</jtok>
+<jtok eid="1" type="block_comment" span="157:2:160:5">/**
+	 * @return true if this group contains any of the specified entries, false
+	 *         otherwise.
+	 */</jtok>
+<jtok eid="14" type="method_name" span="161:17:161:28">containsAny</jtok>
+<jtok eid="14" type="parameter_type" span="161:29:161:40">BibtexEntry</jtok>
+<jtok eid="14" type="parameter_name" span="161:43:161:50">entries</jtok>
+<jtok eid="14" type="local_variable_name" span="162:12:162:13">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="162:19:162:20">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="162:23:162:30">entries</jtok>
+<jtok eid="14" type="qualified_name_ref" span="162:31:162:37">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="162:41:162:42">i</jtok>
+<jtok eid="14" type="method_call" span="163:8:163:16">contains</jtok>
+<jtok eid="14" type="primary_name_ref" span="163:17:163:24">entries</jtok>
+<jtok eid="14" type="primary_name_ref" span="163:25:163:26">i</jtok>
+<jtok eid="1" type="block_comment" span="168:2:171:5">/**
+	 * @return true if this group contains all of the specified entries, false
+	 *         otherwise.
+	 */</jtok>
+<jtok eid="15" type="method_name" span="172:17:172:28">containsAll</jtok>
+<jtok eid="15" type="parameter_type" span="172:29:172:40">BibtexEntry</jtok>
+<jtok eid="15" type="parameter_name" span="172:43:172:50">entries</jtok>
+<jtok eid="15" type="local_variable_name" span="173:12:173:13">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="173:19:173:20">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="173:23:173:30">entries</jtok>
+<jtok eid="15" type="qualified_name_ref" span="173:31:173:37">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="173:41:173:42">i</jtok>
+<jtok eid="15" type="method_call" span="174:9:174:17">contains</jtok>
+<jtok eid="15" type="primary_name_ref" span="174:18:174:25">entries</jtok>
+<jtok eid="15" type="primary_name_ref" span="174:26:174:27">i</jtok>
+<jtok eid="1" type="block_comment" span="179:2:184:5">/**
+	 * Returns true if this group is dynamic, i.e. uses a search definition or
+	 * equiv. that might match new entries, or false if this group contains a
+	 * fixed set of entries and thus will never match a new entry that was not
+	 * explicitly added to it.
+	 */</jtok>
+<jtok eid="16" type="method_name" span="185:26:185:35">isDynamic</jtok>
+<jtok eid="1" type="block_comment" span="187:2:188:35">/** Sets the groups's hierarchical context. If context is not a valid
+	 * value, the call is ignored. */</jtok>
+<jtok eid="17" type="method_name" span="189:14:189:36">setHierarchicalContext</jtok>
+<jtok eid="17" type="parameter_name" span="189:41:189:48">context</jtok>
+<jtok eid="17" type="primary_name_ref" span="190:7:190:14">context</jtok>
+<jtok eid="17" type="primary_name_ref" span="190:18:190:29">INDEPENDENT</jtok>
+<jtok eid="17" type="primary_name_ref" span="190:33:190:40">context</jtok>
+<jtok eid="17" type="primary_name_ref" span="190:44:190:52">REFINING</jtok>
+<jtok eid="17" type="primary_name_ref" span="191:8:191:15">context</jtok>
+<jtok eid="17" type="primary_name_ref" span="191:19:191:28">INCLUDING</jtok>
+<jtok eid="17" type="primary_name_ref" span="193:3:193:12">m_context</jtok>
+<jtok eid="17" type="primary_name_ref" span="193:15:193:22">context</jtok>
+<jtok eid="1" type="block_comment" span="196:2:196:50">/** Returns the group's hierarchical context. */</jtok>
+<jtok eid="18" type="method_name" span="197:13:197:35">getHierarchicalContext</jtok>
+<jtok eid="18" type="primary_name_ref" span="198:10:198:19">m_context</jtok>
+<jtok eid="1" type="block_comment" span="201:2:202:61">/** Returns a lengthy textual description of this instance (for 
+     * the groups editor). The text is formatted in HTML. */</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="203:18:203:24">String</jtok>
+<jtok eid="19" type="method_name" span="203:25:203:39">getDescription</jtok>
+<jtok eid="1" type="block_comment" span="205:2:207:5">/**
+	 * @return A deep copy of this object.
+	 */</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="208:18:208:31">AbstractGroup</jtok>
+<jtok eid="20" type="method_name" span="208:32:208:40">deepCopy</jtok>
+<jtok eid="1" type="block_comment" span="210:2:210:74">/** Returns a short description of the group in HTML (for a tooltip). */</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="211:18:211:24">String</jtok>
+<jtok eid="21" type="method_name" span="211:25:211:44">getShortDescription</jtok>
+<jtok eid="1" type="line_comment" span="213:2:213:62">// by general AbstractGroup contract, toString() must return</jtok>
+<jtok eid="1" type="line_comment" span="214:2:214:58">// something from which this object can be reconstructed</jtok>
+<jtok eid="1" type="line_comment" span="215:2:215:30">// using fromString(String).</jtok>
+<jtok eid="1" type="line_comment" span="217:2:217:68">// by general AbstractGroup contract, equals() must be implemented</jtok>
+<jtok eid="1" type="block_comment" span="219:9:225:12">/**
+         * Update the group, if necessary, to handle the situation where the group
+         * is applied to a different BibtexDatabase than it was created for. This
+         * is for instance used when updating the group tree due to an external change.
+         *
+         * @param db The database to refresh for.
+         */</jtok>
+<jtok eid="22" type="method_name" span="226:21:226:42">refreshForNewDatabase</jtok>
+<jtok eid="22" type="parameter_type" span="226:43:226:57">BibtexDatabase</jtok>
+<jtok eid="22" type="parameter_name" span="226:58:226:60">db</jtok>
+<jtok eid="22" type="line_comment" span="227:13:227:83">// Default is to do nothing. Group types that are affected by a change</jtok>
+<jtok eid="22" type="line_comment" span="228:13:228:54">// of database must override this method.</jtok>
+</jdoc>

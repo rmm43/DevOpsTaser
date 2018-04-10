@@ -1,0 +1,1146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.ChunkCache" jls="java5">
+<jent id="0" type="file" span="0:0:832:2">Source/jEdit/org/gjt/sp/jedit/textarea/ChunkCache.java</jent>
+<jent id="1" pid="0" type="class" span="44:1:832:1">org.gjt.sp.jedit.textarea.ChunkCache</jent>
+<jent id="2" pid="1" type="method" span="47:2:52:2">org.gjt.sp.jedit.textarea.ChunkCache.ChunkCache(TextArea)</jent>
+<jent id="3" pid="1" type="method" span="61:2:71:2">org.gjt.sp.jedit.textarea.ChunkCache.getMaxHorizontalScrollWidth()</jent>
+<jent id="4" pid="1" type="method" span="80:2:134:2">org.gjt.sp.jedit.textarea.ChunkCache.getScreenLineOfOffset(int,int)</jent>
+<jent id="5" pid="1" type="method" span="141:2:160:2">org.gjt.sp.jedit.textarea.ChunkCache.recalculateVisibleLines()</jent>
+<jent id="6" pid="1" type="method" span="163:2:167:2">org.gjt.sp.jedit.textarea.ChunkCache.setBuffer(JEditBuffer)</jent>
+<jent id="7" pid="1" type="method" span="170:2:192:2">org.gjt.sp.jedit.textarea.ChunkCache.scrollDown(int)</jent>
+<jent id="8" pid="1" type="method" span="195:2:220:2">org.gjt.sp.jedit.textarea.ChunkCache.scrollUp(int)</jent>
+<jent id="9" pid="1" type="method" span="223:2:227:2">org.gjt.sp.jedit.textarea.ChunkCache.invalidateAll()</jent>
+<jent id="10" pid="1" type="method" span="230:2:243:2">org.gjt.sp.jedit.textarea.ChunkCache.invalidateChunksFromPhys(int)</jent>
+<jent id="11" pid="1" type="method" span="251:2:255:2">org.gjt.sp.jedit.textarea.ChunkCache.getLineInfo(int)</jent>
+<jent id="12" pid="1" type="method" span="263:2:276:2">org.gjt.sp.jedit.textarea.ChunkCache.getLineSubregionCount(int)</jent>
+<jent id="13" pid="1" type="method" span="291:2:301:2">org.gjt.sp.jedit.textarea.ChunkCache.getSubregionOfOffset(int,LineInfo[])</jent>
+<jent id="14" pid="1" type="method" span="315:2:322:2">org.gjt.sp.jedit.textarea.ChunkCache.xToSubregionOffset(int,int,int,boolean)</jent>
+<jent id="15" pid="1" type="method" span="334:2:342:2">org.gjt.sp.jedit.textarea.ChunkCache.xToSubregionOffset(LineInfo,int,boolean)</jent>
+<jent id="16" pid="1" type="method" span="351:2:356:2">org.gjt.sp.jedit.textarea.ChunkCache.subregionOffsetToX(int,int)</jent>
+<jent id="17" pid="1" type="method" span="365:2:368:2">org.gjt.sp.jedit.textarea.ChunkCache.subregionOffsetToX(LineInfo,int)</jent>
+<jent id="18" pid="1" type="method" span="378:2:384:2">org.gjt.sp.jedit.textarea.ChunkCache.getSubregionStartOffset(int,int)</jent>
+<jent id="19" pid="1" type="method" span="394:2:400:2">org.gjt.sp.jedit.textarea.ChunkCache.getSubregionEndOffset(int,int)</jent>
+<jent id="20" pid="1" type="method" span="410:2:437:2">org.gjt.sp.jedit.textarea.ChunkCache.getBelowPosition(int,int,int,boolean)</jent>
+<jent id="21" pid="1" type="method" span="447:2:474:2">org.gjt.sp.jedit.textarea.ChunkCache.getAbovePosition(int,int,int,boolean)</jent>
+<jent id="22" pid="1" type="method" span="482:2:487:2">org.gjt.sp.jedit.textarea.ChunkCache.needFullRepaint()</jent>
+<jent id="23" pid="1" type="method" span="490:2:503:2">org.gjt.sp.jedit.textarea.ChunkCache.getLineInfosForPhysicalLine(int)</jent>
+<jent id="24" pid="1" type="method" span="529:2:560:2">org.gjt.sp.jedit.textarea.ChunkCache.getLineInfosForPhysicalLine(int,List&lt;LineInfo&gt;)</jent>
+<jent id="25" pid="1" type="method" span="566:2:575:2">org.gjt.sp.jedit.textarea.ChunkCache.getFirstScreenLine()</jent>
+<jent id="26" pid="1" type="method" span="581:2:605:2">org.gjt.sp.jedit.textarea.ChunkCache.getUpdateStartLine(int)</jent>
+<jent id="27" pid="1" type="method" span="608:2:774:2">org.gjt.sp.jedit.textarea.ChunkCache.updateChunksUpTo(int)</jent>
+<jent id="28" pid="1" type="method" span="777:2:787:2">org.gjt.sp.jedit.textarea.ChunkCache.lineToChunkList(int,List&lt;Chunk&gt;)</jent>
+<jent id="29" pid="1" type="class" span="797:2:831:2">org.gjt.sp.jedit.textarea.ChunkCache.LineInfo</jent>
+<jent id="30" pid="29" type="method" span="825:3:830:3">org.gjt.sp.jedit.textarea.ChunkCache.LineInfo.toString()</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * ChunkCache.java - Intermediate layer between token lists from a TokenMarker
+ * and what you see on screen
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="34:1:43:4">/**
+ * Manages low-level text display tasks - the visible lines in the TextArea.
+ * The ChunkCache contains an array of LineInfo object.
+ * Each LineInfo object is associated to one screen line of the TextArea and
+ * contains informations about this line.
+ * The array is resized when the TextArea geometry changes  
+ *
+ * @author Slava Pestov
+ * @version $Id: ChunkCache.java 16329 2009-10-13 12:23:45Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="44:7:44:17">ChunkCache</jtok>
+<jtok eid="1" type="line_comment" span="46:2:46:30">//{{{ ChunkCache constructor</jtok>
+<jtok eid="2" type="method_name" span="47:2:47:12">ChunkCache</jtok>
+<jtok eid="2" type="parameter_type" span="47:13:47:21">TextArea</jtok>
+<jtok eid="2" type="parameter_name" span="47:22:47:30">textArea</jtok>
+<jtok eid="2" type="qualified_name_ref" span="49:8:49:16">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:19:49:27">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:3:50:6">out</jtok>
+<jtok eid="2" type="constructor_call" span="50:13:50:22">ArrayList</jtok>
+<jtok eid="2" type="constructor_call" span="50:23:50:28">Chunk</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:3:51:15">tokenHandler</jtok>
+<jtok eid="2" type="constructor_call" span="51:22:51:41">DisplayTokenHandler</jtok>
+<jtok eid="1" type="line_comment" span="52:4:52:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:44">//{{{ getMaxHorizontalScrollWidth() method</jtok>
+<jtok eid="1" type="block_comment" span="55:2:60:5">/**
+	 * Returns the max line width of the textarea.
+	 * It will check all lines the first invalid line.
+	 *
+	 * @return the max line width
+	 */</jtok>
+<jtok eid="3" type="method_name" span="61:6:61:33">getMaxHorizontalScrollWidth</jtok>
+<jtok eid="3" type="local_variable_name" span="63:7:63:10">max</jtok>
+<jtok eid="3" type="local_variable_name" span="64:11:64:12">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:18:64:19">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:22:64:38">firstInvalidLine</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:40:64:41">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:4:66:12">LineInfo</jtok>
+<jtok eid="3" type="local_variable_name" span="66:13:66:17">info</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:20:66:28">lineInfo</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:29:66:30">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:7:67:11">info</jtok>
+<jtok eid="3" type="qualified_name_ref" span="67:12:67:17">width</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:20:67:23">max</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:5:68:8">max</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:11:68:15">info</jtok>
+<jtok eid="3" type="qualified_name_ref" span="68:16:68:21">width</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:10:70:13">max</jtok>
+<jtok eid="1" type="line_comment" span="71:4:71:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="73:2:73:38">//{{{ getScreenLineOfOffset() method</jtok>
+<jtok eid="1" type="block_comment" span="74:2:79:5">/**
+	 * @param line physical line number of document 
+	 * @param offset number of characters from the left of the line. 
+	 * @return returns the screen line number where the line and offset are.
+	 * It returns -1 if this position is not currently visible
+	 */</jtok>
+<jtok eid="4" type="method_name" span="80:6:80:27">getScreenLineOfOffset</jtok>
+<jtok eid="4" type="parameter_name" span="80:32:80:36">line</jtok>
+<jtok eid="4" type="parameter_name" span="80:42:80:48">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:6:82:14">lineInfo</jtok>
+<jtok eid="4" type="qualified_name_ref" span="82:15:82:21">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="84:6:84:10">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="84:13:84:21">textArea</jtok>
+<jtok eid="4" type="method_call" span="84:22:84:42">getFirstPhysicalLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:6:86:10">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:14:86:22">textArea</jtok>
+<jtok eid="4" type="method_call" span="86:23:86:43">getFirstPhysicalLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:7:87:13">offset</jtok>
+<jtok eid="4" type="method_call" span="87:16:87:27">getLineInfo</jtok>
+<jtok eid="4" type="qualified_name_ref" span="87:31:87:37">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:6:89:10">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:13:89:21">textArea</jtok>
+<jtok eid="4" type="method_call" span="89:22:89:41">getLastPhysicalLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:6:92:10">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:14:92:29">lastScreenLineP</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="94:4:94:12">LineInfo</jtok>
+<jtok eid="4" type="local_variable_name" span="94:13:94:17">last</jtok>
+<jtok eid="4" type="method_call" span="94:20:94:31">getLineInfo</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:32:94:46">lastScreenLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:7:96:13">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:17:96:21">last</jtok>
+<jtok eid="4" type="qualified_name_ref" span="96:22:96:28">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:8:97:14">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:17:97:21">last</jtok>
+<jtok eid="4" type="qualified_name_ref" span="97:22:97:28">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:31:97:35">last</jtok>
+<jtok eid="4" type="qualified_name_ref" span="97:36:97:42">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:12:99:26">lastScreenLine</jtok>
+<jtok eid="4" type="local_variable_name" span="103:7:103:17">screenLine</jtok>
+<jtok eid="4" type="line_comment" span="105:3:105:49">// Find the screen line containing this offset</jtok>
+<jtok eid="4" type="local_variable_name" span="106:11:106:12">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:18:106:19">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:22:106:30">textArea</jtok>
+<jtok eid="4" type="method_call" span="106:31:106:46">getVisibleLines</jtok>
+<jtok eid="4" type="primary_name_ref" span="106:50:106:51">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="108:4:108:12">LineInfo</jtok>
+<jtok eid="4" type="local_variable_name" span="108:13:108:17">info</jtok>
+<jtok eid="4" type="method_call" span="108:20:108:31">getLineInfo</jtok>
+<jtok eid="4" type="primary_name_ref" span="108:32:108:33">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:7:109:11">info</jtok>
+<jtok eid="4" type="qualified_name_ref" span="109:12:109:24">physicalLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:27:109:31">line</jtok>
+<jtok eid="4" type="line_comment" span="111:5:111:26">// line is invisible?</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:12:112:13">i</jtok>
+<jtok eid="4" type="line_comment" span="113:5:113:17">//return -1;</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:7:115:11">info</jtok>
+<jtok eid="4" type="qualified_name_ref" span="115:12:115:24">physicalLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:28:115:32">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:8:117:14">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:18:117:22">info</jtok>
+<jtok eid="4" type="qualified_name_ref" span="117:23:117:29">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:9:118:15">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:18:118:22">info</jtok>
+<jtok eid="4" type="qualified_name_ref" span="118:23:118:29">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="118:32:118:36">info</jtok>
+<jtok eid="4" type="qualified_name_ref" span="118:37:118:43">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:6:120:16">screenLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:19:120:20">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:6:126:16">screenLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:3:130:18">lastScreenLineP</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:21:130:25">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="131:3:131:17">lastScreenLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="131:20:131:30">screenLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="133:10:133:20">screenLine</jtok>
+<jtok eid="1" type="line_comment" span="134:4:134:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="136:2:136:40">//{{{ recalculateVisibleLines() method</jtok>
+<jtok eid="1" type="block_comment" span="137:2:140:5">/**
+	 * Recalculate visible lines.
+	 * This is called when the TextArea geometry is changed or when the font is changed.
+	 */</jtok>
+<jtok eid="5" type="method_name" span="141:7:141:30">recalculateVisibleLines</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="143:3:143:11">LineInfo</jtok>
+<jtok eid="5" type="local_variable_name" span="143:14:143:25">newLineInfo</jtok>
+<jtok eid="5" type="constructor_call" span="143:32:143:40">LineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:41:143:49">textArea</jtok>
+<jtok eid="5" type="method_call" span="143:50:143:65">getVisibleLines</jtok>
+<jtok eid="5" type="local_variable_name" span="145:7:145:12">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="146:6:146:14">lineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="147:4:147:9">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:4:150:9">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:12:150:16">Math</jtok>
+<jtok eid="5" type="method_call" span="150:17:150:20">min</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:21:150:29">lineInfo</jtok>
+<jtok eid="5" type="qualified_name_ref" span="150:30:150:36">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="150:37:150:48">newLineInfo</jtok>
+<jtok eid="5" type="qualified_name_ref" span="150:49:150:55">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="151:4:151:10">System</jtok>
+<jtok eid="5" type="method_call" span="151:11:151:20">arraycopy</jtok>
+<jtok eid="5" type="primary_name_ref" span="151:21:151:29">lineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="151:32:151:43">newLineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="151:46:151:51">start</jtok>
+<jtok eid="5" type="local_variable_name" span="154:11:154:12">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:15:154:20">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:22:154:23">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:26:154:37">newLineInfo</jtok>
+<jtok eid="5" type="qualified_name_ref" span="154:38:154:44">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="154:46:154:47">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:4:155:15">newLineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:16:155:17">i</jtok>
+<jtok eid="5" type="constructor_call" span="155:25:155:33">LineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:3:157:11">lineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="157:14:157:25">newLineInfo</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:3:159:17">lastScreenLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="159:20:159:35">lastScreenLineP</jtok>
+<jtok eid="1" type="line_comment" span="160:4:160:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="162:2:162:26">//{{{ setBuffer() method</jtok>
+<jtok eid="6" type="method_name" span="163:7:163:16">setBuffer</jtok>
+<jtok eid="6" type="parameter_type" span="163:17:163:28">JEditBuffer</jtok>
+<jtok eid="6" type="parameter_name" span="163:29:163:35">buffer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="165:8:165:14">buffer</jtok>
+<jtok eid="6" type="primary_name_ref" span="165:17:165:23">buffer</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:3:166:17">lastScreenLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:20:166:35">lastScreenLineP</jtok>
+<jtok eid="1" type="line_comment" span="167:4:167:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="169:2:169:27">//{{{ scrollDown() method</jtok>
+<jtok eid="7" type="method_name" span="170:7:170:17">scrollDown</jtok>
+<jtok eid="7" type="parameter_name" span="170:22:170:28">amount</jtok>
+<jtok eid="7" type="local_variable_name" span="172:7:172:19">visibleLines</jtok>
+<jtok eid="7" type="primary_name_ref" span="172:22:172:30">textArea</jtok>
+<jtok eid="7" type="method_call" span="172:31:172:46">getVisibleLines</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:3:174:9">System</jtok>
+<jtok eid="7" type="method_call" span="174:10:174:19">arraycopy</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:20:174:28">lineInfo</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:29:174:35">amount</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:36:174:44">lineInfo</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:47:174:59">visibleLines</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:62:174:68">amount</jtok>
+<jtok eid="7" type="local_variable_name" span="176:11:176:12">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="176:15:176:27">visibleLines</jtok>
+<jtok eid="7" type="primary_name_ref" span="176:30:176:36">amount</jtok>
+<jtok eid="7" type="primary_name_ref" span="176:38:176:39">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="176:42:176:54">visibleLines</jtok>
+<jtok eid="7" type="primary_name_ref" span="176:56:176:57">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="178:4:178:12">lineInfo</jtok>
+<jtok eid="7" type="primary_name_ref" span="178:13:178:14">i</jtok>
+<jtok eid="7" type="constructor_call" span="178:22:178:30">LineInfo</jtok>
+<jtok eid="7" type="primary_name_ref" span="181:3:181:19">firstInvalidLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="181:23:181:29">amount</jtok>
+<jtok eid="7" type="primary_name_ref" span="182:6:182:22">firstInvalidLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="183:4:183:20">firstInvalidLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="185:6:185:11">Debug</jtok>
+<jtok eid="7" type="qualified_name_ref" span="185:12:185:29">CHUNK_CACHE_DEBUG</jtok>
+<jtok eid="7" type="primary_name_ref" span="187:4:187:10">System</jtok>
+<jtok eid="7" type="qualified_name_ref" span="187:11:187:14">err</jtok>
+<jtok eid="7" type="method_call" span="187:15:187:22">println</jtok>
+<jtok eid="7" type="string_literal" span="187:23:187:39">"f &gt; t.f: only "</jtok>
+<jtok eid="7" type="primary_name_ref" span="187:42:187:48">amount</jtok>
+<jtok eid="7" type="string_literal" span="188:7:188:22">" need updates"</jtok>
+<jtok eid="7" type="primary_name_ref" span="191:3:191:17">lastScreenLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="191:20:191:35">lastScreenLineP</jtok>
+<jtok eid="1" type="line_comment" span="192:4:192:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="194:2:194:25">//{{{ scrollUp() method</jtok>
+<jtok eid="8" type="method_name" span="195:7:195:15">scrollUp</jtok>
+<jtok eid="8" type="parameter_name" span="195:20:195:26">amount</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:3:197:9">System</jtok>
+<jtok eid="8" type="method_call" span="197:10:197:19">arraycopy</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:20:197:28">lineInfo</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:31:197:39">lineInfo</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:40:197:46">amount</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:4:198:12">textArea</jtok>
+<jtok eid="8" type="method_call" span="198:13:198:28">getVisibleLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:33:198:39">amount</jtok>
+<jtok eid="8" type="local_variable_name" span="200:11:200:12">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:18:200:19">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:22:200:28">amount</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:30:200:31">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:4:202:12">lineInfo</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:13:202:14">i</jtok>
+<jtok eid="8" type="constructor_call" span="202:22:202:30">LineInfo</jtok>
+<jtok eid="8" type="line_comment" span="205:3:205:28">// don't try this at home</jtok>
+<jtok eid="8" type="local_variable_name" span="206:7:206:26">oldFirstInvalidLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:29:206:45">firstInvalidLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:3:207:19">firstInvalidLine</jtok>
+<jtok eid="8" type="method_call" span="208:3:208:19">updateChunksUpTo</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:20:208:26">amount</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:3:209:19">firstInvalidLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:22:209:41">oldFirstInvalidLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:44:209:50">amount</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:6:210:22">firstInvalidLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:25:210:33">textArea</jtok>
+<jtok eid="8" type="method_call" span="210:34:210:49">getVisibleLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="211:4:211:20">firstInvalidLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="211:23:211:31">textArea</jtok>
+<jtok eid="8" type="method_call" span="211:32:211:47">getVisibleLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:6:213:11">Debug</jtok>
+<jtok eid="8" type="qualified_name_ref" span="213:12:213:29">CHUNK_CACHE_DEBUG</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:4:215:7">Log</jtok>
+<jtok eid="8" type="method_call" span="215:8:215:11">log</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:12:215:15">Log</jtok>
+<jtok eid="8" type="qualified_name_ref" span="215:16:215:21">DEBUG</jtok>
+<jtok eid="8" type="string_literal" span="215:27:215:43">"f &gt; t.f: only "</jtok>
+<jtok eid="8" type="primary_name_ref" span="215:46:215:52">amount</jtok>
+<jtok eid="8" type="string_literal" span="216:7:216:22">" need updates"</jtok>
+<jtok eid="8" type="primary_name_ref" span="219:3:219:17">lastScreenLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="219:20:219:35">lastScreenLineP</jtok>
+<jtok eid="1" type="line_comment" span="220:4:220:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="222:2:222:30">//{{{ invalidateAll() method</jtok>
+<jtok eid="9" type="method_name" span="223:7:223:20">invalidateAll</jtok>
+<jtok eid="9" type="primary_name_ref" span="225:3:225:19">firstInvalidLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="226:3:226:17">lastScreenLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="226:20:226:35">lastScreenLineP</jtok>
+<jtok eid="1" type="line_comment" span="227:4:227:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="229:2:229:41">//{{{ invalidateChunksFromPhys() method</jtok>
+<jtok eid="10" type="method_name" span="230:7:230:31">invalidateChunksFromPhys</jtok>
+<jtok eid="10" type="parameter_name" span="230:36:230:48">physicalLine</jtok>
+<jtok eid="10" type="local_variable_name" span="232:11:232:12">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:18:232:19">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:22:232:38">firstInvalidLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:40:232:41">i</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="234:4:234:12">LineInfo</jtok>
+<jtok eid="10" type="local_variable_name" span="234:13:234:17">info</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:20:234:28">lineInfo</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:29:234:30">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="235:7:235:11">info</jtok>
+<jtok eid="10" type="qualified_name_ref" span="235:12:235:24">physicalLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="235:34:235:38">info</jtok>
+<jtok eid="10" type="qualified_name_ref" span="235:39:235:51">physicalLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="235:55:235:67">physicalLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="237:5:237:21">firstInvalidLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="237:24:237:25">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="238:8:238:9">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="238:13:238:27">lastScreenLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="239:6:239:20">lastScreenLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="239:23:239:38">lastScreenLineP</jtok>
+<jtok eid="1" type="line_comment" span="243:4:243:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="245:2:245:28">//{{{ getLineInfo() method</jtok>
+<jtok eid="1" type="block_comment" span="246:2:250:5">/**
+	 * Returns the line informations for a given screen line
+	 * @param screenLine the screen line
+	 * @return the LineInfo for the screenLine
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="251:2:251:10">LineInfo</jtok>
+<jtok eid="11" type="method_name" span="251:11:251:22">getLineInfo</jtok>
+<jtok eid="11" type="parameter_name" span="251:27:251:37">screenLine</jtok>
+<jtok eid="11" type="method_call" span="253:3:253:19">updateChunksUpTo</jtok>
+<jtok eid="11" type="primary_name_ref" span="253:20:253:30">screenLine</jtok>
+<jtok eid="11" type="primary_name_ref" span="254:10:254:18">lineInfo</jtok>
+<jtok eid="11" type="primary_name_ref" span="254:19:254:29">screenLine</jtok>
+<jtok eid="1" type="line_comment" span="255:4:255:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="257:2:257:38">//{{{ getLineSubregionCount() method</jtok>
+<jtok eid="1" type="block_comment" span="258:2:262:5">/**
+	 * Returns the number of subregions of a physical line
+	 * @param physicalLine a physical line
+	 * @return the number of subregions of this physical line
+	 */</jtok>
+<jtok eid="12" type="method_name" span="263:6:263:27">getLineSubregionCount</jtok>
+<jtok eid="12" type="parameter_name" span="263:32:263:44">physicalLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="265:7:265:15">textArea</jtok>
+<jtok eid="12" type="qualified_name_ref" span="265:16:265:24">softWrap</jtok>
+<jtok eid="12" type="primary_name_ref" span="268:3:268:6">out</jtok>
+<jtok eid="12" type="method_call" span="268:7:268:12">clear</jtok>
+<jtok eid="12" type="method_call" span="269:3:269:18">lineToChunkList</jtok>
+<jtok eid="12" type="primary_name_ref" span="269:19:269:31">physicalLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="269:32:269:35">out</jtok>
+<jtok eid="12" type="local_variable_name" span="271:7:271:11">size</jtok>
+<jtok eid="12" type="primary_name_ref" span="271:14:271:17">out</jtok>
+<jtok eid="12" type="method_call" span="271:18:271:22">size</jtok>
+<jtok eid="12" type="primary_name_ref" span="272:6:272:10">size</jtok>
+<jtok eid="12" type="primary_name_ref" span="275:11:275:15">size</jtok>
+<jtok eid="1" type="line_comment" span="276:4:276:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:37">//{{{ getSubregionOfOffset() method</jtok>
+<jtok eid="1" type="block_comment" span="279:2:290:5">/**
+	 * Returns the subregion containing the specified offset. A subregion
+	 * is a subset of a physical line. Each screen line corresponds to one
+	 * subregion. Unlike the {@link #getScreenLineOfOffset(int, int)} method,
+	 * this method works with non-visible lines too.
+	 *
+	 * @param offset the offset
+	 * @param lineInfos a lineInfos array. Usualy the array is the result of
+	 *	{@link #getLineInfosForPhysicalLine(int)} call
+	 *
+	 * @return the subregion of the offset, or -1 if the offset was not in one of the given lineInfos
+	 */</jtok>
+<jtok eid="13" type="method_name" span="291:13:291:33">getSubregionOfOffset</jtok>
+<jtok eid="13" type="parameter_name" span="291:38:291:44">offset</jtok>
+<jtok eid="13" type="parameter_type" span="291:46:291:54">LineInfo</jtok>
+<jtok eid="13" type="parameter_name" span="291:57:291:66">lineInfos</jtok>
+<jtok eid="13" type="local_variable_name" span="293:11:293:12">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="293:18:293:19">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="293:22:293:31">lineInfos</jtok>
+<jtok eid="13" type="qualified_name_ref" span="293:32:293:38">length</jtok>
+<jtok eid="13" type="primary_name_ref" span="293:40:293:41">i</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="295:4:295:12">LineInfo</jtok>
+<jtok eid="13" type="local_variable_name" span="295:13:295:17">info</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:20:295:29">lineInfos</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:30:295:31">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="296:7:296:13">offset</jtok>
+<jtok eid="13" type="primary_name_ref" span="296:17:296:21">info</jtok>
+<jtok eid="13" type="qualified_name_ref" span="296:22:296:28">offset</jtok>
+<jtok eid="13" type="primary_name_ref" span="296:32:296:38">offset</jtok>
+<jtok eid="13" type="primary_name_ref" span="296:41:296:45">info</jtok>
+<jtok eid="13" type="qualified_name_ref" span="296:46:296:52">offset</jtok>
+<jtok eid="13" type="primary_name_ref" span="296:55:296:59">info</jtok>
+<jtok eid="13" type="qualified_name_ref" span="296:60:296:66">length</jtok>
+<jtok eid="13" type="primary_name_ref" span="297:12:297:13">i</jtok>
+<jtok eid="1" type="line_comment" span="301:4:301:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="303:2:303:35">//{{{ xToSubregionOffset() method</jtok>
+<jtok eid="1" type="block_comment" span="304:2:314:5">/**
+	 * Converts an x co-ordinate within a subregion into an offset from the
+	 * start of that subregion.
+	 * @param physicalLine The physical line number
+	 * @param subregion The subregion; if -1, then this is the last
+	 * subregion.
+	 * @param x The x co-ordinate
+	 * @param round Round up to next character if x is past the middle of a
+	 * character?
+	 * @return the offset from the start of the subregion
+	 */</jtok>
+<jtok eid="14" type="method_name" span="315:6:315:24">xToSubregionOffset</jtok>
+<jtok eid="14" type="parameter_name" span="315:29:315:41">physicalLine</jtok>
+<jtok eid="14" type="parameter_name" span="315:47:315:56">subregion</jtok>
+<jtok eid="14" type="parameter_name" span="315:62:315:63">x</jtok>
+<jtok eid="14" type="parameter_name" span="316:11:316:16">round</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="318:3:318:11">LineInfo</jtok>
+<jtok eid="14" type="local_variable_name" span="318:14:318:19">infos</jtok>
+<jtok eid="14" type="method_call" span="318:22:318:49">getLineInfosForPhysicalLine</jtok>
+<jtok eid="14" type="primary_name_ref" span="318:50:318:62">physicalLine</jtok>
+<jtok eid="14" type="primary_name_ref" span="319:6:319:15">subregion</jtok>
+<jtok eid="14" type="primary_name_ref" span="320:4:320:13">subregion</jtok>
+<jtok eid="14" type="primary_name_ref" span="320:17:320:22">infos</jtok>
+<jtok eid="14" type="qualified_name_ref" span="320:23:320:29">length</jtok>
+<jtok eid="14" type="method_call" span="321:10:321:28">xToSubregionOffset</jtok>
+<jtok eid="14" type="primary_name_ref" span="321:29:321:34">infos</jtok>
+<jtok eid="14" type="primary_name_ref" span="321:35:321:44">subregion</jtok>
+<jtok eid="14" type="primary_name_ref" span="321:46:321:47">x</jtok>
+<jtok eid="14" type="primary_name_ref" span="321:48:321:53">round</jtok>
+<jtok eid="1" type="line_comment" span="322:4:322:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="324:2:324:35">//{{{ xToSubregionOffset() method</jtok>
+<jtok eid="1" type="block_comment" span="325:2:333:5">/**
+	 * Converts an x co-ordinate within a subregion into an offset from the
+	 * start of that subregion.
+	 * @param info The line info object
+	 * @param x The x co-ordinate
+	 * @param round Round up to next character if x is past the middle of a
+	 * character?
+	 * @return the offset from the start of the subregion
+	 */</jtok>
+<jtok eid="15" type="method_name" span="334:13:334:31">xToSubregionOffset</jtok>
+<jtok eid="15" type="parameter_type" span="334:32:334:40">LineInfo</jtok>
+<jtok eid="15" type="parameter_name" span="334:41:334:45">info</jtok>
+<jtok eid="15" type="parameter_name" span="334:51:334:52">x</jtok>
+<jtok eid="15" type="parameter_name" span="335:11:335:16">round</jtok>
+<jtok eid="15" type="local_variable_name" span="337:7:337:13">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="337:16:337:21">Chunk</jtok>
+<jtok eid="15" type="method_call" span="337:22:337:31">xToOffset</jtok>
+<jtok eid="15" type="primary_name_ref" span="337:32:337:36">info</jtok>
+<jtok eid="15" type="qualified_name_ref" span="337:37:337:43">chunks</jtok>
+<jtok eid="15" type="primary_name_ref" span="337:44:337:45">x</jtok>
+<jtok eid="15" type="primary_name_ref" span="337:46:337:51">round</jtok>
+<jtok eid="15" type="primary_name_ref" span="338:6:338:12">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="338:22:338:28">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="338:32:338:36">info</jtok>
+<jtok eid="15" type="qualified_name_ref" span="338:37:338:43">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="338:46:338:50">info</jtok>
+<jtok eid="15" type="qualified_name_ref" span="338:51:338:57">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="339:4:339:10">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="339:13:339:17">info</jtok>
+<jtok eid="15" type="qualified_name_ref" span="339:18:339:24">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="339:27:339:31">info</jtok>
+<jtok eid="15" type="qualified_name_ref" span="339:32:339:38">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="341:10:341:16">offset</jtok>
+<jtok eid="1" type="line_comment" span="342:4:342:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="344:2:344:35">//{{{ subregionOffsetToX() method</jtok>
+<jtok eid="1" type="block_comment" span="345:2:350:5">/**
+	 * Converts an offset within a subregion into an x co-ordinate.
+	 * @param physicalLine The physical line
+	 * @param offset The offset
+	 * @return the x co-ordinate of the offset within a subregion
+	 */</jtok>
+<jtok eid="16" type="method_name" span="351:6:351:24">subregionOffsetToX</jtok>
+<jtok eid="16" type="parameter_name" span="351:29:351:41">physicalLine</jtok>
+<jtok eid="16" type="parameter_name" span="351:47:351:53">offset</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="353:3:353:11">LineInfo</jtok>
+<jtok eid="16" type="local_variable_name" span="353:14:353:19">infos</jtok>
+<jtok eid="16" type="method_call" span="353:22:353:49">getLineInfosForPhysicalLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="353:50:353:62">physicalLine</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="354:3:354:11">LineInfo</jtok>
+<jtok eid="16" type="local_variable_name" span="354:12:354:16">info</jtok>
+<jtok eid="16" type="primary_name_ref" span="354:19:354:24">infos</jtok>
+<jtok eid="16" type="method_call" span="354:25:354:45">getSubregionOfOffset</jtok>
+<jtok eid="16" type="primary_name_ref" span="354:46:354:52">offset</jtok>
+<jtok eid="16" type="primary_name_ref" span="354:53:354:58">infos</jtok>
+<jtok eid="16" type="method_call" span="355:10:355:28">subregionOffsetToX</jtok>
+<jtok eid="16" type="primary_name_ref" span="355:29:355:33">info</jtok>
+<jtok eid="16" type="primary_name_ref" span="355:34:355:40">offset</jtok>
+<jtok eid="1" type="line_comment" span="356:4:356:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="358:2:358:35">//{{{ subregionOffsetToX() method</jtok>
+<jtok eid="1" type="block_comment" span="359:2:364:5">/**
+	 * Converts an offset within a subregion into an x co-ordinate.
+	 * @param info The line info object
+	 * @param offset The offset
+	 * @return the x co-ordinate of the offset within a subregion
+	 */</jtok>
+<jtok eid="17" type="method_name" span="365:13:365:31">subregionOffsetToX</jtok>
+<jtok eid="17" type="parameter_type" span="365:32:365:40">LineInfo</jtok>
+<jtok eid="17" type="parameter_name" span="365:41:365:45">info</jtok>
+<jtok eid="17" type="parameter_name" span="365:51:365:57">offset</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:15:367:20">Chunk</jtok>
+<jtok eid="17" type="method_call" span="367:21:367:30">offsetToX</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:31:367:35">info</jtok>
+<jtok eid="17" type="qualified_name_ref" span="367:36:367:42">chunks</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:43:367:49">offset</jtok>
+<jtok eid="1" type="line_comment" span="368:4:368:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="370:2:370:40">//{{{ getSubregionStartOffset() method</jtok>
+<jtok eid="1" type="block_comment" span="371:2:377:5">/**
+	 * Returns the start offset of the specified subregion of the specified
+	 * physical line.
+	 * @param line The physical line number
+	 * @param offset An offset
+	 * @return the start offset of the subregion of the line
+	 */</jtok>
+<jtok eid="18" type="method_name" span="378:6:378:29">getSubregionStartOffset</jtok>
+<jtok eid="18" type="parameter_name" span="378:34:378:38">line</jtok>
+<jtok eid="18" type="parameter_name" span="378:44:378:50">offset</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="380:3:380:11">LineInfo</jtok>
+<jtok eid="18" type="local_variable_name" span="380:14:380:23">lineInfos</jtok>
+<jtok eid="18" type="method_call" span="380:26:380:53">getLineInfosForPhysicalLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="380:54:380:58">line</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="381:3:381:11">LineInfo</jtok>
+<jtok eid="18" type="local_variable_name" span="381:12:381:16">info</jtok>
+<jtok eid="18" type="primary_name_ref" span="381:19:381:28">lineInfos</jtok>
+<jtok eid="18" type="method_call" span="381:29:381:49">getSubregionOfOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="381:50:381:56">offset</jtok>
+<jtok eid="18" type="primary_name_ref" span="381:57:381:66">lineInfos</jtok>
+<jtok eid="18" type="primary_name_ref" span="382:10:382:18">textArea</jtok>
+<jtok eid="18" type="method_call" span="382:19:382:37">getLineStartOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="382:38:382:42">info</jtok>
+<jtok eid="18" type="qualified_name_ref" span="382:43:382:55">physicalLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="383:6:383:10">info</jtok>
+<jtok eid="18" type="qualified_name_ref" span="383:11:383:17">offset</jtok>
+<jtok eid="1" type="line_comment" span="384:4:384:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="386:2:386:38">//{{{ getSubregionEndOffset() method</jtok>
+<jtok eid="1" type="block_comment" span="387:2:393:5">/**
+	 * Returns the end offset of the specified subregion of the specified
+	 * physical line.
+	 * @param line The physical line number
+	 * @param offset An offset
+	 * @return the end offset of the subregion of the line
+	 */</jtok>
+<jtok eid="19" type="method_name" span="394:6:394:27">getSubregionEndOffset</jtok>
+<jtok eid="19" type="parameter_name" span="394:32:394:36">line</jtok>
+<jtok eid="19" type="parameter_name" span="394:42:394:48">offset</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="396:3:396:11">LineInfo</jtok>
+<jtok eid="19" type="local_variable_name" span="396:14:396:23">lineInfos</jtok>
+<jtok eid="19" type="method_call" span="396:26:396:53">getLineInfosForPhysicalLine</jtok>
+<jtok eid="19" type="primary_name_ref" span="396:54:396:58">line</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="397:3:397:11">LineInfo</jtok>
+<jtok eid="19" type="local_variable_name" span="397:12:397:16">info</jtok>
+<jtok eid="19" type="primary_name_ref" span="397:19:397:28">lineInfos</jtok>
+<jtok eid="19" type="method_call" span="397:29:397:49">getSubregionOfOffset</jtok>
+<jtok eid="19" type="primary_name_ref" span="397:50:397:56">offset</jtok>
+<jtok eid="19" type="primary_name_ref" span="397:57:397:66">lineInfos</jtok>
+<jtok eid="19" type="primary_name_ref" span="398:10:398:18">textArea</jtok>
+<jtok eid="19" type="method_call" span="398:19:398:37">getLineStartOffset</jtok>
+<jtok eid="19" type="primary_name_ref" span="398:38:398:42">info</jtok>
+<jtok eid="19" type="qualified_name_ref" span="398:43:398:55">physicalLine</jtok>
+<jtok eid="19" type="primary_name_ref" span="399:6:399:10">info</jtok>
+<jtok eid="19" type="qualified_name_ref" span="399:11:399:17">offset</jtok>
+<jtok eid="19" type="primary_name_ref" span="399:20:399:24">info</jtok>
+<jtok eid="19" type="qualified_name_ref" span="399:25:399:31">length</jtok>
+<jtok eid="1" type="line_comment" span="400:4:400:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="402:2:402:33">//{{{ getBelowPosition() method</jtok>
+<jtok eid="1" type="block_comment" span="403:2:409:5">/**
+	 * @param physicalLine The physical line number
+	 * @param offset The offset
+	 * @param x The location
+	 * @param ignoreWrap If true, behave as if soft wrap is off even if it
+	 * is on
+	 */</jtok>
+<jtok eid="20" type="method_name" span="410:6:410:22">getBelowPosition</jtok>
+<jtok eid="20" type="parameter_name" span="410:27:410:39">physicalLine</jtok>
+<jtok eid="20" type="parameter_name" span="410:45:410:51">offset</jtok>
+<jtok eid="20" type="parameter_name" span="410:57:410:58">x</jtok>
+<jtok eid="20" type="parameter_name" span="411:11:411:21">ignoreWrap</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="413:3:413:11">LineInfo</jtok>
+<jtok eid="20" type="local_variable_name" span="413:14:413:23">lineInfos</jtok>
+<jtok eid="20" type="method_call" span="413:26:413:53">getLineInfosForPhysicalLine</jtok>
+<jtok eid="20" type="primary_name_ref" span="413:54:413:66">physicalLine</jtok>
+<jtok eid="20" type="local_variable_name" span="415:7:415:16">subregion</jtok>
+<jtok eid="20" type="method_call" span="415:19:415:39">getSubregionOfOffset</jtok>
+<jtok eid="20" type="primary_name_ref" span="415:40:415:46">offset</jtok>
+<jtok eid="20" type="primary_name_ref" span="415:47:415:56">lineInfos</jtok>
+<jtok eid="20" type="primary_name_ref" span="417:6:417:15">subregion</jtok>
+<jtok eid="20" type="primary_name_ref" span="417:19:417:28">lineInfos</jtok>
+<jtok eid="20" type="qualified_name_ref" span="417:29:417:35">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="417:44:417:54">ignoreWrap</jtok>
+<jtok eid="20" type="primary_name_ref" span="419:11:419:19">textArea</jtok>
+<jtok eid="20" type="method_call" span="419:20:419:38">getLineStartOffset</jtok>
+<jtok eid="20" type="primary_name_ref" span="419:39:419:51">physicalLine</jtok>
+<jtok eid="20" type="method_call" span="420:7:420:25">xToSubregionOffset</jtok>
+<jtok eid="20" type="primary_name_ref" span="420:26:420:35">lineInfos</jtok>
+<jtok eid="20" type="primary_name_ref" span="420:36:420:45">subregion</jtok>
+<jtok eid="20" type="primary_name_ref" span="421:5:421:6">x</jtok>
+<jtok eid="20" type="local_variable_name" span="425:8:425:16">nextLine</jtok>
+<jtok eid="20" type="primary_name_ref" span="425:19:425:27">textArea</jtok>
+<jtok eid="20" type="qualified_name_ref" span="425:28:425:42">displayManager</jtok>
+<jtok eid="20" type="method_call" span="426:6:426:24">getNextVisibleLine</jtok>
+<jtok eid="20" type="primary_name_ref" span="426:25:426:37">physicalLine</jtok>
+<jtok eid="20" type="primary_name_ref" span="428:7:428:15">nextLine</jtok>
+<jtok eid="20" type="primary_name_ref" span="432:12:432:20">textArea</jtok>
+<jtok eid="20" type="method_call" span="432:21:432:39">getLineStartOffset</jtok>
+<jtok eid="20" type="primary_name_ref" span="432:40:432:48">nextLine</jtok>
+<jtok eid="20" type="method_call" span="433:8:433:26">xToSubregionOffset</jtok>
+<jtok eid="20" type="primary_name_ref" span="433:27:433:35">nextLine</jtok>
+<jtok eid="20" type="primary_name_ref" span="434:6:434:7">x</jtok>
+<jtok eid="1" type="line_comment" span="437:4:437:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="439:2:439:33">//{{{ getAbovePosition() method</jtok>
+<jtok eid="1" type="block_comment" span="440:2:446:5">/**
+	 * @param physicalLine The physical line number
+	 * @param offset The offset
+	 * @param x The location
+	 * @param ignoreWrap If true, behave as if soft wrap is off even if it
+	 * is on
+	 */</jtok>
+<jtok eid="21" type="method_name" span="447:6:447:22">getAbovePosition</jtok>
+<jtok eid="21" type="parameter_name" span="447:27:447:39">physicalLine</jtok>
+<jtok eid="21" type="parameter_name" span="447:45:447:51">offset</jtok>
+<jtok eid="21" type="parameter_name" span="447:57:447:58">x</jtok>
+<jtok eid="21" type="parameter_name" span="448:11:448:21">ignoreWrap</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="450:3:450:11">LineInfo</jtok>
+<jtok eid="21" type="local_variable_name" span="450:14:450:23">lineInfos</jtok>
+<jtok eid="21" type="method_call" span="450:26:450:53">getLineInfosForPhysicalLine</jtok>
+<jtok eid="21" type="primary_name_ref" span="450:54:450:66">physicalLine</jtok>
+<jtok eid="21" type="local_variable_name" span="452:7:452:16">subregion</jtok>
+<jtok eid="21" type="method_call" span="452:19:452:39">getSubregionOfOffset</jtok>
+<jtok eid="21" type="primary_name_ref" span="452:40:452:46">offset</jtok>
+<jtok eid="21" type="primary_name_ref" span="452:47:452:56">lineInfos</jtok>
+<jtok eid="21" type="primary_name_ref" span="454:6:454:15">subregion</jtok>
+<jtok eid="21" type="primary_name_ref" span="454:25:454:35">ignoreWrap</jtok>
+<jtok eid="21" type="primary_name_ref" span="456:11:456:19">textArea</jtok>
+<jtok eid="21" type="method_call" span="456:20:456:38">getLineStartOffset</jtok>
+<jtok eid="21" type="primary_name_ref" span="456:39:456:51">physicalLine</jtok>
+<jtok eid="21" type="method_call" span="457:7:457:25">xToSubregionOffset</jtok>
+<jtok eid="21" type="primary_name_ref" span="457:26:457:35">lineInfos</jtok>
+<jtok eid="21" type="primary_name_ref" span="457:36:457:45">subregion</jtok>
+<jtok eid="21" type="primary_name_ref" span="458:5:458:6">x</jtok>
+<jtok eid="21" type="local_variable_name" span="462:8:462:16">prevLine</jtok>
+<jtok eid="21" type="primary_name_ref" span="462:19:462:27">textArea</jtok>
+<jtok eid="21" type="qualified_name_ref" span="462:28:462:42">displayManager</jtok>
+<jtok eid="21" type="method_call" span="463:6:463:24">getPrevVisibleLine</jtok>
+<jtok eid="21" type="primary_name_ref" span="463:25:463:37">physicalLine</jtok>
+<jtok eid="21" type="primary_name_ref" span="465:7:465:15">prevLine</jtok>
+<jtok eid="21" type="primary_name_ref" span="469:12:469:20">textArea</jtok>
+<jtok eid="21" type="method_call" span="469:21:469:39">getLineStartOffset</jtok>
+<jtok eid="21" type="primary_name_ref" span="469:40:469:48">prevLine</jtok>
+<jtok eid="21" type="method_call" span="470:8:470:26">xToSubregionOffset</jtok>
+<jtok eid="21" type="primary_name_ref" span="470:27:470:35">prevLine</jtok>
+<jtok eid="21" type="primary_name_ref" span="471:6:471:7">x</jtok>
+<jtok eid="1" type="line_comment" span="474:4:474:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="476:2:476:32">//{{{ needFullRepaint() method</jtok>
+<jtok eid="1" type="block_comment" span="477:2:481:5">/**
+	 * The needFullRepaint variable becomes true when the number of screen
+	 * lines in a physical line changes.
+	 * @return true if the TextArea needs full repaint
+	 */</jtok>
+<jtok eid="22" type="method_name" span="482:10:482:25">needFullRepaint</jtok>
+<jtok eid="22" type="local_variable_name" span="484:11:484:17">retVal</jtok>
+<jtok eid="22" type="primary_name_ref" span="484:20:484:35">needFullRepaint</jtok>
+<jtok eid="22" type="primary_name_ref" span="485:3:485:18">needFullRepaint</jtok>
+<jtok eid="22" type="primary_name_ref" span="486:10:486:16">retVal</jtok>
+<jtok eid="1" type="line_comment" span="487:4:487:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="489:2:489:44">//{{{ getLineInfosForPhysicalLine() method</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="490:2:490:10">LineInfo</jtok>
+<jtok eid="23" type="method_name" span="490:13:490:40">getLineInfosForPhysicalLine</jtok>
+<jtok eid="23" type="parameter_name" span="490:45:490:57">physicalLine</jtok>
+<jtok eid="23" type="primary_name_ref" span="492:3:492:6">out</jtok>
+<jtok eid="23" type="method_call" span="492:7:492:12">clear</jtok>
+<jtok eid="23" type="primary_name_ref" span="494:7:494:13">buffer</jtok>
+<jtok eid="23" type="method_call" span="494:14:494:23">isLoading</jtok>
+<jtok eid="23" type="method_call" span="495:4:495:19">lineToChunkList</jtok>
+<jtok eid="23" type="primary_name_ref" span="495:20:495:32">physicalLine</jtok>
+<jtok eid="23" type="primary_name_ref" span="495:33:495:36">out</jtok>
+<jtok eid="23" type="primary_name_ref" span="497:6:497:9">out</jtok>
+<jtok eid="23" type="method_call" span="497:10:497:17">isEmpty</jtok>
+<jtok eid="23" type="primary_name_ref" span="498:4:498:7">out</jtok>
+<jtok eid="23" type="method_call" span="498:8:498:11">add</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="500:3:500:7">List</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="500:8:500:16">LineInfo</jtok>
+<jtok eid="23" type="local_variable_name" span="500:18:500:29">returnValue</jtok>
+<jtok eid="23" type="constructor_call" span="500:36:500:45">ArrayList</jtok>
+<jtok eid="23" type="constructor_call" span="500:46:500:54">LineInfo</jtok>
+<jtok eid="23" type="primary_name_ref" span="500:56:500:59">out</jtok>
+<jtok eid="23" type="method_call" span="500:60:500:64">size</jtok>
+<jtok eid="23" type="method_call" span="501:3:501:30">getLineInfosForPhysicalLine</jtok>
+<jtok eid="23" type="primary_name_ref" span="501:31:501:43">physicalLine</jtok>
+<jtok eid="23" type="primary_name_ref" span="501:44:501:55">returnValue</jtok>
+<jtok eid="23" type="primary_name_ref" span="502:10:502:21">returnValue</jtok>
+<jtok eid="23" type="method_call" span="502:22:502:29">toArray</jtok>
+<jtok eid="23" type="constructor_call" span="502:34:502:42">LineInfo</jtok>
+<jtok eid="23" type="primary_name_ref" span="502:43:502:46">out</jtok>
+<jtok eid="23" type="method_call" span="502:47:502:51">size</jtok>
+<jtok eid="1" type="line_comment" span="503:4:503:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="505:2:505:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="507:2:507:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="508:16:508:24">TextArea</jtok>
+<jtok eid="1" type="field_name" span="508:25:508:33">textArea</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="509:10:509:21">JEditBuffer</jtok>
+<jtok eid="1" type="field_name" span="509:22:509:28">buffer</jtok>
+<jtok eid="1" type="block_comment" span="510:2:514:5">/**
+	 * The lineInfo array. There is LineInfo for each line that is visible in the textArea.
+	 * it can be resized by {@link #recalculateVisibleLines()}.
+	 * The content is valid from 0 to {@link #firstInvalidLine}
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="515:10:515:18">LineInfo</jtok>
+<jtok eid="1" type="field_name" span="515:21:515:29">lineInfo</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="516:16:516:20">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="516:21:516:26">Chunk</jtok>
+<jtok eid="1" type="field_name" span="516:28:516:31">out</jtok>
+<jtok eid="1" type="block_comment" span="518:2:518:69">/** The first invalid line. All lines before this one are valid. */</jtok>
+<jtok eid="1" type="field_name" span="519:14:519:30">firstInvalidLine</jtok>
+<jtok eid="1" type="field_name" span="520:14:520:29">lastScreenLineP</jtok>
+<jtok eid="1" type="field_name" span="521:14:521:28">lastScreenLine</jtok>
+<jtok eid="1" type="field_name" span="523:18:523:33">needFullRepaint</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="525:16:525:35">DisplayTokenHandler</jtok>
+<jtok eid="1" type="field_name" span="525:36:525:48">tokenHandler</jtok>
+<jtok eid="1" type="line_comment" span="526:2:526:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="528:2:528:44">//{{{ getLineInfosForPhysicalLine() method</jtok>
+<jtok eid="24" type="method_name" span="529:15:529:42">getLineInfosForPhysicalLine</jtok>
+<jtok eid="24" type="parameter_name" span="529:47:529:59">physicalLine</jtok>
+<jtok eid="24" type="parameter_type" span="529:61:529:65">List</jtok>
+<jtok eid="24" type="parameter_type" span="529:66:529:74">LineInfo</jtok>
+<jtok eid="24" type="parameter_name" span="529:76:529:80">list</jtok>
+<jtok eid="24" type="local_variable_name" span="531:11:531:12">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="531:18:531:19">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="531:22:531:25">out</jtok>
+<jtok eid="24" type="method_call" span="531:26:531:30">size</jtok>
+<jtok eid="24" type="primary_name_ref" span="531:34:531:35">i</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="533:4:533:9">Chunk</jtok>
+<jtok eid="24" type="local_variable_name" span="533:10:533:16">chunks</jtok>
+<jtok eid="24" type="primary_name_ref" span="533:19:533:22">out</jtok>
+<jtok eid="24" type="method_call" span="533:23:533:26">get</jtok>
+<jtok eid="24" type="primary_name_ref" span="533:27:533:28">i</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="534:4:534:12">LineInfo</jtok>
+<jtok eid="24" type="local_variable_name" span="534:13:534:17">info</jtok>
+<jtok eid="24" type="constructor_call" span="534:24:534:32">LineInfo</jtok>
+<jtok eid="24" type="primary_name_ref" span="535:4:535:8">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="535:9:535:21">physicalLine</jtok>
+<jtok eid="24" type="primary_name_ref" span="535:24:535:36">physicalLine</jtok>
+<jtok eid="24" type="primary_name_ref" span="536:7:536:8">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="538:5:538:9">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="538:10:538:24">firstSubregion</jtok>
+<jtok eid="24" type="primary_name_ref" span="539:5:539:9">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="539:10:539:16">offset</jtok>
+<jtok eid="24" type="primary_name_ref" span="542:5:542:9">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="542:10:542:16">offset</jtok>
+<jtok eid="24" type="primary_name_ref" span="542:19:542:25">chunks</jtok>
+<jtok eid="24" type="qualified_name_ref" span="542:26:542:32">offset</jtok>
+<jtok eid="24" type="primary_name_ref" span="544:7:544:8">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="544:12:544:15">out</jtok>
+<jtok eid="24" type="method_call" span="544:16:544:20">size</jtok>
+<jtok eid="24" type="primary_name_ref" span="546:5:546:9">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="546:10:546:23">lastSubregion</jtok>
+<jtok eid="24" type="primary_name_ref" span="547:5:547:9">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="547:10:547:16">length</jtok>
+<jtok eid="24" type="primary_name_ref" span="547:19:547:27">textArea</jtok>
+<jtok eid="24" type="method_call" span="547:28:547:41">getLineLength</jtok>
+<jtok eid="24" type="primary_name_ref" span="547:42:547:54">physicalLine</jtok>
+<jtok eid="24" type="primary_name_ref" span="548:8:548:12">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="548:13:548:19">offset</jtok>
+<jtok eid="24" type="primary_name_ref" span="552:5:552:9">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="552:10:552:16">length</jtok>
+<jtok eid="24" type="primary_name_ref" span="552:19:552:22">out</jtok>
+<jtok eid="24" type="method_call" span="552:23:552:26">get</jtok>
+<jtok eid="24" type="primary_name_ref" span="552:27:552:28">i</jtok>
+<jtok eid="24" type="qualified_name_ref" span="552:34:552:40">offset</jtok>
+<jtok eid="24" type="primary_name_ref" span="553:8:553:12">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="553:13:553:19">offset</jtok>
+<jtok eid="24" type="primary_name_ref" span="556:4:556:8">info</jtok>
+<jtok eid="24" type="qualified_name_ref" span="556:9:556:15">chunks</jtok>
+<jtok eid="24" type="primary_name_ref" span="556:18:556:24">chunks</jtok>
+<jtok eid="24" type="primary_name_ref" span="558:4:558:8">list</jtok>
+<jtok eid="24" type="method_call" span="558:9:558:12">add</jtok>
+<jtok eid="24" type="primary_name_ref" span="558:13:558:17">info</jtok>
+<jtok eid="1" type="line_comment" span="560:4:560:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="562:2:562:35">//{{{ getFirstScreenLine() method</jtok>
+<jtok eid="1" type="block_comment" span="563:2:565:5">/**
+	 * Find a valid line closest to the last screen line.
+	 */</jtok>
+<jtok eid="25" type="method_name" span="566:14:566:32">getFirstScreenLine</jtok>
+<jtok eid="25" type="local_variable_name" span="568:11:568:12">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="568:15:568:31">firstInvalidLine</jtok>
+<jtok eid="25" type="primary_name_ref" span="568:37:568:38">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="568:45:568:46">i</jtok>
+<jtok eid="25" type="primary_name_ref" span="570:7:570:15">lineInfo</jtok>
+<jtok eid="25" type="primary_name_ref" span="570:16:570:17">i</jtok>
+<jtok eid="25" type="qualified_name_ref" span="570:19:570:32">lastSubregion</jtok>
+<jtok eid="25" type="primary_name_ref" span="571:12:571:13">i</jtok>
+<jtok eid="1" type="line_comment" span="575:4:575:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="577:2:577:35">//{{{ getUpdateStartLine() method</jtok>
+<jtok eid="1" type="block_comment" span="578:2:580:5">/**
+	 * Return a physical line number.
+	 */</jtok>
+<jtok eid="26" type="method_name" span="581:14:581:32">getUpdateStartLine</jtok>
+<jtok eid="26" type="parameter_name" span="581:37:581:52">firstScreenLine</jtok>
+<jtok eid="26" type="line_comment" span="583:3:583:64">// for the first line displayed, take its physical line to be</jtok>
+<jtok eid="26" type="line_comment" span="584:3:584:41">// the text area's first physical line</jtok>
+<jtok eid="26" type="primary_name_ref" span="585:6:585:21">firstScreenLine</jtok>
+<jtok eid="26" type="primary_name_ref" span="587:11:587:19">textArea</jtok>
+<jtok eid="26" type="method_call" span="587:20:587:40">getFirstPhysicalLine</jtok>
+<jtok eid="26" type="line_comment" span="589:3:589:48">// otherwise, determine the next visible line</jtok>
+<jtok eid="26" type="local_variable_name" span="592:8:592:20">prevPhysLine</jtok>
+<jtok eid="26" type="primary_name_ref" span="592:23:592:31">lineInfo</jtok>
+<jtok eid="26" type="primary_name_ref" span="593:5:593:20">firstScreenLine</jtok>
+<jtok eid="26" type="qualified_name_ref" span="594:6:594:18">physicalLine</jtok>
+<jtok eid="26" type="line_comment" span="595:4:595:57">// if -1, the empty space at the end of the text area</jtok>
+<jtok eid="26" type="line_comment" span="596:4:596:54">// when the buffer has less lines than are visible</jtok>
+<jtok eid="26" type="primary_name_ref" span="597:7:597:19">prevPhysLine</jtok>
+<jtok eid="26" type="primary_name_ref" span="601:12:601:20">textArea</jtok>
+<jtok eid="26" type="qualified_name_ref" span="601:21:601:35">displayManager</jtok>
+<jtok eid="26" type="method_call" span="602:7:602:25">getNextVisibleLine</jtok>
+<jtok eid="26" type="primary_name_ref" span="602:26:602:38">prevPhysLine</jtok>
+<jtok eid="1" type="line_comment" span="605:4:605:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="607:2:607:33">//{{{ updateChunksUpTo() method</jtok>
+<jtok eid="27" type="method_name" span="608:15:608:31">updateChunksUpTo</jtok>
+<jtok eid="27" type="parameter_name" span="608:36:608:50">lastScreenLine</jtok>
+<jtok eid="27" type="line_comment" span="610:3:610:32">// this method is a nightmare</jtok>
+<jtok eid="27" type="primary_name_ref" span="611:6:611:20">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="611:24:611:32">lineInfo</jtok>
+<jtok eid="27" type="qualified_name_ref" span="611:33:611:39">length</jtok>
+<jtok eid="27" type="constructor_call" span="612:14:612:44">ArrayIndexOutOfBoundsException</jtok>
+<jtok eid="27" type="primary_name_ref" span="612:45:612:59">lastScreenLine</jtok>
+<jtok eid="27" type="line_comment" span="614:3:614:64">// if one line's chunks are invalid, remaining lines are also</jtok>
+<jtok eid="27" type="line_comment" span="615:3:615:13">// invalid</jtok>
+<jtok eid="27" type="primary_name_ref" span="616:6:616:20">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="616:23:616:39">firstInvalidLine</jtok>
+<jtok eid="27" type="local_variable_name" span="619:7:619:22">firstScreenLine</jtok>
+<jtok eid="27" type="method_call" span="619:25:619:43">getFirstScreenLine</jtok>
+<jtok eid="27" type="local_variable_name" span="620:7:620:19">physicalLine</jtok>
+<jtok eid="27" type="method_call" span="620:22:620:40">getUpdateStartLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="620:41:620:56">firstScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="622:6:622:11">Debug</jtok>
+<jtok eid="27" type="qualified_name_ref" span="622:12:622:29">CHUNK_CACHE_DEBUG</jtok>
+<jtok eid="27" type="primary_name_ref" span="624:4:624:7">Log</jtok>
+<jtok eid="27" type="method_call" span="624:8:624:11">log</jtok>
+<jtok eid="27" type="primary_name_ref" span="624:12:624:15">Log</jtok>
+<jtok eid="27" type="qualified_name_ref" span="624:16:624:21">DEBUG</jtok>
+<jtok eid="27" type="string_literal" span="624:27:624:50">"Updating chunks from "</jtok>
+<jtok eid="27" type="primary_name_ref" span="624:53:624:68">firstScreenLine</jtok>
+<jtok eid="27" type="string_literal" span="625:7:625:13">" to "</jtok>
+<jtok eid="27" type="primary_name_ref" span="625:16:625:30">lastScreenLine</jtok>
+<jtok eid="27" type="line_comment" span="628:3:628:64">// Note that we rely on the fact that when a physical line is</jtok>
+<jtok eid="27" type="line_comment" span="629:3:629:63">// invalidated, all screen lines/subregions of that line are</jtok>
+<jtok eid="27" type="line_comment" span="630:3:630:64">// invalidated as well. See below comment for code that tries</jtok>
+<jtok eid="27" type="line_comment" span="631:3:631:32">// to uphold this assumption.</jtok>
+<jtok eid="27" type="primary_name_ref" span="633:3:633:6">out</jtok>
+<jtok eid="27" type="method_call" span="633:7:633:12">clear</jtok>
+<jtok eid="27" type="local_variable_name" span="635:7:635:13">offset</jtok>
+<jtok eid="27" type="local_variable_name" span="636:7:636:13">length</jtok>
+<jtok eid="27" type="local_variable_name" span="638:11:638:12">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="638:15:638:30">firstScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="638:32:638:33">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="638:37:638:51">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="638:53:638:54">i</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="640:4:640:12">LineInfo</jtok>
+<jtok eid="27" type="local_variable_name" span="640:13:640:17">info</jtok>
+<jtok eid="27" type="primary_name_ref" span="640:20:640:28">lineInfo</jtok>
+<jtok eid="27" type="primary_name_ref" span="640:29:640:30">i</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="642:4:642:9">Chunk</jtok>
+<jtok eid="27" type="local_variable_name" span="642:10:642:16">chunks</jtok>
+<jtok eid="27" type="line_comment" span="644:4:644:33">// get another line of chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="645:7:645:10">out</jtok>
+<jtok eid="27" type="method_call" span="645:11:645:18">isEmpty</jtok>
+<jtok eid="27" type="line_comment" span="647:5:647:48">// unless this is the first time, increment</jtok>
+<jtok eid="27" type="line_comment" span="648:5:648:23">// the line number</jtok>
+<jtok eid="27" type="primary_name_ref" span="649:8:649:20">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="649:30:649:31">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="649:35:649:50">firstScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="651:6:651:18">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="651:21:651:29">textArea</jtok>
+<jtok eid="27" type="qualified_name_ref" span="651:30:651:44">displayManager</jtok>
+<jtok eid="27" type="method_call" span="652:8:652:26">getNextVisibleLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="652:27:652:39">physicalLine</jtok>
+<jtok eid="27" type="line_comment" span="655:5:655:19">// empty space</jtok>
+<jtok eid="27" type="primary_name_ref" span="656:8:656:20">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="658:6:658:10">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="658:11:658:17">chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="659:6:659:10">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="659:11:659:23">physicalLine</jtok>
+<jtok eid="27" type="line_comment" span="660:6:660:37">// fix the bug where the horiz.</jtok>
+<jtok eid="27" type="line_comment" span="661:6:661:35">// scroll bar was not updated</jtok>
+<jtok eid="27" type="line_comment" span="662:6:662:35">// after creating a new file.</jtok>
+<jtok eid="27" type="primary_name_ref" span="663:6:663:10">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="663:11:663:16">width</jtok>
+<jtok eid="27" type="line_comment" span="667:5:667:23">// chunk the line.</jtok>
+<jtok eid="27" type="method_call" span="668:5:668:20">lineToChunkList</jtok>
+<jtok eid="27" type="primary_name_ref" span="668:21:668:33">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="668:34:668:37">out</jtok>
+<jtok eid="27" type="primary_name_ref" span="670:5:670:9">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="670:10:670:24">firstSubregion</jtok>
+<jtok eid="27" type="line_comment" span="672:5:672:48">// if the line has no text, out.size() == 0</jtok>
+<jtok eid="27" type="primary_name_ref" span="673:8:673:11">out</jtok>
+<jtok eid="27" type="method_call" span="673:12:673:19">isEmpty</jtok>
+<jtok eid="27" type="primary_name_ref" span="675:9:675:10">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="677:10:677:18">textArea</jtok>
+<jtok eid="27" type="qualified_name_ref" span="677:19:677:33">displayManager</jtok>
+<jtok eid="27" type="qualified_name_ref" span="677:34:677:43">firstLine</jtok>
+<jtok eid="27" type="qualified_name_ref" span="677:44:677:48">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="679:8:679:11">Log</jtok>
+<jtok eid="27" type="method_call" span="679:12:679:15">log</jtok>
+<jtok eid="27" type="primary_name_ref" span="679:16:679:19">Log</jtok>
+<jtok eid="27" type="qualified_name_ref" span="679:20:679:25">ERROR</jtok>
+<jtok eid="27" type="string_literal" span="679:31:679:43">"BUG: skew="</jtok>
+<jtok eid="27" type="primary_name_ref" span="679:46:679:54">textArea</jtok>
+<jtok eid="27" type="qualified_name_ref" span="679:55:679:69">displayManager</jtok>
+<jtok eid="27" type="qualified_name_ref" span="679:70:679:79">firstLine</jtok>
+<jtok eid="27" type="qualified_name_ref" span="679:80:679:84">skew</jtok>
+<jtok eid="27" type="string_literal" span="679:87:679:101">",out.size()="</jtok>
+<jtok eid="27" type="primary_name_ref" span="679:104:679:107">out</jtok>
+<jtok eid="27" type="method_call" span="679:108:679:112">size</jtok>
+<jtok eid="27" type="primary_name_ref" span="680:8:680:16">textArea</jtok>
+<jtok eid="27" type="qualified_name_ref" span="680:17:680:31">displayManager</jtok>
+<jtok eid="27" type="qualified_name_ref" span="680:32:680:41">firstLine</jtok>
+<jtok eid="27" type="qualified_name_ref" span="680:42:680:46">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="681:8:681:23">needFullRepaint</jtok>
+<jtok eid="27" type="primary_name_ref" span="682:8:682:22">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="682:25:682:33">lineInfo</jtok>
+<jtok eid="27" type="qualified_name_ref" span="682:34:682:40">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="685:6:685:12">chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="686:6:686:12">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="687:6:687:12">length</jtok>
+<jtok eid="27" type="line_comment" span="689:5:689:43">// otherwise, the number of subregions</jtok>
+<jtok eid="27" type="primary_name_ref" span="692:9:692:10">i</jtok>
+<jtok eid="27" type="local_variable_name" span="694:11:694:15">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="694:18:694:26">textArea</jtok>
+<jtok eid="27" type="qualified_name_ref" span="694:27:694:41">displayManager</jtok>
+<jtok eid="27" type="qualified_name_ref" span="694:42:694:51">firstLine</jtok>
+<jtok eid="27" type="qualified_name_ref" span="694:52:694:56">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="695:10:695:14">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="695:18:695:21">out</jtok>
+<jtok eid="27" type="method_call" span="695:22:695:26">size</jtok>
+<jtok eid="27" type="line_comment" span="697:8:697:70">// The skew cannot be greater than the chunk count of the line</jtok>
+<jtok eid="27" type="line_comment" span="698:8:698:61">// we need at least one chunk per subregion in a line</jtok>
+<jtok eid="27" type="primary_name_ref" span="699:8:699:11">Log</jtok>
+<jtok eid="27" type="method_call" span="699:12:699:15">log</jtok>
+<jtok eid="27" type="primary_name_ref" span="699:16:699:19">Log</jtok>
+<jtok eid="27" type="qualified_name_ref" span="699:20:699:25">ERROR</jtok>
+<jtok eid="27" type="string_literal" span="699:31:699:43">"BUG: skew="</jtok>
+<jtok eid="27" type="primary_name_ref" span="699:46:699:50">skew</jtok>
+<jtok eid="27" type="string_literal" span="699:53:699:67">",out.size()="</jtok>
+<jtok eid="27" type="primary_name_ref" span="699:70:699:73">out</jtok>
+<jtok eid="27" type="method_call" span="699:74:699:78">size</jtok>
+<jtok eid="27" type="primary_name_ref" span="700:8:700:23">needFullRepaint</jtok>
+<jtok eid="27" type="primary_name_ref" span="701:8:701:22">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="701:25:701:33">lineInfo</jtok>
+<jtok eid="27" type="qualified_name_ref" span="701:34:701:40">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="703:15:703:19">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="705:8:705:12">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="705:13:705:27">firstSubregion</jtok>
+<jtok eid="27" type="local_variable_name" span="706:16:706:17">j</jtok>
+<jtok eid="27" type="primary_name_ref" span="706:23:706:24">j</jtok>
+<jtok eid="27" type="primary_name_ref" span="706:27:706:31">skew</jtok>
+<jtok eid="27" type="primary_name_ref" span="706:33:706:34">j</jtok>
+<jtok eid="27" type="primary_name_ref" span="707:9:707:12">out</jtok>
+<jtok eid="27" type="method_call" span="707:13:707:19">remove</jtok>
+<jtok eid="27" type="primary_name_ref" span="710:6:710:12">chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="710:15:710:18">out</jtok>
+<jtok eid="27" type="method_call" span="710:19:710:25">remove</jtok>
+<jtok eid="27" type="primary_name_ref" span="711:6:711:12">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="711:15:711:21">chunks</jtok>
+<jtok eid="27" type="qualified_name_ref" span="711:22:711:28">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="712:11:712:14">out</jtok>
+<jtok eid="27" type="method_call" span="712:15:712:22">isEmpty</jtok>
+<jtok eid="27" type="primary_name_ref" span="713:7:713:13">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="713:16:713:19">out</jtok>
+<jtok eid="27" type="method_call" span="713:20:713:23">get</jtok>
+<jtok eid="27" type="qualified_name_ref" span="713:27:713:33">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="713:36:713:42">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="715:7:715:13">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="715:16:715:24">textArea</jtok>
+<jtok eid="27" type="method_call" span="715:25:715:38">getLineLength</jtok>
+<jtok eid="27" type="primary_name_ref" span="715:39:715:51">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="715:55:715:61">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="720:5:720:9">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="720:10:720:24">firstSubregion</jtok>
+<jtok eid="27" type="primary_name_ref" span="722:5:722:11">chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="722:14:722:17">out</jtok>
+<jtok eid="27" type="method_call" span="722:18:722:24">remove</jtok>
+<jtok eid="27" type="primary_name_ref" span="723:5:723:11">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="723:14:723:20">chunks</jtok>
+<jtok eid="27" type="qualified_name_ref" span="723:21:723:27">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="724:10:724:13">out</jtok>
+<jtok eid="27" type="method_call" span="724:14:724:21">isEmpty</jtok>
+<jtok eid="27" type="primary_name_ref" span="725:6:725:12">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="725:15:725:18">out</jtok>
+<jtok eid="27" type="method_call" span="725:19:725:22">get</jtok>
+<jtok eid="27" type="qualified_name_ref" span="725:26:725:32">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="725:35:725:41">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="727:6:727:12">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="727:15:727:23">textArea</jtok>
+<jtok eid="27" type="method_call" span="727:24:727:37">getLineLength</jtok>
+<jtok eid="27" type="primary_name_ref" span="727:38:727:50">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="727:54:727:60">offset</jtok>
+<jtok eid="27" type="local_variable_name" span="730:12:730:25">lastSubregion</jtok>
+<jtok eid="27" type="primary_name_ref" span="730:28:730:31">out</jtok>
+<jtok eid="27" type="method_call" span="730:32:730:39">isEmpty</jtok>
+<jtok eid="27" type="primary_name_ref" span="732:7:732:8">i</jtok>
+<jtok eid="27" type="primary_name_ref" span="732:12:732:26">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="733:8:733:22">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="733:26:733:34">lineInfo</jtok>
+<jtok eid="27" type="qualified_name_ref" span="733:35:733:41">length</jtok>
+<jtok eid="27" type="block_comment" span="735:5:736:52">/* if the user changes the syntax token at the
+				 * end of a line, need to do a full repaint. */</jtok>
+<jtok eid="27" type="primary_name_ref" span="737:8:737:20">tokenHandler</jtok>
+<jtok eid="27" type="method_call" span="737:21:737:35">getLineContext</jtok>
+<jtok eid="27" type="primary_name_ref" span="738:6:738:10">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="738:11:738:22">lineContext</jtok>
+<jtok eid="27" type="primary_name_ref" span="740:6:740:20">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="741:6:741:21">needFullRepaint</jtok>
+<jtok eid="27" type="block_comment" span="743:5:751:51">/* If this line has become longer or shorter
+				 * (in which case the new physical line number
+				 * is different from the cached one) we need to:
+				 * - continue updating past the last line
+				 * - advise the text area to repaint
+				 * On the other hand, if the line wraps beyond
+				 * lastScreenLine, we need to keep updating the
+				 * chunk list to ensure proper alignment of
+				 * invalidation flags (see start of method) */</jtok>
+<jtok eid="27" type="primary_name_ref" span="752:13:752:17">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="752:18:752:30">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="752:34:752:46">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="753:9:753:13">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="753:14:753:27">lastSubregion</jtok>
+<jtok eid="27" type="primary_name_ref" span="753:31:753:44">lastSubregion</jtok>
+<jtok eid="27" type="primary_name_ref" span="755:6:755:20">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="756:6:756:21">needFullRepaint</jtok>
+<jtok eid="27" type="block_comment" span="758:5:760:49">/* We only cache entire physical lines at once;
+				 * don't want to split a physical line into
+				 * screen lines and only have some valid. */</jtok>
+<jtok eid="27" type="primary_name_ref" span="761:15:761:18">out</jtok>
+<jtok eid="27" type="method_call" span="761:19:761:26">isEmpty</jtok>
+<jtok eid="27" type="primary_name_ref" span="762:6:762:20">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="765:4:765:8">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="765:9:765:21">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="765:24:765:36">physicalLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="766:4:766:8">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="766:9:766:22">lastSubregion</jtok>
+<jtok eid="27" type="primary_name_ref" span="766:25:766:38">lastSubregion</jtok>
+<jtok eid="27" type="primary_name_ref" span="767:4:767:8">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="767:9:767:15">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="767:18:767:24">offset</jtok>
+<jtok eid="27" type="primary_name_ref" span="768:4:768:8">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="768:9:768:15">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="768:18:768:24">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="769:4:769:8">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="769:9:769:15">chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="769:18:769:24">chunks</jtok>
+<jtok eid="27" type="primary_name_ref" span="770:4:770:8">info</jtok>
+<jtok eid="27" type="qualified_name_ref" span="770:9:770:20">lineContext</jtok>
+<jtok eid="27" type="primary_name_ref" span="770:23:770:35">tokenHandler</jtok>
+<jtok eid="27" type="method_call" span="770:36:770:50">getLineContext</jtok>
+<jtok eid="27" type="primary_name_ref" span="773:3:773:19">firstInvalidLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="773:22:773:26">Math</jtok>
+<jtok eid="27" type="method_call" span="773:27:773:30">max</jtok>
+<jtok eid="27" type="primary_name_ref" span="773:31:773:45">lastScreenLine</jtok>
+<jtok eid="27" type="primary_name_ref" span="773:50:773:66">firstInvalidLine</jtok>
+<jtok eid="1" type="line_comment" span="774:4:774:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="776:2:776:32">//{{{ lineToChunkList() method</jtok>
+<jtok eid="28" type="method_name" span="777:15:777:30">lineToChunkList</jtok>
+<jtok eid="28" type="parameter_name" span="777:35:777:47">physicalLine</jtok>
+<jtok eid="28" type="parameter_type" span="777:49:777:53">List</jtok>
+<jtok eid="28" type="parameter_type" span="777:54:777:59">Chunk</jtok>
+<jtok eid="28" type="parameter_name" span="777:61:777:64">out</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="779:3:779:18">TextAreaPainter</jtok>
+<jtok eid="28" type="local_variable_name" span="779:19:779:26">painter</jtok>
+<jtok eid="28" type="primary_name_ref" span="779:29:779:37">textArea</jtok>
+<jtok eid="28" type="method_call" span="779:38:779:48">getPainter</jtok>
+<jtok eid="28" type="primary_name_ref" span="781:3:781:15">tokenHandler</jtok>
+<jtok eid="28" type="method_call" span="781:16:781:20">init</jtok>
+<jtok eid="28" type="primary_name_ref" span="781:21:781:28">painter</jtok>
+<jtok eid="28" type="method_call" span="781:29:781:38">getStyles</jtok>
+<jtok eid="28" type="primary_name_ref" span="782:4:782:11">painter</jtok>
+<jtok eid="28" type="method_call" span="782:12:782:32">getFontRenderContext</jtok>
+<jtok eid="28" type="primary_name_ref" span="783:4:783:11">painter</jtok>
+<jtok eid="28" type="primary_name_ref" span="783:12:783:15">out</jtok>
+<jtok eid="28" type="primary_name_ref" span="784:4:784:12">textArea</jtok>
+<jtok eid="28" type="qualified_name_ref" span="784:13:784:21">softWrap</jtok>
+<jtok eid="28" type="primary_name_ref" span="785:6:785:14">textArea</jtok>
+<jtok eid="28" type="qualified_name_ref" span="785:15:785:25">wrapMargin</jtok>
+<jtok eid="28" type="primary_name_ref" span="786:3:786:9">buffer</jtok>
+<jtok eid="28" type="method_call" span="786:10:786:20">markTokens</jtok>
+<jtok eid="28" type="primary_name_ref" span="786:21:786:33">physicalLine</jtok>
+<jtok eid="28" type="primary_name_ref" span="786:34:786:46">tokenHandler</jtok>
+<jtok eid="1" type="line_comment" span="787:4:787:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="789:2:789:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="791:2:791:22">//{{{ LineInfo class</jtok>
+<jtok eid="1" type="block_comment" span="792:2:796:5">/**
+	 * The informations on a line. (for fast access)
+	 * When using softwrap, a line is divided in n
+	 * subregions.
+	 */</jtok>
+<jtok eid="29" type="class_name" span="797:15:797:23">LineInfo</jtok>
+<jtok eid="29" type="block_comment" span="799:3:801:6">/**
+		 * The physical line.
+		 */</jtok>
+<jtok eid="29" type="field_name" span="802:7:802:19">physicalLine</jtok>
+<jtok eid="29" type="block_comment" span="803:3:805:6">/**
+		 * The offset where begins the line.
+		 */</jtok>
+<jtok eid="29" type="field_name" span="806:7:806:13">offset</jtok>
+<jtok eid="29" type="block_comment" span="807:3:809:6">/**
+		 * The line length.
+		 */</jtok>
+<jtok eid="29" type="field_name" span="810:7:810:13">length</jtok>
+<jtok eid="29" type="block_comment" span="811:3:813:6">/**
+		 * true if it is the first subregion of a line.
+		 */</jtok>
+<jtok eid="29" type="field_name" span="814:11:814:25">firstSubregion</jtok>
+<jtok eid="29" type="block_comment" span="815:3:817:6">/**
+		 * True if it is the last subregion of a line.
+		 */</jtok>
+<jtok eid="29" type="field_name" span="818:11:818:24">lastSubregion</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="819:3:819:8">Chunk</jtok>
+<jtok eid="29" type="field_name" span="819:9:819:15">chunks</jtok>
+<jtok eid="29" type="block_comment" span="820:3:820:25">/** The line width. */</jtok>
+<jtok eid="29" type="field_name" span="821:7:821:12">width</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="822:3:822:14">TokenMarker</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="822:15:822:26">LineContext</jtok>
+<jtok eid="29" type="field_name" span="822:27:822:38">lineContext</jtok>
+<jtok eid="29" type="annotation_ref" span="824:4:824:12">Override</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="825:10:825:16">String</jtok>
+<jtok eid="30" type="method_name" span="825:17:825:25">toString</jtok>
+<jtok eid="30" type="string_literal" span="827:11:827:22">"LineInfo["</jtok>
+<jtok eid="30" type="primary_name_ref" span="827:25:827:37">physicalLine</jtok>
+<jtok eid="30" type="primary_name_ref" span="827:46:827:52">offset</jtok>
+<jtok eid="30" type="primary_name_ref" span="828:13:828:19">length</jtok>
+<jtok eid="30" type="primary_name_ref" span="828:28:828:42">firstSubregion</jtok>
+<jtok eid="30" type="primary_name_ref" span="829:11:829:24">lastSubregion</jtok>
+<jtok eid="30" type="string_literal" span="829:27:829:30">"]"</jtok>
+<jtok eid="1" type="line_comment" span="831:4:831:9">//}}}</jtok>
+</jdoc>

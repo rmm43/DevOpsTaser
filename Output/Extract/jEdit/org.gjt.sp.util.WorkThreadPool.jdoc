@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.util.WorkThreadPool" jls="java5">
+<jent id="0" type="file" span="0:0:487:2">Source/jEdit/org/gjt/sp/util/WorkThreadPool.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:487:1">org.gjt.sp.util.WorkThreadPool</jent>
+<jent id="2" pid="1" type="method" span="46:2:61:2">org.gjt.sp.util.WorkThreadPool.WorkThreadPool(String,int)</jent>
+<jent id="3" pid="1" type="method" span="67:2:85:2">org.gjt.sp.util.WorkThreadPool.start()</jent>
+<jent id="4" pid="1" type="method" span="94:2:154:2">org.gjt.sp.util.WorkThreadPool.addWorkRequest(Runnable,boolean)</jent>
+<jent id="5" pid="1" type="method" span="160:2:196:2">org.gjt.sp.util.WorkThreadPool.waitForRequests()</jent>
+<jent id="6" pid="1" type="method" span="203:2:206:2">org.gjt.sp.util.WorkThreadPool.getRequestCount()</jent>
+<jent id="7" pid="1" type="method" span="213:2:219:2">org.gjt.sp.util.WorkThreadPool.getThreadCount()</jent>
+<jent id="8" pid="1" type="method" span="227:2:230:2">org.gjt.sp.util.WorkThreadPool.getThread(int)</jent>
+<jent id="9" pid="1" type="method" span="237:2:240:2">org.gjt.sp.util.WorkThreadPool.addProgressListener(WorkThreadProgressListener)</jent>
+<jent id="10" pid="1" type="method" span="247:2:250:2">org.gjt.sp.util.WorkThreadPool.removeProgressListener(WorkThreadProgressListener)</jent>
+<jent id="11" pid="1" type="method" span="257:2:281:2">org.gjt.sp.util.WorkThreadPool.fireStatusChanged(WorkThread)</jent>
+<jent id="12" pid="1" type="method" span="284:2:308:2">org.gjt.sp.util.WorkThreadPool.fireProgressChanged(WorkThread)</jent>
+<jent id="13" pid="1" type="method" span="311:2:320:2">org.gjt.sp.util.WorkThreadPool.requestDone()</jent>
+<jent id="14" pid="1" type="method" span="323:2:352:2">org.gjt.sp.util.WorkThreadPool.getNextRequest()</jent>
+<jent id="15" pid="1" type="method" span="379:2:385:2">org.gjt.sp.util.WorkThreadPool.doAWTRequests()</jent>
+<jent id="16" pid="1" type="method" span="392:2:408:2">org.gjt.sp.util.WorkThreadPool.doAWTRequest(Request)</jent>
+<jent id="17" pid="1" type="method" span="412:2:420:2">org.gjt.sp.util.WorkThreadPool.queueAWTRunner()</jent>
+<jent id="18" pid="1" type="method" span="423:2:446:2">org.gjt.sp.util.WorkThreadPool.getNextAWTRequest()</jent>
+<jent id="19" pid="1" type="class" span="453:2:472:2">org.gjt.sp.util.WorkThreadPool.Request</jent>
+<jent id="20" pid="19" type="method" span="463:3:466:3">org.gjt.sp.util.WorkThreadPool.Request.Request(Runnable)</jent>
+<jent id="21" pid="19" type="method" span="468:3:471:3">org.gjt.sp.util.WorkThreadPool.Request.toString()</jent>
+<jent id="22" pid="1" type="class" span="475:2:486:2">org.gjt.sp.util.WorkThreadPool.RunRequestsInAWTThread</jent>
+<jent id="23" pid="22" type="method" span="477:3:485:3">org.gjt.sp.util.WorkThreadPool.RunRequestsInAWTThread.run()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * WorkThreadPool.java - Background thread pool that does stuff
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="28:1:28:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="30:1:36:4">/**
+ * A pool of work threads.
+ * @author Slava Pestov
+ * @version $Id: WorkThreadPool.java 12504 2008-04-22 23:12:43Z ezust $
+ * @see org.gjt.sp.util.WorkThread
+ * @since jEdit 2.6pre1
+ */</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:28">WorkThreadPool</jtok>
+<jtok eid="1" type="line_comment" span="39:2:39:34">//{{{ WorkThreadPool constructor</jtok>
+<jtok eid="1" type="block_comment" span="40:2:45:5">/**
+	 * Creates a new work thread pool with the specified number of
+	 * work threads.
+	 * @param name The thread name prefix
+	 * @param count The number of work threads
+	 */</jtok>
+<jtok eid="2" type="method_name" span="46:9:46:23">WorkThreadPool</jtok>
+<jtok eid="2" type="parameter_type" span="46:24:46:30">String</jtok>
+<jtok eid="2" type="parameter_name" span="46:31:46:35">name</jtok>
+<jtok eid="2" type="parameter_name" span="46:41:46:46">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:15">listenerList</jtok>
+<jtok eid="2" type="constructor_call" span="48:22:48:39">EventListenerList</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:6:50:11">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:4:52:15">threadGroup</jtok>
+<jtok eid="2" type="constructor_call" span="52:22:52:33">ThreadGroup</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:34:52:38">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:4:53:11">threads</jtok>
+<jtok eid="2" type="constructor_call" span="53:18:53:28">WorkThread</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:29:53:34">count</jtok>
+<jtok eid="2" type="local_variable_name" span="54:12:54:13">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:19:54:20">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:23:54:30">threads</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:31:54:37">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:39:54:40">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:5:56:12">threads</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:13:56:14">i</jtok>
+<jtok eid="2" type="constructor_call" span="56:22:56:32">WorkThread</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:38:56:49">threadGroup</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:50:56:54">name</jtok>
+<jtok eid="2" type="string_literal" span="56:57:56:61">" #"</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:65:56:66">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:4:60:7">Log</jtok>
+<jtok eid="2" type="method_call" span="60:8:60:11">log</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:12:60:15">Log</jtok>
+<jtok eid="2" type="qualified_name_ref" span="60:16:60:23">WARNING</jtok>
+<jtok eid="2" type="string_literal" span="60:29:60:49">"Async I/O disabled"</jtok>
+<jtok eid="1" type="line_comment" span="61:4:61:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:22">//{{{ start() method</jtok>
+<jtok eid="1" type="block_comment" span="64:2:66:5">/**
+	 * Starts all the threads in this thread pool.
+	 */</jtok>
+<jtok eid="3" type="method_name" span="67:14:67:19">start</jtok>
+<jtok eid="3" type="block_comment" span="69:3:69:64">/* not really needed since threads don't start until after */</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:16:70:20">lock</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:4:72:11">started</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:7:74:22">awtRequestCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:31:74:43">requestCount</jtok>
+<jtok eid="3" type="method_call" span="75:5:75:19">queueAWTRunner</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:6:78:13">threads</jtok>
+<jtok eid="3" type="local_variable_name" span="80:12:80:13">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:19:80:20">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:23:80:30">threads</jtok>
+<jtok eid="3" type="qualified_name_ref" span="80:31:80:37">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:39:80:40">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:5:82:12">threads</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:13:82:14">i</jtok>
+<jtok eid="3" type="method_call" span="82:16:82:21">start</jtok>
+<jtok eid="1" type="line_comment" span="85:4:85:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:31">//{{{ addWorkRequest() method</jtok>
+<jtok eid="1" type="block_comment" span="88:2:93:5">/**
+	 * Adds a work request to the queue.
+	 * @param run The runnable
+	 * @param inAWT If true, will be executed in AWT thread. Otherwise,
+	 * will be executed in work thread
+	 */</jtok>
+<jtok eid="4" type="method_name" span="94:14:94:28">addWorkRequest</jtok>
+<jtok eid="4" type="parameter_type" span="94:29:94:37">Runnable</jtok>
+<jtok eid="4" type="parameter_name" span="94:38:94:41">run</jtok>
+<jtok eid="4" type="parameter_name" span="94:51:94:56">inAWT</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:6:96:13">threads</jtok>
+<jtok eid="4" type="primary_name_ref" span="98:4:98:7">run</jtok>
+<jtok eid="4" type="method_call" span="98:8:98:11">run</jtok>
+<jtok eid="4" type="primary_name_ref" span="102:16:102:20">lock</jtok>
+<jtok eid="4" type="line_comment" span="104:4:104:68">//{{{ if there are no requests, execute AWT requests immediately</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:7:105:14">started</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:18:105:23">inAWT</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:27:105:39">requestCount</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:48:105:63">awtRequestCount</jtok>
+<jtok eid="4" type="line_comment" span="107:1:107:55">//				Log.log(Log.DEBUG,this,"AWT immediate: " + run);</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:8:109:22">SwingUtilities</jtok>
+<jtok eid="4" type="method_call" span="109:23:109:44">isEventDispatchThread</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:6:110:9">run</jtok>
+<jtok eid="4" type="method_call" span="110:10:110:13">run</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:6:112:20">SwingUtilities</jtok>
+<jtok eid="4" type="method_call" span="112:21:112:32">invokeLater</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:33:112:36">run</jtok>
+<jtok eid="4" type="line_comment" span="115:6:115:11">//}}}</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="117:4:117:11">Request</jtok>
+<jtok eid="4" type="local_variable_name" span="117:12:117:19">request</jtok>
+<jtok eid="4" type="constructor_call" span="117:26:117:33">Request</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:34:117:37">run</jtok>
+<jtok eid="4" type="line_comment" span="119:4:119:29">//{{{ Add to AWT queue...</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:7:120:12">inAWT</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:8:122:23">firstAWTRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:35:122:49">lastAWTRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:6:123:21">firstAWTRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:24:123:38">lastAWTRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:41:123:48">request</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:6:126:20">lastAWTRequest</jtok>
+<jtok eid="4" type="qualified_name_ref" span="126:21:126:25">next</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:28:126:35">request</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:6:127:20">lastAWTRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:23:127:30">request</jtok>
+<jtok eid="4" type="primary_name_ref" span="130:5:130:20">awtRequestCount</jtok>
+<jtok eid="4" type="line_comment" span="132:5:132:49">// if no requests are running, requestDone()</jtok>
+<jtok eid="4" type="line_comment" span="133:5:133:48">// will not be called, so we must queue the</jtok>
+<jtok eid="4" type="line_comment" span="134:5:134:29">// AWT runner ourselves.</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:8:135:15">started</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:19:135:31">requestCount</jtok>
+<jtok eid="4" type="method_call" span="136:6:136:20">queueAWTRunner</jtok>
+<jtok eid="4" type="line_comment" span="137:6:137:11">//}}}</jtok>
+<jtok eid="4" type="line_comment" span="138:4:138:37">//{{{ Add to work thread queue...</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:8:141:20">firstRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:32:141:43">lastRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:6:142:18">firstRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:21:142:32">lastRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:35:142:42">request</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:6:145:17">lastRequest</jtok>
+<jtok eid="4" type="qualified_name_ref" span="145:18:145:22">next</jtok>
+<jtok eid="4" type="primary_name_ref" span="145:25:145:32">request</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:6:146:17">lastRequest</jtok>
+<jtok eid="4" type="primary_name_ref" span="146:20:146:27">request</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:5:149:17">requestCount</jtok>
+<jtok eid="4" type="line_comment" span="150:6:150:11">//}}}</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:4:152:8">lock</jtok>
+<jtok eid="4" type="method_call" span="152:9:152:18">notifyAll</jtok>
+<jtok eid="1" type="line_comment" span="154:4:154:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="156:2:156:32">//{{{ waitForRequests() method</jtok>
+<jtok eid="1" type="block_comment" span="157:2:159:5">/**
+	 * Waits until all requests are complete.
+	 */</jtok>
+<jtok eid="5" type="method_name" span="160:14:160:29">waitForRequests</jtok>
+<jtok eid="5" type="primary_name_ref" span="162:6:162:13">threads</jtok>
+<jtok eid="5" type="primary_name_ref" span="165:16:165:30">waitForAllLock</jtok>
+<jtok eid="5" type="primary_name_ref" span="167:10:167:22">requestCount</jtok>
+<jtok eid="5" type="primary_name_ref" span="171:6:171:20">waitForAllLock</jtok>
+<jtok eid="5" type="method_call" span="171:21:171:25">wait</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="173:11:173:31">InterruptedException</jtok>
+<jtok eid="5" type="local_variable_name" span="173:32:173:34">ie</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:6:175:9">Log</jtok>
+<jtok eid="5" type="method_call" span="175:10:175:13">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:14:175:17">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="175:18:175:23">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:29:175:31">ie</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:6:180:20">SwingUtilities</jtok>
+<jtok eid="5" type="method_call" span="180:21:180:42">isEventDispatchThread</jtok>
+<jtok eid="5" type="line_comment" span="182:4:182:34">// do any queued AWT runnables</jtok>
+<jtok eid="5" type="method_call" span="183:4:183:17">doAWTRequests</jtok>
+<jtok eid="5" type="primary_name_ref" span="189:5:189:19">SwingUtilities</jtok>
+<jtok eid="5" type="method_call" span="189:20:189:33">invokeAndWait</jtok>
+<jtok eid="5" type="constructor_call" span="189:38:189:60">RunRequestsInAWTThread</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="191:10:191:19">Exception</jtok>
+<jtok eid="5" type="local_variable_name" span="191:20:191:21">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="193:5:193:8">Log</jtok>
+<jtok eid="5" type="method_call" span="193:9:193:12">log</jtok>
+<jtok eid="5" type="primary_name_ref" span="193:13:193:16">Log</jtok>
+<jtok eid="5" type="qualified_name_ref" span="193:17:193:22">ERROR</jtok>
+<jtok eid="5" type="primary_name_ref" span="193:28:193:29">e</jtok>
+<jtok eid="1" type="line_comment" span="196:4:196:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="198:2:198:32">//{{{ getRequestCount() method</jtok>
+<jtok eid="1" type="block_comment" span="199:2:202:5">/**
+	 * Returns the number of pending requests.
+	 * @return the pending request count
+	 */</jtok>
+<jtok eid="6" type="method_name" span="203:13:203:28">getRequestCount</jtok>
+<jtok eid="6" type="primary_name_ref" span="205:10:205:22">requestCount</jtok>
+<jtok eid="1" type="line_comment" span="206:4:206:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="208:2:208:31">//{{{ getThreadCount() method</jtok>
+<jtok eid="1" type="block_comment" span="209:2:212:5">/**
+	 * Returns the number of threads in this pool.
+	 * @return the thread count
+	 */</jtok>
+<jtok eid="7" type="method_name" span="213:13:213:27">getThreadCount</jtok>
+<jtok eid="7" type="primary_name_ref" span="215:6:215:13">threads</jtok>
+<jtok eid="7" type="primary_name_ref" span="218:11:218:18">threads</jtok>
+<jtok eid="7" type="qualified_name_ref" span="218:19:218:25">length</jtok>
+<jtok eid="1" type="line_comment" span="219:4:219:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="221:2:221:26">//{{{ getThread() method</jtok>
+<jtok eid="1" type="block_comment" span="222:2:226:5">/**
+	 * Returns the specified thread.
+	 * @param index The index of the thread
+	 * @return a WorkThread
+	 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="227:9:227:19">WorkThread</jtok>
+<jtok eid="8" type="method_name" span="227:20:227:29">getThread</jtok>
+<jtok eid="8" type="parameter_name" span="227:34:227:39">index</jtok>
+<jtok eid="8" type="primary_name_ref" span="229:10:229:17">threads</jtok>
+<jtok eid="8" type="primary_name_ref" span="229:18:229:23">index</jtok>
+<jtok eid="1" type="line_comment" span="230:4:230:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="232:2:232:36">//{{{ addProgressListener() method</jtok>
+<jtok eid="1" type="block_comment" span="233:2:236:5">/**
+	 * Adds a progress listener to this thread pool.
+	 * @param listener The listener
+	 */</jtok>
+<jtok eid="9" type="method_name" span="237:14:237:33">addProgressListener</jtok>
+<jtok eid="9" type="parameter_type" span="237:34:237:60">WorkThreadProgressListener</jtok>
+<jtok eid="9" type="parameter_name" span="237:61:237:69">listener</jtok>
+<jtok eid="9" type="primary_name_ref" span="239:3:239:15">listenerList</jtok>
+<jtok eid="9" type="method_call" span="239:16:239:19">add</jtok>
+<jtok eid="9" type="primary_name_ref" span="239:20:239:46">WorkThreadProgressListener</jtok>
+<jtok eid="9" type="primary_name_ref" span="239:53:239:61">listener</jtok>
+<jtok eid="1" type="line_comment" span="240:4:240:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="242:2:242:39">//{{{ removeProgressListener() method</jtok>
+<jtok eid="1" type="block_comment" span="243:2:246:5">/**
+	 * Removes a progress listener from this thread pool.
+	 * @param listener The listener
+	 */</jtok>
+<jtok eid="10" type="method_name" span="247:14:247:36">removeProgressListener</jtok>
+<jtok eid="10" type="parameter_type" span="247:37:247:63">WorkThreadProgressListener</jtok>
+<jtok eid="10" type="parameter_name" span="247:64:247:72">listener</jtok>
+<jtok eid="10" type="primary_name_ref" span="249:3:249:15">listenerList</jtok>
+<jtok eid="10" type="method_call" span="249:16:249:22">remove</jtok>
+<jtok eid="10" type="primary_name_ref" span="249:23:249:49">WorkThreadProgressListener</jtok>
+<jtok eid="10" type="primary_name_ref" span="249:56:249:64">listener</jtok>
+<jtok eid="1" type="line_comment" span="250:4:250:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="252:2:252:31">//{{{ Package-private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="253:8:253:14">Object</jtok>
+<jtok eid="1" type="field_name" span="253:15:253:19">lock</jtok>
+<jtok eid="1" type="constructor_call" span="253:26:253:32">Object</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="254:8:254:14">Object</jtok>
+<jtok eid="1" type="field_name" span="254:15:254:29">waitForAllLock</jtok>
+<jtok eid="1" type="constructor_call" span="254:36:254:42">Object</jtok>
+<jtok eid="1" type="line_comment" span="256:2:256:34">//{{{ fireStatusChanged() method</jtok>
+<jtok eid="11" type="method_name" span="257:7:257:24">fireStatusChanged</jtok>
+<jtok eid="11" type="parameter_type" span="257:25:257:35">WorkThread</jtok>
+<jtok eid="11" type="parameter_name" span="257:36:257:42">thread</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="259:9:259:15">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="259:18:259:27">listeners</jtok>
+<jtok eid="11" type="primary_name_ref" span="259:30:259:42">listenerList</jtok>
+<jtok eid="11" type="method_call" span="259:43:259:58">getListenerList</jtok>
+<jtok eid="11" type="primary_name_ref" span="260:6:260:15">listeners</jtok>
+<jtok eid="11" type="qualified_name_ref" span="260:16:260:22">length</jtok>
+<jtok eid="11" type="local_variable_name" span="262:8:262:13">index</jtok>
+<jtok eid="11" type="local_variable_name" span="263:12:263:13">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="263:19:263:20">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="263:23:263:30">threads</jtok>
+<jtok eid="11" type="qualified_name_ref" span="263:31:263:37">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="263:39:263:40">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:8:265:15">threads</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:16:265:17">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:22:265:28">thread</jtok>
+<jtok eid="11" type="primary_name_ref" span="267:6:267:11">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="267:14:267:15">i</jtok>
+<jtok eid="11" type="local_variable_name" span="272:12:272:13">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="272:16:272:25">listeners</jtok>
+<jtok eid="11" type="qualified_name_ref" span="272:26:272:32">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="272:38:272:39">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="272:46:272:47">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:8:274:17">listeners</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:18:274:19">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="274:24:274:50">WorkThreadProgressListener</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="276:8:276:34">WorkThreadProgressListener</jtok>
+<jtok eid="11" type="primary_name_ref" span="276:35:276:44">listeners</jtok>
+<jtok eid="11" type="primary_name_ref" span="276:45:276:46">i</jtok>
+<jtok eid="11" type="method_call" span="277:8:277:20">statusUpdate</jtok>
+<jtok eid="11" type="primary_name_ref" span="277:21:277:35">WorkThreadPool</jtok>
+<jtok eid="11" type="primary_name_ref" span="277:41:277:46">index</jtok>
+<jtok eid="1" type="line_comment" span="281:4:281:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="283:2:283:36">//{{{ fireProgressChanged() method</jtok>
+<jtok eid="12" type="method_name" span="284:7:284:26">fireProgressChanged</jtok>
+<jtok eid="12" type="parameter_type" span="284:27:284:37">WorkThread</jtok>
+<jtok eid="12" type="parameter_name" span="284:38:284:44">thread</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="286:9:286:15">Object</jtok>
+<jtok eid="12" type="local_variable_name" span="286:18:286:27">listeners</jtok>
+<jtok eid="12" type="primary_name_ref" span="286:30:286:42">listenerList</jtok>
+<jtok eid="12" type="method_call" span="286:43:286:58">getListenerList</jtok>
+<jtok eid="12" type="primary_name_ref" span="287:6:287:15">listeners</jtok>
+<jtok eid="12" type="qualified_name_ref" span="287:16:287:22">length</jtok>
+<jtok eid="12" type="local_variable_name" span="289:8:289:13">index</jtok>
+<jtok eid="12" type="local_variable_name" span="290:12:290:13">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="290:19:290:20">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="290:23:290:30">threads</jtok>
+<jtok eid="12" type="qualified_name_ref" span="290:31:290:37">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="290:39:290:40">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="292:8:292:15">threads</jtok>
+<jtok eid="12" type="primary_name_ref" span="292:16:292:17">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="292:22:292:28">thread</jtok>
+<jtok eid="12" type="primary_name_ref" span="294:6:294:11">index</jtok>
+<jtok eid="12" type="primary_name_ref" span="294:14:294:15">i</jtok>
+<jtok eid="12" type="local_variable_name" span="299:12:299:13">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="299:16:299:25">listeners</jtok>
+<jtok eid="12" type="qualified_name_ref" span="299:26:299:32">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="299:38:299:39">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="299:46:299:47">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="301:8:301:17">listeners</jtok>
+<jtok eid="12" type="primary_name_ref" span="301:18:301:19">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="301:24:301:50">WorkThreadProgressListener</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="303:8:303:34">WorkThreadProgressListener</jtok>
+<jtok eid="12" type="primary_name_ref" span="303:35:303:44">listeners</jtok>
+<jtok eid="12" type="primary_name_ref" span="303:45:303:46">i</jtok>
+<jtok eid="12" type="method_call" span="304:8:304:22">progressUpdate</jtok>
+<jtok eid="12" type="primary_name_ref" span="304:23:304:37">WorkThreadPool</jtok>
+<jtok eid="12" type="primary_name_ref" span="304:43:304:48">index</jtok>
+<jtok eid="1" type="line_comment" span="308:4:308:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="310:2:310:28">//{{{ requestDone() method</jtok>
+<jtok eid="13" type="method_name" span="311:7:311:18">requestDone</jtok>
+<jtok eid="13" type="primary_name_ref" span="313:16:313:20">lock</jtok>
+<jtok eid="13" type="primary_name_ref" span="315:4:315:16">requestCount</jtok>
+<jtok eid="13" type="primary_name_ref" span="317:7:317:19">requestCount</jtok>
+<jtok eid="13" type="primary_name_ref" span="317:28:317:43">firstAWTRequest</jtok>
+<jtok eid="13" type="method_call" span="318:5:318:19">queueAWTRunner</jtok>
+<jtok eid="1" type="line_comment" span="320:4:320:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="322:2:322:31">//{{{ getNextRequest() method</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="323:2:323:9">Request</jtok>
+<jtok eid="14" type="method_name" span="323:10:323:24">getNextRequest</jtok>
+<jtok eid="14" type="primary_name_ref" span="325:16:325:20">lock</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="327:4:327:11">Request</jtok>
+<jtok eid="14" type="local_variable_name" span="327:12:327:19">request</jtok>
+<jtok eid="14" type="primary_name_ref" span="327:22:327:34">firstRequest</jtok>
+<jtok eid="14" type="primary_name_ref" span="328:7:328:14">request</jtok>
+<jtok eid="14" type="primary_name_ref" span="331:4:331:16">firstRequest</jtok>
+<jtok eid="14" type="primary_name_ref" span="331:19:331:31">firstRequest</jtok>
+<jtok eid="14" type="qualified_name_ref" span="331:32:331:36">next</jtok>
+<jtok eid="14" type="primary_name_ref" span="332:7:332:19">firstRequest</jtok>
+<jtok eid="14" type="primary_name_ref" span="333:5:333:16">lastRequest</jtok>
+<jtok eid="14" type="primary_name_ref" span="335:7:335:14">request</jtok>
+<jtok eid="14" type="qualified_name_ref" span="335:15:335:25">alreadyRun</jtok>
+<jtok eid="14" type="constructor_call" span="336:15:336:28">InternalError</jtok>
+<jtok eid="14" type="string_literal" span="336:29:336:60">"AIEE!!! Request run twice!!! "</jtok>
+<jtok eid="14" type="primary_name_ref" span="336:63:336:70">request</jtok>
+<jtok eid="14" type="qualified_name_ref" span="336:71:336:74">run</jtok>
+<jtok eid="14" type="primary_name_ref" span="337:4:337:11">request</jtok>
+<jtok eid="14" type="qualified_name_ref" span="337:12:337:22">alreadyRun</jtok>
+<jtok eid="14" type="block_comment" span="339:4:348:46">/* StringBuffer buf = new StringBuffer("request queue is now: ");
+			Request _request = request.next;
+			while(_request != null)
+			{
+				buf.append(_request.id);
+				if(_request.next != null)
+					buf.append(",");
+				_request = _request.next;
+			}
+			Log.log(Log.DEBUG,this,buf.toString()); */</jtok>
+<jtok eid="14" type="primary_name_ref" span="350:11:350:18">request</jtok>
+<jtok eid="1" type="line_comment" span="352:4:352:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="354:2:354:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="356:2:356:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="358:2:358:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="field_name" span="359:18:359:25">started</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="360:10:360:21">ThreadGroup</jtok>
+<jtok eid="1" type="field_name" span="360:22:360:33">threadGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="361:10:361:20">WorkThread</jtok>
+<jtok eid="1" type="field_name" span="361:23:361:30">threads</jtok>
+<jtok eid="1" type="line_comment" span="363:2:363:18">// Request queue</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="364:10:364:17">Request</jtok>
+<jtok eid="1" type="field_name" span="364:18:364:30">firstRequest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="365:10:365:17">Request</jtok>
+<jtok eid="1" type="field_name" span="365:18:365:29">lastRequest</jtok>
+<jtok eid="1" type="field_name" span="366:14:366:26">requestCount</jtok>
+<jtok eid="1" type="line_comment" span="368:2:368:21">// AWT thread magic</jtok>
+<jtok eid="1" type="field_name" span="369:18:369:33">awtRunnerQueued</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="370:10:370:17">Request</jtok>
+<jtok eid="1" type="field_name" span="370:18:370:33">firstAWTRequest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="371:10:371:17">Request</jtok>
+<jtok eid="1" type="field_name" span="371:18:371:32">lastAWTRequest</jtok>
+<jtok eid="1" type="field_name" span="372:14:372:29">awtRequestCount</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="374:10:374:27">EventListenerList</jtok>
+<jtok eid="1" type="field_name" span="374:28:374:40">listenerList</jtok>
+<jtok eid="1" type="line_comment" span="375:2:375:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="377:2:377:30">//{{{ doAWTRequests() method</jtok>
+<jtok eid="1" type="block_comment" span="378:2:378:50">/** Must always be called with the lock held. */</jtok>
+<jtok eid="15" type="method_name" span="379:15:379:28">doAWTRequests</jtok>
+<jtok eid="15" type="primary_name_ref" span="381:9:381:21">requestCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="381:30:381:45">firstAWTRequest</jtok>
+<jtok eid="15" type="method_call" span="383:4:383:16">doAWTRequest</jtok>
+<jtok eid="15" type="method_call" span="383:17:383:34">getNextAWTRequest</jtok>
+<jtok eid="1" type="line_comment" span="385:4:385:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="387:2:387:29">//{{{ doAWTRequest() method</jtok>
+<jtok eid="1" type="block_comment" span="388:2:391:5">/**
+	 * Must always be called with the lock held.
+	 * @param request the request to run
+	 */</jtok>
+<jtok eid="16" type="method_name" span="392:15:392:27">doAWTRequest</jtok>
+<jtok eid="16" type="parameter_type" span="392:28:392:35">Request</jtok>
+<jtok eid="16" type="parameter_name" span="392:36:392:43">request</jtok>
+<jtok eid="16" type="line_comment" span="394:1:394:65">//		Log.log(Log.DEBUG,this,"Running in AWT thread: " + request);</jtok>
+<jtok eid="16" type="primary_name_ref" span="398:4:398:11">request</jtok>
+<jtok eid="16" type="qualified_name_ref" span="398:12:398:15">run</jtok>
+<jtok eid="16" type="method_call" span="398:16:398:19">run</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="400:9:400:18">Throwable</jtok>
+<jtok eid="16" type="local_variable_name" span="400:19:400:20">t</jtok>
+<jtok eid="16" type="primary_name_ref" span="402:4:402:7">Log</jtok>
+<jtok eid="16" type="method_call" span="402:8:402:11">log</jtok>
+<jtok eid="16" type="primary_name_ref" span="402:12:402:15">Log</jtok>
+<jtok eid="16" type="qualified_name_ref" span="402:16:402:21">ERROR</jtok>
+<jtok eid="16" type="primary_name_ref" span="402:22:402:32">WorkThread</jtok>
+<jtok eid="16" type="string_literal" span="402:39:402:51">"Exception "</jtok>
+<jtok eid="16" type="string_literal" span="403:7:403:23">"in AWT thread:"</jtok>
+<jtok eid="16" type="primary_name_ref" span="404:4:404:7">Log</jtok>
+<jtok eid="16" type="method_call" span="404:8:404:11">log</jtok>
+<jtok eid="16" type="primary_name_ref" span="404:12:404:15">Log</jtok>
+<jtok eid="16" type="qualified_name_ref" span="404:16:404:21">ERROR</jtok>
+<jtok eid="16" type="primary_name_ref" span="404:22:404:32">WorkThread</jtok>
+<jtok eid="16" type="primary_name_ref" span="404:39:404:40">t</jtok>
+<jtok eid="16" type="primary_name_ref" span="407:3:407:18">awtRequestCount</jtok>
+<jtok eid="1" type="line_comment" span="408:4:408:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="410:2:410:31">//{{{ queueAWTRunner() method</jtok>
+<jtok eid="1" type="block_comment" span="411:2:411:50">/** Must always be called with the lock held. */</jtok>
+<jtok eid="17" type="method_name" span="412:15:412:29">queueAWTRunner</jtok>
+<jtok eid="17" type="primary_name_ref" span="414:7:414:22">awtRunnerQueued</jtok>
+<jtok eid="17" type="primary_name_ref" span="416:4:416:19">awtRunnerQueued</jtok>
+<jtok eid="17" type="primary_name_ref" span="417:4:417:18">SwingUtilities</jtok>
+<jtok eid="17" type="method_call" span="417:19:417:30">invokeLater</jtok>
+<jtok eid="17" type="constructor_call" span="417:35:417:57">RunRequestsInAWTThread</jtok>
+<jtok eid="17" type="line_comment" span="418:1:418:50">//			Log.log(Log.DEBUG,this,"AWT runner queued");</jtok>
+<jtok eid="1" type="line_comment" span="420:4:420:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="422:2:422:34">//{{{ getNextAWTRequest() method</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="423:10:423:17">Request</jtok>
+<jtok eid="18" type="method_name" span="423:18:423:35">getNextAWTRequest</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="425:3:425:10">Request</jtok>
+<jtok eid="18" type="local_variable_name" span="425:11:425:18">request</jtok>
+<jtok eid="18" type="primary_name_ref" span="425:21:425:36">firstAWTRequest</jtok>
+<jtok eid="18" type="primary_name_ref" span="426:3:426:18">firstAWTRequest</jtok>
+<jtok eid="18" type="primary_name_ref" span="426:21:426:36">firstAWTRequest</jtok>
+<jtok eid="18" type="qualified_name_ref" span="426:37:426:41">next</jtok>
+<jtok eid="18" type="primary_name_ref" span="427:6:427:21">firstAWTRequest</jtok>
+<jtok eid="18" type="primary_name_ref" span="428:4:428:18">lastAWTRequest</jtok>
+<jtok eid="18" type="primary_name_ref" span="430:6:430:13">request</jtok>
+<jtok eid="18" type="qualified_name_ref" span="430:14:430:24">alreadyRun</jtok>
+<jtok eid="18" type="constructor_call" span="431:14:431:27">InternalError</jtok>
+<jtok eid="18" type="string_literal" span="431:28:431:59">"AIEE!!! Request run twice!!! "</jtok>
+<jtok eid="18" type="primary_name_ref" span="431:62:431:69">request</jtok>
+<jtok eid="18" type="qualified_name_ref" span="431:70:431:73">run</jtok>
+<jtok eid="18" type="primary_name_ref" span="432:3:432:10">request</jtok>
+<jtok eid="18" type="qualified_name_ref" span="432:11:432:21">alreadyRun</jtok>
+<jtok eid="18" type="block_comment" span="434:3:443:45">/* StringBuffer buf = new StringBuffer("AWT request queue is now: ");
+		Request _request = request.next;
+		while(_request != null)
+		{
+			buf.append(_request.id);
+			if(_request.next != null)
+				buf.append(",");
+			_request = _request.next;
+		}
+		Log.log(Log.DEBUG,this,buf.toString()); */</jtok>
+<jtok eid="18" type="primary_name_ref" span="445:10:445:17">request</jtok>
+<jtok eid="1" type="line_comment" span="446:4:446:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="448:2:448:7">//}}}</jtok>
+<jtok eid="1" type="field_name" span="450:13:450:15">ID</jtok>
+<jtok eid="1" type="line_comment" span="452:2:452:21">//{{{ Request class</jtok>
+<jtok eid="19" type="class_name" span="453:15:453:22">Request</jtok>
+<jtok eid="19" type="field_name" span="455:7:455:9">id</jtok>
+<jtok eid="19" type="primary_name_ref" span="455:14:455:16">ID</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="457:3:457:11">Runnable</jtok>
+<jtok eid="19" type="field_name" span="457:12:457:15">run</jtok>
+<jtok eid="19" type="field_name" span="459:11:459:21">alreadyRun</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="461:3:461:10">Request</jtok>
+<jtok eid="19" type="field_name" span="461:11:461:15">next</jtok>
+<jtok eid="20" type="method_name" span="463:3:463:10">Request</jtok>
+<jtok eid="20" type="parameter_type" span="463:11:463:19">Runnable</jtok>
+<jtok eid="20" type="parameter_name" span="463:20:463:23">run</jtok>
+<jtok eid="20" type="qualified_name_ref" span="465:9:465:12">run</jtok>
+<jtok eid="20" type="primary_name_ref" span="465:15:465:18">run</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="468:10:468:16">String</jtok>
+<jtok eid="21" type="method_name" span="468:17:468:25">toString</jtok>
+<jtok eid="21" type="string_literal" span="470:11:470:17">"[id="</jtok>
+<jtok eid="21" type="primary_name_ref" span="470:20:470:22">id</jtok>
+<jtok eid="21" type="string_literal" span="470:25:470:32">",run="</jtok>
+<jtok eid="21" type="primary_name_ref" span="470:35:470:38">run</jtok>
+<jtok eid="21" type="string_literal" span="470:41:470:44">"]"</jtok>
+<jtok eid="1" type="line_comment" span="472:4:472:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="474:2:474:36">//{{{ RunRequestsInAWTThread class</jtok>
+<jtok eid="22" type="class_name" span="475:8:475:30">RunRequestsInAWTThread</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="475:42:475:50">Runnable</jtok>
+<jtok eid="23" type="method_name" span="477:15:477:18">run</jtok>
+<jtok eid="23" type="primary_name_ref" span="479:17:479:21">lock</jtok>
+<jtok eid="23" type="primary_name_ref" span="481:5:481:20">awtRunnerQueued</jtok>
+<jtok eid="23" type="primary_name_ref" span="482:8:482:20">requestCount</jtok>
+<jtok eid="23" type="method_call" span="483:6:483:19">doAWTRequests</jtok>
+<jtok eid="1" type="line_comment" span="486:4:486:9">//}}}</jtok>
+</jdoc>

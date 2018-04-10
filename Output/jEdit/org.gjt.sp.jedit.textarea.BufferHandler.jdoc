@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.BufferHandler" jls="java5">
+<jent id="0" type="file" span="0:0:457:2">Source/jEdit/org/gjt/sp/jedit/textarea/BufferHandler.java</jent>
+<jent id="1" pid="0" type="class" span="44:1:457:1">org.gjt.sp.jedit.textarea.BufferHandler</jent>
+<jent id="2" pid="1" type="method" span="55:2:62:2">org.gjt.sp.jedit.textarea.BufferHandler.BufferHandler(DisplayManager,TextArea,JEditBuffer)</jent>
+<jent id="3" pid="1" type="method" span="65:2:68:2">org.gjt.sp.jedit.textarea.BufferHandler.bufferLoaded(JEditBuffer)</jent>
+<jent id="4" pid="1" type="method" span="71:2:74:2">org.gjt.sp.jedit.textarea.BufferHandler.foldHandlerChanged(JEditBuffer)</jent>
+<jent id="5" pid="1" type="method" span="77:2:87:2">org.gjt.sp.jedit.textarea.BufferHandler.foldLevelChanged(JEditBuffer,int,int)</jent>
+<jent id="6" pid="1" type="method" span="90:2:157:2">org.gjt.sp.jedit.textarea.BufferHandler.contentInserted(JEditBuffer,int,int,int,int)</jent>
+<jent id="7" pid="1" type="method" span="169:2:175:2">org.gjt.sp.jedit.textarea.BufferHandler.preContentInserted(JEditBuffer,int,int,int,int)</jent>
+<jent id="8" pid="1" type="method" span="188:2:272:2">org.gjt.sp.jedit.textarea.BufferHandler.preContentRemoved(JEditBuffer,int,int,int,int)</jent>
+<jent id="9" pid="1" type="method" span="275:2:326:2">org.gjt.sp.jedit.textarea.BufferHandler.contentRemoved(JEditBuffer,int,int,int,int)</jent>
+<jent id="10" pid="1" type="method" span="330:2:366:2">org.gjt.sp.jedit.textarea.BufferHandler.transactionComplete(JEditBuffer)</jent>
+<jent id="11" pid="1" type="method" span="369:2:424:2">org.gjt.sp.jedit.textarea.BufferHandler.doDelayedUpdate()</jent>
+<jent id="12" pid="1" type="method" span="427:2:446:2">org.gjt.sp.jedit.textarea.BufferHandler.delayUpdate(int,int)</jent>
+<jent id="13" pid="1" type="method" span="453:2:456:2">org.gjt.sp.jedit.textarea.BufferHandler.getReadyToBreakFold(int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BufferHandler.java
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="29:1:43:4">/**
+ * Note that in this class we take great care to defer complicated
+ * calculations to the end of the current transaction if the buffer
+ * informs us a compound edit is in progress
+ * (&lt;code&gt;isTransactionInProgress()&lt;/code&gt;).
+ *
+ * This greatly speeds up replace all for example, by only doing certain
+ * things once, particularly in &lt;code&gt;moveCaretPosition()&lt;/code&gt;.
+ *
+ * Try doing a replace all in a large file, for example. It is very slow
+ * in 3.2, faster in 4.0 (where the transaction optimization was
+ * introduced) and faster still in 4.1 (where it was further improved).
+ *
+ * There is still work to do; see TODO.txt.
+ */</jtok>
+<jtok eid="1" type="class_name" span="44:7:44:20">BufferHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:32:44:46">BufferListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:16:46:30">DisplayManager</jtok>
+<jtok eid="1" type="field_name" span="46:31:46:45">displayManager</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="47:16:47:24">TextArea</jtok>
+<jtok eid="1" type="field_name" span="47:25:47:33">textArea</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:16:48:27">JEditBuffer</jtok>
+<jtok eid="1" type="field_name" span="48:28:48:34">buffer</jtok>
+<jtok eid="1" type="field_name" span="49:18:49:31">delayedUpdate</jtok>
+<jtok eid="1" type="field_name" span="50:18:50:40">delayedMultilineUpdate</jtok>
+<jtok eid="1" type="field_name" span="51:14:51:32">delayedUpdateStart</jtok>
+<jtok eid="1" type="field_name" span="52:14:52:30">delayedUpdateEnd</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:39">//{{{ BufferChangeHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="55:2:55:15">BufferHandler</jtok>
+<jtok eid="2" type="parameter_type" span="55:16:55:30">DisplayManager</jtok>
+<jtok eid="2" type="parameter_name" span="55:31:55:45">displayManager</jtok>
+<jtok eid="2" type="parameter_type" span="56:3:56:11">TextArea</jtok>
+<jtok eid="2" type="parameter_name" span="56:12:56:20">textArea</jtok>
+<jtok eid="2" type="parameter_type" span="57:3:57:14">JEditBuffer</jtok>
+<jtok eid="2" type="parameter_name" span="57:15:57:21">buffer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="59:8:59:22">displayManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:25:59:39">displayManager</jtok>
+<jtok eid="2" type="qualified_name_ref" span="60:8:60:16">textArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:19:60:27">textArea</jtok>
+<jtok eid="2" type="qualified_name_ref" span="61:8:61:14">buffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:17:61:23">buffer</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:29">//{{{ bufferLoaded() method</jtok>
+<jtok eid="3" type="method_name" span="65:14:65:26">bufferLoaded</jtok>
+<jtok eid="3" type="parameter_type" span="65:27:65:38">JEditBuffer</jtok>
+<jtok eid="3" type="parameter_name" span="65:39:65:45">buffer</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:3:67:17">displayManager</jtok>
+<jtok eid="3" type="method_call" span="67:18:67:30">bufferLoaded</jtok>
+<jtok eid="1" type="line_comment" span="68:4:68:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="70:2:70:35">//{{{ foldHandlerChanged() method</jtok>
+<jtok eid="4" type="method_name" span="71:14:71:32">foldHandlerChanged</jtok>
+<jtok eid="4" type="parameter_type" span="71:33:71:44">JEditBuffer</jtok>
+<jtok eid="4" type="parameter_name" span="71:45:71:51">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:3:73:17">displayManager</jtok>
+<jtok eid="4" type="method_call" span="73:18:73:36">foldHandlerChanged</jtok>
+<jtok eid="1" type="line_comment" span="74:4:74:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:33">//{{{ foldLevelChanged() method</jtok>
+<jtok eid="5" type="method_name" span="77:14:77:30">foldLevelChanged</jtok>
+<jtok eid="5" type="parameter_type" span="77:31:77:42">JEditBuffer</jtok>
+<jtok eid="5" type="parameter_name" span="77:43:77:49">buffer</jtok>
+<jtok eid="5" type="parameter_name" span="77:55:77:60">start</jtok>
+<jtok eid="5" type="parameter_name" span="77:66:77:69">end</jtok>
+<jtok eid="5" type="line_comment" span="79:3:79:111">//System.err.println("foldLevelChanged " + (start-1) + " to " + textArea.getLastPhysicalLine() + "," + end);</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:6:81:14">textArea</jtok>
+<jtok eid="5" type="method_call" span="81:15:81:32">getDisplayManager</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:38:81:52">displayManager</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:7:82:10">end</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:20:82:26">buffer</jtok>
+<jtok eid="5" type="method_call" span="82:27:82:36">isLoading</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:4:84:12">textArea</jtok>
+<jtok eid="5" type="method_call" span="84:13:84:32">invalidateLineRange</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:33:84:38">start</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:5:85:13">textArea</jtok>
+<jtok eid="5" type="method_call" span="85:14:85:33">getLastPhysicalLine</jtok>
+<jtok eid="1" type="line_comment" span="87:4:87:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="89:2:89:32">//{{{ contentInserted() method</jtok>
+<jtok eid="6" type="method_name" span="90:14:90:29">contentInserted</jtok>
+<jtok eid="6" type="parameter_type" span="90:30:90:41">JEditBuffer</jtok>
+<jtok eid="6" type="parameter_name" span="90:42:90:48">buffer</jtok>
+<jtok eid="6" type="parameter_name" span="90:54:90:63">startLine</jtok>
+<jtok eid="6" type="parameter_name" span="91:7:91:13">offset</jtok>
+<jtok eid="6" type="parameter_name" span="91:19:91:27">numLines</jtok>
+<jtok eid="6" type="parameter_name" span="91:33:91:39">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:6:93:12">buffer</jtok>
+<jtok eid="6" type="method_call" span="93:13:93:22">isLoading</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:3:96:17">displayManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="96:18:96:31">screenLineMgr</jtok>
+<jtok eid="6" type="method_call" span="96:32:96:47">contentInserted</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:48:96:57">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:58:96:66">numLines</jtok>
+<jtok eid="6" type="local_variable_name" span="98:7:98:14">endLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:17:98:26">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:29:98:37">numLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:6:100:14">numLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:4:101:26">delayedMultilineUpdate</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:3:103:17">displayManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="103:18:103:23">folds</jtok>
+<jtok eid="6" type="method_call" span="103:24:103:39">contentInserted</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:40:103:49">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:50:103:58">numLines</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="105:3:105:12">FirstLine</jtok>
+<jtok eid="6" type="local_variable_name" span="105:13:105:22">firstLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:25:105:39">displayManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="105:40:105:49">firstLine</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="106:3:106:18">ScrollLineCount</jtok>
+<jtok eid="6" type="local_variable_name" span="106:19:106:34">scrollLineCount</jtok>
+<jtok eid="6" type="primary_name_ref" span="106:37:106:51">displayManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="106:52:106:67">scrollLineCount</jtok>
+<jtok eid="6" type="primary_name_ref" span="108:6:108:14">textArea</jtok>
+<jtok eid="6" type="method_call" span="108:15:108:32">getDisplayManager</jtok>
+<jtok eid="6" type="primary_name_ref" span="108:38:108:52">displayManager</jtok>
+<jtok eid="6" type="primary_name_ref" span="110:7:110:15">numLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:5:112:14">firstLine</jtok>
+<jtok eid="6" type="method_call" span="112:15:112:30">contentInserted</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:31:112:40">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:41:112:49">numLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:5:113:20">scrollLineCount</jtok>
+<jtok eid="6" type="method_call" span="113:21:113:36">contentInserted</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:37:113:46">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="113:47:113:55">numLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:7:116:23">delayedUpdateEnd</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:27:116:36">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:5:117:21">delayedUpdateEnd</jtok>
+<jtok eid="6" type="primary_name_ref" span="117:25:117:33">numLines</jtok>
+<jtok eid="6" type="method_call" span="118:4:118:15">delayUpdate</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:16:118:25">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="118:26:118:33">endLine</jtok>
+<jtok eid="6" type="line_comment" span="120:4:120:40">//{{{ resize selections if necessary</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="122:4:122:12">Iterator</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="122:13:122:22">Selection</jtok>
+<jtok eid="6" type="local_variable_name" span="122:24:122:28">iter</jtok>
+<jtok eid="6" type="primary_name_ref" span="122:31:122:39">textArea</jtok>
+<jtok eid="6" type="method_call" span="122:40:122:60">getSelectionIterator</jtok>
+<jtok eid="6" type="primary_name_ref" span="123:10:123:14">iter</jtok>
+<jtok eid="6" type="method_call" span="123:15:123:22">hasNext</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="125:5:125:14">Selection</jtok>
+<jtok eid="6" type="local_variable_name" span="125:15:125:16">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="125:19:125:23">iter</jtok>
+<jtok eid="6" type="method_call" span="125:24:125:28">next</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:8:127:9">s</jtok>
+<jtok eid="6" type="method_call" span="127:10:127:25">contentInserted</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:26:127:32">buffer</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:33:127:42">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="127:43:127:49">offset</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:6:128:14">numLines</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:15:128:21">length</jtok>
+<jtok eid="6" type="method_call" span="130:6:130:17">delayUpdate</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:18:130:19">s</jtok>
+<jtok eid="6" type="qualified_name_ref" span="130:20:130:29">startLine</jtok>
+<jtok eid="6" type="primary_name_ref" span="130:30:130:31">s</jtok>
+<jtok eid="6" type="qualified_name_ref" span="130:32:130:39">endLine</jtok>
+<jtok eid="6" type="line_comment" span="132:6:132:11">//}}}</jtok>
+<jtok eid="6" type="local_variable_name" span="134:8:134:13">caret</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:16:134:24">textArea</jtok>
+<jtok eid="6" type="method_call" span="134:25:134:41">getCaretPosition</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:7:135:12">caret</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:16:135:22">offset</jtok>
+<jtok eid="6" type="local_variable_name" span="137:9:137:19">scrollMode</jtok>
+<jtok eid="6" type="primary_name_ref" span="137:22:137:30">textArea</jtok>
+<jtok eid="6" type="method_call" span="137:31:137:46">caretAutoScroll</jtok>
+<jtok eid="6" type="primary_name_ref" span="138:8:138:16">TextArea</jtok>
+<jtok eid="6" type="qualified_name_ref" span="138:17:138:32">ELECTRIC_SCROLL</jtok>
+<jtok eid="6" type="primary_name_ref" span="139:8:139:16">TextArea</jtok>
+<jtok eid="6" type="qualified_name_ref" span="139:17:139:26">NO_SCROLL</jtok>
+<jtok eid="6" type="primary_name_ref" span="140:5:140:13">textArea</jtok>
+<jtok eid="6" type="method_call" span="140:14:140:31">moveCaretPosition</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:6:141:11">caret</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:14:141:20">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:21:141:31">scrollMode</jtok>
+<jtok eid="6" type="local_variable_name" span="145:9:145:19">scrollMode</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:22:145:30">textArea</jtok>
+<jtok eid="6" type="method_call" span="145:31:145:46">caretAutoScroll</jtok>
+<jtok eid="6" type="primary_name_ref" span="146:8:146:16">TextArea</jtok>
+<jtok eid="6" type="qualified_name_ref" span="146:17:146:30">NORMAL_SCROLL</jtok>
+<jtok eid="6" type="primary_name_ref" span="147:8:147:16">TextArea</jtok>
+<jtok eid="6" type="qualified_name_ref" span="147:17:147:26">NO_SCROLL</jtok>
+<jtok eid="6" type="primary_name_ref" span="148:5:148:13">textArea</jtok>
+<jtok eid="6" type="method_call" span="148:14:148:31">moveCaretPosition</jtok>
+<jtok eid="6" type="primary_name_ref" span="149:6:149:11">caret</jtok>
+<jtok eid="6" type="primary_name_ref" span="149:12:149:22">scrollMode</jtok>
+<jtok eid="6" type="primary_name_ref" span="154:4:154:13">firstLine</jtok>
+<jtok eid="6" type="qualified_name_ref" span="154:14:154:23">callReset</jtok>
+<jtok eid="6" type="primary_name_ref" span="155:4:155:19">scrollLineCount</jtok>
+<jtok eid="6" type="qualified_name_ref" span="155:20:155:29">callReset</jtok>
+<jtok eid="1" type="line_comment" span="157:4:157:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="159:2:159:35">//{{{ preContentInserted() method</jtok>
+<jtok eid="1" type="block_comment" span="160:2:168:5">/**
+	 * Called when text is about to be inserted in the buffer.
+	 * @param buffer The buffer in question
+	 * @param startLine The first line
+	 * @param offset The start offset, from the beginning of the buffer
+	 * @param numLines The number of lines inserted
+	 * @param length The number of characters inserted
+	 * @since jEdit 4.3pre11
+	 */</jtok>
+<jtok eid="7" type="method_name" span="169:14:169:32">preContentInserted</jtok>
+<jtok eid="7" type="parameter_type" span="169:33:169:44">JEditBuffer</jtok>
+<jtok eid="7" type="parameter_name" span="169:45:169:51">buffer</jtok>
+<jtok eid="7" type="parameter_name" span="169:57:169:66">startLine</jtok>
+<jtok eid="7" type="parameter_name" span="169:72:169:78">offset</jtok>
+<jtok eid="7" type="parameter_name" span="169:84:169:92">numLines</jtok>
+<jtok eid="7" type="parameter_name" span="169:98:169:104">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="171:6:171:14">textArea</jtok>
+<jtok eid="7" type="method_call" span="171:15:171:32">getDisplayManager</jtok>
+<jtok eid="7" type="primary_name_ref" span="171:38:171:52">displayManager</jtok>
+<jtok eid="7" type="method_call" span="173:4:173:23">getReadyToBreakFold</jtok>
+<jtok eid="7" type="primary_name_ref" span="173:24:173:33">startLine</jtok>
+<jtok eid="1" type="line_comment" span="175:4:175:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="177:2:177:34">//{{{ preContentRemoved() method</jtok>
+<jtok eid="1" type="block_comment" span="178:2:187:5">/**
+	 * Called when text is about to be removed from the buffer, but is
+	 * still present.
+	 * @param buffer The buffer in question
+	 * @param startLine The first line
+	 * @param offset The start offset, from the beginning of the buffer
+	 * @param numLines The number of lines to be removed
+	 * @param length The number of characters to be removed
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="8" type="method_name" span="188:14:188:31">preContentRemoved</jtok>
+<jtok eid="8" type="parameter_type" span="188:32:188:43">JEditBuffer</jtok>
+<jtok eid="8" type="parameter_name" span="188:44:188:50">buffer</jtok>
+<jtok eid="8" type="parameter_name" span="188:56:188:65">startLine</jtok>
+<jtok eid="8" type="parameter_name" span="189:7:189:13">offset</jtok>
+<jtok eid="8" type="parameter_name" span="189:19:189:27">numLines</jtok>
+<jtok eid="8" type="parameter_name" span="189:33:189:39">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="191:6:191:12">buffer</jtok>
+<jtok eid="8" type="method_call" span="191:13:191:22">isLoading</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="194:3:194:12">FirstLine</jtok>
+<jtok eid="8" type="local_variable_name" span="194:13:194:22">firstLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="194:25:194:39">displayManager</jtok>
+<jtok eid="8" type="qualified_name_ref" span="194:40:194:49">firstLine</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="195:3:195:18">ScrollLineCount</jtok>
+<jtok eid="8" type="local_variable_name" span="195:19:195:34">scrollLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:37:195:51">displayManager</jtok>
+<jtok eid="8" type="qualified_name_ref" span="195:52:195:67">scrollLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:6:197:14">textArea</jtok>
+<jtok eid="8" type="method_call" span="197:15:197:32">getDisplayManager</jtok>
+<jtok eid="8" type="primary_name_ref" span="197:38:197:52">displayManager</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:7:199:15">numLines</jtok>
+<jtok eid="8" type="method_call" span="201:5:201:24">getReadyToBreakFold</jtok>
+<jtok eid="8" type="primary_name_ref" span="201:25:201:34">startLine</jtok>
+<jtok eid="8" type="local_variable_name" span="205:9:205:17">lastLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="205:20:205:29">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="205:32:205:40">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:9:206:23">displayManager</jtok>
+<jtok eid="8" type="method_call" span="206:24:206:37">isLineVisible</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:38:206:47">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:10:207:24">displayManager</jtok>
+<jtok eid="8" type="method_call" span="207:25:207:38">isLineVisible</jtok>
+<jtok eid="8" type="primary_name_ref" span="207:39:207:47">lastLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:10:208:16">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:20:208:26">buffer</jtok>
+<jtok eid="8" type="method_call" span="208:27:208:45">getLineStartOffset</jtok>
+<jtok eid="8" type="primary_name_ref" span="208:46:208:55">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:9:209:15">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:18:209:24">length</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:28:209:34">buffer</jtok>
+<jtok eid="8" type="method_call" span="209:35:209:53">getLineStartOffset</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:54:209:62">lastLine</jtok>
+<jtok eid="8" type="method_call" span="211:6:211:25">getReadyToBreakFold</jtok>
+<jtok eid="8" type="primary_name_ref" span="211:26:211:35">startLine</jtok>
+<jtok eid="8" type="method_call" span="212:6:212:25">getReadyToBreakFold</jtok>
+<jtok eid="8" type="primary_name_ref" span="212:26:212:34">lastLine</jtok>
+<jtok eid="8" type="line_comment" span="216:6:216:35">// The removal will not touch</jtok>
+<jtok eid="8" type="line_comment" span="217:6:217:36">// inside of folds and wll not</jtok>
+<jtok eid="8" type="line_comment" span="218:6:218:36">// modify any remaining lines.</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:7:222:15">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:5:224:14">firstLine</jtok>
+<jtok eid="8" type="method_call" span="224:15:224:32">preContentRemoved</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:33:224:42">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:43:224:49">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:51:224:59">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:5:225:20">scrollLineCount</jtok>
+<jtok eid="8" type="method_call" span="225:21:225:38">preContentRemoved</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:39:225:48">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:50:225:56">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:58:225:66">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="228:7:228:23">delayedUpdateEnd</jtok>
+<jtok eid="8" type="primary_name_ref" span="228:27:228:36">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="229:5:229:21">delayedUpdateEnd</jtok>
+<jtok eid="8" type="primary_name_ref" span="229:25:229:33">numLines</jtok>
+<jtok eid="8" type="method_call" span="230:4:230:15">delayUpdate</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:16:230:25">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:26:230:35">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="234:4:234:13">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="234:14:234:23">callReset</jtok>
+<jtok eid="8" type="primary_name_ref" span="235:4:235:19">scrollLineCount</jtok>
+<jtok eid="8" type="qualified_name_ref" span="235:20:235:29">callReset</jtok>
+<jtok eid="8" type="primary_name_ref" span="238:3:238:17">displayManager</jtok>
+<jtok eid="8" type="qualified_name_ref" span="238:18:238:31">screenLineMgr</jtok>
+<jtok eid="8" type="method_call" span="238:32:238:46">contentRemoved</jtok>
+<jtok eid="8" type="primary_name_ref" span="238:47:238:56">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="238:57:238:65">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="240:6:240:14">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="243:3:243:25">delayedMultilineUpdate</jtok>
+<jtok eid="8" type="primary_name_ref" span="245:6:245:20">displayManager</jtok>
+<jtok eid="8" type="qualified_name_ref" span="245:21:245:26">folds</jtok>
+<jtok eid="8" type="method_call" span="245:27:245:44">preContentRemoved</jtok>
+<jtok eid="8" type="primary_name_ref" span="245:45:245:54">startLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="245:55:245:63">numLines</jtok>
+<jtok eid="8" type="primary_name_ref" span="247:4:247:18">displayManager</jtok>
+<jtok eid="8" type="qualified_name_ref" span="247:19:247:24">folds</jtok>
+<jtok eid="8" type="method_call" span="247:25:247:30">reset</jtok>
+<jtok eid="8" type="primary_name_ref" span="247:31:247:37">buffer</jtok>
+<jtok eid="8" type="method_call" span="247:38:247:50">getLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="248:4:248:13">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="248:14:248:23">callReset</jtok>
+<jtok eid="8" type="primary_name_ref" span="249:4:249:19">scrollLineCount</jtok>
+<jtok eid="8" type="qualified_name_ref" span="249:20:249:29">callReset</jtok>
+<jtok eid="8" type="primary_name_ref" span="252:6:252:15">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="252:16:252:28">physicalLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="253:6:253:20">displayManager</jtok>
+<jtok eid="8" type="method_call" span="253:21:253:39">getLastVisibleLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="254:7:254:16">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="254:17:254:29">physicalLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="255:6:255:20">displayManager</jtok>
+<jtok eid="8" type="method_call" span="255:21:255:40">getFirstVisibleLine</jtok>
+<jtok eid="8" type="line_comment" span="257:4:257:29">// will be handled later.</jtok>
+<jtok eid="8" type="line_comment" span="258:4:258:33">// see comments at the end of</jtok>
+<jtok eid="8" type="line_comment" span="259:4:259:29">// transactionComplete().</jtok>
+<jtok eid="8" type="line_comment" span="261:3:261:41">// very subtle... if we leave this for</jtok>
+<jtok eid="8" type="line_comment" span="262:3:262:39">// ensurePhysicalLineIsVisible(), an</jtok>
+<jtok eid="8" type="line_comment" span="263:3:263:37">// extra line will be added to the</jtok>
+<jtok eid="8" type="line_comment" span="264:3:264:24">// scroll line count.</jtok>
+<jtok eid="8" type="primary_name_ref" span="265:12:265:26">displayManager</jtok>
+<jtok eid="8" type="method_call" span="265:27:265:40">isLineVisible</jtok>
+<jtok eid="8" type="primary_name_ref" span="266:4:266:13">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="266:14:266:26">physicalLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="268:4:268:13">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="268:14:268:26">physicalLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="269:5:269:19">displayManager</jtok>
+<jtok eid="8" type="method_call" span="269:20:269:38">getNextVisibleLine</jtok>
+<jtok eid="8" type="primary_name_ref" span="270:5:270:14">firstLine</jtok>
+<jtok eid="8" type="qualified_name_ref" span="270:15:270:27">physicalLine</jtok>
+<jtok eid="1" type="line_comment" span="272:4:272:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="274:2:274:31">//{{{ contentRemoved() method</jtok>
+<jtok eid="9" type="method_name" span="275:14:275:28">contentRemoved</jtok>
+<jtok eid="9" type="parameter_type" span="275:29:275:40">JEditBuffer</jtok>
+<jtok eid="9" type="parameter_name" span="275:41:275:47">buffer</jtok>
+<jtok eid="9" type="parameter_name" span="275:53:275:62">startLine</jtok>
+<jtok eid="9" type="parameter_name" span="276:7:276:12">start</jtok>
+<jtok eid="9" type="parameter_name" span="276:18:276:26">numLines</jtok>
+<jtok eid="9" type="parameter_name" span="276:32:276:38">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="278:6:278:12">buffer</jtok>
+<jtok eid="9" type="method_call" span="278:13:278:22">isLoading</jtok>
+<jtok eid="9" type="primary_name_ref" span="281:6:281:14">textArea</jtok>
+<jtok eid="9" type="method_call" span="281:15:281:32">getDisplayManager</jtok>
+<jtok eid="9" type="primary_name_ref" span="281:38:281:52">displayManager</jtok>
+<jtok eid="9" type="line_comment" span="283:4:283:40">//{{{ resize selections if necessary</jtok>
+<jtok eid="9" type="local_variable_name" span="284:8:284:12">nSel</jtok>
+<jtok eid="9" type="primary_name_ref" span="284:15:284:23">textArea</jtok>
+<jtok eid="9" type="method_call" span="284:24:284:41">getSelectionCount</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="285:4:285:12">Iterator</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="285:13:285:22">Selection</jtok>
+<jtok eid="9" type="local_variable_name" span="285:24:285:28">iter</jtok>
+<jtok eid="9" type="primary_name_ref" span="285:31:285:39">textArea</jtok>
+<jtok eid="9" type="method_call" span="285:40:285:60">getSelectionIterator</jtok>
+<jtok eid="9" type="primary_name_ref" span="286:10:286:14">iter</jtok>
+<jtok eid="9" type="method_call" span="286:15:286:22">hasNext</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="288:5:288:14">Selection</jtok>
+<jtok eid="9" type="local_variable_name" span="288:15:288:16">s</jtok>
+<jtok eid="9" type="primary_name_ref" span="288:19:288:23">iter</jtok>
+<jtok eid="9" type="method_call" span="288:24:288:28">next</jtok>
+<jtok eid="9" type="primary_name_ref" span="290:8:290:9">s</jtok>
+<jtok eid="9" type="method_call" span="290:10:290:24">contentRemoved</jtok>
+<jtok eid="9" type="primary_name_ref" span="290:25:290:31">buffer</jtok>
+<jtok eid="9" type="primary_name_ref" span="290:32:290:41">startLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="291:6:291:11">start</jtok>
+<jtok eid="9" type="primary_name_ref" span="291:12:291:20">numLines</jtok>
+<jtok eid="9" type="primary_name_ref" span="291:21:291:27">length</jtok>
+<jtok eid="9" type="method_call" span="293:6:293:17">delayUpdate</jtok>
+<jtok eid="9" type="primary_name_ref" span="293:18:293:19">s</jtok>
+<jtok eid="9" type="qualified_name_ref" span="293:20:293:29">startLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="293:30:293:31">s</jtok>
+<jtok eid="9" type="qualified_name_ref" span="293:32:293:39">endLine</jtok>
+<jtok eid="9" type="primary_name_ref" span="294:9:294:13">nSel</jtok>
+<jtok eid="9" type="primary_name_ref" span="294:22:294:23">s</jtok>
+<jtok eid="9" type="qualified_name_ref" span="294:24:294:29">start</jtok>
+<jtok eid="9" type="primary_name_ref" span="294:33:294:34">s</jtok>
+<jtok eid="9" type="qualified_name_ref" span="294:35:294:38">end</jtok>
+<jtok eid="9" type="primary_name_ref" span="295:7:295:11">iter</jtok>
+<jtok eid="9" type="method_call" span="295:12:295:18">remove</jtok>
+<jtok eid="9" type="line_comment" span="297:6:297:11">//}}}</jtok>
+<jtok eid="9" type="local_variable_name" span="299:8:299:13">caret</jtok>
+<jtok eid="9" type="primary_name_ref" span="299:16:299:24">textArea</jtok>
+<jtok eid="9" type="method_call" span="299:25:299:41">getCaretPosition</jtok>
+<jtok eid="9" type="primary_name_ref" span="301:7:301:12">caret</jtok>
+<jtok eid="9" type="primary_name_ref" span="301:16:301:21">start</jtok>
+<jtok eid="9" type="primary_name_ref" span="301:24:301:30">length</jtok>
+<jtok eid="9" type="local_variable_name" span="303:9:303:19">scrollMode</jtok>
+<jtok eid="9" type="primary_name_ref" span="303:22:303:30">textArea</jtok>
+<jtok eid="9" type="method_call" span="303:31:303:46">caretAutoScroll</jtok>
+<jtok eid="9" type="primary_name_ref" span="304:8:304:16">TextArea</jtok>
+<jtok eid="9" type="qualified_name_ref" span="304:17:304:32">ELECTRIC_SCROLL</jtok>
+<jtok eid="9" type="primary_name_ref" span="305:8:305:16">TextArea</jtok>
+<jtok eid="9" type="qualified_name_ref" span="305:17:305:26">NO_SCROLL</jtok>
+<jtok eid="9" type="primary_name_ref" span="306:5:306:13">textArea</jtok>
+<jtok eid="9" type="method_call" span="306:14:306:31">moveCaretPosition</jtok>
+<jtok eid="9" type="primary_name_ref" span="307:6:307:11">caret</jtok>
+<jtok eid="9" type="primary_name_ref" span="307:14:307:20">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="308:6:308:16">scrollMode</jtok>
+<jtok eid="9" type="primary_name_ref" span="310:12:310:17">caret</jtok>
+<jtok eid="9" type="primary_name_ref" span="310:21:310:26">start</jtok>
+<jtok eid="9" type="local_variable_name" span="312:9:312:19">scrollMode</jtok>
+<jtok eid="9" type="primary_name_ref" span="312:22:312:30">textArea</jtok>
+<jtok eid="9" type="method_call" span="312:31:312:46">caretAutoScroll</jtok>
+<jtok eid="9" type="primary_name_ref" span="313:8:313:16">TextArea</jtok>
+<jtok eid="9" type="qualified_name_ref" span="313:17:313:32">ELECTRIC_SCROLL</jtok>
+<jtok eid="9" type="primary_name_ref" span="314:8:314:16">TextArea</jtok>
+<jtok eid="9" type="qualified_name_ref" span="314:17:314:26">NO_SCROLL</jtok>
+<jtok eid="9" type="primary_name_ref" span="315:5:315:13">textArea</jtok>
+<jtok eid="9" type="method_call" span="315:14:315:31">moveCaretPosition</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:6:316:11">start</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:12:316:22">scrollMode</jtok>
+<jtok eid="9" type="local_variable_name" span="320:9:320:19">scrollMode</jtok>
+<jtok eid="9" type="primary_name_ref" span="320:22:320:30">textArea</jtok>
+<jtok eid="9" type="method_call" span="320:31:320:46">caretAutoScroll</jtok>
+<jtok eid="9" type="primary_name_ref" span="321:8:321:16">TextArea</jtok>
+<jtok eid="9" type="qualified_name_ref" span="321:17:321:30">NORMAL_SCROLL</jtok>
+<jtok eid="9" type="primary_name_ref" span="322:8:322:16">TextArea</jtok>
+<jtok eid="9" type="qualified_name_ref" span="322:17:322:26">NO_SCROLL</jtok>
+<jtok eid="9" type="primary_name_ref" span="323:5:323:13">textArea</jtok>
+<jtok eid="9" type="method_call" span="323:14:323:31">moveCaretPosition</jtok>
+<jtok eid="9" type="primary_name_ref" span="323:32:323:37">caret</jtok>
+<jtok eid="9" type="primary_name_ref" span="323:38:323:48">scrollMode</jtok>
+<jtok eid="1" type="line_comment" span="327:2:327:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="329:2:329:36">//{{{ transactionComplete() method</jtok>
+<jtok eid="10" type="method_name" span="330:14:330:33">transactionComplete</jtok>
+<jtok eid="10" type="parameter_type" span="330:34:330:45">JEditBuffer</jtok>
+<jtok eid="10" type="parameter_name" span="330:46:330:52">buffer</jtok>
+<jtok eid="10" type="primary_name_ref" span="332:6:332:14">textArea</jtok>
+<jtok eid="10" type="method_call" span="332:15:332:32">getDisplayManager</jtok>
+<jtok eid="10" type="primary_name_ref" span="332:38:332:52">displayManager</jtok>
+<jtok eid="10" type="primary_name_ref" span="334:4:334:17">delayedUpdate</jtok>
+<jtok eid="10" type="primary_name_ref" span="338:6:338:19">delayedUpdate</jtok>
+<jtok eid="10" type="method_call" span="339:4:339:19">doDelayedUpdate</jtok>
+<jtok eid="10" type="primary_name_ref" span="341:3:341:11">textArea</jtok>
+<jtok eid="10" type="method_call" span="341:12:341:30">_finishCaretUpdate</jtok>
+<jtok eid="10" type="primary_name_ref" span="343:3:343:16">delayedUpdate</jtok>
+<jtok eid="10" type="line_comment" span="345:3:345:19">//{{{ Debug code</jtok>
+<jtok eid="10" type="primary_name_ref" span="346:6:346:11">Debug</jtok>
+<jtok eid="10" type="qualified_name_ref" span="346:12:346:25">SCROLL_VERIFY</jtok>
+<jtok eid="10" type="local_variable_name" span="348:8:348:12">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="348:15:348:33">delayedUpdateStart</jtok>
+<jtok eid="10" type="primary_name_ref" span="349:8:349:22">displayManager</jtok>
+<jtok eid="10" type="method_call" span="349:23:349:36">isLineVisible</jtok>
+<jtok eid="10" type="primary_name_ref" span="349:37:349:41">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="350:5:350:9">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="350:12:350:26">displayManager</jtok>
+<jtok eid="10" type="method_call" span="350:27:350:45">getNextVisibleLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="350:46:350:50">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="351:4:351:10">System</jtok>
+<jtok eid="10" type="qualified_name_ref" span="351:11:351:14">err</jtok>
+<jtok eid="10" type="method_call" span="351:15:351:22">println</jtok>
+<jtok eid="10" type="primary_name_ref" span="351:23:351:41">delayedUpdateStart</jtok>
+<jtok eid="10" type="string_literal" span="351:44:351:47">":"</jtok>
+<jtok eid="10" type="primary_name_ref" span="351:50:351:66">delayedUpdateEnd</jtok>
+<jtok eid="10" type="primary_name_ref" span="351:75:351:83">textArea</jtok>
+<jtok eid="10" type="method_call" span="351:84:351:96">getLineCount</jtok>
+<jtok eid="10" type="local_variable_name" span="352:8:352:23">scrollLineCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="353:10:353:14">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="353:24:353:28">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="353:32:353:48">delayedUpdateEnd</jtok>
+<jtok eid="10" type="primary_name_ref" span="355:5:355:20">scrollLineCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="355:24:355:38">displayManager</jtok>
+<jtok eid="10" type="method_call" span="355:39:355:57">getScreenLineCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="355:58:355:62">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="356:5:356:9">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="356:12:356:26">displayManager</jtok>
+<jtok eid="10" type="method_call" span="356:27:356:45">getNextVisibleLine</jtok>
+<jtok eid="10" type="primary_name_ref" span="356:46:356:50">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="359:7:359:22">scrollLineCount</jtok>
+<jtok eid="10" type="primary_name_ref" span="359:26:359:40">displayManager</jtok>
+<jtok eid="10" type="method_call" span="359:41:359:59">getScrollLineCount</jtok>
+<jtok eid="10" type="constructor_call" span="361:15:361:28">InternalError</jtok>
+<jtok eid="10" type="primary_name_ref" span="361:29:361:44">scrollLineCount</jtok>
+<jtok eid="10" type="string_literal" span="362:8:362:14">" != "</jtok>
+<jtok eid="10" type="primary_name_ref" span="363:8:363:22">displayManager</jtok>
+<jtok eid="10" type="method_call" span="363:23:363:41">getScrollLineCount</jtok>
+<jtok eid="10" type="line_comment" span="365:5:365:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="366:4:366:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="368:2:368:32">//{{{ doDelayedUpdate() method</jtok>
+<jtok eid="11" type="method_name" span="369:15:369:30">doDelayedUpdate</jtok>
+<jtok eid="11" type="line_comment" span="371:3:371:51">// must update screen line counts before we call</jtok>
+<jtok eid="11" type="line_comment" span="372:3:372:48">// notifyScreenLineChanges() since that calls</jtok>
+<jtok eid="11" type="line_comment" span="373:3:373:46">// updateScrollBar() which needs valid info</jtok>
+<jtok eid="11" type="local_variable_name" span="374:7:374:11">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="374:14:374:32">delayedUpdateStart</jtok>
+<jtok eid="11" type="primary_name_ref" span="375:7:375:21">displayManager</jtok>
+<jtok eid="11" type="method_call" span="375:22:375:35">isLineVisible</jtok>
+<jtok eid="11" type="primary_name_ref" span="375:36:375:40">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="376:4:376:8">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="376:11:376:25">displayManager</jtok>
+<jtok eid="11" type="method_call" span="376:26:376:44">getNextVisibleLine</jtok>
+<jtok eid="11" type="primary_name_ref" span="376:45:376:49">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="377:9:377:13">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="377:23:377:27">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="377:31:377:47">delayedUpdateEnd</jtok>
+<jtok eid="11" type="primary_name_ref" span="379:4:379:18">displayManager</jtok>
+<jtok eid="11" type="method_call" span="379:19:379:40">updateScreenLineCount</jtok>
+<jtok eid="11" type="primary_name_ref" span="379:41:379:45">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="380:4:380:8">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="380:11:380:25">displayManager</jtok>
+<jtok eid="11" type="method_call" span="380:26:380:44">getNextVisibleLine</jtok>
+<jtok eid="11" type="primary_name_ref" span="380:45:380:49">line</jtok>
+<jtok eid="11" type="line_comment" span="383:3:383:35">// must be before the below call</jtok>
+<jtok eid="11" type="line_comment" span="384:3:384:36">// so that the chunk cache is not</jtok>
+<jtok eid="11" type="line_comment" span="385:3:385:37">// updated with an invisible first</jtok>
+<jtok eid="11" type="line_comment" span="386:3:386:22">// line (see above)</jtok>
+<jtok eid="11" type="primary_name_ref" span="387:3:387:17">displayManager</jtok>
+<jtok eid="11" type="method_call" span="387:18:387:41">notifyScreenLineChanges</jtok>
+<jtok eid="11" type="primary_name_ref" span="389:6:389:28">delayedMultilineUpdate</jtok>
+<jtok eid="11" type="primary_name_ref" span="391:4:391:12">textArea</jtok>
+<jtok eid="11" type="method_call" span="391:13:391:38">invalidateScreenLineRange</jtok>
+<jtok eid="11" type="primary_name_ref" span="392:5:392:13">textArea</jtok>
+<jtok eid="11" type="qualified_name_ref" span="392:14:392:24">chunkCache</jtok>
+<jtok eid="11" type="method_call" span="393:6:393:27">getScreenLineOfOffset</jtok>
+<jtok eid="11" type="primary_name_ref" span="394:5:394:23">delayedUpdateStart</jtok>
+<jtok eid="11" type="primary_name_ref" span="395:5:395:13">textArea</jtok>
+<jtok eid="11" type="method_call" span="395:14:395:29">getVisibleLines</jtok>
+<jtok eid="11" type="primary_name_ref" span="396:4:396:26">delayedMultilineUpdate</jtok>
+<jtok eid="11" type="primary_name_ref" span="400:4:400:12">textArea</jtok>
+<jtok eid="11" type="method_call" span="400:13:400:32">invalidateLineRange</jtok>
+<jtok eid="11" type="primary_name_ref" span="401:5:401:23">delayedUpdateStart</jtok>
+<jtok eid="11" type="primary_name_ref" span="402:5:402:21">delayedUpdateEnd</jtok>
+<jtok eid="11" type="line_comment" span="405:3:405:26">// update visible lines</jtok>
+<jtok eid="11" type="local_variable_name" span="406:7:406:19">visibleLines</jtok>
+<jtok eid="11" type="primary_name_ref" span="406:22:406:30">textArea</jtok>
+<jtok eid="11" type="method_call" span="406:31:406:46">getVisibleLines</jtok>
+<jtok eid="11" type="primary_name_ref" span="407:6:407:18">visibleLines</jtok>
+<jtok eid="11" type="primary_name_ref" span="409:4:409:12">textArea</jtok>
+<jtok eid="11" type="qualified_name_ref" span="409:13:409:23">chunkCache</jtok>
+<jtok eid="11" type="method_call" span="409:24:409:35">getLineInfo</jtok>
+<jtok eid="11" type="primary_name_ref" span="410:5:410:17">visibleLines</jtok>
+<jtok eid="11" type="line_comment" span="413:3:413:33">// force the fold levels to be</jtok>
+<jtok eid="11" type="line_comment" span="414:3:414:14">// updated.</jtok>
+<jtok eid="11" type="line_comment" span="416:3:416:36">// when painting the last line of</jtok>
+<jtok eid="11" type="line_comment" span="417:3:417:36">// a buffer, Buffer.isFoldStart()</jtok>
+<jtok eid="11" type="line_comment" span="418:3:418:34">// doesn't call getFoldLevel(),</jtok>
+<jtok eid="11" type="line_comment" span="419:3:419:34">// hence the foldLevelChanged()</jtok>
+<jtok eid="11" type="line_comment" span="420:3:420:37">// event might not be sent for the</jtok>
+<jtok eid="11" type="line_comment" span="421:3:421:20">// previous line.</jtok>
+<jtok eid="11" type="primary_name_ref" span="423:3:423:9">buffer</jtok>
+<jtok eid="11" type="method_call" span="423:10:423:22">getFoldLevel</jtok>
+<jtok eid="11" type="primary_name_ref" span="423:23:423:39">delayedUpdateEnd</jtok>
+<jtok eid="1" type="line_comment" span="424:4:424:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="426:2:426:28">//{{{ delayUpdate() method</jtok>
+<jtok eid="12" type="method_name" span="427:15:427:26">delayUpdate</jtok>
+<jtok eid="12" type="parameter_name" span="427:31:427:40">startLine</jtok>
+<jtok eid="12" type="parameter_name" span="427:46:427:53">endLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="429:3:429:11">textArea</jtok>
+<jtok eid="12" type="qualified_name_ref" span="429:12:429:22">chunkCache</jtok>
+<jtok eid="12" type="method_call" span="429:23:429:47">invalidateChunksFromPhys</jtok>
+<jtok eid="12" type="primary_name_ref" span="429:48:429:57">startLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="431:7:431:20">delayedUpdate</jtok>
+<jtok eid="12" type="primary_name_ref" span="433:4:433:22">delayedUpdateStart</jtok>
+<jtok eid="12" type="primary_name_ref" span="433:25:433:34">startLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="434:4:434:20">delayedUpdateEnd</jtok>
+<jtok eid="12" type="primary_name_ref" span="434:23:434:30">endLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="435:4:435:17">delayedUpdate</jtok>
+<jtok eid="12" type="primary_name_ref" span="439:4:439:22">delayedUpdateStart</jtok>
+<jtok eid="12" type="primary_name_ref" span="439:25:439:29">Math</jtok>
+<jtok eid="12" type="method_call" span="439:30:439:33">min</jtok>
+<jtok eid="12" type="primary_name_ref" span="440:5:440:23">delayedUpdateStart</jtok>
+<jtok eid="12" type="primary_name_ref" span="441:5:441:14">startLine</jtok>
+<jtok eid="12" type="primary_name_ref" span="442:4:442:20">delayedUpdateEnd</jtok>
+<jtok eid="12" type="primary_name_ref" span="442:23:442:27">Math</jtok>
+<jtok eid="12" type="method_call" span="442:28:442:31">max</jtok>
+<jtok eid="12" type="primary_name_ref" span="443:5:443:21">delayedUpdateEnd</jtok>
+<jtok eid="12" type="primary_name_ref" span="444:5:444:12">endLine</jtok>
+<jtok eid="1" type="line_comment" span="446:4:446:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="448:2:448:36">//{{{ getReadyToBreakFold() method</jtok>
+<jtok eid="1" type="line_comment" span="449:2:449:38">// This is a fix for black hole bug.</jtok>
+<jtok eid="1" type="line_comment" span="450:2:450:70">// If you modify a part of folded lines, like {{{ (followed by }}}),</jtok>
+<jtok eid="1" type="line_comment" span="451:2:451:66">// the fold is removed so it must be expanded otherwise the text</jtok>
+<jtok eid="1" type="line_comment" span="452:2:452:23">// remains invisible.</jtok>
+<jtok eid="13" type="method_name" span="453:15:453:34">getReadyToBreakFold</jtok>
+<jtok eid="13" type="parameter_name" span="453:39:453:43">line</jtok>
+<jtok eid="13" type="primary_name_ref" span="455:3:455:17">displayManager</jtok>
+<jtok eid="13" type="method_call" span="455:18:455:28">expandFold</jtok>
+<jtok eid="13" type="primary_name_ref" span="455:29:455:33">line</jtok>
+<jtok eid="1" type="line_comment" span="456:4:456:9">//}}}</jtok>
+</jdoc>

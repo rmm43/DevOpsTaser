@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.HistoryText" jls="java5">
+<jent id="0" type="file" span="0:0:370:2">Source/jEdit/org/gjt/sp/jedit/gui/HistoryText.java</jent>
+<jent id="1" pid="0" type="class" span="39:1:370:1">org.gjt.sp.jedit.gui.HistoryText</jent>
+<jent id="2" pid="1" type="method" span="42:2:47:2">org.gjt.sp.jedit.gui.HistoryText.HistoryText(JTextComponent,String)</jent>
+<jent id="3" pid="1" type="method" span="50:2:52:2">org.gjt.sp.jedit.gui.HistoryText.fireActionPerformed()</jent>
+<jent id="4" pid="1" type="method" span="55:2:58:2">org.gjt.sp.jedit.gui.HistoryText.getIndex()</jent>
+<jent id="5" pid="1" type="method" span="61:2:64:2">org.gjt.sp.jedit.gui.HistoryText.setIndex(int)</jent>
+<jent id="6" pid="1" type="method" span="71:2:74:2">org.gjt.sp.jedit.gui.HistoryText.getModel()</jent>
+<jent id="7" pid="1" type="method" span="82:2:89:2">org.gjt.sp.jedit.gui.HistoryText.setModel(String)</jent>
+<jent id="8" pid="1" type="method" span="96:2:99:2">org.gjt.sp.jedit.gui.HistoryText.setInstantPopups(boolean)</jent>
+<jent id="9" pid="1" type="method" span="106:2:109:2">org.gjt.sp.jedit.gui.HistoryText.getInstantPopups()</jent>
+<jent id="10" pid="1" type="method" span="115:2:120:2">org.gjt.sp.jedit.gui.HistoryText.addCurrentToHistory()</jent>
+<jent id="11" pid="1" type="method" span="123:2:156:2">org.gjt.sp.jedit.gui.HistoryText.doBackwardSearch()</jent>
+<jent id="12" pid="1" type="method" span="159:2:192:2">org.gjt.sp.jedit.gui.HistoryText.doForwardSearch()</jent>
+<jent id="13" pid="1" type="method" span="195:2:215:2">org.gjt.sp.jedit.gui.HistoryText.historyPrevious()</jent>
+<jent id="14" pid="1" type="method" span="218:2:234:2">org.gjt.sp.jedit.gui.HistoryText.historyNext()</jent>
+<jent id="15" pid="1" type="method" span="237:2:240:2">org.gjt.sp.jedit.gui.HistoryText.getDocument()</jent>
+<jent id="16" pid="1" type="method" span="247:2:250:2">org.gjt.sp.jedit.gui.HistoryText.getText()</jent>
+<jent id="17" pid="1" type="method" span="257:2:261:2">org.gjt.sp.jedit.gui.HistoryText.setText(String)</jent>
+<jent id="18" pid="1" type="method" span="268:2:271:2">org.gjt.sp.jedit.gui.HistoryText.getInputStart()</jent>
+<jent id="19" pid="1" type="method" span="274:2:326:2">org.gjt.sp.jedit.gui.HistoryText.showPopupMenu(String,int,int)</jent>
+<jent id="20" pid="19" type="class" span="289:3:299:3">org.gjt.sp.jedit.gui.HistoryText.showPopupMenu(String,int,int).$1</jent>
+<jent id="21" pid="20" type="method" span="291:4:298:4">org.gjt.sp.jedit.gui.HistoryText.showPopupMenu(String,int,int).$1.setVisible(boolean)</jent>
+<jent id="22" pid="19" type="class" span="303:3:308:3">org.gjt.sp.jedit.gui.HistoryText.showPopupMenu(String,int,int).$2</jent>
+<jent id="23" pid="22" type="method" span="304:5:307:5">org.gjt.sp.jedit.gui.HistoryText.showPopupMenu(String,int,int).$2.actionPerformed(ActionEvent)</jent>
+<jent id="24" pid="1" type="method" span="329:2:336:2">org.gjt.sp.jedit.gui.HistoryText.showPopupMenu(boolean)</jent>
+<jent id="25" pid="1" type="class" span="348:2:369:2">org.gjt.sp.jedit.gui.HistoryText.ActionHandler</jent>
+<jent id="26" pid="25" type="method" span="350:3:368:3">org.gjt.sp.jedit.gui.HistoryText.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * HistoryText.java - Common code for text components with a history
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="34:1:38:4">/**
+ * Controller (manager of models) for HistoryTextArea.
+ * @author Slava Pestov
+ * @version $Id: HistoryText.java 16341 2009-10-14 10:05:51Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="39:14:39:25">HistoryText</jtok>
+<jtok eid="1" type="line_comment" span="41:2:41:31">//{{{ HistoryText constructor</jtok>
+<jtok eid="2" type="method_name" span="42:9:42:20">HistoryText</jtok>
+<jtok eid="2" type="parameter_type" span="42:21:42:35">JTextComponent</jtok>
+<jtok eid="2" type="parameter_name" span="42:36:42:40">text</jtok>
+<jtok eid="2" type="parameter_type" span="42:42:42:48">String</jtok>
+<jtok eid="2" type="parameter_name" span="42:49:42:53">name</jtok>
+<jtok eid="2" type="qualified_name_ref" span="44:8:44:12">text</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:15:44:19">text</jtok>
+<jtok eid="2" type="method_call" span="45:3:45:11">setModel</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:12:45:16">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:3:46:8">index</jtok>
+<jtok eid="1" type="line_comment" span="47:4:47:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:36">//{{{ fireActionPerformed() method</jtok>
+<jtok eid="3" type="method_name" span="50:14:50:33">fireActionPerformed</jtok>
+<jtok eid="1" type="line_comment" span="52:4:52:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="54:2:54:25">//{{{ getIndex() mehtod</jtok>
+<jtok eid="4" type="method_name" span="55:13:55:21">getIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="57:10:57:15">index</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:25">//{{{ setIndex() mehtod</jtok>
+<jtok eid="5" type="method_name" span="61:14:61:22">setIndex</jtok>
+<jtok eid="5" type="parameter_name" span="61:27:61:32">index</jtok>
+<jtok eid="5" type="qualified_name_ref" span="63:8:63:13">index</jtok>
+<jtok eid="5" type="primary_name_ref" span="63:16:63:21">index</jtok>
+<jtok eid="1" type="line_comment" span="64:4:64:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="66:2:66:25">//{{{ getModel() method</jtok>
+<jtok eid="1" type="block_comment" span="67:2:70:5">/**
+	 * Returns the underlying history controller.
+	 * @since jEdit 4.3pre1
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="71:9:71:21">HistoryModel</jtok>
+<jtok eid="6" type="method_name" span="71:22:71:30">getModel</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:10:73:22">historyModel</jtok>
+<jtok eid="1" type="line_comment" span="74:4:74:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:25">//{{{ setModel() method</jtok>
+<jtok eid="1" type="block_comment" span="77:2:81:5">/**
+	 * Sets the history list controller.
+	 * @param name The model name
+	 * @since jEdit 4.3pre1
+	 */</jtok>
+<jtok eid="7" type="method_name" span="82:14:82:22">setModel</jtok>
+<jtok eid="7" type="parameter_type" span="82:23:82:29">String</jtok>
+<jtok eid="7" type="parameter_name" span="82:30:82:34">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="84:6:84:10">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="85:4:85:16">historyModel</jtok>
+<jtok eid="7" type="primary_name_ref" span="87:4:87:16">historyModel</jtok>
+<jtok eid="7" type="primary_name_ref" span="87:19:87:31">HistoryModel</jtok>
+<jtok eid="7" type="method_call" span="87:32:87:40">getModel</jtok>
+<jtok eid="7" type="primary_name_ref" span="87:41:87:45">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="88:3:88:8">index</jtok>
+<jtok eid="1" type="line_comment" span="89:4:89:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="91:2:91:33">//{{{ setInstantPopups() method</jtok>
+<jtok eid="1" type="block_comment" span="92:2:95:5">/**
+	 * Sets if selecting a value from the popup should immediately fire
+	 * an ActionEvent.
+	 */</jtok>
+<jtok eid="8" type="method_name" span="96:14:96:30">setInstantPopups</jtok>
+<jtok eid="8" type="parameter_name" span="96:39:96:52">instantPopups</jtok>
+<jtok eid="8" type="qualified_name_ref" span="98:8:98:21">instantPopups</jtok>
+<jtok eid="8" type="primary_name_ref" span="98:24:98:37">instantPopups</jtok>
+<jtok eid="1" type="line_comment" span="99:4:99:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="101:2:101:33">//{{{ getInstantPopups() method</jtok>
+<jtok eid="1" type="block_comment" span="102:2:105:5">/**
+	 * Returns if selecting a value from the popup should immediately fire
+	 * an ActionEvent.
+	 */</jtok>
+<jtok eid="9" type="method_name" span="106:17:106:33">getInstantPopups</jtok>
+<jtok eid="9" type="primary_name_ref" span="108:10:108:23">instantPopups</jtok>
+<jtok eid="1" type="line_comment" span="109:4:109:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="111:2:111:36">//{{{ addCurrentToHistory() method</jtok>
+<jtok eid="1" type="block_comment" span="112:2:114:5">/**
+	 * Adds the currently entered item to the history.
+	 */</jtok>
+<jtok eid="10" type="method_name" span="115:14:115:33">addCurrentToHistory</jtok>
+<jtok eid="10" type="primary_name_ref" span="117:6:117:18">historyModel</jtok>
+<jtok eid="10" type="primary_name_ref" span="118:4:118:16">historyModel</jtok>
+<jtok eid="10" type="method_call" span="118:17:118:24">addItem</jtok>
+<jtok eid="10" type="method_call" span="118:25:118:32">getText</jtok>
+<jtok eid="10" type="primary_name_ref" span="119:3:119:8">index</jtok>
+<jtok eid="1" type="line_comment" span="120:4:120:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="122:2:122:33">//{{{ doBackwardSearch() method</jtok>
+<jtok eid="11" type="method_name" span="123:14:123:30">doBackwardSearch</jtok>
+<jtok eid="11" type="primary_name_ref" span="125:6:125:18">historyModel</jtok>
+<jtok eid="11" type="primary_name_ref" span="128:6:128:10">text</jtok>
+<jtok eid="11" type="method_call" span="128:11:128:26">getSelectionEnd</jtok>
+<jtok eid="11" type="method_call" span="128:32:128:43">getDocument</jtok>
+<jtok eid="11" type="method_call" span="128:46:128:55">getLength</jtok>
+<jtok eid="11" type="primary_name_ref" span="130:4:130:8">text</jtok>
+<jtok eid="11" type="method_call" span="130:9:130:25">setCaretPosition</jtok>
+<jtok eid="11" type="method_call" span="130:26:130:37">getDocument</jtok>
+<jtok eid="11" type="method_call" span="130:40:130:49">getLength</jtok>
+<jtok eid="11" type="local_variable_name" span="133:7:133:12">start</jtok>
+<jtok eid="11" type="method_call" span="133:15:133:28">getInputStart</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="134:3:134:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="134:10:134:11">t</jtok>
+<jtok eid="11" type="method_call" span="134:14:134:21">getText</jtok>
+<jtok eid="11" type="method_call" span="134:24:134:33">substring</jtok>
+<jtok eid="11" type="primary_name_ref" span="135:4:135:8">text</jtok>
+<jtok eid="11" type="method_call" span="135:9:135:26">getSelectionStart</jtok>
+<jtok eid="11" type="primary_name_ref" span="135:31:135:36">start</jtok>
+<jtok eid="11" type="primary_name_ref" span="136:6:136:7">t</jtok>
+<jtok eid="11" type="method_call" span="138:4:138:19">historyPrevious</jtok>
+<jtok eid="11" type="local_variable_name" span="142:11:142:12">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:15:142:20">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:26:142:27">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:30:142:42">historyModel</jtok>
+<jtok eid="11" type="method_call" span="142:43:142:50">getSize</jtok>
+<jtok eid="11" type="primary_name_ref" span="142:54:142:55">i</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="144:4:144:10">String</jtok>
+<jtok eid="11" type="local_variable_name" span="144:11:144:15">item</jtok>
+<jtok eid="11" type="primary_name_ref" span="144:18:144:30">historyModel</jtok>
+<jtok eid="11" type="method_call" span="144:31:144:38">getItem</jtok>
+<jtok eid="11" type="primary_name_ref" span="144:39:144:40">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="145:7:145:11">item</jtok>
+<jtok eid="11" type="method_call" span="145:12:145:22">startsWith</jtok>
+<jtok eid="11" type="primary_name_ref" span="145:23:145:24">t</jtok>
+<jtok eid="11" type="primary_name_ref" span="147:5:147:9">text</jtok>
+<jtok eid="11" type="method_call" span="147:10:147:26">replaceSelection</jtok>
+<jtok eid="11" type="primary_name_ref" span="147:27:147:31">item</jtok>
+<jtok eid="11" type="method_call" span="147:32:147:41">substring</jtok>
+<jtok eid="11" type="primary_name_ref" span="147:42:147:43">t</jtok>
+<jtok eid="11" type="method_call" span="147:44:147:50">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="148:5:148:9">text</jtok>
+<jtok eid="11" type="method_call" span="148:10:148:16">select</jtok>
+<jtok eid="11" type="method_call" span="148:17:148:30">getInputStart</jtok>
+<jtok eid="11" type="primary_name_ref" span="148:35:148:36">t</jtok>
+<jtok eid="11" type="method_call" span="148:37:148:43">length</jtok>
+<jtok eid="11" type="method_call" span="149:6:149:17">getDocument</jtok>
+<jtok eid="11" type="method_call" span="149:20:149:29">getLength</jtok>
+<jtok eid="11" type="primary_name_ref" span="150:5:150:10">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="150:13:150:14">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="155:3:155:7">text</jtok>
+<jtok eid="11" type="method_call" span="155:8:155:18">getToolkit</jtok>
+<jtok eid="11" type="method_call" span="155:21:155:25">beep</jtok>
+<jtok eid="1" type="line_comment" span="156:4:156:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:32">//{{{ doForwardSearch() method</jtok>
+<jtok eid="12" type="method_name" span="159:14:159:29">doForwardSearch</jtok>
+<jtok eid="12" type="primary_name_ref" span="161:6:161:18">historyModel</jtok>
+<jtok eid="12" type="primary_name_ref" span="164:6:164:10">text</jtok>
+<jtok eid="12" type="method_call" span="164:11:164:26">getSelectionEnd</jtok>
+<jtok eid="12" type="method_call" span="164:32:164:43">getDocument</jtok>
+<jtok eid="12" type="method_call" span="164:46:164:55">getLength</jtok>
+<jtok eid="12" type="primary_name_ref" span="166:4:166:8">text</jtok>
+<jtok eid="12" type="method_call" span="166:9:166:25">setCaretPosition</jtok>
+<jtok eid="12" type="method_call" span="166:26:166:37">getDocument</jtok>
+<jtok eid="12" type="method_call" span="166:40:166:49">getLength</jtok>
+<jtok eid="12" type="local_variable_name" span="169:7:169:12">start</jtok>
+<jtok eid="12" type="method_call" span="169:15:169:28">getInputStart</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="170:3:170:9">String</jtok>
+<jtok eid="12" type="local_variable_name" span="170:10:170:11">t</jtok>
+<jtok eid="12" type="method_call" span="170:14:170:21">getText</jtok>
+<jtok eid="12" type="method_call" span="170:24:170:33">substring</jtok>
+<jtok eid="12" type="primary_name_ref" span="171:4:171:8">text</jtok>
+<jtok eid="12" type="method_call" span="171:9:171:26">getSelectionStart</jtok>
+<jtok eid="12" type="primary_name_ref" span="171:31:171:36">start</jtok>
+<jtok eid="12" type="primary_name_ref" span="172:6:172:7">t</jtok>
+<jtok eid="12" type="method_call" span="174:4:174:15">historyNext</jtok>
+<jtok eid="12" type="local_variable_name" span="178:11:178:12">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="178:15:178:20">index</jtok>
+<jtok eid="12" type="primary_name_ref" span="178:26:178:27">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="178:34:178:35">i</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="180:4:180:10">String</jtok>
+<jtok eid="12" type="local_variable_name" span="180:11:180:15">item</jtok>
+<jtok eid="12" type="primary_name_ref" span="180:18:180:30">historyModel</jtok>
+<jtok eid="12" type="method_call" span="180:31:180:38">getItem</jtok>
+<jtok eid="12" type="primary_name_ref" span="180:39:180:40">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="181:7:181:11">item</jtok>
+<jtok eid="12" type="method_call" span="181:12:181:22">startsWith</jtok>
+<jtok eid="12" type="primary_name_ref" span="181:23:181:24">t</jtok>
+<jtok eid="12" type="primary_name_ref" span="183:5:183:9">text</jtok>
+<jtok eid="12" type="method_call" span="183:10:183:26">replaceSelection</jtok>
+<jtok eid="12" type="primary_name_ref" span="183:27:183:31">item</jtok>
+<jtok eid="12" type="method_call" span="183:32:183:41">substring</jtok>
+<jtok eid="12" type="primary_name_ref" span="183:42:183:43">t</jtok>
+<jtok eid="12" type="method_call" span="183:44:183:50">length</jtok>
+<jtok eid="12" type="primary_name_ref" span="184:5:184:9">text</jtok>
+<jtok eid="12" type="method_call" span="184:10:184:16">select</jtok>
+<jtok eid="12" type="method_call" span="184:17:184:30">getInputStart</jtok>
+<jtok eid="12" type="primary_name_ref" span="184:35:184:36">t</jtok>
+<jtok eid="12" type="method_call" span="184:37:184:43">length</jtok>
+<jtok eid="12" type="method_call" span="185:6:185:17">getDocument</jtok>
+<jtok eid="12" type="method_call" span="185:20:185:29">getLength</jtok>
+<jtok eid="12" type="primary_name_ref" span="186:5:186:10">index</jtok>
+<jtok eid="12" type="primary_name_ref" span="186:13:186:14">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="191:3:191:7">text</jtok>
+<jtok eid="12" type="method_call" span="191:8:191:18">getToolkit</jtok>
+<jtok eid="12" type="method_call" span="191:21:191:25">beep</jtok>
+<jtok eid="1" type="line_comment" span="192:4:192:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="194:2:194:32">//{{{ historyPrevious() method</jtok>
+<jtok eid="13" type="method_name" span="195:14:195:29">historyPrevious</jtok>
+<jtok eid="13" type="primary_name_ref" span="197:6:197:18">historyModel</jtok>
+<jtok eid="13" type="primary_name_ref" span="200:6:200:11">index</jtok>
+<jtok eid="13" type="primary_name_ref" span="200:15:200:27">historyModel</jtok>
+<jtok eid="13" type="method_call" span="200:28:200:35">getSize</jtok>
+<jtok eid="13" type="primary_name_ref" span="201:4:201:8">text</jtok>
+<jtok eid="13" type="method_call" span="201:9:201:19">getToolkit</jtok>
+<jtok eid="13" type="method_call" span="201:22:201:26">beep</jtok>
+<jtok eid="13" type="primary_name_ref" span="202:11:202:16">index</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:4:204:11">current</jtok>
+<jtok eid="13" type="method_call" span="204:14:204:21">getText</jtok>
+<jtok eid="13" type="method_call" span="205:4:205:11">setText</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:12:205:24">historyModel</jtok>
+<jtok eid="13" type="method_call" span="205:25:205:32">getItem</jtok>
+<jtok eid="13" type="primary_name_ref" span="206:4:206:9">index</jtok>
+<jtok eid="13" type="line_comment" span="210:4:210:57">// have to do this because setText() sets index to -1</jtok>
+<jtok eid="13" type="local_variable_name" span="211:8:211:16">newIndex</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:19:211:24">index</jtok>
+<jtok eid="13" type="method_call" span="212:4:212:11">setText</jtok>
+<jtok eid="13" type="primary_name_ref" span="212:12:212:24">historyModel</jtok>
+<jtok eid="13" type="method_call" span="212:25:212:32">getItem</jtok>
+<jtok eid="13" type="primary_name_ref" span="212:33:212:41">newIndex</jtok>
+<jtok eid="13" type="primary_name_ref" span="213:4:213:9">index</jtok>
+<jtok eid="13" type="primary_name_ref" span="213:12:213:20">newIndex</jtok>
+<jtok eid="1" type="line_comment" span="215:4:215:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="217:2:217:28">//{{{ historyNext() method</jtok>
+<jtok eid="14" type="method_name" span="218:14:218:25">historyNext</jtok>
+<jtok eid="14" type="primary_name_ref" span="220:6:220:18">historyModel</jtok>
+<jtok eid="14" type="primary_name_ref" span="223:6:223:11">index</jtok>
+<jtok eid="14" type="primary_name_ref" span="224:4:224:8">text</jtok>
+<jtok eid="14" type="method_call" span="224:9:224:19">getToolkit</jtok>
+<jtok eid="14" type="method_call" span="224:22:224:26">beep</jtok>
+<jtok eid="14" type="primary_name_ref" span="225:11:225:16">index</jtok>
+<jtok eid="14" type="method_call" span="226:4:226:11">setText</jtok>
+<jtok eid="14" type="primary_name_ref" span="226:12:226:19">current</jtok>
+<jtok eid="14" type="line_comment" span="229:4:229:57">// have to do this because setText() sets index to -1</jtok>
+<jtok eid="14" type="local_variable_name" span="230:8:230:16">newIndex</jtok>
+<jtok eid="14" type="primary_name_ref" span="230:19:230:24">index</jtok>
+<jtok eid="14" type="method_call" span="231:4:231:11">setText</jtok>
+<jtok eid="14" type="primary_name_ref" span="231:12:231:24">historyModel</jtok>
+<jtok eid="14" type="method_call" span="231:25:231:32">getItem</jtok>
+<jtok eid="14" type="primary_name_ref" span="231:33:231:41">newIndex</jtok>
+<jtok eid="14" type="primary_name_ref" span="232:4:232:9">index</jtok>
+<jtok eid="14" type="primary_name_ref" span="232:12:232:20">newIndex</jtok>
+<jtok eid="1" type="line_comment" span="234:4:234:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="236:2:236:28">//{{{ getDocument() method</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="237:9:237:17">Document</jtok>
+<jtok eid="15" type="method_name" span="237:18:237:29">getDocument</jtok>
+<jtok eid="15" type="primary_name_ref" span="239:10:239:14">text</jtok>
+<jtok eid="15" type="method_call" span="239:15:239:26">getDocument</jtok>
+<jtok eid="1" type="line_comment" span="240:4:240:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="242:2:242:24">//{{{ getText() method</jtok>
+<jtok eid="1" type="block_comment" span="243:2:246:5">/**
+	 * Subclasses can override this to provide funky history behavior,
+	 * for JTextPanes and such.
+	 */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="247:9:247:15">String</jtok>
+<jtok eid="16" type="method_name" span="247:16:247:23">getText</jtok>
+<jtok eid="16" type="primary_name_ref" span="249:10:249:14">text</jtok>
+<jtok eid="16" type="method_call" span="249:15:249:22">getText</jtok>
+<jtok eid="1" type="line_comment" span="250:4:250:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="252:2:252:24">//{{{ setText() method</jtok>
+<jtok eid="1" type="block_comment" span="253:2:256:5">/**
+	 * Subclasses can override this to provide funky history behavior,
+	 * for JTextPanes and such.
+	 */</jtok>
+<jtok eid="17" type="method_name" span="257:14:257:21">setText</jtok>
+<jtok eid="17" type="parameter_type" span="257:22:257:28">String</jtok>
+<jtok eid="17" type="parameter_name" span="257:29:257:33">text</jtok>
+<jtok eid="17" type="qualified_name_ref" span="259:8:259:13">index</jtok>
+<jtok eid="17" type="qualified_name_ref" span="260:8:260:12">text</jtok>
+<jtok eid="17" type="method_call" span="260:13:260:20">setText</jtok>
+<jtok eid="17" type="primary_name_ref" span="260:21:260:25">text</jtok>
+<jtok eid="1" type="line_comment" span="261:4:261:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="263:2:263:30">//{{{ getInputStart() method</jtok>
+<jtok eid="1" type="block_comment" span="264:2:267:5">/**
+	 * Subclasses can override this to provide funky history behavior,
+	 * for JTextPanes and such.
+	 */</jtok>
+<jtok eid="18" type="method_name" span="268:13:268:26">getInputStart</jtok>
+<jtok eid="1" type="line_comment" span="271:4:271:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="273:2:273:30">//{{{ showPopupMenu() method</jtok>
+<jtok eid="19" type="method_name" span="274:14:274:27">showPopupMenu</jtok>
+<jtok eid="19" type="parameter_type" span="274:28:274:34">String</jtok>
+<jtok eid="19" type="parameter_name" span="274:35:274:36">t</jtok>
+<jtok eid="19" type="parameter_name" span="274:42:274:43">x</jtok>
+<jtok eid="19" type="parameter_name" span="274:49:274:50">y</jtok>
+<jtok eid="19" type="primary_name_ref" span="276:6:276:18">historyModel</jtok>
+<jtok eid="19" type="primary_name_ref" span="279:3:279:7">text</jtok>
+<jtok eid="19" type="method_call" span="279:8:279:20">requestFocus</jtok>
+<jtok eid="19" type="primary_name_ref" span="281:6:281:11">popup</jtok>
+<jtok eid="19" type="primary_name_ref" span="281:23:281:28">popup</jtok>
+<jtok eid="19" type="method_call" span="281:29:281:38">isVisible</jtok>
+<jtok eid="19" type="primary_name_ref" span="283:4:283:9">popup</jtok>
+<jtok eid="19" type="method_call" span="283:10:283:20">setVisible</jtok>
+<jtok eid="19" type="primary_name_ref" span="284:4:284:9">popup</jtok>
+<jtok eid="19" type="primary_name_ref" span="288:3:288:8">popup</jtok>
+<jtok eid="19" type="constructor_call" span="288:15:288:25">JPopupMenu</jtok>
+<jtok eid="20" type="annotation_ref" span="290:5:290:13">Override</jtok>
+<jtok eid="21" type="method_name" span="291:16:291:26">setVisible</jtok>
+<jtok eid="21" type="parameter_name" span="291:35:291:36">b</jtok>
+<jtok eid="21" type="primary_name_ref" span="293:10:293:11">b</jtok>
+<jtok eid="21" type="primary_name_ref" span="295:6:295:11">popup</jtok>
+<jtok eid="21" type="method_call" span="297:11:297:21">setVisible</jtok>
+<jtok eid="21" type="primary_name_ref" span="297:22:297:23">b</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="300:3:300:12">JMenuItem</jtok>
+<jtok eid="19" type="local_variable_name" span="300:13:300:20">caption</jtok>
+<jtok eid="19" type="constructor_call" span="300:27:300:36">JMenuItem</jtok>
+<jtok eid="19" type="primary_name_ref" span="300:37:300:42">jEdit</jtok>
+<jtok eid="19" type="method_call" span="300:43:300:54">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="301:4:301:21">"history.caption"</jtok>
+<jtok eid="19" type="primary_name_ref" span="302:3:302:10">caption</jtok>
+<jtok eid="19" type="method_call" span="302:11:302:28">addActionListener</jtok>
+<jtok eid="19" type="constructor_call" span="302:33:302:47">ActionListener</jtok>
+<jtok eid="23" type="method_name" span="304:17:304:32">actionPerformed</jtok>
+<jtok eid="23" type="parameter_type" span="304:33:304:44">ActionEvent</jtok>
+<jtok eid="23" type="parameter_name" span="304:45:304:46">e</jtok>
+<jtok eid="23" type="constructor_call" span="306:11:306:26">ListModelEditor</jtok>
+<jtok eid="23" type="method_call" span="306:29:306:33">open</jtok>
+<jtok eid="23" type="primary_name_ref" span="306:34:306:46">historyModel</jtok>
+<jtok eid="19" type="primary_name_ref" span="309:4:309:9">popup</jtok>
+<jtok eid="19" type="method_call" span="309:10:309:13">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="309:14:309:21">caption</jtok>
+<jtok eid="19" type="primary_name_ref" span="310:4:310:9">popup</jtok>
+<jtok eid="19" type="method_call" span="310:10:310:22">addSeparator</jtok>
+<jtok eid="19" type="local_variable_name" span="312:11:312:12">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="312:18:312:19">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="312:22:312:34">historyModel</jtok>
+<jtok eid="19" type="method_call" span="312:35:312:42">getSize</jtok>
+<jtok eid="19" type="primary_name_ref" span="312:46:312:47">i</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="314:4:314:10">String</jtok>
+<jtok eid="19" type="local_variable_name" span="314:11:314:15">item</jtok>
+<jtok eid="19" type="primary_name_ref" span="314:18:314:30">historyModel</jtok>
+<jtok eid="19" type="method_call" span="314:31:314:38">getItem</jtok>
+<jtok eid="19" type="primary_name_ref" span="314:39:314:40">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="315:7:315:11">item</jtok>
+<jtok eid="19" type="method_call" span="315:12:315:22">startsWith</jtok>
+<jtok eid="19" type="primary_name_ref" span="315:23:315:24">t</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="317:5:317:14">JMenuItem</jtok>
+<jtok eid="19" type="local_variable_name" span="317:15:317:23">menuItem</jtok>
+<jtok eid="19" type="constructor_call" span="317:30:317:39">JMenuItem</jtok>
+<jtok eid="19" type="primary_name_ref" span="317:40:317:44">item</jtok>
+<jtok eid="19" type="primary_name_ref" span="318:5:318:13">menuItem</jtok>
+<jtok eid="19" type="method_call" span="318:14:318:30">setActionCommand</jtok>
+<jtok eid="19" type="primary_name_ref" span="318:31:318:37">String</jtok>
+<jtok eid="19" type="method_call" span="318:38:318:45">valueOf</jtok>
+<jtok eid="19" type="primary_name_ref" span="318:46:318:47">i</jtok>
+<jtok eid="19" type="primary_name_ref" span="319:5:319:13">menuItem</jtok>
+<jtok eid="19" type="method_call" span="319:14:319:31">addActionListener</jtok>
+<jtok eid="19" type="constructor_call" span="320:10:320:23">ActionHandler</jtok>
+<jtok eid="19" type="primary_name_ref" span="321:5:321:10">popup</jtok>
+<jtok eid="19" type="method_call" span="321:11:321:14">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="321:15:321:23">menuItem</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:3:325:15">GUIUtilities</jtok>
+<jtok eid="19" type="method_call" span="325:16:325:29">showPopupMenu</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:30:325:35">popup</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:36:325:40">text</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:41:325:42">x</jtok>
+<jtok eid="19" type="primary_name_ref" span="325:43:325:44">y</jtok>
+<jtok eid="1" type="line_comment" span="326:4:326:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="328:2:328:30">//{{{ showPopupMenu() method</jtok>
+<jtok eid="24" type="method_name" span="329:14:329:27">showPopupMenu</jtok>
+<jtok eid="24" type="parameter_name" span="329:36:329:42">search</jtok>
+<jtok eid="24" type="primary_name_ref" span="331:6:331:12">search</jtok>
+<jtok eid="24" type="method_call" span="332:4:332:17">showPopupMenu</jtok>
+<jtok eid="24" type="method_call" span="332:18:332:25">getText</jtok>
+<jtok eid="24" type="method_call" span="332:28:332:37">substring</jtok>
+<jtok eid="24" type="method_call" span="332:38:332:51">getInputStart</jtok>
+<jtok eid="24" type="primary_name_ref" span="333:5:333:9">text</jtok>
+<jtok eid="24" type="method_call" span="333:10:333:27">getSelectionStart</jtok>
+<jtok eid="24" type="primary_name_ref" span="333:33:333:37">text</jtok>
+<jtok eid="24" type="method_call" span="333:38:333:47">getHeight</jtok>
+<jtok eid="24" type="method_call" span="335:4:335:17">showPopupMenu</jtok>
+<jtok eid="24" type="string_literal" span="335:18:335:20">""</jtok>
+<jtok eid="24" type="primary_name_ref" span="335:23:335:27">text</jtok>
+<jtok eid="24" type="method_call" span="335:28:335:37">getHeight</jtok>
+<jtok eid="1" type="line_comment" span="336:4:336:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="338:2:338:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="339:10:339:24">JTextComponent</jtok>
+<jtok eid="1" type="field_name" span="339:25:339:29">text</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="340:10:340:22">HistoryModel</jtok>
+<jtok eid="1" type="field_name" span="340:23:340:35">historyModel</jtok>
+<jtok eid="1" type="field_name" span="341:14:341:19">index</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="342:10:342:16">String</jtok>
+<jtok eid="1" type="field_name" span="342:17:342:24">current</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="343:10:343:20">JPopupMenu</jtok>
+<jtok eid="1" type="field_name" span="343:21:343:26">popup</jtok>
+<jtok eid="1" type="field_name" span="344:18:344:31">instantPopups</jtok>
+<jtok eid="1" type="line_comment" span="345:2:345:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="347:2:347:27">//{{{ ActionHandler class</jtok>
+<jtok eid="25" type="class_name" span="348:8:348:21">ActionHandler</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="348:33:348:47">ActionListener</jtok>
+<jtok eid="26" type="method_name" span="350:15:350:30">actionPerformed</jtok>
+<jtok eid="26" type="parameter_type" span="350:31:350:42">ActionEvent</jtok>
+<jtok eid="26" type="parameter_name" span="350:43:350:46">evt</jtok>
+<jtok eid="26" type="local_variable_name" span="352:8:352:11">ind</jtok>
+<jtok eid="26" type="primary_name_ref" span="352:14:352:21">Integer</jtok>
+<jtok eid="26" type="method_call" span="352:22:352:30">parseInt</jtok>
+<jtok eid="26" type="primary_name_ref" span="352:31:352:34">evt</jtok>
+<jtok eid="26" type="method_call" span="352:35:352:51">getActionCommand</jtok>
+<jtok eid="26" type="primary_name_ref" span="353:7:353:10">ind</jtok>
+<jtok eid="26" type="primary_name_ref" span="355:8:355:13">index</jtok>
+<jtok eid="26" type="method_call" span="356:6:356:13">setText</jtok>
+<jtok eid="26" type="primary_name_ref" span="356:14:356:21">current</jtok>
+<jtok eid="26" type="method_call" span="360:5:360:12">setText</jtok>
+<jtok eid="26" type="primary_name_ref" span="360:13:360:25">historyModel</jtok>
+<jtok eid="26" type="method_call" span="360:26:360:33">getItem</jtok>
+<jtok eid="26" type="primary_name_ref" span="360:34:360:37">ind</jtok>
+<jtok eid="26" type="primary_name_ref" span="361:5:361:10">index</jtok>
+<jtok eid="26" type="primary_name_ref" span="361:13:361:16">ind</jtok>
+<jtok eid="26" type="primary_name_ref" span="363:7:363:20">instantPopups</jtok>
+<jtok eid="26" type="method_call" span="365:5:365:24">addCurrentToHistory</jtok>
+<jtok eid="26" type="method_call" span="366:5:366:24">fireActionPerformed</jtok>
+<jtok eid="1" type="line_comment" span="369:4:369:9">//}}}</jtok>
+</jdoc>

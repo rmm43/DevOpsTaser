@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.search.BoyerMooreSearchMatcher" jls="java5">
+<jent id="0" type="file" span="0:0:315:2">Source/jEdit/org/gjt/sp/jedit/search/BoyerMooreSearchMatcher.java</jent>
+<jent id="1" pid="0" type="class" span="32:1:315:1">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher</jent>
+<jent id="2" pid="1" type="method" span="40:2:55:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.BoyerMooreSearchMatcher(String,boolean)</jent>
+<jent id="3" pid="1" type="method" span="74:2:90:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.nextMatch(CharSequence,boolean,boolean,boolean,boolean)</jent>
+<jent id="4" pid="1" type="method" span="101:2:193:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.match(CharSequence,boolean)</jent>
+<jent id="5" pid="1" type="method" span="196:2:199:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.toString()</jent>
+<jent id="6" pid="1" type="method" span="220:2:238:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.generateSkipArray(boolean)</jent>
+<jent id="7" pid="1" type="method" span="257:2:260:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.getSkipIndex(char)</jent>
+<jent id="8" pid="1" type="method" span="267:2:312:2">org.gjt.sp.jedit.search.BoyerMooreSearchMatcher.generateSuffixArray(boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:24:4">/*
+ * BoyerMooreSearchMatcher.java - Literal pattern String matcher utilizing the
+ *         Boyer-Moore algorithm
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2000 mike dillon
+ * Portions copyright (C) 2001 Tom Locke
+ * Portions copyright (C) 2001, 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="28:1:31:4">/**
+ * Implements literal search using the Boyer-Moore algorithm.
+ * @version $Id: BoyerMooreSearchMatcher.java 13837 2008-10-01 07:47:17Z shlomy $
+ */</jtok>
+<jtok eid="1" type="class_name" span="32:14:32:37">BoyerMooreSearchMatcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:46:32:59">SearchMatcher</jtok>
+<jtok eid="1" type="line_comment" span="34:2:34:43">//{{{ BoyerMooreSearchMatcher constructor</jtok>
+<jtok eid="1" type="block_comment" span="35:2:39:5">/**
+	 * Creates a new string literal matcher.
+	 * @param pattern the search pattern
+	 * @param ignoreCase &lt;code&gt;true&lt;/code&gt; if you want to ignore case
+	 */</jtok>
+<jtok eid="2" type="method_name" span="40:9:40:32">BoyerMooreSearchMatcher</jtok>
+<jtok eid="2" type="parameter_type" span="40:33:40:39">String</jtok>
+<jtok eid="2" type="parameter_name" span="40:40:40:47">pattern</jtok>
+<jtok eid="2" type="parameter_name" span="40:57:40:67">ignoreCase</jtok>
+<jtok eid="2" type="qualified_name_ref" span="42:8:42:15">pattern</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:18:42:25">pattern</jtok>
+<jtok eid="2" type="method_call" span="42:26:42:37">toCharArray</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:6:43:16">ignoreCase</jtok>
+<jtok eid="2" type="local_variable_name" span="45:12:45:13">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:19:45:20">i</jtok>
+<jtok eid="2" type="qualified_name_ref" span="45:28:45:35">pattern</jtok>
+<jtok eid="2" type="qualified_name_ref" span="45:36:45:42">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:44:45:45">i</jtok>
+<jtok eid="2" type="qualified_name_ref" span="47:10:47:17">pattern</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:18:47:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:23:47:32">Character</jtok>
+<jtok eid="2" type="method_call" span="47:33:47:44">toUpperCase</jtok>
+<jtok eid="2" type="qualified_name_ref" span="48:11:48:18">pattern</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:19:48:20">i</jtok>
+<jtok eid="2" type="qualified_name_ref" span="52:8:52:18">ignoreCase</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:21:52:31">ignoreCase</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:3:54:14">pattern_end</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:22:54:29">pattern</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:30:54:36">length</jtok>
+<jtok eid="1" type="line_comment" span="55:4:55:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="57:2:57:26">//{{{ nextMatch() method</jtok>
+<jtok eid="1" type="block_comment" span="58:2:73:5">/**
+	 * Returns the offset of the first match of the specified text
+	 * within this matcher.
+	 * @param text The text to search in
+	 * @param start True if the start of the segment is the beginning of the
+	 * buffer
+	 * @param end True if the end of the segment is the end of the buffer
+	 * @param firstTime If false and the search string matched at the start
+	 * offset with length zero, automatically find next match
+	 * @param reverse If true, searching will be performed in a backward
+	 * direction.
+	 * @return an array where the first element is the start offset
+	 * of the match, and the second element is the end offset of
+	 * the match
+	 * @since jEdit 4.2pre4
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:9:74:22">SearchMatcher</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="74:23:74:28">Match</jtok>
+<jtok eid="3" type="method_name" span="74:29:74:38">nextMatch</jtok>
+<jtok eid="3" type="parameter_type" span="74:39:74:51">CharSequence</jtok>
+<jtok eid="3" type="parameter_name" span="74:52:74:56">text</jtok>
+<jtok eid="3" type="parameter_name" span="75:11:75:16">start</jtok>
+<jtok eid="3" type="parameter_name" span="75:26:75:29">end</jtok>
+<jtok eid="3" type="parameter_name" span="75:39:75:48">firstTime</jtok>
+<jtok eid="3" type="parameter_name" span="76:11:76:18">reverse</jtok>
+<jtok eid="3" type="local_variable_name" span="78:7:78:10">pos</jtok>
+<jtok eid="3" type="method_call" span="78:13:78:18">match</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:19:78:23">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:24:78:31">reverse</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:7:80:10">pos</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:4:86:15">returnValue</jtok>
+<jtok eid="3" type="qualified_name_ref" span="86:16:86:21">start</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:24:86:27">pos</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:4:87:15">returnValue</jtok>
+<jtok eid="3" type="qualified_name_ref" span="87:16:87:19">end</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:22:87:25">pos</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:28:87:35">pattern</jtok>
+<jtok eid="3" type="qualified_name_ref" span="87:36:87:42">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:11:88:22">returnValue</jtok>
+<jtok eid="1" type="line_comment" span="90:4:90:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="92:2:92:22">//{{{ match() method</jtok>
+<jtok eid="1" type="block_comment" span="93:2:100:5">/**
+	 *  a good introduction to the Boyer-Moore fast string matching
+	 *  algorithm may be found on Moore's website at:
+	 *
+	 *   http://www.cs.utexas.edu/users/moore/best-ideas/string-searching/
+	 *
+	 * @since jEdit 4.3pre5
+	 */</jtok>
+<jtok eid="4" type="method_name" span="101:13:101:18">match</jtok>
+<jtok eid="4" type="parameter_type" span="101:19:101:31">CharSequence</jtok>
+<jtok eid="4" type="parameter_name" span="101:32:101:36">text</jtok>
+<jtok eid="4" type="parameter_name" span="101:46:101:53">reverse</jtok>
+<jtok eid="4" type="line_comment" span="103:3:103:8">//{{{</jtok>
+<jtok eid="4" type="line_comment" span="104:3:104:57">// lazily create skip and suffix arrays for either the</jtok>
+<jtok eid="4" type="line_comment" span="105:3:105:52">// search pattern, or the reversed search pattern</jtok>
+<jtok eid="4" type="local_variable_name" span="106:9:106:13">skip</jtok>
+<jtok eid="4" type="local_variable_name" span="106:15:106:21">suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:6:107:13">reverse</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:7:109:16">back_skip</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:5:111:14">back_skip</jtok>
+<jtok eid="4" type="method_call" span="111:17:111:34">generateSkipArray</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:5:112:16">back_suffix</jtok>
+<jtok eid="4" type="method_call" span="112:19:112:38">generateSuffixArray</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:4:114:8">skip</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:11:114:20">back_skip</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:4:115:10">suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:13:115:24">back_suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:7:119:15">fwd_skip</jtok>
+<jtok eid="4" type="primary_name_ref" span="121:5:121:13">fwd_skip</jtok>
+<jtok eid="4" type="method_call" span="121:16:121:33">generateSkipArray</jtok>
+<jtok eid="4" type="primary_name_ref" span="122:5:122:15">fwd_suffix</jtok>
+<jtok eid="4" type="method_call" span="122:18:122:37">generateSuffixArray</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:4:124:8">skip</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:11:124:19">fwd_skip</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:4:125:10">suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:13:125:23">fwd_suffix</jtok>
+<jtok eid="4" type="line_comment" span="126:5:126:10">//}}}</jtok>
+<jtok eid="4" type="line_comment" span="128:3:128:49">// position variable for pattern test position</jtok>
+<jtok eid="4" type="local_variable_name" span="129:7:129:10">pos</jtok>
+<jtok eid="4" type="line_comment" span="131:3:131:41">// position variable for pattern start</jtok>
+<jtok eid="4" type="local_variable_name" span="132:7:132:13">anchor</jtok>
+<jtok eid="4" type="line_comment" span="134:3:134:64">// last possible start position of a match with this pattern;</jtok>
+<jtok eid="4" type="line_comment" span="135:3:135:61">// this is negative if the pattern is longer than the text</jtok>
+<jtok eid="4" type="line_comment" span="136:3:136:55">// causing the search loop below to immediately fail</jtok>
+<jtok eid="4" type="line_comment" span="137:3:137:36">//int last_anchor = reverseSearch</jtok>
+<jtok eid="4" type="line_comment" span="138:3:138:35">//	? offset + pattern.length - 1</jtok>
+<jtok eid="4" type="line_comment" span="139:3:139:32">//	: length - pattern.length;</jtok>
+<jtok eid="4" type="local_variable_name" span="141:8:141:10">ch</jtok>
+<jtok eid="4" type="local_variable_name" span="143:7:143:15">bad_char</jtok>
+<jtok eid="4" type="local_variable_name" span="144:7:144:18">good_suffix</jtok>
+<jtok eid="4" type="line_comment" span="146:3:146:62">// the search works by starting the anchor (first character</jtok>
+<jtok eid="4" type="line_comment" span="147:3:147:59">// of the pattern) at the initial offset. as long as the</jtok>
+<jtok eid="4" type="line_comment" span="148:3:148:62">// anchor is far enough from the enough of the text for the</jtok>
+<jtok eid="4" type="line_comment" span="149:3:149:57">// pattern to match, and until the pattern matches, we</jtok>
+<jtok eid="4" type="line_comment" span="150:3:150:61">// compare the pattern to the text from the last character</jtok>
+<jtok eid="4" type="line_comment" span="151:3:151:64">// to the first character in reverse order. where a character</jtok>
+<jtok eid="4" type="line_comment" span="152:3:152:58">// in the pattern mismatches, we use the two heuristics</jtok>
+<jtok eid="4" type="line_comment" span="153:3:153:61">// based on the mismatch character and its position in the</jtok>
+<jtok eid="4" type="line_comment" span="154:3:154:62">// pattern to determine the furthest we can move the anchor</jtok>
+<jtok eid="4" type="line_comment" span="155:3:155:52">// without missing any potential pattern matches.</jtok>
+<jtok eid="4" type="label_name" span="156:3:156:9">SEARCH</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:10:157:16">anchor</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:19:157:30">pattern_end</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:33:157:37">text</jtok>
+<jtok eid="4" type="method_call" span="157:38:157:44">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:9:159:12">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:15:159:26">pattern_end</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:28:159:31">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:40:159:43">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:5:161:7">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:10:161:14">text</jtok>
+<jtok eid="4" type="method_call" span="161:15:161:21">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:22:161:25">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:28:161:34">anchor</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:8:162:18">ignoreCase</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:6:163:8">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:11:163:20">Character</jtok>
+<jtok eid="4" type="method_call" span="163:21:163:32">toUpperCase</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:33:163:35">ch</jtok>
+<jtok eid="4" type="line_comment" span="165:5:165:20">// pattern test</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:10:166:17">reverse</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:20:166:22">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:26:166:33">pattern</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:34:166:45">pattern_end</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:48:166:51">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:8:167:10">ch</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:14:167:21">pattern</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:22:167:25">pos</jtok>
+<jtok eid="4" type="line_comment" span="169:6:169:66">// character mismatch, determine how many characters to skip</jtok>
+<jtok eid="4" type="line_comment" span="171:6:171:21">// heuristic #1</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:6:172:14">bad_char</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:17:172:20">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:23:172:27">skip</jtok>
+<jtok eid="4" type="method_call" span="172:28:172:40">getSkipIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:41:172:43">ch</jtok>
+<jtok eid="4" type="line_comment" span="174:6:174:21">// heuristic #2</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:6:175:17">good_suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:20:175:26">suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:27:175:30">pos</jtok>
+<jtok eid="4" type="line_comment" span="177:6:177:62">// skip the greater of the two distances provided by the</jtok>
+<jtok eid="4" type="line_comment" span="178:6:178:19">// heuristics</jtok>
+<jtok eid="4" type="local_variable_name" span="179:10:179:20">skip_index</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:24:179:32">bad_char</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:35:179:46">good_suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:50:179:58">bad_char</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:61:179:72">good_suffix</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:6:180:12">anchor</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:16:180:26">skip_index</jtok>
+<jtok eid="4" type="line_comment" span="182:6:182:34">// go back to the while loop</jtok>
+<jtok eid="4" type="label_ref" span="183:15:183:21">SEARCH</jtok>
+<jtok eid="4" type="line_comment" span="187:4:187:56">// MATCH: return the position of its first character</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:11:188:17">anchor</jtok>
+<jtok eid="4" type="line_comment" span="191:3:191:43">// MISMATCH: return -1 as defined by API</jtok>
+<jtok eid="1" type="line_comment" span="193:4:193:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="195:2:195:25">//{{{ toString() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="196:9:196:15">String</jtok>
+<jtok eid="5" type="method_name" span="196:16:196:24">toString</jtok>
+<jtok eid="5" type="string_literal" span="198:10:198:36">"BoyerMooreSearchMatcher["</jtok>
+<jtok eid="5" type="constructor_call" span="198:43:198:49">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="198:50:198:57">pattern</jtok>
+<jtok eid="5" type="primary_name_ref" span="198:67:198:77">ignoreCase</jtok>
+<jtok eid="1" type="line_comment" span="199:4:199:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="201:2:201:23">//{{{ Private members</jtok>
+<jtok eid="1" type="field_name" span="202:17:202:24">pattern</jtok>
+<jtok eid="1" type="field_name" span="203:14:203:25">pattern_end</jtok>
+<jtok eid="1" type="field_name" span="204:18:204:28">ignoreCase</jtok>
+<jtok eid="1" type="line_comment" span="206:2:206:30">// Boyer-Moore member fields</jtok>
+<jtok eid="1" type="field_name" span="207:16:207:24">fwd_skip</jtok>
+<jtok eid="1" type="field_name" span="208:16:208:26">fwd_suffix</jtok>
+<jtok eid="1" type="field_name" span="209:16:209:25">back_skip</jtok>
+<jtok eid="1" type="field_name" span="210:16:210:27">back_suffix</jtok>
+<jtok eid="1" type="line_comment" span="212:2:212:31">// Boyer-Moore helper methods</jtok>
+<jtok eid="1" type="line_comment" span="214:2:214:34">//{{{ generateSkipArray() method</jtok>
+<jtok eid="1" type="block_comment" span="215:2:219:5">/*
+	 *  the 'skip' array is used to determine for each index in the
+	 *  hashed alphabet how many characters can be skipped if
+	 *  a mismatch occurs on a characater hashing to that index.
+	 */</jtok>
+<jtok eid="6" type="method_name" span="220:16:220:33">generateSkipArray</jtok>
+<jtok eid="6" type="parameter_name" span="220:42:220:49">reverse</jtok>
+<jtok eid="6" type="line_comment" span="222:3:222:44">// initialize the skip array to all zeros</jtok>
+<jtok eid="6" type="local_variable_name" span="223:9:223:13">skip</jtok>
+<jtok eid="6" type="line_comment" span="225:3:225:62">// leave the table cleanly-initialized for an empty pattern</jtok>
+<jtok eid="6" type="primary_name_ref" span="226:7:226:14">pattern</jtok>
+<jtok eid="6" type="qualified_name_ref" span="226:15:226:21">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="227:11:227:15">skip</jtok>
+<jtok eid="6" type="local_variable_name" span="229:7:229:10">pos</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:4:233:8">skip</jtok>
+<jtok eid="6" type="method_call" span="233:9:233:21">getSkipIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:22:233:29">pattern</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:30:233:37">reverse</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:40:233:51">pattern_end</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:54:233:57">pos</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:60:233:63">pos</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:69:233:72">pos</jtok>
+<jtok eid="6" type="primary_name_ref" span="235:12:235:15">pos</jtok>
+<jtok eid="6" type="primary_name_ref" span="235:18:235:25">pattern</jtok>
+<jtok eid="6" type="qualified_name_ref" span="235:26:235:32">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="237:10:237:14">skip</jtok>
+<jtok eid="1" type="line_comment" span="238:4:238:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="240:2:240:29">//{{{ getSkipIndex() method</jtok>
+<jtok eid="1" type="block_comment" span="241:2:256:5">/*
+	 *  to avoid our skip table having a length of 2 ^ 16, we hash each
+	 *  character of the input into a character in the alphabet [\x00-\xFF]
+	 *  using the lower 8 bits of the character's value (resulting in
+	 *  a more reasonable skip table of length 2 ^ 8).
+	 *
+	 *  the result of this is that more than one character can hash to the
+	 *  same index, but since the skip table encodes the position of
+	 *  occurence of the character furthest into the string with a particular
+	 *  index (whether or not it is the only character with that index), an
+	 *  index collision only means that that this heuristic will give a
+	 *  sub-optimal skip (i.e. a complete skip table could use the differences
+	 *  between colliding characters to maximal effect, at the expense of
+	 *  building a table that is over 2 orders of magnitude larger and very
+	 *  sparse).
+	 */</jtok>
+<jtok eid="7" type="method_name" span="257:27:257:39">getSkipIndex</jtok>
+<jtok eid="7" type="parameter_name" span="257:45:257:47">ch</jtok>
+<jtok eid="7" type="primary_name_ref" span="259:10:259:12">ch</jtok>
+<jtok eid="1" type="line_comment" span="260:4:260:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="262:2:262:36">//{{{ generateSuffixArray() method</jtok>
+<jtok eid="1" type="block_comment" span="263:2:266:5">/*
+	 *  XXX: hairy code that is basically just a functional(?) port of some
+	 *  other code i barely understood
+	 */</jtok>
+<jtok eid="8" type="method_name" span="267:16:267:35">generateSuffixArray</jtok>
+<jtok eid="8" type="parameter_name" span="267:44:267:51">reverse</jtok>
+<jtok eid="8" type="local_variable_name" span="269:7:269:8">m</jtok>
+<jtok eid="8" type="primary_name_ref" span="269:11:269:18">pattern</jtok>
+<jtok eid="8" type="qualified_name_ref" span="269:19:269:25">length</jtok>
+<jtok eid="8" type="local_variable_name" span="271:7:271:8">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="271:11:271:12">m</jtok>
+<jtok eid="8" type="local_variable_name" span="273:9:273:15">suffix</jtok>
+<jtok eid="8" type="primary_name_ref" span="273:26:273:27">j</jtok>
+<jtok eid="8" type="local_variable_name" span="274:9:274:12">tmp</jtok>
+<jtok eid="8" type="primary_name_ref" span="274:23:274:24">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="275:3:275:6">tmp</jtok>
+<jtok eid="8" type="primary_name_ref" span="275:7:275:8">m</jtok>
+<jtok eid="8" type="primary_name_ref" span="275:12:275:13">j</jtok>
+<jtok eid="8" type="local_variable_name" span="277:12:277:13">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="277:16:277:17">m</jtok>
+<jtok eid="8" type="primary_name_ref" span="277:19:277:20">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="277:28:277:29">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:11:279:12">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:16:279:17">m</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:21:279:28">pattern</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:29:279:36">reverse</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:39:279:50">pattern_end</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:53:279:54">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:61:279:62">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="280:8:280:15">pattern</jtok>
+<jtok eid="8" type="primary_name_ref" span="280:16:280:23">reverse</jtok>
+<jtok eid="8" type="primary_name_ref" span="280:26:280:37">pattern_end</jtok>
+<jtok eid="8" type="primary_name_ref" span="280:40:280:41">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="280:48:280:49">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="282:9:282:15">suffix</jtok>
+<jtok eid="8" type="primary_name_ref" span="282:16:282:17">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="284:6:284:12">suffix</jtok>
+<jtok eid="8" type="primary_name_ref" span="284:13:284:14">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="284:18:284:19">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="284:22:284:23">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="287:5:287:6">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="287:9:287:12">tmp</jtok>
+<jtok eid="8" type="primary_name_ref" span="287:13:287:14">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="290:4:290:7">tmp</jtok>
+<jtok eid="8" type="primary_name_ref" span="290:8:290:9">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="290:19:290:20">j</jtok>
+<jtok eid="8" type="local_variable_name" span="293:7:293:8">k</jtok>
+<jtok eid="8" type="primary_name_ref" span="293:11:293:14">tmp</jtok>
+<jtok eid="8" type="primary_name_ref" span="295:8:295:9">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="295:15:295:16">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="295:20:295:21">m</jtok>
+<jtok eid="8" type="primary_name_ref" span="295:23:295:24">j</jtok>
+<jtok eid="8" type="line_comment" span="297:4:297:54">// the code above builds a 1-indexed suffix array,</jtok>
+<jtok eid="8" type="line_comment" span="298:4:298:52">// but we shift it to be 0-indexed, ignoring the</jtok>
+<jtok eid="8" type="line_comment" span="299:4:299:28">// original 0-th element</jtok>
+<jtok eid="8" type="primary_name_ref" span="300:8:300:9">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:5:302:11">suffix</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:12:302:13">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:22:302:28">suffix</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:29:302:30">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:40:302:41">k</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:44:302:50">suffix</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:51:302:52">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="305:8:305:9">j</jtok>
+<jtok eid="8" type="primary_name_ref" span="305:13:305:14">k</jtok>
+<jtok eid="8" type="primary_name_ref" span="307:5:307:6">k</jtok>
+<jtok eid="8" type="primary_name_ref" span="307:9:307:12">tmp</jtok>
+<jtok eid="8" type="primary_name_ref" span="307:13:307:14">k</jtok>
+<jtok eid="8" type="primary_name_ref" span="311:10:311:16">suffix</jtok>
+<jtok eid="1" type="line_comment" span="312:4:312:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="314:2:314:7">//}}}</jtok>
+</jdoc>

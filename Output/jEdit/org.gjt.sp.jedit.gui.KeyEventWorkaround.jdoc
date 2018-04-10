@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.KeyEventWorkaround" jls="java5">
+<jent id="0" type="file" span="0:0:390:2">Source/jEdit/org/gjt/sp/jedit/gui/KeyEventWorkaround.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:390:1">org.gjt.sp.jedit.gui.KeyEventWorkaround</jent>
+<jent id="2" pid="1" type="method" span="44:2:73:2">org.gjt.sp.jedit.gui.KeyEventWorkaround.isBindable(int)</jent>
+<jent id="3" pid="1" type="method" span="81:2:190:2">org.gjt.sp.jedit.gui.KeyEventWorkaround.isPrintable(int)</jent>
+<jent id="4" pid="1" type="method" span="196:2:201:2">org.gjt.sp.jedit.gui.KeyEventWorkaround.isMacControl(KeyEvent)</jent>
+<jent id="5" pid="1" type="method" span="204:2:228:2">org.gjt.sp.jedit.gui.KeyEventWorkaround.isNumericKeypad(int)</jent>
+<jent id="6" pid="1" type="method" span="231:2:372:2">org.gjt.sp.jedit.gui.KeyEventWorkaround.processKeyEvent(KeyEvent)</jent>
+<jent id="7" pid="1" type="method" span="379:2:382:2">org.gjt.sp.jedit.gui.KeyEventWorkaround.numericKeypadKey()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * KeyEventWorkaround.java - Works around bugs in Java event handling
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2005 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="33:1:40:4">/**
+ * Various hacks to get keyboard event handling to behave in a consistent manner
+ * across Java implementations. This type of stuff should not be necessary, but
+ * Java's keyboard handling is crap, to put it mildly.
+ *
+ * @author Slava Pestov
+ * @version $Id: KeyEventWorkaround.java 13655 2008-09-12 20:33:30Z k_satoda $
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:14:41:32">KeyEventWorkaround</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:27">//{{{ isBindable() method</jtok>
+<jtok eid="2" type="method_name" span="44:24:44:34">isBindable</jtok>
+<jtok eid="2" type="parameter_name" span="44:39:44:46">keyCode</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:10:46:17">keyCode</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:8:48:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="48:17:48:23">VK_ALT</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:8:49:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="49:17:49:29">VK_ALT_GRAPH</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:8:50:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="50:17:50:27">VK_CONTROL</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:8:51:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="51:17:51:25">VK_SHIFT</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:8:52:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="52:17:52:24">VK_META</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:8:53:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:17:53:30">VK_DEAD_GRAVE</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:8:54:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="54:17:54:30">VK_DEAD_ACUTE</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:8:55:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:17:55:35">VK_DEAD_CIRCUMFLEX</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:8:56:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="56:17:56:30">VK_DEAD_TILDE</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:8:57:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="57:17:57:31">VK_DEAD_MACRON</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:8:58:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="58:17:58:30">VK_DEAD_BREVE</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:8:59:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="59:17:59:33">VK_DEAD_ABOVEDOT</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:8:60:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="60:17:60:34">VK_DEAD_DIAERESIS</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:8:61:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="61:17:61:34">VK_DEAD_ABOVERING</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:8:62:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="62:17:62:36">VK_DEAD_DOUBLEACUTE</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:8:63:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="63:17:63:30">VK_DEAD_CARON</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:8:64:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="64:17:64:32">VK_DEAD_CEDILLA</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:8:65:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="65:17:65:31">VK_DEAD_OGONEK</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:8:66:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:17:66:29">VK_DEAD_IOTA</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:8:67:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="67:17:67:37">VK_DEAD_VOICED_SOUND</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:8:68:16">KeyEvent</jtok>
+<jtok eid="2" type="qualified_name_ref" span="68:17:68:41">VK_DEAD_SEMIVOICED_SOUND</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:28">//{{{ isPrintable() method</jtok>
+<jtok eid="1" type="block_comment" span="76:2:80:5">/**
+	 * We need to know if a keycode can potentially result in a
+	 * keytyped.
+	 * @since jEdit 4.3pre2
+	 */</jtok>
+<jtok eid="3" type="method_name" span="81:24:81:35">isPrintable</jtok>
+<jtok eid="3" type="parameter_name" span="81:40:81:47">keyCode</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:10:83:17">keyCode</jtok>
+<jtok eid="3" type="block_comment" span="85:3:86:27">/* case KeyEvent.VK_ENTER:
+		case KeyEvent.VK_TAB: */</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:8:87:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="87:17:87:25">VK_SPACE</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:8:88:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="88:17:88:25">VK_COMMA</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:8:89:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="89:17:89:25">VK_MINUS</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:8:90:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="90:17:90:26">VK_PERIOD</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:8:91:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="91:17:91:25">VK_SLASH</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:8:92:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="92:17:92:21">VK_0</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:8:93:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="93:17:93:21">VK_1</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:8:94:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="94:17:94:21">VK_2</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:8:95:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="95:17:95:21">VK_3</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:8:96:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="96:17:96:21">VK_4</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:8:97:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="97:17:97:21">VK_5</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:8:98:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="98:17:98:21">VK_6</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:8:99:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="99:17:99:21">VK_7</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:8:100:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="100:17:100:21">VK_8</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:8:101:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="101:17:101:21">VK_9</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:8:102:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="102:17:102:29">VK_SEMICOLON</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:8:103:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="103:17:103:26">VK_EQUALS</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:8:104:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="104:17:104:21">VK_A</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:8:105:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="105:17:105:21">VK_B</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:8:106:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="106:17:106:21">VK_C</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:8:107:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="107:17:107:21">VK_D</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:8:108:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="108:17:108:21">VK_E</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:8:109:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="109:17:109:21">VK_F</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:8:110:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="110:17:110:21">VK_G</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:8:111:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="111:17:111:21">VK_H</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:8:112:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="112:17:112:21">VK_I</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:8:113:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="113:17:113:21">VK_J</jtok>
+<jtok eid="3" type="primary_name_ref" span="114:8:114:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="114:17:114:21">VK_K</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:8:115:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="115:17:115:21">VK_L</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:8:116:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="116:17:116:21">VK_M</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:8:117:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="117:17:117:21">VK_N</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:8:118:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="118:17:118:21">VK_O</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:8:119:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="119:17:119:21">VK_P</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:8:120:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="120:17:120:21">VK_Q</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:8:121:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="121:17:121:21">VK_R</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:8:122:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="122:17:122:21">VK_S</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:8:123:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="123:17:123:21">VK_T</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:8:124:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="124:17:124:21">VK_U</jtok>
+<jtok eid="3" type="primary_name_ref" span="125:8:125:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="125:17:125:21">VK_V</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:8:126:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="126:17:126:21">VK_W</jtok>
+<jtok eid="3" type="primary_name_ref" span="127:8:127:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="127:17:127:21">VK_X</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:8:128:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="128:17:128:21">VK_Y</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:8:129:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="129:17:129:21">VK_Z</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:8:130:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="130:17:130:32">VK_OPEN_BRACKET</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:8:131:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="131:17:131:30">VK_BACK_SLASH</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:8:132:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="132:17:132:33">VK_CLOSE_BRACKET</jtok>
+<jtok eid="3" type="block_comment" span="133:2:148:34">/*	case KeyEvent.VK_NUMPAD0 :
+		case KeyEvent.VK_NUMPAD1 :
+		case KeyEvent.VK_NUMPAD2 :
+		case KeyEvent.VK_NUMPAD3 :
+		case KeyEvent.VK_NUMPAD4 :
+		case KeyEvent.VK_NUMPAD5 :
+		case KeyEvent.VK_NUMPAD6 :
+		case KeyEvent.VK_NUMPAD7 :
+		case KeyEvent.VK_NUMPAD8 :
+		case KeyEvent.VK_NUMPAD9 :
+		case KeyEvent.VK_MULTIPLY:
+		case KeyEvent.VK_ADD     :
+		case KeyEvent.VK_SEPARATOR:
+		case KeyEvent.VK_SUBTRACT   :
+		case KeyEvent.VK_DECIMAL    :
+		case KeyEvent.VK_DIVIDE     :*/</jtok>
+<jtok eid="3" type="primary_name_ref" span="149:8:149:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="149:17:149:30">VK_BACK_QUOTE</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:8:150:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="150:17:150:25">VK_QUOTE</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:8:151:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="151:17:151:30">VK_DEAD_GRAVE</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:8:152:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="152:17:152:30">VK_DEAD_ACUTE</jtok>
+<jtok eid="3" type="primary_name_ref" span="153:8:153:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="153:17:153:35">VK_DEAD_CIRCUMFLEX</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:8:154:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="154:17:154:30">VK_DEAD_TILDE</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:8:155:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="155:17:155:31">VK_DEAD_MACRON</jtok>
+<jtok eid="3" type="primary_name_ref" span="156:8:156:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="156:17:156:30">VK_DEAD_BREVE</jtok>
+<jtok eid="3" type="primary_name_ref" span="157:8:157:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="157:17:157:33">VK_DEAD_ABOVEDOT</jtok>
+<jtok eid="3" type="primary_name_ref" span="158:8:158:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="158:17:158:34">VK_DEAD_DIAERESIS</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:8:159:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="159:17:159:34">VK_DEAD_ABOVERING</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:8:160:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="160:17:160:36">VK_DEAD_DOUBLEACUTE</jtok>
+<jtok eid="3" type="primary_name_ref" span="161:8:161:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="161:17:161:30">VK_DEAD_CARON</jtok>
+<jtok eid="3" type="primary_name_ref" span="162:8:162:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="162:17:162:32">VK_DEAD_CEDILLA</jtok>
+<jtok eid="3" type="primary_name_ref" span="163:8:163:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="163:17:163:31">VK_DEAD_OGONEK</jtok>
+<jtok eid="3" type="primary_name_ref" span="164:8:164:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="164:17:164:29">VK_DEAD_IOTA</jtok>
+<jtok eid="3" type="primary_name_ref" span="165:8:165:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="165:17:165:37">VK_DEAD_VOICED_SOUND</jtok>
+<jtok eid="3" type="primary_name_ref" span="166:8:166:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="166:17:166:41">VK_DEAD_SEMIVOICED_SOUND</jtok>
+<jtok eid="3" type="primary_name_ref" span="167:8:167:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="167:17:167:29">VK_AMPERSAND</jtok>
+<jtok eid="3" type="primary_name_ref" span="168:8:168:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="168:17:168:28">VK_ASTERISK</jtok>
+<jtok eid="3" type="primary_name_ref" span="169:8:169:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="169:17:169:28">VK_QUOTEDBL</jtok>
+<jtok eid="3" type="primary_name_ref" span="170:8:170:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="170:17:170:24">VK_LESS</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:8:171:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="171:17:171:27">VK_GREATER</jtok>
+<jtok eid="3" type="primary_name_ref" span="172:8:172:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="172:17:172:29">VK_BRACELEFT</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:8:173:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="173:17:173:30">VK_BRACERIGHT</jtok>
+<jtok eid="3" type="primary_name_ref" span="174:8:174:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="174:17:174:22">VK_AT</jtok>
+<jtok eid="3" type="primary_name_ref" span="175:8:175:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="175:17:175:25">VK_COLON</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:8:176:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="176:17:176:30">VK_CIRCUMFLEX</jtok>
+<jtok eid="3" type="primary_name_ref" span="177:8:177:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="177:17:177:26">VK_DOLLAR</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:8:178:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="178:17:178:29">VK_EURO_SIGN</jtok>
+<jtok eid="3" type="primary_name_ref" span="179:8:179:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="179:17:179:36">VK_EXCLAMATION_MARK</jtok>
+<jtok eid="3" type="primary_name_ref" span="180:8:180:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="180:17:180:45">VK_INVERTED_EXCLAMATION_MARK</jtok>
+<jtok eid="3" type="primary_name_ref" span="181:8:181:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="181:17:181:36">VK_LEFT_PARENTHESIS</jtok>
+<jtok eid="3" type="primary_name_ref" span="182:8:182:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="182:17:182:31">VK_NUMBER_SIGN</jtok>
+<jtok eid="3" type="primary_name_ref" span="183:8:183:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="183:17:183:24">VK_PLUS</jtok>
+<jtok eid="3" type="primary_name_ref" span="184:8:184:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="184:17:184:37">VK_RIGHT_PARENTHESIS</jtok>
+<jtok eid="3" type="primary_name_ref" span="185:8:185:16">KeyEvent</jtok>
+<jtok eid="3" type="qualified_name_ref" span="185:17:185:30">VK_UNDERSCORE</jtok>
+<jtok eid="1" type="line_comment" span="190:4:190:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="192:2:192:29">//{{{ isMacControl() method</jtok>
+<jtok eid="1" type="block_comment" span="193:2:195:5">/**
+	 * Apple sucks.
+	 */</jtok>
+<jtok eid="4" type="method_name" span="196:24:196:36">isMacControl</jtok>
+<jtok eid="4" type="parameter_type" span="196:37:196:45">KeyEvent</jtok>
+<jtok eid="4" type="parameter_name" span="196:46:196:49">evt</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:11:198:26">OperatingSystem</jtok>
+<jtok eid="4" type="method_call" span="198:27:198:34">isMacOS</jtok>
+<jtok eid="4" type="primary_name_ref" span="199:5:199:8">evt</jtok>
+<jtok eid="4" type="method_call" span="199:9:199:21">getModifiers</jtok>
+<jtok eid="4" type="primary_name_ref" span="199:26:199:36">InputEvent</jtok>
+<jtok eid="4" type="qualified_name_ref" span="199:37:199:46">CTRL_MASK</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:7:200:10">evt</jtok>
+<jtok eid="4" type="method_call" span="200:11:200:21">getKeyChar</jtok>
+<jtok eid="1" type="line_comment" span="201:4:201:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="203:2:203:32">//{{{ isNumericKeypad() method</jtok>
+<jtok eid="5" type="method_name" span="204:24:204:39">isNumericKeypad</jtok>
+<jtok eid="5" type="parameter_name" span="204:44:204:51">keyCode</jtok>
+<jtok eid="5" type="primary_name_ref" span="206:10:206:17">keyCode</jtok>
+<jtok eid="5" type="primary_name_ref" span="208:8:208:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="208:17:208:27">VK_NUMPAD0</jtok>
+<jtok eid="5" type="primary_name_ref" span="209:8:209:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="209:17:209:27">VK_NUMPAD1</jtok>
+<jtok eid="5" type="primary_name_ref" span="210:8:210:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="210:17:210:27">VK_NUMPAD2</jtok>
+<jtok eid="5" type="primary_name_ref" span="211:8:211:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="211:17:211:27">VK_NUMPAD3</jtok>
+<jtok eid="5" type="primary_name_ref" span="212:8:212:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="212:17:212:27">VK_NUMPAD4</jtok>
+<jtok eid="5" type="primary_name_ref" span="213:8:213:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="213:17:213:27">VK_NUMPAD5</jtok>
+<jtok eid="5" type="primary_name_ref" span="214:8:214:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="214:17:214:27">VK_NUMPAD6</jtok>
+<jtok eid="5" type="primary_name_ref" span="215:8:215:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="215:17:215:27">VK_NUMPAD7</jtok>
+<jtok eid="5" type="primary_name_ref" span="216:8:216:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="216:17:216:27">VK_NUMPAD8</jtok>
+<jtok eid="5" type="primary_name_ref" span="217:8:217:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="217:17:217:27">VK_NUMPAD9</jtok>
+<jtok eid="5" type="primary_name_ref" span="218:8:218:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="218:17:218:28">VK_MULTIPLY</jtok>
+<jtok eid="5" type="primary_name_ref" span="219:8:219:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="219:17:219:23">VK_ADD</jtok>
+<jtok eid="5" type="block_comment" span="220:3:220:36">/* case KeyEvent.VK_SEPARATOR: */</jtok>
+<jtok eid="5" type="primary_name_ref" span="221:8:221:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="221:17:221:28">VK_SUBTRACT</jtok>
+<jtok eid="5" type="primary_name_ref" span="222:8:222:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="222:17:222:27">VK_DECIMAL</jtok>
+<jtok eid="5" type="primary_name_ref" span="223:8:223:16">KeyEvent</jtok>
+<jtok eid="5" type="qualified_name_ref" span="223:17:223:26">VK_DIVIDE</jtok>
+<jtok eid="1" type="line_comment" span="228:4:228:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="230:2:230:32">//{{{ processKeyEvent() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="231:16:231:24">KeyEvent</jtok>
+<jtok eid="6" type="method_name" span="231:25:231:40">processKeyEvent</jtok>
+<jtok eid="6" type="parameter_type" span="231:41:231:49">KeyEvent</jtok>
+<jtok eid="6" type="parameter_name" span="231:50:231:53">evt</jtok>
+<jtok eid="6" type="local_variable_name" span="233:7:233:14">keyCode</jtok>
+<jtok eid="6" type="primary_name_ref" span="233:17:233:20">evt</jtok>
+<jtok eid="6" type="method_call" span="233:21:233:31">getKeyCode</jtok>
+<jtok eid="6" type="local_variable_name" span="234:8:234:10">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="234:13:234:16">evt</jtok>
+<jtok eid="6" type="method_call" span="234:17:234:27">getKeyChar</jtok>
+<jtok eid="6" type="local_variable_name" span="235:7:235:16">modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="235:19:235:22">evt</jtok>
+<jtok eid="6" type="method_call" span="235:23:235:35">getModifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="237:10:237:13">evt</jtok>
+<jtok eid="6" type="method_call" span="237:14:237:19">getID</jtok>
+<jtok eid="6" type="line_comment" span="239:3:239:23">//{{{ KEY_PRESSED...</jtok>
+<jtok eid="6" type="primary_name_ref" span="240:8:240:16">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="240:17:240:28">KEY_PRESSED</jtok>
+<jtok eid="6" type="line_comment" span="241:4:241:46">// get rid of keys we never need to handle</jtok>
+<jtok eid="6" type="primary_name_ref" span="242:11:242:18">keyCode</jtok>
+<jtok eid="6" type="primary_name_ref" span="246:9:246:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="246:18:246:24">VK_ALT</jtok>
+<jtok eid="6" type="primary_name_ref" span="247:9:247:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="247:18:247:30">VK_ALT_GRAPH</jtok>
+<jtok eid="6" type="primary_name_ref" span="248:9:248:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="248:18:248:28">VK_CONTROL</jtok>
+<jtok eid="6" type="primary_name_ref" span="249:9:249:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="249:18:249:26">VK_SHIFT</jtok>
+<jtok eid="6" type="primary_name_ref" span="250:9:250:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="250:18:250:25">VK_META</jtok>
+<jtok eid="6" type="primary_name_ref" span="253:9:253:12">evt</jtok>
+<jtok eid="6" type="method_call" span="253:13:253:23">isMetaDown</jtok>
+<jtok eid="6" type="primary_name_ref" span="255:10:255:13">evt</jtok>
+<jtok eid="6" type="method_call" span="255:14:255:27">isControlDown</jtok>
+<jtok eid="6" type="primary_name_ref" span="256:11:256:14">evt</jtok>
+<jtok eid="6" type="method_call" span="256:15:256:24">isAltDown</jtok>
+<jtok eid="6" type="method_call" span="258:10:258:21">isPrintable</jtok>
+<jtok eid="6" type="primary_name_ref" span="258:22:258:29">keyCode</jtok>
+<jtok eid="6" type="primary_name_ref" span="265:8:265:13">Debug</jtok>
+<jtok eid="6" type="qualified_name_ref" span="265:14:265:38">ALT_KEY_PRESSED_DISABLED</jtok>
+<jtok eid="6" type="block_comment" span="267:6:267:42">/* we don't handle key pressed A+ */</jtok>
+<jtok eid="6" type="block_comment" span="268:6:268:35">/* they're too troublesome */</jtok>
+<jtok eid="6" type="primary_name_ref" span="269:10:269:19">modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="269:22:269:32">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="269:33:269:41">ALT_MASK</jtok>
+<jtok eid="6" type="method_call" span="273:8:273:23">isNumericKeypad</jtok>
+<jtok eid="6" type="primary_name_ref" span="273:24:273:31">keyCode</jtok>
+<jtok eid="6" type="primary_name_ref" span="274:6:274:10">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="274:13:274:27">LAST_NUMKEYPAD</jtok>
+<jtok eid="6" type="primary_name_ref" span="276:6:276:10">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="276:13:276:25">LAST_NOTHING</jtok>
+<jtok eid="6" type="line_comment" span="281:3:281:8">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="282:3:282:21">//{{{ KEY_TYPED...</jtok>
+<jtok eid="6" type="primary_name_ref" span="283:8:283:16">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="283:17:283:26">KEY_TYPED</jtok>
+<jtok eid="6" type="line_comment" span="284:4:284:57">// need to let \b through so that backspace will work</jtok>
+<jtok eid="6" type="line_comment" span="285:4:285:27">// in HistoryTextFields</jtok>
+<jtok eid="6" type="method_call" span="286:8:286:20">isMacControl</jtok>
+<jtok eid="6" type="primary_name_ref" span="286:21:286:24">evt</jtok>
+<jtok eid="6" type="primary_name_ref" span="287:9:287:11">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="287:22:287:24">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="287:36:287:38">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="288:8:288:10">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="288:22:288:24">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="288:36:288:38">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="293:7:293:12">Debug</jtok>
+<jtok eid="6" type="qualified_name_ref" span="293:13:293:28">DUMP_KEY_EVENTS</jtok>
+<jtok eid="6" type="primary_name_ref" span="295:5:295:8">Log</jtok>
+<jtok eid="6" type="method_call" span="295:9:295:12">log</jtok>
+<jtok eid="6" type="primary_name_ref" span="295:13:295:16">Log</jtok>
+<jtok eid="6" type="qualified_name_ref" span="295:17:295:22">DEBUG</jtok>
+<jtok eid="6" type="string_literal" span="295:23:295:29">"KEWa"</jtok>
+<jtok eid="6" type="string_literal" span="295:30:295:60">"Key event (working around): "</jtok>
+<jtok eid="6" type="primary_name_ref" span="296:8:296:28">AbstractInputHandler</jtok>
+<jtok eid="6" type="method_call" span="296:29:296:37">toString</jtok>
+<jtok eid="6" type="primary_name_ref" span="296:38:296:41">evt</jtok>
+<jtok eid="6" type="string_literal" span="296:43:296:52">": last="</jtok>
+<jtok eid="6" type="primary_name_ref" span="296:53:296:57">last</jtok>
+<jtok eid="6" type="string_literal" span="296:58:296:61">"."</jtok>
+<jtok eid="6" type="primary_name_ref" span="299:8:299:13">Debug</jtok>
+<jtok eid="6" type="qualified_name_ref" span="299:14:299:36">ALTERNATIVE_DISPATCHER</jtok>
+<jtok eid="6" type="primary_name_ref" span="301:10:301:19">modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="301:22:301:32">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="301:33:301:42">CTRL_MASK</jtok>
+<jtok eid="6" type="primary_name_ref" span="302:9:302:18">modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="302:21:302:31">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="302:32:302:40">ALT_MASK</jtok>
+<jtok eid="6" type="primary_name_ref" span="303:10:303:19">modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="303:22:303:32">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="303:33:303:42">META_MASK</jtok>
+<jtok eid="6" type="line_comment" span="309:4:309:47">// if the last key was a numeric keypad key</jtok>
+<jtok eid="6" type="line_comment" span="310:4:310:40">// and NumLock is off, filter it out</jtok>
+<jtok eid="6" type="primary_name_ref" span="311:7:311:11">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="311:15:311:29">LAST_NUMKEYPAD</jtok>
+<jtok eid="6" type="primary_name_ref" span="313:5:313:9">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="313:12:313:24">LAST_NOTHING</jtok>
+<jtok eid="6" type="primary_name_ref" span="314:9:314:11">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="314:22:314:24">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="314:36:314:38">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="315:9:315:11">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="315:22:315:24">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="316:9:316:11">ch</jtok>
+<jtok eid="6" type="primary_name_ref" span="316:22:316:24">ch</jtok>
+<jtok eid="6" type="line_comment" span="321:4:321:29">// Windows JDK workaround</jtok>
+<jtok eid="6" type="primary_name_ref" span="322:12:322:16">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="322:20:322:28">LAST_ALT</jtok>
+<jtok eid="6" type="primary_name_ref" span="324:5:324:9">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="324:12:324:24">LAST_NOTHING</jtok>
+<jtok eid="6" type="primary_name_ref" span="325:12:325:14">ch</jtok>
+<jtok eid="6" type="line_comment" span="338:3:338:8">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="339:3:339:24">//{{{ KEY_RELEASED...</jtok>
+<jtok eid="6" type="primary_name_ref" span="340:8:340:16">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="340:17:340:29">KEY_RELEASED</jtok>
+<jtok eid="6" type="primary_name_ref" span="341:11:341:18">keyCode</jtok>
+<jtok eid="6" type="primary_name_ref" span="343:9:343:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="343:18:343:24">VK_ALT</jtok>
+<jtok eid="6" type="line_comment" span="344:5:344:46">// we consume this to work around the bug</jtok>
+<jtok eid="6" type="line_comment" span="345:5:345:46">// where A+TAB window switching activates</jtok>
+<jtok eid="6" type="line_comment" span="346:5:346:32">// the menu bar on Windows.</jtok>
+<jtok eid="6" type="primary_name_ref" span="347:5:347:8">evt</jtok>
+<jtok eid="6" type="method_call" span="347:9:347:16">consume</jtok>
+<jtok eid="6" type="primary_name_ref" span="349:9:349:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="349:18:349:30">VK_ALT_GRAPH</jtok>
+<jtok eid="6" type="primary_name_ref" span="350:9:350:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="350:18:350:28">VK_CONTROL</jtok>
+<jtok eid="6" type="primary_name_ref" span="351:9:351:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="351:18:351:26">VK_SHIFT</jtok>
+<jtok eid="6" type="primary_name_ref" span="352:9:352:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="352:18:352:25">VK_META</jtok>
+<jtok eid="6" type="primary_name_ref" span="354:9:354:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="354:18:354:25">VK_LEFT</jtok>
+<jtok eid="6" type="primary_name_ref" span="355:9:355:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="355:18:355:26">VK_RIGHT</jtok>
+<jtok eid="6" type="primary_name_ref" span="356:9:356:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="356:18:356:23">VK_UP</jtok>
+<jtok eid="6" type="primary_name_ref" span="357:9:357:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="357:18:357:25">VK_DOWN</jtok>
+<jtok eid="6" type="primary_name_ref" span="358:9:358:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="358:18:358:28">VK_PAGE_UP</jtok>
+<jtok eid="6" type="primary_name_ref" span="359:9:359:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="359:18:359:30">VK_PAGE_DOWN</jtok>
+<jtok eid="6" type="primary_name_ref" span="360:9:360:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="360:18:360:24">VK_END</jtok>
+<jtok eid="6" type="primary_name_ref" span="361:9:361:17">KeyEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="361:18:361:25">VK_HOME</jtok>
+<jtok eid="6" type="block_comment" span="362:5:363:29">/* workaround for A+keys producing
+				 * garbage on Windows */</jtok>
+<jtok eid="6" type="primary_name_ref" span="364:8:364:17">modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="364:21:364:31">InputEvent</jtok>
+<jtok eid="6" type="qualified_name_ref" span="364:32:364:40">ALT_MASK</jtok>
+<jtok eid="6" type="primary_name_ref" span="365:6:365:10">last</jtok>
+<jtok eid="6" type="primary_name_ref" span="365:13:365:21">LAST_ALT</jtok>
+<jtok eid="6" type="line_comment" span="369:3:369:8">//}}}</jtok>
+<jtok eid="6" type="primary_name_ref" span="371:10:371:13">evt</jtok>
+<jtok eid="1" type="line_comment" span="372:4:372:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="374:2:374:33">//{{{ numericKeypadKey() method</jtok>
+<jtok eid="1" type="block_comment" span="375:2:378:5">/**
+	 * A workaround for non-working NumLock status in some Java versions.
+	 * @since jEdit 4.0pre8
+	 */</jtok>
+<jtok eid="7" type="method_name" span="379:21:379:37">numericKeypadKey</jtok>
+<jtok eid="7" type="primary_name_ref" span="381:3:381:7">last</jtok>
+<jtok eid="7" type="primary_name_ref" span="381:10:381:22">LAST_NOTHING</jtok>
+<jtok eid="1" type="line_comment" span="382:4:382:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="384:2:384:23">//{{{ Private members</jtok>
+<jtok eid="1" type="field_name" span="385:21:385:25">last</jtok>
+<jtok eid="1" type="field_name" span="386:27:386:39">LAST_NOTHING</jtok>
+<jtok eid="1" type="field_name" span="387:27:387:41">LAST_NUMKEYPAD</jtok>
+<jtok eid="1" type="field_name" span="388:27:388:35">LAST_ALT</jtok>
+<jtok eid="1" type="line_comment" span="389:2:389:7">//}}}</jtok>
+</jdoc>

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.ActionSet" jls="java5">
+<jent id="0" type="file" span="0:0:335:2">Source/jEdit/org/gjt/sp/jedit/ActionSet.java</jent>
+<jent id="1" pid="0" type="class" span="144:1:335:1">org.gjt.sp.jedit.ActionSet</jent>
+<jent id="2" pid="1" type="method" span="151:2:154:2">org.gjt.sp.jedit.ActionSet.ActionSet()</jent>
+<jent id="3" pid="1" type="method" span="165:2:182:2">org.gjt.sp.jedit.ActionSet.ActionSet(PluginJAR,String[],boolean[],URL)</jent>
+<jent id="4" pid="1" type="method" span="192:2:195:2">org.gjt.sp.jedit.ActionSet.addAction(EditAction)</jent>
+<jent id="5" pid="1" type="method" span="198:2:201:2">org.gjt.sp.jedit.ActionSet.getArray(int)</jent>
+<jent id="6" pid="1" type="method" span="212:2:215:2">org.gjt.sp.jedit.ActionSet.getActions()</jent>
+<jent id="7" pid="1" type="method" span="223:2:227:2">org.gjt.sp.jedit.ActionSet.ActionSet(String)</jent>
+<jent id="8" pid="1" type="method" span="234:2:237:2">org.gjt.sp.jedit.ActionSet.getLabel()</jent>
+<jent id="9" pid="1" type="method" span="245:2:250:2">org.gjt.sp.jedit.ActionSet.setLabel(String)</jent>
+<jent id="10" pid="1" type="method" span="257:2:260:2">org.gjt.sp.jedit.ActionSet.getPluginJAR()</jent>
+<jent id="11" pid="1" type="method" span="269:2:287:2">org.gjt.sp.jedit.ActionSet.getCacheableActionNames()</jent>
+<jent id="12" pid="1" type="method" span="290:2:293:2">org.gjt.sp.jedit.ActionSet.getProperty(String)</jent>
+<jent id="13" pid="1" type="method" span="296:2:299:2">org.gjt.sp.jedit.ActionSet.getInputHandler()</jent>
+<jent id="14" pid="1" type="method" span="302:2:305:2">org.gjt.sp.jedit.ActionSet.compareTo(Object)</jent>
+<jent id="15" pid="1" type="method" span="309:2:312:2">org.gjt.sp.jedit.ActionSet.toString()</jent>
+<jent id="16" pid="1" type="method" span="319:3:327:2">org.gjt.sp.jedit.ActionSet.createBeanShellAction(String,String,String,boolean,boolean,boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ActionSet.java - A set of actions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ imports</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="33:1:143:4">/**
+ * A set of actions, either loaded from an XML file, or constructed at runtime
+ * by a plugin. &lt;p&gt;
+ *
+ * &lt;h3&gt;Action sets loaded from XML files&lt;/h3&gt;
+ *
+ * Action sets are read from these files inside the plugin JAR:
+ * &lt;ul&gt;
+ * &lt;li&gt;&lt;code&gt;actions.xml&lt;/code&gt; - actions made available for use in jEdit views,
+ * including the view's &lt;b&gt;Plugins&lt;/b&gt; menu, the tool bar, etc.&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;browser.actions.xml&lt;/code&gt; - actions for the file system browser's
+ * &lt;b&gt;Plugins&lt;/b&gt; menu.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * An action definition file has the following form:
+ *
+ * &lt;pre&gt;&amp;lt;?xml version="1.0"?&amp;gt;
+ *&amp;lt;!DOCTYPE ACTIONS SYSTEM "actions.dtd"&amp;gt;
+ *&amp;lt;ACTIONS&amp;gt;
+ *    &amp;lt;ACTION NAME="some-action"&amp;gt;
+ *        &amp;lt;CODE&amp;gt;
+ *            // BeanShell code evaluated when the action is invoked
+ *        &amp;lt;/CODE&amp;gt;
+ *    &amp;lt;/ACTION&amp;gt;
+ *    &amp;lt;ACTION NAME="some-toggle-action"&amp;gt;
+ *        &amp;lt;CODE&amp;gt;
+ *            // BeanShell code evaluated when the action is invoked
+ *        &amp;lt;/CODE&amp;gt;
+ *        &amp;lt;IS_SELECTED&amp;gt;
+ *            // BeanShell code that should evaluate to true or false
+ *        &amp;lt;/IS_SELECTED&amp;gt;
+ *    &amp;lt;/ACTION&amp;gt;
+ *&amp;lt;/ACTIONS&amp;gt;&lt;/pre&gt;
+ *
+ * The following elements are valid:
+ *
+ * &lt;ul&gt;
+ * &lt;li&gt;
+ * &lt;code&gt;ACTIONS&lt;/code&gt; is the top-level element and refers
+ * to the set of actions used by the plugin.
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * An &lt;code&gt;ACTION&lt;/code&gt; contains the data for a particular action.
+ * It has three attributes: a required &lt;code&gt;NAME&lt;/code&gt;;
+ * an optional &lt;code&gt;NO_REPEAT&lt;/code&gt;, which is a flag
+ * indicating whether the action should not be repeated with the
+ * &lt;b&gt;C+ENTER&lt;/b&gt; command; and an optional
+ * &lt;code&gt;NO_RECORD&lt;/code&gt; which is a a flag indicating whether the
+ * action should be recorded if it is invoked while the user is recording a
+ * macro. The two flag attributes
+ * can have two possible values, "TRUE" or
+ * "FALSE". In both cases, "FALSE" is the
+ * default if the attribute is not specified.
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * An &lt;code&gt;ACTION&lt;/code&gt; can have two child elements
+ * within it: a required &lt;code&gt;CODE&lt;/code&gt; element which
+ * specifies the
+ * BeanShell code that will be executed when the action is invoked,
+ * and an optional &lt;code&gt;IS_SELECTED&lt;/code&gt; element, used for
+ * checkbox
+ * menu items.  The &lt;code&gt;IS_SELECTED&lt;/code&gt; element contains
+ * BeanShell code that returns a boolean flag that will
+ * determine the state of the checkbox.
+ * &lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * Each action must have a property &lt;code&gt;&lt;i&gt;name&lt;/i&gt;.label&lt;/code&gt; containing
+ * the action's menu item label.
+ *
+ * &lt;h3&gt;View actions&lt;/h3&gt;
+ *
+ * Actions defined in &lt;code&gt;actions.xml&lt;/code&gt; can be added to the view's
+ * &lt;b&gt;Plugins&lt;/b&gt; menu; see {@link EditPlugin}.
+ * The action code may use any standard predefined
+ * BeanShell variable; see {@link BeanShell}.
+ *
+ * &lt;h3&gt;File system browser actions&lt;/h3&gt;
+ *
+ * Actions defined in &lt;code&gt;actions.xml&lt;/code&gt; can be added to the file
+ * system browser's &lt;b&gt;Plugins&lt;/b&gt; menu; see {@link EditPlugin}.
+ * The action code may use any standard predefined
+ * BeanShell variable, in addition to a variable &lt;code&gt;browser&lt;/code&gt; which
+ * contains a reference to the current
+ * {@link org.gjt.sp.jedit.browser.VFSBrowser} instance.&lt;p&gt;
+ *
+ * File system browser actions should not define
+ * &lt;code&gt;&amp;lt;IS_SELECTED&amp;gt;&lt;/code&gt; blocks.
+ *
+ * &lt;h3&gt;Custom action sets&lt;/h3&gt;
+ *
+ * Call {@link jEdit#addActionSet(ActionSet)} to add a custom action set to
+ * jEdit's action context. You must also call {@link #initKeyBindings()} for new
+ * action sets. Don't forget to call {@link jEdit#removeActionSet(ActionSet)}
+ * before your plugin is unloaded, too.
+ *
+ * @see jEdit#getActionContext()
+ * @see org.gjt.sp.jedit.browser.VFSBrowser#getActionContext()
+ * @see ActionContext#getActionNames()
+ * @see ActionContext#getAction(String)
+ * @see jEdit#addActionSet(ActionSet)
+ * @see jEdit#removeActionSet(ActionSet)
+ * @see PluginJAR#getActionSet()
+ * @see BeanShell
+ * @see View
+ *
+ * @author Slava Pestov
+ * @author John Gellene (API documentation)
+ * @version $Id: ActionSet.java 16333 2009-10-14 09:30:00Z kpouer $
+ * @since jEdit 4.0pre1
+ */</jtok>
+<jtok eid="1" type="class_name" span="144:14:144:23">ActionSet</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="144:32:144:46">JEditActionSet</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="144:47:144:57">EditAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="144:70:144:80">Comparable</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:29">//{{{ ActionSet constructor</jtok>
+<jtok eid="1" type="block_comment" span="147:2:150:5">/**
+	 * Creates a new action set.
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="2" type="method_name" span="151:9:151:18">ActionSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="153:3:153:8">label</jtok>
+<jtok eid="2" type="string_literal" span="153:11:153:39">"&lt;no label set; plugin bug&gt;"</jtok>
+<jtok eid="1" type="line_comment" span="154:4:154:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="156:2:156:29">//{{{ ActionSet constructor</jtok>
+<jtok eid="1" type="block_comment" span="157:2:164:5">/**
+	 * Creates a new action set.
+	 * @param plugin The plugin
+	 * @param cachedActionNames The list of cached action names
+	 * @param cachedActionToggleFlags The list of cached action toggle flags
+	 * @param uri The actions.xml URI
+	 * @since jEdit 4.2pre2
+	 */</jtok>
+<jtok eid="3" type="method_name" span="165:9:165:18">ActionSet</jtok>
+<jtok eid="3" type="parameter_type" span="165:19:165:28">PluginJAR</jtok>
+<jtok eid="3" type="parameter_name" span="165:29:165:35">plugin</jtok>
+<jtok eid="3" type="parameter_type" span="165:37:165:43">String</jtok>
+<jtok eid="3" type="parameter_name" span="165:46:165:63">cachedActionNames</jtok>
+<jtok eid="3" type="parameter_name" span="166:13:166:36">cachedActionToggleFlags</jtok>
+<jtok eid="3" type="parameter_type" span="166:38:166:41">URL</jtok>
+<jtok eid="3" type="parameter_name" span="166:42:166:45">uri</jtok>
+<jtok eid="3" type="qualified_name_ref" span="169:8:169:14">plugin</jtok>
+<jtok eid="3" type="primary_name_ref" span="169:17:169:23">plugin</jtok>
+<jtok eid="3" type="qualified_name_ref" span="170:8:170:11">uri</jtok>
+<jtok eid="3" type="primary_name_ref" span="170:14:170:17">uri</jtok>
+<jtok eid="3" type="primary_name_ref" span="171:6:171:23">cachedActionNames</jtok>
+<jtok eid="3" type="local_variable_name" span="173:12:173:13">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:19:173:20">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:23:173:40">cachedActionNames</jtok>
+<jtok eid="3" type="qualified_name_ref" span="173:41:173:47">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:49:173:50">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="175:5:175:12">actions</jtok>
+<jtok eid="3" type="method_call" span="175:13:175:16">put</jtok>
+<jtok eid="3" type="primary_name_ref" span="175:17:175:34">cachedActionNames</jtok>
+<jtok eid="3" type="primary_name_ref" span="175:35:175:36">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="175:38:175:49">placeholder</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:5:176:10">jEdit</jtok>
+<jtok eid="3" type="method_call" span="176:11:176:31">setTemporaryProperty</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:32:176:49">cachedActionNames</jtok>
+<jtok eid="3" type="primary_name_ref" span="176:50:176:51">i</jtok>
+<jtok eid="3" type="string_literal" span="177:8:177:17">".toggle"</jtok>
+<jtok eid="3" type="primary_name_ref" span="177:18:177:41">cachedActionToggleFlags</jtok>
+<jtok eid="3" type="primary_name_ref" span="177:42:177:43">i</jtok>
+<jtok eid="3" type="string_literal" span="178:8:178:14">"true"</jtok>
+<jtok eid="3" type="string_literal" span="178:17:178:24">"false"</jtok>
+<jtok eid="3" type="primary_name_ref" span="181:3:181:9">loaded</jtok>
+<jtok eid="1" type="line_comment" span="182:4:182:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="184:2:184:26">//{{{ addAction() method</jtok>
+<jtok eid="1" type="block_comment" span="185:2:190:5">/**
+	 * Adds an action to the action set.
+	 * It exists for binary compatibility issues
+	 * @param action The action
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="191:3:191:11">Override</jtok>
+<jtok eid="4" type="method_name" span="192:14:192:23">addAction</jtok>
+<jtok eid="4" type="parameter_type" span="192:24:192:34">EditAction</jtok>
+<jtok eid="4" type="parameter_name" span="192:35:192:41">action</jtok>
+<jtok eid="4" type="method_call" span="194:9:194:18">addAction</jtok>
+<jtok eid="4" type="primary_name_ref" span="194:19:194:25">action</jtok>
+<jtok eid="1" type="line_comment" span="195:4:195:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="197:2:197:25">//{{{ getArray() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="198:12:198:22">EditAction</jtok>
+<jtok eid="5" type="method_name" span="198:25:198:33">getArray</jtok>
+<jtok eid="5" type="parameter_name" span="198:38:198:42">size</jtok>
+<jtok eid="5" type="constructor_call" span="200:14:200:24">EditAction</jtok>
+<jtok eid="5" type="primary_name_ref" span="200:25:200:29">size</jtok>
+<jtok eid="1" type="line_comment" span="201:4:201:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="203:2:203:27">//{{{ getActions() method</jtok>
+<jtok eid="1" type="block_comment" span="204:2:210:5">/**
+	 * Returns an array of all actions in this action set.&lt;p&gt;
+	 *
+	 * &lt;b&gt;Deferred loading:&lt;/b&gt; this will load the action set if necessary.
+	 *
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="211:3:211:11">Override</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="212:9:212:19">EditAction</jtok>
+<jtok eid="6" type="method_name" span="212:22:212:32">getActions</jtok>
+<jtok eid="6" type="method_call" span="214:16:214:26">getActions</jtok>
+<jtok eid="1" type="line_comment" span="215:4:215:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="217:2:217:29">//{{{ ActionSet constructor</jtok>
+<jtok eid="1" type="block_comment" span="218:2:222:5">/**
+	 * Creates a new action set.
+	 * @param label The label, shown in the shortcuts option pane
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="7" type="method_name" span="223:9:223:18">ActionSet</jtok>
+<jtok eid="7" type="parameter_type" span="223:19:223:25">String</jtok>
+<jtok eid="7" type="parameter_name" span="223:26:223:31">label</jtok>
+<jtok eid="7" type="method_call" span="226:3:226:11">setLabel</jtok>
+<jtok eid="7" type="primary_name_ref" span="226:12:226:17">label</jtok>
+<jtok eid="1" type="line_comment" span="227:4:227:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="229:2:229:25">//{{{ getLabel() method</jtok>
+<jtok eid="1" type="block_comment" span="230:2:233:5">/**
+	 * Return the action source label.
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="234:9:234:15">String</jtok>
+<jtok eid="8" type="method_name" span="234:16:234:24">getLabel</jtok>
+<jtok eid="8" type="primary_name_ref" span="236:10:236:15">label</jtok>
+<jtok eid="1" type="line_comment" span="237:4:237:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="239:2:239:25">//{{{ setLabel() method</jtok>
+<jtok eid="1" type="block_comment" span="240:2:244:5">/**
+	 * Sets the action source label.
+	 * @param label The label
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="9" type="method_name" span="245:14:245:22">setLabel</jtok>
+<jtok eid="9" type="parameter_type" span="245:23:245:29">String</jtok>
+<jtok eid="9" type="parameter_name" span="245:30:245:35">label</jtok>
+<jtok eid="9" type="primary_name_ref" span="247:6:247:11">label</jtok>
+<jtok eid="9" type="constructor_call" span="248:14:248:34">NullPointerException</jtok>
+<jtok eid="9" type="qualified_name_ref" span="249:8:249:13">label</jtok>
+<jtok eid="9" type="primary_name_ref" span="249:16:249:21">label</jtok>
+<jtok eid="1" type="line_comment" span="250:4:250:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="252:2:252:29">//{{{ getPluginJAR() method</jtok>
+<jtok eid="1" type="block_comment" span="253:2:256:5">/**
+	 * Return the plugin this action set was loaded from, or null.
+	 * @since jEdit 4.2pre13
+	 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="257:9:257:18">PluginJAR</jtok>
+<jtok eid="10" type="method_name" span="257:19:257:31">getPluginJAR</jtok>
+<jtok eid="10" type="primary_name_ref" span="259:10:259:16">plugin</jtok>
+<jtok eid="1" type="line_comment" span="260:4:260:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="262:2:262:40">//{{{ getCacheableActionNames() method</jtok>
+<jtok eid="1" type="block_comment" span="263:2:267:5">/**
+	 * Returns an array of all action names in this action set that should
+	 * be cached; namely, &lt;code&gt;BeanShellAction&lt;/code&gt;s.
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="268:3:268:11">Override</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="269:9:269:15">String</jtok>
+<jtok eid="11" type="method_name" span="269:18:269:41">getCacheableActionNames</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="271:3:271:13">LinkedList</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="271:14:271:20">String</jtok>
+<jtok eid="11" type="local_variable_name" span="271:22:271:28">retVal</jtok>
+<jtok eid="11" type="constructor_call" span="271:35:271:45">LinkedList</jtok>
+<jtok eid="11" type="constructor_call" span="271:46:271:52">String</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="272:3:272:14">Enumeration</jtok>
+<jtok eid="11" type="local_variable_name" span="272:15:272:16">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="272:19:272:26">actions</jtok>
+<jtok eid="11" type="method_call" span="272:27:272:35">elements</jtok>
+<jtok eid="11" type="primary_name_ref" span="273:9:273:10">e</jtok>
+<jtok eid="11" type="method_call" span="273:11:273:26">hasMoreElements</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="275:4:275:10">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="275:11:275:14">obj</jtok>
+<jtok eid="11" type="primary_name_ref" span="275:17:275:18">e</jtok>
+<jtok eid="11" type="method_call" span="275:19:275:30">nextElement</jtok>
+<jtok eid="11" type="primary_name_ref" span="276:7:276:10">obj</jtok>
+<jtok eid="11" type="primary_name_ref" span="276:14:276:25">placeholder</jtok>
+<jtok eid="11" type="line_comment" span="278:5:278:43">// ??? this should only be called with</jtok>
+<jtok eid="11" type="line_comment" span="279:5:279:31">// fully loaded action set</jtok>
+<jtok eid="11" type="primary_name_ref" span="280:5:280:8">Log</jtok>
+<jtok eid="11" type="method_call" span="280:9:280:12">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="280:13:280:16">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="280:17:280:24">WARNING</jtok>
+<jtok eid="11" type="string_literal" span="280:30:280:50">"Action set not up "</jtok>
+<jtok eid="11" type="string_literal" span="281:8:281:17">"to date"</jtok>
+<jtok eid="11" type="primary_name_ref" span="283:12:283:15">obj</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="283:27:283:42">BeanShellAction</jtok>
+<jtok eid="11" type="primary_name_ref" span="284:5:284:11">retVal</jtok>
+<jtok eid="11" type="method_call" span="284:12:284:15">add</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="284:18:284:33">BeanShellAction</jtok>
+<jtok eid="11" type="primary_name_ref" span="284:34:284:37">obj</jtok>
+<jtok eid="11" type="method_call" span="284:39:284:46">getName</jtok>
+<jtok eid="11" type="primary_name_ref" span="286:10:286:16">retVal</jtok>
+<jtok eid="11" type="method_call" span="286:17:286:24">toArray</jtok>
+<jtok eid="11" type="constructor_call" span="286:29:286:35">String</jtok>
+<jtok eid="11" type="primary_name_ref" span="286:36:286:42">retVal</jtok>
+<jtok eid="11" type="method_call" span="286:43:286:47">size</jtok>
+<jtok eid="1" type="line_comment" span="287:4:287:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="289:2:289:28">//{{{ getProperty() method</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="290:12:290:18">String</jtok>
+<jtok eid="12" type="method_name" span="290:19:290:30">getProperty</jtok>
+<jtok eid="12" type="parameter_type" span="290:31:290:37">String</jtok>
+<jtok eid="12" type="parameter_name" span="290:38:290:42">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="292:10:292:15">jEdit</jtok>
+<jtok eid="12" type="method_call" span="292:16:292:27">getProperty</jtok>
+<jtok eid="12" type="primary_name_ref" span="292:28:292:32">name</jtok>
+<jtok eid="1" type="line_comment" span="293:4:293:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="295:2:295:32">//{{{ getInputHandler() method</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="296:9:296:29">AbstractInputHandler</jtok>
+<jtok eid="13" type="method_name" span="296:30:296:45">getInputHandler</jtok>
+<jtok eid="13" type="primary_name_ref" span="298:10:298:15">jEdit</jtok>
+<jtok eid="13" type="method_call" span="298:16:298:31">getInputHandler</jtok>
+<jtok eid="1" type="line_comment" span="299:4:299:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="301:2:301:26">//{{{ compareTo() method</jtok>
+<jtok eid="14" type="method_name" span="302:13:302:22">compareTo</jtok>
+<jtok eid="14" type="parameter_type" span="302:23:302:29">Object</jtok>
+<jtok eid="14" type="parameter_name" span="302:30:302:31">o</jtok>
+<jtok eid="14" type="primary_name_ref" span="304:10:304:15">label</jtok>
+<jtok eid="14" type="method_call" span="304:16:304:25">compareTo</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="304:28:304:37">ActionSet</jtok>
+<jtok eid="14" type="primary_name_ref" span="304:38:304:39">o</jtok>
+<jtok eid="14" type="qualified_name_ref" span="304:41:304:46">label</jtok>
+<jtok eid="1" type="line_comment" span="305:3:305:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="307:2:307:25">//{{{ toString() method</jtok>
+<jtok eid="1" type="annotation_ref" span="308:3:308:11">Override</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="309:9:309:15">String</jtok>
+<jtok eid="15" type="method_name" span="309:16:309:24">toString</jtok>
+<jtok eid="15" type="primary_name_ref" span="311:10:311:15">label</jtok>
+<jtok eid="1" type="line_comment" span="312:4:312:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="314:2:314:38">//{{{ createBeanShellAction() method</jtok>
+<jtok eid="1" type="block_comment" span="315:2:318:5">/**
+	 * Creates a BeanShellAction.
+	 * @since 4.3pre13
+	 */</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="319:13:319:23">EditAction</jtok>
+<jtok eid="16" type="method_name" span="319:24:319:45">createBeanShellAction</jtok>
+<jtok eid="16" type="parameter_type" span="319:46:319:52">String</jtok>
+<jtok eid="16" type="parameter_name" span="319:53:319:63">actionName</jtok>
+<jtok eid="16" type="parameter_type" span="320:11:320:17">String</jtok>
+<jtok eid="16" type="parameter_name" span="320:18:320:22">code</jtok>
+<jtok eid="16" type="parameter_type" span="321:11:321:17">String</jtok>
+<jtok eid="16" type="parameter_name" span="321:18:321:26">selected</jtok>
+<jtok eid="16" type="parameter_name" span="322:19:322:27">noRepeat</jtok>
+<jtok eid="16" type="parameter_name" span="323:19:323:27">noRecord</jtok>
+<jtok eid="16" type="parameter_name" span="324:19:324:33">noRememberLast</jtok>
+<jtok eid="16" type="constructor_call" span="326:14:326:29">BeanShellAction</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:30:326:40">actionName</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:41:326:45">code</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:46:326:54">selected</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:55:326:63">noRepeat</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:64:326:72">noRecord</jtok>
+<jtok eid="16" type="primary_name_ref" span="326:73:326:87">noRememberLast</jtok>
+<jtok eid="1" type="line_comment" span="328:2:328:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="330:2:330:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="331:10:331:16">String</jtok>
+<jtok eid="1" type="field_name" span="331:17:331:22">label</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="332:10:332:19">PluginJAR</jtok>
+<jtok eid="1" type="field_name" span="332:20:332:26">plugin</jtok>
+<jtok eid="1" type="line_comment" span="333:2:333:7">//}}}</jtok>
+</jdoc>

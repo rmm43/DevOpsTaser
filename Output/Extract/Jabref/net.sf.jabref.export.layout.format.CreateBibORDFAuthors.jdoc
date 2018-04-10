@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.layout.format.CreateBibORDFAuthors" jls="java5">
+<jent id="0" type="file" span="0:0:88:79">Source/jabref/src/java/net/sf/jabref/export/layout/format/CreateBibORDFAuthors.java</jent>
+<jent id="1" pid="0" type="class" span="33:1:85:1">net.sf.jabref.export.layout.format.CreateBibORDFAuthors</jent>
+<jent id="2" pid="1" type="method" span="37:5:70:5">net.sf.jabref.export.layout.format.CreateBibORDFAuthors.format(String)</jent>
+<jent id="3" pid="1" type="method" span="76:5:84:5">net.sf.jabref.export.layout.format.CreateBibORDFAuthors.singleAuthor(StringBuffer,String,int)</jent>
+<jtok eid="0" type="line_comment" span="1:1:1:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="line_comment" span="2:1:2:24">//  Filename: $RCSfile$</jtok>
+<jtok eid="0" type="line_comment" span="3:1:3:35">//  Purpose:  Atom representation.</jtok>
+<jtok eid="0" type="line_comment" span="4:1:4:19">//  Language: Java</jtok>
+<jtok eid="0" type="line_comment" span="5:1:5:22">//  Compiler: JDK 1.4</jtok>
+<jtok eid="0" type="line_comment" span="6:1:6:30">//  Authors:  Joerg K. Wegner</jtok>
+<jtok eid="0" type="line_comment" span="7:1:7:32">//  Version:  $Revision: 2268 $</jtok>
+<jtok eid="0" type="line_comment" span="8:1:8:68">//            $Date: 2007-08-20 01:37:05 +0200 (Mon, 20 Aug 2007) $</jtok>
+<jtok eid="0" type="line_comment" span="9:1:9:33">//            $Author: coezbek $</jtok>
+<jtok eid="0" type="line_comment" span="10:1:10:3">//</jtok>
+<jtok eid="0" type="line_comment" span="11:1:11:80">//  Copyright (c) Dept. Computer Architecture, University of Tuebingen, Germany</jtok>
+<jtok eid="0" type="line_comment" span="12:1:12:3">//</jtok>
+<jtok eid="0" type="line_comment" span="13:1:13:73">//  This program is free software; you can redistribute it and/or modify</jtok>
+<jtok eid="0" type="line_comment" span="14:1:14:73">//  it under the terms of the GNU General Public License as published by</jtok>
+<jtok eid="0" type="line_comment" span="15:1:15:59">//  the Free Software Foundation version 2 of the License.</jtok>
+<jtok eid="0" type="line_comment" span="16:1:16:3">//</jtok>
+<jtok eid="0" type="line_comment" span="17:1:17:68">//  This program is distributed in the hope that it will be useful,</jtok>
+<jtok eid="0" type="line_comment" span="18:1:18:67">//  but WITHOUT ANY WARRANTY; without even the implied warranty of</jtok>
+<jtok eid="0" type="line_comment" span="19:1:19:66">//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</jtok>
+<jtok eid="0" type="line_comment" span="20:1:20:49">//  GNU General Public License for more details.</jtok>
+<jtok eid="0" type="line_comment" span="21:1:21:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="block_comment" span="27:1:32:4">/**
+ * Create DocBook authors formatter.
+ *
+ * @author $author$
+ * @version $Revision: 2268 $
+ */</jtok>
+<jtok eid="1" type="class_name" span="33:14:33:34">CreateBibORDFAuthors</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:46:33:61">LayoutFormatter</jtok>
+<jtok eid="1" type="line_comment" span="35:5:35:81">//~ Methods ////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="37:12:37:18">String</jtok>
+<jtok eid="2" type="method_name" span="37:19:37:25">format</jtok>
+<jtok eid="2" type="parameter_type" span="37:26:37:32">String</jtok>
+<jtok eid="2" type="parameter_name" span="37:33:37:42">fieldText</jtok>
+<jtok eid="2" type="line_comment" span="38:6:38:65">// Yeah, the format is quite verbose... sorry about that :)</jtok>
+<jtok eid="2" type="line_comment" span="40:1:40:28">//      &lt;bibo:contribution&gt;</jtok>
+<jtok eid="2" type="line_comment" span="41:1:41:30">//        &lt;bibo:Contribution&gt;</jtok>
+<jtok eid="2" type="line_comment" span="42:1:42:84">//          &lt;bibo:role rdf:resource="http://purl.org/ontology/bibo/roles/author" /&gt;</jtok>
+<jtok eid="2" type="line_comment" span="43:1:43:87">//          &lt;bibo:contributor&gt;&lt;foaf:Person foaf:name="Ola Spjuth"/&gt;&lt;/bibo:contributor&gt;</jtok>
+<jtok eid="2" type="line_comment" span="44:1:44:45">//          &lt;bibo:position&gt;1&lt;/bibo:position&gt;</jtok>
+<jtok eid="2" type="line_comment" span="45:1:45:31">//        &lt;/bibo:Contribution&gt;</jtok>
+<jtok eid="2" type="line_comment" span="46:1:46:29">//      &lt;/bibo:contribution&gt;</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="48:9:48:21">StringBuffer</jtok>
+<jtok eid="2" type="local_variable_name" span="48:22:48:24">sb</jtok>
+<jtok eid="2" type="constructor_call" span="48:31:48:43">StringBuffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:13:50:22">fieldText</jtok>
+<jtok eid="2" type="method_call" span="50:23:50:30">indexOf</jtok>
+<jtok eid="2" type="string_literal" span="50:31:50:38">" and "</jtok>
+<jtok eid="2" type="method_call" span="52:11:52:23">singleAuthor</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:24:52:26">sb</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:28:52:37">fieldText</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:13:56:19">String</jtok>
+<jtok eid="2" type="local_variable_name" span="56:22:56:27">names</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:30:56:39">fieldText</jtok>
+<jtok eid="2" type="method_call" span="56:40:56:45">split</jtok>
+<jtok eid="2" type="string_literal" span="56:46:56:53">" and "</jtok>
+<jtok eid="2" type="local_variable_name" span="57:22:57:23">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:27:57:28">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:29:57:34">names</jtok>
+<jtok eid="2" type="qualified_name_ref" span="57:35:57:41">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:43:57:44">i</jtok>
+<jtok eid="2" type="method_call" span="59:15:59:27">singleAuthor</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:28:59:30">sb</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:32:59:37">names</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:38:59:39">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:43:59:44">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:19:60:20">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:23:60:28">names</jtok>
+<jtok eid="2" type="qualified_name_ref" span="60:29:60:35">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:17:61:19">sb</jtok>
+<jtok eid="2" type="method_call" span="61:20:61:26">append</jtok>
+<jtok eid="2" type="string_literal" span="61:27:61:31">"\n"</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:9:67:18">fieldText</jtok>
+<jtok eid="2" type="primary_name_ref" span="67:21:67:23">sb</jtok>
+<jtok eid="2" type="method_call" span="67:24:67:32">toString</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:16:69:25">fieldText</jtok>
+<jtok eid="1" type="block_comment" span="72:5:75:8">/**
+     * @param sb
+     * @param fieldText
+     */</jtok>
+<jtok eid="3" type="method_name" span="76:20:76:32">singleAuthor</jtok>
+<jtok eid="3" type="parameter_type" span="76:33:76:45">StringBuffer</jtok>
+<jtok eid="3" type="parameter_name" span="76:46:76:48">sb</jtok>
+<jtok eid="3" type="parameter_type" span="76:50:76:56">String</jtok>
+<jtok eid="3" type="parameter_name" span="76:57:76:63">author</jtok>
+<jtok eid="3" type="parameter_name" span="76:69:76:77">position</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:9:77:11">sb</jtok>
+<jtok eid="3" type="method_call" span="77:12:77:18">append</jtok>
+<jtok eid="3" type="string_literal" span="77:19:77:42">"&lt;bibo:contribution&gt;\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:9:78:11">sb</jtok>
+<jtok eid="3" type="method_call" span="78:12:78:18">append</jtok>
+<jtok eid="3" type="string_literal" span="78:19:78:44">"  &lt;bibo:Contribution&gt;\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:9:79:11">sb</jtok>
+<jtok eid="3" type="method_call" span="79:12:79:18">append</jtok>
+<jtok eid="3" type="string_literal" span="79:19:79:100">"    &lt;bibo:role rdf:resource=\"http://purl.org/ontology/bibo/roles/author\" /&gt;\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:9:80:11">sb</jtok>
+<jtok eid="3" type="method_call" span="80:12:80:18">append</jtok>
+<jtok eid="3" type="string_literal" span="80:19:80:68">"    &lt;bibo:contributor&gt;&lt;foaf:Person foaf:name=\""</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:71:80:77">author</jtok>
+<jtok eid="3" type="string_literal" span="80:80:80:107">"\"/&gt;&lt;/bibo:contributor&gt;\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:9:81:11">sb</jtok>
+<jtok eid="3" type="method_call" span="81:12:81:18">append</jtok>
+<jtok eid="3" type="string_literal" span="81:19:81:40">"    &lt;bibo:position&gt;"</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:43:81:51">position</jtok>
+<jtok eid="3" type="string_literal" span="81:54:81:74">"&lt;/bibo:position&gt;\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:9:82:11">sb</jtok>
+<jtok eid="3" type="method_call" span="82:12:82:18">append</jtok>
+<jtok eid="3" type="string_literal" span="82:19:82:45">"  &lt;/bibo:Contribution&gt;\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:9:83:11">sb</jtok>
+<jtok eid="3" type="method_call" span="83:12:83:18">append</jtok>
+<jtok eid="3" type="string_literal" span="83:19:83:43">"&lt;/bibo:contribution&gt;\n"</jtok>
+<jtok eid="0" type="line_comment" span="86:1:86:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+<jtok eid="0" type="line_comment" span="87:1:87:17">//  END OF FILE.</jtok>
+<jtok eid="0" type="line_comment" span="88:1:88:80">///////////////////////////////////////////////////////////////////////////////</jtok>
+</jdoc>

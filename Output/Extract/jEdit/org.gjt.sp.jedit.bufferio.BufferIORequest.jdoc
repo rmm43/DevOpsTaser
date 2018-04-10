@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bufferio.BufferIORequest" jls="java5">
+<jent id="0" type="file" span="0:0:468:2">Source/jEdit/org/gjt/sp/jedit/bufferio/BufferIORequest.java</jent>
+<jent id="1" pid="0" type="class" span="55:1:468:1">org.gjt.sp.jedit.bufferio.BufferIORequest</jent>
+<jent id="2" pid="1" type="method" span="108:2:118:2">org.gjt.sp.jedit.bufferio.BufferIORequest.BufferIORequest(View,Buffer,Object,VFS,String)</jent>
+<jent id="3" pid="1" type="method" span="121:2:124:2">org.gjt.sp.jedit.bufferio.BufferIORequest.toString()</jent>
+<jent id="4" pid="1" type="method" span="130:2:133:2">org.gjt.sp.jedit.bufferio.BufferIORequest.getCharIOBufferSize()</jent>
+<jent id="5" pid="1" type="method" span="139:2:143:2">org.gjt.sp.jedit.bufferio.BufferIORequest.getByteIOBufferSize()</jent>
+<jent id="6" pid="1" type="method" span="150:2:153:2">org.gjt.sp.jedit.bufferio.BufferIORequest.autodetect(InputStream)</jent>
+<jent id="7" pid="1" type="method" span="156:2:351:2">org.gjt.sp.jedit.bufferio.BufferIORequest.read(Reader,long,boolean)</jent>
+<jent id="8" pid="1" type="method" span="354:2:402:2">org.gjt.sp.jedit.bufferio.BufferIORequest.write(Buffer,OutputStream)</jent>
+<jent id="9" pid="1" type="method" span="407:2:432:2">org.gjt.sp.jedit.bufferio.BufferIORequest.getWriteEncodingErrorMessage(String,Encoding,Segment,int)</jent>
+<jent id="10" pid="1" type="method" span="436:2:465:2">org.gjt.sp.jedit.bufferio.BufferIORequest.getFirstGuiltyCharacterIndex(Encoding,Segment)</jent>
+<jent id="11" pid="10" type="class" span="450:4:452:4">org.gjt.sp.jedit.bufferio.BufferIORequest.getFirstGuiltyCharacterIndex(Encoding,Segment).$1</jent>
+<jent id="12" pid="11" type="method" span="451:5:451:31">org.gjt.sp.jedit.bufferio.BufferIORequest.getFirstGuiltyCharacterIndex(Encoding,Segment).$1.write(int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * BufferIORequest.java - I/O request
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="48:1:48:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="50:1:54:4">/**
+ * A buffer I/O request.
+ * @author Slava Pestov
+ * @version $Id: BufferIORequest.java 16339 2009-10-14 09:59:36Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="55:23:55:38">BufferIORequest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:47:55:58">WorkRequest</jtok>
+<jtok eid="1" type="line_comment" span="57:2:57:17">//{{{ Constants</jtok>
+<jtok eid="1" type="block_comment" span="59:2:61:5">/**
+	 * Size of I/O buffers.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="62:26:62:35">IOBUFSIZE</jtok>
+<jtok eid="1" type="block_comment" span="64:2:66:5">/**
+	 * Number of lines per progress increment.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="67:26:67:43">PROGRESS_INTERVAL</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="69:22:69:28">String</jtok>
+<jtok eid="1" type="field_name" span="69:29:69:38">LOAD_DATA</jtok>
+<jtok eid="1" type="string_literal" span="69:41:69:68">"BufferIORequest__loadData"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="70:22:70:28">String</jtok>
+<jtok eid="1" type="field_name" span="70:29:70:40">END_OFFSETS</jtok>
+<jtok eid="1" type="string_literal" span="70:43:70:72">"BufferIORequest__endOffsets"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="71:22:71:28">String</jtok>
+<jtok eid="1" type="field_name" span="71:29:71:37">NEW_PATH</jtok>
+<jtok eid="1" type="string_literal" span="71:40:71:66">"BufferIORequest__newPath"</jtok>
+<jtok eid="1" type="block_comment" span="73:2:75:5">/**
+	 * Buffer boolean property set when an error occurs.
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="76:22:76:28">String</jtok>
+<jtok eid="1" type="field_name" span="76:29:76:43">ERROR_OCCURRED</jtok>
+<jtok eid="1" type="string_literal" span="76:46:76:70">"BufferIORequest__error"</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:68">// These are no longer used but still here only for compatibility.</jtok>
+<jtok eid="1" type="annotation_ref" span="79:3:79:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="79:38:79:50">UTF8_MAGIC_1</jtok>
+<jtok eid="1" type="annotation_ref" span="80:3:80:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="80:38:80:50">UTF8_MAGIC_2</jtok>
+<jtok eid="1" type="annotation_ref" span="81:3:81:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="81:38:81:50">UTF8_MAGIC_3</jtok>
+<jtok eid="1" type="annotation_ref" span="82:3:82:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="82:38:82:53">UNICODE_MAGIC_1</jtok>
+<jtok eid="1" type="annotation_ref" span="83:3:83:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="83:38:83:53">UNICODE_MAGIC_2</jtok>
+<jtok eid="1" type="annotation_ref" span="84:3:84:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="84:38:84:51">XML_PI_LENGTH</jtok>
+<jtok eid="1" type="annotation_ref" span="85:3:85:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="85:38:85:50">GZIP_MAGIC_1</jtok>
+<jtok eid="1" type="annotation_ref" span="86:3:86:13">Deprecated</jtok>
+<jtok eid="1" type="field_name" span="86:38:86:50">GZIP_MAGIC_2</jtok>
+<jtok eid="1" type="line_comment" span="88:2:88:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="90:2:90:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="91:18:91:22">View</jtok>
+<jtok eid="1" type="field_name" span="91:23:91:27">view</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="92:18:92:24">Buffer</jtok>
+<jtok eid="1" type="field_name" span="92:25:92:31">buffer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="93:18:93:24">Object</jtok>
+<jtok eid="1" type="field_name" span="93:25:93:32">session</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="94:18:94:21">VFS</jtok>
+<jtok eid="1" type="field_name" span="94:22:94:25">vfs</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="95:12:95:18">String</jtok>
+<jtok eid="1" type="field_name" span="95:19:95:23">path</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="96:18:96:24">String</jtok>
+<jtok eid="1" type="field_name" span="96:25:96:36">markersPath</jtok>
+<jtok eid="1" type="line_comment" span="97:2:97:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="99:2:99:35">//{{{ BufferIORequest constructor</jtok>
+<jtok eid="1" type="block_comment" span="100:2:107:5">/**
+	 * Creates a new buffer I/O request.
+	 * @param view The view
+	 * @param buffer The buffer
+	 * @param session The VFS session
+	 * @param vfs The VFS
+	 * @param path The path
+	 */</jtok>
+<jtok eid="2" type="method_name" span="108:12:108:27">BufferIORequest</jtok>
+<jtok eid="2" type="parameter_type" span="108:28:108:32">View</jtok>
+<jtok eid="2" type="parameter_name" span="108:33:108:37">view</jtok>
+<jtok eid="2" type="parameter_type" span="108:39:108:45">Buffer</jtok>
+<jtok eid="2" type="parameter_name" span="108:46:108:52">buffer</jtok>
+<jtok eid="2" type="parameter_type" span="109:3:109:9">Object</jtok>
+<jtok eid="2" type="parameter_name" span="109:10:109:17">session</jtok>
+<jtok eid="2" type="parameter_type" span="109:19:109:22">VFS</jtok>
+<jtok eid="2" type="parameter_name" span="109:23:109:26">vfs</jtok>
+<jtok eid="2" type="parameter_type" span="109:28:109:34">String</jtok>
+<jtok eid="2" type="parameter_name" span="109:35:109:39">path</jtok>
+<jtok eid="2" type="qualified_name_ref" span="111:8:111:12">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:15:111:19">view</jtok>
+<jtok eid="2" type="qualified_name_ref" span="112:8:112:14">buffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="112:17:112:23">buffer</jtok>
+<jtok eid="2" type="qualified_name_ref" span="113:8:113:15">session</jtok>
+<jtok eid="2" type="primary_name_ref" span="113:18:113:25">session</jtok>
+<jtok eid="2" type="qualified_name_ref" span="114:8:114:11">vfs</jtok>
+<jtok eid="2" type="primary_name_ref" span="114:14:114:17">vfs</jtok>
+<jtok eid="2" type="qualified_name_ref" span="115:8:115:12">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="115:15:115:19">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:3:117:14">markersPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:17:117:23">Buffer</jtok>
+<jtok eid="2" type="method_call" span="117:24:117:38">getMarkersPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:39:117:42">vfs</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:44:117:48">path</jtok>
+<jtok eid="1" type="line_comment" span="118:4:118:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="120:2:120:25">//{{{ toString() method</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="121:9:121:15">String</jtok>
+<jtok eid="3" type="method_name" span="121:16:121:24">toString</jtok>
+<jtok eid="3" type="method_call" span="123:10:123:18">getClass</jtok>
+<jtok eid="3" type="method_call" span="123:21:123:28">getName</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:39:123:45">buffer</jtok>
+<jtok eid="1" type="line_comment" span="124:4:124:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="126:2:126:36">//{{{ getCharIOBufferSize() method</jtok>
+<jtok eid="1" type="block_comment" span="127:2:129:5">/**
+	 * Size of character I/O buffers.
+	 */</jtok>
+<jtok eid="4" type="method_name" span="130:20:130:39">getCharIOBufferSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:10:132:19">IOBUFSIZE</jtok>
+<jtok eid="1" type="line_comment" span="133:4:133:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="135:2:135:36">//{{{ getByteIOBufferSize() method</jtok>
+<jtok eid="1" type="block_comment" span="136:2:138:5">/**
+	 * Size of byte I/O buffers.
+	 */</jtok>
+<jtok eid="5" type="method_name" span="139:20:139:39">getByteIOBufferSize</jtok>
+<jtok eid="5" type="line_comment" span="141:3:141:31">// 2 is sizeof char in byte;</jtok>
+<jtok eid="5" type="primary_name_ref" span="142:10:142:19">IOBUFSIZE</jtok>
+<jtok eid="1" type="line_comment" span="143:4:143:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="145:2:145:27">//{{{ autodetect() method</jtok>
+<jtok eid="1" type="block_comment" span="146:2:149:5">/**
+	 * Tries to detect if the stream is gzipped, and if it has an encoding
+	 * specified with an XML PI.
+	 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="150:12:150:18">Reader</jtok>
+<jtok eid="6" type="method_name" span="150:19:150:29">autodetect</jtok>
+<jtok eid="6" type="parameter_type" span="150:30:150:41">InputStream</jtok>
+<jtok eid="6" type="parameter_name" span="150:42:150:44">in</jtok>
+<jtok eid="6" type="throws" span="150:53:150:64">IOException</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:10:152:23">MiscUtilities</jtok>
+<jtok eid="6" type="method_call" span="152:24:152:34">autodetect</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:35:152:37">in</jtok>
+<jtok eid="6" type="primary_name_ref" span="152:39:152:45">buffer</jtok>
+<jtok eid="1" type="line_comment" span="153:4:153:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="155:2:155:21">//{{{ read() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="156:12:156:25">SegmentBuffer</jtok>
+<jtok eid="7" type="method_name" span="156:26:156:30">read</jtok>
+<jtok eid="7" type="parameter_type" span="156:31:156:37">Reader</jtok>
+<jtok eid="7" type="parameter_name" span="156:38:156:40">in</jtok>
+<jtok eid="7" type="parameter_name" span="156:47:156:53">length</jtok>
+<jtok eid="7" type="parameter_name" span="157:11:157:17">insert</jtok>
+<jtok eid="7" type="throws" span="157:26:157:37">IOException</jtok>
+<jtok eid="7" type="block_comment" span="159:3:159:47">/* we guess an initial size for the array */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="160:3:160:15">IntegerArray</jtok>
+<jtok eid="7" type="local_variable_name" span="160:16:160:26">endOffsets</jtok>
+<jtok eid="7" type="constructor_call" span="160:33:160:45">IntegerArray</jtok>
+<jtok eid="7" type="primary_name_ref" span="161:4:161:8">Math</jtok>
+<jtok eid="7" type="method_call" span="161:9:161:12">max</jtok>
+<jtok eid="7" type="primary_name_ref" span="161:21:161:27">length</jtok>
+<jtok eid="7" type="line_comment" span="163:3:163:41">// only true if the file size is known</jtok>
+<jtok eid="7" type="local_variable_name" span="164:11:164:24">trackProgress</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:28:164:34">buffer</jtok>
+<jtok eid="7" type="method_call" span="164:35:164:46">isTemporary</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:52:164:58">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:6:166:19">trackProgress</jtok>
+<jtok eid="7" type="method_call" span="168:4:168:14">setMaximum</jtok>
+<jtok eid="7" type="primary_name_ref" span="168:15:168:21">length</jtok>
+<jtok eid="7" type="method_call" span="169:4:169:12">setValue</jtok>
+<jtok eid="7" type="line_comment" span="172:3:172:59">// if the file size is not known, start with a resonable</jtok>
+<jtok eid="7" type="line_comment" span="173:3:173:25">// default buffer size</jtok>
+<jtok eid="7" type="primary_name_ref" span="174:6:174:12">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="175:4:175:10">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="175:13:175:22">IOBUFSIZE</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="177:3:177:16">SegmentBuffer</jtok>
+<jtok eid="7" type="local_variable_name" span="177:17:177:20">seg</jtok>
+<jtok eid="7" type="constructor_call" span="177:27:177:40">SegmentBuffer</jtok>
+<jtok eid="7" type="primary_name_ref" span="177:46:177:52">length</jtok>
+<jtok eid="7" type="local_variable_name" span="179:10:179:13">buf</jtok>
+<jtok eid="7" type="primary_name_ref" span="179:25:179:34">IOBUFSIZE</jtok>
+<jtok eid="7" type="block_comment" span="181:3:184:47">/* Number of characters in 'buf' array.
+		 InputStream.read() doesn't always fill the
+		 array (eg, the file size is not a multiple of
+		 IOBUFSIZE, or it is a GZipped file, etc) */</jtok>
+<jtok eid="7" type="local_variable_name" span="185:8:185:11">len</jtok>
+<jtok eid="7" type="line_comment" span="187:3:187:47">// True if a \n was read after a \r. Usually</jtok>
+<jtok eid="7" type="line_comment" span="188:3:188:38">// means this is a DOS/Windows file</jtok>
+<jtok eid="7" type="local_variable_name" span="189:11:189:15">CRLF</jtok>
+<jtok eid="7" type="line_comment" span="191:3:191:39">// A \r was read, hence a MacOS file</jtok>
+<jtok eid="7" type="local_variable_name" span="192:11:192:17">CROnly</jtok>
+<jtok eid="7" type="line_comment" span="194:3:194:43">// Was the previous read character a \r?</jtok>
+<jtok eid="7" type="line_comment" span="195:3:195:49">// If we read a \n and this is true, we assume</jtok>
+<jtok eid="7" type="line_comment" span="196:3:196:32">// we have a DOS/Windows file</jtok>
+<jtok eid="7" type="local_variable_name" span="197:11:197:20">lastWasCR</jtok>
+<jtok eid="7" type="line_comment" span="199:3:199:58">// Number of lines read. Every 100 lines, we update the</jtok>
+<jtok eid="7" type="line_comment" span="200:3:200:18">// progress bar</jtok>
+<jtok eid="7" type="local_variable_name" span="201:7:201:16">lineCount</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:10:203:13">len</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:16:203:18">in</jtok>
+<jtok eid="7" type="method_call" span="203:19:203:23">read</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:24:203:27">buf</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:30:203:33">buf</jtok>
+<jtok eid="7" type="qualified_name_ref" span="203:34:203:40">length</jtok>
+<jtok eid="7" type="line_comment" span="205:4:205:43">// Offset of previous line, relative to</jtok>
+<jtok eid="7" type="line_comment" span="206:4:206:39">// the start of the I/O buffer (NOT</jtok>
+<jtok eid="7" type="line_comment" span="207:4:207:45">// relative to the start of the document)</jtok>
+<jtok eid="7" type="local_variable_name" span="208:8:208:16">lastLine</jtok>
+<jtok eid="7" type="local_variable_name" span="210:12:210:13">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:19:210:20">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:23:210:26">len</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:28:210:29">i</jtok>
+<jtok eid="7" type="line_comment" span="212:5:212:30">// Look for line endings.</jtok>
+<jtok eid="7" type="primary_name_ref" span="213:12:213:15">buf</jtok>
+<jtok eid="7" type="primary_name_ref" span="213:16:213:17">i</jtok>
+<jtok eid="7" type="line_comment" span="216:6:216:28">// If we read a \r and</jtok>
+<jtok eid="7" type="line_comment" span="217:6:217:32">// lastWasCR is also true,</jtok>
+<jtok eid="7" type="line_comment" span="218:6:218:34">// it is probably a Mac file</jtok>
+<jtok eid="7" type="line_comment" span="219:6:219:25">// (\r\r in stream)</jtok>
+<jtok eid="7" type="primary_name_ref" span="220:9:220:18">lastWasCR</jtok>
+<jtok eid="7" type="primary_name_ref" span="222:7:222:13">CROnly</jtok>
+<jtok eid="7" type="primary_name_ref" span="223:7:223:11">CRLF</jtok>
+<jtok eid="7" type="line_comment" span="225:6:225:30">// Otherwise set a flag,</jtok>
+<jtok eid="7" type="line_comment" span="226:6:226:35">// so that \n knows that last</jtok>
+<jtok eid="7" type="line_comment" span="227:6:227:17">// was a \r</jtok>
+<jtok eid="7" type="primary_name_ref" span="230:7:230:16">lastWasCR</jtok>
+<jtok eid="7" type="line_comment" span="233:6:233:22">// Insert a line</jtok>
+<jtok eid="7" type="primary_name_ref" span="234:6:234:9">seg</jtok>
+<jtok eid="7" type="method_call" span="234:10:234:16">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="234:17:234:20">buf</jtok>
+<jtok eid="7" type="primary_name_ref" span="234:21:234:29">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="234:30:234:31">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="235:7:235:15">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="236:6:236:9">seg</jtok>
+<jtok eid="7" type="method_call" span="236:10:236:16">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="237:6:237:16">endOffsets</jtok>
+<jtok eid="7" type="method_call" span="237:17:237:20">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="237:21:237:24">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="237:25:237:30">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="238:9:238:22">trackProgress</jtok>
+<jtok eid="7" type="primary_name_ref" span="238:26:238:35">lineCount</jtok>
+<jtok eid="7" type="primary_name_ref" span="238:40:238:57">PROGRESS_INTERVAL</jtok>
+<jtok eid="7" type="method_call" span="239:7:239:15">setValue</jtok>
+<jtok eid="7" type="primary_name_ref" span="239:16:239:19">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="239:20:239:25">count</jtok>
+<jtok eid="7" type="line_comment" span="241:6:241:32">// This is i+1 to take the</jtok>
+<jtok eid="7" type="line_comment" span="242:6:242:33">// trailing \n into account</jtok>
+<jtok eid="7" type="primary_name_ref" span="243:6:243:14">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="243:17:243:18">i</jtok>
+<jtok eid="7" type="block_comment" span="246:6:248:60">/* If lastWasCR is true, we just read a \r followed
+					 by a \n. We specify that this is a Windows file,
+					 but take no further action and just ignore the \r. */</jtok>
+<jtok eid="7" type="primary_name_ref" span="249:9:249:18">lastWasCR</jtok>
+<jtok eid="7" type="primary_name_ref" span="251:7:251:13">CROnly</jtok>
+<jtok eid="7" type="primary_name_ref" span="252:7:252:11">CRLF</jtok>
+<jtok eid="7" type="primary_name_ref" span="253:7:253:16">lastWasCR</jtok>
+<jtok eid="7" type="block_comment" span="254:7:255:26">/* Bump lastLine so that the next line doesn't erronously
+						  pick up the \r */</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:7:256:15">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:18:256:19">i</jtok>
+<jtok eid="7" type="block_comment" span="258:6:259:49">/* Otherwise, we found a \n that follows some other
+					 *  character, hence we have a Unix file */</jtok>
+<jtok eid="7" type="primary_name_ref" span="262:7:262:13">CROnly</jtok>
+<jtok eid="7" type="primary_name_ref" span="263:7:263:11">CRLF</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:7:264:10">seg</jtok>
+<jtok eid="7" type="method_call" span="264:11:264:17">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:18:264:21">buf</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:22:264:30">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="265:8:265:9">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="265:12:265:20">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="266:7:266:10">seg</jtok>
+<jtok eid="7" type="method_call" span="266:11:266:17">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="267:7:267:17">endOffsets</jtok>
+<jtok eid="7" type="method_call" span="267:18:267:21">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="267:22:267:25">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="267:26:267:31">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:10:268:23">trackProgress</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:27:268:36">lineCount</jtok>
+<jtok eid="7" type="primary_name_ref" span="268:41:268:58">PROGRESS_INTERVAL</jtok>
+<jtok eid="7" type="method_call" span="269:8:269:16">setValue</jtok>
+<jtok eid="7" type="primary_name_ref" span="269:17:269:20">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="269:21:269:26">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:7:270:15">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:18:270:19">i</jtok>
+<jtok eid="7" type="block_comment" span="274:6:276:20">/*  If we find some other character that follows
+					 a \r, so it is not a Windows file, and probably
+					 a Mac file */</jtok>
+<jtok eid="7" type="primary_name_ref" span="277:9:277:18">lastWasCR</jtok>
+<jtok eid="7" type="primary_name_ref" span="279:7:279:13">CROnly</jtok>
+<jtok eid="7" type="primary_name_ref" span="280:7:280:11">CRLF</jtok>
+<jtok eid="7" type="primary_name_ref" span="281:7:281:16">lastWasCR</jtok>
+<jtok eid="7" type="primary_name_ref" span="287:7:287:20">trackProgress</jtok>
+<jtok eid="7" type="method_call" span="288:5:288:13">setValue</jtok>
+<jtok eid="7" type="primary_name_ref" span="288:14:288:17">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="288:18:288:23">count</jtok>
+<jtok eid="7" type="line_comment" span="290:4:290:38">// Add remaining stuff from buffer</jtok>
+<jtok eid="7" type="primary_name_ref" span="291:4:291:7">seg</jtok>
+<jtok eid="7" type="method_call" span="291:8:291:14">append</jtok>
+<jtok eid="7" type="primary_name_ref" span="291:15:291:18">buf</jtok>
+<jtok eid="7" type="primary_name_ref" span="291:19:291:27">lastLine</jtok>
+<jtok eid="7" type="primary_name_ref" span="291:28:291:31">len</jtok>
+<jtok eid="7" type="primary_name_ref" span="291:34:291:42">lastLine</jtok>
+<jtok eid="7" type="method_call" span="294:3:294:15">setAbortable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="296:3:296:9">String</jtok>
+<jtok eid="7" type="local_variable_name" span="296:10:296:23">lineSeparator</jtok>
+<jtok eid="7" type="primary_name_ref" span="297:6:297:9">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="297:10:297:15">count</jtok>
+<jtok eid="7" type="line_comment" span="299:4:299:57">// fix for "[ 865589 ] 0-byte files should open using</jtok>
+<jtok eid="7" type="line_comment" span="300:4:300:34">// the default line seperator"</jtok>
+<jtok eid="7" type="primary_name_ref" span="301:4:301:17">lineSeparator</jtok>
+<jtok eid="7" type="primary_name_ref" span="301:20:301:25">jEdit</jtok>
+<jtok eid="7" type="method_call" span="301:26:301:37">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="302:5:302:27">"buffer.lineSeparator"</jtok>
+<jtok eid="7" type="primary_name_ref" span="303:5:303:11">System</jtok>
+<jtok eid="7" type="method_call" span="303:12:303:23">getProperty</jtok>
+<jtok eid="7" type="string_literal" span="303:24:303:40">"line.separator"</jtok>
+<jtok eid="7" type="primary_name_ref" span="305:11:305:15">CRLF</jtok>
+<jtok eid="7" type="primary_name_ref" span="306:4:306:17">lineSeparator</jtok>
+<jtok eid="7" type="string_literal" span="306:20:306:26">"\r\n"</jtok>
+<jtok eid="7" type="primary_name_ref" span="307:11:307:17">CROnly</jtok>
+<jtok eid="7" type="primary_name_ref" span="308:4:308:17">lineSeparator</jtok>
+<jtok eid="7" type="string_literal" span="308:20:308:24">"\r"</jtok>
+<jtok eid="7" type="primary_name_ref" span="310:4:310:17">lineSeparator</jtok>
+<jtok eid="7" type="string_literal" span="310:20:310:24">"\n"</jtok>
+<jtok eid="7" type="line_comment" span="312:3:312:46">// Chop trailing newline and/or ^Z (if any)</jtok>
+<jtok eid="7" type="local_variable_name" span="313:7:313:19">bufferLength</jtok>
+<jtok eid="7" type="primary_name_ref" span="313:22:313:25">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="313:26:313:31">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="314:6:314:18">bufferLength</jtok>
+<jtok eid="7" type="local_variable_name" span="316:9:316:11">ch</jtok>
+<jtok eid="7" type="primary_name_ref" span="316:14:316:17">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="316:18:316:23">array</jtok>
+<jtok eid="7" type="primary_name_ref" span="316:24:316:36">bufferLength</jtok>
+<jtok eid="7" type="primary_name_ref" span="317:7:317:9">ch</jtok>
+<jtok eid="7" type="block_comment" span="317:18:317:30">/* DOS ^Z */</jtok>
+<jtok eid="7" type="primary_name_ref" span="318:5:318:8">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="318:9:318:14">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="321:3:321:9">buffer</jtok>
+<jtok eid="7" type="method_call" span="321:10:321:28">setBooleanProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="321:29:321:35">Buffer</jtok>
+<jtok eid="7" type="qualified_name_ref" span="321:36:321:48">TRAILING_EOL</jtok>
+<jtok eid="7" type="primary_name_ref" span="322:6:322:18">bufferLength</jtok>
+<jtok eid="7" type="primary_name_ref" span="322:27:322:32">jEdit</jtok>
+<jtok eid="7" type="method_call" span="322:33:322:51">getBooleanProperty</jtok>
+<jtok eid="7" type="string_literal" span="322:52:322:70">"stripTrailingEOL"</jtok>
+<jtok eid="7" type="local_variable_name" span="324:9:324:11">ch</jtok>
+<jtok eid="7" type="primary_name_ref" span="324:14:324:17">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="324:18:324:23">array</jtok>
+<jtok eid="7" type="primary_name_ref" span="324:24:324:36">bufferLength</jtok>
+<jtok eid="7" type="primary_name_ref" span="325:7:325:9">ch</jtok>
+<jtok eid="7" type="primary_name_ref" span="327:5:327:11">buffer</jtok>
+<jtok eid="7" type="method_call" span="327:12:327:30">setBooleanProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="327:31:327:37">Buffer</jtok>
+<jtok eid="7" type="qualified_name_ref" span="327:38:327:50">TRAILING_EOL</jtok>
+<jtok eid="7" type="primary_name_ref" span="328:5:328:8">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="328:9:328:14">count</jtok>
+<jtok eid="7" type="primary_name_ref" span="329:5:329:15">endOffsets</jtok>
+<jtok eid="7" type="method_call" span="329:16:329:23">setSize</jtok>
+<jtok eid="7" type="primary_name_ref" span="329:24:329:34">endOffsets</jtok>
+<jtok eid="7" type="method_call" span="329:35:329:42">getSize</jtok>
+<jtok eid="7" type="line_comment" span="333:3:333:60">// add a line marker at the end for proper offset manager</jtok>
+<jtok eid="7" type="line_comment" span="334:3:334:15">// operation</jtok>
+<jtok eid="7" type="primary_name_ref" span="335:3:335:13">endOffsets</jtok>
+<jtok eid="7" type="method_call" span="335:14:335:17">add</jtok>
+<jtok eid="7" type="primary_name_ref" span="335:18:335:21">seg</jtok>
+<jtok eid="7" type="qualified_name_ref" span="335:22:335:27">count</jtok>
+<jtok eid="7" type="line_comment" span="337:3:337:61">// to avoid having to deal with read/write locks and such,</jtok>
+<jtok eid="7" type="line_comment" span="338:3:338:54">// we insert the loaded data into the buffer in the</jtok>
+<jtok eid="7" type="line_comment" span="339:3:339:63">// post-load cleanup runnable, which runs in the AWT thread.</jtok>
+<jtok eid="7" type="primary_name_ref" span="340:7:340:13">insert</jtok>
+<jtok eid="7" type="primary_name_ref" span="342:4:342:10">buffer</jtok>
+<jtok eid="7" type="method_call" span="342:11:342:22">setProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="342:23:342:32">LOAD_DATA</jtok>
+<jtok eid="7" type="primary_name_ref" span="342:33:342:36">seg</jtok>
+<jtok eid="7" type="primary_name_ref" span="343:4:343:10">buffer</jtok>
+<jtok eid="7" type="method_call" span="343:11:343:22">setProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="343:23:343:34">END_OFFSETS</jtok>
+<jtok eid="7" type="primary_name_ref" span="343:35:343:45">endOffsets</jtok>
+<jtok eid="7" type="primary_name_ref" span="344:4:344:10">buffer</jtok>
+<jtok eid="7" type="method_call" span="344:11:344:22">setProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="344:23:344:31">NEW_PATH</jtok>
+<jtok eid="7" type="primary_name_ref" span="344:32:344:36">path</jtok>
+<jtok eid="7" type="primary_name_ref" span="345:7:345:20">lineSeparator</jtok>
+<jtok eid="7" type="primary_name_ref" span="346:5:346:11">buffer</jtok>
+<jtok eid="7" type="method_call" span="346:12:346:23">setProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="346:24:346:35">JEditBuffer</jtok>
+<jtok eid="7" type="qualified_name_ref" span="346:36:346:43">LINESEP</jtok>
+<jtok eid="7" type="primary_name_ref" span="346:44:346:57">lineSeparator</jtok>
+<jtok eid="7" type="line_comment" span="349:3:349:22">// used in insert()</jtok>
+<jtok eid="7" type="primary_name_ref" span="350:10:350:13">seg</jtok>
+<jtok eid="1" type="line_comment" span="351:4:351:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="353:2:353:22">//{{{ write() method</jtok>
+<jtok eid="8" type="method_name" span="354:17:354:22">write</jtok>
+<jtok eid="8" type="parameter_type" span="354:23:354:29">Buffer</jtok>
+<jtok eid="8" type="parameter_name" span="354:30:354:36">buffer</jtok>
+<jtok eid="8" type="parameter_type" span="354:38:354:50">OutputStream</jtok>
+<jtok eid="8" type="parameter_name" span="354:51:354:54">out</jtok>
+<jtok eid="8" type="throws" span="355:10:355:21">IOException</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="357:3:357:9">String</jtok>
+<jtok eid="8" type="local_variable_name" span="357:10:357:22">encodingName</jtok>
+<jtok eid="8" type="primary_name_ref" span="358:6:358:12">buffer</jtok>
+<jtok eid="8" type="method_call" span="358:13:358:30">getStringProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="358:31:358:42">JEditBuffer</jtok>
+<jtok eid="8" type="qualified_name_ref" span="358:43:358:51">ENCODING</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="359:3:359:11">Encoding</jtok>
+<jtok eid="8" type="local_variable_name" span="359:12:359:20">encoding</jtok>
+<jtok eid="8" type="primary_name_ref" span="359:23:359:37">EncodingServer</jtok>
+<jtok eid="8" type="method_call" span="359:38:359:49">getEncoding</jtok>
+<jtok eid="8" type="primary_name_ref" span="359:50:359:62">encodingName</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="360:3:360:9">Writer</jtok>
+<jtok eid="8" type="local_variable_name" span="360:10:360:16">writer</jtok>
+<jtok eid="8" type="primary_name_ref" span="360:19:360:27">encoding</jtok>
+<jtok eid="8" type="method_call" span="360:28:360:41">getTextWriter</jtok>
+<jtok eid="8" type="constructor_call" span="361:8:361:28">BufferedOutputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="361:29:361:32">out</jtok>
+<jtok eid="8" type="method_call" span="361:34:361:53">getByteIOBufferSize</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="363:3:363:10">Segment</jtok>
+<jtok eid="8" type="local_variable_name" span="363:11:363:22">lineSegment</jtok>
+<jtok eid="8" type="constructor_call" span="363:29:363:36">Segment</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="364:3:364:9">String</jtok>
+<jtok eid="8" type="local_variable_name" span="364:10:364:17">newline</jtok>
+<jtok eid="8" type="primary_name_ref" span="364:20:364:26">buffer</jtok>
+<jtok eid="8" type="method_call" span="364:27:364:44">getStringProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="364:45:364:56">JEditBuffer</jtok>
+<jtok eid="8" type="qualified_name_ref" span="364:57:364:64">LINESEP</jtok>
+<jtok eid="8" type="primary_name_ref" span="365:6:365:13">newline</jtok>
+<jtok eid="8" type="primary_name_ref" span="366:4:366:11">newline</jtok>
+<jtok eid="8" type="primary_name_ref" span="366:14:366:20">System</jtok>
+<jtok eid="8" type="method_call" span="366:21:366:32">getProperty</jtok>
+<jtok eid="8" type="string_literal" span="366:33:366:49">"line.separator"</jtok>
+<jtok eid="8" type="local_variable_name" span="368:13:368:28">bufferLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="368:31:368:37">buffer</jtok>
+<jtok eid="8" type="method_call" span="368:38:368:50">getLineCount</jtok>
+<jtok eid="8" type="method_call" span="369:3:369:13">setMaximum</jtok>
+<jtok eid="8" type="primary_name_ref" span="369:14:369:29">bufferLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="369:32:369:49">PROGRESS_INTERVAL</jtok>
+<jtok eid="8" type="method_call" span="370:3:370:11">setValue</jtok>
+<jtok eid="8" type="local_variable_name" span="372:7:372:8">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="373:9:373:10">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="373:13:373:28">bufferLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="375:4:375:10">buffer</jtok>
+<jtok eid="8" type="method_call" span="375:11:375:22">getLineText</jtok>
+<jtok eid="8" type="primary_name_ref" span="375:23:375:24">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="375:25:375:36">lineSegment</jtok>
+<jtok eid="8" type="primary_name_ref" span="378:5:378:11">writer</jtok>
+<jtok eid="8" type="method_call" span="378:12:378:17">write</jtok>
+<jtok eid="8" type="primary_name_ref" span="378:18:378:29">lineSegment</jtok>
+<jtok eid="8" type="qualified_name_ref" span="378:30:378:35">array</jtok>
+<jtok eid="8" type="primary_name_ref" span="379:6:379:17">lineSegment</jtok>
+<jtok eid="8" type="qualified_name_ref" span="379:18:379:24">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="380:6:380:17">lineSegment</jtok>
+<jtok eid="8" type="qualified_name_ref" span="380:18:380:23">count</jtok>
+<jtok eid="8" type="primary_name_ref" span="381:8:381:9">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="381:12:381:27">bufferLineCount</jtok>
+<jtok eid="8" type="primary_name_ref" span="382:10:382:15">jEdit</jtok>
+<jtok eid="8" type="method_call" span="382:16:382:34">getBooleanProperty</jtok>
+<jtok eid="8" type="string_literal" span="382:35:382:53">"stripTrailingEOL"</jtok>
+<jtok eid="8" type="primary_name_ref" span="383:10:383:16">buffer</jtok>
+<jtok eid="8" type="method_call" span="383:17:383:35">getBooleanProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="383:36:383:42">Buffer</jtok>
+<jtok eid="8" type="qualified_name_ref" span="383:43:383:55">TRAILING_EOL</jtok>
+<jtok eid="8" type="primary_name_ref" span="385:6:385:12">writer</jtok>
+<jtok eid="8" type="method_call" span="385:13:385:18">write</jtok>
+<jtok eid="8" type="primary_name_ref" span="385:19:385:26">newline</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="388:10:388:34">CharacterCodingException</jtok>
+<jtok eid="8" type="local_variable_name" span="388:35:388:36">e</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="390:5:390:11">String</jtok>
+<jtok eid="8" type="local_variable_name" span="390:12:390:19">message</jtok>
+<jtok eid="8" type="method_call" span="390:22:390:50">getWriteEncodingErrorMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="391:6:391:18">encodingName</jtok>
+<jtok eid="8" type="primary_name_ref" span="391:20:391:28">encoding</jtok>
+<jtok eid="8" type="primary_name_ref" span="392:6:392:17">lineSegment</jtok>
+<jtok eid="8" type="primary_name_ref" span="392:19:392:20">i</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="393:5:393:16">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="393:17:393:25">wrapping</jtok>
+<jtok eid="8" type="constructor_call" span="393:32:393:55">CharConversionException</jtok>
+<jtok eid="8" type="primary_name_ref" span="393:56:393:63">message</jtok>
+<jtok eid="8" type="primary_name_ref" span="394:5:394:13">wrapping</jtok>
+<jtok eid="8" type="method_call" span="394:14:394:23">initCause</jtok>
+<jtok eid="8" type="primary_name_ref" span="394:24:394:25">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="395:11:395:19">wrapping</jtok>
+<jtok eid="8" type="primary_name_ref" span="398:9:398:10">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="398:13:398:30">PROGRESS_INTERVAL</jtok>
+<jtok eid="8" type="method_call" span="399:5:399:13">setValue</jtok>
+<jtok eid="8" type="primary_name_ref" span="399:14:399:15">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="399:18:399:35">PROGRESS_INTERVAL</jtok>
+<jtok eid="8" type="primary_name_ref" span="401:3:401:9">writer</jtok>
+<jtok eid="8" type="method_call" span="401:10:401:15">flush</jtok>
+<jtok eid="1" type="line_comment" span="402:4:402:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="404:2:404:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="406:2:406:43">//{{{ createEncodingErrorMessage() method</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="407:17:407:23">String</jtok>
+<jtok eid="9" type="method_name" span="407:24:407:52">getWriteEncodingErrorMessage</jtok>
+<jtok eid="9" type="parameter_type" span="408:3:408:9">String</jtok>
+<jtok eid="9" type="parameter_name" span="408:10:408:22">encodingName</jtok>
+<jtok eid="9" type="parameter_type" span="408:24:408:32">Encoding</jtok>
+<jtok eid="9" type="parameter_name" span="408:33:408:41">encoding</jtok>
+<jtok eid="9" type="parameter_type" span="409:3:409:10">Segment</jtok>
+<jtok eid="9" type="parameter_name" span="409:11:409:15">line</jtok>
+<jtok eid="9" type="parameter_name" span="409:21:409:30">lineIndex</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="411:3:411:9">String</jtok>
+<jtok eid="9" type="local_variable_name" span="411:10:411:14">args</jtok>
+<jtok eid="9" type="primary_name_ref" span="412:4:412:16">encodingName</jtok>
+<jtok eid="9" type="primary_name_ref" span="413:4:413:11">Integer</jtok>
+<jtok eid="9" type="method_call" span="413:12:413:20">toString</jtok>
+<jtok eid="9" type="primary_name_ref" span="413:21:413:30">lineIndex</jtok>
+<jtok eid="9" type="string_literal" span="414:4:414:13">"UNKNOWN"</jtok>
+<jtok eid="9" type="line_comment" span="414:15:414:24">// column</jtok>
+<jtok eid="9" type="string_literal" span="415:4:415:13">"UNKNOWN"</jtok>
+<jtok eid="9" type="line_comment" span="415:15:415:31">// the character</jtok>
+<jtok eid="9" type="local_variable_name" span="419:8:419:17">charIndex</jtok>
+<jtok eid="9" type="method_call" span="419:20:419:48">getFirstGuiltyCharacterIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="419:49:419:57">encoding</jtok>
+<jtok eid="9" type="primary_name_ref" span="419:59:419:63">line</jtok>
+<jtok eid="9" type="primary_name_ref" span="420:12:420:21">charIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="420:25:420:34">charIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="420:37:420:41">line</jtok>
+<jtok eid="9" type="qualified_name_ref" span="420:42:420:47">count</jtok>
+<jtok eid="9" type="local_variable_name" span="422:10:422:11">c</jtok>
+<jtok eid="9" type="primary_name_ref" span="422:14:422:18">line</jtok>
+<jtok eid="9" type="qualified_name_ref" span="422:19:422:24">array</jtok>
+<jtok eid="9" type="primary_name_ref" span="422:25:422:29">line</jtok>
+<jtok eid="9" type="qualified_name_ref" span="422:30:422:36">offset</jtok>
+<jtok eid="9" type="primary_name_ref" span="422:39:422:48">charIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="423:5:423:9">args</jtok>
+<jtok eid="9" type="primary_name_ref" span="423:15:423:22">Integer</jtok>
+<jtok eid="9" type="method_call" span="423:23:423:31">toString</jtok>
+<jtok eid="9" type="primary_name_ref" span="423:32:423:41">charIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="424:5:424:9">args</jtok>
+<jtok eid="9" type="string_literal" span="424:15:424:18">"'"</jtok>
+<jtok eid="9" type="primary_name_ref" span="424:21:424:22">c</jtok>
+<jtok eid="9" type="string_literal" span="424:25:424:32">"' (U+"</jtok>
+<jtok eid="9" type="primary_name_ref" span="424:35:424:42">Integer</jtok>
+<jtok eid="9" type="method_call" span="424:43:424:54">toHexString</jtok>
+<jtok eid="9" type="primary_name_ref" span="424:55:424:56">c</jtok>
+<jtok eid="9" type="method_call" span="424:58:424:69">toUpperCase</jtok>
+<jtok eid="9" type="string_literal" span="424:74:424:77">")"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="427:9:427:18">Exception</jtok>
+<jtok eid="9" type="local_variable_name" span="427:19:427:20">e</jtok>
+<jtok eid="9" type="line_comment" span="429:4:429:14">// Ignore.</jtok>
+<jtok eid="9" type="primary_name_ref" span="431:10:431:15">jEdit</jtok>
+<jtok eid="9" type="method_call" span="431:16:431:27">getProperty</jtok>
+<jtok eid="9" type="string_literal" span="431:28:431:58">"ioerror.write-encoding-error"</jtok>
+<jtok eid="9" type="primary_name_ref" span="431:60:431:64">args</jtok>
+<jtok eid="1" type="line_comment" span="432:4:432:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="434:2:434:45">//{{{ getFirstGuiltyCharacterIndex() method</jtok>
+<jtok eid="1" type="line_comment" span="435:2:435:62">// Look for the first character which causes encoding error.</jtok>
+<jtok eid="10" type="method_name" span="436:21:436:49">getFirstGuiltyCharacterIndex</jtok>
+<jtok eid="10" type="parameter_type" span="436:50:436:58">Encoding</jtok>
+<jtok eid="10" type="parameter_name" span="436:59:436:67">encoding</jtok>
+<jtok eid="10" type="parameter_type" span="437:3:437:10">Segment</jtok>
+<jtok eid="10" type="parameter_name" span="437:11:437:15">line</jtok>
+<jtok eid="10" type="throws" span="437:24:437:35">IOException</jtok>
+<jtok eid="10" type="primary_name_ref" span="439:6:439:10">line</jtok>
+<jtok eid="10" type="qualified_name_ref" span="439:11:439:16">count</jtok>
+<jtok eid="10" type="primary_name_ref" span="443:11:443:15">line</jtok>
+<jtok eid="10" type="qualified_name_ref" span="443:16:443:21">count</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="448:3:448:9">Writer</jtok>
+<jtok eid="10" type="local_variable_name" span="448:10:448:16">tester</jtok>
+<jtok eid="10" type="primary_name_ref" span="448:19:448:27">encoding</jtok>
+<jtok eid="10" type="method_call" span="448:28:448:41">getTextWriter</jtok>
+<jtok eid="10" type="constructor_call" span="449:8:449:20">OutputStream</jtok>
+<jtok eid="12" type="method_name" span="451:17:451:22">write</jtok>
+<jtok eid="12" type="parameter_name" span="451:27:451:28">b</jtok>
+<jtok eid="10" type="local_variable_name" span="453:11:453:12">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="453:18:453:19">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="453:22:453:26">line</jtok>
+<jtok eid="10" type="qualified_name_ref" span="453:27:453:32">count</jtok>
+<jtok eid="10" type="primary_name_ref" span="453:36:453:37">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="457:5:457:11">tester</jtok>
+<jtok eid="10" type="method_call" span="457:12:457:17">write</jtok>
+<jtok eid="10" type="primary_name_ref" span="457:18:457:22">line</jtok>
+<jtok eid="10" type="qualified_name_ref" span="457:23:457:28">array</jtok>
+<jtok eid="10" type="primary_name_ref" span="457:29:457:33">line</jtok>
+<jtok eid="10" type="qualified_name_ref" span="457:34:457:40">offset</jtok>
+<jtok eid="10" type="primary_name_ref" span="457:43:457:44">i</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="459:10:459:34">CharacterCodingException</jtok>
+<jtok eid="10" type="local_variable_name" span="459:35:459:36">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="461:12:461:13">i</jtok>
+<jtok eid="1" type="line_comment" span="465:4:465:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="467:2:467:7">//}}}</jtok>
+</jdoc>

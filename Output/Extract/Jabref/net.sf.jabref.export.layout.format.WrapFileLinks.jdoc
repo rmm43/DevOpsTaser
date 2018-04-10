@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.layout.format.WrapFileLinks" jls="java5">
+<jent id="0" type="file" span="0:0:297:1">Source/jabref/src/java/net/sf/jabref/export/layout/format/WrapFileLinks.java</jent>
+<jent id="1" pid="0" type="class" span="76:1:297:1">net.sf.jabref.export.layout.format.WrapFileLinks</jent>
+<jent id="2" pid="1" type="method" span="83:5:93:5">net.sf.jabref.export.layout.format.WrapFileLinks.setArgument(String)</jent>
+<jent id="3" pid="1" type="method" span="95:5:183:5">net.sf.jabref.export.layout.format.WrapFileLinks.format(String)</jent>
+<jent id="4" pid="1" type="method" span="186:5:194:5">net.sf.jabref.export.layout.format.WrapFileLinks.replaceStrings(String)</jent>
+<jent id="5" pid="1" type="method" span="222:5:263:5">net.sf.jabref.export.layout.format.WrapFileLinks.parseFormatString(String)</jent>
+<jent id="6" pid="1" type="class" span="274:5:295:5">net.sf.jabref.export.layout.format.WrapFileLinks.FormatEntry</jent>
+<jent id="7" pid="6" type="method" span="279:9:281:9">net.sf.jabref.export.layout.format.WrapFileLinks.FormatEntry.FormatEntry(int)</jent>
+<jent id="8" pid="6" type="method" span="283:9:286:9">net.sf.jabref.export.layout.format.WrapFileLinks.FormatEntry.FormatEntry(String)</jent>
+<jent id="9" pid="6" type="method" span="288:9:290:9">net.sf.jabref.export.layout.format.WrapFileLinks.FormatEntry.getType()</jent>
+<jent id="10" pid="6" type="method" span="292:9:294:9">net.sf.jabref.export.layout.format.WrapFileLinks.FormatEntry.getString()</jent>
+<jtok eid="0" type="block_comment" span="14:1:75:4">/**
+ * This formatter iterates over all file links, or all file links of a specified
+ * type, outputting a format string given as the first argument. The format string
+ * can contain a number of escape sequences indicating file link information to
+ * be inserted into the string.
+ * &lt;p/&gt;
+ * This formatter can take an optional second argument specifying the name of a file
+ * type. If specified, the iteration will only include those files with a file type
+ * matching the given name (case-insensitively). If specified as an empty argument,
+ * all file links will be included.
+ * &lt;p/&gt;
+ * After the second argument, pairs of additional arguments can be added in order to
+ * specify regular expression replacements to be done upon the inserted link information
+ * before insertion into the output string. A non-paired argument will be ignored.
+ * In order to specify replacements without filtering on file types, use an empty second
+ * argument.
+ * &lt;p/&gt;
+ * &lt;p/&gt;
+ * &lt;p/&gt;
+ * The escape sequences for embedding information are as follows:
+ * &lt;p/&gt;
+ * \i   : This inserts the iteration index (starting from 1), and can be useful if
+ * the output list of files should be enumerated.
+ * \p   : This inserts the file path of the file link. Relative links below your file directory
+ *        will be expanded to their absolute path.
+ * \r   : This inserts the file path without expanding relative links.
+ * \f   : This inserts the name of the file link's type.
+ * \x   : This inserts the file's extension, if any.
+ * \d   : This inserts the file link's description, if any.
+ * &lt;p/&gt;
+ * For instance, an entry could contain a file link to the file "/home/john/report.pdf"
+ * of the "PDF" type with description "John's final report".
+ * &lt;p/&gt;
+ * Using the WrapFileLinks formatter with the following argument:
+ * &lt;p/&gt;
+ * \format[WrapFileLinks(\i. \d (\p))]{\file}
+ * &lt;p/&gt;
+ * would give the following output:
+ * 1. John's final report (/home/john/report.pdf)
+ * &lt;p/&gt;
+ * If the entry contained a second file link to the file "/home/john/draft.txt" of the
+ * "Text file" type with description 'An early "draft"', the output would be as follows:
+ * 1. John's final report (/home/john/report.pdf)
+ * 2. An early "draft" (/home/john/draft.txt)
+ * &lt;p/&gt;
+ * If the formatter was called with a second argument, the list would be filtered.
+ * For instance:
+ * \format[WrapFileLinks(\i. \d (\p),text file)]{\file}
+ * &lt;p/&gt;
+ * would show only the text file:
+ * 1. An early "draft" (/home/john/draft.txt)
+ * &lt;p/&gt;
+ * If we wanted this output to be part of an XML styled output, the quotes in the
+ * file description could cause problems. Adding two additional arguments to translate
+ * the quotes into XML characters solves this:
+ * \format[WrapFileLinks(\i. \d (\p),text file,",&amp;quot;)]{\file}
+ * &lt;p/&gt;
+ * would give the following output:
+ * 1. An early &amp;quot;draft&amp;quot; (/home/john/draft.txt)
+ *
+ * Additional pairs of replacements can be added.
+ */</jtok>
+<jtok eid="1" type="class_name" span="76:14:76:27">WrapFileLinks</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="76:36:76:64">AbstractParamLayoutFormatter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="79:13:79:19">String</jtok>
+<jtok eid="1" type="field_name" span="79:20:79:28">fileType</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="80:13:80:17">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="80:18:80:29">FormatEntry</jtok>
+<jtok eid="1" type="field_name" span="80:31:80:37">format</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:13:81:16">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:17:81:23">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="81:25:81:31">String</jtok>
+<jtok eid="1" type="field_name" span="81:33:81:45">replacements</jtok>
+<jtok eid="1" type="constructor_call" span="81:52:81:59">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="81:60:81:66">String</jtok>
+<jtok eid="1" type="constructor_call" span="81:68:81:74">String</jtok>
+<jtok eid="2" type="method_name" span="83:17:83:28">setArgument</jtok>
+<jtok eid="2" type="parameter_type" span="83:29:83:35">String</jtok>
+<jtok eid="2" type="parameter_name" span="83:36:83:39">arg</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="84:9:84:15">String</jtok>
+<jtok eid="2" type="local_variable_name" span="84:18:84:23">parts</jtok>
+<jtok eid="2" type="method_call" span="84:26:84:39">parseArgument</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:40:84:43">arg</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:9:85:15">format</jtok>
+<jtok eid="2" type="method_call" span="85:18:85:35">parseFormatString</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:36:85:41">parts</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:14:86:19">parts</jtok>
+<jtok eid="2" type="qualified_name_ref" span="86:20:86:26">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:36:86:41">parts</jtok>
+<jtok eid="2" type="method_call" span="86:45:86:49">trim</jtok>
+<jtok eid="2" type="method_call" span="86:52:86:58">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:13:87:21">fileType</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:24:87:29">parts</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:13:88:18">parts</jtok>
+<jtok eid="2" type="qualified_name_ref" span="88:19:88:25">length</jtok>
+<jtok eid="2" type="local_variable_name" span="89:22:89:23">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:29:89:30">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:33:89:38">parts</jtok>
+<jtok eid="2" type="qualified_name_ref" span="89:39:89:45">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="89:49:89:50">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:17:90:29">replacements</jtok>
+<jtok eid="2" type="method_call" span="90:30:90:33">put</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:34:90:39">parts</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:40:90:41">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:44:90:49">parts</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:50:90:51">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="95:12:95:18">String</jtok>
+<jtok eid="3" type="method_name" span="95:19:95:25">format</jtok>
+<jtok eid="3" type="parameter_type" span="95:26:95:32">String</jtok>
+<jtok eid="3" type="parameter_name" span="95:33:95:38">field</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="96:9:96:22">StringBuilder</jtok>
+<jtok eid="3" type="local_variable_name" span="96:23:96:25">sb</jtok>
+<jtok eid="3" type="constructor_call" span="96:32:96:45">StringBuilder</jtok>
+<jtok eid="3" type="line_comment" span="98:9:98:55">// Build the table model containing the links:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="99:9:99:27">FileListTableModel</jtok>
+<jtok eid="3" type="local_variable_name" span="99:28:99:38">tableModel</jtok>
+<jtok eid="3" type="constructor_call" span="99:45:99:63">FileListTableModel</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:13:100:18">field</jtok>
+<jtok eid="3" type="string_literal" span="101:20:101:22">""</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:9:102:19">tableModel</jtok>
+<jtok eid="3" type="method_call" span="102:20:102:30">setContent</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:31:102:36">field</jtok>
+<jtok eid="3" type="local_variable_name" span="104:13:104:16">piv</jtok>
+<jtok eid="3" type="line_comment" span="104:22:104:56">// counter for relevant iterations</jtok>
+<jtok eid="3" type="local_variable_name" span="105:18:105:19">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:25:105:26">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:29:105:39">tableModel</jtok>
+<jtok eid="3" type="method_call" span="105:40:105:51">getRowCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:55:105:56">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="106:13:106:26">FileListEntry</jtok>
+<jtok eid="3" type="local_variable_name" span="106:27:106:34">flEntry</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:37:106:47">tableModel</jtok>
+<jtok eid="3" type="method_call" span="106:48:106:56">getEntry</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:57:106:58">i</jtok>
+<jtok eid="3" type="line_comment" span="107:13:107:86">// Use this entry if we don't discriminate on types, or if the type fits:</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:18:108:26">fileType</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:39:108:46">flEntry</jtok>
+<jtok eid="3" type="method_call" span="108:47:108:54">getType</jtok>
+<jtok eid="3" type="method_call" span="108:57:108:64">getName</jtok>
+<jtok eid="3" type="method_call" span="108:67:108:78">toLowerCase</jtok>
+<jtok eid="3" type="method_call" span="108:81:108:87">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:88:108:96">fileType</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="110:22:110:33">FormatEntry</jtok>
+<jtok eid="3" type="local_variable_name" span="110:34:110:39">entry</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:42:110:48">format</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:29:111:34">entry</jtok>
+<jtok eid="3" type="method_call" span="111:35:111:42">getType</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:30:112:36">STRING</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:29:113:31">sb</jtok>
+<jtok eid="3" type="method_call" span="113:32:113:38">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="113:39:113:44">entry</jtok>
+<jtok eid="3" type="method_call" span="113:45:113:54">getString</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:30:115:45">ITERATION_COUNT</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:29:116:31">sb</jtok>
+<jtok eid="3" type="method_call" span="116:32:116:38">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:39:116:45">String</jtok>
+<jtok eid="3" type="method_call" span="116:46:116:53">valueOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:54:116:57">piv</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:30:118:39">FILE_PATH</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:33:119:40">flEntry</jtok>
+<jtok eid="3" type="method_call" span="119:41:119:48">getLink</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="122:29:122:35">String</jtok>
+<jtok eid="3" type="local_variable_name" span="122:36:122:39">dir</jtok>
+<jtok eid="3" type="line_comment" span="123:29:123:99">// We need to resolve the file directory from the database's metadata,</jtok>
+<jtok eid="3" type="line_comment" span="124:29:124:92">// but that is not available from a formatter. Therefore, as an</jtok>
+<jtok eid="3" type="line_comment" span="125:29:125:94">// ugly hack, the export routine has set a global variable before</jtok>
+<jtok eid="3" type="line_comment" span="126:29:126:98">// starting the export, which contains the database's file directory:</jtok>
+<jtok eid="3" type="primary_name_ref" span="127:33:127:40">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="127:41:127:46">prefs</jtok>
+<jtok eid="3" type="qualified_name_ref" span="127:47:127:65">fileDirForDatabase</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:33:128:36">dir</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:39:128:46">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="128:47:128:52">prefs</jtok>
+<jtok eid="3" type="qualified_name_ref" span="128:53:128:71">fileDirForDatabase</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:33:130:36">dir</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:39:130:46">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="130:47:130:52">prefs</jtok>
+<jtok eid="3" type="method_call" span="130:53:130:56">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="130:57:130:67">GUIGlobals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="130:68:130:78">FILE_FIELD</jtok>
+<jtok eid="3" type="string_literal" span="130:81:130:92">"Directory"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="132:29:132:33">File</jtok>
+<jtok eid="3" type="local_variable_name" span="132:34:132:35">f</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:38:132:42">Util</jtok>
+<jtok eid="3" type="method_call" span="132:43:132:57">expandFilename</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:58:132:65">flEntry</jtok>
+<jtok eid="3" type="method_call" span="132:66:132:73">getLink</jtok>
+<jtok eid="3" type="constructor_call" span="132:81:132:87">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:90:132:93">dir</jtok>
+<jtok eid="3" type="block_comment" span="133:29:137:32">/*
+                             * Stumbled over this while investigating
+                             *
+                             * https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1469903&amp;group_id=92314&amp;atid=600306
+                             */</jtok>
+<jtok eid="3" type="primary_name_ref" span="138:33:138:34">f</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:37:140:39">sb</jtok>
+<jtok eid="3" type="method_call" span="140:40:140:46">append</jtok>
+<jtok eid="3" type="method_call" span="140:47:140:61">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:62:140:63">f</jtok>
+<jtok eid="3" type="method_call" span="140:64:140:80">getCanonicalPath</jtok>
+<jtok eid="3" type="line_comment" span="140:85:140:108">//f.toURI().toString();</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="141:42:141:53">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="141:54:141:56">ex</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:37:142:39">ex</jtok>
+<jtok eid="3" type="method_call" span="142:40:142:55">printStackTrace</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:37:143:39">sb</jtok>
+<jtok eid="3" type="method_call" span="143:40:143:46">append</jtok>
+<jtok eid="3" type="method_call" span="143:47:143:61">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="143:62:143:63">f</jtok>
+<jtok eid="3" type="method_call" span="143:64:143:71">getPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:33:146:35">sb</jtok>
+<jtok eid="3" type="method_call" span="146:36:146:42">append</jtok>
+<jtok eid="3" type="method_call" span="146:43:146:57">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:58:146:65">flEntry</jtok>
+<jtok eid="3" type="method_call" span="146:66:146:73">getLink</jtok>
+<jtok eid="3" type="primary_name_ref" span="150:30:150:48">RELATIVE_FILE_PATH</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:33:151:40">flEntry</jtok>
+<jtok eid="3" type="method_call" span="151:41:151:48">getLink</jtok>
+<jtok eid="3" type="block_comment" span="154:29:158:32">/*
+                             * Stumbled over this while investigating
+                             *
+                             * https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1469903&amp;group_id=92314&amp;atid=600306
+                             */</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:29:159:31">sb</jtok>
+<jtok eid="3" type="method_call" span="159:32:159:38">append</jtok>
+<jtok eid="3" type="method_call" span="159:39:159:53">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:54:159:61">flEntry</jtok>
+<jtok eid="3" type="method_call" span="159:62:159:69">getLink</jtok>
+<jtok eid="3" type="line_comment" span="159:74:159:97">//f.toURI().toString();</jtok>
+<jtok eid="3" type="primary_name_ref" span="162:30:162:44">FILE_EXTENSION</jtok>
+<jtok eid="3" type="primary_name_ref" span="163:33:163:40">flEntry</jtok>
+<jtok eid="3" type="method_call" span="163:41:163:48">getLink</jtok>
+<jtok eid="3" type="local_variable_name" span="165:33:165:38">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="165:41:165:48">flEntry</jtok>
+<jtok eid="3" type="method_call" span="165:49:165:56">getLink</jtok>
+<jtok eid="3" type="method_call" span="165:59:165:70">lastIndexOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="166:34:166:39">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="166:50:166:55">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="166:58:166:65">flEntry</jtok>
+<jtok eid="3" type="method_call" span="166:66:166:73">getLink</jtok>
+<jtok eid="3" type="method_call" span="166:76:166:82">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="167:33:167:35">sb</jtok>
+<jtok eid="3" type="method_call" span="167:36:167:42">append</jtok>
+<jtok eid="3" type="method_call" span="167:43:167:57">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="167:58:167:65">flEntry</jtok>
+<jtok eid="3" type="method_call" span="167:66:167:73">getLink</jtok>
+<jtok eid="3" type="method_call" span="167:76:167:85">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="167:86:167:91">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="169:30:169:39">FILE_TYPE</jtok>
+<jtok eid="3" type="primary_name_ref" span="170:29:170:31">sb</jtok>
+<jtok eid="3" type="method_call" span="170:32:170:38">append</jtok>
+<jtok eid="3" type="method_call" span="170:39:170:53">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="170:54:170:61">flEntry</jtok>
+<jtok eid="3" type="method_call" span="170:62:170:69">getType</jtok>
+<jtok eid="3" type="method_call" span="170:72:170:79">getName</jtok>
+<jtok eid="3" type="primary_name_ref" span="172:30:172:46">FILE_DESCRIPTION</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:29:173:31">sb</jtok>
+<jtok eid="3" type="method_call" span="173:32:173:38">append</jtok>
+<jtok eid="3" type="method_call" span="173:39:173:53">replaceStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="173:54:173:61">flEntry</jtok>
+<jtok eid="3" type="method_call" span="173:62:173:76">getDescription</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:17:178:20">piv</jtok>
+<jtok eid="3" type="line_comment" span="178:24:178:41">// update counter</jtok>
+<jtok eid="3" type="primary_name_ref" span="182:16:182:18">sb</jtok>
+<jtok eid="3" type="method_call" span="182:19:182:27">toString</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="186:15:186:21">String</jtok>
+<jtok eid="4" type="method_name" span="186:22:186:36">replaceStrings</jtok>
+<jtok eid="4" type="parameter_type" span="186:37:186:43">String</jtok>
+<jtok eid="4" type="parameter_name" span="186:44:186:48">text</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="187:14:187:22">Iterator</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="187:23:187:29">String</jtok>
+<jtok eid="4" type="local_variable_name" span="187:31:187:32">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="187:33:187:45">replacements</jtok>
+<jtok eid="4" type="method_call" span="187:46:187:52">keySet</jtok>
+<jtok eid="4" type="method_call" span="187:55:187:63">iterator</jtok>
+<jtok eid="4" type="primary_name_ref" span="187:67:187:68">i</jtok>
+<jtok eid="4" type="method_call" span="187:69:187:76">hasNext</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="188:13:188:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="188:20:188:24">from</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:27:188:28">i</jtok>
+<jtok eid="4" type="method_call" span="188:29:188:33">next</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="189:13:189:19">String</jtok>
+<jtok eid="4" type="local_variable_name" span="189:20:189:22">to</jtok>
+<jtok eid="4" type="primary_name_ref" span="189:25:189:37">replacements</jtok>
+<jtok eid="4" type="method_call" span="189:38:189:41">get</jtok>
+<jtok eid="4" type="primary_name_ref" span="189:42:189:46">from</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:13:190:17">text</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:20:190:24">text</jtok>
+<jtok eid="4" type="method_call" span="190:25:190:35">replaceAll</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:36:190:40">from</jtok>
+<jtok eid="4" type="primary_name_ref" span="190:42:190:44">to</jtok>
+<jtok eid="4" type="primary_name_ref" span="192:16:192:20">text</jtok>
+<jtok eid="1" type="line_comment" span="197:5:197:75">// Define codes for the various escape sequences that can be inserted:</jtok>
+<jtok eid="1" type="field_name" span="198:29:198:35">STRING</jtok>
+<jtok eid="1" type="field_name" span="198:41:198:56">ITERATION_COUNT</jtok>
+<jtok eid="1" type="field_name" span="198:62:198:71">FILE_PATH</jtok>
+<jtok eid="1" type="field_name" span="198:77:198:86">FILE_TYPE</jtok>
+<jtok eid="1" type="field_name" span="199:13:199:27">FILE_EXTENSION</jtok>
+<jtok eid="1" type="field_name" span="199:33:199:49">FILE_DESCRIPTION</jtok>
+<jtok eid="1" type="field_name" span="199:55:199:73">RELATIVE_FILE_PATH</jtok>
+<jtok eid="1" type="line_comment" span="201:5:201:56">// Define which escape sequences give what results:</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="202:18:202:21">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="202:22:202:31">Character</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="202:33:202:40">Integer</jtok>
+<jtok eid="1" type="field_name" span="202:42:202:52">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="constructor_call" span="202:59:202:66">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="202:67:202:76">Character</jtok>
+<jtok eid="1" type="constructor_call" span="202:78:202:85">Integer</jtok>
+<jtok eid="1" type="primary_name_ref" span="205:9:205:19">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="method_call" span="205:20:205:23">put</jtok>
+<jtok eid="1" type="primary_name_ref" span="205:29:205:44">ITERATION_COUNT</jtok>
+<jtok eid="1" type="primary_name_ref" span="206:9:206:19">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="method_call" span="206:20:206:23">put</jtok>
+<jtok eid="1" type="primary_name_ref" span="206:29:206:38">FILE_PATH</jtok>
+<jtok eid="1" type="primary_name_ref" span="207:9:207:19">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="method_call" span="207:20:207:23">put</jtok>
+<jtok eid="1" type="primary_name_ref" span="207:29:207:47">RELATIVE_FILE_PATH</jtok>
+<jtok eid="1" type="primary_name_ref" span="208:9:208:19">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="method_call" span="208:20:208:23">put</jtok>
+<jtok eid="1" type="primary_name_ref" span="208:29:208:38">FILE_TYPE</jtok>
+<jtok eid="1" type="primary_name_ref" span="209:9:209:19">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="method_call" span="209:20:209:23">put</jtok>
+<jtok eid="1" type="primary_name_ref" span="209:29:209:43">FILE_EXTENSION</jtok>
+<jtok eid="1" type="primary_name_ref" span="210:9:210:19">ESCAPE_SEQ</jtok>
+<jtok eid="1" type="method_call" span="210:20:210:23">put</jtok>
+<jtok eid="1" type="primary_name_ref" span="210:29:210:45">FILE_DESCRIPTION</jtok>
+<jtok eid="1" type="block_comment" span="213:5:221:8">/**
+     * Parse a format string and return a list of FormatEntry objects. The format
+     * string is basically marked up with "\i" marking that the iteration number should
+     * be inserted, and with "\p" marking that the file path of the current iteration
+     * should be inserted, plus additional markers.
+     *
+     * @param format The marked-up string.
+     * @return the resulting format entries.
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="222:12:222:16">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="222:17:222:28">FormatEntry</jtok>
+<jtok eid="5" type="method_name" span="222:30:222:47">parseFormatString</jtok>
+<jtok eid="5" type="parameter_type" span="222:48:222:54">String</jtok>
+<jtok eid="5" type="parameter_name" span="222:55:222:61">format</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="223:9:223:13">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="223:14:223:25">FormatEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="223:27:223:28">l</jtok>
+<jtok eid="5" type="constructor_call" span="223:35:223:44">ArrayList</jtok>
+<jtok eid="5" type="constructor_call" span="223:45:223:56">FormatEntry</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="224:9:224:22">StringBuilder</jtok>
+<jtok eid="5" type="local_variable_name" span="224:23:224:25">sb</jtok>
+<jtok eid="5" type="constructor_call" span="224:32:224:45">StringBuilder</jtok>
+<jtok eid="5" type="local_variable_name" span="225:17:225:24">escaped</jtok>
+<jtok eid="5" type="local_variable_name" span="226:18:226:19">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="226:25:226:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="226:29:226:35">format</jtok>
+<jtok eid="5" type="method_call" span="226:36:226:42">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="226:46:226:47">i</jtok>
+<jtok eid="5" type="local_variable_name" span="227:18:227:19">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="227:22:227:28">format</jtok>
+<jtok eid="5" type="method_call" span="227:29:227:35">charAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="227:36:227:37">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="228:18:228:25">escaped</jtok>
+<jtok eid="5" type="line_comment" span="229:17:229:71">// Check if we are at the start of an escape sequence:</jtok>
+<jtok eid="5" type="primary_name_ref" span="230:21:230:22">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="231:21:231:28">escaped</jtok>
+<jtok eid="5" type="primary_name_ref" span="233:21:233:23">sb</jtok>
+<jtok eid="5" type="method_call" span="233:24:233:30">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="233:31:233:32">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="235:17:235:24">escaped</jtok>
+<jtok eid="5" type="line_comment" span="235:34:235:83">// we know we'll be out of escape mode after this</jtok>
+<jtok eid="5" type="line_comment" span="236:17:236:64">// Check if this escape sequence is meaningful:</jtok>
+<jtok eid="5" type="primary_name_ref" span="237:21:237:22">c</jtok>
+<jtok eid="5" type="line_comment" span="238:21:238:73">// Escaped backslash: means that we add a backslash:</jtok>
+<jtok eid="5" type="primary_name_ref" span="239:21:239:23">sb</jtok>
+<jtok eid="5" type="method_call" span="239:24:239:30">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="239:31:239:32">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="240:28:240:38">ESCAPE_SEQ</jtok>
+<jtok eid="5" type="method_call" span="240:39:240:50">containsKey</jtok>
+<jtok eid="5" type="primary_name_ref" span="240:51:240:52">c</jtok>
+<jtok eid="5" type="line_comment" span="241:21:241:82">// Ok, we have the code. Add the previous string (if any) and</jtok>
+<jtok eid="5" type="line_comment" span="242:21:242:67">// the entry indicated by the escape sequence:</jtok>
+<jtok eid="5" type="primary_name_ref" span="243:25:243:27">sb</jtok>
+<jtok eid="5" type="method_call" span="243:28:243:34">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:25:244:26">l</jtok>
+<jtok eid="5" type="method_call" span="244:27:244:30">add</jtok>
+<jtok eid="5" type="constructor_call" span="244:35:244:46">FormatEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:47:244:49">sb</jtok>
+<jtok eid="5" type="method_call" span="244:50:244:58">toString</jtok>
+<jtok eid="5" type="line_comment" span="245:25:245:45">// Clear the buffer:</jtok>
+<jtok eid="5" type="primary_name_ref" span="246:25:246:27">sb</jtok>
+<jtok eid="5" type="constructor_call" span="246:34:246:47">StringBuilder</jtok>
+<jtok eid="5" type="primary_name_ref" span="248:21:248:22">l</jtok>
+<jtok eid="5" type="method_call" span="248:23:248:26">add</jtok>
+<jtok eid="5" type="constructor_call" span="248:31:248:42">FormatEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="248:43:248:53">ESCAPE_SEQ</jtok>
+<jtok eid="5" type="method_call" span="248:54:248:57">get</jtok>
+<jtok eid="5" type="primary_name_ref" span="248:58:248:59">c</jtok>
+<jtok eid="5" type="line_comment" span="250:21:250:48">// Unknown escape sequence.</jtok>
+<jtok eid="5" type="primary_name_ref" span="251:21:251:23">sb</jtok>
+<jtok eid="5" type="method_call" span="251:24:251:30">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:21:252:23">sb</jtok>
+<jtok eid="5" type="method_call" span="252:24:252:30">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="252:31:252:32">c</jtok>
+<jtok eid="5" type="line_comment" span="253:21:253:98">//System.out.println("Error: unknown escape sequence: \\"+String.valueOf(c));</jtok>
+<jtok eid="5" type="line_comment" span="257:9:257:95">// Finished scanning the string. If we collected text at the end, add an entry for it:</jtok>
+<jtok eid="5" type="primary_name_ref" span="258:13:258:15">sb</jtok>
+<jtok eid="5" type="method_call" span="258:16:258:22">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="259:13:259:14">l</jtok>
+<jtok eid="5" type="method_call" span="259:15:259:18">add</jtok>
+<jtok eid="5" type="constructor_call" span="259:23:259:34">FormatEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="259:35:259:37">sb</jtok>
+<jtok eid="5" type="method_call" span="259:38:259:46">toString</jtok>
+<jtok eid="5" type="primary_name_ref" span="262:16:262:17">l</jtok>
+<jtok eid="1" type="block_comment" span="266:5:273:8">/**
+     * This class defines the building blocks of a parsed format strings. Each FormatEntry
+     * represents either a literal string or a piece of information pertaining to the file
+     * link to be exported or to the iteration through a series of file links. For literal
+     * strings this class encapsulates the literal itself, while for other types of information,
+     * only a type code is provided, and the subclass needs to fill in the proper information
+     * based on the file link to be exported or the iteration status.
+     */</jtok>
+<jtok eid="6" type="class_name" span="274:21:274:32">FormatEntry</jtok>
+<jtok eid="6" type="field_name" span="276:21:276:25">type</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="277:17:277:23">String</jtok>
+<jtok eid="6" type="field_name" span="277:24:277:30">string</jtok>
+<jtok eid="7" type="method_name" span="279:16:279:27">FormatEntry</jtok>
+<jtok eid="7" type="parameter_name" span="279:32:279:36">type</jtok>
+<jtok eid="7" type="qualified_name_ref" span="280:18:280:22">type</jtok>
+<jtok eid="7" type="primary_name_ref" span="280:25:280:29">type</jtok>
+<jtok eid="8" type="method_name" span="283:16:283:27">FormatEntry</jtok>
+<jtok eid="8" type="parameter_type" span="283:28:283:34">String</jtok>
+<jtok eid="8" type="parameter_name" span="283:35:283:40">value</jtok>
+<jtok eid="8" type="qualified_name_ref" span="284:18:284:22">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="284:25:284:31">STRING</jtok>
+<jtok eid="8" type="qualified_name_ref" span="285:18:285:24">string</jtok>
+<jtok eid="8" type="primary_name_ref" span="285:27:285:32">value</jtok>
+<jtok eid="9" type="method_name" span="288:20:288:27">getType</jtok>
+<jtok eid="9" type="primary_name_ref" span="289:20:289:24">type</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="292:16:292:22">String</jtok>
+<jtok eid="10" type="method_name" span="292:23:292:32">getString</jtok>
+<jtok eid="10" type="primary_name_ref" span="293:20:293:26">string</jtok>
+</jdoc>

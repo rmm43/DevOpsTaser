@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.search.HyperSearchResult" jls="java5">
+<jent id="0" type="file" span="0:0:217:2">Source/jEdit/org/gjt/sp/jedit/search/HyperSearchResult.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:217:1">org.gjt.sp.jedit.search.HyperSearchResult</jent>
+<jent id="2" pid="1" type="method" span="46:2:51:2">org.gjt.sp.jedit.search.HyperSearchResult.getBuffer(View)</jent>
+<jent id="3" pid="1" type="method" span="60:2:78:2">org.gjt.sp.jedit.search.HyperSearchResult.getSelection()</jent>
+<jent id="4" pid="1" type="method" span="81:2:105:2">org.gjt.sp.jedit.search.HyperSearchResult.goTo(EditPane)</jent>
+<jent id="5" pid="4" type="class" span="89:3:104:3">org.gjt.sp.jedit.search.HyperSearchResult.goTo(EditPane).$1</jent>
+<jent id="6" pid="5" type="method" span="90:4:103:4">org.gjt.sp.jedit.search.HyperSearchResult.goTo(EditPane).$1.run()</jent>
+<jent id="7" pid="1" type="method" span="108:2:111:2">org.gjt.sp.jedit.search.HyperSearchResult.toString()</jent>
+<jent id="8" pid="1" type="method" span="116:2:127:2">org.gjt.sp.jedit.search.HyperSearchResult.HyperSearchResult(Buffer,int)</jent>
+<jent id="9" pid="1" type="method" span="130:2:139:2">org.gjt.sp.jedit.search.HyperSearchResult.bufferOpened(Buffer)</jent>
+<jent id="10" pid="1" type="method" span="142:2:151:2">org.gjt.sp.jedit.search.HyperSearchResult.bufferClosed()</jent>
+<jent id="11" pid="1" type="method" span="154:2:160:2">org.gjt.sp.jedit.search.HyperSearchResult.addOccur(int,int)</jent>
+<jent id="12" pid="1" type="method" span="166:2:169:2">org.gjt.sp.jedit.search.HyperSearchResult.pathEquals(String)</jent>
+<jent id="13" pid="1" type="method" span="172:2:179:2">org.gjt.sp.jedit.search.HyperSearchResult.equals(Object)</jent>
+<jent id="14" pid="1" type="class" span="184:2:216:2">org.gjt.sp.jedit.search.HyperSearchResult.Occur</jent>
+<jent id="15" pid="14" type="method" span="191:3:198:3">org.gjt.sp.jedit.search.HyperSearchResult.Occur.Occur(int,int)</jent>
+<jent id="16" pid="14" type="method" span="201:3:207:3">org.gjt.sp.jedit.search.HyperSearchResult.Occur.bufferOpened()</jent>
+<jent id="17" pid="14" type="method" span="210:3:215:3">org.gjt.sp.jedit.search.HyperSearchResult.Occur.bufferClosed()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * HyperSearchResult.java - HyperSearch result
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1998, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="32:1:35:4">/**
+ * A set of occurrences of the search string on a given line in a buffer.
+ * @author Slava Pestov
+ */</jtok>
+<jtok eid="1" type="class_name" span="36:14:36:31">HyperSearchResult</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:43:36:58">HyperSearchNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:9:38:15">String</jtok>
+<jtok eid="1" type="field_name" span="38:16:38:20">path</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:9:39:15">Buffer</jtok>
+<jtok eid="1" type="field_name" span="39:16:39:22">buffer</jtok>
+<jtok eid="1" type="field_name" span="40:13:40:17">line</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:9:41:15">String</jtok>
+<jtok eid="1" type="field_name" span="41:16:41:19">str</jtok>
+<jtok eid="1" type="line_comment" span="41:21:41:40">// cached for speed</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:9:42:14">Occur</jtok>
+<jtok eid="1" type="field_name" span="42:15:42:20">occur</jtok>
+<jtok eid="1" type="field_name" span="43:13:43:23">occurCount</jtok>
+<jtok eid="1" type="line_comment" span="45:2:45:26">//{{{ getBuffer() method</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:9:46:15">Buffer</jtok>
+<jtok eid="2" type="method_name" span="46:16:46:25">getBuffer</jtok>
+<jtok eid="2" type="parameter_type" span="46:26:46:30">View</jtok>
+<jtok eid="2" type="parameter_name" span="46:31:46:35">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:6:48:12">buffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:4:49:10">buffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:13:49:18">jEdit</jtok>
+<jtok eid="2" type="method_call" span="49:19:49:27">openFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:28:49:32">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:33:49:37">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:10:50:16">buffer</jtok>
+<jtok eid="1" type="line_comment" span="51:4:51:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="53:2:53:29">//{{{ getSelection() method</jtok>
+<jtok eid="1" type="block_comment" span="54:2:59:5">/**
+	 * Returns an array of selection objects pointing to the occurrences
+	 * of the search term on the current line. The buffer must be opened
+	 * first.
+	 * @since jEdit 4.2pre5
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="60:9:60:18">Selection</jtok>
+<jtok eid="3" type="method_name" span="60:21:60:33">getSelection</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:6:62:12">buffer</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="65:3:65:12">Selection</jtok>
+<jtok eid="3" type="local_variable_name" span="65:15:65:26">returnValue</jtok>
+<jtok eid="3" type="constructor_call" span="65:33:65:42">Selection</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:43:65:53">occurCount</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:3:66:8">Occur</jtok>
+<jtok eid="3" type="local_variable_name" span="66:9:66:10">o</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:13:66:18">occur</jtok>
+<jtok eid="3" type="local_variable_name" span="67:7:67:8">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:9:68:10">o</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="70:4:70:13">Selection</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="70:14:70:19">Range</jtok>
+<jtok eid="3" type="local_variable_name" span="70:20:70:21">s</jtok>
+<jtok eid="3" type="constructor_call" span="70:28:70:37">Selection</jtok>
+<jtok eid="3" type="constructor_call" span="70:38:70:43">Range</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:5:71:6">o</jtok>
+<jtok eid="3" type="qualified_name_ref" span="71:7:71:15">startPos</jtok>
+<jtok eid="3" type="method_call" span="71:16:71:25">getOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:5:72:6">o</jtok>
+<jtok eid="3" type="qualified_name_ref" span="72:7:72:13">endPos</jtok>
+<jtok eid="3" type="method_call" span="72:14:72:23">getOffset</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:4:74:15">returnValue</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:16:74:17">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:23:74:24">s</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:4:75:5">o</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:8:75:9">o</jtok>
+<jtok eid="3" type="qualified_name_ref" span="75:10:75:14">next</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:10:77:21">returnValue</jtok>
+<jtok eid="1" type="line_comment" span="78:4:78:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="80:2:80:21">//{{{ goTo() method</jtok>
+<jtok eid="4" type="method_name" span="81:14:81:18">goTo</jtok>
+<jtok eid="4" type="parameter_type" span="81:25:81:33">EditPane</jtok>
+<jtok eid="4" type="parameter_name" span="81:34:81:42">editPane</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="83:9:83:15">Buffer</jtok>
+<jtok eid="4" type="local_variable_name" span="83:16:83:22">buffer</jtok>
+<jtok eid="4" type="method_call" span="83:25:83:34">getBuffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:35:83:43">editPane</jtok>
+<jtok eid="4" type="method_call" span="83:44:83:51">getView</jtok>
+<jtok eid="4" type="primary_name_ref" span="84:6:84:12">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:3:86:11">editPane</jtok>
+<jtok eid="4" type="method_call" span="86:12:86:21">setBuffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:22:86:28">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:3:88:13">VFSManager</jtok>
+<jtok eid="4" type="method_call" span="88:14:88:28">runInAWTThread</jtok>
+<jtok eid="4" type="constructor_call" span="88:33:88:41">Runnable</jtok>
+<jtok eid="6" type="method_name" span="90:16:90:19">run</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="92:5:92:14">Selection</jtok>
+<jtok eid="6" type="local_variable_name" span="92:17:92:18">s</jtok>
+<jtok eid="6" type="method_call" span="92:21:92:33">getSelection</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:8:93:9">s</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="96:5:96:18">JEditTextArea</jtok>
+<jtok eid="6" type="local_variable_name" span="96:19:96:27">textArea</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:30:96:38">editPane</jtok>
+<jtok eid="6" type="method_call" span="96:39:96:50">getTextArea</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:8:97:16">textArea</jtok>
+<jtok eid="6" type="method_call" span="97:17:97:43">isMultipleSelectionEnabled</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:6:98:14">textArea</jtok>
+<jtok eid="6" type="method_call" span="98:15:98:29">addToSelection</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:30:98:31">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:6:100:14">textArea</jtok>
+<jtok eid="6" type="method_call" span="100:15:100:27">setSelection</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:28:100:29">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:5:102:13">textArea</jtok>
+<jtok eid="6" type="method_call" span="102:14:102:31">moveCaretPosition</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:32:102:37">occur</jtok>
+<jtok eid="6" type="qualified_name_ref" span="102:38:102:44">endPos</jtok>
+<jtok eid="6" type="method_call" span="102:45:102:54">getOffset</jtok>
+<jtok eid="1" type="line_comment" span="105:4:105:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="107:2:107:25">//{{{ toString() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="108:9:108:15">String</jtok>
+<jtok eid="7" type="method_name" span="108:16:108:24">toString</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:10:110:13">str</jtok>
+<jtok eid="1" type="line_comment" span="111:4:111:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="113:2:113:31">//{{{ Package-private members</jtok>
+<jtok eid="1" type="line_comment" span="115:2:115:37">//{{{ HyperSearchResult constructor</jtok>
+<jtok eid="8" type="method_name" span="116:2:116:19">HyperSearchResult</jtok>
+<jtok eid="8" type="parameter_type" span="116:20:116:26">Buffer</jtok>
+<jtok eid="8" type="parameter_name" span="116:27:116:33">buffer</jtok>
+<jtok eid="8" type="parameter_name" span="116:39:116:43">line</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:3:118:7">path</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:10:118:16">buffer</jtok>
+<jtok eid="8" type="method_call" span="118:17:118:24">getPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="120:7:120:13">buffer</jtok>
+<jtok eid="8" type="method_call" span="120:14:120:25">isTemporary</jtok>
+<jtok eid="8" type="method_call" span="121:4:121:16">bufferOpened</jtok>
+<jtok eid="8" type="primary_name_ref" span="121:17:121:23">buffer</jtok>
+<jtok eid="8" type="qualified_name_ref" span="123:8:123:12">line</jtok>
+<jtok eid="8" type="primary_name_ref" span="123:15:123:19">line</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:3:125:6">str</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:10:125:14">line</jtok>
+<jtok eid="8" type="string_literal" span="125:22:125:26">": "</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:29:125:35">buffer</jtok>
+<jtok eid="8" type="method_call" span="125:36:125:47">getLineText</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:48:125:52">line</jtok>
+<jtok eid="8" type="method_call" span="126:5:126:12">replace</jtok>
+<jtok eid="8" type="method_call" span="126:23:126:27">trim</jtok>
+<jtok eid="1" type="line_comment" span="127:4:127:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="129:2:129:29">//{{{ bufferOpened() method</jtok>
+<jtok eid="9" type="method_name" span="130:7:130:19">bufferOpened</jtok>
+<jtok eid="9" type="parameter_type" span="130:20:130:26">Buffer</jtok>
+<jtok eid="9" type="parameter_name" span="130:27:130:33">buffer</jtok>
+<jtok eid="9" type="qualified_name_ref" span="132:8:132:14">buffer</jtok>
+<jtok eid="9" type="primary_name_ref" span="132:17:132:23">buffer</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="133:3:133:8">Occur</jtok>
+<jtok eid="9" type="local_variable_name" span="133:9:133:10">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="133:13:133:18">occur</jtok>
+<jtok eid="9" type="primary_name_ref" span="134:9:134:10">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="136:4:136:5">o</jtok>
+<jtok eid="9" type="method_call" span="136:6:136:18">bufferOpened</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:4:137:5">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:8:137:9">o</jtok>
+<jtok eid="9" type="qualified_name_ref" span="137:10:137:14">next</jtok>
+<jtok eid="1" type="line_comment" span="139:4:139:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="141:2:141:29">//{{{ bufferClosed() method</jtok>
+<jtok eid="10" type="method_name" span="142:7:142:19">bufferClosed</jtok>
+<jtok eid="10" type="primary_name_ref" span="144:3:144:9">buffer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="145:3:145:8">Occur</jtok>
+<jtok eid="10" type="local_variable_name" span="145:9:145:10">o</jtok>
+<jtok eid="10" type="primary_name_ref" span="145:13:145:18">occur</jtok>
+<jtok eid="10" type="primary_name_ref" span="146:9:146:10">o</jtok>
+<jtok eid="10" type="primary_name_ref" span="148:4:148:5">o</jtok>
+<jtok eid="10" type="method_call" span="148:6:148:18">bufferClosed</jtok>
+<jtok eid="10" type="primary_name_ref" span="149:4:149:5">o</jtok>
+<jtok eid="10" type="primary_name_ref" span="149:8:149:9">o</jtok>
+<jtok eid="10" type="qualified_name_ref" span="149:10:149:14">next</jtok>
+<jtok eid="1" type="line_comment" span="151:4:151:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="153:2:153:25">//{{{ addOccur() method</jtok>
+<jtok eid="11" type="method_name" span="154:7:154:15">addOccur</jtok>
+<jtok eid="11" type="parameter_name" span="154:20:154:25">start</jtok>
+<jtok eid="11" type="parameter_name" span="154:31:154:34">end</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="156:3:156:8">Occur</jtok>
+<jtok eid="11" type="local_variable_name" span="156:9:156:10">o</jtok>
+<jtok eid="11" type="constructor_call" span="156:17:156:22">Occur</jtok>
+<jtok eid="11" type="primary_name_ref" span="156:23:156:28">start</jtok>
+<jtok eid="11" type="primary_name_ref" span="156:29:156:32">end</jtok>
+<jtok eid="11" type="primary_name_ref" span="157:3:157:4">o</jtok>
+<jtok eid="11" type="qualified_name_ref" span="157:5:157:9">next</jtok>
+<jtok eid="11" type="primary_name_ref" span="157:12:157:17">occur</jtok>
+<jtok eid="11" type="primary_name_ref" span="158:3:158:8">occur</jtok>
+<jtok eid="11" type="primary_name_ref" span="158:11:158:12">o</jtok>
+<jtok eid="11" type="primary_name_ref" span="159:3:159:13">occurCount</jtok>
+<jtok eid="1" type="line_comment" span="160:4:160:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="162:2:162:27">//{{{ pathEquals() method</jtok>
+<jtok eid="1" type="block_comment" span="163:2:165:5">/**
+	 * @param path A canonical path
+	 */</jtok>
+<jtok eid="12" type="method_name" span="166:10:166:20">pathEquals</jtok>
+<jtok eid="12" type="parameter_type" span="166:21:166:27">String</jtok>
+<jtok eid="12" type="parameter_name" span="166:28:166:32">path</jtok>
+<jtok eid="12" type="primary_name_ref" span="168:10:168:14">path</jtok>
+<jtok eid="12" type="method_call" span="168:15:168:21">equals</jtok>
+<jtok eid="12" type="primary_name_ref" span="168:22:168:35">MiscUtilities</jtok>
+<jtok eid="12" type="method_call" span="168:36:168:51">resolveSymlinks</jtok>
+<jtok eid="12" type="qualified_name_ref" span="168:57:168:61">path</jtok>
+<jtok eid="1" type="line_comment" span="169:4:169:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="171:2:171:23">//{{{ equals() method</jtok>
+<jtok eid="13" type="method_name" span="172:17:172:23">equals</jtok>
+<jtok eid="13" type="parameter_type" span="172:24:172:30">Object</jtok>
+<jtok eid="13" type="parameter_name" span="172:31:172:41">compareObj</jtok>
+<jtok eid="13" type="primary_name_ref" span="174:9:174:19">compareObj</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="174:31:174:48">HyperSearchResult</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="176:3:176:20">HyperSearchResult</jtok>
+<jtok eid="13" type="local_variable_name" span="176:21:176:32">otherResult</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="176:36:176:53">HyperSearchResult</jtok>
+<jtok eid="13" type="primary_name_ref" span="176:54:176:64">compareObj</jtok>
+<jtok eid="13" type="method_call" span="177:10:177:20">pathEquals</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:21:177:32">otherResult</jtok>
+<jtok eid="13" type="qualified_name_ref" span="177:33:177:37">path</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:42:177:46">line</jtok>
+<jtok eid="13" type="primary_name_ref" span="177:50:177:61">otherResult</jtok>
+<jtok eid="13" type="qualified_name_ref" span="177:62:177:66">line</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:7:178:13">buffer</jtok>
+<jtok eid="13" type="method_call" span="178:14:178:20">equals</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:21:178:32">otherResult</jtok>
+<jtok eid="13" type="qualified_name_ref" span="178:33:178:39">buffer</jtok>
+<jtok eid="1" type="line_comment" span="179:3:179:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="181:2:181:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:19">//{{{ Occur class</jtok>
+<jtok eid="14" type="class_name" span="184:15:184:20">Occur</jtok>
+<jtok eid="14" type="field_name" span="186:14:186:19">start</jtok>
+<jtok eid="14" type="field_name" span="186:21:186:24">end</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="187:10:187:18">Position</jtok>
+<jtok eid="14" type="field_name" span="187:19:187:27">startPos</jtok>
+<jtok eid="14" type="field_name" span="187:29:187:35">endPos</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="188:10:188:15">Occur</jtok>
+<jtok eid="14" type="field_name" span="188:16:188:20">next</jtok>
+<jtok eid="14" type="line_comment" span="190:3:190:26">//{{{ Occur constructor</jtok>
+<jtok eid="15" type="method_name" span="191:3:191:8">Occur</jtok>
+<jtok eid="15" type="parameter_name" span="191:13:191:18">start</jtok>
+<jtok eid="15" type="parameter_name" span="191:24:191:27">end</jtok>
+<jtok eid="15" type="qualified_name_ref" span="193:9:193:14">start</jtok>
+<jtok eid="15" type="primary_name_ref" span="193:17:193:22">start</jtok>
+<jtok eid="15" type="qualified_name_ref" span="194:9:194:12">end</jtok>
+<jtok eid="15" type="primary_name_ref" span="194:15:194:18">end</jtok>
+<jtok eid="15" type="primary_name_ref" span="196:7:196:13">buffer</jtok>
+<jtok eid="15" type="primary_name_ref" span="196:26:196:32">buffer</jtok>
+<jtok eid="15" type="method_call" span="196:33:196:44">isTemporary</jtok>
+<jtok eid="15" type="method_call" span="197:5:197:17">bufferOpened</jtok>
+<jtok eid="14" type="line_comment" span="198:5:198:10">//}}}</jtok>
+<jtok eid="14" type="line_comment" span="200:3:200:30">//{{{ bufferOpened() method</jtok>
+<jtok eid="16" type="method_name" span="201:8:201:20">bufferOpened</jtok>
+<jtok eid="16" type="primary_name_ref" span="203:4:203:12">startPos</jtok>
+<jtok eid="16" type="primary_name_ref" span="203:15:203:21">buffer</jtok>
+<jtok eid="16" type="method_call" span="203:22:203:36">createPosition</jtok>
+<jtok eid="16" type="primary_name_ref" span="203:37:203:41">Math</jtok>
+<jtok eid="16" type="method_call" span="203:42:203:45">min</jtok>
+<jtok eid="16" type="primary_name_ref" span="204:5:204:11">buffer</jtok>
+<jtok eid="16" type="method_call" span="204:12:204:21">getLength</jtok>
+<jtok eid="16" type="primary_name_ref" span="204:24:204:29">start</jtok>
+<jtok eid="16" type="primary_name_ref" span="205:4:205:10">endPos</jtok>
+<jtok eid="16" type="primary_name_ref" span="205:13:205:19">buffer</jtok>
+<jtok eid="16" type="method_call" span="205:20:205:34">createPosition</jtok>
+<jtok eid="16" type="primary_name_ref" span="205:35:205:39">Math</jtok>
+<jtok eid="16" type="method_call" span="205:40:205:43">min</jtok>
+<jtok eid="16" type="primary_name_ref" span="206:5:206:11">buffer</jtok>
+<jtok eid="16" type="method_call" span="206:12:206:21">getLength</jtok>
+<jtok eid="16" type="primary_name_ref" span="206:24:206:27">end</jtok>
+<jtok eid="14" type="line_comment" span="207:5:207:10">//}}}</jtok>
+<jtok eid="14" type="line_comment" span="209:3:209:30">//{{{ bufferClosed() method</jtok>
+<jtok eid="17" type="method_name" span="210:8:210:20">bufferClosed</jtok>
+<jtok eid="17" type="primary_name_ref" span="212:4:212:9">start</jtok>
+<jtok eid="17" type="primary_name_ref" span="212:12:212:20">startPos</jtok>
+<jtok eid="17" type="method_call" span="212:21:212:30">getOffset</jtok>
+<jtok eid="17" type="primary_name_ref" span="213:4:213:7">end</jtok>
+<jtok eid="17" type="primary_name_ref" span="213:10:213:16">endPos</jtok>
+<jtok eid="17" type="method_call" span="213:17:213:26">getOffset</jtok>
+<jtok eid="17" type="primary_name_ref" span="214:4:214:12">startPos</jtok>
+<jtok eid="17" type="primary_name_ref" span="214:15:214:21">endPos</jtok>
+<jtok eid="14" type="line_comment" span="215:5:215:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="216:4:216:9">//}}}</jtok>
+</jdoc>

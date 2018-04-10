@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.print.BufferPrinter1_3" jls="java5">
+<jent id="0" type="file" span="0:0:113:2">Source/jEdit/org/gjt/sp/jedit/print/BufferPrinter1_3.java</jent>
+<jent id="1" pid="0" type="class" span="32:1:113:1">org.gjt.sp.jedit.print.BufferPrinter1_3</jent>
+<jent id="2" pid="1" type="method" span="35:2:59:2">org.gjt.sp.jedit.print.BufferPrinter1_3.getPrintJob()</jent>
+<jent id="3" pid="1" type="method" span="62:2:80:2">org.gjt.sp.jedit.print.BufferPrinter1_3.pageSetup(View)</jent>
+<jent id="4" pid="1" type="method" span="83:2:101:2">org.gjt.sp.jedit.print.BufferPrinter1_3.print(View,Buffer,boolean)</jent>
+<jent id="5" pid="1" type="method" span="104:2:107:2">org.gjt.sp.jedit.print.BufferPrinter1_3.getPageFormat()</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * BufferPrinter1_3.java - Main class that controls printing
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001 Slava Pestov
+ * Portions copyright (C) 2002 Thomas Dilts
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="32:14:32:30">BufferPrinter1_3</jtok>
+<jtok eid="1" type="line_comment" span="34:2:34:28">//{{{ getPrintJob() method</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="35:17:35:27">PrinterJob</jtok>
+<jtok eid="2" type="method_name" span="35:28:35:39">getPrintJob</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:3:37:6">job</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:9:37:19">PrinterJob</jtok>
+<jtok eid="2" type="method_call" span="37:20:37:33">getPrinterJob</jtok>
+<jtok eid="2" type="local_variable_name" span="39:7:39:18">orientation</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:21:39:26">jEdit</jtok>
+<jtok eid="2" type="method_call" span="39:27:39:45">getIntegerProperty</jtok>
+<jtok eid="2" type="string_literal" span="39:46:39:65">"print.orientation"</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:66:39:76">PageFormat</jtok>
+<jtok eid="2" type="qualified_name_ref" span="39:77:39:85">PORTRAIT</jtok>
+<jtok eid="2" type="local_variable_name" span="40:10:40:15">width</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:18:40:23">jEdit</jtok>
+<jtok eid="2" type="method_call" span="40:24:40:41">getDoubleProperty</jtok>
+<jtok eid="2" type="string_literal" span="40:42:40:55">"print.width"</jtok>
+<jtok eid="2" type="local_variable_name" span="41:10:41:16">height</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:19:41:24">jEdit</jtok>
+<jtok eid="2" type="method_call" span="41:25:41:42">getDoubleProperty</jtok>
+<jtok eid="2" type="string_literal" span="41:43:41:57">"print.height"</jtok>
+<jtok eid="2" type="local_variable_name" span="42:10:42:11">x</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:14:42:19">jEdit</jtok>
+<jtok eid="2" type="method_call" span="42:20:42:37">getDoubleProperty</jtok>
+<jtok eid="2" type="string_literal" span="42:38:42:47">"print.x"</jtok>
+<jtok eid="2" type="local_variable_name" span="43:10:43:11">y</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:14:43:19">jEdit</jtok>
+<jtok eid="2" type="method_call" span="43:20:43:37">getDoubleProperty</jtok>
+<jtok eid="2" type="string_literal" span="43:38:43:47">"print.y"</jtok>
+<jtok eid="2" type="local_variable_name" span="44:10:44:19">pagewidth</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:22:44:27">jEdit</jtok>
+<jtok eid="2" type="method_call" span="44:28:44:45">getDoubleProperty</jtok>
+<jtok eid="2" type="string_literal" span="44:46:44:63">"print.pagewidth"</jtok>
+<jtok eid="2" type="local_variable_name" span="45:10:45:20">pageheight</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:23:45:28">jEdit</jtok>
+<jtok eid="2" type="method_call" span="45:29:45:46">getDoubleProperty</jtok>
+<jtok eid="2" type="string_literal" span="45:47:45:65">"print.pageheight"</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:3:47:9">format</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:12:47:15">job</jtok>
+<jtok eid="2" type="method_call" span="47:16:47:27">defaultPage</jtok>
+<jtok eid="2" type="line_comment" span="48:3:48:48">//format.setOrientation(PageFormat.PORTRAIT);</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:6:49:11">width</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:18:49:24">height</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="51:4:51:9">Paper</jtok>
+<jtok eid="2" type="local_variable_name" span="51:10:51:13">pap</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:16:51:22">format</jtok>
+<jtok eid="2" type="method_call" span="51:23:51:31">getPaper</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:4:52:7">pap</jtok>
+<jtok eid="2" type="method_call" span="52:8:52:24">setImageableArea</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:25:52:26">x</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:27:52:28">y</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:29:52:34">width</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:35:52:41">height</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:4:53:7">pap</jtok>
+<jtok eid="2" type="method_call" span="53:8:53:15">setSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:16:53:25">pagewidth</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:26:53:36">pageheight</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:4:54:10">format</jtok>
+<jtok eid="2" type="method_call" span="54:11:54:19">setPaper</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:20:54:23">pap</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:3:56:9">format</jtok>
+<jtok eid="2" type="method_call" span="56:10:56:24">setOrientation</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:25:56:36">orientation</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:10:57:13">job</jtok>
+<jtok eid="1" type="line_comment" span="59:3:59:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:26">//{{{ pageSetup() method</jtok>
+<jtok eid="3" type="method_name" span="62:21:62:30">pageSetup</jtok>
+<jtok eid="3" type="parameter_type" span="62:31:62:35">View</jtok>
+<jtok eid="3" type="parameter_name" span="62:36:62:40">view</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:3:64:6">job</jtok>
+<jtok eid="3" type="method_call" span="64:9:64:20">getPrintJob</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:3:66:13">PageFormat</jtok>
+<jtok eid="3" type="local_variable_name" span="66:14:66:23">newFormat</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:26:66:29">job</jtok>
+<jtok eid="3" type="method_call" span="66:30:66:40">pageDialog</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:41:66:47">format</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:6:67:15">newFormat</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:4:69:10">format</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:13:69:22">newFormat</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:4:70:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="70:10:70:28">setIntegerProperty</jtok>
+<jtok eid="3" type="string_literal" span="70:29:70:48">"print.orientation"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:49:70:55">format</jtok>
+<jtok eid="3" type="method_call" span="70:56:70:70">getOrientation</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:4:71:9">Paper</jtok>
+<jtok eid="3" type="local_variable_name" span="71:10:71:15">paper</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:16:71:22">format</jtok>
+<jtok eid="3" type="method_call" span="71:23:71:31">getPaper</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:4:73:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="73:10:73:27">setDoubleProperty</jtok>
+<jtok eid="3" type="string_literal" span="73:28:73:41">"print.width"</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:42:73:47">paper</jtok>
+<jtok eid="3" type="method_call" span="73:48:73:65">getImageableWidth</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:4:74:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="74:10:74:27">setDoubleProperty</jtok>
+<jtok eid="3" type="string_literal" span="74:28:74:42">"print.height"</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:43:74:48">paper</jtok>
+<jtok eid="3" type="method_call" span="74:49:74:67">getImageableHeight</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:4:75:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="75:10:75:27">setDoubleProperty</jtok>
+<jtok eid="3" type="string_literal" span="75:28:75:37">"print.x"</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:38:75:43">paper</jtok>
+<jtok eid="3" type="method_call" span="75:44:75:57">getImageableX</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:4:76:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="76:10:76:27">setDoubleProperty</jtok>
+<jtok eid="3" type="string_literal" span="76:28:76:37">"print.y"</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:38:76:43">paper</jtok>
+<jtok eid="3" type="method_call" span="76:44:76:57">getImageableY</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:4:77:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="77:10:77:27">setDoubleProperty</jtok>
+<jtok eid="3" type="string_literal" span="77:28:77:45">"print.pagewidth"</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:46:77:51">paper</jtok>
+<jtok eid="3" type="method_call" span="77:52:77:60">getWidth</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:4:78:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="78:10:78:27">setDoubleProperty</jtok>
+<jtok eid="3" type="string_literal" span="78:28:78:46">"print.pageheight"</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:47:78:52">paper</jtok>
+<jtok eid="3" type="method_call" span="78:53:78:62">getHeight</jtok>
+<jtok eid="1" type="line_comment" span="80:4:80:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="82:2:82:22">//{{{ print() method</jtok>
+<jtok eid="4" type="method_name" span="83:21:83:26">print</jtok>
+<jtok eid="4" type="parameter_type" span="83:33:83:37">View</jtok>
+<jtok eid="4" type="parameter_name" span="83:38:83:42">view</jtok>
+<jtok eid="4" type="parameter_type" span="83:50:83:56">Buffer</jtok>
+<jtok eid="4" type="parameter_name" span="83:57:83:63">buffer</jtok>
+<jtok eid="4" type="parameter_name" span="83:73:83:82">selection</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:3:85:6">job</jtok>
+<jtok eid="4" type="method_call" span="85:9:85:20">getPrintJob</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:3:86:6">job</jtok>
+<jtok eid="4" type="method_call" span="86:7:86:17">setJobName</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:18:86:24">buffer</jtok>
+<jtok eid="4" type="method_call" span="86:25:86:32">getPath</jtok>
+<jtok eid="4" type="local_variable_name" span="87:11:87:17">header</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:20:87:25">jEdit</jtok>
+<jtok eid="4" type="method_call" span="87:26:87:44">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="87:45:87:59">"print.header"</jtok>
+<jtok eid="4" type="local_variable_name" span="88:11:88:17">footer</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:20:88:25">jEdit</jtok>
+<jtok eid="4" type="method_call" span="88:26:88:44">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="88:45:88:59">"print.footer"</jtok>
+<jtok eid="4" type="local_variable_name" span="89:11:89:22">lineNumbers</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:25:89:30">jEdit</jtok>
+<jtok eid="4" type="method_call" span="89:31:89:49">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="89:50:89:69">"print.lineNumbers"</jtok>
+<jtok eid="4" type="local_variable_name" span="90:11:90:16">color</jtok>
+<jtok eid="4" type="primary_name_ref" span="90:19:90:24">jEdit</jtok>
+<jtok eid="4" type="method_call" span="90:25:90:43">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="90:44:90:57">"print.color"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="91:3:91:7">Font</jtok>
+<jtok eid="4" type="local_variable_name" span="91:8:91:12">font</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:15:91:20">jEdit</jtok>
+<jtok eid="4" type="method_call" span="91:21:91:36">getFontProperty</jtok>
+<jtok eid="4" type="string_literal" span="91:37:91:49">"print.font"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="93:3:93:18">BufferPrintable</jtok>
+<jtok eid="4" type="local_variable_name" span="93:19:93:28">printable</jtok>
+<jtok eid="4" type="constructor_call" span="93:35:93:50">BufferPrintable</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:51:93:54">job</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:60:93:64">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:4:94:10">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:11:94:15">font</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:16:94:22">header</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:23:94:29">footer</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:30:94:41">lineNumbers</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:42:94:47">color</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:3:95:6">job</jtok>
+<jtok eid="4" type="method_call" span="95:7:95:19">setPrintable</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:20:95:29">printable</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:30:95:36">format</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:7:97:10">job</jtok>
+<jtok eid="4" type="method_call" span="97:11:97:22">printDialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:3:100:12">printable</jtok>
+<jtok eid="4" type="method_call" span="100:13:100:18">print</jtok>
+<jtok eid="1" type="line_comment" span="101:4:101:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="103:2:103:30">//{{{ getPageFormat() method</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="104:16:104:26">PageFormat</jtok>
+<jtok eid="5" type="method_name" span="104:27:104:40">getPageFormat</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:10:106:16">format</jtok>
+<jtok eid="1" type="line_comment" span="107:4:107:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="109:2:109:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="110:17:110:27">PageFormat</jtok>
+<jtok eid="1" type="field_name" span="110:28:110:34">format</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="111:17:111:27">PrinterJob</jtok>
+<jtok eid="1" type="field_name" span="111:28:111:31">job</jtok>
+<jtok eid="1" type="line_comment" span="112:2:112:7">//}}}</jtok>
+</jdoc>

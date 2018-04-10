@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.OpenDatabaseAction" jls="java5">
+<jent id="0" type="file" span="0:0:424:1">Source/jabref/src/java/net/sf/jabref/imports/OpenDatabaseAction.java</jent>
+<jent id="1" pid="0" type="class" span="30:1:424:1">net.sf.jabref.imports.OpenDatabaseAction</jent>
+<jent id="2" pid="1" type="method" span="48:5:55:5">net.sf.jabref.imports.OpenDatabaseAction.OpenDatabaseAction(JabRefFrame,boolean)</jent>
+<jent id="3" pid="1" type="method" span="57:5:126:5">net.sf.jabref.imports.OpenDatabaseAction.actionPerformed(ActionEvent)</jent>
+<jent id="4" pid="3" type="class" span="110:27:116:13">net.sf.jabref.imports.OpenDatabaseAction.actionPerformed(ActionEvent).$1</jent>
+<jent id="5" pid="4" type="method" span="111:17:115:17">net.sf.jabref.imports.OpenDatabaseAction.actionPerformed(ActionEvent).$1.run()</jent>
+<jent id="6" pid="1" type="class" span="128:5:143:5">net.sf.jabref.imports.OpenDatabaseAction.OpenItSwingHelper</jent>
+<jent id="7" pid="6" type="method" span="133:9:137:9">net.sf.jabref.imports.OpenDatabaseAction.OpenItSwingHelper.OpenItSwingHelper(BasePanel,File,boolean)</jent>
+<jent id="8" pid="6" type="method" span="139:9:142:9">net.sf.jabref.imports.OpenDatabaseAction.OpenItSwingHelper.run()</jent>
+<jent id="9" pid="1" type="method" span="145:5:247:5">net.sf.jabref.imports.OpenDatabaseAction.openIt(File,boolean)</jent>
+<jent id="10" pid="9" type="class" span="238:59:242:17">net.sf.jabref.imports.OpenDatabaseAction.openIt(File,boolean).$2</jent>
+<jent id="11" pid="10" type="method" span="239:21:241:21">net.sf.jabref.imports.OpenDatabaseAction.openIt(File,boolean).$2.run()</jent>
+<jent id="12" pid="1" type="method" span="255:5:265:5">net.sf.jabref.imports.OpenDatabaseAction.performPostOpenActions(BasePanel,ParserResult,boolean)</jent>
+<jent id="13" pid="1" type="method" span="267:5:305:5">net.sf.jabref.imports.OpenDatabaseAction.addNewDatabase(ParserResult,File,boolean)</jent>
+<jent id="14" pid="13" type="class" span="276:27:293:13">net.sf.jabref.imports.OpenDatabaseAction.addNewDatabase(ParserResult,File,boolean).$3</jent>
+<jent id="15" pid="14" type="method" span="277:17:292:17">net.sf.jabref.imports.OpenDatabaseAction.addNewDatabase(ParserResult,File,boolean).$3.run()</jent>
+<jent id="16" pid="1" type="method" span="307:5:355:5">net.sf.jabref.imports.OpenDatabaseAction.loadDatabase(File,String)</jent>
+<jent id="17" pid="1" type="method" span="357:5:423:5">net.sf.jabref.imports.OpenDatabaseAction.checkForEncoding(Reader)</jent>
+<jtok eid="0" type="line_comment" span="28:1:28:59">// The action concerned with opening an existing database.</jtok>
+<jtok eid="1" type="class_name" span="30:14:30:32">OpenDatabaseAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="30:41:30:60">MnemonicAwareAction</jtok>
+<jtok eid="1" type="field_name" span="32:13:32:23">showDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:13:33:24">JabRefFrame</jtok>
+<jtok eid="1" type="field_name" span="33:25:33:30">frame</jtok>
+<jtok eid="1" type="line_comment" span="35:5:35:82">// List of actions that may need to be called after opening the file. Such as</jtok>
+<jtok eid="1" type="line_comment" span="36:5:36:87">// upgrade actions etc. that may depend on the JabRef version that wrote the file:</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:20:37:29">ArrayList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:30:37:44">PostOpenAction</jtok>
+<jtok eid="1" type="field_name" span="37:46:37:61">postOpenActions</jtok>
+<jtok eid="1" type="constructor_call" span="38:17:38:26">ArrayList</jtok>
+<jtok eid="1" type="constructor_call" span="38:27:38:41">PostOpenAction</jtok>
+<jtok eid="1" type="line_comment" span="41:9:41:78">// Add the action for checking for new custom entry types loaded from</jtok>
+<jtok eid="1" type="line_comment" span="42:9:42:25">// the bib file:</jtok>
+<jtok eid="1" type="primary_name_ref" span="43:9:43:24">postOpenActions</jtok>
+<jtok eid="1" type="method_call" span="43:25:43:28">add</jtok>
+<jtok eid="1" type="constructor_call" span="43:33:43:60">CheckForNewEntryTypesAction</jtok>
+<jtok eid="1" type="line_comment" span="44:9:44:84">// Add the action for the new external file handling system in version 2.3:</jtok>
+<jtok eid="1" type="primary_name_ref" span="45:9:45:24">postOpenActions</jtok>
+<jtok eid="1" type="method_call" span="45:25:45:28">add</jtok>
+<jtok eid="1" type="constructor_call" span="45:33:45:56">FileLinksUpgradeWarning</jtok>
+<jtok eid="2" type="method_name" span="48:12:48:30">OpenDatabaseAction</jtok>
+<jtok eid="2" type="parameter_type" span="48:31:48:42">JabRefFrame</jtok>
+<jtok eid="2" type="parameter_name" span="48:43:48:48">frame</jtok>
+<jtok eid="2" type="parameter_name" span="48:58:48:68">showDialog</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:15:49:25">GUIGlobals</jtok>
+<jtok eid="2" type="method_call" span="49:26:49:34">getImage</jtok>
+<jtok eid="2" type="string_literal" span="49:35:49:41">"open"</jtok>
+<jtok eid="2" type="qualified_name_ref" span="50:14:50:19">frame</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:22:50:27">frame</jtok>
+<jtok eid="2" type="qualified_name_ref" span="51:14:51:24">showDialog</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:27:51:37">showDialog</jtok>
+<jtok eid="2" type="method_call" span="52:9:52:17">putValue</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:18:52:22">NAME</jtok>
+<jtok eid="2" type="string_literal" span="52:24:52:39">"Open database"</jtok>
+<jtok eid="2" type="method_call" span="53:9:53:17">putValue</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:18:53:33">ACCELERATOR_KEY</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:35:53:42">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="53:43:53:48">prefs</jtok>
+<jtok eid="2" type="method_call" span="53:49:53:55">getKey</jtok>
+<jtok eid="2" type="string_literal" span="53:56:53:71">"Open database"</jtok>
+<jtok eid="2" type="method_call" span="54:9:54:17">putValue</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:18:54:35">SHORT_DESCRIPTION</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:37:54:44">Globals</jtok>
+<jtok eid="2" type="method_call" span="54:45:54:49">lang</jtok>
+<jtok eid="2" type="string_literal" span="54:50:54:72">"Open BibTeX database"</jtok>
+<jtok eid="3" type="method_name" span="57:17:57:32">actionPerformed</jtok>
+<jtok eid="3" type="parameter_type" span="57:33:57:44">ActionEvent</jtok>
+<jtok eid="3" type="parameter_name" span="57:45:57:46">e</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="58:9:58:13">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="58:14:58:18">File</jtok>
+<jtok eid="3" type="local_variable_name" span="58:20:58:31">filesToOpen</jtok>
+<jtok eid="3" type="constructor_call" span="58:38:58:47">ArrayList</jtok>
+<jtok eid="3" type="constructor_call" span="58:48:58:52">File</jtok>
+<jtok eid="3" type="line_comment" span="59:9:59:34">//File fileToOpen = null;</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:13:61:23">showDialog</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="63:13:63:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="63:22:63:28">chosen</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:31:63:42">FileDialogs</jtok>
+<jtok eid="3" type="method_call" span="63:43:63:59">getMultipleFiles</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:60:63:65">frame</jtok>
+<jtok eid="3" type="constructor_call" span="63:71:63:75">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:76:63:83">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="63:84:63:89">prefs</jtok>
+<jtok eid="3" type="method_call" span="63:90:63:93">get</jtok>
+<jtok eid="3" type="string_literal" span="63:94:63:112">"workingDirectory"</jtok>
+<jtok eid="3" type="string_literal" span="63:116:63:122">".bib"</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:17:65:23">chosen</jtok>
+<jtok eid="3" type="local_variable_name" span="65:42:65:43">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:47:65:48">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:49:65:55">chosen</jtok>
+<jtok eid="3" type="qualified_name_ref" span="65:56:65:62">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:64:65:65">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:21:66:27">chosen</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:28:66:29">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:21:67:32">filesToOpen</jtok>
+<jtok eid="3" type="method_call" span="67:33:67:36">add</jtok>
+<jtok eid="3" type="constructor_call" span="67:41:67:45">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:46:67:52">chosen</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:53:67:54">i</jtok>
+<jtok eid="3" type="block_comment" span="70:13:77:16">/*
+            String chosenFile = Globals.getNewFile(frame,
+                    new File(Globals.prefs.get("workingDirectory")), ".bib",
+                    JFileChooser.OPEN_DIALOG, true);
+
+            if (chosenFile != null) {
+                fileToOpen = new File(chosenFile);
+            }*/</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:13:79:17">Util</jtok>
+<jtok eid="3" type="method_call" span="79:18:79:20">pr</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:21:79:25">NAME</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:13:80:17">Util</jtok>
+<jtok eid="3" type="method_call" span="80:18:80:20">pr</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:21:80:22">e</jtok>
+<jtok eid="3" type="method_call" span="80:23:80:39">getActionCommand</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:13:81:24">filesToOpen</jtok>
+<jtok eid="3" type="method_call" span="81:25:81:28">add</jtok>
+<jtok eid="3" type="constructor_call" span="81:33:81:37">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:38:81:42">Util</jtok>
+<jtok eid="3" type="method_call" span="81:43:81:52">checkName</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:53:81:54">e</jtok>
+<jtok eid="3" type="method_call" span="81:55:81:71">getActionCommand</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="84:9:84:18">BasePanel</jtok>
+<jtok eid="3" type="local_variable_name" span="84:19:84:26">toRaise</jtok>
+<jtok eid="3" type="local_variable_name" span="85:13:85:25">initialCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:28:85:39">filesToOpen</jtok>
+<jtok eid="3" type="method_call" span="85:40:85:44">size</jtok>
+<jtok eid="3" type="local_variable_name" span="85:48:85:55">removed</jtok>
+<jtok eid="3" type="line_comment" span="87:9:87:55">// Check if any of the files are already open:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="88:14:88:22">Iterator</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="88:23:88:27">File</jtok>
+<jtok eid="3" type="local_variable_name" span="88:29:88:37">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:40:88:51">filesToOpen</jtok>
+<jtok eid="3" type="method_call" span="88:52:88:60">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:64:88:72">iterator</jtok>
+<jtok eid="3" type="method_call" span="88:73:88:80">hasNext</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="89:13:89:17">File</jtok>
+<jtok eid="3" type="local_variable_name" span="89:18:89:22">file</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:25:89:33">iterator</jtok>
+<jtok eid="3" type="method_call" span="89:34:89:38">next</jtok>
+<jtok eid="3" type="local_variable_name" span="90:22:90:23">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:27:90:28">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:29:90:34">frame</jtok>
+<jtok eid="3" type="method_call" span="90:35:90:48">getTabbedPane</jtok>
+<jtok eid="3" type="method_call" span="90:51:90:62">getTabCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:66:90:67">i</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="91:17:91:26">BasePanel</jtok>
+<jtok eid="3" type="local_variable_name" span="91:27:91:29">bp</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:32:91:37">frame</jtok>
+<jtok eid="3" type="method_call" span="91:38:91:44">baseAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:45:91:46">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:22:92:24">bp</jtok>
+<jtok eid="3" type="method_call" span="92:25:92:32">getFile</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:47:92:49">bp</jtok>
+<jtok eid="3" type="method_call" span="92:50:92:57">getFile</jtok>
+<jtok eid="3" type="method_call" span="92:60:92:66">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:67:92:71">file</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:21:93:29">iterator</jtok>
+<jtok eid="3" type="method_call" span="93:30:93:36">remove</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:21:94:28">removed</jtok>
+<jtok eid="3" type="line_comment" span="95:21:95:79">// See if we removed the final one. If so, we must perhaps</jtok>
+<jtok eid="3" type="line_comment" span="96:21:96:56">// raise the BasePanel in question:</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:25:97:32">removed</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:36:97:48">initialCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:25:98:32">toRaise</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:35:98:37">bp</jtok>
+<jtok eid="3" type="line_comment" span="106:9:106:66">// Run the actual open in a thread to prevent the program</jtok>
+<jtok eid="3" type="line_comment" span="107:9:107:45">// locking until the file is loaded.</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:13:108:24">filesToOpen</jtok>
+<jtok eid="3" type="method_call" span="108:25:108:29">size</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="109:19:109:23">List</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="109:24:109:28">File</jtok>
+<jtok eid="3" type="local_variable_name" span="109:30:109:38">theFiles</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:41:109:52">Collections</jtok>
+<jtok eid="3" type="method_call" span="109:53:109:69">unmodifiableList</jtok>
+<jtok eid="3" type="primary_name_ref" span="109:70:109:81">filesToOpen</jtok>
+<jtok eid="3" type="constructor_call" span="110:18:110:24">Thread</jtok>
+<jtok eid="5" type="method_name" span="111:29:111:32">run</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:26:112:34">Iterator</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="112:35:112:39">File</jtok>
+<jtok eid="5" type="local_variable_name" span="112:41:112:42">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:43:112:51">theFiles</jtok>
+<jtok eid="5" type="method_call" span="112:52:112:60">iterator</jtok>
+<jtok eid="5" type="primary_name_ref" span="112:64:112:65">i</jtok>
+<jtok eid="5" type="method_call" span="112:66:112:73">hasNext</jtok>
+<jtok eid="5" type="method_call" span="113:25:113:31">openIt</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:32:113:33">i</jtok>
+<jtok eid="5" type="method_call" span="113:34:113:38">next</jtok>
+<jtok eid="3" type="method_call" span="116:16:116:21">start</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="117:18:117:26">Iterator</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="117:27:117:31">File</jtok>
+<jtok eid="3" type="local_variable_name" span="117:33:117:34">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:35:117:43">theFiles</jtok>
+<jtok eid="3" type="method_call" span="117:44:117:52">iterator</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:56:117:57">i</jtok>
+<jtok eid="3" type="method_call" span="117:58:117:65">hasNext</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:17:118:22">frame</jtok>
+<jtok eid="3" type="method_call" span="118:23:118:37">getFileHistory</jtok>
+<jtok eid="3" type="method_call" span="118:40:118:47">newFile</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:48:118:49">i</jtok>
+<jtok eid="3" type="method_call" span="118:50:118:54">next</jtok>
+<jtok eid="3" type="method_call" span="118:57:118:64">getPath</jtok>
+<jtok eid="3" type="line_comment" span="120:9:120:78">// If no files are remaining to open, this could mean that a file was</jtok>
+<jtok eid="3" type="line_comment" span="121:9:121:70">// already open. If so, we may have to raise the correct tab:</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:18:122:25">toRaise</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:13:123:18">frame</jtok>
+<jtok eid="3" type="method_call" span="123:19:123:25">output</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:26:123:33">Globals</jtok>
+<jtok eid="3" type="method_call" span="123:34:123:38">lang</jtok>
+<jtok eid="3" type="string_literal" span="123:39:123:67">"File '%0' is already open."</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:69:123:76">toRaise</jtok>
+<jtok eid="3" type="method_call" span="123:77:123:84">getFile</jtok>
+<jtok eid="3" type="method_call" span="123:87:123:94">getPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:13:124:18">frame</jtok>
+<jtok eid="3" type="method_call" span="124:19:124:32">getTabbedPane</jtok>
+<jtok eid="3" type="method_call" span="124:35:124:55">setSelectedComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:56:124:63">toRaise</jtok>
+<jtok eid="6" type="class_name" span="128:11:128:28">OpenItSwingHelper</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="128:40:128:48">Runnable</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="129:9:129:18">BasePanel</jtok>
+<jtok eid="6" type="field_name" span="129:19:129:21">bp</jtok>
+<jtok eid="6" type="field_name" span="130:17:130:27">raisePanel</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="131:9:131:13">File</jtok>
+<jtok eid="6" type="field_name" span="131:14:131:18">file</jtok>
+<jtok eid="7" type="method_name" span="133:9:133:26">OpenItSwingHelper</jtok>
+<jtok eid="7" type="parameter_type" span="133:27:133:36">BasePanel</jtok>
+<jtok eid="7" type="parameter_name" span="133:37:133:39">bp</jtok>
+<jtok eid="7" type="parameter_type" span="133:41:133:45">File</jtok>
+<jtok eid="7" type="parameter_name" span="133:46:133:50">file</jtok>
+<jtok eid="7" type="parameter_name" span="133:60:133:70">raisePanel</jtok>
+<jtok eid="7" type="qualified_name_ref" span="134:18:134:20">bp</jtok>
+<jtok eid="7" type="primary_name_ref" span="134:23:134:25">bp</jtok>
+<jtok eid="7" type="qualified_name_ref" span="135:18:135:28">raisePanel</jtok>
+<jtok eid="7" type="primary_name_ref" span="135:31:135:41">raisePanel</jtok>
+<jtok eid="7" type="qualified_name_ref" span="136:18:136:22">file</jtok>
+<jtok eid="7" type="primary_name_ref" span="136:25:136:29">file</jtok>
+<jtok eid="8" type="method_name" span="139:21:139:24">run</jtok>
+<jtok eid="8" type="primary_name_ref" span="140:13:140:18">frame</jtok>
+<jtok eid="8" type="method_call" span="140:19:140:25">addTab</jtok>
+<jtok eid="8" type="primary_name_ref" span="140:26:140:28">bp</jtok>
+<jtok eid="8" type="primary_name_ref" span="140:30:140:34">file</jtok>
+<jtok eid="8" type="primary_name_ref" span="140:36:140:46">raisePanel</jtok>
+<jtok eid="9" type="method_name" span="145:17:145:23">openIt</jtok>
+<jtok eid="9" type="parameter_type" span="145:24:145:28">File</jtok>
+<jtok eid="9" type="parameter_name" span="145:29:145:33">file</jtok>
+<jtok eid="9" type="parameter_name" span="145:43:145:53">raisePanel</jtok>
+<jtok eid="9" type="primary_name_ref" span="146:14:146:18">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="146:32:146:36">file</jtok>
+<jtok eid="9" type="method_call" span="146:37:146:43">exists</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="147:13:147:17">File</jtok>
+<jtok eid="9" type="local_variable_name" span="147:18:147:28">fileToLoad</jtok>
+<jtok eid="9" type="primary_name_ref" span="147:31:147:35">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:13:148:18">frame</jtok>
+<jtok eid="9" type="method_call" span="148:19:148:25">output</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:26:148:33">Globals</jtok>
+<jtok eid="9" type="method_call" span="148:34:148:38">lang</jtok>
+<jtok eid="9" type="string_literal" span="148:39:148:48">"Opening"</jtok>
+<jtok eid="9" type="string_literal" span="148:52:148:57">": '"</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:60:148:64">file</jtok>
+<jtok eid="9" type="method_call" span="148:65:148:72">getPath</jtok>
+<jtok eid="9" type="string_literal" span="148:77:148:80">"'"</jtok>
+<jtok eid="9" type="local_variable_name" span="149:21:149:35">tryingAutosave</jtok>
+<jtok eid="9" type="local_variable_name" span="150:21:150:34">autoSaveFound</jtok>
+<jtok eid="9" type="primary_name_ref" span="150:37:150:52">AutoSaveManager</jtok>
+<jtok eid="9" type="method_call" span="150:53:150:72">newerAutoSaveExists</jtok>
+<jtok eid="9" type="primary_name_ref" span="150:73:150:77">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="151:17:151:30">autoSaveFound</jtok>
+<jtok eid="9" type="primary_name_ref" span="151:35:151:42">Globals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="151:43:151:48">prefs</jtok>
+<jtok eid="9" type="method_call" span="151:49:151:59">getBoolean</jtok>
+<jtok eid="9" type="string_literal" span="151:60:151:87">"promptBeforeUsingAutosave"</jtok>
+<jtok eid="9" type="line_comment" span="152:17:152:90">// We have found a newer autosave, and the preferences say we should load</jtok>
+<jtok eid="9" type="line_comment" span="153:17:153:71">// it without prompting, so we replace the fileToLoad:</jtok>
+<jtok eid="9" type="primary_name_ref" span="154:17:154:27">fileToLoad</jtok>
+<jtok eid="9" type="primary_name_ref" span="154:30:154:45">AutoSaveManager</jtok>
+<jtok eid="9" type="method_call" span="154:46:154:61">getAutoSaveFile</jtok>
+<jtok eid="9" type="primary_name_ref" span="154:62:154:66">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="155:17:155:31">tryingAutosave</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:24:156:37">autoSaveFound</jtok>
+<jtok eid="9" type="line_comment" span="157:17:157:92">// We have found a newer autosave, but we are not allowed to use it without</jtok>
+<jtok eid="9" type="line_comment" span="158:17:158:30">// prompting.</jtok>
+<jtok eid="9" type="local_variable_name" span="159:21:159:27">answer</jtok>
+<jtok eid="9" type="primary_name_ref" span="159:30:159:41">JOptionPane</jtok>
+<jtok eid="9" type="method_call" span="159:42:159:59">showConfirmDialog</jtok>
+<jtok eid="9" type="string_literal" span="159:65:159:73">"&lt;html&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="160:25:160:32">Globals</jtok>
+<jtok eid="9" type="method_call" span="160:33:160:37">lang</jtok>
+<jtok eid="9" type="string_literal" span="160:38:160:106">"An autosave file was found for this database. This could indicate "</jtok>
+<jtok eid="9" type="string_literal" span="161:30:161:97">"that JabRef didn't shut down cleanly last time the file was used."</jtok>
+<jtok eid="9" type="string_literal" span="161:99:161:105">"&lt;br&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="162:26:162:33">Globals</jtok>
+<jtok eid="9" type="method_call" span="162:34:162:38">lang</jtok>
+<jtok eid="9" type="string_literal" span="162:39:162:100">"Do you want to recover the database from the autosave file?"</jtok>
+<jtok eid="9" type="string_literal" span="162:102:162:111">"&lt;/html&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="163:25:163:32">Globals</jtok>
+<jtok eid="9" type="method_call" span="163:33:163:37">lang</jtok>
+<jtok eid="9" type="string_literal" span="163:38:163:61">"Recover from autosave"</jtok>
+<jtok eid="9" type="primary_name_ref" span="163:64:163:75">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="163:76:163:89">YES_NO_OPTION</jtok>
+<jtok eid="9" type="primary_name_ref" span="164:21:164:27">answer</jtok>
+<jtok eid="9" type="primary_name_ref" span="164:31:164:42">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="164:43:164:53">YES_OPTION</jtok>
+<jtok eid="9" type="primary_name_ref" span="165:21:165:31">fileToLoad</jtok>
+<jtok eid="9" type="primary_name_ref" span="165:34:165:49">AutoSaveManager</jtok>
+<jtok eid="9" type="method_call" span="165:50:165:65">getAutoSaveFile</jtok>
+<jtok eid="9" type="primary_name_ref" span="165:66:165:70">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="166:21:166:35">tryingAutosave</jtok>
+<jtok eid="9" type="local_variable_name" span="170:21:170:25">done</jtok>
+<jtok eid="9" type="primary_name_ref" span="171:21:171:25">done</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="172:17:172:23">String</jtok>
+<jtok eid="9" type="local_variable_name" span="172:24:172:32">fileName</jtok>
+<jtok eid="9" type="primary_name_ref" span="172:35:172:39">file</jtok>
+<jtok eid="9" type="method_call" span="172:40:172:47">getPath</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:17:173:24">Globals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="173:25:173:30">prefs</jtok>
+<jtok eid="9" type="method_call" span="173:31:173:34">put</jtok>
+<jtok eid="9" type="string_literal" span="173:35:173:53">"workingDirectory"</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:55:173:59">file</jtok>
+<jtok eid="9" type="method_call" span="173:60:173:67">getPath</jtok>
+<jtok eid="9" type="line_comment" span="174:17:174:83">// Should this be done _after_ we know it was successfully opened?</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="175:17:175:23">String</jtok>
+<jtok eid="9" type="local_variable_name" span="175:24:175:32">encoding</jtok>
+<jtok eid="9" type="primary_name_ref" span="175:35:175:42">Globals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="175:43:175:48">prefs</jtok>
+<jtok eid="9" type="method_call" span="175:49:175:52">get</jtok>
+<jtok eid="9" type="string_literal" span="175:53:175:70">"defaultEncoding"</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:21:177:25">Util</jtok>
+<jtok eid="9" type="method_call" span="177:26:177:37">hasLockFile</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:38:177:42">file</jtok>
+<jtok eid="9" type="local_variable_name" span="178:26:178:33">modTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="178:36:178:40">Util</jtok>
+<jtok eid="9" type="method_call" span="178:41:178:61">getLockFileTimeStamp</jtok>
+<jtok eid="9" type="primary_name_ref" span="178:62:178:66">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:26:179:33">modTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:45:179:51">System</jtok>
+<jtok eid="9" type="method_call" span="179:52:179:69">currentTimeMillis</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:74:179:81">modTime</jtok>
+<jtok eid="9" type="primary_name_ref" span="180:31:180:42">SaveSession</jtok>
+<jtok eid="9" type="qualified_name_ref" span="180:43:180:64">LOCKFILE_CRITICAL_AGE</jtok>
+<jtok eid="9" type="line_comment" span="181:25:181:93">// The lock file is fairly old, so we can offer to "steal" the file:</jtok>
+<jtok eid="9" type="local_variable_name" span="182:29:182:35">answer</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:38:182:49">JOptionPane</jtok>
+<jtok eid="9" type="method_call" span="182:50:182:67">showConfirmDialog</jtok>
+<jtok eid="9" type="string_literal" span="182:74:182:82">"&lt;html&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:83:182:90">Globals</jtok>
+<jtok eid="9" type="method_call" span="182:91:182:95">lang</jtok>
+<jtok eid="9" type="string_literal" span="182:96:182:116">"Error opening file"</jtok>
+<jtok eid="9" type="string_literal" span="183:30:183:34">" '"</jtok>
+<jtok eid="9" type="primary_name_ref" span="183:35:183:43">fileName</jtok>
+<jtok eid="9" type="string_literal" span="183:44:183:49">"'. "</jtok>
+<jtok eid="9" type="primary_name_ref" span="183:50:183:57">Globals</jtok>
+<jtok eid="9" type="method_call" span="183:58:183:62">lang</jtok>
+<jtok eid="9" type="string_literal" span="183:63:183:107">"File is locked by another JabRef instance."</jtok>
+<jtok eid="9" type="string_literal" span="184:30:184:35">"&lt;p&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="184:36:184:43">Globals</jtok>
+<jtok eid="9" type="method_call" span="184:44:184:48">lang</jtok>
+<jtok eid="9" type="string_literal" span="184:49:184:89">"Do you want to override the file lock?"</jtok>
+<jtok eid="9" type="primary_name_ref" span="185:29:185:36">Globals</jtok>
+<jtok eid="9" type="method_call" span="185:37:185:41">lang</jtok>
+<jtok eid="9" type="string_literal" span="185:42:185:55">"File locked"</jtok>
+<jtok eid="9" type="primary_name_ref" span="185:58:185:69">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="185:70:185:83">YES_NO_OPTION</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:29:186:35">answer</jtok>
+<jtok eid="9" type="primary_name_ref" span="186:39:186:50">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="186:51:186:61">YES_OPTION</jtok>
+<jtok eid="9" type="primary_name_ref" span="187:29:187:33">Util</jtok>
+<jtok eid="9" type="method_call" span="187:34:187:48">deleteLockFile</jtok>
+<jtok eid="9" type="primary_name_ref" span="187:49:187:53">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:31:191:35">Util</jtok>
+<jtok eid="9" type="method_call" span="191:36:191:51">waitForFileLock</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:52:191:56">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:25:192:36">JOptionPane</jtok>
+<jtok eid="9" type="method_call" span="192:37:192:54">showMessageDialog</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:61:192:68">Globals</jtok>
+<jtok eid="9" type="method_call" span="192:69:192:73">lang</jtok>
+<jtok eid="9" type="string_literal" span="192:74:192:94">"Error opening file"</jtok>
+<jtok eid="9" type="string_literal" span="193:30:193:34">" '"</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:35:193:43">fileName</jtok>
+<jtok eid="9" type="string_literal" span="193:44:193:49">"'. "</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:50:193:57">Globals</jtok>
+<jtok eid="9" type="method_call" span="193:58:193:62">lang</jtok>
+<jtok eid="9" type="string_literal" span="193:63:193:107">"File is locked by another JabRef instance."</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:29:194:36">Globals</jtok>
+<jtok eid="9" type="method_call" span="194:37:194:41">lang</jtok>
+<jtok eid="9" type="string_literal" span="194:42:194:49">"Error"</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:52:194:63">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="194:64:194:77">ERROR_MESSAGE</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="200:17:200:29">ParserResult</jtok>
+<jtok eid="9" type="local_variable_name" span="200:30:200:32">pr</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="201:17:201:23">String</jtok>
+<jtok eid="9" type="local_variable_name" span="201:24:201:36">errorMessage</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:21:203:23">pr</jtok>
+<jtok eid="9" type="method_call" span="203:26:203:38">loadDatabase</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:39:203:49">fileToLoad</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:51:203:59">encoding</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="204:26:204:35">Exception</jtok>
+<jtok eid="9" type="local_variable_name" span="204:36:204:38">ex</jtok>
+<jtok eid="9" type="line_comment" span="205:21:205:44">//ex.printStackTrace();</jtok>
+<jtok eid="9" type="primary_name_ref" span="206:21:206:33">errorMessage</jtok>
+<jtok eid="9" type="primary_name_ref" span="206:36:206:38">ex</jtok>
+<jtok eid="9" type="method_call" span="206:39:206:49">getMessage</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:21:207:23">pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:22:209:24">pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:38:209:40">pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:44:209:56">ParserResult</jtok>
+<jtok eid="9" type="qualified_name_ref" span="209:57:209:71">INVALID_FORMAT</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:21:210:32">JOptionPane</jtok>
+<jtok eid="9" type="method_call" span="210:33:210:50">showMessageDialog</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:57:210:64">Globals</jtok>
+<jtok eid="9" type="method_call" span="210:65:210:69">lang</jtok>
+<jtok eid="9" type="string_literal" span="210:70:210:90">"Error opening file"</jtok>
+<jtok eid="9" type="string_literal" span="210:94:210:98">" '"</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:101:210:109">fileName</jtok>
+<jtok eid="9" type="string_literal" span="210:112:210:115">"'"</jtok>
+<jtok eid="9" type="primary_name_ref" span="211:29:211:36">Globals</jtok>
+<jtok eid="9" type="method_call" span="211:37:211:41">lang</jtok>
+<jtok eid="9" type="string_literal" span="211:42:211:49">"Error"</jtok>
+<jtok eid="9" type="primary_name_ref" span="212:29:212:40">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="212:41:212:54">ERROR_MESSAGE</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="214:21:214:27">String</jtok>
+<jtok eid="9" type="local_variable_name" span="214:28:214:35">message</jtok>
+<jtok eid="9" type="string_literal" span="214:38:214:46">"&lt;html&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="214:47:214:59">errorMessage</jtok>
+<jtok eid="9" type="string_literal" span="214:60:214:65">"&lt;p&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="215:30:215:44">tryingAutosave</jtok>
+<jtok eid="9" type="primary_name_ref" span="215:47:215:54">Globals</jtok>
+<jtok eid="9" type="method_call" span="215:55:215:59">lang</jtok>
+<jtok eid="9" type="string_literal" span="215:60:215:122">"Error opening autosave of '%0'. Trying to load '%0' instead."</jtok>
+<jtok eid="9" type="primary_name_ref" span="215:124:215:128">file</jtok>
+<jtok eid="9" type="method_call" span="215:129:215:136">getName</jtok>
+<jtok eid="9" type="string_literal" span="216:31:216:33">""</jtok>
+<jtok eid="9" type="block_comment" span="216:33:216:93">/*Globals.lang("Error opening file '%0'.", file.getName())*/</jtok>
+<jtok eid="9" type="string_literal" span="216:95:216:104">"&lt;/html&gt;"</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:21:217:32">JOptionPane</jtok>
+<jtok eid="9" type="method_call" span="217:33:217:50">showMessageDialog</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:57:217:64">message</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:66:217:73">Globals</jtok>
+<jtok eid="9" type="method_call" span="217:74:217:78">lang</jtok>
+<jtok eid="9" type="string_literal" span="217:79:217:99">"Error opening file"</jtok>
+<jtok eid="9" type="primary_name_ref" span="217:102:217:113">JOptionPane</jtok>
+<jtok eid="9" type="qualified_name_ref" span="217:114:217:127">ERROR_MESSAGE</jtok>
+<jtok eid="9" type="primary_name_ref" span="219:25:219:39">tryingAutosave</jtok>
+<jtok eid="9" type="primary_name_ref" span="220:25:220:39">tryingAutosave</jtok>
+<jtok eid="9" type="primary_name_ref" span="221:25:221:35">fileToLoad</jtok>
+<jtok eid="9" type="primary_name_ref" span="221:38:221:42">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="224:25:224:29">done</jtok>
+<jtok eid="9" type="primary_name_ref" span="226:24:226:28">done</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="228:23:228:32">BasePanel</jtok>
+<jtok eid="9" type="local_variable_name" span="228:33:228:38">panel</jtok>
+<jtok eid="9" type="method_call" span="228:41:228:55">addNewDatabase</jtok>
+<jtok eid="9" type="primary_name_ref" span="228:56:228:58">pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="228:60:228:64">file</jtok>
+<jtok eid="9" type="primary_name_ref" span="228:66:228:76">raisePanel</jtok>
+<jtok eid="9" type="primary_name_ref" span="229:21:229:35">tryingAutosave</jtok>
+<jtok eid="9" type="primary_name_ref" span="230:21:230:26">panel</jtok>
+<jtok eid="9" type="method_call" span="230:27:230:53">markNonUndoableBaseChanged</jtok>
+<jtok eid="9" type="line_comment" span="232:17:232:77">// After adding the database, go through our list and see if</jtok>
+<jtok eid="9" type="line_comment" span="233:17:233:81">// any post open actions need to be done. For instance, checking</jtok>
+<jtok eid="9" type="line_comment" span="234:17:234:81">// if we found new entry types that can be imported, or checking</jtok>
+<jtok eid="9" type="line_comment" span="235:17:235:83">// if the database contents should be modified due to new features</jtok>
+<jtok eid="9" type="line_comment" span="236:17:236:46">// in this version of JabRef:</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="237:23:237:35">ParserResult</jtok>
+<jtok eid="9" type="local_variable_name" span="237:36:237:39">prf</jtok>
+<jtok eid="9" type="primary_name_ref" span="237:42:237:44">pr</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:17:238:31">SwingUtilities</jtok>
+<jtok eid="9" type="method_call" span="238:32:238:43">invokeLater</jtok>
+<jtok eid="9" type="constructor_call" span="238:48:238:56">Runnable</jtok>
+<jtok eid="11" type="method_name" span="239:33:239:36">run</jtok>
+<jtok eid="11" type="method_call" span="240:25:240:47">performPostOpenActions</jtok>
+<jtok eid="11" type="primary_name_ref" span="240:48:240:53">panel</jtok>
+<jtok eid="11" type="primary_name_ref" span="240:55:240:58">prf</jtok>
+<jtok eid="1" type="block_comment" span="249:5:254:8">/**
+     * Go through the list of post open actions, and perform those that need
+     * to be performed.
+     * @param panel The BasePanel where the database is shown.
+     * @param pr The result of the bib file parse operation.
+     */</jtok>
+<jtok eid="12" type="method_name" span="255:24:255:46">performPostOpenActions</jtok>
+<jtok eid="12" type="parameter_type" span="255:47:255:56">BasePanel</jtok>
+<jtok eid="12" type="parameter_name" span="255:57:255:62">panel</jtok>
+<jtok eid="12" type="parameter_type" span="255:64:255:76">ParserResult</jtok>
+<jtok eid="12" type="parameter_name" span="255:77:255:79">pr</jtok>
+<jtok eid="12" type="parameter_name" span="256:55:256:69">mustRaisePanel</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="257:14:257:22">Iterator</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="257:23:257:37">PostOpenAction</jtok>
+<jtok eid="12" type="local_variable_name" span="257:39:257:47">iterator</jtok>
+<jtok eid="12" type="primary_name_ref" span="257:50:257:65">postOpenActions</jtok>
+<jtok eid="12" type="method_call" span="257:66:257:74">iterator</jtok>
+<jtok eid="12" type="primary_name_ref" span="257:78:257:86">iterator</jtok>
+<jtok eid="12" type="method_call" span="257:87:257:94">hasNext</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="258:13:258:27">PostOpenAction</jtok>
+<jtok eid="12" type="local_variable_name" span="258:28:258:34">action</jtok>
+<jtok eid="12" type="primary_name_ref" span="258:37:258:45">iterator</jtok>
+<jtok eid="12" type="method_call" span="258:46:258:50">next</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:17:259:23">action</jtok>
+<jtok eid="12" type="method_call" span="259:24:259:41">isActionNecessary</jtok>
+<jtok eid="12" type="primary_name_ref" span="259:42:259:44">pr</jtok>
+<jtok eid="12" type="primary_name_ref" span="260:21:260:35">mustRaisePanel</jtok>
+<jtok eid="12" type="primary_name_ref" span="261:21:261:26">panel</jtok>
+<jtok eid="12" type="method_call" span="261:27:261:32">frame</jtok>
+<jtok eid="12" type="method_call" span="261:35:261:48">getTabbedPane</jtok>
+<jtok eid="12" type="method_call" span="261:51:261:71">setSelectedComponent</jtok>
+<jtok eid="12" type="primary_name_ref" span="261:72:261:77">panel</jtok>
+<jtok eid="12" type="primary_name_ref" span="262:17:262:23">action</jtok>
+<jtok eid="12" type="method_call" span="262:24:262:37">performAction</jtok>
+<jtok eid="12" type="primary_name_ref" span="262:38:262:43">panel</jtok>
+<jtok eid="12" type="primary_name_ref" span="262:45:262:47">pr</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="267:12:267:21">BasePanel</jtok>
+<jtok eid="13" type="method_name" span="267:22:267:36">addNewDatabase</jtok>
+<jtok eid="13" type="parameter_type" span="267:37:267:49">ParserResult</jtok>
+<jtok eid="13" type="parameter_name" span="267:50:267:52">pr</jtok>
+<jtok eid="13" type="parameter_type" span="267:54:267:58">File</jtok>
+<jtok eid="13" type="parameter_name" span="267:59:267:63">file</jtok>
+<jtok eid="13" type="parameter_name" span="268:40:268:50">raisePanel</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="270:9:270:15">String</jtok>
+<jtok eid="13" type="local_variable_name" span="270:16:270:24">fileName</jtok>
+<jtok eid="13" type="primary_name_ref" span="270:27:270:31">file</jtok>
+<jtok eid="13" type="method_call" span="270:32:270:39">getPath</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="271:9:271:23">BibtexDatabase</jtok>
+<jtok eid="13" type="local_variable_name" span="271:24:271:26">db</jtok>
+<jtok eid="13" type="primary_name_ref" span="271:29:271:31">pr</jtok>
+<jtok eid="13" type="method_call" span="271:32:271:43">getDatabase</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="272:9:272:16">HashMap</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="272:17:272:23">String</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="272:25:272:31">String</jtok>
+<jtok eid="13" type="local_variable_name" span="272:33:272:37">meta</jtok>
+<jtok eid="13" type="primary_name_ref" span="272:40:272:42">pr</jtok>
+<jtok eid="13" type="method_call" span="272:43:272:54">getMetaData</jtok>
+<jtok eid="13" type="primary_name_ref" span="274:13:274:15">pr</jtok>
+<jtok eid="13" type="method_call" span="274:16:274:27">hasWarnings</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="275:19:275:25">String</jtok>
+<jtok eid="13" type="local_variable_name" span="275:28:275:32">wrns</jtok>
+<jtok eid="13" type="primary_name_ref" span="275:35:275:37">pr</jtok>
+<jtok eid="13" type="method_call" span="275:38:275:46">warnings</jtok>
+<jtok eid="13" type="constructor_call" span="276:18:276:24">Thread</jtok>
+<jtok eid="15" type="method_name" span="277:29:277:32">run</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="278:21:278:33">StringBuffer</jtok>
+<jtok eid="15" type="local_variable_name" span="278:34:278:37">wrn</jtok>
+<jtok eid="15" type="constructor_call" span="278:44:278:56">StringBuffer</jtok>
+<jtok eid="15" type="local_variable_name" span="279:30:279:31">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="279:37:279:38">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="279:41:279:45">wrns</jtok>
+<jtok eid="15" type="qualified_name_ref" span="279:46:279:52">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="279:54:279:55">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="280:25:280:28">wrn</jtok>
+<jtok eid="15" type="method_call" span="280:29:280:35">append</jtok>
+<jtok eid="15" type="primary_name_ref" span="280:36:280:37">i</jtok>
+<jtok eid="15" type="method_call" span="280:43:280:49">append</jtok>
+<jtok eid="15" type="string_literal" span="280:50:280:54">". "</jtok>
+<jtok eid="15" type="method_call" span="280:56:280:62">append</jtok>
+<jtok eid="15" type="primary_name_ref" span="280:63:280:67">wrns</jtok>
+<jtok eid="15" type="primary_name_ref" span="280:68:280:69">i</jtok>
+<jtok eid="15" type="method_call" span="280:72:280:78">append</jtok>
+<jtok eid="15" type="string_literal" span="280:79:280:83">"\n"</jtok>
+<jtok eid="15" type="primary_name_ref" span="282:25:282:28">wrn</jtok>
+<jtok eid="15" type="method_call" span="282:29:282:35">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="283:25:283:28">wrn</jtok>
+<jtok eid="15" type="method_call" span="283:29:283:41">deleteCharAt</jtok>
+<jtok eid="15" type="primary_name_ref" span="283:42:283:45">wrn</jtok>
+<jtok eid="15" type="method_call" span="283:46:283:52">length</jtok>
+<jtok eid="15" type="line_comment" span="284:21:284:85">// Note to self or to someone else: The following line causes an</jtok>
+<jtok eid="15" type="line_comment" span="285:21:285:91">// ArrayIndexOutOfBoundsException in situations with a large number of</jtok>
+<jtok eid="15" type="line_comment" span="286:21:286:100">// warnings; approx. 5000 for the database I opened when I observed the problem</jtok>
+<jtok eid="15" type="line_comment" span="287:21:287:108">// (duplicate key warnings). I don't think this is a big problem for normal situations,</jtok>
+<jtok eid="15" type="line_comment" span="288:21:288:71">// and it may possibly be a bug in the Swing code.</jtok>
+<jtok eid="15" type="primary_name_ref" span="289:21:289:32">JOptionPane</jtok>
+<jtok eid="15" type="method_call" span="289:33:289:50">showMessageDialog</jtok>
+<jtok eid="15" type="primary_name_ref" span="289:51:289:56">frame</jtok>
+<jtok eid="15" type="primary_name_ref" span="289:58:289:61">wrn</jtok>
+<jtok eid="15" type="method_call" span="289:62:289:70">toString</jtok>
+<jtok eid="15" type="primary_name_ref" span="290:29:290:36">Globals</jtok>
+<jtok eid="15" type="method_call" span="290:37:290:41">lang</jtok>
+<jtok eid="15" type="string_literal" span="290:42:290:52">"Warnings"</jtok>
+<jtok eid="15" type="primary_name_ref" span="291:29:291:40">JOptionPane</jtok>
+<jtok eid="15" type="qualified_name_ref" span="291:41:291:56">WARNING_MESSAGE</jtok>
+<jtok eid="13" type="method_call" span="293:16:293:21">start</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="295:9:295:18">BasePanel</jtok>
+<jtok eid="13" type="local_variable_name" span="295:19:295:21">bp</jtok>
+<jtok eid="13" type="constructor_call" span="295:28:295:37">BasePanel</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:38:295:43">frame</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:45:295:47">db</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:49:295:53">file</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:55:295:59">meta</jtok>
+<jtok eid="13" type="primary_name_ref" span="295:61:295:63">pr</jtok>
+<jtok eid="13" type="method_call" span="295:64:295:75">getEncoding</jtok>
+<jtok eid="13" type="line_comment" span="297:9:297:64">// file is set to null inside the EventDispatcherThread</jtok>
+<jtok eid="13" type="primary_name_ref" span="298:9:298:23">SwingUtilities</jtok>
+<jtok eid="13" type="method_call" span="298:24:298:35">invokeLater</jtok>
+<jtok eid="13" type="constructor_call" span="298:40:298:57">OpenItSwingHelper</jtok>
+<jtok eid="13" type="primary_name_ref" span="298:58:298:60">bp</jtok>
+<jtok eid="13" type="primary_name_ref" span="298:62:298:66">file</jtok>
+<jtok eid="13" type="primary_name_ref" span="298:68:298:78">raisePanel</jtok>
+<jtok eid="13" type="primary_name_ref" span="300:9:300:14">frame</jtok>
+<jtok eid="13" type="method_call" span="300:15:300:21">output</jtok>
+<jtok eid="13" type="primary_name_ref" span="300:22:300:29">Globals</jtok>
+<jtok eid="13" type="method_call" span="300:30:300:34">lang</jtok>
+<jtok eid="13" type="string_literal" span="300:35:300:52">"Opened database"</jtok>
+<jtok eid="13" type="string_literal" span="300:56:300:60">" '"</jtok>
+<jtok eid="13" type="primary_name_ref" span="300:63:300:71">fileName</jtok>
+<jtok eid="13" type="string_literal" span="301:17:301:21">"' "</jtok>
+<jtok eid="13" type="primary_name_ref" span="301:24:301:31">Globals</jtok>
+<jtok eid="13" type="method_call" span="301:32:301:36">lang</jtok>
+<jtok eid="13" type="string_literal" span="301:37:301:43">"with"</jtok>
+<jtok eid="13" type="string_literal" span="301:47:301:50">" "</jtok>
+<jtok eid="13" type="primary_name_ref" span="302:17:302:19">db</jtok>
+<jtok eid="13" type="method_call" span="302:20:302:33">getEntryCount</jtok>
+<jtok eid="13" type="string_literal" span="302:38:302:41">" "</jtok>
+<jtok eid="13" type="primary_name_ref" span="302:44:302:51">Globals</jtok>
+<jtok eid="13" type="method_call" span="302:52:302:56">lang</jtok>
+<jtok eid="13" type="string_literal" span="302:57:302:66">"entries"</jtok>
+<jtok eid="13" type="string_literal" span="302:70:302:73">"."</jtok>
+<jtok eid="13" type="primary_name_ref" span="304:16:304:18">bp</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="307:19:307:31">ParserResult</jtok>
+<jtok eid="16" type="method_name" span="307:32:307:44">loadDatabase</jtok>
+<jtok eid="16" type="parameter_type" span="307:45:307:49">File</jtok>
+<jtok eid="16" type="parameter_name" span="307:50:307:60">fileToOpen</jtok>
+<jtok eid="16" type="parameter_type" span="307:62:307:68">String</jtok>
+<jtok eid="16" type="parameter_name" span="307:69:307:77">encoding</jtok>
+<jtok eid="16" type="throws" span="308:20:308:31">IOException</jtok>
+<jtok eid="16" type="line_comment" span="310:9:310:80">// First we make a quick check to see if this looks like a BibTeX file:</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="311:9:311:15">Reader</jtok>
+<jtok eid="16" type="local_variable_name" span="311:16:311:22">reader</jtok>
+<jtok eid="16" type="line_comment" span="311:23:311:79">// = ImportFormatReader.getReader(fileToOpen, encoding);</jtok>
+<jtok eid="16" type="line_comment" span="312:9:312:56">//if (!BibtexParser.isRecognizedFormat(reader))</jtok>
+<jtok eid="16" type="line_comment" span="313:9:313:27">//    return null;</jtok>
+<jtok eid="16" type="line_comment" span="315:9:315:72">// The file looks promising. Reinitialize the reader and go on:</jtok>
+<jtok eid="16" type="line_comment" span="316:9:316:52">//reader = getReader(fileToOpen, encoding);</jtok>
+<jtok eid="16" type="line_comment" span="318:9:318:99">// We want to check if there is a JabRef signature in the file, because that would tell us</jtok>
+<jtok eid="16" type="line_comment" span="319:9:319:106">// which character encoding is used. However, to read the signature we must be using a compatible</jtok>
+<jtok eid="16" type="line_comment" span="320:9:320:105">// encoding in the first place. Since the signature doesn't contain any fancy characters, we can</jtok>
+<jtok eid="16" type="line_comment" span="321:9:321:107">// read it regardless of encoding, with either UTF8 or UTF-16. That's the hypothesis, at any rate.</jtok>
+<jtok eid="16" type="line_comment" span="322:9:322:55">// 8 bit is most likely, so we try that first:</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="323:9:323:15">Reader</jtok>
+<jtok eid="16" type="local_variable_name" span="323:16:323:26">utf8Reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="323:29:323:47">ImportFormatReader</jtok>
+<jtok eid="16" type="method_call" span="323:48:323:57">getReader</jtok>
+<jtok eid="16" type="primary_name_ref" span="323:58:323:68">fileToOpen</jtok>
+<jtok eid="16" type="string_literal" span="323:70:323:76">"UTF8"</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="324:9:324:15">String</jtok>
+<jtok eid="16" type="local_variable_name" span="324:16:324:32">suppliedEncoding</jtok>
+<jtok eid="16" type="method_call" span="324:35:324:51">checkForEncoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="324:52:324:62">utf8Reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="325:9:325:19">utf8Reader</jtok>
+<jtok eid="16" type="method_call" span="325:20:325:25">close</jtok>
+<jtok eid="16" type="line_comment" span="326:9:326:82">// Now if that didn't get us anywhere, we check with the 16 bit encoding:</jtok>
+<jtok eid="16" type="primary_name_ref" span="327:13:327:29">suppliedEncoding</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="328:13:328:19">Reader</jtok>
+<jtok eid="16" type="local_variable_name" span="328:20:328:31">utf16Reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="328:34:328:52">ImportFormatReader</jtok>
+<jtok eid="16" type="method_call" span="328:53:328:62">getReader</jtok>
+<jtok eid="16" type="primary_name_ref" span="328:63:328:73">fileToOpen</jtok>
+<jtok eid="16" type="string_literal" span="328:75:328:83">"UTF-16"</jtok>
+<jtok eid="16" type="primary_name_ref" span="329:13:329:29">suppliedEncoding</jtok>
+<jtok eid="16" type="method_call" span="329:32:329:48">checkForEncoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="329:49:329:60">utf16Reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="330:13:330:24">utf16Reader</jtok>
+<jtok eid="16" type="method_call" span="330:25:330:30">close</jtok>
+<jtok eid="16" type="line_comment" span="331:13:331:78">//System.out.println("Result of UTF-16 test: "+suppliedEncoding);</jtok>
+<jtok eid="16" type="line_comment" span="334:9:334:150">//System.out.println(suppliedEncoding != null ? "Encoding: '"+suppliedEncoding+"' Len: "+suppliedEncoding.length() : "no supplied encoding");</jtok>
+<jtok eid="16" type="primary_name_ref" span="336:14:336:30">suppliedEncoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="338:16:338:22">reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="338:25:338:43">ImportFormatReader</jtok>
+<jtok eid="16" type="method_call" span="338:44:338:53">getReader</jtok>
+<jtok eid="16" type="primary_name_ref" span="338:54:338:64">fileToOpen</jtok>
+<jtok eid="16" type="primary_name_ref" span="338:66:338:82">suppliedEncoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="339:16:339:24">encoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="339:27:339:43">suppliedEncoding</jtok>
+<jtok eid="16" type="line_comment" span="339:45:339:100">// Just so we put the right info into the ParserResult.</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="340:21:340:30">Exception</jtok>
+<jtok eid="16" type="local_variable_name" span="340:31:340:33">ex</jtok>
+<jtok eid="16" type="primary_name_ref" span="341:16:341:18">ex</jtok>
+<jtok eid="16" type="method_call" span="341:19:341:34">printStackTrace</jtok>
+<jtok eid="16" type="primary_name_ref" span="342:16:342:22">reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="342:25:342:43">ImportFormatReader</jtok>
+<jtok eid="16" type="method_call" span="342:44:342:53">getReader</jtok>
+<jtok eid="16" type="primary_name_ref" span="342:54:342:64">fileToOpen</jtok>
+<jtok eid="16" type="primary_name_ref" span="342:66:342:74">encoding</jtok>
+<jtok eid="16" type="line_comment" span="342:77:342:141">// The supplied encoding didn't work out, so we use the default.</jtok>
+<jtok eid="16" type="line_comment" span="345:13:345:80">// We couldn't find a header with info about encoding. Use default:</jtok>
+<jtok eid="16" type="primary_name_ref" span="346:13:346:19">reader</jtok>
+<jtok eid="16" type="primary_name_ref" span="346:22:346:40">ImportFormatReader</jtok>
+<jtok eid="16" type="method_call" span="346:41:346:50">getReader</jtok>
+<jtok eid="16" type="primary_name_ref" span="346:51:346:61">fileToOpen</jtok>
+<jtok eid="16" type="primary_name_ref" span="346:63:346:71">encoding</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="349:9:349:21">BibtexParser</jtok>
+<jtok eid="16" type="local_variable_name" span="349:22:349:24">bp</jtok>
+<jtok eid="16" type="constructor_call" span="349:31:349:43">BibtexParser</jtok>
+<jtok eid="16" type="primary_name_ref" span="349:44:349:50">reader</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="351:9:351:21">ParserResult</jtok>
+<jtok eid="16" type="local_variable_name" span="351:22:351:24">pr</jtok>
+<jtok eid="16" type="primary_name_ref" span="351:27:351:29">bp</jtok>
+<jtok eid="16" type="method_call" span="351:30:351:35">parse</jtok>
+<jtok eid="16" type="primary_name_ref" span="352:9:352:11">pr</jtok>
+<jtok eid="16" type="method_call" span="352:12:352:23">setEncoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="352:24:352:32">encoding</jtok>
+<jtok eid="16" type="primary_name_ref" span="354:16:354:18">pr</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="357:20:357:26">String</jtok>
+<jtok eid="17" type="method_name" span="357:27:357:43">checkForEncoding</jtok>
+<jtok eid="17" type="parameter_type" span="357:44:357:50">Reader</jtok>
+<jtok eid="17" type="parameter_name" span="357:51:357:57">reader</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="358:9:358:15">String</jtok>
+<jtok eid="17" type="local_variable_name" span="358:16:358:32">suppliedEncoding</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="359:9:359:21">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="359:22:359:32">headerText</jtok>
+<jtok eid="17" type="constructor_call" span="359:39:359:51">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="361:21:361:27">keepon</jtok>
+<jtok eid="17" type="local_variable_name" span="362:17:362:20">piv</jtok>
+<jtok eid="17" type="local_variable_name" span="362:26:362:32">offset</jtok>
+<jtok eid="17" type="local_variable_name" span="363:17:363:18">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="365:20:365:26">keepon</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:17:366:18">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="366:21:366:27">reader</jtok>
+<jtok eid="17" type="method_call" span="366:28:366:32">read</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:22:367:25">piv</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:37:367:38">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:51:367:60">Character</jtok>
+<jtok eid="17" type="method_call" span="367:61:367:73">isWhitespace</jtok>
+<jtok eid="17" type="primary_name_ref" span="367:80:367:81">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="368:21:368:27">offset</jtok>
+<jtok eid="17" type="primary_name_ref" span="370:21:370:31">headerText</jtok>
+<jtok eid="17" type="method_call" span="370:32:370:38">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="370:46:370:47">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="371:25:371:26">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="371:30:371:40">GUIGlobals</jtok>
+<jtok eid="17" type="qualified_name_ref" span="371:41:371:50">SIGNATURE</jtok>
+<jtok eid="17" type="method_call" span="371:51:371:57">charAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="371:58:371:61">piv</jtok>
+<jtok eid="17" type="primary_name_ref" span="372:25:372:28">piv</jtok>
+<jtok eid="17" type="line_comment" span="373:26:373:49">//if (((char)c) == '@')</jtok>
+<jtok eid="17" type="primary_name_ref" span="374:25:374:31">keepon</jtok>
+<jtok eid="17" type="line_comment" span="376:17:376:61">//System.out.println(headerText.toString());</jtok>
+<jtok eid="17" type="label_name" span="377:17:377:22">found</jtok>
+<jtok eid="17" type="primary_name_ref" span="378:21:378:24">piv</jtok>
+<jtok eid="17" type="primary_name_ref" span="378:28:378:38">GUIGlobals</jtok>
+<jtok eid="17" type="qualified_name_ref" span="378:39:378:48">SIGNATURE</jtok>
+<jtok eid="17" type="method_call" span="378:49:378:55">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="379:21:379:27">keepon</jtok>
+<jtok eid="17" type="line_comment" span="381:21:381:79">//if (headerText.length() &gt; GUIGlobals.SIGNATURE.length())</jtok>
+<jtok eid="17" type="line_comment" span="382:21:382:141">//    System.out.println("'"+headerText.toString().substring(0, headerText.length()-GUIGlobals.SIGNATURE.length())+"'");</jtok>
+<jtok eid="17" type="line_comment" span="383:21:383:88">// Found the signature. The rest of the line is unknown, so we skip</jtok>
+<jtok eid="17" type="line_comment" span="384:21:384:27">// it:</jtok>
+<jtok eid="17" type="primary_name_ref" span="385:28:385:34">reader</jtok>
+<jtok eid="17" type="method_call" span="385:35:385:39">read</jtok>
+<jtok eid="17" type="line_comment" span="386:25:386:40">// keep reading</jtok>
+<jtok eid="17" type="line_comment" span="388:21:388:86">// If the next line starts with something like "% ", handle this:</jtok>
+<jtok eid="17" type="primary_name_ref" span="389:30:389:31">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="389:33:389:39">reader</jtok>
+<jtok eid="17" type="method_call" span="389:40:389:44">read</jtok>
+<jtok eid="17" type="primary_name_ref" span="389:60:389:69">Character</jtok>
+<jtok eid="17" type="method_call" span="389:70:389:82">isWhitespace</jtok>
+<jtok eid="17" type="primary_name_ref" span="389:89:389:90">c</jtok>
+<jtok eid="17" type="line_comment" span="390:25:390:40">// keep reading</jtok>
+<jtok eid="17" type="line_comment" span="392:21:392:94">// Then we must skip the "Encoding: ". We may already have read the first</jtok>
+<jtok eid="17" type="line_comment" span="393:21:393:34">// character:</jtok>
+<jtok eid="17" type="primary_name_ref" span="394:31:394:32">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="394:36:394:46">GUIGlobals</jtok>
+<jtok eid="17" type="qualified_name_ref" span="394:47:394:56">encPrefix</jtok>
+<jtok eid="17" type="method_call" span="394:57:394:63">charAt</jtok>
+<jtok eid="17" type="label_ref" span="395:31:395:36">found</jtok>
+<jtok eid="17" type="local_variable_name" span="397:30:397:31">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="397:37:397:38">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="397:41:397:51">GUIGlobals</jtok>
+<jtok eid="17" type="qualified_name_ref" span="397:52:397:61">encPrefix</jtok>
+<jtok eid="17" type="method_call" span="397:62:397:68">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="397:72:397:73">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="398:29:398:35">reader</jtok>
+<jtok eid="17" type="method_call" span="398:36:398:40">read</jtok>
+<jtok eid="17" type="primary_name_ref" span="398:46:398:56">GUIGlobals</jtok>
+<jtok eid="17" type="qualified_name_ref" span="398:57:398:66">encPrefix</jtok>
+<jtok eid="17" type="method_call" span="398:67:398:73">charAt</jtok>
+<jtok eid="17" type="primary_name_ref" span="398:74:398:75">i</jtok>
+<jtok eid="17" type="label_ref" span="399:35:399:40">found</jtok>
+<jtok eid="17" type="line_comment" span="399:42:399:48">// No,</jtok>
+<jtok eid="17" type="line_comment" span="400:25:400:30">// it</jtok>
+<jtok eid="17" type="line_comment" span="401:25:401:35">// doesn't</jtok>
+<jtok eid="17" type="line_comment" span="402:25:402:32">// seem</jtok>
+<jtok eid="17" type="line_comment" span="403:25:403:30">// to</jtok>
+<jtok eid="17" type="line_comment" span="404:25:404:34">// match.</jtok>
+<jtok eid="17" type="line_comment" span="407:21:407:87">// If ok, then read the rest of the line, which should contain the</jtok>
+<jtok eid="17" type="line_comment" span="408:21:408:28">// name</jtok>
+<jtok eid="17" type="line_comment" span="409:21:409:40">// of the encoding:</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="410:21:410:33">StringBuffer</jtok>
+<jtok eid="17" type="local_variable_name" span="410:34:410:36">sb</jtok>
+<jtok eid="17" type="constructor_call" span="410:43:410:55">StringBuffer</jtok>
+<jtok eid="17" type="primary_name_ref" span="412:29:412:30">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="412:33:412:39">reader</jtok>
+<jtok eid="17" type="method_call" span="412:40:412:44">read</jtok>
+<jtok eid="17" type="primary_name_ref" span="413:25:413:27">sb</jtok>
+<jtok eid="17" type="method_call" span="413:28:413:34">append</jtok>
+<jtok eid="17" type="primary_name_ref" span="413:42:413:43">c</jtok>
+<jtok eid="17" type="primary_name_ref" span="417:21:417:37">suppliedEncoding</jtok>
+<jtok eid="17" type="primary_name_ref" span="417:40:417:42">sb</jtok>
+<jtok eid="17" type="method_call" span="417:43:417:51">toString</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="420:18:420:29">IOException</jtok>
+<jtok eid="17" type="local_variable_name" span="420:30:420:32">ex</jtok>
+<jtok eid="17" type="primary_name_ref" span="422:16:422:32">suppliedEncoding</jtok>
+<jtok eid="17" type="primary_name_ref" span="422:43:422:59">suppliedEncoding</jtok>
+<jtok eid="17" type="method_call" span="422:60:422:64">trim</jtok>
+</jdoc>

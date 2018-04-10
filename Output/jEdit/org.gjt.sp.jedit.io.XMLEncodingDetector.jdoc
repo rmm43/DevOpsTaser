@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.io.XMLEncodingDetector" jls="java5">
+<jent id="0" type="file" span="0:0:101:2">Source/jEdit/org/gjt/sp/jedit/io/XMLEncodingDetector.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:101:1">org.gjt.sp.jedit.io.XMLEncodingDetector</jent>
+<jent id="2" pid="1" type="method" span="41:2:58:2">org.gjt.sp.jedit.io.XMLEncodingDetector.detectEncoding(InputStream)</jent>
+<jent id="3" pid="1" type="method" span="64:2:99:2">org.gjt.sp.jedit.io.XMLEncodingDetector.getXMLEncoding(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:19:4">/*
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2007 Kazutoshi Satoda
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="23:1:23:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="32:1:37:4">/**
+ * An encoding detector which extracts encoding from XML declaration.
+ *
+ * @since 4.3pre10
+ * @author Kazutoshi Satoda
+ */</jtok>
+<jtok eid="1" type="class_name" span="38:14:38:33">XMLEncodingDetector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:45:38:61">EncodingDetector</jtok>
+<jtok eid="1" type="line_comment" span="40:2:40:35">//{{{ implements EncodingDetector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="41:9:41:15">String</jtok>
+<jtok eid="2" type="method_name" span="41:16:41:30">detectEncoding</jtok>
+<jtok eid="2" type="parameter_type" span="41:31:41:42">InputStream</jtok>
+<jtok eid="2" type="parameter_name" span="41:43:41:49">sample</jtok>
+<jtok eid="2" type="throws" span="41:58:41:69">IOException</jtok>
+<jtok eid="2" type="line_comment" span="43:3:43:59">// Length of longest XML PI used for encoding detection.</jtok>
+<jtok eid="2" type="line_comment" span="44:3:44:55">// &lt;?xml version="1.0" encoding="................"?&gt;</jtok>
+<jtok eid="2" type="local_variable_name" span="45:13:45:26">XML_PI_LENGTH</jtok>
+<jtok eid="2" type="local_variable_name" span="47:10:47:16">_xmlPI</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:28:47:41">XML_PI_LENGTH</jtok>
+<jtok eid="2" type="local_variable_name" span="48:7:48:13">offset</jtok>
+<jtok eid="2" type="local_variable_name" span="49:7:49:12">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:10:50:15">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:18:50:24">sample</jtok>
+<jtok eid="2" type="method_call" span="50:25:50:29">read</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:30:50:36">_xmlPI</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:37:50:43">offset</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:4:51:17">XML_PI_LENGTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:20:51:26">offset</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:4:53:10">offset</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:14:53:19">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:7:54:13">offset</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:17:54:30">XML_PI_LENGTH</jtok>
+<jtok eid="2" type="method_call" span="57:10:57:24">getXMLEncoding</jtok>
+<jtok eid="2" type="constructor_call" span="57:29:57:35">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:36:57:42">_xmlPI</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:45:57:51">offset</jtok>
+<jtok eid="2" type="string_literal" span="57:52:57:59">"ASCII"</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:23">//{{{ Private members</jtok>
+<jtok eid="1" type="block_comment" span="61:2:63:5">/**
+	 * Extract XML encoding name from PI.
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="64:17:64:23">String</jtok>
+<jtok eid="3" type="method_name" span="64:24:64:38">getXMLEncoding</jtok>
+<jtok eid="3" type="parameter_type" span="64:39:64:45">String</jtok>
+<jtok eid="3" type="parameter_name" span="64:46:64:51">xmlPI</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:7:66:12">xmlPI</jtok>
+<jtok eid="3" type="method_call" span="66:13:66:23">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="66:24:66:31">"&lt;?xml"</jtok>
+<jtok eid="3" type="local_variable_name" span="69:7:69:12">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:15:69:20">xmlPI</jtok>
+<jtok eid="3" type="method_call" span="69:21:69:28">indexOf</jtok>
+<jtok eid="3" type="string_literal" span="69:29:69:40">"encoding="</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:6:70:11">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:21:70:26">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:34:70:39">xmlPI</jtok>
+<jtok eid="3" type="method_call" span="70:40:70:46">length</jtok>
+<jtok eid="3" type="local_variable_name" span="73:8:73:10">ch</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:13:73:18">xmlPI</jtok>
+<jtok eid="3" type="method_call" span="73:19:73:25">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:26:73:31">index</jtok>
+<jtok eid="3" type="local_variable_name" span="74:7:74:15">endIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:18:74:23">xmlPI</jtok>
+<jtok eid="3" type="method_call" span="74:24:74:31">indexOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:32:74:34">ch</jtok>
+<jtok eid="3" type="primary_name_ref" span="74:35:74:40">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:6:75:14">endIndex</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="78:3:78:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="78:10:78:18">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:21:78:26">xmlPI</jtok>
+<jtok eid="3" type="method_call" span="78:27:78:36">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:37:78:42">index</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:48:78:56">endIndex</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:7:82:14">Charset</jtok>
+<jtok eid="3" type="method_call" span="82:15:82:26">isSupported</jtok>
+<jtok eid="3" type="primary_name_ref" span="82:27:82:35">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="84:12:84:20">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:5:88:8">Log</jtok>
+<jtok eid="3" type="method_call" span="88:9:88:12">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:13:88:16">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="88:17:88:24">WARNING</jtok>
+<jtok eid="3" type="primary_name_ref" span="88:26:88:45">XMLEncodingDetector</jtok>
+<jtok eid="3" type="string_literal" span="89:6:89:47">"XML PI specifies unsupported encoding: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:50:89:58">encoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="92:9:92:36">IllegalCharsetNameException</jtok>
+<jtok eid="3" type="local_variable_name" span="92:37:92:38">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:4:94:7">Log</jtok>
+<jtok eid="3" type="method_call" span="94:8:94:11">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:12:94:15">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="94:16:94:23">WARNING</jtok>
+<jtok eid="3" type="primary_name_ref" span="94:25:94:44">XMLEncodingDetector</jtok>
+<jtok eid="3" type="string_literal" span="95:5:95:42">"XML PI specifies illegal encoding: "</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:45:95:53">encoding</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:5:96:6">e</jtok>
+<jtok eid="1" type="line_comment" span="100:2:100:7">//}}}</jtok>
+</jdoc>

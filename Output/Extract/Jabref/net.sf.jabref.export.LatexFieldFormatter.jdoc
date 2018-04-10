@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.LatexFieldFormatter" jls="java5">
+<jent id="0" type="file" span="0:0:280:1">Source/jabref/src/java/net/sf/jabref/export/LatexFieldFormatter.java</jent>
+<jent id="1" pid="0" type="class" span="37:1:280:1">net.sf.jabref.export.LatexFieldFormatter</jent>
+<jent id="2" pid="1" type="method" span="44:5:46:5">net.sf.jabref.export.LatexFieldFormatter.setNeverFailOnHashes(boolean)</jent>
+<jent id="3" pid="1" type="method" span="48:5:165:5">net.sf.jabref.export.LatexFieldFormatter.format(String,String)</jent>
+<jent id="4" pid="1" type="method" span="167:5:238:5">net.sf.jabref.export.LatexFieldFormatter.writeText(String,int,int)</jent>
+<jent id="5" pid="1" type="method" span="240:5:246:5">net.sf.jabref.export.LatexFieldFormatter.writeStringLabel(String,int,int,boolean,boolean)</jent>
+<jent id="6" pid="1" type="method" span="248:5:250:5">net.sf.jabref.export.LatexFieldFormatter.putIn(String)</jent>
+<jent id="7" pid="1" type="method" span="253:5:278:5">net.sf.jabref.export.LatexFieldFormatter.checkBraces(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:3">/*
+Copyright (C) 2003 Nizar N. Batada, Morten O. Alver
+
+All programs in this directory and
+subdirectories are published under the GNU General Public License as
+described below.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Further information about the GNU GPL is available at:
+http://www.gnu.org/copyleft/gpl.ja.html
+
+*/</jtok>
+<jtok eid="1" type="class_name" span="37:14:37:33">LatexFieldFormatter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:45:37:59">FieldFormatter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:5:39:17">StringBuffer</jtok>
+<jtok eid="1" type="field_name" span="39:18:39:20">sb</jtok>
+<jtok eid="1" type="field_name" span="40:9:40:12">col</jtok>
+<jtok eid="1" type="line_comment" span="40:14:40:78">// First line usually starts about so much further to the right.</jtok>
+<jtok eid="1" type="field_name" span="41:15:41:23">STARTCOL</jtok>
+<jtok eid="1" type="field_name" span="42:21:42:38">neverFailOnHashes</jtok>
+<jtok eid="2" type="method_name" span="44:17:44:37">setNeverFailOnHashes</jtok>
+<jtok eid="2" type="parameter_name" span="44:46:44:63">neverFailOnHashes</jtok>
+<jtok eid="2" type="qualified_name_ref" span="45:14:45:31">neverFailOnHashes</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:34:45:51">neverFailOnHashes</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:12:48:18">String</jtok>
+<jtok eid="3" type="method_name" span="48:19:48:25">format</jtok>
+<jtok eid="3" type="parameter_type" span="48:26:48:32">String</jtok>
+<jtok eid="3" type="parameter_name" span="48:33:48:37">text</jtok>
+<jtok eid="3" type="parameter_type" span="48:39:48:45">String</jtok>
+<jtok eid="3" type="parameter_name" span="48:46:48:55">fieldName</jtok>
+<jtok eid="3" type="throws" span="49:20:49:44">IllegalArgumentException</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:13:51:20">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="51:21:51:26">prefs</jtok>
+<jtok eid="3" type="method_call" span="51:27:51:50">putBracesAroundCapitals</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:51:51:60">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:66:51:73">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="51:74:51:87">BIBTEX_STRING</jtok>
+<jtok eid="3" type="method_call" span="51:88:51:94">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:95:51:104">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:13:52:17">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:20:52:24">Util</jtok>
+<jtok eid="3" type="method_call" span="52:25:52:48">putBracesAroundCapitals</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:49:52:53">text</jtok>
+<jtok eid="3" type="line_comment" span="55:9:55:69">// If the field is non-standard, we will just append braces,</jtok>
+<jtok eid="3" type="line_comment" span="56:9:56:27">// wrap and write.</jtok>
+<jtok eid="3" type="local_variable_name" span="57:17:57:31">resolveStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:13:58:20">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="58:21:58:26">prefs</jtok>
+<jtok eid="3" type="method_call" span="58:27:58:37">getBoolean</jtok>
+<jtok eid="3" type="string_literal" span="58:38:58:63">"resolveStringsAllFields"</jtok>
+<jtok eid="3" type="line_comment" span="59:13:59:59">// Resolve strings for all fields except some:</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="60:13:60:19">String</jtok>
+<jtok eid="3" type="local_variable_name" span="60:22:60:32">exceptions</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:35:60:42">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="60:43:60:48">prefs</jtok>
+<jtok eid="3" type="method_call" span="60:49:60:63">getStringArray</jtok>
+<jtok eid="3" type="string_literal" span="60:64:60:88">"doNotResolveStringsFor"</jtok>
+<jtok eid="3" type="local_variable_name" span="61:22:61:23">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:29:61:30">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:33:61:43">exceptions</jtok>
+<jtok eid="3" type="qualified_name_ref" span="61:44:61:50">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:52:61:53">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:21:62:31">exceptions</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:32:62:33">i</jtok>
+<jtok eid="3" type="method_call" span="62:35:62:41">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:42:62:51">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:21:63:35">resolveStrings</jtok>
+<jtok eid="3" type="line_comment" span="68:13:68:80">// Default operation - we only resolve strings for standard fields:</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:13:69:27">resolveStrings</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:30:69:42">BibtexFields</jtok>
+<jtok eid="3" type="method_call" span="69:43:69:58">isStandardField</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:59:69:68">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:24:70:31">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:32:70:45">BIBTEX_STRING</jtok>
+<jtok eid="3" type="method_call" span="70:46:70:52">equals</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:53:70:62">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:14:72:28">resolveStrings</jtok>
+<jtok eid="3" type="local_variable_name" span="73:17:73:20">brc</jtok>
+<jtok eid="3" type="local_variable_name" span="74:21:74:23">ok</jtok>
+<jtok eid="3" type="local_variable_name" span="75:22:75:23">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:29:75:30">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:33:75:37">text</jtok>
+<jtok eid="3" type="method_call" span="75:38:75:44">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:48:75:49">i</jtok>
+<jtok eid="3" type="local_variable_name" span="76:22:76:23">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:26:76:30">text</jtok>
+<jtok eid="3" type="method_call" span="76:31:76:37">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:38:76:39">i</jtok>
+<jtok eid="3" type="line_comment" span="77:17:77:33">//Util.pr(""+c);</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:21:78:22">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:31:78:34">brc</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:21:79:22">c</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:31:79:34">brc</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:21:80:24">brc</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:21:81:23">ok</jtok>
+<jtok eid="3" type="primary_name_ref" span="85:17:85:20">brc</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:17:86:19">ok</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:18:87:20">ok</jtok>
+<jtok eid="3" type="constructor_call" span="88:27:88:51">IllegalArgumentException</jtok>
+<jtok eid="3" type="string_literal" span="88:52:88:92">"Curly braces { and } must be balanced."</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:13:90:15">sb</jtok>
+<jtok eid="3" type="constructor_call" span="90:22:90:34">StringBuffer</jtok>
+<jtok eid="3" type="string_literal" span="90:35:90:38">"{"</jtok>
+<jtok eid="3" type="line_comment" span="91:13:91:82">// No formatting at all for these fields, to allow custom formatting?</jtok>
+<jtok eid="3" type="line_comment" span="92:13:92:71">//if (Globals.prefs.getBoolean("preserveFieldFormatting"))</jtok>
+<jtok eid="3" type="line_comment" span="93:13:93:33">//  sb.append(text);</jtok>
+<jtok eid="3" type="line_comment" span="94:13:94:19">//else</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:18:95:25">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="95:26:95:31">prefs</jtok>
+<jtok eid="3" type="method_call" span="95:32:95:51">isNonWrappableField</jtok>
+<jtok eid="3" type="primary_name_ref" span="95:52:95:61">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:17:96:19">sb</jtok>
+<jtok eid="3" type="method_call" span="96:20:96:26">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:27:96:31">Util</jtok>
+<jtok eid="3" type="method_call" span="96:32:96:37">wrap2</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:38:96:42">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="96:44:96:54">GUIGlobals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="96:55:96:66">LINE_LENGTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:17:98:19">sb</jtok>
+<jtok eid="3" type="method_call" span="98:20:98:26">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:27:98:31">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:13:100:15">sb</jtok>
+<jtok eid="3" type="method_call" span="100:16:100:22">append</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:20:102:22">sb</jtok>
+<jtok eid="3" type="method_call" span="102:23:102:31">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:9:105:11">sb</jtok>
+<jtok eid="3" type="constructor_call" span="105:18:105:30">StringBuffer</jtok>
+<jtok eid="3" type="local_variable_name" span="106:13:106:18">pivot</jtok>
+<jtok eid="3" type="local_variable_name" span="106:24:106:28">pos1</jtok>
+<jtok eid="3" type="local_variable_name" span="106:30:106:34">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:9:107:12">col</jtok>
+<jtok eid="3" type="primary_name_ref" span="107:15:107:23">STARTCOL</jtok>
+<jtok eid="3" type="line_comment" span="108:9:108:80">// Here we assume that the user encloses any bibtex strings in #, e.g.:</jtok>
+<jtok eid="3" type="line_comment" span="109:9:109:25">// #jan# - #feb#</jtok>
+<jtok eid="3" type="line_comment" span="110:9:110:59">// ...which will be written to the file like this:</jtok>
+<jtok eid="3" type="line_comment" span="111:9:111:29">// jan # { - } # feb</jtok>
+<jtok eid="3" type="method_call" span="112:9:112:20">checkBraces</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:21:112:25">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:16:115:21">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:24:115:28">text</jtok>
+<jtok eid="3" type="method_call" span="115:29:115:35">length</jtok>
+<jtok eid="3" type="local_variable_name" span="116:17:116:23">goFrom</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:26:116:31">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:13:117:17">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:20:117:25">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:20:118:26">goFrom</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:30:118:34">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:17:119:21">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:24:119:28">text</jtok>
+<jtok eid="3" type="method_call" span="119:29:119:36">indexOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:42:119:48">goFrom</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:22:120:26">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:36:120:40">text</jtok>
+<jtok eid="3" type="method_call" span="120:41:120:47">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:48:120:52">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:21:121:27">goFrom</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:30:121:34">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:21:122:25">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:21:124:27">goFrom</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:30:124:34">pos1</jtok>
+<jtok eid="3" type="line_comment" span="124:40:124:57">// Ends the loop.</jtok>
+<jtok eid="3" type="primary_name_ref" span="127:17:127:21">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:17:128:21">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:24:128:28">text</jtok>
+<jtok eid="3" type="method_call" span="128:29:128:35">length</jtok>
+<jtok eid="3" type="line_comment" span="128:39:128:67">// No more occurences found.</jtok>
+<jtok eid="3" type="primary_name_ref" span="129:17:129:21">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:17:131:21">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:24:131:28">text</jtok>
+<jtok eid="3" type="method_call" span="131:29:131:36">indexOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:42:131:46">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:21:132:25">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:26:133:43">neverFailOnHashes</jtok>
+<jtok eid="3" type="constructor_call" span="134:35:134:59">IllegalArgumentException</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:34:135:41">Globals</jtok>
+<jtok eid="3" type="method_call" span="135:42:135:46">lang</jtok>
+<jtok eid="3" type="string_literal" span="135:47:135:96">"The # character is not allowed in BibTeX fields"</jtok>
+<jtok eid="3" type="string_literal" span="135:100:135:105">".\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="136:41:136:48">Globals</jtok>
+<jtok eid="3" type="method_call" span="136:49:136:53">lang</jtok>
+<jtok eid="3" type="string_literal" span="136:54:136:105">"In JabRef, use pairs of # characters to indicate "</jtok>
+<jtok eid="3" type="string_literal" span="137:51:137:62">"a string."</jtok>
+<jtok eid="3" type="string_literal" span="137:66:137:70">"\n"</jtok>
+<jtok eid="3" type="primary_name_ref" span="138:41:138:48">Globals</jtok>
+<jtok eid="3" type="method_call" span="138:49:138:53">lang</jtok>
+<jtok eid="3" type="string_literal" span="138:54:138:114">"Note that the entry causing the problem has been selected."</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:25:140:29">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:32:140:36">text</jtok>
+<jtok eid="3" type="method_call" span="140:37:140:43">length</jtok>
+<jtok eid="3" type="line_comment" span="140:47:140:109">// just write out the rest of the text, and throw no exception</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:17:145:21">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:24:145:29">pivot</jtok>
+<jtok eid="3" type="method_call" span="146:17:146:26">writeText</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:27:146:31">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:33:146:38">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:40:146:44">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:18:147:22">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:25:147:29">text</jtok>
+<jtok eid="3" type="method_call" span="147:30:147:36">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:44:147:48">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:55:147:59">pos1</jtok>
+<jtok eid="3" type="line_comment" span="148:17:148:75">// We check that the string label is not empty. That means</jtok>
+<jtok eid="3" type="line_comment" span="149:17:149:80">// an occurence of ## will simply be ignored. Should it instead</jtok>
+<jtok eid="3" type="line_comment" span="150:17:150:43">// cause an error message?</jtok>
+<jtok eid="3" type="method_call" span="151:17:151:33">writeStringLabel</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:34:151:38">text</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:40:151:44">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:50:151:54">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:57:151:61">pos1</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:65:151:70">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:26:152:30">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:38:152:42">text</jtok>
+<jtok eid="3" type="method_call" span="152:43:152:49">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:17:154:21">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:28:154:33">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:36:154:40">pos2</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:18:155:23">pivot</jtok>
+<jtok eid="3" type="primary_name_ref" span="155:26:155:30">pos1</jtok>
+<jtok eid="3" type="line_comment" span="156:13:156:47">//if (tell++ &gt; 10) System.exit(0);</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:14:159:21">Globals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="159:22:159:27">prefs</jtok>
+<jtok eid="3" type="method_call" span="159:28:159:47">isNonWrappableField</jtok>
+<jtok eid="3" type="primary_name_ref" span="159:48:159:57">fieldName</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:20:160:24">Util</jtok>
+<jtok eid="3" type="method_call" span="160:25:160:30">wrap2</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:31:160:33">sb</jtok>
+<jtok eid="3" type="method_call" span="160:34:160:42">toString</jtok>
+<jtok eid="3" type="primary_name_ref" span="160:46:160:56">GUIGlobals</jtok>
+<jtok eid="3" type="qualified_name_ref" span="160:57:160:68">LINE_LENGTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="162:20:162:22">sb</jtok>
+<jtok eid="3" type="method_call" span="162:23:162:31">toString</jtok>
+<jtok eid="4" type="method_name" span="167:18:167:27">writeText</jtok>
+<jtok eid="4" type="parameter_type" span="167:28:167:34">String</jtok>
+<jtok eid="4" type="parameter_name" span="167:35:167:39">text</jtok>
+<jtok eid="4" type="parameter_name" span="167:45:167:54">start_pos</jtok>
+<jtok eid="4" type="parameter_name" span="168:32:168:39">end_pos</jtok>
+<jtok eid="4" type="block_comment" span="169:9:171:26">/*sb.append("{");
+        sb.append(text.substring(start_pos, end_pos));
+        sb.append("}");*/</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:9:172:11">sb</jtok>
+<jtok eid="4" type="method_call" span="172:12:172:18">append</jtok>
+<jtok eid="4" type="local_variable_name" span="173:17:173:23">escape</jtok>
+<jtok eid="4" type="local_variable_name" span="173:33:173:46">inCommandName</jtok>
+<jtok eid="4" type="local_variable_name" span="173:56:173:65">inCommand</jtok>
+<jtok eid="4" type="local_variable_name" span="174:17:174:32">inCommandOption</jtok>
+<jtok eid="4" type="local_variable_name" span="175:13:175:31">nestedEnvironments</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="176:9:176:21">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="176:22:176:33">commandName</jtok>
+<jtok eid="4" type="constructor_call" span="176:40:176:52">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="177:14:177:15">c</jtok>
+<jtok eid="4" type="local_variable_name" span="178:18:178:19">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:22:178:31">start_pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:33:178:34">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:37:178:44">end_pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:46:178:47">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:13:179:14">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:17:179:21">text</jtok>
+<jtok eid="4" type="method_call" span="179:22:179:28">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="179:29:179:30">i</jtok>
+<jtok eid="4" type="line_comment" span="181:13:181:69">// Track whether we are in a LaTeX command of some sort.</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:17:182:26">Character</jtok>
+<jtok eid="4" type="method_call" span="182:27:182:35">isLetter</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:36:182:37">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:43:182:49">escape</jtok>
+<jtok eid="4" type="primary_name_ref" span="182:53:182:66">inCommandName</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:17:183:30">inCommandName</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:22:184:37">inCommandOption</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:21:185:32">commandName</jtok>
+<jtok eid="4" type="method_call" span="185:33:185:39">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="185:40:185:41">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:24:186:33">Character</jtok>
+<jtok eid="4" type="method_call" span="186:34:186:46">isWhitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:47:186:48">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:54:186:63">inCommand</jtok>
+<jtok eid="4" type="primary_name_ref" span="186:67:186:82">inCommandOption</jtok>
+<jtok eid="4" type="line_comment" span="187:17:187:57">//System.out.println("whitespace here");</jtok>
+<jtok eid="4" type="primary_name_ref" span="188:24:188:37">inCommandName</jtok>
+<jtok eid="4" type="line_comment" span="189:17:189:57">// This means the command name is ended.</jtok>
+<jtok eid="4" type="line_comment" span="190:17:190:57">// Perhaps the beginning of an argument:</jtok>
+<jtok eid="4" type="primary_name_ref" span="191:21:191:22">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="192:21:192:36">inCommandOption</jtok>
+<jtok eid="4" type="line_comment" span="194:17:194:46">// Or the end of an argument:</jtok>
+<jtok eid="4" type="primary_name_ref" span="195:26:195:41">inCommandOption</jtok>
+<jtok eid="4" type="primary_name_ref" span="195:46:195:47">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="196:21:196:36">inCommandOption</jtok>
+<jtok eid="4" type="line_comment" span="197:21:197:61">// Or the beginning of the command body:</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:27:198:42">inCommandOption</jtok>
+<jtok eid="4" type="primary_name_ref" span="198:47:198:48">c</jtok>
+<jtok eid="4" type="line_comment" span="199:21:199:88">//System.out.println("Read command: '"+commandName.toString()+"'");</jtok>
+<jtok eid="4" type="primary_name_ref" span="200:21:200:34">inCommandName</jtok>
+<jtok eid="4" type="primary_name_ref" span="201:21:201:30">inCommand</jtok>
+<jtok eid="4" type="line_comment" span="203:17:203:65">// Or simply the end of this command altogether:</jtok>
+<jtok eid="4" type="line_comment" span="205:21:205:98">//System.out.println("I think I read command: '"+commandName.toString()+"'");</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:21:207:32">commandName</jtok>
+<jtok eid="4" type="method_call" span="207:33:207:39">delete</jtok>
+<jtok eid="4" type="primary_name_ref" span="207:43:207:54">commandName</jtok>
+<jtok eid="4" type="method_call" span="207:55:207:61">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="208:21:208:34">inCommandName</jtok>
+<jtok eid="4" type="line_comment" span="211:13:211:65">// If we are in a command body, see if it has ended:</jtok>
+<jtok eid="4" type="primary_name_ref" span="212:17:212:26">inCommand</jtok>
+<jtok eid="4" type="primary_name_ref" span="212:31:212:32">c</jtok>
+<jtok eid="4" type="line_comment" span="213:17:213:84">//System.out.println("nestedEnvironments = " + nestedEnvironments);</jtok>
+<jtok eid="4" type="line_comment" span="214:17:214:89">//System.out.println("Done with command: '"+commandName.toString()+"'");</jtok>
+<jtok eid="4" type="primary_name_ref" span="215:21:215:32">commandName</jtok>
+<jtok eid="4" type="method_call" span="215:33:215:41">toString</jtok>
+<jtok eid="4" type="method_call" span="215:44:215:50">equals</jtok>
+<jtok eid="4" type="string_literal" span="215:51:215:58">"begin"</jtok>
+<jtok eid="4" type="primary_name_ref" span="216:21:216:39">nestedEnvironments</jtok>
+<jtok eid="4" type="primary_name_ref" span="218:21:218:39">nestedEnvironments</jtok>
+<jtok eid="4" type="primary_name_ref" span="218:47:218:58">commandName</jtok>
+<jtok eid="4" type="method_call" span="218:59:218:67">toString</jtok>
+<jtok eid="4" type="method_call" span="218:70:218:76">equals</jtok>
+<jtok eid="4" type="string_literal" span="218:77:218:82">"end"</jtok>
+<jtok eid="4" type="primary_name_ref" span="219:21:219:39">nestedEnvironments</jtok>
+<jtok eid="4" type="line_comment" span="221:17:221:84">//System.out.println("nestedEnvironments = " + nestedEnvironments);</jtok>
+<jtok eid="4" type="primary_name_ref" span="223:17:223:28">commandName</jtok>
+<jtok eid="4" type="method_call" span="223:29:223:35">delete</jtok>
+<jtok eid="4" type="primary_name_ref" span="223:39:223:50">commandName</jtok>
+<jtok eid="4" type="method_call" span="223:51:223:57">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="224:17:224:26">inCommand</jtok>
+<jtok eid="4" type="line_comment" span="227:13:227:90">// We add a backslash before any ampersand characters, with one exception: if</jtok>
+<jtok eid="4" type="line_comment" span="228:13:228:88">// we are inside an \\url{...} command, we should write it as it is. Maybe.</jtok>
+<jtok eid="4" type="primary_name_ref" span="229:18:229:19">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="229:32:229:38">escape</jtok>
+<jtok eid="4" type="primary_name_ref" span="230:23:230:32">inCommand</jtok>
+<jtok eid="4" type="primary_name_ref" span="230:36:230:47">commandName</jtok>
+<jtok eid="4" type="method_call" span="230:48:230:56">toString</jtok>
+<jtok eid="4" type="method_call" span="230:59:230:65">equals</jtok>
+<jtok eid="4" type="string_literal" span="230:66:230:71">"url"</jtok>
+<jtok eid="4" type="primary_name_ref" span="231:22:231:40">nestedEnvironments</jtok>
+<jtok eid="4" type="primary_name_ref" span="232:17:232:19">sb</jtok>
+<jtok eid="4" type="method_call" span="232:20:232:26">append</jtok>
+<jtok eid="4" type="string_literal" span="232:27:232:32">"\\&amp;"</jtok>
+<jtok eid="4" type="primary_name_ref" span="234:17:234:19">sb</jtok>
+<jtok eid="4" type="method_call" span="234:20:234:26">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="234:27:234:28">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="235:13:235:19">escape</jtok>
+<jtok eid="4" type="primary_name_ref" span="235:23:235:24">c</jtok>
+<jtok eid="4" type="primary_name_ref" span="237:9:237:11">sb</jtok>
+<jtok eid="4" type="method_call" span="237:12:237:18">append</jtok>
+<jtok eid="5" type="method_name" span="240:18:240:34">writeStringLabel</jtok>
+<jtok eid="5" type="parameter_type" span="240:35:240:41">String</jtok>
+<jtok eid="5" type="parameter_name" span="240:42:240:46">text</jtok>
+<jtok eid="5" type="parameter_name" span="240:52:240:61">start_pos</jtok>
+<jtok eid="5" type="parameter_name" span="240:67:240:74">end_pos</jtok>
+<jtok eid="5" type="parameter_name" span="241:43:241:48">first</jtok>
+<jtok eid="5" type="parameter_name" span="241:58:241:62">last</jtok>
+<jtok eid="5" type="line_comment" span="242:9:242:89">//sb.append(Util.wrap2((first ? "" : " # ") + text.substring(start_pos, end_pos)</jtok>
+<jtok eid="5" type="line_comment" span="243:9:243:66">//		     + (last ? "" : " # "), GUIGlobals.LINE_LENGTH));</jtok>
+<jtok eid="5" type="method_call" span="244:9:244:14">putIn</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:16:244:21">first</jtok>
+<jtok eid="5" type="string_literal" span="244:24:244:26">""</jtok>
+<jtok eid="5" type="string_literal" span="244:29:244:34">" # "</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:38:244:42">text</jtok>
+<jtok eid="5" type="method_call" span="244:43:244:52">substring</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:53:244:62">start_pos</jtok>
+<jtok eid="5" type="primary_name_ref" span="244:64:244:71">end_pos</jtok>
+<jtok eid="5" type="primary_name_ref" span="245:20:245:24">last</jtok>
+<jtok eid="5" type="string_literal" span="245:27:245:29">""</jtok>
+<jtok eid="5" type="string_literal" span="245:32:245:37">" # "</jtok>
+<jtok eid="6" type="method_name" span="248:18:248:23">putIn</jtok>
+<jtok eid="6" type="parameter_type" span="248:24:248:30">String</jtok>
+<jtok eid="6" type="parameter_name" span="248:31:248:32">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="249:9:249:11">sb</jtok>
+<jtok eid="6" type="method_call" span="249:12:249:18">append</jtok>
+<jtok eid="6" type="primary_name_ref" span="249:19:249:23">Util</jtok>
+<jtok eid="6" type="method_call" span="249:24:249:29">wrap2</jtok>
+<jtok eid="6" type="primary_name_ref" span="249:30:249:31">s</jtok>
+<jtok eid="6" type="primary_name_ref" span="249:33:249:43">GUIGlobals</jtok>
+<jtok eid="6" type="qualified_name_ref" span="249:44:249:55">LINE_LENGTH</jtok>
+<jtok eid="7" type="method_name" span="253:18:253:29">checkBraces</jtok>
+<jtok eid="7" type="parameter_type" span="253:30:253:36">String</jtok>
+<jtok eid="7" type="parameter_name" span="253:37:253:41">text</jtok>
+<jtok eid="7" type="throws" span="253:50:253:74">IllegalArgumentException</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="255:9:255:15">Vector</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="255:16:255:23">Integer</jtok>
+<jtok eid="7" type="local_variable_name" span="256:17:256:21">left</jtok>
+<jtok eid="7" type="constructor_call" span="256:28:256:34">Vector</jtok>
+<jtok eid="7" type="constructor_call" span="256:35:256:42">Integer</jtok>
+<jtok eid="7" type="local_variable_name" span="257:17:257:22">right</jtok>
+<jtok eid="7" type="constructor_call" span="257:29:257:35">Vector</jtok>
+<jtok eid="7" type="constructor_call" span="257:36:257:43">Integer</jtok>
+<jtok eid="7" type="local_variable_name" span="258:13:258:20">current</jtok>
+<jtok eid="7" type="line_comment" span="260:9:260:44">// First we collect all occurences:</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:17:261:24">current</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:27:261:31">text</jtok>
+<jtok eid="7" type="method_call" span="261:32:261:39">indexOf</jtok>
+<jtok eid="7" type="primary_name_ref" span="261:45:261:52">current</jtok>
+<jtok eid="7" type="primary_name_ref" span="262:13:262:17">left</jtok>
+<jtok eid="7" type="method_call" span="262:18:262:21">add</jtok>
+<jtok eid="7" type="constructor_call" span="262:26:262:33">Integer</jtok>
+<jtok eid="7" type="primary_name_ref" span="262:34:262:41">current</jtok>
+<jtok eid="7" type="primary_name_ref" span="263:17:263:24">current</jtok>
+<jtok eid="7" type="primary_name_ref" span="263:27:263:31">text</jtok>
+<jtok eid="7" type="method_call" span="263:32:263:39">indexOf</jtok>
+<jtok eid="7" type="primary_name_ref" span="263:45:263:52">current</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:13:264:18">right</jtok>
+<jtok eid="7" type="method_call" span="264:19:264:22">add</jtok>
+<jtok eid="7" type="constructor_call" span="264:27:264:34">Integer</jtok>
+<jtok eid="7" type="primary_name_ref" span="264:35:264:42">current</jtok>
+<jtok eid="7" type="line_comment" span="266:9:266:69">// Then we throw an exception if the error criteria are met.</jtok>
+<jtok eid="7" type="primary_name_ref" span="267:14:267:19">right</jtok>
+<jtok eid="7" type="method_call" span="267:20:267:24">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="267:36:267:40">left</jtok>
+<jtok eid="7" type="method_call" span="267:41:267:45">size</jtok>
+<jtok eid="7" type="constructor_call" span="268:23:268:47">IllegalArgumentException</jtok>
+<jtok eid="7" type="string_literal" span="269:22:269:62">"'}' character ends string prematurely."</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:14:270:19">right</jtok>
+<jtok eid="7" type="method_call" span="270:20:270:24">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="270:37:270:42">right</jtok>
+<jtok eid="7" type="method_call" span="270:43:270:52">elementAt</jtok>
+<jtok eid="7" type="method_call" span="270:57:270:65">intValue</jtok>
+<jtok eid="7" type="primary_name_ref" span="271:20:271:24">left</jtok>
+<jtok eid="7" type="method_call" span="271:25:271:34">elementAt</jtok>
+<jtok eid="7" type="method_call" span="271:39:271:47">intValue</jtok>
+<jtok eid="7" type="constructor_call" span="272:23:272:47">IllegalArgumentException</jtok>
+<jtok eid="7" type="string_literal" span="273:22:273:62">"'}' character ends string prematurely."</jtok>
+<jtok eid="7" type="primary_name_ref" span="274:13:274:17">left</jtok>
+<jtok eid="7" type="method_call" span="274:18:274:22">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="274:28:274:33">right</jtok>
+<jtok eid="7" type="method_call" span="274:34:274:38">size</jtok>
+<jtok eid="7" type="constructor_call" span="275:23:275:47">IllegalArgumentException</jtok>
+<jtok eid="7" type="string_literal" span="276:22:276:43">"Braces don't match."</jtok>
+</jdoc>

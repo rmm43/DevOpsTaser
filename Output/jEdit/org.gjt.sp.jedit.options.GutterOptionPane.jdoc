@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.options.GutterOptionPane" jls="java5">
+<jent id="0" type="file" span="0:0:412:2">Source/jEdit/org/gjt/sp/jedit/options/GutterOptionPane.java</jent>
+<jent id="1" pid="0" type="class" span="39:1:412:1">org.gjt.sp.jedit.options.GutterOptionPane</jent>
+<jent id="2" pid="1" type="method" span="42:2:45:2">org.gjt.sp.jedit.options.GutterOptionPane.GutterOptionPane()</jent>
+<jent id="3" pid="1" type="method" span="48:2:245:2">org.gjt.sp.jedit.options.GutterOptionPane._init()</jent>
+<jent id="4" pid="3" type="class" span="78:3:96:3">org.gjt.sp.jedit.options.GutterOptionPane._init().$1</jent>
+<jent id="5" pid="4" type="method" span="80:4:95:4">org.gjt.sp.jedit.options.GutterOptionPane._init().$1.verify(JComponent)</jent>
+<jent id="6" pid="3" type="class" span="118:3:123:3">org.gjt.sp.jedit.options.GutterOptionPane._init().$2</jent>
+<jent id="7" pid="6" type="method" span="119:4:122:4">org.gjt.sp.jedit.options.GutterOptionPane._init().$2.stateChanged(ChangeEvent)</jent>
+<jent id="8" pid="1" type="method" span="248:2:311:2">org.gjt.sp.jedit.options.GutterOptionPane._save()</jent>
+<jent id="9" pid="1" type="method" span="314:2:318:2">org.gjt.sp.jedit.options.GutterOptionPane.setGutterComponentsEnabledState()</jent>
+<jent id="10" pid="1" type="method" span="321:2:337:2">org.gjt.sp.jedit.options.GutterOptionPane.addFoldStyleChooser()</jent>
+<jent id="11" pid="1" type="method" span="340:2:343:2">org.gjt.sp.jedit.options.GutterOptionPane.isGutterEnabled()</jent>
+<jent id="12" pid="1" type="method" span="346:2:352:2">org.gjt.sp.jedit.options.GutterOptionPane.getMinLineNumberDigits()</jent>
+<jent id="13" pid="1" type="method" span="355:2:358:2">org.gjt.sp.jedit.options.GutterOptionPane.isSelectionAreaEnabled()</jent>
+<jent id="14" pid="1" type="method" span="361:2:367:2">org.gjt.sp.jedit.options.GutterOptionPane.getSelectionAreaBackground()</jent>
+<jent id="15" pid="1" type="method" span="370:2:377:2">org.gjt.sp.jedit.options.GutterOptionPane.getSelectionAreaWidth()</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * GutterOptionPane.java - Gutter options panel
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000 mike dillon
+ * Portions copyright (C) 2001, 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="36:1:36:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="39:14:39:30">GutterOptionPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:39:39:57">AbstractOptionPane</jtok>
+<jtok eid="1" type="line_comment" span="41:2:41:36">//{{{ GutterOptionPane constructor</jtok>
+<jtok eid="2" type="method_name" span="42:9:42:25">GutterOptionPane</jtok>
+<jtok eid="2" type="string_literal" span="44:9:44:17">"gutter"</jtok>
+<jtok eid="1" type="line_comment" span="45:4:45:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:22">//{{{ _init() method</jtok>
+<jtok eid="3" type="method_name" span="48:14:48:19">_init</jtok>
+<jtok eid="3" type="block_comment" span="50:3:50:22">/* Gutter enable */</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:3:51:16">gutterEnabled</jtok>
+<jtok eid="3" type="constructor_call" span="51:23:51:32">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:33:51:38">jEdit</jtok>
+<jtok eid="3" type="method_call" span="51:39:51:50">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="52:4:52:28">"options.gutter.enabled"</jtok>
+<jtok eid="3" type="primary_name_ref" span="53:3:53:16">gutterEnabled</jtok>
+<jtok eid="3" type="method_call" span="53:17:53:28">setSelected</jtok>
+<jtok eid="3" type="method_call" span="53:29:53:44">isGutterEnabled</jtok>
+<jtok eid="3" type="method_call" span="54:3:54:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="54:16:54:29">gutterEnabled</jtok>
+<jtok eid="3" type="block_comment" span="56:3:56:32">/* Gutter components frame */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="57:3:57:21">GridBagConstraints</jtok>
+<jtok eid="3" type="local_variable_name" span="57:22:57:26">cons</jtok>
+<jtok eid="3" type="constructor_call" span="57:33:57:51">GridBagConstraints</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:3:58:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="58:8:58:18">gridheight</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:3:59:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="59:8:59:17">gridwidth</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:20:59:38">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="59:39:59:48">REMAINDER</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:3:60:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="60:8:60:12">fill</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:15:60:33">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="60:34:60:44">HORIZONTAL</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:3:61:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="61:8:61:14">anchor</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:17:61:35">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="61:36:61:40">WEST</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:3:62:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="62:8:62:15">weightx</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:3:63:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="63:8:63:13">ipadx</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:3:64:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="64:8:64:13">ipady</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:3:65:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="65:8:65:14">insets</jtok>
+<jtok eid="3" type="constructor_call" span="65:21:65:27">Insets</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:3:66:19">gutterComponents</jtok>
+<jtok eid="3" type="constructor_call" span="66:26:66:32">JPanel</jtok>
+<jtok eid="3" type="constructor_call" span="66:37:66:50">GridBagLayout</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:3:67:19">gutterComponents</jtok>
+<jtok eid="3" type="method_call" span="67:20:67:29">setBorder</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:30:67:43">BorderFactory</jtok>
+<jtok eid="3" type="method_call" span="67:44:67:62">createTitledBorder</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:4:68:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="68:10:68:21">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="68:22:68:57">"options.gutter.optionalComponents"</jtok>
+<jtok eid="3" type="block_comment" span="70:3:70:23">/* Line numbering */</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:3:71:21">lineNumbersEnabled</jtok>
+<jtok eid="3" type="constructor_call" span="71:28:71:37">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:38:71:43">jEdit</jtok>
+<jtok eid="3" type="method_call" span="71:44:71:55">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="72:4:72:32">"options.gutter.lineNumbers"</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:3:73:21">lineNumbersEnabled</jtok>
+<jtok eid="3" type="method_call" span="73:22:73:33">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="73:34:73:39">jEdit</jtok>
+<jtok eid="3" type="method_call" span="73:40:73:58">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="74:4:74:29">"view.gutter.lineNumbers"</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:3:75:19">gutterComponents</jtok>
+<jtok eid="3" type="method_call" span="75:20:75:23">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:24:75:42">lineNumbersEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:44:75:48">cons</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="77:3:77:16">InputVerifier</jtok>
+<jtok eid="3" type="local_variable_name" span="77:17:77:37">integerInputVerifier</jtok>
+<jtok eid="3" type="constructor_call" span="77:44:77:57">InputVerifier</jtok>
+<jtok eid="4" type="annotation_ref" span="79:5:79:13">Override</jtok>
+<jtok eid="5" type="method_name" span="80:19:80:25">verify</jtok>
+<jtok eid="5" type="parameter_type" span="80:26:80:36">JComponent</jtok>
+<jtok eid="5" type="parameter_name" span="80:37:80:42">input</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:12:82:17">input</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="82:29:82:39">JTextField</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="84:5:84:15">JTextField</jtok>
+<jtok eid="5" type="local_variable_name" span="84:16:84:18">tf</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="84:22:84:32">JTextField</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:34:84:39">input</jtok>
+<jtok eid="5" type="local_variable_name" span="85:9:85:10">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="88:6:88:7">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="88:10:88:17">Integer</jtok>
+<jtok eid="5" type="method_call" span="88:18:88:25">valueOf</jtok>
+<jtok eid="5" type="primary_name_ref" span="88:26:88:28">tf</jtok>
+<jtok eid="5" type="method_call" span="88:29:88:36">getText</jtok>
+<jtok eid="5" type="method_call" span="88:40:88:48">intValue</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="90:12:90:21">Exception</jtok>
+<jtok eid="5" type="local_variable_name" span="90:22:90:23">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:13:94:14">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:3:97:22">minLineNumberDigits</jtok>
+<jtok eid="3" type="constructor_call" span="97:29:97:39">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="97:40:97:46">String</jtok>
+<jtok eid="3" type="method_call" span="97:47:97:54">valueOf</jtok>
+<jtok eid="3" type="method_call" span="98:5:98:27">getMinLineNumberDigits</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:3:99:22">minLineNumberDigits</jtok>
+<jtok eid="3" type="method_call" span="99:23:99:39">setInputVerifier</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:40:99:60">integerInputVerifier</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="100:3:100:9">JPanel</jtok>
+<jtok eid="3" type="local_variable_name" span="100:10:100:34">minLineNumberDigitsPanel</jtok>
+<jtok eid="3" type="constructor_call" span="100:41:100:47">JPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:3:101:27">minLineNumberDigitsPanel</jtok>
+<jtok eid="3" type="method_call" span="101:28:101:31">add</jtok>
+<jtok eid="3" type="constructor_call" span="101:36:101:42">JLabel</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:4:102:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="102:10:102:21">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="102:22:102:58">"options.gutter.minLineNumberDigits"</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:3:103:27">minLineNumberDigitsPanel</jtok>
+<jtok eid="3" type="method_call" span="103:28:103:31">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:32:103:51">minLineNumberDigits</jtok>
+<jtok eid="3" type="primary_name_ref" span="104:3:104:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="104:8:104:13">gridy</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:3:105:19">gutterComponents</jtok>
+<jtok eid="3" type="method_call" span="105:20:105:23">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:24:105:48">minLineNumberDigitsPanel</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:50:105:54">cons</jtok>
+<jtok eid="3" type="block_comment" span="107:3:107:30">/* Selection area enable */</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:3:108:23">selectionAreaEnabled</jtok>
+<jtok eid="3" type="constructor_call" span="108:30:108:39">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:40:108:45">jEdit</jtok>
+<jtok eid="3" type="method_call" span="108:46:108:57">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="109:4:109:41">"options.gutter.selectionAreaEnabled"</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:3:110:23">selectionAreaEnabled</jtok>
+<jtok eid="3" type="method_call" span="110:24:110:35">setSelected</jtok>
+<jtok eid="3" type="method_call" span="110:36:110:58">isSelectionAreaEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:3:111:7">cons</jtok>
+<jtok eid="3" type="qualified_name_ref" span="111:8:111:13">gridy</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:3:112:19">gutterComponents</jtok>
+<jtok eid="3" type="method_call" span="112:20:112:23">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:24:112:44">selectionAreaEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:46:112:50">cons</jtok>
+<jtok eid="3" type="method_call" span="114:3:114:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="114:16:114:32">gutterComponents</jtok>
+<jtok eid="3" type="line_comment" span="115:3:115:63">// Disable gutter components when 'show gutter' is unchecked</jtok>
+<jtok eid="3" type="method_call" span="116:3:116:34">setGutterComponentsEnabledState</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:3:117:16">gutterEnabled</jtok>
+<jtok eid="3" type="method_call" span="117:17:117:34">addChangeListener</jtok>
+<jtok eid="3" type="constructor_call" span="117:39:117:53">ChangeListener</jtok>
+<jtok eid="7" type="method_name" span="119:16:119:28">stateChanged</jtok>
+<jtok eid="7" type="parameter_type" span="119:29:119:40">ChangeEvent</jtok>
+<jtok eid="7" type="parameter_name" span="119:41:119:42">e</jtok>
+<jtok eid="7" type="method_call" span="121:5:121:36">setGutterComponentsEnabledState</jtok>
+<jtok eid="3" type="block_comment" span="125:3:125:40">/* Selection area background color */</jtok>
+<jtok eid="3" type="method_call" span="126:3:126:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="126:16:126:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="126:22:126:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="126:34:126:71">"options.gutter.selectionAreaBgColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="127:4:127:24">selectionAreaBgColor</jtok>
+<jtok eid="3" type="constructor_call" span="127:31:127:46">ColorWellButton</jtok>
+<jtok eid="3" type="method_call" span="128:5:128:31">getSelectionAreaBackground</jtok>
+<jtok eid="3" type="primary_name_ref" span="128:36:128:54">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="128:55:128:63">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="130:3:130:29">/* Selection area width */</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:3:131:21">selectionAreaWidth</jtok>
+<jtok eid="3" type="constructor_call" span="131:28:131:38">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="131:39:131:45">String</jtok>
+<jtok eid="3" type="method_call" span="131:46:131:53">valueOf</jtok>
+<jtok eid="3" type="method_call" span="132:4:132:25">getSelectionAreaWidth</jtok>
+<jtok eid="3" type="primary_name_ref" span="132:29:132:59">DEFAULT_SELECTION_GUTTER_WIDTH</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:3:133:21">selectionAreaWidth</jtok>
+<jtok eid="3" type="method_call" span="133:22:133:38">setInputVerifier</jtok>
+<jtok eid="3" type="primary_name_ref" span="133:39:133:59">integerInputVerifier</jtok>
+<jtok eid="3" type="method_call" span="134:3:134:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="134:16:134:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="134:22:134:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="134:34:134:69">"options.gutter.selectionAreaWidth"</jtok>
+<jtok eid="3" type="primary_name_ref" span="135:4:135:22">selectionAreaWidth</jtok>
+<jtok eid="3" type="block_comment" span="137:3:137:18">/* Text font */</jtok>
+<jtok eid="3" type="primary_name_ref" span="138:3:138:13">gutterFont</jtok>
+<jtok eid="3" type="constructor_call" span="138:20:138:32">FontSelector</jtok>
+<jtok eid="3" type="primary_name_ref" span="139:4:139:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="139:10:139:25">getFontProperty</jtok>
+<jtok eid="3" type="string_literal" span="139:26:139:44">"view.gutter.font"</jtok>
+<jtok eid="3" type="constructor_call" span="140:8:140:12">Font</jtok>
+<jtok eid="3" type="string_literal" span="140:13:140:25">"Monospaced"</jtok>
+<jtok eid="3" type="primary_name_ref" span="140:26:140:30">Font</jtok>
+<jtok eid="3" type="qualified_name_ref" span="140:31:140:36">PLAIN</jtok>
+<jtok eid="3" type="method_call" span="142:3:142:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:16:142:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="142:22:142:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="142:34:142:55">"options.gutter.font"</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:57:142:67">gutterFont</jtok>
+<jtok eid="3" type="block_comment" span="144:3:144:19">/* Text color */</jtok>
+<jtok eid="3" type="method_call" span="145:3:145:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="145:16:145:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="145:22:145:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="145:34:145:61">"options.gutter.foreground"</jtok>
+<jtok eid="3" type="primary_name_ref" span="146:4:146:20">gutterForeground</jtok>
+<jtok eid="3" type="constructor_call" span="146:27:146:42">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="147:4:147:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="147:10:147:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="147:27:147:48">"view.gutter.fgColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="148:4:148:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="148:23:148:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="150:3:150:25">/* Background color */</jtok>
+<jtok eid="3" type="method_call" span="151:3:151:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="151:16:151:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="151:22:151:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="151:34:151:61">"options.gutter.background"</jtok>
+<jtok eid="3" type="primary_name_ref" span="152:4:152:20">gutterBackground</jtok>
+<jtok eid="3" type="constructor_call" span="152:27:152:42">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="153:4:153:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="153:10:153:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="153:27:153:48">"view.gutter.bgColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="154:4:154:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="154:23:154:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="156:3:156:21">/* Border width */</jtok>
+<jtok eid="3" type="block_comment" span="157:3:160:26">/* gutterBorderWidth = new JTextField(jEdit.getProperty(
+			"view.gutter.borderWidth"));
+		addComponent(jEdit.getProperty("options.gutter.borderWidth"),
+			gutterBorderWidth); */</jtok>
+<jtok eid="3" type="block_comment" span="162:3:162:25">/* Number alignment */</jtok>
+<jtok eid="3" type="block_comment" span="163:3:175:30">/* String[] alignments = new String[] {
+			"Left", "Center", "Right"
+		};
+		gutterNumberAlignment = new JComboBox(alignments);
+		String alignment = jEdit.getProperty("view.gutter.numberAlignment");
+		if("right".equals(alignment))
+			gutterNumberAlignment.setSelectedIndex(2);
+		else if("center".equals(alignment))
+			gutterNumberAlignment.setSelectedIndex(1);
+		else
+			gutterNumberAlignment.setSelectedIndex(0);
+		addComponent(jEdit.getProperty("options.gutter.numberAlignment"),
+			gutterNumberAlignment); */</jtok>
+<jtok eid="3" type="block_comment" span="177:3:177:31">/* Current line highlight */</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:3:178:36">gutterCurrentLineHighlightEnabled</jtok>
+<jtok eid="3" type="constructor_call" span="178:43:178:52">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="178:53:178:58">jEdit</jtok>
+<jtok eid="3" type="method_call" span="178:59:178:70">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="179:4:179:41">"options.gutter.currentLineHighlight"</jtok>
+<jtok eid="3" type="primary_name_ref" span="180:3:180:36">gutterCurrentLineHighlightEnabled</jtok>
+<jtok eid="3" type="method_call" span="180:37:180:48">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="180:49:180:54">jEdit</jtok>
+<jtok eid="3" type="method_call" span="180:55:180:73">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="181:4:181:38">"view.gutter.highlightCurrentLine"</jtok>
+<jtok eid="3" type="method_call" span="182:3:182:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="182:16:182:49">gutterCurrentLineHighlightEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="183:4:183:30">gutterCurrentLineHighlight</jtok>
+<jtok eid="3" type="constructor_call" span="183:37:183:52">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="184:4:184:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="184:10:184:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="184:27:184:57">"view.gutter.currentLineColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="185:4:185:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="185:23:185:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="187:3:187:37">/* Highlight interval and color */</jtok>
+<jtok eid="3" type="primary_name_ref" span="188:3:188:26">gutterHighlightInterval</jtok>
+<jtok eid="3" type="constructor_call" span="188:33:188:43">JTextField</jtok>
+<jtok eid="3" type="primary_name_ref" span="188:44:188:49">jEdit</jtok>
+<jtok eid="3" type="method_call" span="188:50:188:61">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="189:4:189:35">"view.gutter.highlightInterval"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="191:3:191:6">Box</jtok>
+<jtok eid="3" type="local_variable_name" span="191:7:191:25">gutterHighlightBox</jtok>
+<jtok eid="3" type="constructor_call" span="191:32:191:35">Box</jtok>
+<jtok eid="3" type="primary_name_ref" span="191:36:191:45">BoxLayout</jtok>
+<jtok eid="3" type="qualified_name_ref" span="191:46:191:52">X_AXIS</jtok>
+<jtok eid="3" type="primary_name_ref" span="192:3:192:21">gutterHighlightBox</jtok>
+<jtok eid="3" type="method_call" span="192:22:192:25">add</jtok>
+<jtok eid="3" type="constructor_call" span="192:30:192:36">JLabel</jtok>
+<jtok eid="3" type="primary_name_ref" span="192:37:192:42">jEdit</jtok>
+<jtok eid="3" type="method_call" span="192:43:192:54">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="193:4:193:31">"options.gutter.interval-1"</jtok>
+<jtok eid="3" type="primary_name_ref" span="194:3:194:21">gutterHighlightBox</jtok>
+<jtok eid="3" type="method_call" span="194:22:194:25">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="194:26:194:29">Box</jtok>
+<jtok eid="3" type="method_call" span="194:30:194:51">createHorizontalStrut</jtok>
+<jtok eid="3" type="primary_name_ref" span="195:3:195:21">gutterHighlightBox</jtok>
+<jtok eid="3" type="method_call" span="195:22:195:25">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="195:26:195:49">gutterHighlightInterval</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:3:196:21">gutterHighlightBox</jtok>
+<jtok eid="3" type="method_call" span="196:22:196:25">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:26:196:29">Box</jtok>
+<jtok eid="3" type="method_call" span="196:30:196:51">createHorizontalStrut</jtok>
+<jtok eid="3" type="primary_name_ref" span="197:3:197:21">gutterHighlightBox</jtok>
+<jtok eid="3" type="method_call" span="197:22:197:25">add</jtok>
+<jtok eid="3" type="constructor_call" span="197:30:197:36">JLabel</jtok>
+<jtok eid="3" type="primary_name_ref" span="197:37:197:42">jEdit</jtok>
+<jtok eid="3" type="method_call" span="197:43:197:54">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="198:4:198:31">"options.gutter.interval-2"</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:3:199:21">gutterHighlightBox</jtok>
+<jtok eid="3" type="method_call" span="199:22:199:25">add</jtok>
+<jtok eid="3" type="primary_name_ref" span="199:26:199:29">Box</jtok>
+<jtok eid="3" type="method_call" span="199:30:199:51">createHorizontalStrut</jtok>
+<jtok eid="3" type="method_call" span="201:3:201:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="201:16:201:34">gutterHighlightBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="201:35:201:55">gutterHighlightColor</jtok>
+<jtok eid="3" type="constructor_call" span="202:10:202:25">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="202:26:202:31">jEdit</jtok>
+<jtok eid="3" type="method_call" span="202:32:202:48">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="203:4:203:32">"view.gutter.highlightColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="204:4:204:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="204:23:204:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="206:3:206:28">/* Structure highlight */</jtok>
+<jtok eid="3" type="primary_name_ref" span="207:3:207:34">gutterStructureHighlightEnabled</jtok>
+<jtok eid="3" type="constructor_call" span="207:41:207:50">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="207:51:207:56">jEdit</jtok>
+<jtok eid="3" type="method_call" span="207:57:207:68">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="208:4:208:39">"options.gutter.structureHighlight"</jtok>
+<jtok eid="3" type="primary_name_ref" span="209:3:209:34">gutterStructureHighlightEnabled</jtok>
+<jtok eid="3" type="method_call" span="209:35:209:46">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="209:47:209:52">jEdit</jtok>
+<jtok eid="3" type="method_call" span="209:53:209:71">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="210:4:210:36">"view.gutter.structureHighlight"</jtok>
+<jtok eid="3" type="method_call" span="211:3:211:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="211:16:211:47">gutterStructureHighlightEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="212:4:212:28">gutterStructureHighlight</jtok>
+<jtok eid="3" type="constructor_call" span="212:35:212:50">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="213:4:213:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="213:10:213:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="213:27:213:64">"view.gutter.structureHighlightColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="214:4:214:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="214:23:214:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="216:3:216:25">/* Marker highlight */</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:3:217:31">gutterMarkerHighlightEnabled</jtok>
+<jtok eid="3" type="constructor_call" span="217:38:217:47">JCheckBox</jtok>
+<jtok eid="3" type="primary_name_ref" span="217:48:217:53">jEdit</jtok>
+<jtok eid="3" type="method_call" span="217:54:217:65">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="218:4:218:36">"options.gutter.markerHighlight"</jtok>
+<jtok eid="3" type="primary_name_ref" span="219:3:219:31">gutterMarkerHighlightEnabled</jtok>
+<jtok eid="3" type="method_call" span="219:32:219:43">setSelected</jtok>
+<jtok eid="3" type="primary_name_ref" span="219:44:219:49">jEdit</jtok>
+<jtok eid="3" type="method_call" span="219:50:219:68">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="220:4:220:33">"view.gutter.markerHighlight"</jtok>
+<jtok eid="3" type="method_call" span="221:3:221:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="221:16:221:44">gutterMarkerHighlightEnabled</jtok>
+<jtok eid="3" type="primary_name_ref" span="222:4:222:25">gutterMarkerHighlight</jtok>
+<jtok eid="3" type="constructor_call" span="222:32:222:47">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="223:4:223:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="223:10:223:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="223:27:223:52">"view.gutter.markerColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="224:4:224:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="224:23:224:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="226:3:226:26">/* Fold marker color */</jtok>
+<jtok eid="3" type="method_call" span="227:3:227:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="227:16:227:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="227:22:227:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="227:34:227:60">"options.gutter.foldColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="228:4:228:21">gutterFoldMarkers</jtok>
+<jtok eid="3" type="constructor_call" span="228:28:228:43">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="229:4:229:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="229:10:229:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="229:27:229:50">"view.gutter.foldColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="230:4:230:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="230:23:230:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="232:3:232:29">/* Focused border color */</jtok>
+<jtok eid="3" type="method_call" span="233:3:233:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="233:16:233:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="233:22:233:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="233:34:233:67">"options.gutter.focusBorderColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="234:4:234:21">gutterFocusBorder</jtok>
+<jtok eid="3" type="constructor_call" span="234:28:234:43">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="235:4:235:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="235:10:235:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="235:27:235:57">"view.gutter.focusBorderColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="236:4:236:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="236:23:236:31">VERTICAL</jtok>
+<jtok eid="3" type="block_comment" span="238:3:238:31">/* unfocused border color */</jtok>
+<jtok eid="3" type="method_call" span="239:3:239:15">addComponent</jtok>
+<jtok eid="3" type="primary_name_ref" span="239:16:239:21">jEdit</jtok>
+<jtok eid="3" type="method_call" span="239:22:239:33">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="239:34:239:69">"options.gutter.noFocusBorderColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="240:4:240:23">gutterNoFocusBorder</jtok>
+<jtok eid="3" type="constructor_call" span="240:30:240:45">ColorWellButton</jtok>
+<jtok eid="3" type="primary_name_ref" span="241:4:241:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="241:10:241:26">getColorProperty</jtok>
+<jtok eid="3" type="string_literal" span="241:27:241:59">"view.gutter.noFocusBorderColor"</jtok>
+<jtok eid="3" type="primary_name_ref" span="242:4:242:22">GridBagConstraints</jtok>
+<jtok eid="3" type="qualified_name_ref" span="242:23:242:31">VERTICAL</jtok>
+<jtok eid="3" type="method_call" span="244:3:244:22">addFoldStyleChooser</jtok>
+<jtok eid="1" type="line_comment" span="245:4:245:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="247:2:247:22">//{{{ _save() method</jtok>
+<jtok eid="8" type="method_name" span="248:14:248:19">_save</jtok>
+<jtok eid="8" type="primary_name_ref" span="250:3:250:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="250:9:250:27">setBooleanProperty</jtok>
+<jtok eid="8" type="string_literal" span="250:28:250:53">"view.gutter.lineNumbers"</jtok>
+<jtok eid="8" type="primary_name_ref" span="250:55:250:73">lineNumbersEnabled</jtok>
+<jtok eid="8" type="method_call" span="251:5:251:15">isSelected</jtok>
+<jtok eid="8" type="primary_name_ref" span="252:3:252:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="252:9:252:27">setIntegerProperty</jtok>
+<jtok eid="8" type="string_literal" span="252:28:252:55">"view.gutter.minDigitCount"</jtok>
+<jtok eid="8" type="primary_name_ref" span="253:4:253:11">Integer</jtok>
+<jtok eid="8" type="method_call" span="253:12:253:19">valueOf</jtok>
+<jtok eid="8" type="primary_name_ref" span="253:20:253:39">minLineNumberDigits</jtok>
+<jtok eid="8" type="method_call" span="253:40:253:47">getText</jtok>
+<jtok eid="8" type="primary_name_ref" span="255:3:255:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="255:9:255:24">setFontProperty</jtok>
+<jtok eid="8" type="string_literal" span="255:25:255:43">"view.gutter.font"</jtok>
+<jtok eid="8" type="primary_name_ref" span="255:44:255:54">gutterFont</jtok>
+<jtok eid="8" type="method_call" span="255:55:255:62">getFont</jtok>
+<jtok eid="8" type="primary_name_ref" span="256:3:256:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="256:9:256:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="256:26:256:47">"view.gutter.fgColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="256:48:256:64">gutterForeground</jtok>
+<jtok eid="8" type="method_call" span="257:5:257:21">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="258:3:258:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="258:9:258:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="258:26:258:47">"view.gutter.bgColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="258:48:258:64">gutterBackground</jtok>
+<jtok eid="8" type="method_call" span="259:5:259:21">getSelectedColor</jtok>
+<jtok eid="8" type="block_comment" span="261:3:276:66">/* jEdit.setProperty("view.gutter.borderWidth",
+			gutterBorderWidth.getText());
+
+		String alignment = null;
+		switch(gutterNumberAlignment.getSelectedIndex())
+		{
+		case 2:
+			alignment = "right";
+			break;
+		case 1:
+			alignment = "center";
+			break;
+		case 0: default:
+			alignment = "left";
+		}
+		jEdit.setProperty("view.gutter.numberAlignment", alignment); */</jtok>
+<jtok eid="8" type="primary_name_ref" span="278:3:278:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="278:9:278:27">setBooleanProperty</jtok>
+<jtok eid="8" type="string_literal" span="278:28:278:62">"view.gutter.highlightCurrentLine"</jtok>
+<jtok eid="8" type="primary_name_ref" span="279:4:279:37">gutterCurrentLineHighlightEnabled</jtok>
+<jtok eid="8" type="method_call" span="279:38:279:48">isSelected</jtok>
+<jtok eid="8" type="primary_name_ref" span="280:3:280:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="280:9:280:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="280:26:280:56">"view.gutter.currentLineColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="281:4:281:30">gutterCurrentLineHighlight</jtok>
+<jtok eid="8" type="method_call" span="281:31:281:47">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="282:3:282:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="282:9:282:20">setProperty</jtok>
+<jtok eid="8" type="string_literal" span="282:21:282:52">"view.gutter.highlightInterval"</jtok>
+<jtok eid="8" type="primary_name_ref" span="283:4:283:27">gutterHighlightInterval</jtok>
+<jtok eid="8" type="method_call" span="283:28:283:35">getText</jtok>
+<jtok eid="8" type="primary_name_ref" span="284:3:284:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="284:9:284:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="284:26:284:54">"view.gutter.highlightColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="285:4:285:24">gutterHighlightColor</jtok>
+<jtok eid="8" type="method_call" span="285:25:285:41">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="287:3:287:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="287:9:287:27">setBooleanProperty</jtok>
+<jtok eid="8" type="string_literal" span="287:28:287:60">"view.gutter.structureHighlight"</jtok>
+<jtok eid="8" type="primary_name_ref" span="288:4:288:35">gutterStructureHighlightEnabled</jtok>
+<jtok eid="8" type="method_call" span="288:36:288:46">isSelected</jtok>
+<jtok eid="8" type="primary_name_ref" span="289:3:289:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="289:9:289:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="289:26:289:63">"view.gutter.structureHighlightColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="290:4:290:28">gutterStructureHighlight</jtok>
+<jtok eid="8" type="method_call" span="290:29:290:45">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="291:3:291:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="291:9:291:27">setBooleanProperty</jtok>
+<jtok eid="8" type="string_literal" span="291:28:291:57">"view.gutter.markerHighlight"</jtok>
+<jtok eid="8" type="primary_name_ref" span="292:4:292:32">gutterMarkerHighlightEnabled</jtok>
+<jtok eid="8" type="method_call" span="292:33:292:43">isSelected</jtok>
+<jtok eid="8" type="primary_name_ref" span="293:3:293:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="293:9:293:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="293:26:293:51">"view.gutter.markerColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="294:4:294:25">gutterMarkerHighlight</jtok>
+<jtok eid="8" type="method_call" span="294:26:294:42">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="295:3:295:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="295:9:295:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="295:26:295:49">"view.gutter.foldColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="296:4:296:21">gutterFoldMarkers</jtok>
+<jtok eid="8" type="method_call" span="296:22:296:38">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="297:3:297:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="297:9:297:20">setProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="297:21:297:34">JEditTextArea</jtok>
+<jtok eid="8" type="qualified_name_ref" span="297:35:297:56">FOLD_PAINTER_PROPERTY</jtok>
+<jtok eid="8" type="primary_name_ref" span="298:4:298:12">painters</jtok>
+<jtok eid="8" type="primary_name_ref" span="298:13:298:24">foldPainter</jtok>
+<jtok eid="8" type="method_call" span="298:25:298:41">getSelectedIndex</jtok>
+<jtok eid="8" type="primary_name_ref" span="299:3:299:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="299:9:299:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="299:26:299:56">"view.gutter.focusBorderColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="300:4:300:21">gutterFocusBorder</jtok>
+<jtok eid="8" type="method_call" span="300:22:300:38">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="301:3:301:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="301:9:301:25">setColorProperty</jtok>
+<jtok eid="8" type="string_literal" span="301:26:301:58">"view.gutter.noFocusBorderColor"</jtok>
+<jtok eid="8" type="primary_name_ref" span="302:4:302:23">gutterNoFocusBorder</jtok>
+<jtok eid="8" type="method_call" span="302:24:302:40">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:3:303:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="303:9:303:27">setBooleanProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="303:28:303:51">GUTTER_ENABLED_PROPERTY</jtok>
+<jtok eid="8" type="primary_name_ref" span="304:4:304:17">gutterEnabled</jtok>
+<jtok eid="8" type="method_call" span="304:18:304:28">isSelected</jtok>
+<jtok eid="8" type="primary_name_ref" span="305:3:305:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="305:9:305:27">setBooleanProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="305:28:305:59">SELECTION_AREA_ENABLED_PROPERTY</jtok>
+<jtok eid="8" type="primary_name_ref" span="306:4:306:24">selectionAreaEnabled</jtok>
+<jtok eid="8" type="method_call" span="306:25:306:35">isSelected</jtok>
+<jtok eid="8" type="primary_name_ref" span="307:3:307:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="307:9:307:25">setColorProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="307:26:307:57">SELECTION_AREA_BGCOLOR_PROPERTY</jtok>
+<jtok eid="8" type="primary_name_ref" span="308:4:308:24">selectionAreaBgColor</jtok>
+<jtok eid="8" type="method_call" span="308:25:308:41">getSelectedColor</jtok>
+<jtok eid="8" type="primary_name_ref" span="309:3:309:8">jEdit</jtok>
+<jtok eid="8" type="method_call" span="309:9:309:27">setIntegerProperty</jtok>
+<jtok eid="8" type="string_literal" span="309:28:309:60">"view.gutter.selectionAreaWidth"</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:4:310:11">Integer</jtok>
+<jtok eid="8" type="method_call" span="310:12:310:19">valueOf</jtok>
+<jtok eid="8" type="primary_name_ref" span="310:20:310:38">selectionAreaWidth</jtok>
+<jtok eid="8" type="method_call" span="310:39:310:46">getText</jtok>
+<jtok eid="1" type="line_comment" span="311:4:311:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="313:2:313:39">//{{{ setGutterComponentsEnabledState</jtok>
+<jtok eid="9" type="method_name" span="314:15:314:46">setGutterComponentsEnabledState</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:3:316:15">GUIUtilities</jtok>
+<jtok eid="9" type="method_call" span="316:16:316:37">setEnabledRecursively</jtok>
+<jtok eid="9" type="primary_name_ref" span="316:38:316:54">gutterComponents</jtok>
+<jtok eid="9" type="primary_name_ref" span="317:4:317:17">gutterEnabled</jtok>
+<jtok eid="9" type="method_call" span="317:18:317:28">isSelected</jtok>
+<jtok eid="1" type="line_comment" span="318:4:318:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="320:2:320:36">//{{{ addFoldStyleChooser() method</jtok>
+<jtok eid="10" type="method_name" span="321:15:321:34">addFoldStyleChooser</jtok>
+<jtok eid="10" type="primary_name_ref" span="323:3:323:11">painters</jtok>
+<jtok eid="10" type="primary_name_ref" span="323:14:323:28">ServiceManager</jtok>
+<jtok eid="10" type="method_call" span="323:29:323:44">getServiceNames</jtok>
+<jtok eid="10" type="primary_name_ref" span="323:45:323:58">JEditTextArea</jtok>
+<jtok eid="10" type="qualified_name_ref" span="323:59:323:79">FOLD_PAINTER_SERVICE</jtok>
+<jtok eid="10" type="primary_name_ref" span="324:3:324:14">foldPainter</jtok>
+<jtok eid="10" type="constructor_call" span="324:21:324:30">JComboBox</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="325:3:325:9">String</jtok>
+<jtok eid="10" type="local_variable_name" span="325:10:325:17">current</jtok>
+<jtok eid="10" type="primary_name_ref" span="325:20:325:33">JEditTextArea</jtok>
+<jtok eid="10" type="method_call" span="325:34:325:52">getFoldPainterName</jtok>
+<jtok eid="10" type="local_variable_name" span="326:7:326:15">selected</jtok>
+<jtok eid="10" type="local_variable_name" span="327:12:327:13">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="327:19:327:20">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="327:23:327:31">painters</jtok>
+<jtok eid="10" type="qualified_name_ref" span="327:32:327:38">length</jtok>
+<jtok eid="10" type="primary_name_ref" span="327:40:327:41">i</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="329:4:329:10">String</jtok>
+<jtok eid="10" type="local_variable_name" span="329:11:329:18">painter</jtok>
+<jtok eid="10" type="primary_name_ref" span="329:21:329:29">painters</jtok>
+<jtok eid="10" type="primary_name_ref" span="329:30:329:31">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="330:4:330:15">foldPainter</jtok>
+<jtok eid="10" type="method_call" span="330:16:330:23">addItem</jtok>
+<jtok eid="10" type="primary_name_ref" span="330:24:330:29">jEdit</jtok>
+<jtok eid="10" type="method_call" span="330:30:330:41">getProperty</jtok>
+<jtok eid="10" type="string_literal" span="331:5:331:37">"options.gutter.foldStyleNames."</jtok>
+<jtok eid="10" type="primary_name_ref" span="331:40:331:47">painter</jtok>
+<jtok eid="10" type="primary_name_ref" span="331:49:331:56">painter</jtok>
+<jtok eid="10" type="primary_name_ref" span="332:8:332:15">painter</jtok>
+<jtok eid="10" type="method_call" span="332:16:332:22">equals</jtok>
+<jtok eid="10" type="primary_name_ref" span="332:23:332:30">current</jtok>
+<jtok eid="10" type="primary_name_ref" span="333:5:333:13">selected</jtok>
+<jtok eid="10" type="primary_name_ref" span="333:16:333:17">i</jtok>
+<jtok eid="10" type="primary_name_ref" span="335:3:335:14">foldPainter</jtok>
+<jtok eid="10" type="method_call" span="335:15:335:31">setSelectedIndex</jtok>
+<jtok eid="10" type="primary_name_ref" span="335:32:335:40">selected</jtok>
+<jtok eid="10" type="method_call" span="336:3:336:15">addComponent</jtok>
+<jtok eid="10" type="constructor_call" span="336:20:336:26">JLabel</jtok>
+<jtok eid="10" type="primary_name_ref" span="336:27:336:32">jEdit</jtok>
+<jtok eid="10" type="method_call" span="336:33:336:44">getProperty</jtok>
+<jtok eid="10" type="string_literal" span="336:45:336:77">"options.gutter.foldStyle.label"</jtok>
+<jtok eid="10" type="primary_name_ref" span="336:81:336:92">foldPainter</jtok>
+<jtok eid="1" type="line_comment" span="337:4:337:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="339:2:339:32">//{{{ isGutterEnabled() method</jtok>
+<jtok eid="11" type="method_name" span="340:24:340:39">isGutterEnabled</jtok>
+<jtok eid="11" type="primary_name_ref" span="342:10:342:15">jEdit</jtok>
+<jtok eid="11" type="method_call" span="342:16:342:34">getBooleanProperty</jtok>
+<jtok eid="11" type="primary_name_ref" span="342:35:342:58">GUTTER_ENABLED_PROPERTY</jtok>
+<jtok eid="1" type="line_comment" span="343:4:343:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="345:2:345:39">//{{{ getMinLineNumberDigits() method</jtok>
+<jtok eid="12" type="method_name" span="346:20:346:42">getMinLineNumberDigits</jtok>
+<jtok eid="12" type="local_variable_name" span="348:7:348:8">n</jtok>
+<jtok eid="12" type="primary_name_ref" span="348:11:348:16">jEdit</jtok>
+<jtok eid="12" type="method_call" span="348:17:348:35">getIntegerProperty</jtok>
+<jtok eid="12" type="string_literal" span="348:36:348:63">"view.gutter.minDigitCount"</jtok>
+<jtok eid="12" type="primary_name_ref" span="349:7:349:8">n</jtok>
+<jtok eid="12" type="primary_name_ref" span="350:4:350:5">n</jtok>
+<jtok eid="12" type="primary_name_ref" span="351:10:351:11">n</jtok>
+<jtok eid="1" type="line_comment" span="352:4:352:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="354:2:354:39">//{{{ isSelectionAreaEnabled() method</jtok>
+<jtok eid="13" type="method_name" span="355:24:355:46">isSelectionAreaEnabled</jtok>
+<jtok eid="13" type="primary_name_ref" span="357:10:357:15">jEdit</jtok>
+<jtok eid="13" type="method_call" span="357:16:357:34">getBooleanProperty</jtok>
+<jtok eid="13" type="primary_name_ref" span="357:35:357:66">SELECTION_AREA_ENABLED_PROPERTY</jtok>
+<jtok eid="1" type="line_comment" span="358:4:358:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="360:2:360:40">//{{{ getSelectionAreaBgColor() method</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="361:16:361:21">Color</jtok>
+<jtok eid="14" type="method_name" span="361:22:361:48">getSelectionAreaBackground</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="363:3:363:9">String</jtok>
+<jtok eid="14" type="local_variable_name" span="363:10:363:15">color</jtok>
+<jtok eid="14" type="primary_name_ref" span="363:18:363:23">jEdit</jtok>
+<jtok eid="14" type="method_call" span="363:24:363:35">getProperty</jtok>
+<jtok eid="14" type="primary_name_ref" span="363:36:363:67">SELECTION_AREA_BGCOLOR_PROPERTY</jtok>
+<jtok eid="14" type="primary_name_ref" span="364:7:364:12">color</jtok>
+<jtok eid="14" type="primary_name_ref" span="365:11:365:16">jEdit</jtok>
+<jtok eid="14" type="method_call" span="365:17:365:33">getColorProperty</jtok>
+<jtok eid="14" type="string_literal" span="365:34:365:55">"view.gutter.bgColor"</jtok>
+<jtok eid="14" type="primary_name_ref" span="366:10:366:25">SyntaxUtilities</jtok>
+<jtok eid="14" type="method_call" span="366:26:366:36">parseColor</jtok>
+<jtok eid="14" type="primary_name_ref" span="366:37:366:42">color</jtok>
+<jtok eid="14" type="primary_name_ref" span="366:44:366:49">Color</jtok>
+<jtok eid="14" type="qualified_name_ref" span="366:50:366:55">black</jtok>
+<jtok eid="1" type="line_comment" span="367:4:367:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="369:2:369:38">//{{{ getSelectionAreaWidth() method</jtok>
+<jtok eid="15" type="method_name" span="370:20:370:41">getSelectionAreaWidth</jtok>
+<jtok eid="15" type="local_variable_name" span="372:7:372:8">n</jtok>
+<jtok eid="15" type="primary_name_ref" span="372:11:372:16">jEdit</jtok>
+<jtok eid="15" type="method_call" span="372:17:372:35">getIntegerProperty</jtok>
+<jtok eid="15" type="string_literal" span="372:36:372:68">"view.gutter.selectionAreaWidth"</jtok>
+<jtok eid="15" type="primary_name_ref" span="373:4:373:34">DEFAULT_SELECTION_GUTTER_WIDTH</jtok>
+<jtok eid="15" type="primary_name_ref" span="374:7:374:8">n</jtok>
+<jtok eid="15" type="primary_name_ref" span="375:4:375:5">n</jtok>
+<jtok eid="15" type="primary_name_ref" span="375:8:375:38">DEFAULT_SELECTION_GUTTER_WIDTH</jtok>
+<jtok eid="15" type="primary_name_ref" span="376:10:376:11">n</jtok>
+<jtok eid="1" type="line_comment" span="377:4:377:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="379:2:379:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="380:23:380:29">String</jtok>
+<jtok eid="1" type="field_name" span="380:30:380:53">GUTTER_ENABLED_PROPERTY</jtok>
+<jtok eid="1" type="string_literal" span="381:3:381:24">"view.gutter.enabled"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="382:23:382:29">String</jtok>
+<jtok eid="1" type="field_name" span="382:30:382:61">SELECTION_AREA_ENABLED_PROPERTY</jtok>
+<jtok eid="1" type="string_literal" span="383:3:383:37">"view.gutter.selectionAreaEnabled"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="384:23:384:29">String</jtok>
+<jtok eid="1" type="field_name" span="384:30:384:61">SELECTION_AREA_BGCOLOR_PROPERTY</jtok>
+<jtok eid="1" type="string_literal" span="385:3:385:37">"view.gutter.selectionAreaBgColor"</jtok>
+<jtok eid="1" type="field_name" span="386:27:386:57">DEFAULT_SELECTION_GUTTER_WIDTH</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="388:10:388:22">FontSelector</jtok>
+<jtok eid="1" type="field_name" span="388:23:388:33">gutterFont</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="389:10:389:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="389:26:389:42">gutterForeground</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="390:10:390:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="390:26:390:42">gutterBackground</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="391:10:391:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="391:21:391:44">gutterHighlightInterval</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="392:10:392:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="392:26:392:46">gutterHighlightColor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="393:10:393:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="393:20:393:38">lineNumbersEnabled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="394:10:394:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="394:20:394:53">gutterCurrentLineHighlightEnabled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="395:10:395:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="395:26:395:52">gutterCurrentLineHighlight</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="396:10:396:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="396:20:396:51">gutterStructureHighlightEnabled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="397:10:397:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="397:26:397:50">gutterStructureHighlight</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="398:10:398:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="398:20:398:48">gutterMarkerHighlightEnabled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="399:10:399:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="399:26:399:47">gutterMarkerHighlight</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="400:10:400:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="400:26:400:43">gutterFoldMarkers</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="401:10:401:19">JComboBox</jtok>
+<jtok eid="1" type="field_name" span="401:20:401:31">foldPainter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="402:10:402:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="402:26:402:43">gutterFocusBorder</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="403:10:403:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="403:26:403:45">gutterNoFocusBorder</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="404:10:404:16">String</jtok>
+<jtok eid="1" type="field_name" span="404:20:404:28">painters</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="405:10:405:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="405:20:405:33">gutterEnabled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="406:10:406:16">JPanel</jtok>
+<jtok eid="1" type="field_name" span="406:17:406:33">gutterComponents</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="407:10:407:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="407:21:407:40">minLineNumberDigits</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="408:10:408:19">JCheckBox</jtok>
+<jtok eid="1" type="field_name" span="408:20:408:40">selectionAreaEnabled</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="409:10:409:25">ColorWellButton</jtok>
+<jtok eid="1" type="field_name" span="409:26:409:46">selectionAreaBgColor</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="410:10:410:20">JTextField</jtok>
+<jtok eid="1" type="field_name" span="410:21:410:39">selectionAreaWidth</jtok>
+<jtok eid="1" type="line_comment" span="411:2:411:7">//}}}</jtok>
+</jdoc>

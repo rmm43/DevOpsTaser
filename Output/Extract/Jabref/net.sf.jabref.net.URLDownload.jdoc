@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.net.URLDownload" jls="java5">
+<jent id="0" type="file" span="0:0:183:1">Source/jabref/src/java/net/sf/jabref/net/URLDownload.java</jent>
+<jent id="1" pid="0" type="class" span="19:1:183:1">net.sf.jabref.net.URLDownload</jent>
+<jent id="2" pid="1" type="method" span="34:5:40:5">net.sf.jabref.net.URLDownload.URLDownload(URL)</jent>
+<jent id="3" pid="1" type="method" span="48:5:54:5">net.sf.jabref.net.URLDownload.URLDownload(Component,URL,File)</jent>
+<jent id="4" pid="1" type="method" span="56:5:67:5">net.sf.jabref.net.URLDownload.setCookieHandler()</jent>
+<jent id="5" pid="1" type="method" span="69:5:71:5">net.sf.jabref.net.URLDownload.getMimeType()</jent>
+<jent id="6" pid="1" type="method" span="73:5:75:5">net.sf.jabref.net.URLDownload.getURLConnection()</jent>
+<jent id="7" pid="1" type="method" span="82:5:84:5">net.sf.jabref.net.URLDownload.getStringContent()</jent>
+<jent id="8" pid="1" type="method" span="86:5:90:5">net.sf.jabref.net.URLDownload.openConnectionOnly()</jent>
+<jent id="9" pid="1" type="method" span="92:5:103:5">net.sf.jabref.net.URLDownload.download()</jent>
+<jent id="10" pid="1" type="method" span="105:5:131:5">net.sf.jabref.net.URLDownload.downloadToString()</jent>
+<jent id="11" pid="1" type="method" span="134:5:158:5">net.sf.jabref.net.URLDownload.downloadToFile()</jent>
+<jent id="12" pid="1" type="method" span="160:5:170:7">net.sf.jabref.net.URLDownload.copy(InputStream,OutputStream)</jent>
+<jent id="13" pid="1" type="method" span="172:5:182:7">net.sf.jabref.net.URLDownload.copy(InputStream,Writer)</jent>
+<jtok eid="0" type="block_comment" span="1:1:4:4">/*
+ * Created on 1-Dec-2004
+ *
+ */</jtok>
+<jtok eid="0" type="block_comment" span="15:1:17:4">/**
+ * @author Erik Putrycz erik.putrycz-at-nrc-cnrc.gc.ca
+ */</jtok>
+<jtok eid="1" type="class_name" span="19:14:19:25">URLDownload</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="21:13:21:16">URL</jtok>
+<jtok eid="1" type="field_name" span="21:17:21:23">source</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="22:13:22:26">URLConnection</jtok>
+<jtok eid="1" type="field_name" span="22:27:22:30">con</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="23:13:23:17">File</jtok>
+<jtok eid="1" type="field_name" span="23:18:23:22">dest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="24:13:24:22">Component</jtok>
+<jtok eid="1" type="field_name" span="24:23:24:29">parent</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="25:13:25:19">String</jtok>
+<jtok eid="1" type="field_name" span="25:20:25:28">mimeType</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="26:13:26:19">String</jtok>
+<jtok eid="1" type="field_name" span="26:20:26:27">content</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="28:13:28:26">CookieHandler</jtok>
+<jtok eid="1" type="field_name" span="28:27:28:29">cm</jtok>
+<jtok eid="1" type="block_comment" span="30:5:33:8">/**
+     * URL download to a string. After construction, call download() and then getStringContent().
+     * @param _source The URL to download.
+     */</jtok>
+<jtok eid="2" type="method_name" span="34:12:34:23">URLDownload</jtok>
+<jtok eid="2" type="parameter_type" span="34:24:34:27">URL</jtok>
+<jtok eid="2" type="parameter_name" span="34:28:34:35">_source</jtok>
+<jtok eid="2" type="qualified_name_ref" span="35:14:35:20">source</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:23:35:30">_source</jtok>
+<jtok eid="2" type="qualified_name_ref" span="36:14:36:18">dest</jtok>
+<jtok eid="2" type="qualified_name_ref" span="37:14:37:20">parent</jtok>
+<jtok eid="2" type="method_call" span="39:9:39:25">setCookieHandler</jtok>
+<jtok eid="1" type="block_comment" span="42:5:47:8">/**
+     * URL download to a file. After construction, call download().
+     * @param _parent Parent component.
+     * @param _source The URL to download.
+     * @param _dest The file to download into.
+     */</jtok>
+<jtok eid="3" type="method_name" span="48:12:48:23">URLDownload</jtok>
+<jtok eid="3" type="parameter_type" span="48:24:48:33">Component</jtok>
+<jtok eid="3" type="parameter_name" span="48:34:48:41">_parent</jtok>
+<jtok eid="3" type="parameter_type" span="48:43:48:46">URL</jtok>
+<jtok eid="3" type="parameter_name" span="48:47:48:54">_source</jtok>
+<jtok eid="3" type="parameter_type" span="48:56:48:60">File</jtok>
+<jtok eid="3" type="parameter_name" span="48:61:48:66">_dest</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:9:49:15">source</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:18:49:25">_source</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:9:50:13">dest</jtok>
+<jtok eid="3" type="primary_name_ref" span="50:16:50:21">_dest</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:9:51:15">parent</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:18:51:25">_parent</jtok>
+<jtok eid="3" type="method_call" span="53:9:53:25">setCookieHandler</jtok>
+<jtok eid="4" type="method_name" span="56:18:56:34">setCookieHandler</jtok>
+<jtok eid="4" type="line_comment" span="58:13:58:69">// This should set up JabRef to receive cookies properly</jtok>
+<jtok eid="4" type="primary_name_ref" span="59:18:59:20">cm</jtok>
+<jtok eid="4" type="primary_name_ref" span="59:23:59:36">CookieHandler</jtok>
+<jtok eid="4" type="method_call" span="59:37:59:47">getDefault</jtok>
+<jtok eid="4" type="primary_name_ref" span="60:17:60:19">cm</jtok>
+<jtok eid="4" type="constructor_call" span="60:26:60:43">CookieHandlerImpl</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:17:61:30">CookieHandler</jtok>
+<jtok eid="4" type="method_call" span="61:31:61:41">setDefault</jtok>
+<jtok eid="4" type="primary_name_ref" span="61:42:61:44">cm</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="63:18:63:35">SecurityException</jtok>
+<jtok eid="4" type="local_variable_name" span="63:36:63:37">e</jtok>
+<jtok eid="4" type="line_comment" span="64:13:64:81">// Setting or getting the system default cookie handler is forbidden</jtok>
+<jtok eid="4" type="line_comment" span="65:13:65:61">// In this case cookie handling is not possible.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="69:12:69:18">String</jtok>
+<jtok eid="5" type="method_name" span="69:19:69:30">getMimeType</jtok>
+<jtok eid="5" type="primary_name_ref" span="70:16:70:24">mimeType</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="73:12:73:25">URLConnection</jtok>
+<jtok eid="6" type="method_name" span="73:26:73:42">getURLConnection</jtok>
+<jtok eid="6" type="primary_name_ref" span="74:16:74:19">con</jtok>
+<jtok eid="1" type="block_comment" span="77:5:81:8">/**
+     * This method can be used after download() has been called, to get the contents
+     * of the download, provided this URLDownload was created with the constructor
+     * that takes no File argument.
+     */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="82:12:82:18">String</jtok>
+<jtok eid="7" type="method_name" span="82:19:82:35">getStringContent</jtok>
+<jtok eid="7" type="primary_name_ref" span="83:16:83:23">content</jtok>
+<jtok eid="8" type="method_name" span="86:17:86:35">openConnectionOnly</jtok>
+<jtok eid="8" type="throws" span="86:45:86:56">IOException</jtok>
+<jtok eid="8" type="primary_name_ref" span="87:9:87:12">con</jtok>
+<jtok eid="8" type="primary_name_ref" span="87:15:87:21">source</jtok>
+<jtok eid="8" type="method_call" span="87:22:87:36">openConnection</jtok>
+<jtok eid="8" type="primary_name_ref" span="88:9:88:12">con</jtok>
+<jtok eid="8" type="method_call" span="88:13:88:31">setRequestProperty</jtok>
+<jtok eid="8" type="string_literal" span="88:32:88:44">"User-Agent"</jtok>
+<jtok eid="8" type="string_literal" span="88:46:88:54">"Jabref"</jtok>
+<jtok eid="8" type="primary_name_ref" span="89:9:89:17">mimeType</jtok>
+<jtok eid="8" type="primary_name_ref" span="89:20:89:23">con</jtok>
+<jtok eid="8" type="method_call" span="89:24:89:38">getContentType</jtok>
+<jtok eid="9" type="method_name" span="92:17:92:25">download</jtok>
+<jtok eid="9" type="throws" span="92:35:92:46">IOException</jtok>
+<jtok eid="9" type="primary_name_ref" span="94:13:94:16">con</jtok>
+<jtok eid="9" type="primary_name_ref" span="95:13:95:16">con</jtok>
+<jtok eid="9" type="primary_name_ref" span="95:19:95:25">source</jtok>
+<jtok eid="9" type="method_call" span="95:26:95:40">openConnection</jtok>
+<jtok eid="9" type="primary_name_ref" span="96:13:96:16">con</jtok>
+<jtok eid="9" type="method_call" span="96:17:96:35">setRequestProperty</jtok>
+<jtok eid="9" type="string_literal" span="96:36:96:48">"User-Agent"</jtok>
+<jtok eid="9" type="string_literal" span="96:50:96:58">"Jabref"</jtok>
+<jtok eid="9" type="primary_name_ref" span="97:13:97:21">mimeType</jtok>
+<jtok eid="9" type="primary_name_ref" span="97:24:97:27">con</jtok>
+<jtok eid="9" type="method_call" span="97:28:97:42">getContentType</jtok>
+<jtok eid="9" type="primary_name_ref" span="99:13:99:17">dest</jtok>
+<jtok eid="9" type="method_call" span="100:13:100:27">downloadToFile</jtok>
+<jtok eid="9" type="method_call" span="102:13:102:29">downloadToString</jtok>
+<jtok eid="10" type="method_name" span="105:20:105:36">downloadToString</jtok>
+<jtok eid="10" type="throws" span="105:46:105:57">IOException</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="107:6:107:17">InputStream</jtok>
+<jtok eid="10" type="local_variable_name" span="107:18:107:23">input</jtok>
+<jtok eid="10" type="constructor_call" span="107:30:107:49">BufferedInputStream</jtok>
+<jtok eid="10" type="primary_name_ref" span="107:50:107:53">con</jtok>
+<jtok eid="10" type="method_call" span="107:54:107:68">getInputStream</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="108:9:108:15">Writer</jtok>
+<jtok eid="10" type="local_variable_name" span="108:16:108:22">output</jtok>
+<jtok eid="10" type="constructor_call" span="108:29:108:41">StringWriter</jtok>
+<jtok eid="10" type="method_call" span="112:13:112:17">copy</jtok>
+<jtok eid="10" type="primary_name_ref" span="112:18:112:23">input</jtok>
+<jtok eid="10" type="primary_name_ref" span="112:25:112:31">output</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="114:16:114:27">IOException</jtok>
+<jtok eid="10" type="local_variable_name" span="114:28:114:29">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="116:13:116:14">e</jtok>
+<jtok eid="10" type="method_call" span="116:15:116:30">printStackTrace</jtok>
+<jtok eid="10" type="primary_name_ref" span="122:17:122:22">input</jtok>
+<jtok eid="10" type="method_call" span="122:23:122:28">close</jtok>
+<jtok eid="10" type="primary_name_ref" span="123:17:123:23">output</jtok>
+<jtok eid="10" type="method_call" span="123:24:123:29">close</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="125:20:125:29">Exception</jtok>
+<jtok eid="10" type="local_variable_name" span="125:30:125:31">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="130:9:130:16">content</jtok>
+<jtok eid="10" type="primary_name_ref" span="130:19:130:25">output</jtok>
+<jtok eid="10" type="method_call" span="130:26:130:34">toString</jtok>
+<jtok eid="11" type="method_name" span="134:20:134:34">downloadToFile</jtok>
+<jtok eid="11" type="throws" span="134:44:134:55">IOException</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="136:6:136:17">InputStream</jtok>
+<jtok eid="11" type="local_variable_name" span="136:18:136:23">input</jtok>
+<jtok eid="11" type="constructor_call" span="136:30:136:49">BufferedInputStream</jtok>
+<jtok eid="11" type="primary_name_ref" span="136:50:136:53">con</jtok>
+<jtok eid="11" type="method_call" span="136:54:136:68">getInputStream</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="137:9:137:21">OutputStream</jtok>
+<jtok eid="11" type="local_variable_name" span="137:22:137:28">output</jtok>
+<jtok eid="11" type="constructor_call" span="137:36:137:56">BufferedOutputStream</jtok>
+<jtok eid="11" type="constructor_call" span="137:61:137:77">FileOutputStream</jtok>
+<jtok eid="11" type="primary_name_ref" span="137:78:137:82">dest</jtok>
+<jtok eid="11" type="method_call" span="141:13:141:17">copy</jtok>
+<jtok eid="11" type="primary_name_ref" span="141:18:141:23">input</jtok>
+<jtok eid="11" type="primary_name_ref" span="141:25:141:31">output</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="143:16:143:27">IOException</jtok>
+<jtok eid="11" type="local_variable_name" span="143:28:143:29">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="145:13:145:14">e</jtok>
+<jtok eid="11" type="method_call" span="145:15:145:30">printStackTrace</jtok>
+<jtok eid="11" type="primary_name_ref" span="151:17:151:22">input</jtok>
+<jtok eid="11" type="method_call" span="151:23:151:28">close</jtok>
+<jtok eid="11" type="primary_name_ref" span="152:17:152:23">output</jtok>
+<jtok eid="11" type="method_call" span="152:24:152:29">close</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="154:20:154:29">Exception</jtok>
+<jtok eid="11" type="local_variable_name" span="154:30:154:31">e</jtok>
+<jtok eid="12" type="method_name" span="160:17:160:21">copy</jtok>
+<jtok eid="12" type="parameter_type" span="160:22:160:33">InputStream</jtok>
+<jtok eid="12" type="parameter_name" span="160:34:160:36">in</jtok>
+<jtok eid="12" type="parameter_type" span="160:38:160:50">OutputStream</jtok>
+<jtok eid="12" type="parameter_name" span="160:51:160:54">out</jtok>
+<jtok eid="12" type="throws" span="160:63:160:74">IOException</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="162:9:162:20">InputStream</jtok>
+<jtok eid="12" type="local_variable_name" span="162:21:162:24">_in</jtok>
+<jtok eid="12" type="constructor_call" span="162:31:162:57">ProgressMonitorInputStream</jtok>
+<jtok eid="12" type="primary_name_ref" span="162:58:162:64">parent</jtok>
+<jtok eid="12" type="string_literal" span="162:66:162:80">"Downloading "</jtok>
+<jtok eid="12" type="primary_name_ref" span="162:83:162:89">source</jtok>
+<jtok eid="12" type="method_call" span="162:90:162:98">toString</jtok>
+<jtok eid="12" type="primary_name_ref" span="162:102:162:104">in</jtok>
+<jtok eid="12" type="local_variable_name" span="163:16:163:22">buffer</jtok>
+<jtok eid="12" type="local_variable_name" span="166:17:166:26">bytesRead</jtok>
+<jtok eid="12" type="primary_name_ref" span="166:29:166:32">_in</jtok>
+<jtok eid="12" type="method_call" span="166:33:166:37">read</jtok>
+<jtok eid="12" type="primary_name_ref" span="166:38:166:44">buffer</jtok>
+<jtok eid="12" type="primary_name_ref" span="167:16:167:25">bytesRead</jtok>
+<jtok eid="12" type="primary_name_ref" span="168:13:168:16">out</jtok>
+<jtok eid="12" type="method_call" span="168:17:168:22">write</jtok>
+<jtok eid="12" type="primary_name_ref" span="168:23:168:29">buffer</jtok>
+<jtok eid="12" type="primary_name_ref" span="168:34:168:43">bytesRead</jtok>
+<jtok eid="13" type="method_name" span="172:17:172:21">copy</jtok>
+<jtok eid="13" type="parameter_type" span="172:22:172:33">InputStream</jtok>
+<jtok eid="13" type="parameter_name" span="172:34:172:36">in</jtok>
+<jtok eid="13" type="parameter_type" span="172:38:172:44">Writer</jtok>
+<jtok eid="13" type="parameter_name" span="172:45:172:48">out</jtok>
+<jtok eid="13" type="throws" span="172:57:172:68">IOException</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="174:9:174:20">InputStream</jtok>
+<jtok eid="13" type="local_variable_name" span="174:21:174:24">_in</jtok>
+<jtok eid="13" type="constructor_call" span="174:31:174:57">ProgressMonitorInputStream</jtok>
+<jtok eid="13" type="primary_name_ref" span="174:58:174:64">parent</jtok>
+<jtok eid="13" type="string_literal" span="174:66:174:80">"Downloading "</jtok>
+<jtok eid="13" type="primary_name_ref" span="174:83:174:89">source</jtok>
+<jtok eid="13" type="method_call" span="174:90:174:98">toString</jtok>
+<jtok eid="13" type="primary_name_ref" span="174:102:174:104">in</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="175:9:175:23">BufferedReader</jtok>
+<jtok eid="13" type="local_variable_name" span="175:24:175:28">read</jtok>
+<jtok eid="13" type="constructor_call" span="175:35:175:49">BufferedReader</jtok>
+<jtok eid="13" type="constructor_call" span="175:54:175:71">InputStreamReader</jtok>
+<jtok eid="13" type="primary_name_ref" span="175:72:175:75">_in</jtok>
+<jtok eid="13" type="local_variable_name" span="176:16:176:22">buffer</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="177:9:177:15">String</jtok>
+<jtok eid="13" type="local_variable_name" span="177:16:177:20">line</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:17:178:21">line</jtok>
+<jtok eid="13" type="primary_name_ref" span="178:24:178:28">read</jtok>
+<jtok eid="13" type="method_call" span="178:29:178:37">readLine</jtok>
+<jtok eid="13" type="primary_name_ref" span="179:13:179:16">out</jtok>
+<jtok eid="13" type="method_call" span="179:17:179:22">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="179:23:179:27">line</jtok>
+<jtok eid="13" type="primary_name_ref" span="180:13:180:16">out</jtok>
+<jtok eid="13" type="method_call" span="180:17:180:22">write</jtok>
+<jtok eid="13" type="string_literal" span="180:23:180:27">"\n"</jtok>
+</jdoc>

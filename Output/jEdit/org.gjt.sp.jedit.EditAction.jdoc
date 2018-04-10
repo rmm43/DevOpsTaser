@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.EditAction" jls="java5">
+<jent id="0" type="file" span="0:0:224:2">Source/jEdit/org/gjt/sp/jedit/EditAction.java</jent>
+<jent id="1" pid="0" type="class" span="42:1:224:1">org.gjt.sp.jedit.EditAction</jent>
+<jent id="2" pid="1" type="method" span="49:2:52:2">org.gjt.sp.jedit.EditAction.EditAction(String)</jent>
+<jent id="3" pid="1" type="method" span="54:2:57:2">org.gjt.sp.jedit.EditAction.EditAction(String,Object[])</jent>
+<jent id="4" pid="1" type="method" span="66:2:73:2">org.gjt.sp.jedit.EditAction.getLabel()</jent>
+<jent id="5" pid="1" type="method" span="81:2:84:2">org.gjt.sp.jedit.EditAction.getMouseOverText()</jent>
+<jent id="6" pid="1" type="method" span="95:2:95:40">org.gjt.sp.jedit.EditAction.invoke(View)</jent>
+<jent id="7" pid="1" type="method" span="101:2:105:2">org.gjt.sp.jedit.EditAction.getView(Component)</jent>
+<jent id="8" pid="1" type="method" span="116:2:119:2">org.gjt.sp.jedit.EditAction.isToggle()</jent>
+<jent id="9" pid="1" type="method" span="127:2:130:2">org.gjt.sp.jedit.EditAction.isSelected(Component)</jent>
+<jent id="10" pid="1" type="method" span="138:2:141:2">org.gjt.sp.jedit.EditAction.noRepeat()</jent>
+<jent id="11" pid="1" type="method" span="149:2:152:2">org.gjt.sp.jedit.EditAction.noRecord()</jent>
+<jent id="12" pid="1" type="method" span="160:2:163:2">org.gjt.sp.jedit.EditAction.noRememberLast()</jent>
+<jent id="13" pid="1" type="method" span="177:2:180:2">org.gjt.sp.jedit.EditAction.getCode()</jent>
+<jent id="14" pid="1" type="class" span="188:2:223:2">org.gjt.sp.jedit.EditAction.Wrapper</jent>
+<jent id="15" pid="14" type="method" span="198:3:202:3">org.gjt.sp.jedit.EditAction.Wrapper.Wrapper(ActionContext,String)</jent>
+<jent id="16" pid="14" type="method" span="212:3:222:3">org.gjt.sp.jedit.EditAction.Wrapper.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * EditAction.java - jEdit action listener
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1998, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="32:1:41:4">/**
+ * An action that can be bound to a menu item, tool bar button or keystroke.
+ *
+ * @see jEdit#getAction(String)
+ * @see jEdit#getActionNames()
+ * @see ActionSet
+ *
+ * @author Slava Pestov
+ * @version $Id: EditAction.java 16334 2009-10-14 09:31:11Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="42:23:42:33">EditAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:42:42:65">JEditAbstractEditAction</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:66:42:70">View</jtok>
+<jtok eid="1" type="line_comment" span="44:2:44:31">//{{{ EditAction constructors</jtok>
+<jtok eid="1" type="block_comment" span="45:2:48:5">/**
+	 * Creates a new edit action with the specified name.
+	 * @param name The action name
+	 */</jtok>
+<jtok eid="2" type="method_name" span="49:9:49:19">EditAction</jtok>
+<jtok eid="2" type="parameter_type" span="49:20:49:26">String</jtok>
+<jtok eid="2" type="parameter_name" span="49:27:49:31">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:9:51:13">name</jtok>
+<jtok eid="3" type="method_name" span="54:9:54:19">EditAction</jtok>
+<jtok eid="3" type="parameter_type" span="54:20:54:26">String</jtok>
+<jtok eid="3" type="parameter_name" span="54:27:54:31">name</jtok>
+<jtok eid="3" type="parameter_type" span="54:33:54:39">Object</jtok>
+<jtok eid="3" type="parameter_name" span="54:42:54:49">newArgs</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:9:56:13">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:15:56:22">newArgs</jtok>
+<jtok eid="1" type="line_comment" span="57:4:57:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="59:2:59:25">//{{{ getLabel() method</jtok>
+<jtok eid="1" type="block_comment" span="60:2:65:5">/**
+	 * Returns the action's label. This returns the
+	 * value of the property named by {@link #getName()} suffixed
+	 * with &lt;code&gt;.label&lt;/code&gt;.
+	 * 
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="66:9:66:15">String</jtok>
+<jtok eid="4" type="method_name" span="66:16:66:24">getLabel</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:7:68:11">args</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:11:70:16">jEdit</jtok>
+<jtok eid="4" type="method_call" span="70:17:70:28">getProperty</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:29:70:33">name</jtok>
+<jtok eid="4" type="string_literal" span="70:36:70:44">".label"</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:46:70:50">args</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:10:72:15">jEdit</jtok>
+<jtok eid="4" type="method_call" span="72:16:72:27">getProperty</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:28:72:32">name</jtok>
+<jtok eid="4" type="string_literal" span="72:35:72:43">".label"</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:33">//{{{ getMouseOverText() method</jtok>
+<jtok eid="1" type="block_comment" span="76:2:80:5">/**
+	 * Returns the action's mouse over message. This returns the
+	 * value of the property named by {@link #getName()} suffixed
+	 * with &lt;code&gt;.mouse-over&lt;/code&gt;.
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="81:15:81:21">String</jtok>
+<jtok eid="5" type="method_name" span="81:22:81:38">getMouseOverText</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:10:83:15">jEdit</jtok>
+<jtok eid="5" type="method_call" span="83:16:83:27">getProperty</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:28:83:32">name</jtok>
+<jtok eid="5" type="string_literal" span="83:35:83:48">".mouse-over"</jtok>
+<jtok eid="1" type="line_comment" span="84:4:84:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="86:2:86:23">//{{{ invoke() method</jtok>
+<jtok eid="1" type="block_comment" span="87:2:94:5">/**
+	 * Invokes the action. This is an implementation of the Command pattern,
+	 * and concrete actions should override this.
+	 * 
+	 * @param view The view
+	 * @since jEdit 2.7pre2
+	 * abstract since jEdit 4.3pre7
+	 */</jtok>
+<jtok eid="6" type="method_name" span="95:23:95:29">invoke</jtok>
+<jtok eid="6" type="parameter_type" span="95:30:95:34">View</jtok>
+<jtok eid="6" type="parameter_name" span="95:35:95:39">view</jtok>
+<jtok eid="1" type="line_comment" span="97:2:97:24">//{{{ getView() method</jtok>
+<jtok eid="1" type="block_comment" span="98:2:100:5">/**
+	 * @deprecated Call &lt;code&gt;GUIUtilities.getView()&lt;/code&gt; instead.
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="101:16:101:20">View</jtok>
+<jtok eid="7" type="method_name" span="101:21:101:28">getView</jtok>
+<jtok eid="7" type="parameter_type" span="101:29:101:38">Component</jtok>
+<jtok eid="7" type="parameter_name" span="101:39:101:43">comp</jtok>
+<jtok eid="7" type="line_comment" span="103:3:103:60">// moved to GUIUtilities as it makes no sense being here.</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:10:104:22">GUIUtilities</jtok>
+<jtok eid="7" type="method_call" span="104:23:104:30">getView</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:31:104:35">comp</jtok>
+<jtok eid="1" type="line_comment" span="105:4:105:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="107:2:107:25">//{{{ isToggle() method</jtok>
+<jtok eid="1" type="block_comment" span="108:2:115:5">/**
+	 * Returns if this edit action should be displayed as a check box
+	 * in menus. This returns the
+	 * value of the property named by {@link #getName()} suffixed
+	 * with &lt;code&gt;.toggle&lt;/code&gt;.
+	 *
+	 * @since jEdit 2.2pre4
+	 */</jtok>
+<jtok eid="8" type="method_name" span="116:23:116:31">isToggle</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:10:118:15">jEdit</jtok>
+<jtok eid="8" type="method_call" span="118:16:118:34">getBooleanProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="118:35:118:39">name</jtok>
+<jtok eid="8" type="string_literal" span="118:42:118:51">".toggle"</jtok>
+<jtok eid="1" type="line_comment" span="119:4:119:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="121:2:121:27">//{{{ isSelected() method</jtok>
+<jtok eid="1" type="block_comment" span="122:2:126:5">/**
+	 * If this edit action is a toggle, returns if it is selected or not.
+	 * @param comp The component
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="9" type="method_name" span="127:17:127:27">isSelected</jtok>
+<jtok eid="9" type="parameter_type" span="127:28:127:37">Component</jtok>
+<jtok eid="9" type="parameter_name" span="127:38:127:42">comp</jtok>
+<jtok eid="1" type="line_comment" span="130:4:130:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="132:2:132:25">//{{{ noRepeat() method</jtok>
+<jtok eid="1" type="block_comment" span="133:2:137:5">/**
+	 * Returns if this edit action should not be repeated. Returns false
+	 * by default.
+	 * @since jEdit 2.7pre2
+	 */</jtok>
+<jtok eid="10" type="method_name" span="138:17:138:25">noRepeat</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:25">//{{{ noRecord() method</jtok>
+<jtok eid="1" type="block_comment" span="144:2:148:5">/**
+	 * Returns if this edit action should not be recorded. Returns false
+	 * by default.
+	 * @since jEdit 2.7pre2
+	 */</jtok>
+<jtok eid="11" type="method_name" span="149:17:149:25">noRecord</jtok>
+<jtok eid="1" type="line_comment" span="152:4:152:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="154:2:154:31">//{{{ noRememberLast() method</jtok>
+<jtok eid="1" type="block_comment" span="155:2:159:5">/**
+	 * Returns if this edit action should not be remembered as the most
+	 * recently invoked action.
+	 * @since jEdit 4.2pre1
+	 */</jtok>
+<jtok eid="12" type="method_name" span="160:17:160:31">noRememberLast</jtok>
+<jtok eid="1" type="line_comment" span="163:4:163:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="165:2:165:24">//{{{ getCode() method</jtok>
+<jtok eid="1" type="block_comment" span="166:2:176:5">/**
+	 * Returns the BeanShell code that will replay this action.
+	 * BeanShellAction.getCode() returns something more interesting for Actions that were loaded
+	 * from the actions.xml file. 
+	 * You do not need to override this method if your action name is unique,
+	 * this EditAction was added to an ActionSet and that to an ActionContext of jEdit.
+	 * 
+	 * concrete since jEdit 4.3pre7
+	 * @since jEdit 2.7pre2
+	 * 
+	 */</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="177:9:177:15">String</jtok>
+<jtok eid="13" type="method_name" span="177:16:177:23">getCode</jtok>
+<jtok eid="13" type="string_literal" span="179:10:179:28">"jEdit.getAction("</jtok>
+<jtok eid="13" type="primary_name_ref" span="179:31:179:35">name</jtok>
+<jtok eid="13" type="string_literal" span="179:38:179:56">").invoke(view); "</jtok>
+<jtok eid="1" type="line_comment" span="181:2:181:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="183:2:183:21">//{{{ Wrapper class</jtok>
+<jtok eid="1" type="block_comment" span="184:2:187:5">/**
+	 * 'Wrap' EditActions in this class to turn them into AWT
+	 * ActionListeners, that can be attached to buttons, menu items, etc.
+	 */</jtok>
+<jtok eid="14" type="class_name" span="188:22:188:29">Wrapper</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="188:41:188:55">ActionListener</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="191:17:191:30">ActionContext</jtok>
+<jtok eid="14" type="field_name" span="191:31:191:38">context</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="192:17:192:23">String</jtok>
+<jtok eid="14" type="field_name" span="192:24:192:34">actionName</jtok>
+<jtok eid="14" type="block_comment" span="194:3:197:6">/**
+		 * Creates a new action listener wrapper.
+		 * @since jEdit 4.2pre1
+		 */</jtok>
+<jtok eid="15" type="method_name" span="198:10:198:17">Wrapper</jtok>
+<jtok eid="15" type="parameter_type" span="198:18:198:31">ActionContext</jtok>
+<jtok eid="15" type="parameter_name" span="198:32:198:39">context</jtok>
+<jtok eid="15" type="parameter_type" span="198:41:198:47">String</jtok>
+<jtok eid="15" type="parameter_name" span="198:48:198:58">actionName</jtok>
+<jtok eid="15" type="qualified_name_ref" span="200:9:200:16">context</jtok>
+<jtok eid="15" type="primary_name_ref" span="200:19:200:26">context</jtok>
+<jtok eid="15" type="qualified_name_ref" span="201:9:201:19">actionName</jtok>
+<jtok eid="15" type="primary_name_ref" span="201:22:201:32">actionName</jtok>
+<jtok eid="14" type="block_comment" span="204:3:211:6">/**
+		 * Called when the user selects this action from a menu.
+		 * It passes the action through the
+		 * {@link org.gjt.sp.jedit.gui.InputHandler#invokeAction(EditAction)}
+		 * method, which performs any recording or repeating.
+		 *
+		 * @param evt The action event
+		 */</jtok>
+<jtok eid="16" type="method_name" span="212:15:212:30">actionPerformed</jtok>
+<jtok eid="16" type="parameter_type" span="212:31:212:42">ActionEvent</jtok>
+<jtok eid="16" type="parameter_name" span="212:43:212:46">evt</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="214:4:214:14">EditAction</jtok>
+<jtok eid="16" type="local_variable_name" span="214:15:214:21">action</jtok>
+<jtok eid="16" type="primary_name_ref" span="214:24:214:31">context</jtok>
+<jtok eid="16" type="method_call" span="214:32:214:41">getAction</jtok>
+<jtok eid="16" type="primary_name_ref" span="214:42:214:52">actionName</jtok>
+<jtok eid="16" type="primary_name_ref" span="215:7:215:13">action</jtok>
+<jtok eid="16" type="primary_name_ref" span="217:5:217:8">Log</jtok>
+<jtok eid="16" type="method_call" span="217:9:217:12">log</jtok>
+<jtok eid="16" type="primary_name_ref" span="217:13:217:16">Log</jtok>
+<jtok eid="16" type="qualified_name_ref" span="217:17:217:24">WARNING</jtok>
+<jtok eid="16" type="string_literal" span="217:30:217:48">"Unknown action: "</jtok>
+<jtok eid="16" type="primary_name_ref" span="218:8:218:18">actionName</jtok>
+<jtok eid="16" type="primary_name_ref" span="221:5:221:12">context</jtok>
+<jtok eid="16" type="method_call" span="221:13:221:25">invokeAction</jtok>
+<jtok eid="16" type="primary_name_ref" span="221:26:221:29">evt</jtok>
+<jtok eid="16" type="primary_name_ref" span="221:30:221:36">action</jtok>
+<jtok eid="1" type="line_comment" span="223:4:223:9">//}}}</jtok>
+</jdoc>

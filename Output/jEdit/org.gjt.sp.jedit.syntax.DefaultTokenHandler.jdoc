@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.syntax.DefaultTokenHandler" jls="java5">
+<jent id="0" type="file" span="0:0:140:2">Source/jEdit/org/gjt/sp/jedit/syntax/DefaultTokenHandler.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:140:1">org.gjt.sp.jedit.syntax.DefaultTokenHandler</jent>
+<jent id="2" pid="1" type="method" span="40:2:43:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.init()</jent>
+<jent id="3" pid="1" type="method" span="50:2:53:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.getTokens()</jent>
+<jent id="4" pid="1" type="method" span="66:2:72:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.handleToken(Segment,byte,int,int,TokenMarker.LineContext)</jent>
+<jent id="5" pid="1" type="method" span="82:2:85:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.getLineContext()</jent>
+<jent id="6" pid="1" type="method" span="95:2:98:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.setLineContext(TokenMarker.LineContext)</jent>
+<jent id="7" pid="1" type="method" span="105:2:116:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.getParserRuleSet(TokenMarker.LineContext)</jent>
+<jent id="8" pid="1" type="method" span="119:2:123:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.createToken(byte,int,int,TokenMarker.LineContext)</jent>
+<jent id="9" pid="1" type="method" span="126:2:137:2">org.gjt.sp.jedit.syntax.DefaultTokenHandler.addToken(Token,TokenMarker.LineContext)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * DefaultTokenHandler.java - Builds a linked list of Token objects
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="27:1:33:4">/**
+ * Builds a linked list of tokens without any additional processing.
+ *
+ * @author Slava Pestov
+ * @version $Id: DefaultTokenHandler.java 12504 2008-04-22 23:12:43Z ezust $
+ * @since jEdit 4.1pre1
+ */</jtok>
+<jtok eid="1" type="class_name" span="34:14:34:33">DefaultTokenHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:45:34:57">TokenHandler</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:22">//{{{ reset() method</jtok>
+<jtok eid="1" type="block_comment" span="37:2:39:5">/**
+	 * Clears the list of tokens.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="40:14:40:18">init</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:3:42:12">lastToken</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:15:42:25">firstToken</jtok>
+<jtok eid="1" type="line_comment" span="43:4:43:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="45:2:45:26">//{{{ getTokens() method</jtok>
+<jtok eid="1" type="block_comment" span="46:2:49:5">/**
+	 * Returns the first syntax token.
+	 * @since jEdit 4.1pre1
+	 */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="50:9:50:14">Token</jtok>
+<jtok eid="3" type="method_name" span="50:15:50:24">getTokens</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:10:52:20">firstToken</jtok>
+<jtok eid="1" type="line_comment" span="53:4:53:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="55:2:55:28">//{{{ handleToken() method</jtok>
+<jtok eid="1" type="block_comment" span="56:2:65:5">/**
+	 * Called by the token marker when a syntax token has been parsed.
+	 * @param seg The segment containing the text
+	 * @param id The token type (one of the constants in the
+	 * {@link Token} class).
+	 * @param offset The start offset of the token
+	 * @param length The number of characters in the token
+	 * @param context The line context
+	 * @since jEdit 4.2pre3
+	 */</jtok>
+<jtok eid="4" type="method_name" span="66:14:66:25">handleToken</jtok>
+<jtok eid="4" type="parameter_type" span="66:26:66:33">Segment</jtok>
+<jtok eid="4" type="parameter_name" span="66:34:66:37">seg</jtok>
+<jtok eid="4" type="parameter_name" span="66:44:66:46">id</jtok>
+<jtok eid="4" type="parameter_name" span="66:52:66:58">offset</jtok>
+<jtok eid="4" type="parameter_name" span="66:64:66:70">length</jtok>
+<jtok eid="4" type="parameter_type" span="67:3:67:14">TokenMarker</jtok>
+<jtok eid="4" type="parameter_type" span="67:15:67:26">LineContext</jtok>
+<jtok eid="4" type="parameter_name" span="67:27:67:34">context</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="69:3:69:8">Token</jtok>
+<jtok eid="4" type="local_variable_name" span="69:9:69:14">token</jtok>
+<jtok eid="4" type="method_call" span="69:17:69:28">createToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:29:69:31">id</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:32:69:38">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:39:69:45">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:46:69:53">context</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:6:70:11">token</jtok>
+<jtok eid="4" type="method_call" span="71:4:71:12">addToken</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:13:71:18">token</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:19:71:26">context</jtok>
+<jtok eid="1" type="line_comment" span="72:4:72:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="74:2:74:31">//{{{ getLineContext() method</jtok>
+<jtok eid="1" type="block_comment" span="75:2:81:5">/**
+	 * The token handler can compare this object with the object
+	 * previously given for this line to see if the token type at the end
+	 * of the line has changed (meaning subsequent lines might need to be
+	 * retokenized).
+	 * @since jEdit 4.2pre6
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="82:9:82:20">TokenMarker</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="82:21:82:32">LineContext</jtok>
+<jtok eid="5" type="method_name" span="82:33:82:47">getLineContext</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:10:84:21">lineContext</jtok>
+<jtok eid="1" type="line_comment" span="85:4:85:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:31">//{{{ setLineContext() method</jtok>
+<jtok eid="1" type="block_comment" span="88:2:94:5">/**
+	 * The token handler can compare this object with the object
+	 * previously given for this line to see if the token type at the end
+	 * of the line has changed (meaning subsequent lines might need to be
+	 * retokenized).
+	 * @since jEdit 4.2pre6
+	 */</jtok>
+<jtok eid="6" type="method_name" span="95:14:95:28">setLineContext</jtok>
+<jtok eid="6" type="parameter_type" span="95:29:95:40">TokenMarker</jtok>
+<jtok eid="6" type="parameter_type" span="95:41:95:52">LineContext</jtok>
+<jtok eid="6" type="parameter_name" span="95:53:95:64">lineContext</jtok>
+<jtok eid="6" type="qualified_name_ref" span="97:8:97:19">lineContext</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:22:97:33">lineContext</jtok>
+<jtok eid="1" type="line_comment" span="98:4:98:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="100:2:100:25">//{{{ Protected members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="101:12:101:17">Token</jtok>
+<jtok eid="1" type="field_name" span="101:18:101:28">firstToken</jtok>
+<jtok eid="1" type="field_name" span="101:30:101:39">lastToken</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="102:12:102:23">TokenMarker</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="102:24:102:35">LineContext</jtok>
+<jtok eid="1" type="field_name" span="102:36:102:47">lineContext</jtok>
+<jtok eid="1" type="line_comment" span="104:2:104:33">//{{{ getParserRuleSet() method</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="105:12:105:25">ParserRuleSet</jtok>
+<jtok eid="7" type="method_name" span="105:26:105:42">getParserRuleSet</jtok>
+<jtok eid="7" type="parameter_type" span="105:43:105:54">TokenMarker</jtok>
+<jtok eid="7" type="parameter_type" span="105:55:105:66">LineContext</jtok>
+<jtok eid="7" type="parameter_name" span="105:67:105:74">context</jtok>
+<jtok eid="7" type="primary_name_ref" span="107:9:107:16">context</jtok>
+<jtok eid="7" type="primary_name_ref" span="109:8:109:15">context</jtok>
+<jtok eid="7" type="qualified_name_ref" span="109:16:109:21">rules</jtok>
+<jtok eid="7" type="method_call" span="109:22:109:31">isBuiltIn</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:12:110:19">context</jtok>
+<jtok eid="7" type="qualified_name_ref" span="110:20:110:25">rules</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:4:112:11">context</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:14:112:21">context</jtok>
+<jtok eid="7" type="qualified_name_ref" span="112:22:112:28">parent</jtok>
+<jtok eid="1" type="line_comment" span="116:4:116:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="118:2:118:28">//{{{ createToken() method</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="119:12:119:17">Token</jtok>
+<jtok eid="8" type="method_name" span="119:18:119:29">createToken</jtok>
+<jtok eid="8" type="parameter_name" span="119:35:119:37">id</jtok>
+<jtok eid="8" type="parameter_name" span="119:43:119:49">offset</jtok>
+<jtok eid="8" type="parameter_name" span="119:55:119:61">length</jtok>
+<jtok eid="8" type="parameter_type" span="120:3:120:14">TokenMarker</jtok>
+<jtok eid="8" type="parameter_type" span="120:15:120:26">LineContext</jtok>
+<jtok eid="8" type="parameter_name" span="120:27:120:34">context</jtok>
+<jtok eid="8" type="constructor_call" span="122:14:122:19">Token</jtok>
+<jtok eid="8" type="primary_name_ref" span="122:20:122:22">id</jtok>
+<jtok eid="8" type="primary_name_ref" span="122:23:122:29">offset</jtok>
+<jtok eid="8" type="primary_name_ref" span="122:30:122:36">length</jtok>
+<jtok eid="8" type="method_call" span="122:37:122:53">getParserRuleSet</jtok>
+<jtok eid="8" type="primary_name_ref" span="122:54:122:61">context</jtok>
+<jtok eid="1" type="line_comment" span="123:4:123:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="125:2:125:25">//{{{ addToken() method</jtok>
+<jtok eid="9" type="method_name" span="126:17:126:25">addToken</jtok>
+<jtok eid="9" type="parameter_type" span="126:26:126:31">Token</jtok>
+<jtok eid="9" type="parameter_name" span="126:32:126:37">token</jtok>
+<jtok eid="9" type="parameter_type" span="126:39:126:50">TokenMarker</jtok>
+<jtok eid="9" type="parameter_type" span="126:51:126:62">LineContext</jtok>
+<jtok eid="9" type="parameter_name" span="126:63:126:70">context</jtok>
+<jtok eid="9" type="primary_name_ref" span="128:6:128:16">firstToken</jtok>
+<jtok eid="9" type="primary_name_ref" span="130:4:130:14">firstToken</jtok>
+<jtok eid="9" type="primary_name_ref" span="130:17:130:26">lastToken</jtok>
+<jtok eid="9" type="primary_name_ref" span="130:29:130:34">token</jtok>
+<jtok eid="9" type="primary_name_ref" span="134:4:134:13">lastToken</jtok>
+<jtok eid="9" type="qualified_name_ref" span="134:14:134:18">next</jtok>
+<jtok eid="9" type="primary_name_ref" span="134:21:134:26">token</jtok>
+<jtok eid="9" type="primary_name_ref" span="135:4:135:13">lastToken</jtok>
+<jtok eid="9" type="primary_name_ref" span="135:16:135:25">lastToken</jtok>
+<jtok eid="9" type="qualified_name_ref" span="135:26:135:30">next</jtok>
+<jtok eid="1" type="line_comment" span="137:4:137:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="139:2:139:7">//}}}</jtok>
+</jdoc>

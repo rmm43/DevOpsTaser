@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.SimpleNode" jls="java5">
+<jent id="0" type="file" span="0:0:224:1">Source/jEdit/org/gjt/sp/jedit/bsh/SimpleNode.java</jent>
+<jent id="1" pid="0" type="class" span="52:1:223:1">org.gjt.sp.jedit.bsh.SimpleNode</jent>
+<jent id="2" pid="1" type="class" span="55:24:67:3">org.gjt.sp.jedit.bsh.SimpleNode.$1</jent>
+<jent id="3" pid="2" type="method" span="56:4:58:4">org.gjt.sp.jedit.bsh.SimpleNode.$1.getSourceFile()</jent>
+<jent id="4" pid="2" type="method" span="60:4:62:4">org.gjt.sp.jedit.bsh.SimpleNode.$1.getLineNumber()</jent>
+<jent id="5" pid="2" type="method" span="64:4:66:4">org.gjt.sp.jedit.bsh.SimpleNode.$1.getText()</jent>
+<jent id="6" pid="1" type="method" span="77:2:79:2">org.gjt.sp.jedit.bsh.SimpleNode.SimpleNode(int)</jent>
+<jent id="7" pid="1" type="method" span="81:2:81:26">org.gjt.sp.jedit.bsh.SimpleNode.jjtOpen()</jent>
+<jent id="8" pid="1" type="method" span="82:2:82:27">org.gjt.sp.jedit.bsh.SimpleNode.jjtClose()</jent>
+<jent id="9" pid="1" type="method" span="84:2:84:49">org.gjt.sp.jedit.bsh.SimpleNode.jjtSetParent(Node)</jent>
+<jent id="10" pid="1" type="method" span="85:2:85:46">org.gjt.sp.jedit.bsh.SimpleNode.jjtGetParent()</jent>
+<jent id="11" pid="1" type="method" span="88:2:101:2">org.gjt.sp.jedit.bsh.SimpleNode.jjtAddChild(Node,int)</jent>
+<jent id="12" pid="1" type="method" span="103:2:105:2">org.gjt.sp.jedit.bsh.SimpleNode.jjtGetChild(int)</jent>
+<jent id="13" pid="1" type="method" span="106:2:108:2">org.gjt.sp.jedit.bsh.SimpleNode.getChild(int)</jent>
+<jent id="14" pid="1" type="method" span="110:2:112:2">org.gjt.sp.jedit.bsh.SimpleNode.jjtGetNumChildren()</jent>
+<jent id="15" pid="1" type="method" span="121:2:121:73">org.gjt.sp.jedit.bsh.SimpleNode.toString()</jent>
+<jent id="16" pid="1" type="method" span="122:2:122:70">org.gjt.sp.jedit.bsh.SimpleNode.toString(String)</jent>
+<jent id="17" pid="1" type="method" span="128:2:142:2">org.gjt.sp.jedit.bsh.SimpleNode.dump(String)</jent>
+<jent id="18" pid="1" type="method" span="151:2:153:2">org.gjt.sp.jedit.bsh.SimpleNode.prune()</jent>
+<jent id="19" pid="1" type="method" span="158:2:163:2">org.gjt.sp.jedit.bsh.SimpleNode.eval(CallStack,Interpreter)</jent>
+<jent id="20" pid="1" type="method" span="169:2:171:2">org.gjt.sp.jedit.bsh.SimpleNode.setSourceFile(String)</jent>
+<jent id="21" pid="1" type="method" span="180:2:188:2">org.gjt.sp.jedit.bsh.SimpleNode.getSourceFile()</jent>
+<jent id="22" pid="1" type="method" span="193:2:195:2">org.gjt.sp.jedit.bsh.SimpleNode.getLineNumber()</jent>
+<jent id="23" pid="1" type="method" span="207:2:222:2">org.gjt.sp.jedit.bsh.SimpleNode.getText()</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="36:1:51:3">/*
+	Note: great care (and lots of typing) were taken to insure that the
+	namespace and interpreter references are passed on the stack and not 
+	(as they were erroneously before) installed in instance variables...
+	Each of these node objects must be re-entrable to allow for recursive 
+	situations.
+
+	The only data which should really be stored in instance vars here should 
+	be parse tree data... features of the node which should never change (e.g.
+	the number of arguments, etc.)
+	
+	Exceptions would be public fields of simple classes that just publish
+	data produced by the last eval()... data that is used immediately. We'll
+	try to remember to mark these as transient to highlight them.
+
+*/</jtok>
+<jtok eid="1" type="class_name" span="52:7:52:17">SimpleNode</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:29:52:33">Node</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="54:16:54:26">SimpleNode</jtok>
+<jtok eid="1" type="field_name" span="54:27:54:35">JAVACODE</jtok>
+<jtok eid="1" type="constructor_call" span="55:7:55:17">SimpleNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="56:11:56:17">String</jtok>
+<jtok eid="3" type="method_name" span="56:18:56:31">getSourceFile</jtok>
+<jtok eid="3" type="string_literal" span="57:12:57:37">"&lt;Called from Java Code&gt;"</jtok>
+<jtok eid="4" type="method_name" span="60:15:60:28">getLineNumber</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="64:11:64:17">String</jtok>
+<jtok eid="5" type="method_name" span="64:18:64:25">getText</jtok>
+<jtok eid="5" type="string_literal" span="65:12:65:34">"&lt;Compiled Java Code&gt;"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="69:12:69:16">Node</jtok>
+<jtok eid="1" type="field_name" span="69:17:69:23">parent</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="70:12:70:16">Node</jtok>
+<jtok eid="1" type="field_name" span="70:19:70:27">children</jtok>
+<jtok eid="1" type="field_name" span="71:16:71:18">id</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:2:72:7">Token</jtok>
+<jtok eid="1" type="field_name" span="72:8:72:18">firstToken</jtok>
+<jtok eid="1" type="field_name" span="72:20:72:29">lastToken</jtok>
+<jtok eid="1" type="block_comment" span="74:2:74:58">/** the source of the text from which this was parsed */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="75:2:75:8">String</jtok>
+<jtok eid="1" type="field_name" span="75:9:75:19">sourceFile</jtok>
+<jtok eid="6" type="method_name" span="77:9:77:19">SimpleNode</jtok>
+<jtok eid="6" type="parameter_name" span="77:24:77:25">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="78:3:78:5">id</jtok>
+<jtok eid="6" type="primary_name_ref" span="78:8:78:9">i</jtok>
+<jtok eid="7" type="method_name" span="81:14:81:21">jjtOpen</jtok>
+<jtok eid="8" type="method_name" span="82:14:82:22">jjtClose</jtok>
+<jtok eid="9" type="method_name" span="84:14:84:26">jjtSetParent</jtok>
+<jtok eid="9" type="parameter_type" span="84:27:84:31">Node</jtok>
+<jtok eid="9" type="parameter_name" span="84:32:84:33">n</jtok>
+<jtok eid="9" type="primary_name_ref" span="84:37:84:43">parent</jtok>
+<jtok eid="9" type="primary_name_ref" span="84:46:84:47">n</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="85:9:85:13">Node</jtok>
+<jtok eid="10" type="method_name" span="85:14:85:26">jjtGetParent</jtok>
+<jtok eid="10" type="primary_name_ref" span="85:38:85:44">parent</jtok>
+<jtok eid="1" type="line_comment" span="86:2:86:64">//public SimpleNode getParent() { return (SimpleNode)parent; }</jtok>
+<jtok eid="11" type="method_name" span="88:14:88:25">jjtAddChild</jtok>
+<jtok eid="11" type="parameter_type" span="88:26:88:30">Node</jtok>
+<jtok eid="11" type="parameter_name" span="88:31:88:32">n</jtok>
+<jtok eid="11" type="parameter_name" span="88:38:88:39">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="90:7:90:15">children</jtok>
+<jtok eid="11" type="primary_name_ref" span="91:4:91:12">children</jtok>
+<jtok eid="11" type="constructor_call" span="91:19:91:23">Node</jtok>
+<jtok eid="11" type="primary_name_ref" span="91:24:91:25">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="93:8:93:9">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="93:13:93:21">children</jtok>
+<jtok eid="11" type="qualified_name_ref" span="93:22:93:28">length</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="95:5:95:9">Node</jtok>
+<jtok eid="11" type="local_variable_name" span="95:10:95:11">c</jtok>
+<jtok eid="11" type="constructor_call" span="95:20:95:24">Node</jtok>
+<jtok eid="11" type="primary_name_ref" span="95:25:95:26">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="96:5:96:11">System</jtok>
+<jtok eid="11" type="method_call" span="96:12:96:21">arraycopy</jtok>
+<jtok eid="11" type="primary_name_ref" span="96:22:96:30">children</jtok>
+<jtok eid="11" type="primary_name_ref" span="96:35:96:36">c</jtok>
+<jtok eid="11" type="primary_name_ref" span="96:41:96:49">children</jtok>
+<jtok eid="11" type="qualified_name_ref" span="96:50:96:56">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="97:5:97:13">children</jtok>
+<jtok eid="11" type="primary_name_ref" span="97:16:97:17">c</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:3:100:11">children</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:12:100:13">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="100:17:100:18">n</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="103:9:103:13">Node</jtok>
+<jtok eid="12" type="method_name" span="103:14:103:25">jjtGetChild</jtok>
+<jtok eid="12" type="parameter_name" span="103:30:103:31">i</jtok>
+<jtok eid="12" type="primary_name_ref" span="104:10:104:18">children</jtok>
+<jtok eid="12" type="primary_name_ref" span="104:19:104:20">i</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="106:9:106:19">SimpleNode</jtok>
+<jtok eid="13" type="method_name" span="106:20:106:28">getChild</jtok>
+<jtok eid="13" type="parameter_name" span="106:34:106:35">i</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="107:11:107:21">SimpleNode</jtok>
+<jtok eid="13" type="method_call" span="107:22:107:33">jjtGetChild</jtok>
+<jtok eid="13" type="primary_name_ref" span="107:34:107:35">i</jtok>
+<jtok eid="14" type="method_name" span="110:13:110:30">jjtGetNumChildren</jtok>
+<jtok eid="14" type="primary_name_ref" span="111:11:111:19">children</jtok>
+<jtok eid="14" type="primary_name_ref" span="111:35:111:43">children</jtok>
+<jtok eid="14" type="qualified_name_ref" span="111:44:111:50">length</jtok>
+<jtok eid="1" type="block_comment" span="114:2:120:4">/*
+		You can override these two methods in subclasses of SimpleNode to
+		customize the way the node appears when the tree is dumped.  If
+		your output uses more than one line you should override
+		toString(String), otherwise overriding toString() is probably all
+		you need to do.
+	*/</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="121:9:121:15">String</jtok>
+<jtok eid="15" type="method_name" span="121:16:121:24">toString</jtok>
+<jtok eid="15" type="primary_name_ref" span="121:36:121:55">ParserTreeConstants</jtok>
+<jtok eid="15" type="qualified_name_ref" span="121:56:121:67">jjtNodeName</jtok>
+<jtok eid="15" type="primary_name_ref" span="121:68:121:70">id</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="122:9:122:15">String</jtok>
+<jtok eid="16" type="method_name" span="122:16:122:24">toString</jtok>
+<jtok eid="16" type="parameter_type" span="122:25:122:31">String</jtok>
+<jtok eid="16" type="parameter_name" span="122:32:122:38">prefix</jtok>
+<jtok eid="16" type="primary_name_ref" span="122:49:122:55">prefix</jtok>
+<jtok eid="16" type="method_call" span="122:58:122:66">toString</jtok>
+<jtok eid="1" type="block_comment" span="124:2:127:4">/*
+		Override this method if you want to customize how the node dumps
+		out its children.
+	*/</jtok>
+<jtok eid="17" type="method_name" span="128:14:128:18">dump</jtok>
+<jtok eid="17" type="parameter_type" span="128:19:128:25">String</jtok>
+<jtok eid="17" type="parameter_name" span="128:26:128:32">prefix</jtok>
+<jtok eid="17" type="primary_name_ref" span="130:3:130:9">System</jtok>
+<jtok eid="17" type="qualified_name_ref" span="130:10:130:13">out</jtok>
+<jtok eid="17" type="method_call" span="130:14:130:21">println</jtok>
+<jtok eid="17" type="method_call" span="130:22:130:30">toString</jtok>
+<jtok eid="17" type="primary_name_ref" span="130:31:130:37">prefix</jtok>
+<jtok eid="17" type="primary_name_ref" span="131:6:131:14">children</jtok>
+<jtok eid="17" type="local_variable_name" span="133:12:133:13">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="133:19:133:20">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="133:23:133:31">children</jtok>
+<jtok eid="17" type="qualified_name_ref" span="133:32:133:38">length</jtok>
+<jtok eid="17" type="primary_name_ref" span="133:42:133:43">i</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="135:5:135:15">SimpleNode</jtok>
+<jtok eid="17" type="local_variable_name" span="135:16:135:17">n</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="135:21:135:31">SimpleNode</jtok>
+<jtok eid="17" type="primary_name_ref" span="135:32:135:40">children</jtok>
+<jtok eid="17" type="primary_name_ref" span="135:41:135:42">i</jtok>
+<jtok eid="17" type="primary_name_ref" span="136:9:136:10">n</jtok>
+<jtok eid="17" type="primary_name_ref" span="138:6:138:7">n</jtok>
+<jtok eid="17" type="method_call" span="138:8:138:12">dump</jtok>
+<jtok eid="17" type="primary_name_ref" span="138:13:138:19">prefix</jtok>
+<jtok eid="17" type="string_literal" span="138:22:138:25">" "</jtok>
+<jtok eid="1" type="line_comment" span="144:2:144:54">//  ---- BeanShell specific stuff hereafter ----  //</jtok>
+<jtok eid="1" type="block_comment" span="146:2:150:4">/**
+		Detach this node from its parent.
+		This is primarily useful in node serialization.
+		(see BSHMethodDeclaration)
+	*/</jtok>
+<jtok eid="18" type="method_name" span="151:14:151:19">prune</jtok>
+<jtok eid="18" type="method_call" span="152:3:152:15">jjtSetParent</jtok>
+<jtok eid="1" type="block_comment" span="155:2:157:4">/**
+		This is the general signature for evaluation of a node.
+	*/</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="158:9:158:15">Object</jtok>
+<jtok eid="19" type="method_name" span="158:16:158:20">eval</jtok>
+<jtok eid="19" type="parameter_type" span="158:22:158:31">CallStack</jtok>
+<jtok eid="19" type="parameter_name" span="158:32:158:41">callstack</jtok>
+<jtok eid="19" type="parameter_type" span="158:43:158:54">Interpreter</jtok>
+<jtok eid="19" type="parameter_name" span="158:55:158:66">interpreter</jtok>
+<jtok eid="19" type="throws" span="159:10:159:19">EvalError</jtok>
+<jtok eid="19" type="constructor_call" span="161:13:161:29">InterpreterError</jtok>
+<jtok eid="19" type="string_literal" span="162:4:162:41">"Unimplemented or inappropriate for "</jtok>
+<jtok eid="19" type="method_call" span="162:44:162:52">getClass</jtok>
+<jtok eid="19" type="method_call" span="162:55:162:62">getName</jtok>
+<jtok eid="1" type="block_comment" span="165:2:168:4">/**
+		Set the name of the source file (or more generally source) of
+		the text from which this node was parsed.
+	*/</jtok>
+<jtok eid="20" type="method_name" span="169:14:169:27">setSourceFile</jtok>
+<jtok eid="20" type="parameter_type" span="169:29:169:35">String</jtok>
+<jtok eid="20" type="parameter_name" span="169:36:169:46">sourceFile</jtok>
+<jtok eid="20" type="qualified_name_ref" span="170:8:170:18">sourceFile</jtok>
+<jtok eid="20" type="primary_name_ref" span="170:21:170:31">sourceFile</jtok>
+<jtok eid="1" type="block_comment" span="173:2:179:4">/**
+		Get the name of the source file (or more generally source) of
+		the text from which this node was parsed.
+		This will recursively search up the chain of parent nodes until
+		a source is found or return a string indicating that the source
+		is unknown.
+	*/</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="180:9:180:15">String</jtok>
+<jtok eid="21" type="method_name" span="180:16:180:29">getSourceFile</jtok>
+<jtok eid="21" type="primary_name_ref" span="181:8:181:18">sourceFile</jtok>
+<jtok eid="21" type="primary_name_ref" span="182:9:182:15">parent</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="183:14:183:24">SimpleNode</jtok>
+<jtok eid="21" type="primary_name_ref" span="183:25:183:31">parent</jtok>
+<jtok eid="21" type="method_call" span="183:33:183:46">getSourceFile</jtok>
+<jtok eid="21" type="string_literal" span="185:12:185:28">"&lt;unknown file&gt;"</jtok>
+<jtok eid="21" type="primary_name_ref" span="187:11:187:21">sourceFile</jtok>
+<jtok eid="1" type="block_comment" span="190:2:192:4">/**
+		Get the line number of the starting token
+	*/</jtok>
+<jtok eid="22" type="method_name" span="193:13:193:26">getLineNumber</jtok>
+<jtok eid="22" type="primary_name_ref" span="194:10:194:20">firstToken</jtok>
+<jtok eid="22" type="qualified_name_ref" span="194:21:194:30">beginLine</jtok>
+<jtok eid="1" type="block_comment" span="197:2:202:4">/**
+		Get the ending line number of the starting token
+	public int getEndLineNumber() {
+		return lastToken.endLine;
+	}
+	*/</jtok>
+<jtok eid="1" type="block_comment" span="204:2:206:4">/**
+		Get the text of the tokens comprising this node.
+	*/</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="207:9:207:15">String</jtok>
+<jtok eid="23" type="method_name" span="207:16:207:23">getText</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="209:3:209:16">StringBuilder</jtok>
+<jtok eid="23" type="local_variable_name" span="209:17:209:21">text</jtok>
+<jtok eid="23" type="constructor_call" span="209:28:209:41">StringBuilder</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="210:3:210:8">Token</jtok>
+<jtok eid="23" type="local_variable_name" span="210:9:210:10">t</jtok>
+<jtok eid="23" type="primary_name_ref" span="210:13:210:23">firstToken</jtok>
+<jtok eid="23" type="primary_name_ref" span="211:11:211:12">t</jtok>
+<jtok eid="23" type="primary_name_ref" span="212:4:212:8">text</jtok>
+<jtok eid="23" type="method_call" span="212:9:212:15">append</jtok>
+<jtok eid="23" type="primary_name_ref" span="212:16:212:17">t</jtok>
+<jtok eid="23" type="qualified_name_ref" span="212:18:212:23">image</jtok>
+<jtok eid="23" type="primary_name_ref" span="213:10:213:11">t</jtok>
+<jtok eid="23" type="qualified_name_ref" span="213:12:213:17">image</jtok>
+<jtok eid="23" type="method_call" span="213:18:213:24">equals</jtok>
+<jtok eid="23" type="string_literal" span="213:25:213:28">"."</jtok>
+<jtok eid="23" type="primary_name_ref" span="214:5:214:9">text</jtok>
+<jtok eid="23" type="method_call" span="214:10:214:16">append</jtok>
+<jtok eid="23" type="string_literal" span="214:17:214:20">" "</jtok>
+<jtok eid="23" type="primary_name_ref" span="215:9:215:10">t</jtok>
+<jtok eid="23" type="primary_name_ref" span="215:12:215:21">lastToken</jtok>
+<jtok eid="23" type="primary_name_ref" span="216:5:216:6">t</jtok>
+<jtok eid="23" type="qualified_name_ref" span="216:7:216:12">image</jtok>
+<jtok eid="23" type="method_call" span="216:13:216:19">equals</jtok>
+<jtok eid="23" type="string_literal" span="216:20:216:23">"{"</jtok>
+<jtok eid="23" type="primary_name_ref" span="216:28:216:29">t</jtok>
+<jtok eid="23" type="qualified_name_ref" span="216:30:216:35">image</jtok>
+<jtok eid="23" type="method_call" span="216:36:216:42">equals</jtok>
+<jtok eid="23" type="string_literal" span="216:43:216:46">";"</jtok>
+<jtok eid="23" type="primary_name_ref" span="218:4:218:5">t</jtok>
+<jtok eid="23" type="primary_name_ref" span="218:6:218:7">t</jtok>
+<jtok eid="23" type="qualified_name_ref" span="218:8:218:12">next</jtok>
+<jtok eid="23" type="primary_name_ref" span="221:10:221:14">text</jtok>
+<jtok eid="23" type="method_call" span="221:15:221:23">toString</jtok>
+</jdoc>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="doclet.GenerateTocXML" jls="java5">
+<jent id="0" type="file" span="0:0:116:2">Source/jEdit/doclet/GenerateTocXML.java</jent>
+<jent id="1" pid="0" type="class" span="28:1:116:1">doclet.GenerateTocXML</jent>
+<jent id="2" pid="1" type="method" span="35:2:62:2">doclet.GenerateTocXML.start(RootDoc)</jent>
+<jent id="3" pid="1" type="method" span="64:2:67:2">doclet.GenerateTocXML.optionLength(String)</jent>
+<jent id="4" pid="1" type="method" span="69:2:72:2">doclet.GenerateTocXML.validOptions(String[][],DocErrorReporter)</jent>
+<jent id="5" pid="1" type="method" span="74:2:77:2">doclet.GenerateTocXML.languageVersion()</jent>
+<jent id="6" pid="1" type="method" span="79:2:103:2">doclet.GenerateTocXML.processPackage(Writer,PackageDoc)</jent>
+<jent id="7" pid="1" type="method" span="105:2:115:2">doclet.GenerateTocXML.processClass(Writer,String,String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:18:4">/*
+ * GenerateTocXML.java
+ * Copyright (C) 1999, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="1" type="class_name" span="28:14:28:28">GenerateTocXML</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="30:22:30:28">String</jtok>
+<jtok eid="1" type="field_name" span="30:29:30:32">OUT</jtok>
+<jtok eid="1" type="string_literal" span="30:35:30:44">"toc.xml"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="31:22:31:28">String</jtok>
+<jtok eid="1" type="field_name" span="31:29:31:35">HEADER</jtok>
+<jtok eid="1" type="string_literal" span="31:38:31:70">"&lt;?xml version='1.0'?&gt;\n&lt;TOC&gt;\n"</jtok>
+<jtok eid="1" type="string_literal" span="32:5:32:77">"&lt;ENTRY HREF='overview-summary.html'&gt;&lt;TITLE&gt;jEdit API Reference&lt;/TITLE&gt;"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:22:33:28">String</jtok>
+<jtok eid="1" type="field_name" span="33:29:33:35">FOOTER</jtok>
+<jtok eid="1" type="string_literal" span="33:38:33:56">"&lt;/ENTRY&gt;&lt;/TOC&gt;\n"</jtok>
+<jtok eid="2" type="method_name" span="35:24:35:29">start</jtok>
+<jtok eid="2" type="parameter_type" span="35:30:35:37">RootDoc</jtok>
+<jtok eid="2" type="parameter_name" span="35:38:35:42">root</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:8:37:16">Standard</jtok>
+<jtok eid="2" type="method_call" span="37:17:37:22">start</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:23:37:27">root</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="43:4:43:14">FileWriter</jtok>
+<jtok eid="2" type="local_variable_name" span="43:15:43:18">out</jtok>
+<jtok eid="2" type="constructor_call" span="43:25:43:35">FileWriter</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:36:43:44">Standard</jtok>
+<jtok eid="2" type="qualified_name_ref" span="43:45:43:55">htmlDoclet</jtok>
+<jtok eid="2" type="method_call" span="43:56:43:69">configuration</jtok>
+<jtok eid="2" type="qualified_name_ref" span="43:72:43:83">destDirName</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:86:43:89">OUT</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:4:44:7">out</jtok>
+<jtok eid="2" type="method_call" span="44:8:44:13">write</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:14:44:20">HEADER</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="46:4:46:14">PackageDoc</jtok>
+<jtok eid="2" type="local_variable_name" span="46:17:46:25">packages</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:28:46:32">root</jtok>
+<jtok eid="2" type="method_call" span="46:33:46:50">specifiedPackages</jtok>
+<jtok eid="2" type="local_variable_name" span="47:12:47:13">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:19:47:20">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:23:47:31">packages</jtok>
+<jtok eid="2" type="qualified_name_ref" span="47:32:47:38">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:42:47:43">i</jtok>
+<jtok eid="2" type="method_call" span="49:5:49:19">processPackage</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:20:49:23">out</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:24:49:32">packages</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:33:49:34">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:4:52:7">out</jtok>
+<jtok eid="2" type="method_call" span="52:8:52:13">write</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:14:52:20">FOOTER</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:4:53:7">out</jtok>
+<jtok eid="2" type="method_call" span="53:8:53:13">close</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:9:57:20">IOException</jtok>
+<jtok eid="2" type="local_variable_name" span="57:21:57:22">e</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:4:59:5">e</jtok>
+<jtok eid="2" type="method_call" span="59:6:59:21">printStackTrace</jtok>
+<jtok eid="3" type="method_name" span="64:20:64:32">optionLength</jtok>
+<jtok eid="3" type="parameter_type" span="64:33:64:39">String</jtok>
+<jtok eid="3" type="parameter_name" span="64:40:64:46">option</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:10:66:18">Standard</jtok>
+<jtok eid="3" type="method_call" span="66:19:66:31">optionLength</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:32:66:38">option</jtok>
+<jtok eid="4" type="method_name" span="69:24:69:36">validOptions</jtok>
+<jtok eid="4" type="parameter_type" span="69:37:69:43">String</jtok>
+<jtok eid="4" type="parameter_name" span="69:48:69:55">options</jtok>
+<jtok eid="4" type="parameter_type" span="69:57:69:73">DocErrorReporter</jtok>
+<jtok eid="4" type="parameter_name" span="69:74:69:82">reporter</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:10:71:18">Standard</jtok>
+<jtok eid="4" type="method_call" span="71:19:71:31">validOptions</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:32:71:39">options</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:40:71:48">reporter</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="74:16:74:31">LanguageVersion</jtok>
+<jtok eid="5" type="method_name" span="74:32:74:47">languageVersion</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:10:76:18">Standard</jtok>
+<jtok eid="5" type="method_call" span="76:19:76:34">languageVersion</jtok>
+<jtok eid="6" type="method_name" span="79:22:79:36">processPackage</jtok>
+<jtok eid="6" type="parameter_type" span="79:37:79:43">Writer</jtok>
+<jtok eid="6" type="parameter_name" span="79:44:79:47">out</jtok>
+<jtok eid="6" type="parameter_type" span="79:49:79:59">PackageDoc</jtok>
+<jtok eid="6" type="parameter_name" span="79:60:79:63">pkg</jtok>
+<jtok eid="6" type="throws" span="80:10:80:21">IOException</jtok>
+<jtok eid="6" type="primary_name_ref" span="82:3:82:6">out</jtok>
+<jtok eid="6" type="method_call" span="82:7:82:12">write</jtok>
+<jtok eid="6" type="string_literal" span="82:13:82:28">"&lt;ENTRY HREF='"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="83:3:83:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="83:10:83:17">pkgPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="83:20:83:23">pkg</jtok>
+<jtok eid="6" type="method_call" span="83:24:83:28">name</jtok>
+<jtok eid="6" type="method_call" span="83:31:83:38">replace</jtok>
+<jtok eid="6" type="string_literal" span="83:50:83:53">"/"</jtok>
+<jtok eid="6" type="primary_name_ref" span="84:3:84:6">out</jtok>
+<jtok eid="6" type="method_call" span="84:7:84:12">write</jtok>
+<jtok eid="6" type="primary_name_ref" span="84:13:84:20">pkgPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="85:3:85:6">out</jtok>
+<jtok eid="6" type="method_call" span="85:7:85:12">write</jtok>
+<jtok eid="6" type="string_literal" span="85:13:85:44">"package-summary.html'&gt;&lt;TITLE&gt;"</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:3:86:6">out</jtok>
+<jtok eid="6" type="method_call" span="86:7:86:12">write</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:13:86:16">pkg</jtok>
+<jtok eid="6" type="method_call" span="86:17:86:21">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:3:87:6">out</jtok>
+<jtok eid="6" type="method_call" span="87:7:87:12">write</jtok>
+<jtok eid="6" type="string_literal" span="87:13:87:25">"&lt;/TITLE&gt;\n"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="89:3:89:11">ClassDoc</jtok>
+<jtok eid="6" type="local_variable_name" span="89:14:89:21">classes</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:24:89:27">pkg</jtok>
+<jtok eid="6" type="method_call" span="89:28:89:38">allClasses</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="90:3:90:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="90:12:90:22">classNames</jtok>
+<jtok eid="6" type="constructor_call" span="90:29:90:35">String</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:36:90:43">classes</jtok>
+<jtok eid="6" type="qualified_name_ref" span="90:44:90:50">length</jtok>
+<jtok eid="6" type="local_variable_name" span="91:11:91:12">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:18:91:19">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:22:91:29">classes</jtok>
+<jtok eid="6" type="qualified_name_ref" span="91:30:91:36">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:38:91:39">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:4:93:14">classNames</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:15:93:16">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:20:93:27">classes</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:28:93:29">i</jtok>
+<jtok eid="6" type="method_call" span="93:31:93:35">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:3:95:9">Arrays</jtok>
+<jtok eid="6" type="method_call" span="95:10:95:14">sort</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:15:95:25">classNames</jtok>
+<jtok eid="6" type="local_variable_name" span="97:11:97:12">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:18:97:19">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:22:97:29">classes</jtok>
+<jtok eid="6" type="qualified_name_ref" span="97:30:97:36">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:38:97:39">i</jtok>
+<jtok eid="6" type="method_call" span="99:4:99:16">processClass</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:17:99:20">out</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:21:99:28">pkgPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:29:99:39">classNames</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:40:99:41">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:3:102:6">out</jtok>
+<jtok eid="6" type="method_call" span="102:7:102:12">write</jtok>
+<jtok eid="6" type="string_literal" span="102:13:102:23">"&lt;/ENTRY&gt;"</jtok>
+<jtok eid="7" type="method_name" span="105:22:105:34">processClass</jtok>
+<jtok eid="7" type="parameter_type" span="105:35:105:41">Writer</jtok>
+<jtok eid="7" type="parameter_name" span="105:42:105:45">out</jtok>
+<jtok eid="7" type="parameter_type" span="105:47:105:53">String</jtok>
+<jtok eid="7" type="parameter_name" span="105:54:105:61">pkgPath</jtok>
+<jtok eid="7" type="parameter_type" span="105:63:105:69">String</jtok>
+<jtok eid="7" type="parameter_name" span="105:70:105:75">clazz</jtok>
+<jtok eid="7" type="throws" span="106:10:106:21">IOException</jtok>
+<jtok eid="7" type="primary_name_ref" span="108:3:108:6">out</jtok>
+<jtok eid="7" type="method_call" span="108:7:108:12">write</jtok>
+<jtok eid="7" type="string_literal" span="108:13:108:28">"&lt;ENTRY HREF='"</jtok>
+<jtok eid="7" type="primary_name_ref" span="109:3:109:6">out</jtok>
+<jtok eid="7" type="method_call" span="109:7:109:12">write</jtok>
+<jtok eid="7" type="primary_name_ref" span="109:13:109:20">pkgPath</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:3:110:6">out</jtok>
+<jtok eid="7" type="method_call" span="110:7:110:12">write</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:13:110:18">clazz</jtok>
+<jtok eid="7" type="primary_name_ref" span="111:3:111:6">out</jtok>
+<jtok eid="7" type="method_call" span="111:7:111:12">write</jtok>
+<jtok eid="7" type="string_literal" span="111:13:111:29">".html'&gt;&lt;TITLE&gt;"</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:3:112:6">out</jtok>
+<jtok eid="7" type="method_call" span="112:7:112:12">write</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:13:112:18">clazz</jtok>
+<jtok eid="7" type="primary_name_ref" span="113:3:113:6">out</jtok>
+<jtok eid="7" type="method_call" span="113:7:113:12">write</jtok>
+<jtok eid="7" type="string_literal" span="113:13:113:25">"&lt;/TITLE&gt;\n"</jtok>
+<jtok eid="7" type="primary_name_ref" span="114:3:114:6">out</jtok>
+<jtok eid="7" type="method_call" span="114:7:114:12">write</jtok>
+<jtok eid="7" type="string_literal" span="114:13:114:23">"&lt;/ENTRY&gt;"</jtok>
+</jdoc>

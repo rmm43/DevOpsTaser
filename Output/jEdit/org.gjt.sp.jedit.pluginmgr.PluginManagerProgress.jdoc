@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.pluginmgr.PluginManagerProgress" jls="java5">
+<jent id="0" type="file" span="0:0:234:2">Source/jEdit/org/gjt/sp/jedit/pluginmgr/PluginManagerProgress.java</jent>
+<jent id="1" pid="0" type="class" span="34:1:234:1">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress</jent>
+<jent id="2" pid="1" type="method" span="37:2:73:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.PluginManagerProgress(PluginManager,Roster)</jent>
+<jent id="3" pid="1" type="method" span="81:2:90:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setValue(int)</jent>
+<jent id="4" pid="3" type="class" span="84:3:89:3">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setValue(int).$1</jent>
+<jent id="5" pid="4" type="method" span="85:4:88:4">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setValue(int).$1.run()</jent>
+<jent id="6" pid="1" type="method" span="99:2:108:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setValue(long)</jent>
+<jent id="7" pid="6" type="class" span="102:4:107:4">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setValue(long).$2</jent>
+<jent id="8" pid="7" type="method" span="103:5:106:5">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setValue(long).$2.run()</jent>
+<jent id="9" pid="1" type="method" span="117:2:119:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setMaximum(long)</jent>
+<jent id="10" pid="1" type="method" span="128:3:132:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.setStatus(String)</jent>
+<jent id="11" pid="1" type="method" span="135:2:166:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.done()</jent>
+<jent id="12" pid="11" type="class" span="142:5:147:5">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.done().$3</jent>
+<jent id="13" pid="12" type="method" span="143:6:146:6">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.done().$3.run()</jent>
+<jent id="14" pid="11" type="class" span="152:5:160:5">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.done().$4</jent>
+<jent id="15" pid="14" type="method" span="153:6:159:6">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.done().$4.run()</jent>
+<jent id="16" pid="1" type="class" span="185:2:195:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.ActionHandler</jent>
+<jent id="17" pid="16" type="method" span="187:3:194:3">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.ActionHandler.actionPerformed(ActionEvent)</jent>
+<jent id="18" pid="1" type="class" span="198:2:217:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.WindowHandler</jent>
+<jent id="19" pid="18" type="method" span="202:3:210:3">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.WindowHandler.windowOpened(WindowEvent)</jent>
+<jent id="20" pid="18" type="method" span="212:3:216:3">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.WindowHandler.windowClosing(WindowEvent)</jent>
+<jent id="21" pid="1" type="class" span="220:2:231:2">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.RosterThread</jent>
+<jent id="22" pid="21" type="method" span="222:3:225:3">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.RosterThread.RosterThread()</jent>
+<jent id="23" pid="21" type="method" span="227:3:230:3">org.gjt.sp.jedit.pluginmgr.PluginManagerProgress.RosterThread.run()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * PluginManagerProgress.java - Plugin download progress meter
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2001 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="34:7:34:28">PluginManagerProgress</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:37:34:44">JDialog</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:56:34:72">ProgressObserver</jtok>
+<jtok eid="1" type="line_comment" span="36:2:36:41">//{{{ PluginManagerProgress constructor</jtok>
+<jtok eid="2" type="method_name" span="37:9:37:30">PluginManagerProgress</jtok>
+<jtok eid="2" type="parameter_type" span="37:31:37:44">PluginManager</jtok>
+<jtok eid="2" type="parameter_name" span="37:45:37:51">dialog</jtok>
+<jtok eid="2" type="parameter_type" span="37:53:37:59">Roster</jtok>
+<jtok eid="2" type="parameter_name" span="37:60:37:66">roster</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:9:39:15">dialog</jtok>
+<jtok eid="2" type="primary_name_ref" span="39:16:39:21">jEdit</jtok>
+<jtok eid="2" type="method_call" span="39:22:39:33">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="39:34:39:59">"plugin-manager.progress"</jtok>
+<jtok eid="2" type="qualified_name_ref" span="41:8:41:14">roster</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:17:41:23">roster</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="43:3:43:9">JPanel</jtok>
+<jtok eid="2" type="local_variable_name" span="43:10:43:17">content</jtok>
+<jtok eid="2" type="constructor_call" span="43:24:43:30">JPanel</jtok>
+<jtok eid="2" type="constructor_call" span="43:35:43:47">BorderLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:3:44:10">content</jtok>
+<jtok eid="2" type="method_call" span="44:11:44:20">setBorder</jtok>
+<jtok eid="2" type="constructor_call" span="44:25:44:36">EmptyBorder</jtok>
+<jtok eid="2" type="method_call" span="45:3:45:17">setContentPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:18:45:25">content</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:3:47:11">progress</jtok>
+<jtok eid="2" type="constructor_call" span="47:18:47:30">JProgressBar</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:11">progress</jtok>
+<jtok eid="2" type="method_call" span="48:12:48:28">setStringPainted</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:11">progress</jtok>
+<jtok eid="2" type="method_call" span="49:12:49:21">setString</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:22:49:27">jEdit</jtok>
+<jtok eid="2" type="method_call" span="49:28:49:39">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="49:40:49:65">"plugin-manager.progress"</jtok>
+<jtok eid="2" type="local_variable_name" span="51:7:51:14">maximum</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:3:52:8">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:11:52:17">roster</jtok>
+<jtok eid="2" type="method_call" span="52:18:52:35">getOperationCount</jtok>
+<jtok eid="2" type="local_variable_name" span="53:11:53:12">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:18:53:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:22:53:27">count</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:29:53:30">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:4:55:11">maximum</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:15:55:21">roster</jtok>
+<jtok eid="2" type="method_call" span="55:22:55:34">getOperation</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:35:55:36">i</jtok>
+<jtok eid="2" type="method_call" span="55:38:55:48">getMaximum</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:3:58:11">progress</jtok>
+<jtok eid="2" type="method_call" span="58:12:58:22">setMaximum</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:23:58:30">maximum</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:3:59:10">content</jtok>
+<jtok eid="2" type="method_call" span="59:11:59:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:15:59:27">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="59:28:59:33">NORTH</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:34:59:42">progress</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:3:61:7">stop</jtok>
+<jtok eid="2" type="constructor_call" span="61:14:61:21">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:22:61:27">jEdit</jtok>
+<jtok eid="2" type="method_call" span="61:28:61:39">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="61:40:61:70">"plugin-manager.progress.stop"</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:3:62:7">stop</jtok>
+<jtok eid="2" type="method_call" span="62:8:62:25">addActionListener</jtok>
+<jtok eid="2" type="constructor_call" span="62:30:62:43">ActionHandler</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="63:3:63:9">JPanel</jtok>
+<jtok eid="2" type="local_variable_name" span="63:10:63:15">panel</jtok>
+<jtok eid="2" type="constructor_call" span="63:22:63:28">JPanel</jtok>
+<jtok eid="2" type="constructor_call" span="63:33:63:43">FlowLayout</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:4:64:14">FlowLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="64:15:64:21">CENTER</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:3:65:8">panel</jtok>
+<jtok eid="2" type="method_call" span="65:9:65:12">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:13:65:17">stop</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:3:66:10">content</jtok>
+<jtok eid="2" type="method_call" span="66:11:66:14">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:15:66:27">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="66:28:66:34">CENTER</jtok>
+<jtok eid="2" type="primary_name_ref" span="66:35:66:40">panel</jtok>
+<jtok eid="2" type="method_call" span="68:3:68:20">addWindowListener</jtok>
+<jtok eid="2" type="constructor_call" span="68:25:68:38">WindowHandler</jtok>
+<jtok eid="2" type="method_call" span="70:3:70:7">pack</jtok>
+<jtok eid="2" type="method_call" span="71:3:71:24">setLocationRelativeTo</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:25:71:31">dialog</jtok>
+<jtok eid="2" type="method_call" span="72:3:72:13">setVisible</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:25">//{{{ setValue() method</jtok>
+<jtok eid="1" type="block_comment" span="77:2:80:5">/**
+	 * @param value the new value
+	 * @deprecated Use {@link #setValue(long)}
+	 */</jtok>
+<jtok eid="3" type="method_name" span="81:14:81:22">setValue</jtok>
+<jtok eid="3" type="parameter_name" span="81:33:81:38">value</jtok>
+<jtok eid="3" type="primary_name_ref" span="83:3:83:17">SwingUtilities</jtok>
+<jtok eid="3" type="method_call" span="83:18:83:29">invokeLater</jtok>
+<jtok eid="3" type="constructor_call" span="83:34:83:42">Runnable</jtok>
+<jtok eid="5" type="method_name" span="85:16:85:19">run</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:5:87:13">progress</jtok>
+<jtok eid="5" type="method_call" span="87:14:87:22">setValue</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:23:87:33">valueSoFar</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:36:87:41">value</jtok>
+<jtok eid="1" type="line_comment" span="90:4:90:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="92:2:92:25">//{{{ setValue() method</jtok>
+<jtok eid="1" type="block_comment" span="93:2:98:5">/**
+	 * Update the progress value.
+	 *
+	 * @param value the new value
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="6" type="method_name" span="99:14:99:22">setValue</jtok>
+<jtok eid="6" type="parameter_name" span="99:34:99:39">value</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:3:101:17">SwingUtilities</jtok>
+<jtok eid="6" type="method_call" span="101:18:101:29">invokeLater</jtok>
+<jtok eid="6" type="constructor_call" span="101:34:101:42">Runnable</jtok>
+<jtok eid="8" type="method_name" span="103:17:103:20">run</jtok>
+<jtok eid="8" type="primary_name_ref" span="105:6:105:14">progress</jtok>
+<jtok eid="8" type="method_call" span="105:15:105:23">setValue</jtok>
+<jtok eid="8" type="primary_name_ref" span="105:24:105:34">valueSoFar</jtok>
+<jtok eid="8" type="primary_name_ref" span="105:43:105:48">value</jtok>
+<jtok eid="1" type="line_comment" span="108:4:108:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="110:2:110:27">//{{{ setMaximum() method</jtok>
+<jtok eid="1" type="block_comment" span="111:2:116:5">/**
+	 * This method is unused with the plugin manager.
+	 *
+	 * @param value the new max value (it will be ignored)
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="9" type="method_name" span="117:14:117:24">setMaximum</jtok>
+<jtok eid="9" type="parameter_name" span="117:30:117:35">value</jtok>
+<jtok eid="1" type="line_comment" span="119:4:119:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="121:2:121:26">//{{{ setStatus() method</jtok>
+<jtok eid="1" type="block_comment" span="122:2:127:5">/**
+	 * This method is unused with the plugin manager.
+	 *
+	 * @param status the new status (it will be ignored)
+	 * @since jEdit 4.3pre3
+	 */</jtok>
+<jtok eid="10" type="method_name" span="128:15:128:24">setStatus</jtok>
+<jtok eid="10" type="parameter_type" span="128:25:128:31">String</jtok>
+<jtok eid="10" type="parameter_name" span="128:32:128:38">status</jtok>
+<jtok eid="10" type="method_call" span="130:4:130:12">setTitle</jtok>
+<jtok eid="10" type="primary_name_ref" span="130:13:130:19">status</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:4:131:12">progress</jtok>
+<jtok eid="10" type="method_call" span="131:13:131:22">setString</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:23:131:29">status</jtok>
+<jtok eid="1" type="line_comment" span="132:4:132:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="134:2:134:21">//{{{ done() method</jtok>
+<jtok eid="11" type="method_name" span="135:14:135:18">done</jtok>
+<jtok eid="11" type="primary_name_ref" span="139:7:139:11">done</jtok>
+<jtok eid="11" type="primary_name_ref" span="139:15:139:20">count</jtok>
+<jtok eid="11" type="primary_name_ref" span="141:5:141:19">SwingUtilities</jtok>
+<jtok eid="11" type="method_call" span="141:20:141:33">invokeAndWait</jtok>
+<jtok eid="11" type="constructor_call" span="141:38:141:46">Runnable</jtok>
+<jtok eid="13" type="method_name" span="143:18:143:21">run</jtok>
+<jtok eid="13" type="method_call" span="145:7:145:14">dispose</jtok>
+<jtok eid="11" type="primary_name_ref" span="151:5:151:19">SwingUtilities</jtok>
+<jtok eid="11" type="method_call" span="151:20:151:33">invokeAndWait</jtok>
+<jtok eid="11" type="constructor_call" span="151:38:151:46">Runnable</jtok>
+<jtok eid="15" type="method_name" span="153:18:153:21">run</jtok>
+<jtok eid="15" type="primary_name_ref" span="155:7:155:17">valueSoFar</jtok>
+<jtok eid="15" type="primary_name_ref" span="155:21:155:27">roster</jtok>
+<jtok eid="15" type="method_call" span="155:28:155:40">getOperation</jtok>
+<jtok eid="15" type="primary_name_ref" span="155:41:155:45">done</jtok>
+<jtok eid="15" type="method_call" span="156:9:156:19">getMaximum</jtok>
+<jtok eid="15" type="primary_name_ref" span="157:7:157:15">progress</jtok>
+<jtok eid="15" type="method_call" span="157:16:157:24">setValue</jtok>
+<jtok eid="15" type="primary_name_ref" span="157:25:157:35">valueSoFar</jtok>
+<jtok eid="15" type="primary_name_ref" span="158:7:158:11">done</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="163:9:163:18">Exception</jtok>
+<jtok eid="11" type="local_variable_name" span="163:19:163:20">e</jtok>
+<jtok eid="1" type="line_comment" span="166:4:166:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="168:2:168:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="170:2:170:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="171:10:171:16">Thread</jtok>
+<jtok eid="1" type="field_name" span="171:17:171:23">thread</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="173:10:173:22">JProgressBar</jtok>
+<jtok eid="1" type="field_name" span="173:23:173:31">progress</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="174:10:174:17">JButton</jtok>
+<jtok eid="1" type="field_name" span="174:18:174:22">stop</jtok>
+<jtok eid="1" type="field_name" span="175:14:175:19">count</jtok>
+<jtok eid="1" type="field_name" span="176:14:176:18">done</jtok>
+<jtok eid="1" type="line_comment" span="178:2:178:47">// progress value as of start of current task</jtok>
+<jtok eid="1" type="field_name" span="179:14:179:24">valueSoFar</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="181:10:181:16">Roster</jtok>
+<jtok eid="1" type="field_name" span="181:17:181:23">roster</jtok>
+<jtok eid="1" type="line_comment" span="182:2:182:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="184:2:184:27">//{{{ ActionHandler class</jtok>
+<jtok eid="16" type="class_name" span="185:8:185:21">ActionHandler</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="185:33:185:47">ActionListener</jtok>
+<jtok eid="17" type="method_name" span="187:15:187:30">actionPerformed</jtok>
+<jtok eid="17" type="parameter_type" span="187:31:187:42">ActionEvent</jtok>
+<jtok eid="17" type="parameter_name" span="187:43:187:46">evt</jtok>
+<jtok eid="17" type="primary_name_ref" span="189:7:189:10">evt</jtok>
+<jtok eid="17" type="method_call" span="189:11:189:20">getSource</jtok>
+<jtok eid="17" type="primary_name_ref" span="189:26:189:30">stop</jtok>
+<jtok eid="17" type="primary_name_ref" span="191:5:191:11">thread</jtok>
+<jtok eid="17" type="method_call" span="191:12:191:16">stop</jtok>
+<jtok eid="17" type="method_call" span="192:5:192:12">dispose</jtok>
+<jtok eid="1" type="line_comment" span="195:4:195:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="197:2:197:27">//{{{ WindowHandler class</jtok>
+<jtok eid="18" type="class_name" span="198:8:198:21">WindowHandler</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="198:30:198:43">WindowAdapter</jtok>
+<jtok eid="18" type="field_name" span="200:11:200:15">done</jtok>
+<jtok eid="19" type="method_name" span="202:15:202:27">windowOpened</jtok>
+<jtok eid="19" type="parameter_type" span="202:28:202:39">WindowEvent</jtok>
+<jtok eid="19" type="parameter_name" span="202:40:202:43">evt</jtok>
+<jtok eid="19" type="primary_name_ref" span="204:7:204:11">done</jtok>
+<jtok eid="19" type="primary_name_ref" span="207:4:207:8">done</jtok>
+<jtok eid="19" type="primary_name_ref" span="208:4:208:10">thread</jtok>
+<jtok eid="19" type="constructor_call" span="208:17:208:29">RosterThread</jtok>
+<jtok eid="19" type="primary_name_ref" span="209:4:209:10">thread</jtok>
+<jtok eid="19" type="method_call" span="209:11:209:16">start</jtok>
+<jtok eid="20" type="method_name" span="212:15:212:28">windowClosing</jtok>
+<jtok eid="20" type="parameter_type" span="212:29:212:40">WindowEvent</jtok>
+<jtok eid="20" type="parameter_name" span="212:41:212:44">evt</jtok>
+<jtok eid="20" type="primary_name_ref" span="214:4:214:10">thread</jtok>
+<jtok eid="20" type="method_call" span="214:11:214:15">stop</jtok>
+<jtok eid="20" type="method_call" span="215:4:215:11">dispose</jtok>
+<jtok eid="1" type="line_comment" span="217:4:217:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="219:2:219:26">//{{{ RosterThread class</jtok>
+<jtok eid="21" type="class_name" span="220:8:220:20">RosterThread</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="220:29:220:35">Thread</jtok>
+<jtok eid="22" type="method_name" span="222:3:222:15">RosterThread</jtok>
+<jtok eid="22" type="string_literal" span="224:10:224:33">"Plugin manager thread"</jtok>
+<jtok eid="23" type="method_name" span="227:15:227:18">run</jtok>
+<jtok eid="23" type="primary_name_ref" span="229:4:229:10">roster</jtok>
+<jtok eid="23" type="method_call" span="229:11:229:40">performOperationsInWorkThread</jtok>
+<jtok eid="23" type="primary_name_ref" span="229:41:229:62">PluginManagerProgress</jtok>
+<jtok eid="1" type="line_comment" span="231:4:231:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="233:2:233:7">//}}}</jtok>
+</jdoc>

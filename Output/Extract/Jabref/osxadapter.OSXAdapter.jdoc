@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="osxadapter.OSXAdapter" jls="java5">
+<jent id="0" type="file" span="0:0:133:1">Source/jabref/src/osx/osxadapter/OSXAdapter.java</jent>
+<jent id="1" pid="0" type="class" span="60:1:133:1">osxadapter.OSXAdapter</jent>
+<jent id="2" pid="1" type="method" span="70:3:72:3">osxadapter.OSXAdapter.OSXAdapter(JabRefFrame)</jent>
+<jent id="3" pid="1" type="method" span="76:3:83:3">osxadapter.OSXAdapter.handleAbout(ApplicationEvent)</jent>
+<jent id="4" pid="1" type="method" span="85:3:92:3">osxadapter.OSXAdapter.handlePreferences(ApplicationEvent)</jent>
+<jent id="5" pid="1" type="method" span="94:3:108:3">osxadapter.OSXAdapter.handleQuit(ApplicationEvent)</jent>
+<jent id="6" pid="1" type="method" span="114:3:123:3">osxadapter.OSXAdapter.registerMacOSXApplication(JabRefFrame)</jent>
+<jent id="7" pid="1" type="method" span="127:3:132:3">osxadapter.OSXAdapter.enablePrefs(boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:54:3">/*
+  File:    OSXAdapter.java
+
+  Description:A single class with clear, static entry points for hooking existing preferences,
+        about, quit functionality from an existing Java app into handlers for the Mac OS X
+        application menu.  Useful for developers looking to support
+        multiple platforms with a single codebase, and support Mac OS X features with
+        minimal impact.
+
+        This sample is designed for Java 1.4.1 and later on Mac OS X.
+
+  Author:    mdrance
+
+  Copyright:   � Copyright 2003 Apple Computer, Inc. All rights reserved.
+
+  Disclaimer:  IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc.
+        ("Apple") in consideration of your agreement to the following terms, and your
+        use, installation, modification or redistribution of this Apple software
+        constitutes acceptance of these terms.  If you do not agree with these terms,
+        please do not use, install, modify or redistribute this Apple software.
+
+        In consideration of your agreement to abide by the following terms, and subject
+        to these terms, Apple grants you a personal, non-exclusive license, under Apple's
+        copyrights in this original Apple software (the "Apple Software"), to use,
+        reproduce, modify and redistribute the Apple Software, with or without
+        modifications, in source and/or binary forms; provided that if you redistribute
+        the Apple Software in its entirety and without modifications, you must retain
+        this notice and the following text and disclaimers in all such redistributions of
+        the Apple Software.  Neither the name, trademarks, service marks or logos of
+        Apple Computer, Inc. may be used to endorse or promote products derived from the
+        Apple Software without specific prior written permission from Apple.  Except as
+        expressly stated in this notice, no other rights or licenses, express or implied,
+        are granted by Apple herein, including but not limited to any patent rights that
+        may be infringed by your derivative works or by other works in which the Apple
+        Software may be incorporated.
+
+        The Apple Software is provided by Apple on an "AS IS" basis.  APPLE MAKES NO
+        WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED
+        WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND OPERATION ALONE OR IN
+        COMBINATION WITH YOUR PRODUCTS.
+
+        IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR
+        CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+        GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+        ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION, MODIFICATION AND/OR DISTRIBUTION
+        OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER UNDER THEORY OF CONTRACT, TORT
+        (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+  Change History (most recent first):
+    04092003  mdrance    added comments
+
+*/</jtok>
+<jtok eid="1" type="class_name" span="60:14:60:24">OSXAdapter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="60:33:60:51">ApplicationAdapter</jtok>
+<jtok eid="1" type="line_comment" span="62:3:62:67">// pseudo-singleton model; no point in making multiple instances</jtok>
+<jtok eid="1" type="line_comment" span="63:3:63:44">// of the EAWT application or our adapter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:18:64:28">OSXAdapter</jtok>
+<jtok eid="1" type="field_name" span="64:40:64:50">theAdapter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:18:65:21">com</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:22:65:27">apple</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:28:65:32">eawt</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:33:65:44">Application</jtok>
+<jtok eid="1" type="field_name" span="65:48:65:62">theApplication</jtok>
+<jtok eid="1" type="line_comment" span="67:3:67:72">// reference to the app where the existing quit, about, prefs code is</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="68:11:68:22">JabRefFrame</jtok>
+<jtok eid="1" type="field_name" span="68:23:68:30">mainApp</jtok>
+<jtok eid="2" type="method_name" span="70:11:70:21">OSXAdapter</jtok>
+<jtok eid="2" type="parameter_type" span="70:23:70:34">JabRefFrame</jtok>
+<jtok eid="2" type="parameter_name" span="70:35:70:40">inApp</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:5:71:12">mainApp</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:15:71:20">inApp</jtok>
+<jtok eid="1" type="line_comment" span="74:3:74:75">// implemented handler methods.  These are basically hooks into existing</jtok>
+<jtok eid="1" type="line_comment" span="75:3:75:80">// functionality from the main app, as if it came over from another platform.</jtok>
+<jtok eid="3" type="method_name" span="76:15:76:26">handleAbout</jtok>
+<jtok eid="3" type="parameter_type" span="76:27:76:43">ApplicationEvent</jtok>
+<jtok eid="3" type="parameter_name" span="76:44:76:46">ae</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:9:77:16">mainApp</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:7:78:9">ae</jtok>
+<jtok eid="3" type="method_call" span="78:10:78:20">setHandled</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:7:79:14">mainApp</jtok>
+<jtok eid="3" type="method_call" span="79:15:79:20">about</jtok>
+<jtok eid="3" type="constructor_call" span="81:17:81:38">IllegalStateException</jtok>
+<jtok eid="3" type="string_literal" span="81:39:81:91">"handleAbout: MyApp instance detached from listener"</jtok>
+<jtok eid="4" type="method_name" span="85:15:85:32">handlePreferences</jtok>
+<jtok eid="4" type="parameter_type" span="85:33:85:49">ApplicationEvent</jtok>
+<jtok eid="4" type="parameter_name" span="85:50:85:52">ae</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:9:86:16">mainApp</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:7:87:14">mainApp</jtok>
+<jtok eid="4" type="method_call" span="87:15:87:26">preferences</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:7:88:9">ae</jtok>
+<jtok eid="4" type="method_call" span="88:10:88:20">setHandled</jtok>
+<jtok eid="4" type="constructor_call" span="90:17:90:38">IllegalStateException</jtok>
+<jtok eid="4" type="string_literal" span="90:39:90:97">"handlePreferences: MyApp instance detached from listener"</jtok>
+<jtok eid="5" type="method_name" span="94:15:94:25">handleQuit</jtok>
+<jtok eid="5" type="parameter_type" span="94:26:94:42">ApplicationEvent</jtok>
+<jtok eid="5" type="parameter_name" span="94:43:94:45">ae</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:9:95:16">mainApp</jtok>
+<jtok eid="5" type="block_comment" span="96:7:102:9">/*
+      /  You MUST setHandled(false) if you want to delay or cancel the quit.
+      /  This is important for cross-platform development -- have a universal quit
+      /  routine that chooses whether or not to quit, so the functionality is identical
+      /  on all platforms.  This example simply cancels the AppleEvent-based quit and
+      /  defers to that universal method.
+      */</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:7:103:9">ae</jtok>
+<jtok eid="5" type="method_call" span="103:10:103:20">setHandled</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:7:104:14">mainApp</jtok>
+<jtok eid="5" type="method_call" span="104:15:104:19">quit</jtok>
+<jtok eid="5" type="constructor_call" span="106:17:106:38">IllegalStateException</jtok>
+<jtok eid="5" type="string_literal" span="106:39:106:90">"handleQuit: MyApp instance detached from listener"</jtok>
+<jtok eid="1" type="line_comment" span="111:3:111:75">// The main entry-point for this functionality.  This is the only method</jtok>
+<jtok eid="1" type="line_comment" span="112:3:112:73">// that needs to be called at runtime, and it can easily be done using</jtok>
+<jtok eid="1" type="line_comment" span="113:3:113:33">// reflection (see MyApp.java)</jtok>
+<jtok eid="6" type="method_name" span="114:22:114:47">registerMacOSXApplication</jtok>
+<jtok eid="6" type="parameter_type" span="114:48:114:59">JabRefFrame</jtok>
+<jtok eid="6" type="parameter_name" span="114:60:114:65">inApp</jtok>
+<jtok eid="6" type="primary_name_ref" span="115:9:115:23">theApplication</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:7:116:21">theApplication</jtok>
+<jtok eid="6" type="constructor_call" span="116:28:116:31">com</jtok>
+<jtok eid="6" type="constructor_call" span="116:32:116:37">apple</jtok>
+<jtok eid="6" type="constructor_call" span="116:38:116:42">eawt</jtok>
+<jtok eid="6" type="constructor_call" span="116:43:116:54">Application</jtok>
+<jtok eid="6" type="primary_name_ref" span="119:9:119:19">theAdapter</jtok>
+<jtok eid="6" type="primary_name_ref" span="120:7:120:17">theAdapter</jtok>
+<jtok eid="6" type="constructor_call" span="120:24:120:34">OSXAdapter</jtok>
+<jtok eid="6" type="primary_name_ref" span="120:35:120:40">inApp</jtok>
+<jtok eid="6" type="primary_name_ref" span="122:5:122:19">theApplication</jtok>
+<jtok eid="6" type="method_call" span="122:20:122:42">addApplicationListener</jtok>
+<jtok eid="6" type="primary_name_ref" span="122:43:122:53">theAdapter</jtok>
+<jtok eid="1" type="line_comment" span="125:3:125:69">// Another static entry point for EAWT functionality.  Enables the</jtok>
+<jtok eid="1" type="line_comment" span="126:3:126:57">// "Preferences..." menu item in the application menu.</jtok>
+<jtok eid="7" type="method_name" span="127:22:127:33">enablePrefs</jtok>
+<jtok eid="7" type="parameter_name" span="127:42:127:49">enabled</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:9:128:23">theApplication</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:7:129:21">theApplication</jtok>
+<jtok eid="7" type="constructor_call" span="129:28:129:31">com</jtok>
+<jtok eid="7" type="constructor_call" span="129:32:129:37">apple</jtok>
+<jtok eid="7" type="constructor_call" span="129:38:129:42">eawt</jtok>
+<jtok eid="7" type="constructor_call" span="129:43:129:54">Application</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:5:131:19">theApplication</jtok>
+<jtok eid="7" type="method_call" span="131:20:131:45">setEnabledPreferencesMenu</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:46:131:53">enabled</jtok>
+</jdoc>

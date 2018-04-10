@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.export.SaveSession" jls="java5">
+<jent id="0" type="file" span="0:0:158:1">Source/jabref/src/java/net/sf/jabref/export/SaveSession.java</jent>
+<jent id="1" pid="0" type="class" span="27:1:158:1">net.sf.jabref.export.SaveSession</jent>
+<jent id="2" pid="1" type="method" span="41:5:49:5">net.sf.jabref.export.SaveSession.SaveSession(File,String,boolean)</jent>
+<jent id="3" pid="1" type="method" span="51:5:53:5">net.sf.jabref.export.SaveSession.getWriter()</jent>
+<jent id="4" pid="1" type="method" span="55:5:57:5">net.sf.jabref.export.SaveSession.getEncoding()</jent>
+<jent id="5" pid="1" type="method" span="59:5:61:5">net.sf.jabref.export.SaveSession.setUseBackup(boolean)</jent>
+<jent id="6" pid="1" type="method" span="63:5:112:5">net.sf.jabref.export.SaveSession.commit()</jent>
+<jent id="7" pid="1" type="method" span="114:5:116:5">net.sf.jabref.export.SaveSession.cancel()</jent>
+<jent id="8" pid="1" type="method" span="124:5:139:5">net.sf.jabref.export.SaveSession.createLockFile()</jent>
+<jent id="9" pid="1" type="method" span="146:5:153:5">net.sf.jabref.export.SaveSession.deleteLockFile()</jent>
+<jent id="10" pid="1" type="method" span="155:5:157:5">net.sf.jabref.export.SaveSession.getTemporaryFile()</jent>
+<jtok eid="0" type="block_comment" span="12:1:26:4">/**
+ * Class used to handle safe storage to disk. 
+ * 
+ * Usage: create a SaveSession giving the file to save to, the
+ * encoding, and whether to make a backup. The SaveSession will provide a Writer to store to, which actually
+ * goes to a temporary file. The Writer keeps track of whether all characters could be saved, and if not,
+ * which characters were not encodable.
+ * 
+ * After saving is finished, the client should close the Writer. If the save should be put into effect, call
+ * commit(), otherwise call cancel(). When cancelling, the temporary file is simply deleted and the target
+ * file remains unchanged. When committing, the temporary file is copied to the target file after making
+ * a backup if requested and if the target file already existed, and finally the temporary file is deleted.
+ * 
+ * If committing fails, the temporary file will not be deleted.
+ */</jtok>
+<jtok eid="1" type="class_name" span="27:14:27:25">SaveSession</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="29:25:29:31">String</jtok>
+<jtok eid="1" type="field_name" span="29:32:29:47">LOCKFILE_SUFFIX</jtok>
+<jtok eid="1" type="string_literal" span="29:50:29:57">".lock"</jtok>
+<jtok eid="1" type="line_comment" span="30:5:30:88">// The age in ms of a lockfile before JabRef will offer to "steal" the locked file:</jtok>
+<jtok eid="1" type="field_name" span="31:30:31:51">LOCKFILE_CRITICAL_AGE</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:26:33:32">String</jtok>
+<jtok eid="1" type="field_name" span="33:33:33:44">TEMP_PREFIX</jtok>
+<jtok eid="1" type="string_literal" span="33:47:33:55">"jabref"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:26:34:32">String</jtok>
+<jtok eid="1" type="field_name" span="34:33:34:44">TEMP_SUFFIX</jtok>
+<jtok eid="1" type="string_literal" span="34:47:34:57">"save.bib"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:5:36:9">File</jtok>
+<jtok eid="1" type="field_name" span="36:10:36:14">file</jtok>
+<jtok eid="1" type="field_name" span="36:16:36:19">tmp</jtok>
+<jtok eid="1" type="field_name" span="36:21:36:31">backupFile</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:5:37:11">String</jtok>
+<jtok eid="1" type="field_name" span="37:12:37:20">encoding</jtok>
+<jtok eid="1" type="field_name" span="38:13:38:19">backup</jtok>
+<jtok eid="1" type="field_name" span="38:21:38:32">useLockFile</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:5:39:20">VerifyingWriter</jtok>
+<jtok eid="1" type="field_name" span="39:21:39:27">writer</jtok>
+<jtok eid="2" type="method_name" span="41:12:41:23">SaveSession</jtok>
+<jtok eid="2" type="parameter_type" span="41:24:41:28">File</jtok>
+<jtok eid="2" type="parameter_name" span="41:29:41:33">file</jtok>
+<jtok eid="2" type="parameter_type" span="41:35:41:41">String</jtok>
+<jtok eid="2" type="parameter_name" span="41:42:41:50">encoding</jtok>
+<jtok eid="2" type="parameter_name" span="41:60:41:66">backup</jtok>
+<jtok eid="2" type="throws" span="41:75:41:86">IOException</jtok>
+<jtok eid="2" type="throws" span="42:9:42:36">UnsupportedCharsetException</jtok>
+<jtok eid="2" type="qualified_name_ref" span="43:14:43:18">file</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:21:43:25">file</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:9:44:12">tmp</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:15:44:19">File</jtok>
+<jtok eid="2" type="method_call" span="44:20:44:34">createTempFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:35:44:46">TEMP_PREFIX</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:48:44:59">TEMP_SUFFIX</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:9:45:20">useLockFile</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:23:45:30">Globals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="45:31:45:36">prefs</jtok>
+<jtok eid="2" type="method_call" span="45:37:45:47">getBoolean</jtok>
+<jtok eid="2" type="string_literal" span="45:48:45:62">"useLockFiles"</jtok>
+<jtok eid="2" type="qualified_name_ref" span="46:14:46:20">backup</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:23:46:29">backup</jtok>
+<jtok eid="2" type="qualified_name_ref" span="47:14:47:22">encoding</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:25:47:33">encoding</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:9:48:15">writer</jtok>
+<jtok eid="2" type="constructor_call" span="48:22:48:37">VerifyingWriter</jtok>
+<jtok eid="2" type="constructor_call" span="48:42:48:58">FileOutputStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:59:48:62">tmp</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:65:48:73">encoding</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="51:12:51:27">VerifyingWriter</jtok>
+<jtok eid="3" type="method_name" span="51:28:51:37">getWriter</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:16:52:22">writer</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="55:12:55:18">String</jtok>
+<jtok eid="4" type="method_name" span="55:19:55:30">getEncoding</jtok>
+<jtok eid="4" type="primary_name_ref" span="56:16:56:24">encoding</jtok>
+<jtok eid="5" type="method_name" span="59:17:59:29">setUseBackup</jtok>
+<jtok eid="5" type="parameter_name" span="59:38:59:47">useBackup</jtok>
+<jtok eid="5" type="qualified_name_ref" span="60:14:60:20">backup</jtok>
+<jtok eid="5" type="primary_name_ref" span="60:23:60:32">useBackup</jtok>
+<jtok eid="6" type="method_name" span="63:17:63:23">commit</jtok>
+<jtok eid="6" type="throws" span="63:33:63:46">SaveException</jtok>
+<jtok eid="6" type="primary_name_ref" span="64:13:64:17">file</jtok>
+<jtok eid="6" type="primary_name_ref" span="66:13:66:17">file</jtok>
+<jtok eid="6" type="method_call" span="66:18:66:24">exists</jtok>
+<jtok eid="6" type="primary_name_ref" span="66:30:66:36">backup</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="67:13:67:19">String</jtok>
+<jtok eid="6" type="local_variable_name" span="67:20:67:24">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="67:27:67:31">file</jtok>
+<jtok eid="6" type="method_call" span="67:32:67:39">getName</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="68:13:68:19">String</jtok>
+<jtok eid="6" type="local_variable_name" span="68:20:68:24">path</jtok>
+<jtok eid="6" type="primary_name_ref" span="68:27:68:31">file</jtok>
+<jtok eid="6" type="method_call" span="68:32:68:41">getParent</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="69:13:69:17">File</jtok>
+<jtok eid="6" type="local_variable_name" span="69:18:69:28">backupFile</jtok>
+<jtok eid="6" type="constructor_call" span="69:35:69:39">File</jtok>
+<jtok eid="6" type="primary_name_ref" span="69:40:69:44">path</jtok>
+<jtok eid="6" type="primary_name_ref" span="69:46:69:50">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="69:53:69:63">GUIGlobals</jtok>
+<jtok eid="6" type="qualified_name_ref" span="69:64:69:73">backupExt</jtok>
+<jtok eid="6" type="primary_name_ref" span="71:17:71:21">Util</jtok>
+<jtok eid="6" type="method_call" span="71:22:71:30">copyFile</jtok>
+<jtok eid="6" type="primary_name_ref" span="71:31:71:35">file</jtok>
+<jtok eid="6" type="primary_name_ref" span="71:37:71:47">backupFile</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="72:22:72:33">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="72:34:72:36">ex</jtok>
+<jtok eid="6" type="primary_name_ref" span="73:17:73:19">ex</jtok>
+<jtok eid="6" type="method_call" span="73:20:73:35">printStackTrace</jtok>
+<jtok eid="6" type="primary_name_ref" span="74:23:74:36">SaveException</jtok>
+<jtok eid="6" type="qualified_name_ref" span="74:37:74:52">BACKUP_CREATION</jtok>
+<jtok eid="6" type="line_comment" span="75:17:75:116">//throw new SaveException(Globals.lang("Save failed during backup creation")+": "+ex.getMessage());</jtok>
+<jtok eid="6" type="primary_name_ref" span="79:17:79:28">useLockFile</jtok>
+<jtok eid="6" type="method_call" span="81:25:81:39">createLockFile</jtok>
+<jtok eid="6" type="line_comment" span="82:25:82:84">// Oops, the lock file already existed. Try to wait it out:</jtok>
+<jtok eid="6" type="primary_name_ref" span="83:30:83:34">Util</jtok>
+<jtok eid="6" type="method_call" span="83:35:83:50">waitForFileLock</jtok>
+<jtok eid="6" type="primary_name_ref" span="83:51:83:55">file</jtok>
+<jtok eid="6" type="primary_name_ref" span="84:35:84:48">SaveException</jtok>
+<jtok eid="6" type="qualified_name_ref" span="84:49:84:60">FILE_LOCKED</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="87:26:87:37">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="87:38:87:40">ex</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:21:88:27">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="88:28:88:31">err</jtok>
+<jtok eid="6" type="method_call" span="88:32:88:39">println</jtok>
+<jtok eid="6" type="string_literal" span="88:40:88:71">"Error when creating lock file"</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:21:89:23">ex</jtok>
+<jtok eid="6" type="method_call" span="89:24:89:39">printStackTrace</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:13:93:17">Util</jtok>
+<jtok eid="6" type="method_call" span="93:18:93:26">copyFile</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:27:93:30">tmp</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:32:93:36">file</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="94:18:94:29">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="94:30:94:33">ex2</jtok>
+<jtok eid="6" type="line_comment" span="95:13:95:117">// If something happens here, what can we do to correct the problem? The file is corrupted, but we still</jtok>
+<jtok eid="6" type="line_comment" span="96:13:96:110">// have a clean copy in tmp. However, we just failed to copy tmp to file, so it's not likely that</jtok>
+<jtok eid="6" type="line_comment" span="97:13:97:66">// repeating the action will have a different result.</jtok>
+<jtok eid="6" type="line_comment" span="98:13:98:98">// On the other hand, our temporary file should still be clean, and won't be deleted.</jtok>
+<jtok eid="6" type="constructor_call" span="99:23:99:36">SaveException</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:37:99:44">Globals</jtok>
+<jtok eid="6" type="method_call" span="99:45:99:49">lang</jtok>
+<jtok eid="6" type="string_literal" span="99:50:99:88">"Save failed while committing changes"</jtok>
+<jtok eid="6" type="string_literal" span="99:90:99:94">": "</jtok>
+<jtok eid="6" type="primary_name_ref" span="99:95:99:98">ex2</jtok>
+<jtok eid="6" type="method_call" span="99:99:99:109">getMessage</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:17:101:28">useLockFile</jtok>
+<jtok eid="6" type="method_call" span="103:21:103:35">deleteLockFile</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="104:26:104:37">IOException</jtok>
+<jtok eid="6" type="local_variable_name" span="104:38:104:40">ex</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:21:105:27">System</jtok>
+<jtok eid="6" type="qualified_name_ref" span="105:28:105:31">err</jtok>
+<jtok eid="6" type="method_call" span="105:32:105:39">println</jtok>
+<jtok eid="6" type="string_literal" span="105:40:105:71">"Error when deleting lock file"</jtok>
+<jtok eid="6" type="primary_name_ref" span="106:21:106:23">ex</jtok>
+<jtok eid="6" type="method_call" span="106:24:106:39">printStackTrace</jtok>
+<jtok eid="6" type="primary_name_ref" span="111:9:111:12">tmp</jtok>
+<jtok eid="6" type="method_call" span="111:13:111:19">delete</jtok>
+<jtok eid="7" type="method_name" span="114:17:114:23">cancel</jtok>
+<jtok eid="7" type="throws" span="114:33:114:44">IOException</jtok>
+<jtok eid="7" type="primary_name_ref" span="115:9:115:12">tmp</jtok>
+<jtok eid="7" type="method_call" span="115:13:115:19">delete</jtok>
+<jtok eid="1" type="block_comment" span="119:5:123:8">/**
+     * Check if a lock file exists, and create it if it doesn't.
+     * @return true if the lock file already existed
+     * @throws IOException if something happens during creation.
+     */</jtok>
+<jtok eid="8" type="method_name" span="124:21:124:35">createLockFile</jtok>
+<jtok eid="8" type="throws" span="124:45:124:56">IOException</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="125:9:125:13">File</jtok>
+<jtok eid="8" type="local_variable_name" span="125:14:125:18">lock</jtok>
+<jtok eid="8" type="constructor_call" span="125:25:125:29">File</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:30:125:34">file</jtok>
+<jtok eid="8" type="method_call" span="125:35:125:42">getPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:45:125:60">LOCKFILE_SUFFIX</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:13:126:17">lock</jtok>
+<jtok eid="8" type="method_call" span="126:18:126:24">exists</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="129:9:129:25">FileOutputStream</jtok>
+<jtok eid="8" type="local_variable_name" span="129:26:129:29">out</jtok>
+<jtok eid="8" type="constructor_call" span="129:36:129:52">FileOutputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="129:53:129:57">lock</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:9:130:12">out</jtok>
+<jtok eid="8" type="method_call" span="130:13:130:18">write</jtok>
+<jtok eid="8" type="primary_name_ref" span="132:13:132:16">out</jtok>
+<jtok eid="8" type="method_call" span="132:17:132:22">close</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="133:18:133:29">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="133:30:133:32">ex</jtok>
+<jtok eid="8" type="primary_name_ref" span="134:13:134:19">System</jtok>
+<jtok eid="8" type="qualified_name_ref" span="134:20:134:23">err</jtok>
+<jtok eid="8" type="method_call" span="134:24:134:31">println</jtok>
+<jtok eid="8" type="string_literal" span="134:32:134:63">"Error when creating lock file"</jtok>
+<jtok eid="8" type="primary_name_ref" span="135:13:135:15">ex</jtok>
+<jtok eid="8" type="method_call" span="135:16:135:31">printStackTrace</jtok>
+<jtok eid="8" type="primary_name_ref" span="137:9:137:13">lock</jtok>
+<jtok eid="8" type="method_call" span="137:14:137:26">deleteOnExit</jtok>
+<jtok eid="1" type="block_comment" span="141:5:145:8">/**
+     * Check if a lock file exists, and delete it if it does.
+     * @return true if the lock file existed, false otherwise.
+     * @throws IOException if something goes wrong.
+     */</jtok>
+<jtok eid="9" type="method_name" span="146:21:146:35">deleteLockFile</jtok>
+<jtok eid="9" type="throws" span="146:45:146:56">IOException</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="147:9:147:13">File</jtok>
+<jtok eid="9" type="local_variable_name" span="147:14:147:18">lock</jtok>
+<jtok eid="9" type="constructor_call" span="147:25:147:29">File</jtok>
+<jtok eid="9" type="primary_name_ref" span="147:30:147:34">file</jtok>
+<jtok eid="9" type="method_call" span="147:35:147:42">getPath</jtok>
+<jtok eid="9" type="primary_name_ref" span="147:45:147:60">LOCKFILE_SUFFIX</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:14:148:18">lock</jtok>
+<jtok eid="9" type="method_call" span="148:19:148:25">exists</jtok>
+<jtok eid="9" type="primary_name_ref" span="151:9:151:13">lock</jtok>
+<jtok eid="9" type="method_call" span="151:14:151:20">delete</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="155:12:155:16">File</jtok>
+<jtok eid="10" type="method_name" span="155:17:155:33">getTemporaryFile</jtok>
+<jtok eid="10" type="primary_name_ref" span="156:16:156:19">tmp</jtok>
+</jdoc>

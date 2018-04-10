@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.FieldContentParser" jls="java5">
+<jent id="0" type="file" span="0:0:194:1">Source/jabref/src/java/net/sf/jabref/imports/FieldContentParser.java</jent>
+<jent id="1" pid="0" type="class" span="12:1:194:1">net.sf.jabref.imports.FieldContentParser</jent>
+<jent id="2" pid="1" type="method" span="21:2:133:2">net.sf.jabref.imports.FieldContentParser.format(StringBuffer,String)</jent>
+<jent id="3" pid="1" type="method" span="141:5:143:5">net.sf.jabref.imports.FieldContentParser.format(StringBuffer)</jent>
+<jent id="4" pid="1" type="method" span="152:5:171:5">net.sf.jabref.imports.FieldContentParser.wrap(String,int)</jent>
+<jent id="5" pid="1" type="method" span="173:5:189:5">net.sf.jabref.imports.FieldContentParser.addWrappedLine(StringBuffer,String,int)</jent>
+<jent id="6" pid="1" type="class" span="191:5:193:5">net.sf.jabref.imports.FieldContentParser.Indents</jent>
+<jtok eid="0" type="block_comment" span="7:1:11:4">/**
+ * This class provides the reformatting needed when reading BibTeX fields formatted
+ * in JabRef style. The reformatting must undo all formatting done by JabRef when
+ * writing the same fields.
+ */</jtok>
+<jtok eid="1" type="class_name" span="12:14:12:32">FieldContentParser</jtok>
+<jtok eid="1" type="block_comment" span="14:5:20:8">/**
+     * Performs the reformatting
+     * @param content StringBuffer containing the field to format. key contains field name according to field
+     *  was edited by Kuehn/Havalevich
+     * @return The formatted field content. NOTE: the StringBuffer returned may
+     * or may not be the same as the argument given.
+     */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="21:9:21:21">StringBuffer</jtok>
+<jtok eid="2" type="method_name" span="21:22:21:28">format</jtok>
+<jtok eid="2" type="parameter_type" span="21:29:21:41">StringBuffer</jtok>
+<jtok eid="2" type="parameter_name" span="21:42:21:49">content</jtok>
+<jtok eid="2" type="parameter_type" span="21:51:21:57">String</jtok>
+<jtok eid="2" type="parameter_name" span="21:58:21:61">key</jtok>
+<jtok eid="2" type="block_comment" span="23:9:30:11">/*System.out.println("Content: '"+content+"'");
+        byte[] bt = content.toString().getBytes();
+        for (int i = 0; i &lt; bt.length; i++) {
+            byte b = bt[i];
+            System.out.print(b+" ");
+        }
+        System.out.println("");
+        */</jtok>
+<jtok eid="2" type="line_comment" span="31:9:31:31">//boolean rep = false;</jtok>
+<jtok eid="2" type="local_variable_name" span="33:13:33:14">i</jtok>
+<jtok eid="2" type="line_comment" span="35:9:35:57">// Remove windows newlines and insert unix ones:</jtok>
+<jtok eid="2" type="line_comment" span="36:9:36:118">// TODO: 2005.12.3: Added replace from \r to \n, to work around a reported problem of words stiched together.</jtok>
+<jtok eid="2" type="line_comment" span="37:9:37:85">// But: we need to find out why these lone \r characters appear in his file.</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:9:38:16">content</jtok>
+<jtok eid="2" type="constructor_call" span="38:23:38:35">StringBuffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:36:38:43">content</jtok>
+<jtok eid="2" type="method_call" span="38:44:38:52">toString</jtok>
+<jtok eid="2" type="method_call" span="38:55:38:65">replaceAll</jtok>
+<jtok eid="2" type="string_literal" span="38:66:38:72">"\r\n"</jtok>
+<jtok eid="2" type="string_literal" span="38:73:38:77">"\n"</jtok>
+<jtok eid="2" type="method_call" span="38:79:38:89">replaceAll</jtok>
+<jtok eid="2" type="string_literal" span="38:90:38:94">"\r"</jtok>
+<jtok eid="2" type="string_literal" span="38:96:38:100">"\n"</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:16:40:17">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:18:40:25">content</jtok>
+<jtok eid="2" type="method_call" span="40:26:40:32">length</jtok>
+<jtok eid="2" type="local_variable_name" span="42:17:42:18">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:21:42:28">content</jtok>
+<jtok eid="2" type="method_call" span="42:29:42:35">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="42:36:42:37">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="43:17:43:18">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:22:44:29">content</jtok>
+<jtok eid="2" type="method_call" span="44:30:44:36">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:39:44:40">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:48:44:55">content</jtok>
+<jtok eid="2" type="method_call" span="44:56:44:62">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="44:63:44:64">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:26:45:33">content</jtok>
+<jtok eid="2" type="method_call" span="45:34:45:40">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:44:45:45">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:53:45:62">Character</jtok>
+<jtok eid="2" type="method_call" span="45:63:45:75">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:76:45:83">content</jtok>
+<jtok eid="2" type="method_call" span="45:84:45:90">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:91:45:92">i</jtok>
+<jtok eid="2" type="line_comment" span="46:21:46:86">// We have either \n\t followed by non-whitespace, or \n\t at the</jtok>
+<jtok eid="2" type="line_comment" span="47:21:47:110">// end. Bothe cases indicate a wrap made by JabRef. Remove and insert space if necessary.</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:21:49:28">content</jtok>
+<jtok eid="2" type="method_call" span="49:29:49:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:42:49:43">i</jtok>
+<jtok eid="2" type="line_comment" span="49:46:49:51">// \n</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:21:50:28">content</jtok>
+<jtok eid="2" type="method_call" span="50:29:50:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:42:50:43">i</jtok>
+<jtok eid="2" type="line_comment" span="50:46:50:51">// \t</jtok>
+<jtok eid="2" type="line_comment" span="51:21:51:52">// Add space only if necessary:</jtok>
+<jtok eid="2" type="line_comment" span="52:21:52:100">// Note 2007-05-26, mortenalver: the following line was modified. It previously</jtok>
+<jtok eid="2" type="line_comment" span="53:21:53:104">// didn't add a space if the line break was at i==0. This caused some occurences of</jtok>
+<jtok eid="2" type="line_comment" span="54:21:54:109">// "string1 # { and } # string2" constructs lose the space in front of the "and" because</jtok>
+<jtok eid="2" type="line_comment" span="55:21:55:113">// the line wrap caused a JabRef linke break at the start of a value containing the " and ".</jtok>
+<jtok eid="2" type="line_comment" span="56:21:56:110">// The bug was caused by a protective check for i&gt;0 to avoid intexing char -1 in content.</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:26:57:27">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:36:57:45">Character</jtok>
+<jtok eid="2" type="method_call" span="57:46:57:58">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:59:57:66">content</jtok>
+<jtok eid="2" type="method_call" span="57:67:57:73">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:74:57:75">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:25:58:32">content</jtok>
+<jtok eid="2" type="method_call" span="58:33:58:39">insert</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:40:58:41">i</jtok>
+<jtok eid="2" type="line_comment" span="59:25:59:74">// Increment i because of the inserted character:</jtok>
+<jtok eid="2" type="primary_name_ref" span="60:25:60:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:27:63:34">content</jtok>
+<jtok eid="2" type="method_call" span="63:35:63:41">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:44:63:45">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:53:63:60">content</jtok>
+<jtok eid="2" type="method_call" span="63:61:63:67">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:68:63:69">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:25:64:32">content</jtok>
+<jtok eid="2" type="method_call" span="64:33:64:39">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:40:64:41">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:25:65:34">Character</jtok>
+<jtok eid="2" type="method_call" span="65:35:65:47">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:48:65:55">content</jtok>
+<jtok eid="2" type="method_call" span="65:56:65:62">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:63:65:64">i</jtok>
+<jtok eid="2" type="line_comment" span="66:21:66:96">// We have \n\t followed by ' ' followed by non-whitespace, which indicates</jtok>
+<jtok eid="2" type="line_comment" span="67:21:67:63">// a wrap made by JabRef &lt;= 1.7.1. Remove:</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:21:68:28">content</jtok>
+<jtok eid="2" type="method_call" span="68:29:68:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="68:42:68:43">i</jtok>
+<jtok eid="2" type="line_comment" span="68:46:68:51">// \n</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:21:69:28">content</jtok>
+<jtok eid="2" type="method_call" span="69:29:69:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:42:69:43">i</jtok>
+<jtok eid="2" type="line_comment" span="69:46:69:51">// \t</jtok>
+<jtok eid="2" type="line_comment" span="70:21:70:55">// Remove space only if necessary:</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:26:71:27">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:34:71:43">Character</jtok>
+<jtok eid="2" type="method_call" span="71:44:71:56">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:57:71:64">content</jtok>
+<jtok eid="2" type="method_call" span="71:65:71:71">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:72:71:73">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:25:72:32">content</jtok>
+<jtok eid="2" type="method_call" span="72:33:72:45">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:46:72:47">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:27:75:34">content</jtok>
+<jtok eid="2" type="method_call" span="75:35:75:41">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:44:75:45">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:53:75:60">content</jtok>
+<jtok eid="2" type="method_call" span="75:61:75:67">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:68:75:69">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:29:76:36">content</jtok>
+<jtok eid="2" type="method_call" span="76:37:76:43">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:44:76:45">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:60:76:67">content</jtok>
+<jtok eid="2" type="method_call" span="76:68:76:74">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:75:76:76">i</jtok>
+<jtok eid="2" type="line_comment" span="77:21:77:89">// We have \n\t\n\t, which looks like a JabRef-formatted empty line.</jtok>
+<jtok eid="2" type="line_comment" span="78:21:78:72">// Remove the tabs and keep one of the line breaks:</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:21:79:28">content</jtok>
+<jtok eid="2" type="method_call" span="79:29:79:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:42:79:43">i</jtok>
+<jtok eid="2" type="line_comment" span="79:48:79:53">// \t</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:21:80:28">content</jtok>
+<jtok eid="2" type="method_call" span="80:29:80:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:42:80:43">i</jtok>
+<jtok eid="2" type="line_comment" span="80:48:80:53">// \n</jtok>
+<jtok eid="2" type="primary_name_ref" span="81:21:81:28">content</jtok>
+<jtok eid="2" type="method_call" span="81:29:81:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="81:42:81:43">i</jtok>
+<jtok eid="2" type="line_comment" span="81:48:81:53">// \t</jtok>
+<jtok eid="2" type="line_comment" span="82:21:82:50">// Skip past the line breaks:</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:21:83:22">i</jtok>
+<jtok eid="2" type="line_comment" span="85:21:85:89">// Now, if more \n\t pairs are following, keep each line break. This</jtok>
+<jtok eid="2" type="line_comment" span="86:21:86:82">// preserves several line breaks properly. Repeat until done:</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:29:87:36">content</jtok>
+<jtok eid="2" type="method_call" span="87:37:87:43">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:46:87:47">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:55:87:62">content</jtok>
+<jtok eid="2" type="method_call" span="87:63:87:69">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:70:87:71">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:29:88:36">content</jtok>
+<jtok eid="2" type="method_call" span="88:37:88:43">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:44:88:45">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:25:90:32">content</jtok>
+<jtok eid="2" type="method_call" span="90:33:90:45">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:46:90:47">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:25:91:26">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:27:94:34">content</jtok>
+<jtok eid="2" type="method_call" span="94:35:94:41">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:44:94:45">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:53:94:60">content</jtok>
+<jtok eid="2" type="method_call" span="94:61:94:67">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:68:94:69">i</jtok>
+<jtok eid="2" type="line_comment" span="95:21:95:106">// We have a line break not followed by another line break. This is probably a normal</jtok>
+<jtok eid="2" type="line_comment" span="96:21:96:99">// line break made by whatever other editor, so we will remove the line break.</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:21:97:28">content</jtok>
+<jtok eid="2" type="method_call" span="97:29:97:41">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:42:97:43">i</jtok>
+<jtok eid="2" type="line_comment" span="98:21:98:101">// If the line break is not accompanied by other whitespace we must add a space:</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:26:99:35">Character</jtok>
+<jtok eid="2" type="method_call" span="99:36:99:48">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:49:99:56">content</jtok>
+<jtok eid="2" type="method_call" span="99:57:99:63">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:64:99:65">i</jtok>
+<jtok eid="2" type="line_comment" span="99:72:99:95">// No whitespace after?</jtok>
+<jtok eid="2" type="primary_name_ref" span="100:30:100:31">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="100:39:100:48">Character</jtok>
+<jtok eid="2" type="method_call" span="100:49:100:61">isWhitespace</jtok>
+<jtok eid="2" type="primary_name_ref" span="100:62:100:69">content</jtok>
+<jtok eid="2" type="method_call" span="100:70:100:76">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="100:77:100:78">i</jtok>
+<jtok eid="2" type="line_comment" span="100:84:100:108">// No whitespace before?</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:25:101:32">content</jtok>
+<jtok eid="2" type="method_call" span="101:33:101:39">insert</jtok>
+<jtok eid="2" type="primary_name_ref" span="101:40:101:41">i</jtok>
+<jtok eid="2" type="line_comment" span="104:17:104:82">//else if ((content.length()&gt;i+1) &amp;&amp; (content.charAt(i+1)=='\n'))</jtok>
+<jtok eid="2" type="primary_name_ref" span="106:21:106:22">i</jtok>
+<jtok eid="2" type="line_comment" span="107:17:107:43">//content.deleteCharAt(i);</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:22:109:23">c</jtok>
+<jtok eid="2" type="line_comment" span="110:17:110:78">//if ((content.length()&gt;i+2) &amp;&amp; (content.charAt(i+1)==' ')) {</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:22:111:23">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:31:111:38">content</jtok>
+<jtok eid="2" type="method_call" span="111:39:111:45">charAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="111:46:111:47">i</jtok>
+<jtok eid="2" type="line_comment" span="112:21:112:76">// We have two spaces in a row. Don't include this one.</jtok>
+<jtok eid="2" type="line_comment" span="114:18:114:99">// Yes, of course we have, but in Filenames it is nessary to have all spaces. :-)</jtok>
+<jtok eid="2" type="line_comment" span="115:18:115:71">// This is the reason why the next lines are required</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:21:116:24">key</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:36:116:39">key</jtok>
+<jtok eid="2" type="method_call" span="116:40:116:46">equals</jtok>
+<jtok eid="2" type="primary_name_ref" span="116:47:116:57">GUIGlobals</jtok>
+<jtok eid="2" type="qualified_name_ref" span="116:58:116:68">FILE_FIELD</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:19:117:20">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:19:120:26">content</jtok>
+<jtok eid="2" type="method_call" span="120:27:120:39">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="120:40:120:41">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="123:21:123:22">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="124:24:124:25">c</jtok>
+<jtok eid="2" type="line_comment" span="125:17:125:87">// Remove all tab characters that aren't associated with a line break.</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:17:126:24">content</jtok>
+<jtok eid="2" type="method_call" span="126:25:126:37">deleteCharAt</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:38:126:39">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="128:17:128:18">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="132:16:132:23">content</jtok>
+<jtok eid="1" type="block_comment" span="135:5:140:8">/**
+     * Performs the reformatting
+     * @param content StringBuffer containing the field to format.
+     * @return The formatted field content. NOTE: the StringBuffer returned may
+     * or may not be the same as the argument given.
+     */</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="141:12:141:24">StringBuffer</jtok>
+<jtok eid="3" type="method_name" span="141:25:141:31">format</jtok>
+<jtok eid="3" type="parameter_type" span="141:32:141:44">StringBuffer</jtok>
+<jtok eid="3" type="parameter_name" span="141:45:141:52">content</jtok>
+<jtok eid="3" type="method_call" span="142:13:142:19">format</jtok>
+<jtok eid="3" type="primary_name_ref" span="142:20:142:27">content</jtok>
+<jtok eid="1" type="block_comment" span="145:5:151:8">/**
+     * Formats field contents for output. Must be "symmetric" with the parse method above,
+     * so stored and reloaded fields are not mangled.
+     * @param in
+     * @param wrapAmount
+     * @return the wrapped String.
+     */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="152:19:152:25">String</jtok>
+<jtok eid="4" type="method_name" span="152:26:152:30">wrap</jtok>
+<jtok eid="4" type="parameter_type" span="152:31:152:37">String</jtok>
+<jtok eid="4" type="parameter_name" span="152:38:152:40">in</jtok>
+<jtok eid="4" type="parameter_name" span="152:46:152:56">wrapAmount</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="154:9:154:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="154:18:154:23">lines</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:26:154:28">in</jtok>
+<jtok eid="4" type="method_call" span="154:29:154:34">split</jtok>
+<jtok eid="4" type="string_literal" span="154:35:154:39">"\n"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="155:9:155:21">StringBuffer</jtok>
+<jtok eid="4" type="local_variable_name" span="155:22:155:25">res</jtok>
+<jtok eid="4" type="constructor_call" span="155:32:155:44">StringBuffer</jtok>
+<jtok eid="4" type="method_call" span="156:9:156:23">addWrappedLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:24:156:27">res</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:29:156:34">lines</jtok>
+<jtok eid="4" type="primary_name_ref" span="156:39:156:49">wrapAmount</jtok>
+<jtok eid="4" type="local_variable_name" span="157:18:157:19">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:23:157:24">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:25:157:30">lines</jtok>
+<jtok eid="4" type="qualified_name_ref" span="157:31:157:37">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="157:39:157:40">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:18:159:23">lines</jtok>
+<jtok eid="4" type="primary_name_ref" span="159:24:159:25">i</jtok>
+<jtok eid="4" type="method_call" span="159:27:159:31">trim</jtok>
+<jtok eid="4" type="method_call" span="159:34:159:40">equals</jtok>
+<jtok eid="4" type="string_literal" span="159:41:159:43">""</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:17:160:20">res</jtok>
+<jtok eid="4" type="method_call" span="160:21:160:27">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="160:28:160:35">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="160:36:160:43">NEWLINE</jtok>
+<jtok eid="4" type="primary_name_ref" span="161:17:161:20">res</jtok>
+<jtok eid="4" type="method_call" span="161:21:161:27">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:17:162:20">res</jtok>
+<jtok eid="4" type="method_call" span="162:21:162:27">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:28:162:35">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="162:36:162:43">NEWLINE</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:17:163:20">res</jtok>
+<jtok eid="4" type="method_call" span="163:21:163:27">append</jtok>
+<jtok eid="4" type="method_call" span="164:17:164:31">addWrappedLine</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:32:164:35">res</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:37:164:42">lines</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:43:164:44">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="164:47:164:57">wrapAmount</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:17:166:20">res</jtok>
+<jtok eid="4" type="method_call" span="166:21:166:27">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:28:166:35">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="166:36:166:43">NEWLINE</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:17:167:20">res</jtok>
+<jtok eid="4" type="method_call" span="167:21:167:27">append</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:16:170:19">res</jtok>
+<jtok eid="4" type="method_call" span="170:20:170:28">toString</jtok>
+<jtok eid="5" type="method_name" span="173:25:173:39">addWrappedLine</jtok>
+<jtok eid="5" type="parameter_type" span="173:40:173:52">StringBuffer</jtok>
+<jtok eid="5" type="parameter_name" span="173:53:173:56">res</jtok>
+<jtok eid="5" type="parameter_type" span="173:58:173:64">String</jtok>
+<jtok eid="5" type="parameter_name" span="173:65:173:69">line</jtok>
+<jtok eid="5" type="parameter_name" span="173:75:173:85">wrapAmount</jtok>
+<jtok eid="5" type="line_comment" span="174:9:174:81">// Set our pointer to the beginning of the new line in the StringBuffer:</jtok>
+<jtok eid="5" type="local_variable_name" span="175:13:175:14">p</jtok>
+<jtok eid="5" type="primary_name_ref" span="175:17:175:20">res</jtok>
+<jtok eid="5" type="method_call" span="175:21:175:27">length</jtok>
+<jtok eid="5" type="line_comment" span="176:9:176:37">// Add the line, unmodified:</jtok>
+<jtok eid="5" type="primary_name_ref" span="177:9:177:12">res</jtok>
+<jtok eid="5" type="method_call" span="177:13:177:19">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="177:20:177:24">line</jtok>
+<jtok eid="5" type="primary_name_ref" span="179:16:179:17">p</jtok>
+<jtok eid="5" type="primary_name_ref" span="179:20:179:23">res</jtok>
+<jtok eid="5" type="method_call" span="179:24:179:30">length</jtok>
+<jtok eid="5" type="local_variable_name" span="180:17:180:18">q</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:21:180:24">res</jtok>
+<jtok eid="5" type="method_call" span="180:25:180:32">indexOf</jtok>
+<jtok eid="5" type="string_literal" span="180:33:180:36">" "</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:38:180:39">p</jtok>
+<jtok eid="5" type="primary_name_ref" span="180:40:180:50">wrapAmount</jtok>
+<jtok eid="5" type="primary_name_ref" span="181:18:181:19">q</jtok>
+<jtok eid="5" type="primary_name_ref" span="181:29:181:30">q</jtok>
+<jtok eid="5" type="primary_name_ref" span="181:34:181:37">res</jtok>
+<jtok eid="5" type="method_call" span="181:38:181:44">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="184:13:184:16">res</jtok>
+<jtok eid="5" type="method_call" span="184:17:184:29">deleteCharAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="184:30:184:31">q</jtok>
+<jtok eid="5" type="primary_name_ref" span="185:13:185:16">res</jtok>
+<jtok eid="5" type="method_call" span="185:17:185:23">insert</jtok>
+<jtok eid="5" type="primary_name_ref" span="185:24:185:25">q</jtok>
+<jtok eid="5" type="primary_name_ref" span="185:27:185:34">Globals</jtok>
+<jtok eid="5" type="qualified_name_ref" span="185:35:185:42">NEWLINE</jtok>
+<jtok eid="5" type="string_literal" span="185:43:185:47">"\t"</jtok>
+<jtok eid="5" type="primary_name_ref" span="186:13:186:14">p</jtok>
+<jtok eid="5" type="primary_name_ref" span="186:17:186:18">q</jtok>
+<jtok eid="5" type="primary_name_ref" span="186:19:186:26">Globals</jtok>
+<jtok eid="5" type="qualified_name_ref" span="186:27:186:41">NEWLINE_LENGTH</jtok>
+<jtok eid="6" type="class_name" span="191:18:191:25">Indents</jtok>
+<jtok eid="6" type="line_comment" span="192:9:192:18">//int hyp</jtok>
+</jdoc>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.io.AutoDetection" jls="java5">
+<jent id="0" type="file" span="0:0:227:2">Source/jEdit/org/gjt/sp/jedit/io/AutoDetection.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:227:1">org.gjt.sp.jedit.io.AutoDetection</jent>
+<jent id="2" pid="1" type="method" span="49:2:57:2">org.gjt.sp.jedit.io.AutoDetection.getMarkedStream(InputStream)</jent>
+<jent id="3" pid="1" type="method" span="66:2:73:2">org.gjt.sp.jedit.io.AutoDetection.isGzipped(InputStream)</jent>
+<jent id="4" pid="1" type="method" span="80:2:108:2">org.gjt.sp.jedit.io.AutoDetection.getEncodingDetectors()</jent>
+<jent id="5" pid="1" type="method" span="116:2:137:2">org.gjt.sp.jedit.io.AutoDetection.getDetectedEncoding(BufferedInputStream)</jent>
+<jent id="6" pid="1" type="class" span="143:2:207:2">org.gjt.sp.jedit.io.AutoDetection.Result</jent>
+<jent id="7" pid="6" type="method" span="151:3:167:3">org.gjt.sp.jedit.io.AutoDetection.Result.Result(InputStream)</jent>
+<jent id="8" pid="6" type="method" span="176:3:181:3">org.gjt.sp.jedit.io.AutoDetection.Result.getRewindedStream()</jent>
+<jent id="9" pid="6" type="method" span="187:3:190:3">org.gjt.sp.jedit.io.AutoDetection.Result.streamIsGzipped()</jent>
+<jent id="10" pid="6" type="method" span="197:3:200:3">org.gjt.sp.jedit.io.AutoDetection.Result.getDetectedEncoding()</jent>
+<jent id="11" pid="1" type="method" span="213:2:225:2">org.gjt.sp.jedit.io.AutoDetection.getEncodingDetectorService(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:20:4">/*
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2006 Kazutoshi Satoda
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="24:1:24:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="36:1:36:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="38:1:40:4">/**
+ * Some functions for auto detection of I/O stream properties.
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:14:41:27">AutoDetection</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:32">//{{{ getMarkedStream() method</jtok>
+<jtok eid="1" type="block_comment" span="44:2:48:5">/**
+	 * Returns a marked, rewindable stream.
+	 * Calling reset() method rewinds the stream to its beginning.
+	 * But reset() can fail if too long bytes were read.
+	 */</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="49:16:49:35">BufferedInputStream</jtok>
+<jtok eid="2" type="method_name" span="49:36:49:51">getMarkedStream</jtok>
+<jtok eid="2" type="parameter_type" span="49:52:49:63">InputStream</jtok>
+<jtok eid="2" type="parameter_name" span="49:64:49:66">in</jtok>
+<jtok eid="2" type="local_variable_name" span="51:7:51:17">bufferSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:20:51:35">BufferIORequest</jtok>
+<jtok eid="2" type="method_call" span="51:36:51:55">getByteIOBufferSize</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="52:3:52:22">BufferedInputStream</jtok>
+<jtok eid="2" type="local_variable_name" span="52:23:52:31">markable</jtok>
+<jtok eid="2" type="constructor_call" span="53:10:53:29">BufferedInputStream</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:30:53:32">in</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:34:53:44">bufferSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:10:54:18">markable</jtok>
+<jtok eid="2" type="method_call" span="54:19:54:32">markSupported</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:3:55:11">markable</jtok>
+<jtok eid="2" type="method_call" span="55:12:55:16">mark</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:17:55:27">bufferSize</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:10:56:18">markable</jtok>
+<jtok eid="1" type="line_comment" span="57:4:57:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="59:2:59:26">//{{{ isGzipped() method</jtok>
+<jtok eid="1" type="block_comment" span="60:2:65:5">/**
+	 * Returns wheather the stream is gzipped.
+	 * This method reads a few bytes from the sample. So a caller
+	 * must take care of mark() to reuse the contents. Wraping the
+	 * stream by getMarkedStream() is suitable.
+	 */</jtok>
+<jtok eid="3" type="method_name" span="66:24:66:33">isGzipped</jtok>
+<jtok eid="3" type="parameter_type" span="66:34:66:45">InputStream</jtok>
+<jtok eid="3" type="parameter_name" span="66:46:66:52">sample</jtok>
+<jtok eid="3" type="throws" span="67:10:67:21">IOException</jtok>
+<jtok eid="3" type="local_variable_name" span="69:7:69:13">magic1</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:16:69:31">GZIPInputStream</jtok>
+<jtok eid="3" type="qualified_name_ref" span="69:32:69:42">GZIP_MAGIC</jtok>
+<jtok eid="3" type="local_variable_name" span="70:7:70:13">magic2</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:17:70:32">GZIPInputStream</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:33:70:43">GZIP_MAGIC</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:10:71:16">sample</jtok>
+<jtok eid="3" type="method_call" span="71:17:71:21">read</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:27:71:33">magic1</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:7:72:13">sample</jtok>
+<jtok eid="3" type="method_call" span="72:14:72:18">read</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:24:72:30">magic2</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:37">//{{{ getEncodingDetectors() method</jtok>
+<jtok eid="1" type="block_comment" span="76:2:79:5">/**
+	 * Returns the user configured ordered list of encoding detectors.
+	 * This method reads property "encodingDetectors".
+	 */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="80:16:80:20">List</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="80:21:80:37">EncodingDetector</jtok>
+<jtok eid="4" type="method_name" span="80:39:80:59">getEncodingDetectors</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="82:3:82:7">List</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="82:8:82:24">EncodingDetector</jtok>
+<jtok eid="4" type="local_variable_name" span="82:26:82:35">detectors</jtok>
+<jtok eid="4" type="constructor_call" span="83:10:83:19">ArrayList</jtok>
+<jtok eid="4" type="constructor_call" span="83:20:83:36">EncodingDetector</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="84:3:84:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="84:10:84:18">propName</jtok>
+<jtok eid="4" type="string_literal" span="84:21:84:40">"encodingDetectors"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="85:3:85:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="85:10:85:27">selectedDetectors</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:6:86:11">jEdit</jtok>
+<jtok eid="4" type="method_call" span="86:12:86:23">getProperty</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:24:86:32">propName</jtok>
+<jtok eid="4" type="string_literal" span="86:34:86:46">"BOM XML-PI"</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:7:87:24">selectedDetectors</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:7:88:24">selectedDetectors</jtok>
+<jtok eid="4" type="method_call" span="88:25:88:31">length</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="90:9:90:15">String</jtok>
+<jtok eid="4" type="local_variable_name" span="90:16:90:20">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="90:22:90:39">selectedDetectors</jtok>
+<jtok eid="4" type="method_call" span="90:40:90:45">split</jtok>
+<jtok eid="4" type="string_literal" span="90:46:90:52">"\\s+"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="92:5:92:21">EncodingDetector</jtok>
+<jtok eid="4" type="local_variable_name" span="92:22:92:29">service</jtok>
+<jtok eid="4" type="method_call" span="93:8:93:34">getEncodingDetectorService</jtok>
+<jtok eid="4" type="primary_name_ref" span="93:35:93:39">name</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:9:94:16">service</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:6:96:15">detectors</jtok>
+<jtok eid="4" type="method_call" span="96:16:96:19">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:20:96:27">service</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:6:100:9">Log</jtok>
+<jtok eid="4" type="method_call" span="100:10:100:13">log</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:14:100:17">Log</jtok>
+<jtok eid="4" type="qualified_name_ref" span="100:18:100:23">ERROR</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:25:100:38">AutoDetection</jtok>
+<jtok eid="4" type="string_literal" span="101:9:101:34">"getEncodingDetectors():"</jtok>
+<jtok eid="4" type="string_literal" span="102:10:102:45">" No EncodingDetector for the name"</jtok>
+<jtok eid="4" type="string_literal" span="103:10:103:15">" \""</jtok>
+<jtok eid="4" type="primary_name_ref" span="103:18:103:22">name</jtok>
+<jtok eid="4" type="string_literal" span="103:25:103:29">"\""</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:10:107:19">detectors</jtok>
+<jtok eid="1" type="line_comment" span="108:4:108:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="110:2:110:36">//{{{ getDetectedEncoding() method</jtok>
+<jtok eid="1" type="block_comment" span="111:2:115:5">/**
+	 * Returns an auto detected encoding from content of markedStream.
+	 * This method assumes that markedStream is wrapped by
+	 * getMarkedStream() method.
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="116:16:116:22">String</jtok>
+<jtok eid="5" type="method_name" span="116:23:116:42">getDetectedEncoding</jtok>
+<jtok eid="5" type="parameter_type" span="116:43:116:62">BufferedInputStream</jtok>
+<jtok eid="5" type="parameter_name" span="116:63:116:75">markedStream</jtok>
+<jtok eid="5" type="throws" span="117:10:117:21">IOException</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="119:3:119:7">List</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="119:8:119:24">EncodingDetector</jtok>
+<jtok eid="5" type="local_variable_name" span="119:26:119:35">detectors</jtok>
+<jtok eid="5" type="method_call" span="119:38:119:58">getEncodingDetectors</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="120:8:120:24">EncodingDetector</jtok>
+<jtok eid="5" type="local_variable_name" span="120:25:120:33">detector</jtok>
+<jtok eid="5" type="primary_name_ref" span="120:35:120:44">detectors</jtok>
+<jtok eid="5" type="line_comment" span="122:4:122:53">// FIXME: Here the method reset() can fail if the</jtok>
+<jtok eid="5" type="line_comment" span="123:4:123:54">// previous detector read more than buffer size of</jtok>
+<jtok eid="5" type="line_comment" span="124:4:124:20">// markedStream.</jtok>
+<jtok eid="5" type="primary_name_ref" span="125:4:125:16">markedStream</jtok>
+<jtok eid="5" type="method_call" span="125:17:125:22">reset</jtok>
+<jtok eid="5" type="line_comment" span="126:4:126:44">// Wrap once more so that calling mark()</jtok>
+<jtok eid="5" type="line_comment" span="127:4:127:43">// or reset() in detectEncoding() don't</jtok>
+<jtok eid="5" type="line_comment" span="128:4:128:47">// alter the mark position of markedStream.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="129:4:129:10">String</jtok>
+<jtok eid="5" type="local_variable_name" span="129:11:129:19">detected</jtok>
+<jtok eid="5" type="primary_name_ref" span="129:22:129:30">detector</jtok>
+<jtok eid="5" type="method_call" span="129:31:129:45">detectEncoding</jtok>
+<jtok eid="5" type="constructor_call" span="130:9:130:28">BufferedInputStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:29:130:41">markedStream</jtok>
+<jtok eid="5" type="primary_name_ref" span="131:8:131:16">detected</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:12:133:20">detected</jtok>
+<jtok eid="1" type="line_comment" span="137:4:137:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="139:2:139:20">//{{{ class Result</jtok>
+<jtok eid="1" type="block_comment" span="140:2:142:5">/**
+	 * An utility class to hold the result of some auto detections.
+	 */</jtok>
+<jtok eid="6" type="class_name" span="143:22:143:28">Result</jtok>
+<jtok eid="6" type="line_comment" span="145:3:145:20">//{{{ Constructor</jtok>
+<jtok eid="6" type="block_comment" span="146:3:150:6">/**
+		 * Do some auto detection for a stream and hold the
+		 * result in this instance.
+		 * @param in the stream
+		 */</jtok>
+<jtok eid="7" type="method_name" span="151:10:151:16">Result</jtok>
+<jtok eid="7" type="parameter_type" span="151:17:151:28">InputStream</jtok>
+<jtok eid="7" type="parameter_name" span="151:29:151:31">in</jtok>
+<jtok eid="7" type="throws" span="151:40:151:51">IOException</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="153:4:153:23">BufferedInputStream</jtok>
+<jtok eid="7" type="local_variable_name" span="153:24:153:30">marked</jtok>
+<jtok eid="7" type="method_call" span="153:33:153:48">getMarkedStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="153:49:153:51">in</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:4:155:11">gzipped</jtok>
+<jtok eid="7" type="method_call" span="155:14:155:23">isGzipped</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:24:155:30">marked</jtok>
+<jtok eid="7" type="primary_name_ref" span="156:8:156:15">gzipped</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:5:158:11">marked</jtok>
+<jtok eid="7" type="method_call" span="158:12:158:17">reset</jtok>
+<jtok eid="7" type="primary_name_ref" span="159:5:159:11">marked</jtok>
+<jtok eid="7" type="method_call" span="159:14:159:29">getMarkedStream</jtok>
+<jtok eid="7" type="constructor_call" span="160:10:160:25">GZIPInputStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="160:26:160:32">marked</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:4:163:10">marked</jtok>
+<jtok eid="7" type="method_call" span="163:11:163:16">reset</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:4:164:12">encoding</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:15:164:28">AutoDetection</jtok>
+<jtok eid="7" type="method_call" span="164:29:164:48">getDetectedEncoding</jtok>
+<jtok eid="7" type="primary_name_ref" span="164:49:164:55">marked</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:4:166:16">markedStream</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:19:166:25">marked</jtok>
+<jtok eid="6" type="line_comment" span="167:5:167:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="169:3:169:28">//{{{ getRewindedStream()</jtok>
+<jtok eid="6" type="block_comment" span="170:3:175:6">/**
+		 * Returns the stream which can be read the contents of
+		 * the original stream.
+		 * Some bytes ware read from original stream for auto
+		 * detections. But they are rewinded at this method.
+		 */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="176:10:176:29">BufferedInputStream</jtok>
+<jtok eid="8" type="method_name" span="176:30:176:47">getRewindedStream</jtok>
+<jtok eid="8" type="throws" span="177:11:177:22">IOException</jtok>
+<jtok eid="8" type="primary_name_ref" span="179:4:179:16">markedStream</jtok>
+<jtok eid="8" type="method_call" span="179:17:179:22">reset</jtok>
+<jtok eid="8" type="primary_name_ref" span="180:11:180:23">markedStream</jtok>
+<jtok eid="6" type="line_comment" span="181:5:181:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="183:3:183:26">//{{{ streamIsGzipped()</jtok>
+<jtok eid="6" type="block_comment" span="184:3:186:6">/**
+		 * Returns true if the stream is gzipped.
+		 */</jtok>
+<jtok eid="9" type="method_name" span="187:18:187:33">streamIsGzipped</jtok>
+<jtok eid="9" type="primary_name_ref" span="189:11:189:18">gzipped</jtok>
+<jtok eid="6" type="line_comment" span="190:5:190:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="192:3:192:30">//{{{ getDetectedEncoding()</jtok>
+<jtok eid="6" type="block_comment" span="193:3:196:6">/**
+		 * Returns the auto detected encoding.
+		 * Returns null if no encoding was detected.
+		 */</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="197:10:197:16">String</jtok>
+<jtok eid="10" type="method_name" span="197:17:197:36">getDetectedEncoding</jtok>
+<jtok eid="10" type="primary_name_ref" span="199:11:199:19">encoding</jtok>
+<jtok eid="6" type="line_comment" span="200:5:200:10">//}}}</jtok>
+<jtok eid="6" type="line_comment" span="202:3:202:24">//{{{ Private members</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="203:17:203:36">BufferedInputStream</jtok>
+<jtok eid="6" type="field_name" span="203:37:203:49">markedStream</jtok>
+<jtok eid="6" type="field_name" span="204:25:204:32">gzipped</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="205:17:205:23">String</jtok>
+<jtok eid="6" type="field_name" span="205:24:205:32">encoding</jtok>
+<jtok eid="6" type="line_comment" span="206:3:206:8">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="207:4:207:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="209:2:209:23">//{{{ Private members</jtok>
+<jtok eid="1" type="block_comment" span="210:2:212:5">/**
+	 * Returns a service of EncodingDetector for name.
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="213:17:213:33">EncodingDetector</jtok>
+<jtok eid="11" type="method_name" span="213:34:213:60">getEncodingDetectorService</jtok>
+<jtok eid="11" type="parameter_type" span="213:61:213:67">String</jtok>
+<jtok eid="11" type="parameter_name" span="213:68:213:72">name</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="215:3:215:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="215:10:215:22">serviceClass</jtok>
+<jtok eid="11" type="string_literal" span="215:25:215:63">"org.gjt.sp.jedit.io.EncodingDetector"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="216:3:216:9">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="216:10:216:17">service</jtok>
+<jtok eid="11" type="primary_name_ref" span="216:20:216:34">ServiceManager</jtok>
+<jtok eid="11" type="method_call" span="216:35:216:45">getService</jtok>
+<jtok eid="11" type="primary_name_ref" span="216:46:216:58">serviceClass</jtok>
+<jtok eid="11" type="primary_name_ref" span="216:60:216:64">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="217:7:217:14">service</jtok>
+<jtok eid="11" type="primary_name_ref" span="217:26:217:33">service</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="217:45:217:61">EncodingDetector</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="219:12:219:28">EncodingDetector</jtok>
+<jtok eid="11" type="primary_name_ref" span="219:29:219:36">service</jtok>
+<jtok eid="1" type="line_comment" span="226:2:226:7">//}}}</jtok>
+</jdoc>

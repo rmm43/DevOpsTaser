@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.UndoableModifySubtree" jls="java5">
+<jent id="0" type="file" span="0:0:106:1">Source/jabref/src/java/net/sf/jabref/groups/UndoableModifySubtree.java</jent>
+<jent id="1" pid="0" type="class" span="36:1:106:1">net.sf.jabref.groups.UndoableModifySubtree</jent>
+<jent id="2" pid="1" type="method" span="53:5:59:5">net.sf.jabref.groups.UndoableModifySubtree.UndoableModifySubtree(GroupSelector,GroupTreeNode,String)</jent>
+<jent id="3" pid="1" type="method" span="61:5:64:5">net.sf.jabref.groups.UndoableModifySubtree.getUndoPresentationName()</jent>
+<jent id="4" pid="1" type="method" span="66:5:68:5">net.sf.jabref.groups.UndoableModifySubtree.getRedoPresentationName()</jent>
+<jent id="5" pid="1" type="method" span="70:5:86:5">net.sf.jabref.groups.UndoableModifySubtree.undo()</jent>
+<jent id="6" pid="1" type="method" span="88:5:97:5">net.sf.jabref.groups.UndoableModifySubtree.redo()</jent>
+<jent id="7" pid="1" type="method" span="103:5:105:5">net.sf.jabref.groups.UndoableModifySubtree.setRevalidate(boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2003 Morten O. Alver, Nizar N. Batada
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="1" type="class_name" span="36:14:36:35">UndoableModifySubtree</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:44:36:64">AbstractUndoableEdit</jtok>
+<jtok eid="1" type="block_comment" span="37:5:37:58">/** A backup of the groups before the modification */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:19:38:32">GroupTreeNode</jtok>
+<jtok eid="1" type="field_name" span="38:33:38:48">m_subtreeBackup</jtok>
+<jtok eid="1" type="block_comment" span="39:5:39:51">/** The path to the global groups root node */</jtok>
+<jtok eid="1" type="field_name" span="40:25:40:42">m_subtreeRootPath</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:19:41:32">GroupSelector</jtok>
+<jtok eid="1" type="field_name" span="41:33:41:48">m_groupSelector</jtok>
+<jtok eid="1" type="block_comment" span="42:5:42:84">/** This holds the new subtree (the root's modified children) to allow redo. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:13:43:19">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:20:43:28">TreeNode</jtok>
+<jtok eid="1" type="field_name" span="43:30:43:47">m_modifiedSubtree</jtok>
+<jtok eid="1" type="constructor_call" span="43:54:43:60">Vector</jtok>
+<jtok eid="1" type="constructor_call" span="43:61:43:69">TreeNode</jtok>
+<jtok eid="1" type="field_name" span="44:21:44:33">m_revalidate</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:19:45:25">String</jtok>
+<jtok eid="1" type="field_name" span="45:26:45:32">m_name</jtok>
+<jtok eid="1" type="block_comment" span="47:5:52:8">/**
+     * 
+     * @param subtree
+     *            The root node of the subtree that was modified (this node may
+     *            not be modified, it is just used as a convenience handle).
+     */</jtok>
+<jtok eid="2" type="method_name" span="53:12:53:33">UndoableModifySubtree</jtok>
+<jtok eid="2" type="parameter_type" span="53:34:53:47">GroupSelector</jtok>
+<jtok eid="2" type="parameter_name" span="53:48:53:61">groupSelector</jtok>
+<jtok eid="2" type="parameter_type" span="54:13:54:26">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_name" span="54:27:54:34">subtree</jtok>
+<jtok eid="2" type="parameter_type" span="54:36:54:42">String</jtok>
+<jtok eid="2" type="parameter_name" span="54:43:54:47">name</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:9:55:24">m_subtreeBackup</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:27:55:34">subtree</jtok>
+<jtok eid="2" type="method_call" span="55:35:55:43">deepCopy</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:9:56:26">m_subtreeRootPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:29:56:36">subtree</jtok>
+<jtok eid="2" type="method_call" span="56:37:56:51">getIndexedPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:9:57:24">m_groupSelector</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:27:57:40">groupSelector</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:9:58:15">m_name</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:18:58:22">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="61:12:61:18">String</jtok>
+<jtok eid="3" type="method_name" span="61:19:61:42">getUndoPresentationName</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:16:62:23">Globals</jtok>
+<jtok eid="3" type="method_call" span="62:24:62:28">lang</jtok>
+<jtok eid="3" type="string_literal" span="62:29:62:35">"Undo"</jtok>
+<jtok eid="3" type="string_literal" span="62:39:62:43">": "</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:46:62:52">m_name</jtok>
+<jtok eid="3" type="line_comment" span="63:9:63:25">// JZTODO lyrics</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="66:12:66:18">String</jtok>
+<jtok eid="4" type="method_name" span="66:19:66:42">getRedoPresentationName</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:16:67:23">Globals</jtok>
+<jtok eid="4" type="method_call" span="67:24:67:28">lang</jtok>
+<jtok eid="4" type="string_literal" span="67:29:67:35">"Redo"</jtok>
+<jtok eid="4" type="string_literal" span="67:39:67:43">": "</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:46:67:52">m_name</jtok>
+<jtok eid="5" type="method_name" span="70:17:70:21">undo</jtok>
+<jtok eid="5" type="method_call" span="71:15:71:19">undo</jtok>
+<jtok eid="5" type="line_comment" span="72:9:72:47">// remember modified children for redo</jtok>
+<jtok eid="5" type="primary_name_ref" span="73:9:73:26">m_modifiedSubtree</jtok>
+<jtok eid="5" type="method_call" span="73:27:73:32">clear</jtok>
+<jtok eid="5" type="line_comment" span="74:9:74:28">// get node to edit</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="75:15:75:28">GroupTreeNode</jtok>
+<jtok eid="5" type="local_variable_name" span="75:29:75:40">subtreeRoot</jtok>
+<jtok eid="5" type="primary_name_ref" span="75:43:75:58">m_groupSelector</jtok>
+<jtok eid="5" type="method_call" span="75:59:75:75">getGroupTreeRoot</jtok>
+<jtok eid="5" type="method_call" span="76:18:76:25">getNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:26:76:43">m_subtreeRootPath</jtok>
+<jtok eid="5" type="local_variable_name" span="77:18:77:19">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:25:77:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:29:77:40">subtreeRoot</jtok>
+<jtok eid="5" type="method_call" span="77:41:77:54">getChildCount</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:60:77:61">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:13:78:30">m_modifiedSubtree</jtok>
+<jtok eid="5" type="method_call" span="78:31:78:34">add</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:35:78:46">subtreeRoot</jtok>
+<jtok eid="5" type="method_call" span="78:47:78:57">getChildAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:58:78:59">i</jtok>
+<jtok eid="5" type="line_comment" span="79:9:79:72">// keep subtree handle, but restore everything else from backup</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:9:80:20">subtreeRoot</jtok>
+<jtok eid="5" type="method_call" span="80:21:80:38">removeAllChildren</jtok>
+<jtok eid="5" type="local_variable_name" span="81:18:81:19">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:25:81:26">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:29:81:44">m_subtreeBackup</jtok>
+<jtok eid="5" type="method_call" span="81:45:81:58">getChildCount</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:64:81:65">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:13:82:24">subtreeRoot</jtok>
+<jtok eid="5" type="method_call" span="82:25:82:28">add</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="82:31:82:44">GroupTreeNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:46:82:61">m_subtreeBackup</jtok>
+<jtok eid="5" type="method_call" span="82:62:82:72">getChildAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="82:73:82:74">i</jtok>
+<jtok eid="5" type="method_call" span="83:22:83:30">deepCopy</jtok>
+<jtok eid="5" type="primary_name_ref" span="84:13:84:25">m_revalidate</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:13:85:28">m_groupSelector</jtok>
+<jtok eid="5" type="method_call" span="85:29:85:45">revalidateGroups</jtok>
+<jtok eid="6" type="method_name" span="88:17:88:21">redo</jtok>
+<jtok eid="6" type="method_call" span="89:15:89:19">redo</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="90:15:90:28">GroupTreeNode</jtok>
+<jtok eid="6" type="local_variable_name" span="90:29:90:40">subtreeRoot</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:43:90:58">m_groupSelector</jtok>
+<jtok eid="6" type="method_call" span="90:59:90:75">getGroupTreeRoot</jtok>
+<jtok eid="6" type="method_call" span="91:18:91:25">getNode</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:26:91:43">m_subtreeRootPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="92:9:92:20">subtreeRoot</jtok>
+<jtok eid="6" type="method_call" span="92:21:92:38">removeAllChildren</jtok>
+<jtok eid="6" type="local_variable_name" span="93:18:93:19">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:25:93:26">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:29:93:46">m_modifiedSubtree</jtok>
+<jtok eid="6" type="method_call" span="93:47:93:51">size</jtok>
+<jtok eid="6" type="primary_name_ref" span="93:57:93:58">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="94:13:94:24">subtreeRoot</jtok>
+<jtok eid="6" type="method_call" span="94:25:94:28">add</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="94:30:94:43">GroupTreeNode</jtok>
+<jtok eid="6" type="primary_name_ref" span="94:45:94:62">m_modifiedSubtree</jtok>
+<jtok eid="6" type="method_call" span="94:63:94:72">elementAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="94:73:94:74">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:13:95:25">m_revalidate</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:13:96:28">m_groupSelector</jtok>
+<jtok eid="6" type="method_call" span="96:29:96:45">revalidateGroups</jtok>
+<jtok eid="1" type="block_comment" span="99:5:102:8">/**
+     * Call this method to decide if the group list should be immediately
+     * revalidated by this operation. Default is true.
+     */</jtok>
+<jtok eid="7" type="method_name" span="103:17:103:30">setRevalidate</jtok>
+<jtok eid="7" type="parameter_name" span="103:39:103:49">revalidate</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:9:104:21">m_revalidate</jtok>
+<jtok eid="7" type="primary_name_ref" span="104:24:104:34">revalidate</jtok>
+</jdoc>

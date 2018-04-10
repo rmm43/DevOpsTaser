@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.SidePaneManager" jls="java5">
+<jent id="0" type="file" span="0:0:200:1">Source/jabref/src/java/net/sf/jabref/SidePaneManager.java</jent>
+<jent id="1" pid="0" type="class" span="42:1:200:1">net.sf.jabref.SidePaneManager</jent>
+<jent id="2" pid="1" type="method" span="54:2:73:2">net.sf.jabref.SidePaneManager.SidePaneManager(JabRefFrame)</jent>
+<jent id="3" pid="2" type="class" span="61:59:70:3">net.sf.jabref.SidePaneManager.SidePaneManager(JabRefFrame).$1</jent>
+<jent id="4" pid="3" type="method" span="62:4:69:4">net.sf.jabref.SidePaneManager.SidePaneManager(JabRefFrame).$1.stateChanged(ChangeEvent)</jent>
+<jent id="5" pid="4" type="class" span="63:47:68:5">net.sf.jabref.SidePaneManager.SidePaneManager(JabRefFrame).$1.stateChanged(ChangeEvent).$1</jent>
+<jent id="6" pid="5" type="method" span="64:6:67:6">net.sf.jabref.SidePaneManager.SidePaneManager(JabRefFrame).$1.stateChanged(ChangeEvent).$1.run()</jent>
+<jent id="7" pid="1" type="method" span="75:2:77:2">net.sf.jabref.SidePaneManager.getPanel()</jent>
+<jent id="8" pid="1" type="method" span="79:2:81:2">net.sf.jabref.SidePaneManager.hasComponent(String)</jent>
+<jent id="9" pid="1" type="method" span="83:2:90:2">net.sf.jabref.SidePaneManager.isComponentVisible(String)</jent>
+<jent id="10" pid="1" type="method" span="92:2:98:2">net.sf.jabref.SidePaneManager.toggle(String)</jent>
+<jent id="11" pid="1" type="method" span="100:2:106:2">net.sf.jabref.SidePaneManager.show(String)</jent>
+<jent id="12" pid="1" type="method" span="108:2:114:2">net.sf.jabref.SidePaneManager.hide(String)</jent>
+<jent id="13" pid="1" type="method" span="116:2:118:2">net.sf.jabref.SidePaneManager.register(String,SidePaneComponent)</jent>
+<jent id="14" pid="1" type="method" span="120:2:123:2">net.sf.jabref.SidePaneManager.registerAndShow(String,SidePaneComponent)</jent>
+<jent id="15" pid="1" type="method" span="125:2:132:2">net.sf.jabref.SidePaneManager.show(SidePaneComponent)</jent>
+<jent id="16" pid="1" type="method" span="134:5:136:5">net.sf.jabref.SidePaneManager.getComponent(String)</jent>
+<jent id="17" pid="1" type="method" span="138:5:144:2">net.sf.jabref.SidePaneManager.hideComponent(SidePaneComponent)</jent>
+<jent id="18" pid="1" type="method" span="146:5:155:5">net.sf.jabref.SidePaneManager.hideComponent(String)</jent>
+<jent id="19" pid="1" type="method" span="157:2:159:2">net.sf.jabref.SidePaneManager.unregisterComponent(String)</jent>
+<jent id="20" pid="1" type="method" span="169:2:174:2">net.sf.jabref.SidePaneManager.setActiveBasePanel(BasePanel)</jent>
+<jent id="21" pid="1" type="method" span="176:2:194:2">net.sf.jabref.SidePaneManager.updateView()</jent>
+<jent id="22" pid="1" type="method" span="196:2:199:2">net.sf.jabref.SidePaneManager.revalidate()</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2003  Nizar N. Batada, Morten O. Alver
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="0" type="block_comment" span="35:1:41:4">/**
+ * Manages visibility of SideShowComponents in a given newly constructed
+ * sidePane.
+ * 
+ * @version $Revision: 2598 $ ($Date: 2008-03-03 21:25:28 +0100 (Mon, 03 Mar 2008) $)
+ * 
+ */</jtok>
+<jtok eid="1" type="class_name" span="42:14:42:29">SidePaneManager</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:2:44:13">JabRefFrame</jtok>
+<jtok eid="1" type="field_name" span="44:14:44:19">frame</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:2:46:11">BasePanel</jtok>
+<jtok eid="1" type="field_name" span="46:12:46:17">panel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:2:48:10">SidePane</jtok>
+<jtok eid="1" type="field_name" span="48:11:48:16">sidep</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:2:50:5">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:6:50:12">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:14:50:31">SidePaneComponent</jtok>
+<jtok eid="1" type="field_name" span="50:33:50:43">components</jtok>
+<jtok eid="1" type="constructor_call" span="50:50:50:63">LinkedHashMap</jtok>
+<jtok eid="1" type="constructor_call" span="50:64:50:70">String</jtok>
+<jtok eid="1" type="constructor_call" span="50:72:50:89">SidePaneComponent</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:2:52:6">List</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:7:52:24">SidePaneComponent</jtok>
+<jtok eid="1" type="field_name" span="52:26:52:33">visible</jtok>
+<jtok eid="1" type="constructor_call" span="52:40:52:50">LinkedList</jtok>
+<jtok eid="1" type="constructor_call" span="52:51:52:68">SidePaneComponent</jtok>
+<jtok eid="2" type="method_name" span="54:9:54:24">SidePaneManager</jtok>
+<jtok eid="2" type="parameter_type" span="54:25:54:36">JabRefFrame</jtok>
+<jtok eid="2" type="parameter_name" span="54:37:54:42">frame</jtok>
+<jtok eid="2" type="qualified_name_ref" span="55:8:55:13">frame</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:16:55:21">frame</jtok>
+<jtok eid="2" type="block_comment" span="56:3:60:6">/*
+		 * Change by Morten Alver 2005.12.04: By postponing the updating of the
+		 * side pane components, we get rid of the annoying latency when
+		 * switching tabs:
+		 */</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:3:61:8">frame</jtok>
+<jtok eid="2" type="qualified_name_ref" span="61:9:61:19">tabbedPane</jtok>
+<jtok eid="2" type="method_call" span="61:20:61:37">addChangeListener</jtok>
+<jtok eid="2" type="constructor_call" span="61:42:61:56">ChangeListener</jtok>
+<jtok eid="4" type="method_name" span="62:16:62:28">stateChanged</jtok>
+<jtok eid="4" type="parameter_type" span="62:29:62:40">ChangeEvent</jtok>
+<jtok eid="4" type="parameter_name" span="62:41:62:46">event</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:5:63:19">SwingUtilities</jtok>
+<jtok eid="4" type="method_call" span="63:20:63:31">invokeLater</jtok>
+<jtok eid="4" type="constructor_call" span="63:36:63:44">Runnable</jtok>
+<jtok eid="6" type="method_name" span="64:18:64:21">run</jtok>
+<jtok eid="6" type="method_call" span="65:7:65:25">setActiveBasePanel</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="65:27:65:36">BasePanel</jtok>
+<jtok eid="6" type="primary_name_ref" span="65:38:65:53">SidePaneManager</jtok>
+<jtok eid="6" type="qualified_name_ref" span="65:59:65:64">frame</jtok>
+<jtok eid="6" type="qualified_name_ref" span="65:65:65:75">tabbedPane</jtok>
+<jtok eid="6" type="method_call" span="66:9:66:29">getSelectedComponent</jtok>
+<jtok eid="2" type="primary_name_ref" span="71:3:71:8">sidep</jtok>
+<jtok eid="2" type="constructor_call" span="71:15:71:23">SidePane</jtok>
+<jtok eid="2" type="primary_name_ref" span="72:17:72:22">sidep</jtok>
+<jtok eid="2" type="method_call" span="72:23:72:33">setVisible</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="75:9:75:17">SidePane</jtok>
+<jtok eid="7" type="method_name" span="75:18:75:26">getPanel</jtok>
+<jtok eid="7" type="primary_name_ref" span="76:10:76:15">sidep</jtok>
+<jtok eid="8" type="method_name" span="79:30:79:42">hasComponent</jtok>
+<jtok eid="8" type="parameter_type" span="79:43:79:49">String</jtok>
+<jtok eid="8" type="parameter_name" span="79:50:79:54">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="80:11:80:21">components</jtok>
+<jtok eid="8" type="method_call" span="80:22:80:25">get</jtok>
+<jtok eid="8" type="primary_name_ref" span="80:26:80:30">name</jtok>
+<jtok eid="9" type="method_name" span="83:17:83:35">isComponentVisible</jtok>
+<jtok eid="9" type="parameter_type" span="83:36:83:42">String</jtok>
+<jtok eid="9" type="parameter_name" span="83:43:83:47">name</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="84:3:84:9">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="84:10:84:11">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="84:14:84:24">components</jtok>
+<jtok eid="9" type="method_call" span="84:25:84:28">get</jtok>
+<jtok eid="9" type="primary_name_ref" span="84:29:84:33">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="85:7:85:8">o</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:11:86:18">visible</jtok>
+<jtok eid="9" type="method_call" span="86:19:86:27">contains</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:28:86:29">o</jtok>
+<jtok eid="10" type="method_name" span="92:27:92:33">toggle</jtok>
+<jtok eid="10" type="parameter_type" span="92:34:92:40">String</jtok>
+<jtok eid="10" type="parameter_name" span="92:41:92:45">name</jtok>
+<jtok eid="10" type="method_call" span="93:7:93:25">isComponentVisible</jtok>
+<jtok eid="10" type="primary_name_ref" span="93:26:93:30">name</jtok>
+<jtok eid="10" type="method_call" span="94:4:94:8">hide</jtok>
+<jtok eid="10" type="primary_name_ref" span="94:9:94:13">name</jtok>
+<jtok eid="10" type="method_call" span="96:4:96:8">show</jtok>
+<jtok eid="10" type="primary_name_ref" span="96:9:96:13">name</jtok>
+<jtok eid="11" type="method_name" span="100:14:100:18">show</jtok>
+<jtok eid="11" type="parameter_type" span="100:19:100:25">String</jtok>
+<jtok eid="11" type="parameter_name" span="100:26:100:30">name</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="101:3:101:9">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="101:10:101:11">o</jtok>
+<jtok eid="11" type="primary_name_ref" span="101:14:101:24">components</jtok>
+<jtok eid="11" type="method_call" span="101:25:101:28">get</jtok>
+<jtok eid="11" type="primary_name_ref" span="101:29:101:33">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="102:7:102:8">o</jtok>
+<jtok eid="11" type="method_call" span="103:4:103:8">show</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="103:10:103:27">SidePaneComponent</jtok>
+<jtok eid="11" type="primary_name_ref" span="103:29:103:30">o</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:4:105:10">System</jtok>
+<jtok eid="11" type="qualified_name_ref" span="105:11:105:14">err</jtok>
+<jtok eid="11" type="method_call" span="105:15:105:22">println</jtok>
+<jtok eid="11" type="string_literal" span="105:23:105:46">"Side pane component '"</jtok>
+<jtok eid="11" type="primary_name_ref" span="105:49:105:53">name</jtok>
+<jtok eid="11" type="string_literal" span="105:56:105:68">"' unknown."</jtok>
+<jtok eid="12" type="method_name" span="108:14:108:18">hide</jtok>
+<jtok eid="12" type="parameter_type" span="108:19:108:25">String</jtok>
+<jtok eid="12" type="parameter_name" span="108:26:108:30">name</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="109:3:109:9">Object</jtok>
+<jtok eid="12" type="local_variable_name" span="109:10:109:11">o</jtok>
+<jtok eid="12" type="primary_name_ref" span="109:14:109:24">components</jtok>
+<jtok eid="12" type="method_call" span="109:25:109:28">get</jtok>
+<jtok eid="12" type="primary_name_ref" span="109:29:109:33">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="110:7:110:8">o</jtok>
+<jtok eid="12" type="method_call" span="111:4:111:17">hideComponent</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="111:19:111:36">SidePaneComponent</jtok>
+<jtok eid="12" type="primary_name_ref" span="111:38:111:39">o</jtok>
+<jtok eid="12" type="primary_name_ref" span="113:4:113:10">System</jtok>
+<jtok eid="12" type="qualified_name_ref" span="113:11:113:14">err</jtok>
+<jtok eid="12" type="method_call" span="113:15:113:22">println</jtok>
+<jtok eid="12" type="string_literal" span="113:23:113:46">"Side pane component '"</jtok>
+<jtok eid="12" type="primary_name_ref" span="113:49:113:53">name</jtok>
+<jtok eid="12" type="string_literal" span="113:56:113:68">"' unknown."</jtok>
+<jtok eid="13" type="method_name" span="116:27:116:35">register</jtok>
+<jtok eid="13" type="parameter_type" span="116:36:116:42">String</jtok>
+<jtok eid="13" type="parameter_name" span="116:43:116:47">name</jtok>
+<jtok eid="13" type="parameter_type" span="116:49:116:66">SidePaneComponent</jtok>
+<jtok eid="13" type="parameter_name" span="116:67:116:71">comp</jtok>
+<jtok eid="13" type="primary_name_ref" span="117:9:117:19">components</jtok>
+<jtok eid="13" type="method_call" span="117:20:117:23">put</jtok>
+<jtok eid="13" type="primary_name_ref" span="117:24:117:28">name</jtok>
+<jtok eid="13" type="primary_name_ref" span="117:30:117:34">comp</jtok>
+<jtok eid="14" type="method_name" span="120:27:120:42">registerAndShow</jtok>
+<jtok eid="14" type="parameter_type" span="120:43:120:49">String</jtok>
+<jtok eid="14" type="parameter_name" span="120:50:120:54">name</jtok>
+<jtok eid="14" type="parameter_type" span="120:56:120:73">SidePaneComponent</jtok>
+<jtok eid="14" type="parameter_name" span="120:74:120:78">comp</jtok>
+<jtok eid="14" type="method_call" span="121:3:121:11">register</jtok>
+<jtok eid="14" type="primary_name_ref" span="121:12:121:16">name</jtok>
+<jtok eid="14" type="primary_name_ref" span="121:18:121:22">comp</jtok>
+<jtok eid="14" type="method_call" span="122:3:122:7">show</jtok>
+<jtok eid="14" type="primary_name_ref" span="122:8:122:12">name</jtok>
+<jtok eid="15" type="method_name" span="125:28:125:32">show</jtok>
+<jtok eid="15" type="parameter_type" span="125:33:125:50">SidePaneComponent</jtok>
+<jtok eid="15" type="parameter_name" span="125:51:125:60">component</jtok>
+<jtok eid="15" type="primary_name_ref" span="126:8:126:15">visible</jtok>
+<jtok eid="15" type="method_call" span="126:16:126:24">contains</jtok>
+<jtok eid="15" type="primary_name_ref" span="126:25:126:34">component</jtok>
+<jtok eid="15" type="line_comment" span="127:4:127:52">// Put the new component at the top of the group</jtok>
+<jtok eid="15" type="primary_name_ref" span="128:4:128:11">visible</jtok>
+<jtok eid="15" type="method_call" span="128:12:128:15">add</jtok>
+<jtok eid="15" type="primary_name_ref" span="128:19:128:28">component</jtok>
+<jtok eid="15" type="method_call" span="129:4:129:14">updateView</jtok>
+<jtok eid="15" type="primary_name_ref" span="130:4:130:13">component</jtok>
+<jtok eid="15" type="method_call" span="130:14:130:30">componentOpening</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="134:12:134:29">SidePaneComponent</jtok>
+<jtok eid="16" type="method_name" span="134:30:134:42">getComponent</jtok>
+<jtok eid="16" type="parameter_type" span="134:43:134:49">String</jtok>
+<jtok eid="16" type="parameter_name" span="134:50:134:54">name</jtok>
+<jtok eid="16" type="primary_name_ref" span="135:16:135:26">components</jtok>
+<jtok eid="16" type="method_call" span="135:27:135:30">get</jtok>
+<jtok eid="16" type="primary_name_ref" span="135:31:135:35">name</jtok>
+<jtok eid="17" type="method_name" span="138:30:138:43">hideComponent</jtok>
+<jtok eid="17" type="parameter_type" span="138:44:138:61">SidePaneComponent</jtok>
+<jtok eid="17" type="parameter_name" span="138:62:138:66">comp</jtok>
+<jtok eid="17" type="primary_name_ref" span="139:7:139:14">visible</jtok>
+<jtok eid="17" type="method_call" span="139:15:139:23">contains</jtok>
+<jtok eid="17" type="primary_name_ref" span="139:24:139:28">comp</jtok>
+<jtok eid="17" type="primary_name_ref" span="140:4:140:8">comp</jtok>
+<jtok eid="17" type="method_call" span="140:9:140:25">componentClosing</jtok>
+<jtok eid="17" type="primary_name_ref" span="141:4:141:11">visible</jtok>
+<jtok eid="17" type="method_call" span="141:12:141:18">remove</jtok>
+<jtok eid="17" type="primary_name_ref" span="141:19:141:23">comp</jtok>
+<jtok eid="17" type="method_call" span="142:4:142:14">updateView</jtok>
+<jtok eid="18" type="method_name" span="146:30:146:43">hideComponent</jtok>
+<jtok eid="18" type="parameter_type" span="146:44:146:50">String</jtok>
+<jtok eid="18" type="parameter_name" span="146:51:146:55">name</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="147:2:147:19">SidePaneComponent</jtok>
+<jtok eid="18" type="local_variable_name" span="147:20:147:24">comp</jtok>
+<jtok eid="18" type="primary_name_ref" span="147:27:147:37">components</jtok>
+<jtok eid="18" type="method_call" span="147:38:147:41">get</jtok>
+<jtok eid="18" type="primary_name_ref" span="147:42:147:46">name</jtok>
+<jtok eid="18" type="primary_name_ref" span="148:6:148:10">comp</jtok>
+<jtok eid="18" type="primary_name_ref" span="150:6:150:13">visible</jtok>
+<jtok eid="18" type="method_call" span="150:14:150:22">contains</jtok>
+<jtok eid="18" type="primary_name_ref" span="150:23:150:27">comp</jtok>
+<jtok eid="18" type="primary_name_ref" span="151:6:151:10">comp</jtok>
+<jtok eid="18" type="method_call" span="151:11:151:27">componentClosing</jtok>
+<jtok eid="18" type="primary_name_ref" span="152:6:152:13">visible</jtok>
+<jtok eid="18" type="method_call" span="152:14:152:20">remove</jtok>
+<jtok eid="18" type="primary_name_ref" span="152:21:152:25">comp</jtok>
+<jtok eid="18" type="method_call" span="153:6:153:16">updateView</jtok>
+<jtok eid="19" type="method_name" span="157:27:157:46">unregisterComponent</jtok>
+<jtok eid="19" type="parameter_type" span="157:47:157:53">String</jtok>
+<jtok eid="19" type="parameter_name" span="157:54:157:58">name</jtok>
+<jtok eid="19" type="primary_name_ref" span="158:6:158:16">components</jtok>
+<jtok eid="19" type="method_call" span="158:17:158:23">remove</jtok>
+<jtok eid="19" type="primary_name_ref" span="158:24:158:28">name</jtok>
+<jtok eid="1" type="block_comment" span="163:2:168:5">/**
+	 * Update all side pane components to show information from the given
+	 * BasePanel.
+	 * 
+	 * @param panel
+	 */</jtok>
+<jtok eid="20" type="method_name" span="169:14:169:32">setActiveBasePanel</jtok>
+<jtok eid="20" type="parameter_type" span="169:33:169:42">BasePanel</jtok>
+<jtok eid="20" type="parameter_name" span="169:43:169:48">panel</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="170:8:170:16">Iterator</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="170:17:170:23">String</jtok>
+<jtok eid="20" type="local_variable_name" span="170:25:170:26">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="170:29:170:39">components</jtok>
+<jtok eid="20" type="method_call" span="170:40:170:46">keySet</jtok>
+<jtok eid="20" type="method_call" span="170:49:170:57">iterator</jtok>
+<jtok eid="20" type="primary_name_ref" span="170:61:170:62">i</jtok>
+<jtok eid="20" type="method_call" span="170:63:170:70">hasNext</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="171:4:171:10">Object</jtok>
+<jtok eid="20" type="local_variable_name" span="171:11:171:14">key</jtok>
+<jtok eid="20" type="primary_name_ref" span="171:17:171:18">i</jtok>
+<jtok eid="20" type="method_call" span="171:19:171:23">next</jtok>
+<jtok eid="20" type="primary_name_ref" span="172:4:172:14">components</jtok>
+<jtok eid="20" type="method_call" span="172:15:172:18">get</jtok>
+<jtok eid="20" type="primary_name_ref" span="172:19:172:22">key</jtok>
+<jtok eid="20" type="method_call" span="172:24:172:42">setActiveBasePanel</jtok>
+<jtok eid="20" type="primary_name_ref" span="172:43:172:48">panel</jtok>
+<jtok eid="21" type="method_name" span="176:14:176:24">updateView</jtok>
+<jtok eid="21" type="primary_name_ref" span="177:3:177:8">sidep</jtok>
+<jtok eid="21" type="method_call" span="177:9:177:22">setComponents</jtok>
+<jtok eid="21" type="primary_name_ref" span="177:23:177:30">visible</jtok>
+<jtok eid="21" type="primary_name_ref" span="178:7:178:14">visible</jtok>
+<jtok eid="21" type="method_call" span="178:15:178:19">size</jtok>
+<jtok eid="21" type="local_variable_name" span="179:12:179:22">wasVisible</jtok>
+<jtok eid="21" type="primary_name_ref" span="179:25:179:30">sidep</jtok>
+<jtok eid="21" type="method_call" span="179:31:179:40">isVisible</jtok>
+<jtok eid="21" type="primary_name_ref" span="180:4:180:9">sidep</jtok>
+<jtok eid="21" type="method_call" span="180:10:180:20">setVisible</jtok>
+<jtok eid="21" type="primary_name_ref" span="181:9:181:19">wasVisible</jtok>
+<jtok eid="21" type="local_variable_name" span="182:33:182:38">width</jtok>
+<jtok eid="21" type="primary_name_ref" span="182:41:182:48">Globals</jtok>
+<jtok eid="21" type="qualified_name_ref" span="182:49:182:54">prefs</jtok>
+<jtok eid="21" type="method_call" span="182:55:182:61">getInt</jtok>
+<jtok eid="21" type="string_literal" span="182:62:182:77">"sidePaneWidth"</jtok>
+<jtok eid="21" type="primary_name_ref" span="183:33:183:38">width</jtok>
+<jtok eid="21" type="primary_name_ref" span="184:33:184:38">frame</jtok>
+<jtok eid="21" type="qualified_name_ref" span="184:39:184:50">contentPane</jtok>
+<jtok eid="21" type="method_call" span="184:51:184:69">setDividerLocation</jtok>
+<jtok eid="21" type="primary_name_ref" span="184:70:184:75">width</jtok>
+<jtok eid="21" type="primary_name_ref" span="186:33:186:38">frame</jtok>
+<jtok eid="21" type="qualified_name_ref" span="186:39:186:50">contentPane</jtok>
+<jtok eid="21" type="method_call" span="186:51:186:69">setDividerLocation</jtok>
+<jtok eid="21" type="method_call" span="186:70:186:78">getPanel</jtok>
+<jtok eid="21" type="method_call" span="186:81:186:97">getPreferredSize</jtok>
+<jtok eid="21" type="qualified_name_ref" span="186:100:186:105">width</jtok>
+<jtok eid="21" type="primary_name_ref" span="189:25:189:30">sidep</jtok>
+<jtok eid="21" type="method_call" span="189:31:189:40">isVisible</jtok>
+<jtok eid="21" type="primary_name_ref" span="190:25:190:32">Globals</jtok>
+<jtok eid="21" type="qualified_name_ref" span="190:33:190:38">prefs</jtok>
+<jtok eid="21" type="method_call" span="190:39:190:45">putInt</jtok>
+<jtok eid="21" type="string_literal" span="190:46:190:61">"sidePaneWidth"</jtok>
+<jtok eid="21" type="primary_name_ref" span="190:63:190:68">frame</jtok>
+<jtok eid="21" type="qualified_name_ref" span="190:69:190:80">contentPane</jtok>
+<jtok eid="21" type="method_call" span="190:81:190:99">getDividerLocation</jtok>
+<jtok eid="21" type="primary_name_ref" span="191:21:191:26">sidep</jtok>
+<jtok eid="21" type="method_call" span="191:27:191:37">setVisible</jtok>
+<jtok eid="22" type="method_name" span="196:14:196:24">revalidate</jtok>
+<jtok eid="22" type="primary_name_ref" span="197:3:197:8">sidep</jtok>
+<jtok eid="22" type="method_call" span="197:9:197:19">revalidate</jtok>
+<jtok eid="22" type="primary_name_ref" span="198:3:198:8">sidep</jtok>
+<jtok eid="22" type="method_call" span="198:9:198:16">repaint</jtok>
+</jdoc>

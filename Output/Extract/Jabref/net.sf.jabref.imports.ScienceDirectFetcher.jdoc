@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.ScienceDirectFetcher" jls="java5">
+<jent id="0" type="file" span="0:0:151:1">Source/jabref/src/java/net/sf/jabref/imports/ScienceDirectFetcher.java</jent>
+<jent id="1" pid="0" type="class" span="20:1:151:1">net.sf.jabref.imports.ScienceDirectFetcher</jent>
+<jent id="2" pid="1" type="method" span="39:5:41:5">net.sf.jabref.imports.ScienceDirectFetcher.getHelpPage()</jent>
+<jent id="3" pid="1" type="method" span="43:5:45:5">net.sf.jabref.imports.ScienceDirectFetcher.getIcon()</jent>
+<jent id="4" pid="1" type="method" span="47:5:49:5">net.sf.jabref.imports.ScienceDirectFetcher.getKeyName()</jent>
+<jent id="5" pid="1" type="method" span="51:5:54:5">net.sf.jabref.imports.ScienceDirectFetcher.getOptionsPanel()</jent>
+<jent id="6" pid="1" type="method" span="56:5:58:5">net.sf.jabref.imports.ScienceDirectFetcher.getTitle()</jent>
+<jent id="7" pid="1" type="method" span="60:5:63:5">net.sf.jabref.imports.ScienceDirectFetcher.stopFetching()</jent>
+<jent id="8" pid="1" type="method" span="65:5:95:5">net.sf.jabref.imports.ScienceDirectFetcher.processQuery(String,ImportInspector,OutputPrinter)</jent>
+<jent id="9" pid="1" type="method" span="104:5:120:5">net.sf.jabref.imports.ScienceDirectFetcher.getCitations(String)</jent>
+<jent id="10" pid="1" type="method" span="122:5:148:5">net.sf.jabref.imports.ScienceDirectFetcher.getCitationsFromUrl(String,List&lt;String&gt;)</jent>
+<jtok eid="1" type="class_name" span="20:14:20:34">ScienceDirectFetcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="20:46:20:58">EntryFetcher</jtok>
+<jtok eid="1" type="field_name" span="22:26:22:43">MAX_PAGES_TO_LOAD</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="23:28:23:34">String</jtok>
+<jtok eid="1" type="field_name" span="23:35:23:46">WEBSITE_URL</jtok>
+<jtok eid="1" type="string_literal" span="23:49:23:79">"http://www.sciencedirect.com"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="24:28:24:34">String</jtok>
+<jtok eid="1" type="field_name" span="24:35:24:45">SEARCH_URL</jtok>
+<jtok eid="1" type="primary_name_ref" span="24:48:24:59">WEBSITE_URL</jtok>
+<jtok eid="1" type="string_literal" span="24:61:24:90">"/science/quicksearch?query="</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="26:28:26:34">String</jtok>
+<jtok eid="1" type="field_name" span="26:35:26:45">linkPrefix</jtok>
+<jtok eid="1" type="string_literal" span="26:48:26:102">"http://www.sciencedirect.com/science?_ob=ArticleURL&amp;"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="27:28:27:35">Pattern</jtok>
+<jtok eid="1" type="field_name" span="27:36:27:47">linkPattern</jtok>
+<jtok eid="1" type="primary_name_ref" span="27:50:27:57">Pattern</jtok>
+<jtok eid="1" type="method_call" span="27:58:27:65">compile</jtok>
+<jtok eid="1" type="string_literal" span="28:13:28:25">"&lt;a href=\""</jtok>
+<jtok eid="1" type="primary_name_ref" span="29:13:29:23">linkPrefix</jtok>
+<jtok eid="1" type="method_call" span="29:24:29:34">replaceAll</jtok>
+<jtok eid="1" type="string_literal" span="29:35:29:40">"\\?"</jtok>
+<jtok eid="1" type="string_literal" span="29:42:29:49">"\\\\?"</jtok>
+<jtok eid="1" type="string_literal" span="30:13:30:27">"([^\"]+)\"\""</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:28:32:35">Pattern</jtok>
+<jtok eid="1" type="field_name" span="32:36:32:51">nextPagePattern</jtok>
+<jtok eid="1" type="primary_name_ref" span="32:54:32:61">Pattern</jtok>
+<jtok eid="1" type="method_call" span="32:62:32:69">compile</jtok>
+<jtok eid="1" type="string_literal" span="33:13:33:41">"&lt;a href=\"(.*)\"&gt;Next &amp;gt;"</jtok>
+<jtok eid="1" type="field_name" span="36:23:36:35">stopFetching</jtok>
+<jtok eid="1" type="field_name" span="37:23:37:36">noAccessFound</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="39:12:39:18">String</jtok>
+<jtok eid="2" type="method_name" span="39:19:39:30">getHelpPage</jtok>
+<jtok eid="2" type="string_literal" span="40:16:40:36">"ScienceDirect.html"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="43:12:43:15">URL</jtok>
+<jtok eid="3" type="method_name" span="43:16:43:23">getIcon</jtok>
+<jtok eid="3" type="primary_name_ref" span="44:16:44:26">GUIGlobals</jtok>
+<jtok eid="3" type="method_call" span="44:27:44:37">getIconUrl</jtok>
+<jtok eid="3" type="string_literal" span="44:38:44:43">"www"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="47:12:47:18">String</jtok>
+<jtok eid="4" type="method_name" span="47:19:47:29">getKeyName</jtok>
+<jtok eid="4" type="string_literal" span="48:16:48:38">"Search ScienceDirect"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="51:12:51:18">JPanel</jtok>
+<jtok eid="5" type="method_name" span="51:19:51:34">getOptionsPanel</jtok>
+<jtok eid="5" type="line_comment" span="52:9:52:28">// No Options panel</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="56:12:56:18">String</jtok>
+<jtok eid="6" type="method_name" span="56:19:56:27">getTitle</jtok>
+<jtok eid="6" type="primary_name_ref" span="57:16:57:23">Globals</jtok>
+<jtok eid="6" type="method_call" span="57:24:57:33">menuTitle</jtok>
+<jtok eid="6" type="string_literal" span="57:34:57:56">"Search ScienceDirect"</jtok>
+<jtok eid="7" type="method_name" span="60:17:60:29">stopFetching</jtok>
+<jtok eid="7" type="primary_name_ref" span="61:9:61:21">stopFetching</jtok>
+<jtok eid="7" type="primary_name_ref" span="62:9:62:22">noAccessFound</jtok>
+<jtok eid="8" type="method_name" span="65:20:65:32">processQuery</jtok>
+<jtok eid="8" type="parameter_type" span="65:33:65:39">String</jtok>
+<jtok eid="8" type="parameter_name" span="65:40:65:45">query</jtok>
+<jtok eid="8" type="parameter_type" span="65:47:65:62">ImportInspector</jtok>
+<jtok eid="8" type="parameter_name" span="65:63:65:69">dialog</jtok>
+<jtok eid="8" type="parameter_type" span="65:71:65:84">OutputPrinter</jtok>
+<jtok eid="8" type="parameter_name" span="65:85:65:91">status</jtok>
+<jtok eid="8" type="primary_name_ref" span="66:9:66:21">stopFetching</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="68:13:68:17">List</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="68:18:68:24">String</jtok>
+<jtok eid="8" type="local_variable_name" span="68:26:68:35">citations</jtok>
+<jtok eid="8" type="method_call" span="68:38:68:50">getCitations</jtok>
+<jtok eid="8" type="primary_name_ref" span="68:51:68:56">query</jtok>
+<jtok eid="8" type="primary_name_ref" span="69:17:69:26">citations</jtok>
+<jtok eid="8" type="primary_name_ref" span="71:17:71:26">citations</jtok>
+<jtok eid="8" type="method_call" span="71:27:71:31">size</jtok>
+<jtok eid="8" type="primary_name_ref" span="72:17:72:23">status</jtok>
+<jtok eid="8" type="method_call" span="72:24:72:35">showMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="72:36:72:43">Globals</jtok>
+<jtok eid="8" type="method_call" span="72:44:72:48">lang</jtok>
+<jtok eid="8" type="string_literal" span="72:49:72:94">"No entries found for the search string '%0'"</jtok>
+<jtok eid="8" type="primary_name_ref" span="73:21:73:26">query</jtok>
+<jtok eid="8" type="primary_name_ref" span="74:21:74:28">Globals</jtok>
+<jtok eid="8" type="method_call" span="74:29:74:33">lang</jtok>
+<jtok eid="8" type="string_literal" span="74:34:74:56">"Search ScienceDirect"</jtok>
+<jtok eid="8" type="primary_name_ref" span="74:59:74:70">JOptionPane</jtok>
+<jtok eid="8" type="qualified_name_ref" span="74:71:74:90">INFORMATION_MESSAGE</jtok>
+<jtok eid="8" type="local_variable_name" span="78:17:78:18">i</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="79:18:79:24">String</jtok>
+<jtok eid="8" type="local_variable_name" span="79:25:79:28">cit</jtok>
+<jtok eid="8" type="primary_name_ref" span="79:31:79:40">citations</jtok>
+<jtok eid="8" type="primary_name_ref" span="80:21:80:33">stopFetching</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="82:17:82:28">BibtexEntry</jtok>
+<jtok eid="8" type="local_variable_name" span="82:29:82:34">entry</jtok>
+<jtok eid="8" type="primary_name_ref" span="82:37:82:53">BibsonomyScraper</jtok>
+<jtok eid="8" type="method_call" span="82:54:82:62">getEntry</jtok>
+<jtok eid="8" type="primary_name_ref" span="82:63:82:66">cit</jtok>
+<jtok eid="8" type="primary_name_ref" span="83:21:83:26">entry</jtok>
+<jtok eid="8" type="primary_name_ref" span="84:21:84:27">dialog</jtok>
+<jtok eid="8" type="method_call" span="84:28:84:36">addEntry</jtok>
+<jtok eid="8" type="primary_name_ref" span="84:37:84:42">entry</jtok>
+<jtok eid="8" type="primary_name_ref" span="85:17:85:23">dialog</jtok>
+<jtok eid="8" type="method_call" span="85:24:85:35">setProgress</jtok>
+<jtok eid="8" type="primary_name_ref" span="85:38:85:39">i</jtok>
+<jtok eid="8" type="primary_name_ref" span="85:41:85:50">citations</jtok>
+<jtok eid="8" type="method_call" span="85:51:85:55">size</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="90:18:90:29">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="90:30:90:31">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="91:13:91:14">e</jtok>
+<jtok eid="8" type="method_call" span="91:15:91:30">printStackTrace</jtok>
+<jtok eid="8" type="primary_name_ref" span="92:13:92:19">status</jtok>
+<jtok eid="8" type="method_call" span="92:20:92:31">showMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="92:32:92:39">Globals</jtok>
+<jtok eid="8" type="method_call" span="92:40:92:44">lang</jtok>
+<jtok eid="8" type="string_literal" span="92:45:92:86">"Error while fetching from ScienceDirect"</jtok>
+<jtok eid="8" type="string_literal" span="92:90:92:94">": "</jtok>
+<jtok eid="8" type="primary_name_ref" span="92:97:92:98">e</jtok>
+<jtok eid="8" type="method_call" span="92:99:92:109">getMessage</jtok>
+<jtok eid="1" type="block_comment" span="97:5:103:8">/**
+     *
+     * @param query
+     *            The search term to query JStor for.
+     * @return a list of IDs
+     * @throws java.io.IOException
+     */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="104:15:104:19">List</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="104:20:104:26">String</jtok>
+<jtok eid="9" type="method_name" span="104:28:104:40">getCitations</jtok>
+<jtok eid="9" type="parameter_type" span="104:41:104:47">String</jtok>
+<jtok eid="9" type="parameter_name" span="104:48:104:53">query</jtok>
+<jtok eid="9" type="throws" span="104:62:104:73">IOException</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="105:9:105:15">String</jtok>
+<jtok eid="9" type="local_variable_name" span="105:16:105:24">urlQuery</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="106:9:106:18">ArrayList</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="106:19:106:25">String</jtok>
+<jtok eid="9" type="local_variable_name" span="106:27:106:30">ids</jtok>
+<jtok eid="9" type="constructor_call" span="106:37:106:46">ArrayList</jtok>
+<jtok eid="9" type="constructor_call" span="106:47:106:53">String</jtok>
+<jtok eid="9" type="primary_name_ref" span="108:13:108:21">urlQuery</jtok>
+<jtok eid="9" type="primary_name_ref" span="108:24:108:34">SEARCH_URL</jtok>
+<jtok eid="9" type="primary_name_ref" span="108:37:108:47">URLEncoder</jtok>
+<jtok eid="9" type="method_call" span="108:48:108:54">encode</jtok>
+<jtok eid="9" type="primary_name_ref" span="108:55:108:60">query</jtok>
+<jtok eid="9" type="string_literal" span="108:62:108:69">"UTF-8"</jtok>
+<jtok eid="9" type="local_variable_name" span="109:17:109:22">count</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="110:13:110:19">String</jtok>
+<jtok eid="9" type="local_variable_name" span="110:20:110:28">nextPage</jtok>
+<jtok eid="9" type="primary_name_ref" span="111:22:111:30">nextPage</jtok>
+<jtok eid="9" type="method_call" span="111:33:111:52">getCitationsFromUrl</jtok>
+<jtok eid="9" type="primary_name_ref" span="111:53:111:61">urlQuery</jtok>
+<jtok eid="9" type="primary_name_ref" span="111:63:111:66">ids</jtok>
+<jtok eid="9" type="primary_name_ref" span="112:25:112:30">count</jtok>
+<jtok eid="9" type="primary_name_ref" span="112:33:112:50">MAX_PAGES_TO_LOAD</jtok>
+<jtok eid="9" type="primary_name_ref" span="113:17:113:25">urlQuery</jtok>
+<jtok eid="9" type="primary_name_ref" span="113:28:113:36">nextPage</jtok>
+<jtok eid="9" type="primary_name_ref" span="114:17:114:22">count</jtok>
+<jtok eid="9" type="primary_name_ref" span="116:20:116:23">ids</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="117:18:117:46">UnsupportedEncodingException</jtok>
+<jtok eid="9" type="local_variable_name" span="117:47:117:48">e</jtok>
+<jtok eid="9" type="constructor_call" span="118:23:118:39">RuntimeException</jtok>
+<jtok eid="9" type="primary_name_ref" span="118:40:118:41">e</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="122:15:122:21">String</jtok>
+<jtok eid="10" type="method_name" span="122:22:122:41">getCitationsFromUrl</jtok>
+<jtok eid="10" type="parameter_type" span="122:42:122:48">String</jtok>
+<jtok eid="10" type="parameter_name" span="122:49:122:57">urlQuery</jtok>
+<jtok eid="10" type="parameter_type" span="122:59:122:63">List</jtok>
+<jtok eid="10" type="parameter_type" span="122:64:122:70">String</jtok>
+<jtok eid="10" type="parameter_name" span="122:72:122:75">ids</jtok>
+<jtok eid="10" type="throws" span="122:84:122:95">IOException</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="123:9:123:12">URL</jtok>
+<jtok eid="10" type="local_variable_name" span="123:13:123:16">url</jtok>
+<jtok eid="10" type="constructor_call" span="123:23:123:26">URL</jtok>
+<jtok eid="10" type="primary_name_ref" span="123:27:123:35">urlQuery</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="124:9:124:20">URLDownload</jtok>
+<jtok eid="10" type="local_variable_name" span="124:21:124:23">ud</jtok>
+<jtok eid="10" type="constructor_call" span="124:30:124:41">URLDownload</jtok>
+<jtok eid="10" type="primary_name_ref" span="124:42:124:45">url</jtok>
+<jtok eid="10" type="primary_name_ref" span="125:9:125:11">ud</jtok>
+<jtok eid="10" type="method_call" span="125:12:125:20">download</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="127:9:127:15">String</jtok>
+<jtok eid="10" type="local_variable_name" span="127:16:127:20">cont</jtok>
+<jtok eid="10" type="primary_name_ref" span="127:23:127:25">ud</jtok>
+<jtok eid="10" type="method_call" span="127:26:127:42">getStringContent</jtok>
+<jtok eid="10" type="line_comment" span="128:9:128:36">//String entirePage = cont;</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="129:9:129:16">Matcher</jtok>
+<jtok eid="10" type="local_variable_name" span="129:17:129:18">m</jtok>
+<jtok eid="10" type="primary_name_ref" span="129:21:129:32">linkPattern</jtok>
+<jtok eid="10" type="method_call" span="129:33:129:40">matcher</jtok>
+<jtok eid="10" type="primary_name_ref" span="129:41:129:45">cont</jtok>
+<jtok eid="10" type="primary_name_ref" span="130:13:130:14">m</jtok>
+<jtok eid="10" type="method_call" span="130:15:130:19">find</jtok>
+<jtok eid="10" type="primary_name_ref" span="131:20:131:21">m</jtok>
+<jtok eid="10" type="method_call" span="131:22:131:26">find</jtok>
+<jtok eid="10" type="primary_name_ref" span="132:17:132:20">ids</jtok>
+<jtok eid="10" type="method_call" span="132:21:132:24">add</jtok>
+<jtok eid="10" type="primary_name_ref" span="132:25:132:35">linkPrefix</jtok>
+<jtok eid="10" type="primary_name_ref" span="132:36:132:37">m</jtok>
+<jtok eid="10" type="method_call" span="132:38:132:43">group</jtok>
+<jtok eid="10" type="primary_name_ref" span="133:17:133:21">cont</jtok>
+<jtok eid="10" type="primary_name_ref" span="133:24:133:28">cont</jtok>
+<jtok eid="10" type="method_call" span="133:29:133:38">substring</jtok>
+<jtok eid="10" type="primary_name_ref" span="133:39:133:40">m</jtok>
+<jtok eid="10" type="method_call" span="133:41:133:44">end</jtok>
+<jtok eid="10" type="primary_name_ref" span="134:17:134:18">m</jtok>
+<jtok eid="10" type="primary_name_ref" span="134:21:134:32">linkPattern</jtok>
+<jtok eid="10" type="method_call" span="134:33:134:40">matcher</jtok>
+<jtok eid="10" type="primary_name_ref" span="134:41:134:45">cont</jtok>
+<jtok eid="10" type="block_comment" span="141:9:146:15">/*m = nextPagePattern.matcher(entirePage);
+        if (m.find()) {
+            String newQuery = WEBSITE_URL +m.group(1);
+            return newQuery;
+        }
+        else*/</jtok>
+</jdoc>

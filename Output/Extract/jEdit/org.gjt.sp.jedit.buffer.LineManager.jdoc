@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.buffer.LineManager" jls="java5">
+<jent id="0" type="file" span="0:0:362:2">Source/jEdit/org/gjt/sp/jedit/buffer/LineManager.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:362:1">org.gjt.sp.jedit.buffer.LineManager</jent>
+<jent id="2" pid="1" type="method" span="46:2:53:2">org.gjt.sp.jedit.buffer.LineManager.LineManager()</jent>
+<jent id="3" pid="1" type="method" span="56:2:59:2">org.gjt.sp.jedit.buffer.LineManager.getLineCount()</jent>
+<jent id="4" pid="1" type="method" span="62:2:98:2">org.gjt.sp.jedit.buffer.LineManager.getLineOfOffset(int)</jent>
+<jent id="5" pid="1" type="method" span="101:2:107:2">org.gjt.sp.jedit.buffer.LineManager.getLineEndOffset(int)</jent>
+<jent id="6" pid="1" type="method" span="110:2:113:2">org.gjt.sp.jedit.buffer.LineManager.getFoldLevel(int)</jent>
+<jent id="7" pid="1" type="method" span="117:2:126:2">org.gjt.sp.jedit.buffer.LineManager.setFoldLevel(int,int)</jent>
+<jent id="8" pid="1" type="method" span="129:2:132:2">org.gjt.sp.jedit.buffer.LineManager.setFirstInvalidFoldLevel(int)</jent>
+<jent id="9" pid="1" type="method" span="135:2:138:2">org.gjt.sp.jedit.buffer.LineManager.getFirstInvalidFoldLevel()</jent>
+<jent id="10" pid="1" type="method" span="141:2:144:2">org.gjt.sp.jedit.buffer.LineManager.getLineContext(int)</jent>
+<jent id="11" pid="1" type="method" span="147:2:150:2">org.gjt.sp.jedit.buffer.LineManager.setLineContext(int,TokenMarker.LineContext)</jent>
+<jent id="12" pid="1" type="method" span="153:2:156:2">org.gjt.sp.jedit.buffer.LineManager.setFirstInvalidLineContext(int)</jent>
+<jent id="13" pid="1" type="method" span="159:2:162:2">org.gjt.sp.jedit.buffer.LineManager.getFirstInvalidLineContext()</jent>
+<jent id="14" pid="1" type="method" span="165:2:175:2">org.gjt.sp.jedit.buffer.LineManager._contentInserted(IntegerArray)</jent>
+<jent id="15" pid="1" type="method" span="178:2:240:2">org.gjt.sp.jedit.buffer.LineManager.contentInserted(int,int,int,int,IntegerArray)</jent>
+<jent id="16" pid="1" type="method" span="243:2:276:2">org.gjt.sp.jedit.buffer.LineManager.contentRemoved(int,int,int,int)</jent>
+<jent id="17" pid="1" type="method" span="309:2:312:2">org.gjt.sp.jedit.buffer.LineManager.setLineEndOffset(int,int)</jent>
+<jent id="18" pid="1" type="method" span="315:2:359:2">org.gjt.sp.jedit.buffer.LineManager.moveGap(int,int,String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * LineManager.java - Manages line info, line start offsets, positions
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="32:1:42:4">/**
+ * A class internal to jEdit's document model. You should not use it
+ * directly. To improve performance, none of the methods in this class
+ * check for out of bounds access, nor are they thread-safe. The
+ * &lt;code&gt;Buffer&lt;/code&gt; class, through which these methods must be
+ * called through, implements such protection.
+ *
+ * @author Slava Pestov
+ * @version $Id: LineManager.java 12504 2008-04-22 23:12:43Z ezust $
+ * @since jEdit 4.2pre3
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:14:43:25">LineManager</jtok>
+<jtok eid="1" type="line_comment" span="45:2:45:31">//{{{ LineManager constructor</jtok>
+<jtok eid="2" type="method_name" span="46:9:46:20">LineManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:13">endOffsets</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:13">endOffsets</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:3:50:13">foldLevels</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:3:51:14">lineContext</jtok>
+<jtok eid="2" type="constructor_call" span="51:21:51:32">TokenMarker</jtok>
+<jtok eid="2" type="constructor_call" span="51:33:51:44">LineContext</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:3:52:12">lineCount</jtok>
+<jtok eid="1" type="line_comment" span="53:4:53:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="55:2:55:29">//{{{ getLineCount() method</jtok>
+<jtok eid="3" type="method_name" span="56:19:56:31">getLineCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:10:58:19">lineCount</jtok>
+<jtok eid="1" type="line_comment" span="59:4:59:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:32">//{{{ getLineOfOffset() method</jtok>
+<jtok eid="4" type="method_name" span="62:13:62:28">getLineOfOffset</jtok>
+<jtok eid="4" type="parameter_name" span="62:33:62:39">offset</jtok>
+<jtok eid="4" type="local_variable_name" span="64:7:64:12">start</jtok>
+<jtok eid="4" type="local_variable_name" span="65:7:65:10">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="65:13:65:22">lineCount</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:11:69:14">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:17:69:22">start</jtok>
+<jtok eid="4" type="method_call" span="72:8:72:24">getLineEndOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:25:72:30">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:35:72:41">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:13:73:18">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="75:13:75:18">start</jtok>
+<jtok eid="4" type="method_call" span="77:8:77:24">getLineEndOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:25:77:30">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:35:77:41">offset</jtok>
+<jtok eid="4" type="method_call" span="79:9:79:25">getLineEndOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:26:79:29">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:34:79:40">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:14:80:17">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:14:82:17">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:13:85:18">start</jtok>
+<jtok eid="4" type="local_variable_name" span="87:9:87:14">pivot</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:18:87:21">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:24:87:29">start</jtok>
+<jtok eid="4" type="local_variable_name" span="88:9:88:14">value</jtok>
+<jtok eid="4" type="method_call" span="88:17:88:33">getLineEndOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:34:88:39">pivot</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:8:89:13">value</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:17:89:23">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="90:13:90:18">pivot</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:13:91:18">value</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:21:91:27">offset</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:6:92:11">start</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:14:92:19">pivot</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:6:94:9">end</jtok>
+<jtok eid="4" type="primary_name_ref" span="94:12:94:17">pivot</jtok>
+<jtok eid="1" type="line_comment" span="98:4:98:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="100:2:100:33">//{{{ getLineEndOffset() method</jtok>
+<jtok eid="5" type="method_name" span="101:19:101:35">getLineEndOffset</jtok>
+<jtok eid="5" type="parameter_name" span="101:40:101:44">line</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:6:103:13">gapLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:23:103:27">line</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:31:103:38">gapLine</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:11:104:21">endOffsets</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:22:104:26">line</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:30:104:38">gapWidth</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:11:106:21">endOffsets</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:22:106:26">line</jtok>
+<jtok eid="1" type="line_comment" span="107:4:107:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="109:2:109:29">//{{{ getFoldLevel() method</jtok>
+<jtok eid="6" type="method_name" span="110:19:110:31">getFoldLevel</jtok>
+<jtok eid="6" type="parameter_name" span="110:36:110:40">line</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:10:112:20">foldLevels</jtok>
+<jtok eid="6" type="primary_name_ref" span="112:21:112:25">line</jtok>
+<jtok eid="1" type="line_comment" span="113:4:113:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="115:2:115:29">//{{{ setFoldLevel() method</jtok>
+<jtok eid="1" type="line_comment" span="116:2:116:38">// Also sets 'fold level valid' flag</jtok>
+<jtok eid="7" type="method_name" span="117:20:117:32">setFoldLevel</jtok>
+<jtok eid="7" type="parameter_name" span="117:37:117:41">line</jtok>
+<jtok eid="7" type="parameter_name" span="117:47:117:52">level</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:6:119:11">level</jtok>
+<jtok eid="7" type="line_comment" span="121:4:121:21">// limitations...</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:4:122:9">level</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:3:125:13">foldLevels</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:14:125:18">line</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:29:125:34">level</jtok>
+<jtok eid="1" type="line_comment" span="126:4:126:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="128:2:128:41">//{{{ setFirstInvalidFoldLevel() method</jtok>
+<jtok eid="8" type="method_name" span="129:14:129:38">setFirstInvalidFoldLevel</jtok>
+<jtok eid="8" type="parameter_name" span="129:43:129:64">firstInvalidFoldLevel</jtok>
+<jtok eid="8" type="qualified_name_ref" span="131:8:131:29">firstInvalidFoldLevel</jtok>
+<jtok eid="8" type="primary_name_ref" span="131:32:131:53">firstInvalidFoldLevel</jtok>
+<jtok eid="1" type="line_comment" span="132:4:132:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="134:2:134:41">//{{{ getFirstInvalidFoldLevel() method</jtok>
+<jtok eid="9" type="method_name" span="135:13:135:37">getFirstInvalidFoldLevel</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:10:137:31">firstInvalidFoldLevel</jtok>
+<jtok eid="1" type="line_comment" span="138:4:138:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="140:2:140:31">//{{{ getLineContext() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="141:15:141:26">TokenMarker</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="141:27:141:38">LineContext</jtok>
+<jtok eid="10" type="method_name" span="141:39:141:53">getLineContext</jtok>
+<jtok eid="10" type="parameter_name" span="141:58:141:62">line</jtok>
+<jtok eid="10" type="primary_name_ref" span="143:10:143:21">lineContext</jtok>
+<jtok eid="10" type="primary_name_ref" span="143:22:143:26">line</jtok>
+<jtok eid="1" type="line_comment" span="144:4:144:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="146:2:146:31">//{{{ setLineContext() method</jtok>
+<jtok eid="11" type="method_name" span="147:20:147:34">setLineContext</jtok>
+<jtok eid="11" type="parameter_name" span="147:39:147:43">line</jtok>
+<jtok eid="11" type="parameter_type" span="147:45:147:56">TokenMarker</jtok>
+<jtok eid="11" type="parameter_type" span="147:57:147:68">LineContext</jtok>
+<jtok eid="11" type="parameter_name" span="147:69:147:76">context</jtok>
+<jtok eid="11" type="primary_name_ref" span="149:3:149:14">lineContext</jtok>
+<jtok eid="11" type="primary_name_ref" span="149:15:149:19">line</jtok>
+<jtok eid="11" type="primary_name_ref" span="149:23:149:30">context</jtok>
+<jtok eid="1" type="line_comment" span="150:4:150:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="152:2:152:43">//{{{ setFirstInvalidLineContext() method</jtok>
+<jtok eid="12" type="method_name" span="153:14:153:40">setFirstInvalidLineContext</jtok>
+<jtok eid="12" type="parameter_name" span="153:45:153:68">firstInvalidLineContext</jtok>
+<jtok eid="12" type="qualified_name_ref" span="155:8:155:31">firstInvalidLineContext</jtok>
+<jtok eid="12" type="primary_name_ref" span="155:34:155:57">firstInvalidLineContext</jtok>
+<jtok eid="1" type="line_comment" span="156:4:156:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:43">//{{{ getFirstInvalidLineContext() method</jtok>
+<jtok eid="13" type="method_name" span="159:13:159:39">getFirstInvalidLineContext</jtok>
+<jtok eid="13" type="primary_name_ref" span="161:10:161:33">firstInvalidLineContext</jtok>
+<jtok eid="1" type="line_comment" span="162:4:162:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="164:2:164:33">//{{{ _contentInserted() method</jtok>
+<jtok eid="14" type="method_name" span="165:14:165:30">_contentInserted</jtok>
+<jtok eid="14" type="parameter_type" span="165:31:165:43">IntegerArray</jtok>
+<jtok eid="14" type="parameter_name" span="165:44:165:54">endOffsets</jtok>
+<jtok eid="14" type="primary_name_ref" span="167:3:167:10">gapLine</jtok>
+<jtok eid="14" type="primary_name_ref" span="168:3:168:11">gapWidth</jtok>
+<jtok eid="14" type="primary_name_ref" span="169:3:169:26">firstInvalidLineContext</jtok>
+<jtok eid="14" type="primary_name_ref" span="169:29:169:50">firstInvalidFoldLevel</jtok>
+<jtok eid="14" type="primary_name_ref" span="170:3:170:12">lineCount</jtok>
+<jtok eid="14" type="primary_name_ref" span="170:15:170:25">endOffsets</jtok>
+<jtok eid="14" type="method_call" span="170:26:170:33">getSize</jtok>
+<jtok eid="14" type="qualified_name_ref" span="171:8:171:18">endOffsets</jtok>
+<jtok eid="14" type="primary_name_ref" span="171:21:171:31">endOffsets</jtok>
+<jtok eid="14" type="method_call" span="171:32:171:40">getArray</jtok>
+<jtok eid="14" type="primary_name_ref" span="172:3:172:13">foldLevels</jtok>
+<jtok eid="14" type="primary_name_ref" span="172:26:172:35">lineCount</jtok>
+<jtok eid="14" type="primary_name_ref" span="174:3:174:14">lineContext</jtok>
+<jtok eid="14" type="constructor_call" span="174:21:174:32">TokenMarker</jtok>
+<jtok eid="14" type="constructor_call" span="174:33:174:44">LineContext</jtok>
+<jtok eid="14" type="primary_name_ref" span="174:45:174:54">lineCount</jtok>
+<jtok eid="1" type="line_comment" span="175:4:175:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="177:2:177:32">//{{{ contentInserted() method</jtok>
+<jtok eid="15" type="method_name" span="178:14:178:29">contentInserted</jtok>
+<jtok eid="15" type="parameter_name" span="178:34:178:43">startLine</jtok>
+<jtok eid="15" type="parameter_name" span="178:49:178:55">offset</jtok>
+<jtok eid="15" type="parameter_name" span="179:7:179:15">numLines</jtok>
+<jtok eid="15" type="parameter_name" span="179:21:179:27">length</jtok>
+<jtok eid="15" type="parameter_type" span="179:29:179:41">IntegerArray</jtok>
+<jtok eid="15" type="parameter_name" span="179:42:179:52">endOffsets</jtok>
+<jtok eid="15" type="local_variable_name" span="181:7:181:14">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="181:17:181:26">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="181:29:181:37">numLines</jtok>
+<jtok eid="15" type="line_comment" span="183:3:183:49">//{{{ Update line info and line context arrays</jtok>
+<jtok eid="15" type="primary_name_ref" span="184:6:184:14">numLines</jtok>
+<jtok eid="15" type="line_comment" span="186:4:186:38">//moveGap(-1,0,"contentInserted");</jtok>
+<jtok eid="15" type="primary_name_ref" span="188:4:188:13">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="188:17:188:25">numLines</jtok>
+<jtok eid="15" type="qualified_name_ref" span="190:12:190:22">endOffsets</jtok>
+<jtok eid="15" type="qualified_name_ref" span="190:23:190:29">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="190:33:190:42">lineCount</jtok>
+<jtok eid="15" type="local_variable_name" span="192:11:192:22">endOffsetsN</jtok>
+<jtok eid="15" type="primary_name_ref" span="192:34:192:43">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="193:5:193:11">System</jtok>
+<jtok eid="15" type="method_call" span="193:12:193:21">arraycopy</jtok>
+<jtok eid="15" type="qualified_name_ref" span="193:27:193:37">endOffsets</jtok>
+<jtok eid="15" type="primary_name_ref" span="193:40:193:51">endOffsetsN</jtok>
+<jtok eid="15" type="qualified_name_ref" span="194:13:194:23">endOffsets</jtok>
+<jtok eid="15" type="qualified_name_ref" span="194:24:194:30">length</jtok>
+<jtok eid="15" type="qualified_name_ref" span="195:10:195:20">endOffsets</jtok>
+<jtok eid="15" type="primary_name_ref" span="195:23:195:34">endOffsetsN</jtok>
+<jtok eid="15" type="primary_name_ref" span="198:7:198:17">foldLevels</jtok>
+<jtok eid="15" type="qualified_name_ref" span="198:18:198:24">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="198:28:198:37">lineCount</jtok>
+<jtok eid="15" type="local_variable_name" span="200:13:200:24">foldLevelsN</jtok>
+<jtok eid="15" type="primary_name_ref" span="200:38:200:47">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="201:5:201:11">System</jtok>
+<jtok eid="15" type="method_call" span="201:12:201:21">arraycopy</jtok>
+<jtok eid="15" type="primary_name_ref" span="201:22:201:32">foldLevels</jtok>
+<jtok eid="15" type="primary_name_ref" span="201:35:201:46">foldLevelsN</jtok>
+<jtok eid="15" type="primary_name_ref" span="202:8:202:18">foldLevels</jtok>
+<jtok eid="15" type="qualified_name_ref" span="202:19:202:25">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="203:5:203:15">foldLevels</jtok>
+<jtok eid="15" type="primary_name_ref" span="203:18:203:29">foldLevelsN</jtok>
+<jtok eid="15" type="primary_name_ref" span="206:7:206:18">lineContext</jtok>
+<jtok eid="15" type="qualified_name_ref" span="206:19:206:25">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="206:29:206:38">lineCount</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="208:5:208:16">TokenMarker</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="208:17:208:28">LineContext</jtok>
+<jtok eid="15" type="local_variable_name" span="208:31:208:43">lineContextN</jtok>
+<jtok eid="15" type="constructor_call" span="209:12:209:23">TokenMarker</jtok>
+<jtok eid="15" type="constructor_call" span="209:24:209:35">LineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="209:37:209:46">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="210:5:210:11">System</jtok>
+<jtok eid="15" type="method_call" span="210:12:210:21">arraycopy</jtok>
+<jtok eid="15" type="primary_name_ref" span="210:22:210:33">lineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="210:36:210:48">lineContextN</jtok>
+<jtok eid="15" type="primary_name_ref" span="211:8:211:19">lineContext</jtok>
+<jtok eid="15" type="qualified_name_ref" span="211:20:211:26">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="212:5:212:16">lineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="212:19:212:31">lineContextN</jtok>
+<jtok eid="15" type="primary_name_ref" span="215:4:215:10">System</jtok>
+<jtok eid="15" type="method_call" span="215:11:215:20">arraycopy</jtok>
+<jtok eid="15" type="qualified_name_ref" span="215:26:215:36">endOffsets</jtok>
+<jtok eid="15" type="primary_name_ref" span="215:37:215:46">startLine</jtok>
+<jtok eid="15" type="qualified_name_ref" span="216:10:216:20">endOffsets</jtok>
+<jtok eid="15" type="primary_name_ref" span="216:21:216:28">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="216:29:216:38">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="216:41:216:48">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="217:4:217:10">System</jtok>
+<jtok eid="15" type="method_call" span="217:11:217:20">arraycopy</jtok>
+<jtok eid="15" type="primary_name_ref" span="217:21:217:31">foldLevels</jtok>
+<jtok eid="15" type="primary_name_ref" span="217:32:217:41">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="217:42:217:52">foldLevels</jtok>
+<jtok eid="15" type="primary_name_ref" span="218:5:218:12">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="218:13:218:22">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="218:25:218:32">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="219:4:219:10">System</jtok>
+<jtok eid="15" type="method_call" span="219:11:219:20">arraycopy</jtok>
+<jtok eid="15" type="primary_name_ref" span="219:21:219:32">lineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="219:33:219:42">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="219:43:219:54">lineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="220:5:220:12">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="220:13:220:22">lineCount</jtok>
+<jtok eid="15" type="primary_name_ref" span="220:25:220:32">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="222:7:222:16">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="222:20:222:27">gapLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="223:5:223:12">gapLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="223:16:223:24">numLines</jtok>
+<jtok eid="15" type="primary_name_ref" span="224:12:224:19">gapLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="225:5:225:11">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="225:15:225:23">gapWidth</jtok>
+<jtok eid="15" type="primary_name_ref" span="227:7:227:16">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="227:19:227:42">firstInvalidLineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="228:5:228:28">firstInvalidLineContext</jtok>
+<jtok eid="15" type="primary_name_ref" span="228:32:228:40">numLines</jtok>
+<jtok eid="15" type="local_variable_name" span="230:12:230:13">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="230:19:230:20">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="230:23:230:31">numLines</jtok>
+<jtok eid="15" type="primary_name_ref" span="230:33:230:34">i</jtok>
+<jtok eid="15" type="qualified_name_ref" span="232:10:232:20">endOffsets</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:21:232:30">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:33:232:34">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:39:232:45">offset</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:48:232:58">endOffsets</jtok>
+<jtok eid="15" type="method_call" span="232:59:232:62">get</jtok>
+<jtok eid="15" type="primary_name_ref" span="232:63:232:64">i</jtok>
+<jtok eid="15" type="primary_name_ref" span="233:5:233:15">foldLevels</jtok>
+<jtok eid="15" type="primary_name_ref" span="233:16:233:25">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="233:28:233:29">i</jtok>
+<jtok eid="15" type="line_comment" span="235:5:235:10">//}}}</jtok>
+<jtok eid="15" type="primary_name_ref" span="237:6:237:27">firstInvalidFoldLevel</jtok>
+<jtok eid="15" type="primary_name_ref" span="237:37:237:58">firstInvalidFoldLevel</jtok>
+<jtok eid="15" type="primary_name_ref" span="237:61:237:70">startLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="238:4:238:25">firstInvalidFoldLevel</jtok>
+<jtok eid="15" type="primary_name_ref" span="238:28:238:37">startLine</jtok>
+<jtok eid="15" type="method_call" span="239:3:239:10">moveGap</jtok>
+<jtok eid="15" type="primary_name_ref" span="239:11:239:18">endLine</jtok>
+<jtok eid="15" type="primary_name_ref" span="239:19:239:25">length</jtok>
+<jtok eid="15" type="string_literal" span="239:26:239:43">"contentInserted"</jtok>
+<jtok eid="1" type="line_comment" span="240:4:240:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="242:2:242:31">//{{{ contentRemoved() method</jtok>
+<jtok eid="16" type="method_name" span="243:14:243:28">contentRemoved</jtok>
+<jtok eid="16" type="parameter_name" span="243:33:243:42">startLine</jtok>
+<jtok eid="16" type="parameter_name" span="243:48:243:54">offset</jtok>
+<jtok eid="16" type="parameter_name" span="244:7:244:15">numLines</jtok>
+<jtok eid="16" type="parameter_name" span="244:21:244:27">length</jtok>
+<jtok eid="16" type="local_variable_name" span="246:7:246:14">endLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="246:17:246:26">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="246:29:246:37">numLines</jtok>
+<jtok eid="16" type="line_comment" span="248:3:248:49">//{{{ Update line info and line context arrays</jtok>
+<jtok eid="16" type="primary_name_ref" span="249:6:249:14">numLines</jtok>
+<jtok eid="16" type="line_comment" span="251:4:251:37">//moveGap(-1,0,"contentRemoved");</jtok>
+<jtok eid="16" type="primary_name_ref" span="253:7:253:16">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="253:19:253:27">numLines</jtok>
+<jtok eid="16" type="primary_name_ref" span="253:30:253:37">gapLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="254:5:254:12">gapLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="254:16:254:24">numLines</jtok>
+<jtok eid="16" type="primary_name_ref" span="255:12:255:21">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="255:24:255:31">gapLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="256:5:256:12">gapLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="256:15:256:24">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:7:258:16">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:19:258:27">numLines</jtok>
+<jtok eid="16" type="primary_name_ref" span="258:30:258:53">firstInvalidLineContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="259:5:259:28">firstInvalidLineContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="259:32:259:40">numLines</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:12:260:21">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="260:24:260:47">firstInvalidLineContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="261:5:261:28">firstInvalidLineContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="261:31:261:40">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:4:263:13">lineCount</jtok>
+<jtok eid="16" type="primary_name_ref" span="263:17:263:25">numLines</jtok>
+<jtok eid="16" type="primary_name_ref" span="265:4:265:10">System</jtok>
+<jtok eid="16" type="method_call" span="265:11:265:20">arraycopy</jtok>
+<jtok eid="16" type="primary_name_ref" span="265:21:265:31">endOffsets</jtok>
+<jtok eid="16" type="primary_name_ref" span="265:32:265:39">endLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="265:40:265:50">endOffsets</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:5:266:14">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:15:266:24">lineCount</jtok>
+<jtok eid="16" type="primary_name_ref" span="266:27:266:36">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="267:4:267:10">System</jtok>
+<jtok eid="16" type="method_call" span="267:11:267:20">arraycopy</jtok>
+<jtok eid="16" type="primary_name_ref" span="267:21:267:31">foldLevels</jtok>
+<jtok eid="16" type="primary_name_ref" span="267:32:267:39">endLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="267:40:267:50">foldLevels</jtok>
+<jtok eid="16" type="primary_name_ref" span="268:5:268:14">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="268:15:268:24">lineCount</jtok>
+<jtok eid="16" type="primary_name_ref" span="268:27:268:36">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="269:4:269:10">System</jtok>
+<jtok eid="16" type="method_call" span="269:11:269:20">arraycopy</jtok>
+<jtok eid="16" type="primary_name_ref" span="269:21:269:32">lineContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="269:33:269:40">endLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="269:41:269:52">lineContext</jtok>
+<jtok eid="16" type="primary_name_ref" span="270:5:270:14">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="270:15:270:24">lineCount</jtok>
+<jtok eid="16" type="primary_name_ref" span="270:27:270:36">startLine</jtok>
+<jtok eid="16" type="line_comment" span="271:5:271:10">//}}}</jtok>
+<jtok eid="16" type="primary_name_ref" span="273:6:273:27">firstInvalidFoldLevel</jtok>
+<jtok eid="16" type="primary_name_ref" span="273:37:273:58">firstInvalidFoldLevel</jtok>
+<jtok eid="16" type="primary_name_ref" span="273:61:273:70">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="274:4:274:25">firstInvalidFoldLevel</jtok>
+<jtok eid="16" type="primary_name_ref" span="274:28:274:37">startLine</jtok>
+<jtok eid="16" type="method_call" span="275:3:275:10">moveGap</jtok>
+<jtok eid="16" type="primary_name_ref" span="275:11:275:20">startLine</jtok>
+<jtok eid="16" type="primary_name_ref" span="275:22:275:28">length</jtok>
+<jtok eid="16" type="string_literal" span="275:29:275:45">"contentRemoved"</jtok>
+<jtok eid="1" type="line_comment" span="276:4:276:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="278:2:278:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="280:2:280:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="field_name" span="281:16:281:26">endOffsets</jtok>
+<jtok eid="1" type="field_name" span="282:18:282:28">foldLevels</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="283:10:283:21">TokenMarker</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="283:22:283:33">LineContext</jtok>
+<jtok eid="1" type="field_name" span="283:36:283:47">lineContext</jtok>
+<jtok eid="1" type="field_name" span="285:14:285:23">lineCount</jtok>
+<jtok eid="1" type="block_comment" span="287:2:291:5">/**
+	 * If -1, then there is no gap.
+	 * Otherwise, all lines from this line onwards need to have gapWidth
+	 * added to their end offsets.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="292:14:292:21">gapLine</jtok>
+<jtok eid="1" type="field_name" span="293:14:293:22">gapWidth</jtok>
+<jtok eid="1" type="block_comment" span="295:2:298:5">/**
+	 * If -1, all contexts are valid. Otherwise, all lines after this have
+	 * an invalid context.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="299:14:299:37">firstInvalidLineContext</jtok>
+<jtok eid="1" type="block_comment" span="301:2:304:5">/**
+	 * If -1, all fold levels are valid. Otherwise, all lines after this
+	 * have an invalid fold level.
+	 */</jtok>
+<jtok eid="1" type="field_name" span="305:14:305:35">firstInvalidFoldLevel</jtok>
+<jtok eid="1" type="line_comment" span="306:2:306:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="308:2:308:33">//{{{ setLineEndOffset() method</jtok>
+<jtok eid="17" type="method_name" span="309:21:309:37">setLineEndOffset</jtok>
+<jtok eid="17" type="parameter_name" span="309:42:309:46">line</jtok>
+<jtok eid="17" type="parameter_name" span="309:52:309:55">end</jtok>
+<jtok eid="17" type="primary_name_ref" span="311:3:311:13">endOffsets</jtok>
+<jtok eid="17" type="primary_name_ref" span="311:14:311:18">line</jtok>
+<jtok eid="17" type="primary_name_ref" span="311:22:311:25">end</jtok>
+<jtok eid="1" type="line_comment" span="312:4:312:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="314:2:314:24">//{{{ moveGap() method</jtok>
+<jtok eid="18" type="method_name" span="315:21:315:28">moveGap</jtok>
+<jtok eid="18" type="parameter_name" span="315:33:315:43">newGapLine</jtok>
+<jtok eid="18" type="parameter_name" span="315:49:315:60">newGapWidth</jtok>
+<jtok eid="18" type="parameter_type" span="315:62:315:68">String</jtok>
+<jtok eid="18" type="parameter_name" span="315:69:315:75">method</jtok>
+<jtok eid="18" type="primary_name_ref" span="317:6:317:13">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="318:4:318:12">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="318:15:318:26">newGapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="319:11:319:21">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="321:7:321:15">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="323:8:323:13">Debug</jtok>
+<jtok eid="18" type="qualified_name_ref" span="323:14:323:26">OFFSET_DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="323:30:323:37">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="323:41:323:50">lineCount</jtok>
+<jtok eid="18" type="primary_name_ref" span="324:6:324:9">Log</jtok>
+<jtok eid="18" type="method_call" span="324:10:324:13">log</jtok>
+<jtok eid="18" type="primary_name_ref" span="324:14:324:17">Log</jtok>
+<jtok eid="18" type="qualified_name_ref" span="324:18:324:23">DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="324:29:324:35">method</jtok>
+<jtok eid="18" type="string_literal" span="324:38:324:54">": update from "</jtok>
+<jtok eid="18" type="primary_name_ref" span="324:57:324:64">gapLine</jtok>
+<jtok eid="18" type="string_literal" span="324:67:324:73">" to "</jtok>
+<jtok eid="18" type="primary_name_ref" span="324:76:324:85">lineCount</jtok>
+<jtok eid="18" type="string_literal" span="324:88:324:97">" width "</jtok>
+<jtok eid="18" type="primary_name_ref" span="324:100:324:108">gapWidth</jtok>
+<jtok eid="18" type="local_variable_name" span="325:13:325:14">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="325:17:325:24">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="325:26:325:27">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="325:30:325:39">lineCount</jtok>
+<jtok eid="18" type="primary_name_ref" span="325:41:325:42">i</jtok>
+<jtok eid="18" type="method_call" span="326:6:326:22">setLineEndOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="326:23:326:24">i</jtok>
+<jtok eid="18" type="method_call" span="326:25:326:41">getLineEndOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="326:42:326:43">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="329:4:329:12">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="329:15:329:26">newGapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="331:11:331:21">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="331:24:331:31">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="333:7:333:15">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="335:8:335:13">Debug</jtok>
+<jtok eid="18" type="qualified_name_ref" span="335:14:335:26">OFFSET_DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="335:30:335:40">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="335:44:335:51">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:6:336:9">Log</jtok>
+<jtok eid="18" type="method_call" span="336:10:336:13">log</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:14:336:17">Log</jtok>
+<jtok eid="18" type="qualified_name_ref" span="336:18:336:23">DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:29:336:35">method</jtok>
+<jtok eid="18" type="string_literal" span="336:38:336:54">": update from "</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:57:336:67">newGapLine</jtok>
+<jtok eid="18" type="string_literal" span="336:70:336:76">" to "</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:79:336:86">gapLine</jtok>
+<jtok eid="18" type="string_literal" span="336:89:336:98">" width "</jtok>
+<jtok eid="18" type="primary_name_ref" span="336:101:336:109">gapWidth</jtok>
+<jtok eid="18" type="local_variable_name" span="337:13:337:14">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="337:17:337:27">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="337:29:337:30">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="337:33:337:40">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="337:42:337:43">i</jtok>
+<jtok eid="18" type="method_call" span="338:6:338:22">setLineEndOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="338:23:338:24">i</jtok>
+<jtok eid="18" type="method_call" span="338:25:338:41">getLineEndOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="338:42:338:43">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="338:47:338:55">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="340:4:340:12">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="340:16:340:27">newGapWidth</jtok>
+<jtok eid="18" type="line_comment" span="342:8:342:35">//if(newGapLine &gt;= gapLine)</jtok>
+<jtok eid="18" type="primary_name_ref" span="344:7:344:15">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="346:8:346:13">Debug</jtok>
+<jtok eid="18" type="qualified_name_ref" span="346:14:346:26">OFFSET_DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="346:30:346:37">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="346:41:346:51">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="347:6:347:9">Log</jtok>
+<jtok eid="18" type="method_call" span="347:10:347:13">log</jtok>
+<jtok eid="18" type="primary_name_ref" span="347:14:347:17">Log</jtok>
+<jtok eid="18" type="qualified_name_ref" span="347:18:347:23">DEBUG</jtok>
+<jtok eid="18" type="primary_name_ref" span="347:29:347:35">method</jtok>
+<jtok eid="18" type="string_literal" span="347:38:347:54">": update from "</jtok>
+<jtok eid="18" type="primary_name_ref" span="347:57:347:64">gapLine</jtok>
+<jtok eid="18" type="string_literal" span="347:67:347:73">" to "</jtok>
+<jtok eid="18" type="primary_name_ref" span="347:76:347:86">newGapLine</jtok>
+<jtok eid="18" type="string_literal" span="347:89:347:98">" width "</jtok>
+<jtok eid="18" type="primary_name_ref" span="347:101:347:109">gapWidth</jtok>
+<jtok eid="18" type="local_variable_name" span="348:13:348:14">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="348:17:348:24">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="348:26:348:27">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="348:30:348:40">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="348:42:348:43">i</jtok>
+<jtok eid="18" type="method_call" span="349:6:349:22">setLineEndOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="349:23:349:24">i</jtok>
+<jtok eid="18" type="method_call" span="349:25:349:41">getLineEndOffset</jtok>
+<jtok eid="18" type="primary_name_ref" span="349:42:349:43">i</jtok>
+<jtok eid="18" type="primary_name_ref" span="352:4:352:12">gapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="352:16:352:27">newGapWidth</jtok>
+<jtok eid="18" type="primary_name_ref" span="355:6:355:16">newGapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="355:20:355:29">lineCount</jtok>
+<jtok eid="18" type="primary_name_ref" span="356:4:356:11">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="358:4:358:11">gapLine</jtok>
+<jtok eid="18" type="primary_name_ref" span="358:14:358:24">newGapLine</jtok>
+<jtok eid="1" type="line_comment" span="359:4:359:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="361:2:361:7">//}}}</jtok>
+</jdoc>

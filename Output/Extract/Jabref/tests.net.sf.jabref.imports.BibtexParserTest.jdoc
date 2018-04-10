@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="tests.net.sf.jabref.imports.BibtexParserTest" jls="java5">
+<jent id="0" type="file" span="0:0:332:1">Source/jabref/src/java/tests/net/sf/jabref/imports/BibtexParserTest.java</jent>
+<jent id="1" pid="0" type="class" span="22:1:332:1">tests.net.sf.jabref.imports.BibtexParserTest</jent>
+<jent id="2" pid="1" type="method" span="24:2:38:2">tests.net.sf.jabref.imports.BibtexParserTest.testParseReader()</jent>
+<jent id="3" pid="1" type="method" span="40:2:47:2">tests.net.sf.jabref.imports.BibtexParserTest.testBibtexParser()</jent>
+<jent id="4" pid="1" type="method" span="49:2:98:2">tests.net.sf.jabref.imports.BibtexParserTest.testIsRecognizedFormat()</jent>
+<jent id="5" pid="1" type="method" span="100:2:122:2">tests.net.sf.jabref.imports.BibtexParserTest.testFromString()</jent>
+<jent id="6" pid="1" type="method" span="124:2:152:2">tests.net.sf.jabref.imports.BibtexParserTest.testFromSingle2()</jent>
+<jent id="7" pid="1" type="method" span="154:2:170:2">tests.net.sf.jabref.imports.BibtexParserTest.testFromStringSingle()</jent>
+<jent id="8" pid="1" type="method" span="172:2:190:2">tests.net.sf.jabref.imports.BibtexParserTest.testParse()</jent>
+<jent id="9" pid="1" type="method" span="192:2:214:2">tests.net.sf.jabref.imports.BibtexParserTest.testParse2()</jent>
+<jent id="10" pid="1" type="method" span="223:2:235:2">tests.net.sf.jabref.imports.BibtexParserTest.testBigNumbers()</jent>
+<jent id="11" pid="1" type="method" span="237:2:258:2">tests.net.sf.jabref.imports.BibtexParserTest.testBigNumbers2()</jent>
+<jent id="12" pid="1" type="method" span="260:2:283:2">tests.net.sf.jabref.imports.BibtexParserTest.testNewlineHandling()</jent>
+<jent id="13" pid="1" type="method" span="291:2:299:2">tests.net.sf.jabref.imports.BibtexParserTest.testFileNaming()</jent>
+<jent id="14" pid="1" type="method" span="307:2:315:2">tests.net.sf.jabref.imports.BibtexParserTest.testFileNaming1()</jent>
+<jent id="15" pid="1" type="method" span="323:2:331:2">tests.net.sf.jabref.imports.BibtexParserTest.testFileNaming3()</jent>
+<jtok eid="0" type="block_comment" span="15:1:21:4">/**
+ * Test the BibtexParser
+ * 
+ * @version $revision: 1.1$ $date: $
+ * 
+ * @author Christopher Oezbek &lt;oezi@oezi.de&gt;
+ */</jtok>
+<jtok eid="1" type="class_name" span="22:14:22:30">BibtexParserTest</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="22:39:22:47">TestCase</jtok>
+<jtok eid="2" type="method_name" span="24:14:24:29">testParseReader</jtok>
+<jtok eid="2" type="throws" span="24:39:24:50">IOException</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="26:3:26:15">ParserResult</jtok>
+<jtok eid="2" type="local_variable_name" span="26:16:26:22">result</jtok>
+<jtok eid="2" type="primary_name_ref" span="26:25:26:37">BibtexParser</jtok>
+<jtok eid="2" type="method_call" span="26:38:26:43">parse</jtok>
+<jtok eid="2" type="constructor_call" span="26:48:26:60">StringReader</jtok>
+<jtok eid="2" type="string_literal" span="27:4:27:41">"@article{test,author={Ed von Test}}"</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="29:3:29:13">Collection</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="29:14:29:25">BibtexEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="29:27:29:28">c</jtok>
+<jtok eid="2" type="primary_name_ref" span="29:31:29:37">result</jtok>
+<jtok eid="2" type="method_call" span="29:38:29:49">getDatabase</jtok>
+<jtok eid="2" type="method_call" span="29:52:29:62">getEntries</jtok>
+<jtok eid="2" type="method_call" span="30:3:30:15">assertEquals</jtok>
+<jtok eid="2" type="primary_name_ref" span="30:19:30:20">c</jtok>
+<jtok eid="2" type="method_call" span="30:21:30:25">size</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="32:3:32:14">BibtexEntry</jtok>
+<jtok eid="2" type="local_variable_name" span="32:15:32:16">e</jtok>
+<jtok eid="2" type="primary_name_ref" span="32:19:32:20">c</jtok>
+<jtok eid="2" type="method_call" span="32:21:32:29">iterator</jtok>
+<jtok eid="2" type="method_call" span="32:32:32:36">next</jtok>
+<jtok eid="2" type="method_call" span="33:3:33:15">assertEquals</jtok>
+<jtok eid="2" type="string_literal" span="33:16:33:22">"test"</jtok>
+<jtok eid="2" type="primary_name_ref" span="33:24:33:25">e</jtok>
+<jtok eid="2" type="method_call" span="33:26:33:36">getCiteKey</jtok>
+<jtok eid="2" type="method_call" span="34:3:34:15">assertEquals</jtok>
+<jtok eid="2" type="primary_name_ref" span="34:19:34:20">e</jtok>
+<jtok eid="2" type="method_call" span="34:21:34:33">getAllFields</jtok>
+<jtok eid="2" type="method_call" span="34:36:34:40">size</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="35:3:35:6">Set</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="35:7:35:13">String</jtok>
+<jtok eid="2" type="local_variable_name" span="35:15:35:16">o</jtok>
+<jtok eid="2" type="primary_name_ref" span="35:19:35:20">e</jtok>
+<jtok eid="2" type="method_call" span="35:21:35:33">getAllFields</jtok>
+<jtok eid="2" type="method_call" span="36:3:36:13">assertTrue</jtok>
+<jtok eid="2" type="primary_name_ref" span="36:14:36:15">o</jtok>
+<jtok eid="2" type="method_call" span="36:16:36:24">contains</jtok>
+<jtok eid="2" type="string_literal" span="36:25:36:33">"author"</jtok>
+<jtok eid="2" type="method_call" span="37:3:37:15">assertEquals</jtok>
+<jtok eid="2" type="string_literal" span="37:16:37:29">"Ed von Test"</jtok>
+<jtok eid="2" type="primary_name_ref" span="37:31:37:32">e</jtok>
+<jtok eid="2" type="method_call" span="37:33:37:41">getField</jtok>
+<jtok eid="2" type="string_literal" span="37:42:37:50">"author"</jtok>
+<jtok eid="3" type="method_name" span="40:14:40:30">testBibtexParser</jtok>
+<jtok eid="3" type="constructor_call" span="42:8:42:20">BibtexParser</jtok>
+<jtok eid="3" type="method_call" span="43:4:43:8">fail</jtok>
+<jtok eid="3" type="string_literal" span="43:9:43:34">"Should not accept null."</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="44:12:44:32">NullPointerException</jtok>
+<jtok eid="3" type="local_variable_name" span="44:33:44:36">npe</jtok>
+<jtok eid="4" type="method_name" span="49:14:49:36">testIsRecognizedFormat</jtok>
+<jtok eid="4" type="throws" span="49:46:49:57">IOException</jtok>
+<jtok eid="4" type="method_call" span="50:3:50:13">assertTrue</jtok>
+<jtok eid="4" type="primary_name_ref" span="50:14:50:26">BibtexParser</jtok>
+<jtok eid="4" type="method_call" span="51:5:51:23">isRecognizedFormat</jtok>
+<jtok eid="4" type="constructor_call" span="51:28:51:40">StringReader</jtok>
+<jtok eid="4" type="string_literal" span="52:5:52:52">"This file was created with JabRef 2.1 beta 2."</jtok>
+<jtok eid="4" type="string_literal" span="53:8:53:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="54:8:54:26">"Encoding: Cp1252"</jtok>
+<jtok eid="4" type="string_literal" span="55:8:55:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="56:8:56:10">""</jtok>
+<jtok eid="4" type="string_literal" span="57:8:57:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="58:8:58:37">"@INPROCEEDINGS{CroAnnHow05,"</jtok>
+<jtok eid="4" type="string_literal" span="59:8:59:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="60:8:60:83">"  author = {Crowston, K. and Annabi, H. and Howison, J. and Masango, C.},"</jtok>
+<jtok eid="4" type="string_literal" span="61:8:61:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="62:8:62:95">"  title = {Effective work practices for floss development: A model and propositions},"</jtok>
+<jtok eid="4" type="string_literal" span="63:8:63:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="64:8:64:85">"  booktitle = {Hawaii International Conference On System Sciences (HICSS)},"</jtok>
+<jtok eid="4" type="string_literal" span="65:8:65:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="65:15:65:33">"  year = {2005},"</jtok>
+<jtok eid="4" type="string_literal" span="65:36:65:40">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="65:43:65:64">"  owner = {oezbek},"</jtok>
+<jtok eid="4" type="string_literal" span="65:67:65:71">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="66:8:66:37">"  timestamp = {2006.05.29},"</jtok>
+<jtok eid="4" type="string_literal" span="66:40:66:44">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="67:8:67:63">"  url = {http://james.howison.name/publications.html}"</jtok>
+<jtok eid="4" type="string_literal" span="67:66:67:70">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="67:73:67:78">"}))"</jtok>
+<jtok eid="4" type="method_call" span="69:3:69:13">assertTrue</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:14:69:26">BibtexParser</jtok>
+<jtok eid="4" type="method_call" span="69:27:69:45">isRecognizedFormat</jtok>
+<jtok eid="4" type="constructor_call" span="69:50:69:62">StringReader</jtok>
+<jtok eid="4" type="string_literal" span="70:4:70:51">"This file was created with JabRef 2.1 beta 2."</jtok>
+<jtok eid="4" type="string_literal" span="70:54:70:58">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="70:61:70:79">"Encoding: Cp1252"</jtok>
+<jtok eid="4" type="string_literal" span="70:82:70:86">"\n"</jtok>
+<jtok eid="4" type="method_call" span="72:3:72:13">assertTrue</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:14:72:26">BibtexParser</jtok>
+<jtok eid="4" type="method_call" span="73:5:73:23">isRecognizedFormat</jtok>
+<jtok eid="4" type="constructor_call" span="73:28:73:40">StringReader</jtok>
+<jtok eid="4" type="string_literal" span="74:5:74:34">"@INPROCEEDINGS{CroAnnHow05,"</jtok>
+<jtok eid="4" type="string_literal" span="75:8:75:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="76:8:76:83">"  author = {Crowston, K. and Annabi, H. and Howison, J. and Masango, C.},"</jtok>
+<jtok eid="4" type="string_literal" span="77:8:77:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="78:8:78:95">"  title = {Effective work practices for floss development: A model and propositions},"</jtok>
+<jtok eid="4" type="string_literal" span="79:8:79:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="80:8:80:85">"  booktitle = {Hawaii International Conference On System Sciences (HICSS)},"</jtok>
+<jtok eid="4" type="string_literal" span="81:8:81:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="81:15:81:33">"  year = {2005},"</jtok>
+<jtok eid="4" type="string_literal" span="81:36:81:40">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="81:43:81:64">"  owner = {oezbek},"</jtok>
+<jtok eid="4" type="string_literal" span="81:67:81:71">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="82:8:82:37">"  timestamp = {2006.05.29},"</jtok>
+<jtok eid="4" type="string_literal" span="82:40:82:44">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="83:8:83:63">"  url = {http://james.howison.name/publications.html}"</jtok>
+<jtok eid="4" type="string_literal" span="83:66:83:70">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="83:73:83:78">"}))"</jtok>
+<jtok eid="4" type="method_call" span="85:3:85:14">assertFalse</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:15:85:27">BibtexParser</jtok>
+<jtok eid="4" type="method_call" span="86:5:86:23">isRecognizedFormat</jtok>
+<jtok eid="4" type="constructor_call" span="86:28:86:40">StringReader</jtok>
+<jtok eid="4" type="string_literal" span="87:5:87:80">"  author = {Crowston, K. and Annabi, H. and Howison, J. and Masango, C.},"</jtok>
+<jtok eid="4" type="string_literal" span="88:8:88:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="89:8:89:95">"  title = {Effective work practices for floss development: A model and propositions},"</jtok>
+<jtok eid="4" type="string_literal" span="90:8:90:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="91:8:91:85">"  booktitle = {Hawaii International Conference On System Sciences (HICSS)},"</jtok>
+<jtok eid="4" type="string_literal" span="92:8:92:12">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="92:15:92:33">"  year = {2005},"</jtok>
+<jtok eid="4" type="string_literal" span="92:36:92:40">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="92:43:92:64">"  owner = {oezbek},"</jtok>
+<jtok eid="4" type="string_literal" span="92:67:92:71">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="93:8:93:37">"  timestamp = {2006.05.29},"</jtok>
+<jtok eid="4" type="string_literal" span="93:40:93:44">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="94:8:94:63">"  url = {http://james.howison.name/publications.html}"</jtok>
+<jtok eid="4" type="string_literal" span="94:66:94:70">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="94:73:94:78">"}))"</jtok>
+<jtok eid="4" type="method_call" span="96:3:96:14">assertFalse</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:15:96:27">BibtexParser</jtok>
+<jtok eid="4" type="method_call" span="96:28:96:46">isRecognizedFormat</jtok>
+<jtok eid="4" type="constructor_call" span="96:51:96:63">StringReader</jtok>
+<jtok eid="4" type="string_literal" span="97:4:97:46">"This was created with JabRef 2.1 beta 2."</jtok>
+<jtok eid="4" type="string_literal" span="97:49:97:53">"\n"</jtok>
+<jtok eid="4" type="string_literal" span="97:56:97:74">"Encoding: Cp1252"</jtok>
+<jtok eid="4" type="string_literal" span="97:77:97:81">"\n"</jtok>
+<jtok eid="5" type="method_name" span="100:14:100:28">testFromString</jtok>
+<jtok eid="5" type="throws" span="100:38:100:47">Exception</jtok>
+<jtok eid="5" type="line_comment" span="102:5:102:19">// Simple case</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="103:4:103:14">Collection</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="103:15:103:26">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="103:28:103:29">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="103:32:103:44">BibtexParser</jtok>
+<jtok eid="5" type="method_call" span="103:45:103:55">fromString</jtok>
+<jtok eid="5" type="string_literal" span="103:56:103:93">"@article{test,author={Ed von Test}}"</jtok>
+<jtok eid="5" type="method_call" span="104:4:104:16">assertEquals</jtok>
+<jtok eid="5" type="primary_name_ref" span="104:20:104:21">c</jtok>
+<jtok eid="5" type="method_call" span="104:22:104:26">size</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="106:4:106:15">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="106:16:106:17">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="106:20:106:21">c</jtok>
+<jtok eid="5" type="method_call" span="106:22:106:30">iterator</jtok>
+<jtok eid="5" type="method_call" span="106:33:106:37">next</jtok>
+<jtok eid="5" type="method_call" span="107:4:107:16">assertEquals</jtok>
+<jtok eid="5" type="string_literal" span="107:17:107:23">"test"</jtok>
+<jtok eid="5" type="primary_name_ref" span="107:25:107:26">e</jtok>
+<jtok eid="5" type="method_call" span="107:27:107:37">getCiteKey</jtok>
+<jtok eid="5" type="method_call" span="108:4:108:16">assertEquals</jtok>
+<jtok eid="5" type="primary_name_ref" span="108:20:108:21">e</jtok>
+<jtok eid="5" type="method_call" span="108:22:108:34">getAllFields</jtok>
+<jtok eid="5" type="method_call" span="108:37:108:41">size</jtok>
+<jtok eid="5" type="method_call" span="109:4:109:14">assertTrue</jtok>
+<jtok eid="5" type="primary_name_ref" span="109:15:109:16">e</jtok>
+<jtok eid="5" type="method_call" span="109:17:109:29">getAllFields</jtok>
+<jtok eid="5" type="method_call" span="109:32:109:40">contains</jtok>
+<jtok eid="5" type="string_literal" span="109:41:109:49">"author"</jtok>
+<jtok eid="5" type="method_call" span="110:4:110:16">assertEquals</jtok>
+<jtok eid="5" type="string_literal" span="110:17:110:30">"Ed von Test"</jtok>
+<jtok eid="5" type="primary_name_ref" span="110:32:110:33">e</jtok>
+<jtok eid="5" type="method_call" span="110:34:110:42">getField</jtok>
+<jtok eid="5" type="string_literal" span="110:43:110:51">"author"</jtok>
+<jtok eid="5" type="line_comment" span="112:5:112:20">// Empty String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="113:4:113:14">Collection</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="113:15:113:26">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="113:28:113:29">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="113:32:113:44">BibtexParser</jtok>
+<jtok eid="5" type="method_call" span="113:45:113:55">fromString</jtok>
+<jtok eid="5" type="string_literal" span="113:56:113:58">""</jtok>
+<jtok eid="5" type="method_call" span="114:4:114:16">assertEquals</jtok>
+<jtok eid="5" type="primary_name_ref" span="114:20:114:21">c</jtok>
+<jtok eid="5" type="method_call" span="114:22:114:26">size</jtok>
+<jtok eid="5" type="line_comment" span="117:5:117:13">// Error</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="118:4:118:14">Collection</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="118:15:118:26">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="118:28:118:29">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="118:32:118:44">BibtexParser</jtok>
+<jtok eid="5" type="method_call" span="118:45:118:55">fromString</jtok>
+<jtok eid="5" type="string_literal" span="118:56:118:76">"@@article@@{{{{{{}"</jtok>
+<jtok eid="5" type="method_call" span="119:4:119:16">assertEquals</jtok>
+<jtok eid="5" type="primary_name_ref" span="119:23:119:24">c</jtok>
+<jtok eid="6" type="method_name" span="124:14:124:29">testFromSingle2</jtok>
+<jtok eid="6" type="block_comment" span="125:3:127:6">/**
+		 * More
+		 */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="128:3:128:13">Collection</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="128:14:128:25">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="128:27:128:28">c</jtok>
+<jtok eid="6" type="primary_name_ref" span="128:31:128:43">BibtexParser</jtok>
+<jtok eid="6" type="method_call" span="128:44:128:54">fromString</jtok>
+<jtok eid="6" type="string_literal" span="128:55:128:73">"@article{canh05,"</jtok>
+<jtok eid="6" type="string_literal" span="129:6:129:51">"  author = {Crowston, K. and Annabi, H.},\n"</jtok>
+<jtok eid="6" type="string_literal" span="129:54:129:78">"  title = {Title A}}\n"</jtok>
+<jtok eid="6" type="string_literal" span="130:6:130:27">"@inProceedings{foo,"</jtok>
+<jtok eid="6" type="string_literal" span="130:30:130:54">"  author={Norton Bar}}"</jtok>
+<jtok eid="6" type="method_call" span="132:3:132:15">assertEquals</jtok>
+<jtok eid="6" type="primary_name_ref" span="132:19:132:20">c</jtok>
+<jtok eid="6" type="method_call" span="132:21:132:25">size</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="134:3:134:11">Iterator</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="134:12:134:23">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="134:25:134:26">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="134:29:134:30">c</jtok>
+<jtok eid="6" type="method_call" span="134:31:134:39">iterator</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="135:3:135:14">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="135:15:135:16">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="135:19:135:20">i</jtok>
+<jtok eid="6" type="method_call" span="135:21:135:25">next</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="136:3:136:14">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="136:15:136:16">b</jtok>
+<jtok eid="6" type="primary_name_ref" span="136:19:136:20">i</jtok>
+<jtok eid="6" type="method_call" span="136:21:136:25">next</jtok>
+<jtok eid="6" type="primary_name_ref" span="138:7:138:8">a</jtok>
+<jtok eid="6" type="method_call" span="138:9:138:19">getCiteKey</jtok>
+<jtok eid="6" type="method_call" span="138:22:138:28">equals</jtok>
+<jtok eid="6" type="string_literal" span="138:29:138:34">"foo"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="139:4:139:15">BibtexEntry</jtok>
+<jtok eid="6" type="local_variable_name" span="139:16:139:19">tmp</jtok>
+<jtok eid="6" type="primary_name_ref" span="139:22:139:23">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="140:4:140:5">a</jtok>
+<jtok eid="6" type="primary_name_ref" span="140:8:140:9">b</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:4:141:5">b</jtok>
+<jtok eid="6" type="primary_name_ref" span="141:8:141:11">tmp</jtok>
+<jtok eid="6" type="method_call" span="144:3:144:15">assertEquals</jtok>
+<jtok eid="6" type="string_literal" span="144:16:144:24">"canh05"</jtok>
+<jtok eid="6" type="primary_name_ref" span="144:26:144:27">a</jtok>
+<jtok eid="6" type="method_call" span="144:28:144:38">getCiteKey</jtok>
+<jtok eid="6" type="method_call" span="145:3:145:15">assertEquals</jtok>
+<jtok eid="6" type="string_literal" span="145:16:145:45">"Crowston, K. and Annabi, H."</jtok>
+<jtok eid="6" type="primary_name_ref" span="145:47:145:48">a</jtok>
+<jtok eid="6" type="method_call" span="145:49:145:57">getField</jtok>
+<jtok eid="6" type="string_literal" span="145:58:145:66">"author"</jtok>
+<jtok eid="6" type="method_call" span="146:3:146:15">assertEquals</jtok>
+<jtok eid="6" type="string_literal" span="146:16:146:25">"Title A"</jtok>
+<jtok eid="6" type="primary_name_ref" span="146:27:146:28">a</jtok>
+<jtok eid="6" type="method_call" span="146:29:146:37">getField</jtok>
+<jtok eid="6" type="string_literal" span="146:38:146:45">"title"</jtok>
+<jtok eid="6" type="method_call" span="147:3:147:15">assertEquals</jtok>
+<jtok eid="6" type="primary_name_ref" span="147:16:147:31">BibtexEntryType</jtok>
+<jtok eid="6" type="qualified_name_ref" span="147:32:147:39">ARTICLE</jtok>
+<jtok eid="6" type="primary_name_ref" span="147:41:147:42">a</jtok>
+<jtok eid="6" type="method_call" span="147:43:147:50">getType</jtok>
+<jtok eid="6" type="method_call" span="149:3:149:15">assertEquals</jtok>
+<jtok eid="6" type="string_literal" span="149:16:149:21">"foo"</jtok>
+<jtok eid="6" type="primary_name_ref" span="149:23:149:24">b</jtok>
+<jtok eid="6" type="method_call" span="149:25:149:35">getCiteKey</jtok>
+<jtok eid="6" type="method_call" span="150:3:150:15">assertEquals</jtok>
+<jtok eid="6" type="string_literal" span="150:16:150:28">"Norton Bar"</jtok>
+<jtok eid="6" type="primary_name_ref" span="150:30:150:31">b</jtok>
+<jtok eid="6" type="method_call" span="150:32:150:40">getField</jtok>
+<jtok eid="6" type="string_literal" span="150:41:150:49">"author"</jtok>
+<jtok eid="6" type="method_call" span="151:3:151:15">assertEquals</jtok>
+<jtok eid="6" type="primary_name_ref" span="151:16:151:31">BibtexEntryType</jtok>
+<jtok eid="6" type="qualified_name_ref" span="151:32:151:45">INPROCEEDINGS</jtok>
+<jtok eid="6" type="primary_name_ref" span="151:47:151:48">b</jtok>
+<jtok eid="6" type="method_call" span="151:49:151:56">getType</jtok>
+<jtok eid="7" type="method_name" span="154:14:154:34">testFromStringSingle</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="155:3:155:14">BibtexEntry</jtok>
+<jtok eid="7" type="local_variable_name" span="155:15:155:16">a</jtok>
+<jtok eid="7" type="primary_name_ref" span="155:19:155:31">BibtexParser</jtok>
+<jtok eid="7" type="method_call" span="155:32:155:48">singleFromString</jtok>
+<jtok eid="7" type="string_literal" span="155:49:155:67">"@article{canh05,"</jtok>
+<jtok eid="7" type="string_literal" span="156:6:156:51">"  author = {Crowston, K. and Annabi, H.},\n"</jtok>
+<jtok eid="7" type="string_literal" span="156:54:156:78">"  title = {Title A}}\n"</jtok>
+<jtok eid="7" type="method_call" span="158:3:158:15">assertEquals</jtok>
+<jtok eid="7" type="string_literal" span="158:16:158:24">"canh05"</jtok>
+<jtok eid="7" type="primary_name_ref" span="158:26:158:27">a</jtok>
+<jtok eid="7" type="method_call" span="158:28:158:38">getCiteKey</jtok>
+<jtok eid="7" type="method_call" span="159:3:159:15">assertEquals</jtok>
+<jtok eid="7" type="string_literal" span="159:16:159:45">"Crowston, K. and Annabi, H."</jtok>
+<jtok eid="7" type="primary_name_ref" span="159:47:159:48">a</jtok>
+<jtok eid="7" type="method_call" span="159:49:159:57">getField</jtok>
+<jtok eid="7" type="string_literal" span="159:58:159:66">"author"</jtok>
+<jtok eid="7" type="method_call" span="160:3:160:15">assertEquals</jtok>
+<jtok eid="7" type="string_literal" span="160:16:160:25">"Title A"</jtok>
+<jtok eid="7" type="primary_name_ref" span="160:27:160:28">a</jtok>
+<jtok eid="7" type="method_call" span="160:29:160:37">getField</jtok>
+<jtok eid="7" type="string_literal" span="160:38:160:45">"title"</jtok>
+<jtok eid="7" type="method_call" span="161:3:161:15">assertEquals</jtok>
+<jtok eid="7" type="primary_name_ref" span="161:16:161:31">BibtexEntryType</jtok>
+<jtok eid="7" type="qualified_name_ref" span="161:32:161:39">ARTICLE</jtok>
+<jtok eid="7" type="primary_name_ref" span="161:41:161:42">a</jtok>
+<jtok eid="7" type="method_call" span="161:43:161:50">getType</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="163:3:163:14">BibtexEntry</jtok>
+<jtok eid="7" type="local_variable_name" span="163:15:163:16">b</jtok>
+<jtok eid="7" type="primary_name_ref" span="163:19:163:31">BibtexParser</jtok>
+<jtok eid="7" type="method_call" span="163:32:163:48">singleFromString</jtok>
+<jtok eid="7" type="string_literal" span="163:49:163:67">"@article{canh05,"</jtok>
+<jtok eid="7" type="string_literal" span="164:6:164:51">"  author = {Crowston, K. and Annabi, H.},\n"</jtok>
+<jtok eid="7" type="string_literal" span="164:54:164:78">"  title = {Title A}}\n"</jtok>
+<jtok eid="7" type="string_literal" span="165:6:165:27">"@inProceedings{foo,"</jtok>
+<jtok eid="7" type="string_literal" span="165:30:165:54">"  author={Norton Bar}}"</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:9:167:10">b</jtok>
+<jtok eid="7" type="method_call" span="167:11:167:21">getCiteKey</jtok>
+<jtok eid="7" type="method_call" span="167:24:167:30">equals</jtok>
+<jtok eid="7" type="string_literal" span="167:31:167:39">"canh05"</jtok>
+<jtok eid="7" type="primary_name_ref" span="167:44:167:45">b</jtok>
+<jtok eid="7" type="method_call" span="167:46:167:56">getCiteKey</jtok>
+<jtok eid="7" type="method_call" span="167:59:167:65">equals</jtok>
+<jtok eid="7" type="string_literal" span="167:66:167:71">"foo"</jtok>
+<jtok eid="7" type="method_call" span="168:4:168:8">fail</jtok>
+<jtok eid="8" type="method_name" span="172:14:172:23">testParse</jtok>
+<jtok eid="8" type="throws" span="172:33:172:44">IOException</jtok>
+<jtok eid="8" type="line_comment" span="174:3:174:27">// Test Standard parsing</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="175:3:175:15">BibtexParser</jtok>
+<jtok eid="8" type="local_variable_name" span="175:16:175:22">parser</jtok>
+<jtok eid="8" type="constructor_call" span="175:29:175:41">BibtexParser</jtok>
+<jtok eid="8" type="constructor_call" span="175:46:175:58">StringReader</jtok>
+<jtok eid="8" type="string_literal" span="176:4:176:41">"@article{test,author={Ed von Test}}"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="177:3:177:15">ParserResult</jtok>
+<jtok eid="8" type="local_variable_name" span="177:16:177:22">result</jtok>
+<jtok eid="8" type="primary_name_ref" span="177:25:177:31">parser</jtok>
+<jtok eid="8" type="method_call" span="177:32:177:37">parse</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="179:3:179:13">Collection</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="179:14:179:25">BibtexEntry</jtok>
+<jtok eid="8" type="local_variable_name" span="179:27:179:28">c</jtok>
+<jtok eid="8" type="primary_name_ref" span="179:31:179:37">result</jtok>
+<jtok eid="8" type="method_call" span="179:38:179:49">getDatabase</jtok>
+<jtok eid="8" type="method_call" span="179:52:179:62">getEntries</jtok>
+<jtok eid="8" type="method_call" span="180:3:180:15">assertEquals</jtok>
+<jtok eid="8" type="primary_name_ref" span="180:19:180:20">c</jtok>
+<jtok eid="8" type="method_call" span="180:21:180:25">size</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="182:3:182:14">BibtexEntry</jtok>
+<jtok eid="8" type="local_variable_name" span="182:15:182:16">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="182:19:182:20">c</jtok>
+<jtok eid="8" type="method_call" span="182:21:182:29">iterator</jtok>
+<jtok eid="8" type="method_call" span="182:32:182:36">next</jtok>
+<jtok eid="8" type="method_call" span="183:3:183:15">assertEquals</jtok>
+<jtok eid="8" type="string_literal" span="183:16:183:22">"test"</jtok>
+<jtok eid="8" type="primary_name_ref" span="183:24:183:25">e</jtok>
+<jtok eid="8" type="method_call" span="183:26:183:36">getCiteKey</jtok>
+<jtok eid="8" type="method_call" span="184:3:184:15">assertEquals</jtok>
+<jtok eid="8" type="primary_name_ref" span="184:19:184:20">e</jtok>
+<jtok eid="8" type="method_call" span="184:21:184:33">getAllFields</jtok>
+<jtok eid="8" type="method_call" span="184:36:184:40">size</jtok>
+<jtok eid="8" type="method_call" span="185:3:185:13">assertTrue</jtok>
+<jtok eid="8" type="primary_name_ref" span="185:14:185:15">e</jtok>
+<jtok eid="8" type="method_call" span="185:16:185:28">getAllFields</jtok>
+<jtok eid="8" type="method_call" span="185:31:185:39">contains</jtok>
+<jtok eid="8" type="string_literal" span="185:40:185:48">"author"</jtok>
+<jtok eid="8" type="method_call" span="186:3:186:15">assertEquals</jtok>
+<jtok eid="8" type="string_literal" span="186:16:186:29">"Ed von Test"</jtok>
+<jtok eid="8" type="primary_name_ref" span="186:31:186:32">e</jtok>
+<jtok eid="8" type="method_call" span="186:33:186:41">getField</jtok>
+<jtok eid="8" type="string_literal" span="186:42:186:50">"author"</jtok>
+<jtok eid="8" type="line_comment" span="188:3:188:53">// Calling parse again will return the same result</jtok>
+<jtok eid="8" type="method_call" span="189:3:189:15">assertEquals</jtok>
+<jtok eid="8" type="primary_name_ref" span="189:16:189:22">result</jtok>
+<jtok eid="8" type="primary_name_ref" span="189:24:189:30">parser</jtok>
+<jtok eid="8" type="method_call" span="189:31:189:36">parse</jtok>
+<jtok eid="9" type="method_name" span="192:14:192:24">testParse2</jtok>
+<jtok eid="9" type="throws" span="192:34:192:45">IOException</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="194:3:194:15">BibtexParser</jtok>
+<jtok eid="9" type="local_variable_name" span="194:16:194:22">parser</jtok>
+<jtok eid="9" type="constructor_call" span="194:29:194:41">BibtexParser</jtok>
+<jtok eid="9" type="constructor_call" span="194:46:194:58">StringReader</jtok>
+<jtok eid="9" type="string_literal" span="195:4:195:41">"@article{test,author={Ed von Test}}"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="196:3:196:15">ParserResult</jtok>
+<jtok eid="9" type="local_variable_name" span="196:16:196:22">result</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:25:196:31">parser</jtok>
+<jtok eid="9" type="method_call" span="196:32:196:37">parse</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="198:3:198:14">BibtexEntry</jtok>
+<jtok eid="9" type="local_variable_name" span="198:15:198:16">e</jtok>
+<jtok eid="9" type="constructor_call" span="198:23:198:34">BibtexEntry</jtok>
+<jtok eid="9" type="string_literal" span="198:35:198:37">""</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:39:198:54">BibtexEntryType</jtok>
+<jtok eid="9" type="qualified_name_ref" span="198:55:198:62">ARTICLE</jtok>
+<jtok eid="9" type="primary_name_ref" span="199:3:199:4">e</jtok>
+<jtok eid="9" type="method_call" span="199:5:199:13">setField</jtok>
+<jtok eid="9" type="string_literal" span="199:14:199:22">"author"</jtok>
+<jtok eid="9" type="string_literal" span="199:24:199:37">"Ed von Test"</jtok>
+<jtok eid="9" type="primary_name_ref" span="200:3:200:4">e</jtok>
+<jtok eid="9" type="method_call" span="200:5:200:13">setField</jtok>
+<jtok eid="9" type="string_literal" span="200:14:200:25">"bibtexkey"</jtok>
+<jtok eid="9" type="string_literal" span="200:27:200:33">"test"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="202:3:202:13">Collection</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="202:14:202:25">BibtexEntry</jtok>
+<jtok eid="9" type="local_variable_name" span="202:27:202:28">c</jtok>
+<jtok eid="9" type="primary_name_ref" span="202:31:202:37">result</jtok>
+<jtok eid="9" type="method_call" span="202:38:202:49">getDatabase</jtok>
+<jtok eid="9" type="method_call" span="202:52:202:62">getEntries</jtok>
+<jtok eid="9" type="method_call" span="203:3:203:15">assertEquals</jtok>
+<jtok eid="9" type="primary_name_ref" span="203:19:203:20">c</jtok>
+<jtok eid="9" type="method_call" span="203:21:203:25">size</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="205:3:205:14">BibtexEntry</jtok>
+<jtok eid="9" type="local_variable_name" span="205:15:205:17">e2</jtok>
+<jtok eid="9" type="primary_name_ref" span="205:20:205:21">c</jtok>
+<jtok eid="9" type="method_call" span="205:22:205:30">iterator</jtok>
+<jtok eid="9" type="method_call" span="205:33:205:37">next</jtok>
+<jtok eid="9" type="method_call" span="207:3:207:16">assertNotSame</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:17:207:18">e</jtok>
+<jtok eid="9" type="method_call" span="207:19:207:24">getId</jtok>
+<jtok eid="9" type="primary_name_ref" span="207:28:207:30">e2</jtok>
+<jtok eid="9" type="method_call" span="207:31:207:36">getId</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="209:8:209:14">String</jtok>
+<jtok eid="9" type="local_variable_name" span="209:15:209:20">field</jtok>
+<jtok eid="9" type="primary_name_ref" span="209:23:209:24">e</jtok>
+<jtok eid="9" type="method_call" span="209:25:209:37">getAllFields</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:9:210:10">e</jtok>
+<jtok eid="9" type="method_call" span="210:11:210:19">getField</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:20:210:25">field</jtok>
+<jtok eid="9" type="method_call" span="210:26:210:34">toString</jtok>
+<jtok eid="9" type="method_call" span="210:38:210:44">equals</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:45:210:47">e2</jtok>
+<jtok eid="9" type="method_call" span="210:48:210:56">getField</jtok>
+<jtok eid="9" type="primary_name_ref" span="210:57:210:62">field</jtok>
+<jtok eid="9" type="method_call" span="210:63:210:71">toString</jtok>
+<jtok eid="9" type="method_call" span="211:5:211:9">fail</jtok>
+<jtok eid="9" type="string_literal" span="211:10:211:37">"e and e2 differ in field "</jtok>
+<jtok eid="9" type="primary_name_ref" span="211:40:211:45">field</jtok>
+<jtok eid="9" type="method_call" span="211:46:211:54">toString</jtok>
+<jtok eid="1" type="block_comment" span="216:2:222:5">/**
+	 * Test for [ 1594123 ] Failure to import big numbers
+	 * 
+	 * Issue Reported by Ulf Martin.
+	 * 
+	 * @throws IOException
+	 */</jtok>
+<jtok eid="10" type="method_name" span="223:14:223:28">testBigNumbers</jtok>
+<jtok eid="10" type="throws" span="223:38:223:49">IOException</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="225:3:225:15">ParserResult</jtok>
+<jtok eid="10" type="local_variable_name" span="225:16:225:22">result</jtok>
+<jtok eid="10" type="primary_name_ref" span="225:25:225:37">BibtexParser</jtok>
+<jtok eid="10" type="method_call" span="225:38:225:43">parse</jtok>
+<jtok eid="10" type="constructor_call" span="225:48:225:60">StringReader</jtok>
+<jtok eid="10" type="string_literal" span="225:61:225:79">"@article{canh05,"</jtok>
+<jtok eid="10" type="string_literal" span="226:6:226:37">"isbn = 1234567890123456789,\n"</jtok>
+<jtok eid="10" type="string_literal" span="226:40:226:74">"isbn2 = {1234567890123456789},\n"</jtok>
+<jtok eid="10" type="string_literal" span="227:6:227:23">"small = 1234,\n"</jtok>
+<jtok eid="10" type="string_literal" span="227:26:227:29">"}"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="229:3:229:13">Collection</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="229:14:229:25">BibtexEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="229:27:229:28">c</jtok>
+<jtok eid="10" type="primary_name_ref" span="229:31:229:37">result</jtok>
+<jtok eid="10" type="method_call" span="229:38:229:49">getDatabase</jtok>
+<jtok eid="10" type="method_call" span="229:52:229:62">getEntries</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="230:3:230:14">BibtexEntry</jtok>
+<jtok eid="10" type="local_variable_name" span="230:15:230:16">e</jtok>
+<jtok eid="10" type="primary_name_ref" span="230:19:230:20">c</jtok>
+<jtok eid="10" type="method_call" span="230:21:230:29">iterator</jtok>
+<jtok eid="10" type="method_call" span="230:32:230:36">next</jtok>
+<jtok eid="10" type="method_call" span="232:3:232:15">assertEquals</jtok>
+<jtok eid="10" type="string_literal" span="232:16:232:37">"1234567890123456789"</jtok>
+<jtok eid="10" type="primary_name_ref" span="232:39:232:40">e</jtok>
+<jtok eid="10" type="method_call" span="232:41:232:49">getField</jtok>
+<jtok eid="10" type="string_literal" span="232:50:232:56">"isbn"</jtok>
+<jtok eid="10" type="method_call" span="233:3:233:15">assertEquals</jtok>
+<jtok eid="10" type="string_literal" span="233:16:233:37">"1234567890123456789"</jtok>
+<jtok eid="10" type="primary_name_ref" span="233:39:233:40">e</jtok>
+<jtok eid="10" type="method_call" span="233:41:233:49">getField</jtok>
+<jtok eid="10" type="string_literal" span="233:50:233:57">"isbn2"</jtok>
+<jtok eid="10" type="method_call" span="234:3:234:15">assertEquals</jtok>
+<jtok eid="10" type="string_literal" span="234:16:234:22">"1234"</jtok>
+<jtok eid="10" type="primary_name_ref" span="234:24:234:25">e</jtok>
+<jtok eid="10" type="method_call" span="234:26:234:34">getField</jtok>
+<jtok eid="10" type="string_literal" span="234:35:234:42">"small"</jtok>
+<jtok eid="11" type="method_name" span="237:14:237:29">testBigNumbers2</jtok>
+<jtok eid="11" type="throws" span="237:39:237:50">IOException</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="239:3:239:15">ParserResult</jtok>
+<jtok eid="11" type="local_variable_name" span="239:16:239:22">result</jtok>
+<jtok eid="11" type="primary_name_ref" span="239:25:239:37">BibtexParser</jtok>
+<jtok eid="11" type="method_call" span="239:38:239:43">parse</jtok>
+<jtok eid="11" type="constructor_call" span="239:48:239:60">StringReader</jtok>
+<jtok eid="11" type="string_literal" span="239:61:239:63">""</jtok>
+<jtok eid="11" type="string_literal" span="240:6:240:46">"@string{bourdieu = {Bourdieu, Pierre}}"</jtok>
+<jtok eid="11" type="string_literal" span="241:6:241:50">"@book{bourdieu-2002-questions-sociologie, "</jtok>
+<jtok eid="11" type="string_literal" span="241:53:241:74">"	Address = {Paris},"</jtok>
+<jtok eid="11" type="string_literal" span="242:6:242:27">"	Author = bourdieu,"</jtok>
+<jtok eid="11" type="string_literal" span="242:30:242:51">"	Isbn = 2707318256,"</jtok>
+<jtok eid="11" type="string_literal" span="242:54:242:78">"	Publisher = {Minuit},"</jtok>
+<jtok eid="11" type="string_literal" span="243:6:243:43">"	Title = {Questions de sociologie},"</jtok>
+<jtok eid="11" type="string_literal" span="243:46:243:60">"	Year = 2002"</jtok>
+<jtok eid="11" type="string_literal" span="243:63:243:66">"}"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="245:3:245:13">Collection</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="245:14:245:25">BibtexEntry</jtok>
+<jtok eid="11" type="local_variable_name" span="245:27:245:28">c</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:31:245:37">result</jtok>
+<jtok eid="11" type="method_call" span="245:38:245:49">getDatabase</jtok>
+<jtok eid="11" type="method_call" span="245:52:245:62">getEntries</jtok>
+<jtok eid="11" type="method_call" span="246:3:246:15">assertEquals</jtok>
+<jtok eid="11" type="primary_name_ref" span="246:19:246:20">c</jtok>
+<jtok eid="11" type="method_call" span="246:21:246:25">size</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="248:3:248:14">BibtexEntry</jtok>
+<jtok eid="11" type="local_variable_name" span="248:15:248:16">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="248:19:248:20">c</jtok>
+<jtok eid="11" type="method_call" span="248:21:248:29">iterator</jtok>
+<jtok eid="11" type="method_call" span="248:32:248:36">next</jtok>
+<jtok eid="11" type="method_call" span="250:3:250:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="250:16:250:52">"bourdieu-2002-questions-sociologie"</jtok>
+<jtok eid="11" type="primary_name_ref" span="250:54:250:55">e</jtok>
+<jtok eid="11" type="method_call" span="250:56:250:66">getCiteKey</jtok>
+<jtok eid="11" type="method_call" span="251:3:251:15">assertEquals</jtok>
+<jtok eid="11" type="primary_name_ref" span="251:16:251:31">BibtexEntryType</jtok>
+<jtok eid="11" type="qualified_name_ref" span="251:32:251:36">BOOK</jtok>
+<jtok eid="11" type="primary_name_ref" span="251:38:251:39">e</jtok>
+<jtok eid="11" type="method_call" span="251:40:251:47">getType</jtok>
+<jtok eid="11" type="method_call" span="252:3:252:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="252:16:252:28">"2707318256"</jtok>
+<jtok eid="11" type="primary_name_ref" span="252:30:252:31">e</jtok>
+<jtok eid="11" type="method_call" span="252:32:252:40">getField</jtok>
+<jtok eid="11" type="string_literal" span="252:41:252:47">"isbn"</jtok>
+<jtok eid="11" type="method_call" span="253:3:253:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="253:16:253:23">"Paris"</jtok>
+<jtok eid="11" type="primary_name_ref" span="253:25:253:26">e</jtok>
+<jtok eid="11" type="method_call" span="253:27:253:35">getField</jtok>
+<jtok eid="11" type="string_literal" span="253:36:253:45">"address"</jtok>
+<jtok eid="11" type="method_call" span="254:3:254:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="254:16:254:24">"Minuit"</jtok>
+<jtok eid="11" type="primary_name_ref" span="254:26:254:27">e</jtok>
+<jtok eid="11" type="method_call" span="254:28:254:36">getField</jtok>
+<jtok eid="11" type="string_literal" span="254:37:254:48">"publisher"</jtok>
+<jtok eid="11" type="method_call" span="255:3:255:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="255:16:255:41">"Questions de sociologie"</jtok>
+<jtok eid="11" type="primary_name_ref" span="255:43:255:44">e</jtok>
+<jtok eid="11" type="method_call" span="255:45:255:53">getField</jtok>
+<jtok eid="11" type="string_literal" span="255:54:255:61">"title"</jtok>
+<jtok eid="11" type="method_call" span="256:3:256:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="256:16:256:28">"#bourdieu#"</jtok>
+<jtok eid="11" type="primary_name_ref" span="256:30:256:31">e</jtok>
+<jtok eid="11" type="method_call" span="256:32:256:40">getField</jtok>
+<jtok eid="11" type="string_literal" span="256:41:256:49">"author"</jtok>
+<jtok eid="11" type="method_call" span="257:3:257:15">assertEquals</jtok>
+<jtok eid="11" type="string_literal" span="257:16:257:22">"2002"</jtok>
+<jtok eid="11" type="primary_name_ref" span="257:24:257:25">e</jtok>
+<jtok eid="11" type="method_call" span="257:26:257:34">getField</jtok>
+<jtok eid="11" type="string_literal" span="257:35:257:41">"year"</jtok>
+<jtok eid="12" type="method_name" span="260:14:260:33">testNewlineHandling</jtok>
+<jtok eid="12" type="throws" span="260:43:260:54">IOException</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="262:3:262:14">BibtexEntry</jtok>
+<jtok eid="12" type="local_variable_name" span="262:15:262:16">e</jtok>
+<jtok eid="12" type="primary_name_ref" span="262:19:262:31">BibtexParser</jtok>
+<jtok eid="12" type="method_call" span="262:32:262:48">singleFromString</jtok>
+<jtok eid="12" type="string_literal" span="262:49:262:67">"@article{canh05,"</jtok>
+<jtok eid="12" type="string_literal" span="263:5:263:18">"a = {a\nb},"</jtok>
+<jtok eid="12" type="string_literal" span="264:5:264:20">"b = {a\n\nb},"</jtok>
+<jtok eid="12" type="string_literal" span="265:5:265:21">"c = {a\n \nb},"</jtok>
+<jtok eid="12" type="string_literal" span="266:5:266:23">"d = {a \n \n b},"</jtok>
+<jtok eid="12" type="string_literal" span="267:6:267:91">"title = {\nHallo \nWorld \nthis \n is\n\nnot \n\nan \n\n exercise \n \n.\n \n\n},\n"</jtok>
+<jtok eid="12" type="string_literal" span="268:6:268:90">"tabs = {\nHallo \tWorld \tthis \t is\t\tnot \t\tan \t\n exercise \t \n.\t \n\t},\n"</jtok>
+<jtok eid="12" type="string_literal" span="269:6:269:57">"file = {Bemerkung:H:\\bla\\ups  sala.pdf:PDF}, \n"</jtok>
+<jtok eid="12" type="string_literal" span="270:6:270:9">"}"</jtok>
+<jtok eid="12" type="method_call" span="272:3:272:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="272:16:272:24">"canh05"</jtok>
+<jtok eid="12" type="primary_name_ref" span="272:26:272:27">e</jtok>
+<jtok eid="12" type="method_call" span="272:28:272:38">getCiteKey</jtok>
+<jtok eid="12" type="method_call" span="273:3:273:15">assertEquals</jtok>
+<jtok eid="12" type="primary_name_ref" span="273:16:273:31">BibtexEntryType</jtok>
+<jtok eid="12" type="qualified_name_ref" span="273:32:273:39">ARTICLE</jtok>
+<jtok eid="12" type="primary_name_ref" span="273:41:273:42">e</jtok>
+<jtok eid="12" type="method_call" span="273:43:273:50">getType</jtok>
+<jtok eid="12" type="method_call" span="275:3:275:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="275:16:275:21">"a b"</jtok>
+<jtok eid="12" type="primary_name_ref" span="275:23:275:24">e</jtok>
+<jtok eid="12" type="method_call" span="275:25:275:33">getField</jtok>
+<jtok eid="12" type="string_literal" span="275:34:275:37">"a"</jtok>
+<jtok eid="12" type="method_call" span="276:3:276:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="276:16:276:22">"a\nb"</jtok>
+<jtok eid="12" type="primary_name_ref" span="276:24:276:25">e</jtok>
+<jtok eid="12" type="method_call" span="276:26:276:34">getField</jtok>
+<jtok eid="12" type="string_literal" span="276:35:276:38">"b"</jtok>
+<jtok eid="12" type="method_call" span="277:3:277:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="277:16:277:21">"a b"</jtok>
+<jtok eid="12" type="primary_name_ref" span="277:23:277:24">e</jtok>
+<jtok eid="12" type="method_call" span="277:25:277:33">getField</jtok>
+<jtok eid="12" type="string_literal" span="277:34:277:37">"c"</jtok>
+<jtok eid="12" type="method_call" span="278:3:278:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="278:16:278:21">"a b"</jtok>
+<jtok eid="12" type="primary_name_ref" span="278:23:278:24">e</jtok>
+<jtok eid="12" type="method_call" span="278:25:278:33">getField</jtok>
+<jtok eid="12" type="string_literal" span="278:34:278:37">"d"</jtok>
+<jtok eid="12" type="line_comment" span="280:3:280:51">// I think the last \n is a bug in the parser...</jtok>
+<jtok eid="12" type="method_call" span="281:3:281:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="281:16:281:66">"Hallo World this is\nnot \nan \n exercise . \n\n"</jtok>
+<jtok eid="12" type="primary_name_ref" span="281:68:281:69">e</jtok>
+<jtok eid="12" type="method_call" span="281:70:281:78">getField</jtok>
+<jtok eid="12" type="string_literal" span="281:79:281:86">"title"</jtok>
+<jtok eid="12" type="method_call" span="282:3:282:15">assertEquals</jtok>
+<jtok eid="12" type="string_literal" span="282:16:282:55">"Hallo World this isnot an exercise . "</jtok>
+<jtok eid="12" type="primary_name_ref" span="282:57:282:58">e</jtok>
+<jtok eid="12" type="method_call" span="282:59:282:67">getField</jtok>
+<jtok eid="12" type="string_literal" span="282:68:282:74">"tabs"</jtok>
+<jtok eid="1" type="block_comment" span="285:2:290:5">/**
+	 * Test for [2022983]
+	 * 
+	 * @author Uwe Kuehn
+	 * @author Andrei Haralevich
+	 */</jtok>
+<jtok eid="13" type="method_name" span="291:14:291:28">testFileNaming</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="292:3:292:14">BibtexEntry</jtok>
+<jtok eid="13" type="local_variable_name" span="292:15:292:16">e</jtok>
+<jtok eid="13" type="primary_name_ref" span="292:19:292:31">BibtexParser</jtok>
+<jtok eid="13" type="method_call" span="292:32:292:48">singleFromString</jtok>
+<jtok eid="13" type="string_literal" span="292:49:292:67">"@article{canh05,"</jtok>
+<jtok eid="13" type="string_literal" span="293:6:293:91">"title = {\nHallo \nWorld \nthis \n is\n\nnot \n\nan \n\n exercise \n \n.\n \n\n},\n"</jtok>
+<jtok eid="13" type="string_literal" span="294:6:294:90">"tabs = {\nHallo \tWorld \tthis \t is\t\tnot \t\tan \t\n exercise \t \n.\t \n\t},\n"</jtok>
+<jtok eid="13" type="string_literal" span="295:6:295:57">"file = {Bemerkung:H:\\bla\\ups  sala.pdf:PDF}, \n"</jtok>
+<jtok eid="13" type="string_literal" span="296:6:296:9">"}"</jtok>
+<jtok eid="13" type="method_call" span="298:3:298:15">assertEquals</jtok>
+<jtok eid="13" type="string_literal" span="298:16:298:54">"Bemerkung:H:\\bla\\ups  sala.pdf:PDF"</jtok>
+<jtok eid="13" type="primary_name_ref" span="298:56:298:57">e</jtok>
+<jtok eid="13" type="method_call" span="298:58:298:66">getField</jtok>
+<jtok eid="13" type="string_literal" span="298:67:298:73">"file"</jtok>
+<jtok eid="1" type="block_comment" span="301:2:306:5">/**
+	 * Test for [2022983]
+	 * 
+	 * @author Uwe Kuehn
+	 * @author Andrei Haralevich
+	 */</jtok>
+<jtok eid="14" type="method_name" span="307:14:307:29">testFileNaming1</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="308:3:308:14">BibtexEntry</jtok>
+<jtok eid="14" type="local_variable_name" span="308:15:308:16">e</jtok>
+<jtok eid="14" type="primary_name_ref" span="308:19:308:31">BibtexParser</jtok>
+<jtok eid="14" type="method_call" span="308:32:308:48">singleFromString</jtok>
+<jtok eid="14" type="string_literal" span="308:49:308:67">"@article{canh05,"</jtok>
+<jtok eid="14" type="string_literal" span="309:6:309:91">"title = {\nHallo \nWorld \nthis \n is\n\nnot \n\nan \n\n exercise \n \n.\n \n\n},\n"</jtok>
+<jtok eid="14" type="string_literal" span="310:6:310:90">"tabs = {\nHallo \tWorld \tthis \t is\t\tnot \t\tan \t\n exercise \t \n.\t \n\t},\n"</jtok>
+<jtok eid="14" type="string_literal" span="311:6:311:59">"file = {Bemerkung:H:\\bla\\ups  \tsala.pdf:PDF}, \n"</jtok>
+<jtok eid="14" type="string_literal" span="312:6:312:9">"}"</jtok>
+<jtok eid="14" type="method_call" span="314:3:314:15">assertEquals</jtok>
+<jtok eid="14" type="string_literal" span="314:16:314:54">"Bemerkung:H:\\bla\\ups  sala.pdf:PDF"</jtok>
+<jtok eid="14" type="primary_name_ref" span="314:56:314:57">e</jtok>
+<jtok eid="14" type="method_call" span="314:58:314:66">getField</jtok>
+<jtok eid="14" type="string_literal" span="314:67:314:73">"file"</jtok>
+<jtok eid="1" type="block_comment" span="317:2:322:5">/**
+	 * Test for [2022983]
+	 * 
+	 * @author Uwe Kuehn
+	 * @author Andrei Haralevich
+	 */</jtok>
+<jtok eid="15" type="method_name" span="323:14:323:29">testFileNaming3</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="324:3:324:14">BibtexEntry</jtok>
+<jtok eid="15" type="local_variable_name" span="324:15:324:16">e</jtok>
+<jtok eid="15" type="primary_name_ref" span="324:19:324:31">BibtexParser</jtok>
+<jtok eid="15" type="method_call" span="324:32:324:48">singleFromString</jtok>
+<jtok eid="15" type="string_literal" span="324:49:324:67">"@article{canh05,"</jtok>
+<jtok eid="15" type="string_literal" span="325:6:325:91">"title = {\nHallo \nWorld \nthis \n is\n\nnot \n\nan \n\n exercise \n \n.\n \n\n},\n"</jtok>
+<jtok eid="15" type="string_literal" span="326:6:326:90">"tabs = {\nHallo \tWorld \tthis \t is\t\tnot \t\tan \t\n exercise \t \n.\t \n\t},\n"</jtok>
+<jtok eid="15" type="string_literal" span="327:6:327:60">"file = {Bemerkung:H:\\bla\\ups \n\tsala.pdf:PDF}, \n"</jtok>
+<jtok eid="15" type="string_literal" span="328:6:328:9">"}"</jtok>
+<jtok eid="15" type="method_call" span="330:3:330:15">assertEquals</jtok>
+<jtok eid="15" type="string_literal" span="330:16:330:54">"Bemerkung:H:\\bla\\ups  sala.pdf:PDF"</jtok>
+<jtok eid="15" type="primary_name_ref" span="330:56:330:57">e</jtok>
+<jtok eid="15" type="method_call" span="330:58:330:66">getField</jtok>
+<jtok eid="15" type="string_literal" span="330:67:330:73">"file"</jtok>
+</jdoc>

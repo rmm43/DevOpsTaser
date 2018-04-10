@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.UndoableMoveGroup" jls="java5">
+<jent id="0" type="file" span="0:0:93:1">Source/jabref/src/java/net/sf/jabref/groups/UndoableMoveGroup.java</jent>
+<jent id="1" pid="0" type="class" span="35:1:93:1">net.sf.jabref.groups.UndoableMoveGroup</jent>
+<jent id="2" pid="1" type="method" span="53:5:62:5">net.sf.jabref.groups.UndoableMoveGroup.UndoableMoveGroup(GroupSelector,GroupTreeNode,GroupTreeNode,GroupTreeNode,int)</jent>
+<jent id="3" pid="1" type="method" span="64:5:67:5">net.sf.jabref.groups.UndoableMoveGroup.getUndoPresentationName()</jent>
+<jent id="4" pid="1" type="method" span="69:5:72:5">net.sf.jabref.groups.UndoableMoveGroup.getRedoPresentationName()</jent>
+<jent id="5" pid="1" type="method" span="74:5:82:5">net.sf.jabref.groups.UndoableMoveGroup.undo()</jent>
+<jent id="6" pid="1" type="method" span="84:5:92:5">net.sf.jabref.groups.UndoableMoveGroup.redo()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:3">/*
+All programs in this directory and subdirectories are published under the 
+GNU General Public License as described below.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by the Free 
+Software Foundation; either version 2 of the License, or (at your option) 
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT 
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+more details.
+
+You should have received a copy of the GNU General Public License along 
+with this program; if not, write to the Free Software Foundation, Inc., 59 
+Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+Further information about the GNU GPL is available at:
+http://www.gnu.org/copyleft/gpl.ja.html
+*/</jtok>
+<jtok eid="0" type="block_comment" span="29:1:34:4">/**
+ * @author jzieren
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
+ */</jtok>
+<jtok eid="1" type="class_name" span="35:14:35:31">UndoableMoveGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="35:40:35:60">AbstractUndoableEdit</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:19:36:32">GroupSelector</jtok>
+<jtok eid="1" type="field_name" span="36:33:36:48">m_groupSelector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:19:37:32">GroupTreeNode</jtok>
+<jtok eid="1" type="field_name" span="37:33:37:51">m_groupsRootHandle</jtok>
+<jtok eid="1" type="field_name" span="38:25:38:42">m_pathToNewParent</jtok>
+<jtok eid="1" type="field_name" span="39:23:39:38">m_newChildIndex</jtok>
+<jtok eid="1" type="field_name" span="40:25:40:42">m_pathToOldParent</jtok>
+<jtok eid="1" type="field_name" span="41:23:41:38">m_oldChildIndex</jtok>
+<jtok eid="1" type="block_comment" span="43:5:52:8">/**
+     * @param moveNode
+     *            The node which is being moved. At the time of construction of
+     *            this object, it must not have moved yet.
+     * @param newParent
+     *            The new parent node to which &lt;b&gt;moveNode &lt;/b&gt; will be moved.
+     * @param newChildIndex
+     *            The child index at &lt;b&gt;newParent &lt;/b&gt; to which &lt;b&gt;moveNode &lt;/b&gt;
+     *            will be moved.
+     */</jtok>
+<jtok eid="2" type="method_name" span="53:12:53:29">UndoableMoveGroup</jtok>
+<jtok eid="2" type="parameter_type" span="53:30:53:43">GroupSelector</jtok>
+<jtok eid="2" type="parameter_name" span="53:44:53:46">gs</jtok>
+<jtok eid="2" type="parameter_type" span="53:48:53:61">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_name" span="53:62:53:72">groupsRoot</jtok>
+<jtok eid="2" type="parameter_type" span="54:13:54:26">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_name" span="54:27:54:35">moveNode</jtok>
+<jtok eid="2" type="parameter_type" span="54:37:54:50">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_name" span="54:51:54:60">newParent</jtok>
+<jtok eid="2" type="parameter_name" span="54:66:54:79">newChildIndex</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:9:55:24">m_groupSelector</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:27:55:29">gs</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:9:56:27">m_groupsRootHandle</jtok>
+<jtok eid="2" type="primary_name_ref" span="56:30:56:40">groupsRoot</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:9:57:26">m_pathToNewParent</jtok>
+<jtok eid="2" type="primary_name_ref" span="57:29:57:38">newParent</jtok>
+<jtok eid="2" type="method_call" span="57:39:57:53">getIndexedPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:9:58:24">m_newChildIndex</jtok>
+<jtok eid="2" type="primary_name_ref" span="58:27:58:40">newChildIndex</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:9:59:26">m_pathToOldParent</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="59:31:59:44">GroupTreeNode</jtok>
+<jtok eid="2" type="primary_name_ref" span="59:46:59:54">moveNode</jtok>
+<jtok eid="2" type="method_call" span="59:55:59:64">getParent</jtok>
+<jtok eid="2" type="method_call" span="60:18:60:32">getIndexedPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:9:61:24">m_oldChildIndex</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:27:61:35">moveNode</jtok>
+<jtok eid="2" type="method_call" span="61:36:61:45">getParent</jtok>
+<jtok eid="2" type="method_call" span="61:48:61:56">getIndex</jtok>
+<jtok eid="2" type="primary_name_ref" span="61:57:61:65">moveNode</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="64:12:64:18">String</jtok>
+<jtok eid="3" type="method_name" span="64:19:64:42">getUndoPresentationName</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:16:65:23">Globals</jtok>
+<jtok eid="3" type="method_call" span="65:24:65:28">lang</jtok>
+<jtok eid="3" type="string_literal" span="65:29:65:35">"Undo"</jtok>
+<jtok eid="3" type="string_literal" span="65:39:65:43">": "</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:15:66:22">Globals</jtok>
+<jtok eid="3" type="method_call" span="66:23:66:27">lang</jtok>
+<jtok eid="3" type="string_literal" span="66:28:66:40">"move group"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="69:12:69:18">String</jtok>
+<jtok eid="4" type="method_name" span="69:19:69:42">getRedoPresentationName</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:16:70:23">Globals</jtok>
+<jtok eid="4" type="method_call" span="70:24:70:28">lang</jtok>
+<jtok eid="4" type="string_literal" span="70:29:70:35">"Redo"</jtok>
+<jtok eid="4" type="string_literal" span="70:39:70:43">": "</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:15:71:22">Globals</jtok>
+<jtok eid="4" type="method_call" span="71:23:71:27">lang</jtok>
+<jtok eid="4" type="string_literal" span="71:28:71:40">"move group"</jtok>
+<jtok eid="5" type="method_name" span="74:17:74:21">undo</jtok>
+<jtok eid="5" type="method_call" span="75:15:75:19">undo</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="76:9:76:22">GroupTreeNode</jtok>
+<jtok eid="5" type="local_variable_name" span="76:23:76:29">cursor</jtok>
+<jtok eid="5" type="primary_name_ref" span="76:32:76:50">m_groupsRootHandle</jtok>
+<jtok eid="5" type="method_call" span="77:18:77:31">getDescendant</jtok>
+<jtok eid="5" type="primary_name_ref" span="77:32:77:49">m_pathToNewParent</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:9:78:15">cursor</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="78:19:78:32">GroupTreeNode</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:34:78:40">cursor</jtok>
+<jtok eid="5" type="method_call" span="78:41:78:51">getChildAt</jtok>
+<jtok eid="5" type="primary_name_ref" span="78:52:78:67">m_newChildIndex</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:9:79:27">m_groupsRootHandle</jtok>
+<jtok eid="5" type="method_call" span="79:28:79:41">getDescendant</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:42:79:59">m_pathToOldParent</jtok>
+<jtok eid="5" type="method_call" span="79:61:79:67">insert</jtok>
+<jtok eid="5" type="primary_name_ref" span="79:68:79:74">cursor</jtok>
+<jtok eid="5" type="primary_name_ref" span="80:17:80:32">m_oldChildIndex</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:9:81:24">m_groupSelector</jtok>
+<jtok eid="5" type="method_call" span="81:25:81:41">revalidateGroups</jtok>
+<jtok eid="6" type="method_name" span="84:17:84:21">redo</jtok>
+<jtok eid="6" type="method_call" span="85:15:85:19">redo</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="86:9:86:22">GroupTreeNode</jtok>
+<jtok eid="6" type="local_variable_name" span="86:23:86:29">cursor</jtok>
+<jtok eid="6" type="primary_name_ref" span="86:32:86:50">m_groupsRootHandle</jtok>
+<jtok eid="6" type="method_call" span="87:18:87:31">getDescendant</jtok>
+<jtok eid="6" type="primary_name_ref" span="87:32:87:49">m_pathToOldParent</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:9:88:15">cursor</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="88:19:88:32">GroupTreeNode</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:34:88:40">cursor</jtok>
+<jtok eid="6" type="method_call" span="88:41:88:51">getChildAt</jtok>
+<jtok eid="6" type="primary_name_ref" span="88:52:88:67">m_oldChildIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:9:89:27">m_groupsRootHandle</jtok>
+<jtok eid="6" type="method_call" span="89:28:89:41">getDescendant</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:42:89:59">m_pathToNewParent</jtok>
+<jtok eid="6" type="method_call" span="89:61:89:67">insert</jtok>
+<jtok eid="6" type="primary_name_ref" span="89:68:89:74">cursor</jtok>
+<jtok eid="6" type="primary_name_ref" span="90:17:90:32">m_newChildIndex</jtok>
+<jtok eid="6" type="primary_name_ref" span="91:9:91:24">m_groupSelector</jtok>
+<jtok eid="6" type="method_call" span="91:25:91:41">revalidateGroups</jtok>
+</jdoc>

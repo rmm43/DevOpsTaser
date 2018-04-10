@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="macosx.MacOSXPlugin" jls="java5">
+<jent id="0" type="file" span="0:0:264:1">Source/jEdit/jars/MacOSX/macosx/MacOSXPlugin.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:264:1">macosx.MacOSXPlugin</jent>
+<jent id="2" pid="1" type="method" span="45:2:47:2">macosx.MacOSXPlugin.MacOSXPlugin()</jent>
+<jent id="3" pid="1" type="method" span="50:2:82:2">macosx.MacOSXPlugin.start()</jent>
+<jent id="4" pid="1" type="method" span="84:2:88:2">macosx.MacOSXPlugin.stop()</jent>
+<jent id="5" pid="1" type="method" span="92:2:96:2">macosx.MacOSXPlugin.handleQuit()</jent>
+<jent id="6" pid="1" type="method" span="98:2:101:2">macosx.MacOSXPlugin.handlePreferences()</jent>
+<jent id="7" pid="1" type="method" span="105:2:108:2">macosx.MacOSXPlugin.handleAbout()</jent>
+<jent id="8" pid="1" type="method" span="110:2:133:2">macosx.MacOSXPlugin.handleOpenFile(String)</jent>
+<jent id="9" pid="1" type="method" span="135:2:145:2">macosx.MacOSXPlugin.handleReOpenApplication()</jent>
+<jent id="10" pid="1" type="method" span="147:2:172:2">macosx.MacOSXPlugin.handleMessage(EBMessage)</jent>
+<jent id="11" pid="1" type="method" span="174:2:206:2">macosx.MacOSXPlugin.refreshViewModification(View)</jent>
+<jent id="12" pid="1" type="method" span="208:2:240:2">macosx.MacOSXPlugin.fixMacKeyBindings(UIDefaults)</jent>
+<jent id="13" pid="1" type="method" span="243:2:263:2">macosx.MacOSXPlugin.osok()</jent>
+<jent id="14" pid="13" type="class" span="256:47:258:5">macosx.MacOSXPlugin.osok().$1</jent>
+<jent id="15" pid="14" type="method" span="256:49:258:4">macosx.MacOSXPlugin.osok().$1.run()</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/* 
+ * :tabSize=4:indentSize=4:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * MacOSXPlugin.java - Main class Mac OS X Plugin
+ * Copyright (C) 2008 Seph M. Soliman
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="36:1:36:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="38:14:38:26">MacOSXPlugin</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:35:38:43">EBPlugin</jtok>
+<jtok eid="1" type="line_comment" span="40:2:40:17">//{{{ Variables</jtok>
+<jtok eid="1" type="field_name" span="41:18:41:22">osok</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:23:42:30">Pattern</jtok>
+<jtok eid="1" type="field_name" span="42:31:42:38">ctrlPat</jtok>
+<jtok eid="1" type="primary_name_ref" span="42:41:42:48">Pattern</jtok>
+<jtok eid="1" type="method_call" span="42:49:42:56">compile</jtok>
+<jtok eid="1" type="string_literal" span="42:57:42:69">"\\bctrl\\b"</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:7">//}}}</jtok>
+<jtok eid="2" type="method_name" span="45:14:45:26">MacOSXPlugin</jtok>
+<jtok eid="1" type="line_comment" span="49:2:49:22">//{{{ start() method</jtok>
+<jtok eid="3" type="method_name" span="50:14:50:19">start</jtok>
+<jtok eid="3" type="method_call" span="52:6:52:10">osok</jtok>
+<jtok eid="3" type="line_comment" span="55:5:55:93">// Generate and register the OSXAdapter, passing it a hash of all the methods we wish to</jtok>
+<jtok eid="3" type="line_comment" span="56:5:56:79">// use as delegates for various com.apple.eawt.ApplicationListener methods</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:5:57:15">OSXAdapter</jtok>
+<jtok eid="3" type="method_call" span="57:16:57:30">setQuitHandler</jtok>
+<jtok eid="3" type="method_call" span="57:37:57:45">getClass</jtok>
+<jtok eid="3" type="method_call" span="57:48:57:65">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="57:66:57:78">"handleQuit"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="57:81:57:86">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:5:58:15">OSXAdapter</jtok>
+<jtok eid="3" type="method_call" span="58:16:58:31">setAboutHandler</jtok>
+<jtok eid="3" type="method_call" span="58:38:58:46">getClass</jtok>
+<jtok eid="3" type="method_call" span="58:49:58:66">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="58:67:58:80">"handleAbout"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="58:83:58:88">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:5:59:15">OSXAdapter</jtok>
+<jtok eid="3" type="method_call" span="59:16:59:37">setPreferencesHandler</jtok>
+<jtok eid="3" type="method_call" span="59:44:59:52">getClass</jtok>
+<jtok eid="3" type="method_call" span="59:55:59:72">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="59:73:59:92">"handlePreferences"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="59:95:59:100">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:5:60:15">OSXAdapter</jtok>
+<jtok eid="3" type="method_call" span="60:16:60:30">setFileHandler</jtok>
+<jtok eid="3" type="method_call" span="60:37:60:45">getClass</jtok>
+<jtok eid="3" type="method_call" span="60:48:60:65">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="60:66:60:82">"handleOpenFile"</jtok>
+<jtok eid="3" type="constructor_call" span="60:88:60:93">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:98:60:104">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:5:61:15">OSXAdapter</jtok>
+<jtok eid="3" type="method_call" span="61:16:61:43">setReOpenApplicationHandler</jtok>
+<jtok eid="3" type="method_call" span="61:50:61:58">getClass</jtok>
+<jtok eid="3" type="method_call" span="61:61:61:78">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="61:79:61:104">"handleReOpenApplication"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="61:107:61:112">Class</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="63:5:63:11">String</jtok>
+<jtok eid="3" type="local_variable_name" span="63:12:63:14">lf</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:17:63:22">jEdit</jtok>
+<jtok eid="3" type="method_call" span="63:23:63:34">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="63:35:63:48">"lookAndFeel"</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:8:64:10">lf</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:22:64:24">lf</jtok>
+<jtok eid="3" type="method_call" span="64:25:64:31">length</jtok>
+<jtok eid="3" type="line_comment" span="66:6:66:67">// Fix key bindings for OS X for anything other than Aqua LNF</jtok>
+<jtok eid="3" type="line_comment" span="67:6:67:77">// See: http://lists.apple.com/archives/java-dev/2008/Apr/msg00209.html</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:10:68:12">lf</jtok>
+<jtok eid="3" type="method_call" span="68:13:68:29">equalsIgnoreCase</jtok>
+<jtok eid="3" type="string_literal" span="68:30:68:57">"apple.laf.aqualookandfeel"</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:7:70:10">Log</jtok>
+<jtok eid="3" type="method_call" span="70:11:70:14">log</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:15:70:18">Log</jtok>
+<jtok eid="3" type="qualified_name_ref" span="70:19:70:24">DEBUG</jtok>
+<jtok eid="3" type="string_literal" span="70:32:70:68">"Fixing keybindingds on current LNF"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="71:7:71:17">UIDefaults</jtok>
+<jtok eid="3" type="local_variable_name" span="71:18:71:21">uid</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:24:71:33">UIManager</jtok>
+<jtok eid="3" type="method_call" span="71:34:71:56">getLookAndFeelDefaults</jtok>
+<jtok eid="3" type="method_call" span="72:7:72:24">fixMacKeyBindings</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:25:72:28">uid</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="76:11:76:20">Exception</jtok>
+<jtok eid="3" type="local_variable_name" span="76:21:76:22">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:5:78:11">System</jtok>
+<jtok eid="3" type="qualified_name_ref" span="78:12:78:15">err</jtok>
+<jtok eid="3" type="method_call" span="78:16:78:23">println</jtok>
+<jtok eid="3" type="string_literal" span="78:24:78:61">"Error while loading the OSXAdapter:"</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:5:79:6">e</jtok>
+<jtok eid="3" type="method_call" span="79:7:79:22">printStackTrace</jtok>
+<jtok eid="1" type="line_comment" span="82:4:82:9">//}}}</jtok>
+<jtok eid="4" type="method_name" span="84:14:84:18">stop</jtok>
+<jtok eid="4" type="line_comment" span="86:3:86:70">// TODO: Only show it on reload - plugin does not support reloading</jtok>
+<jtok eid="4" type="line_comment" span="87:3:87:156">//JOptionPane.showMessageDialog(null, jEdit.getProperty("MacOSXPlugin.dialog.unload.message"), jEdit.getProperty("MacOSXPlugin.dialog.unload.title"), 1);</jtok>
+<jtok eid="1" type="line_comment" span="90:2:90:102">// General quit handler; fed to the OSXAdapter as the method to call when a system quit event occurs</jtok>
+<jtok eid="1" type="line_comment" span="91:2:91:105">// A quit event is triggered by Cmd-Q, selecting Quit from the application or Dock menu, or logging out</jtok>
+<jtok eid="5" type="method_name" span="92:17:92:27">handleQuit</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:3:94:8">jEdit</jtok>
+<jtok eid="5" type="method_call" span="94:9:94:13">exit</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:14:94:19">jEdit</jtok>
+<jtok eid="5" type="method_call" span="94:20:94:33">getActiveView</jtok>
+<jtok eid="6" type="method_name" span="98:14:98:31">handlePreferences</jtok>
+<jtok eid="6" type="constructor_call" span="100:7:100:20">GlobalOptions</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:21:100:26">jEdit</jtok>
+<jtok eid="6" type="method_call" span="100:27:100:40">getActiveView</jtok>
+<jtok eid="1" type="line_comment" span="103:2:103:74">// General info dialog; fed to the OSXAdapter as the method to call when</jtok>
+<jtok eid="1" type="line_comment" span="104:2:104:61">// "About OSXAdapter" is selected from the application menu</jtok>
+<jtok eid="7" type="method_name" span="105:14:105:25">handleAbout</jtok>
+<jtok eid="7" type="constructor_call" span="107:7:107:18">AboutDialog</jtok>
+<jtok eid="7" type="primary_name_ref" span="107:19:107:24">jEdit</jtok>
+<jtok eid="7" type="method_call" span="107:25:107:38">getActiveView</jtok>
+<jtok eid="8" type="method_name" span="110:14:110:28">handleOpenFile</jtok>
+<jtok eid="8" type="parameter_type" span="110:29:110:35">String</jtok>
+<jtok eid="8" type="parameter_name" span="110:36:110:44">filepath</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="112:3:112:7">File</jtok>
+<jtok eid="8" type="local_variable_name" span="112:8:112:12">file</jtok>
+<jtok eid="8" type="constructor_call" span="112:19:112:23">File</jtok>
+<jtok eid="8" type="primary_name_ref" span="112:24:112:32">filepath</jtok>
+<jtok eid="8" type="primary_name_ref" span="113:6:113:10">file</jtok>
+<jtok eid="8" type="method_call" span="113:11:113:17">exists</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="115:4:115:8">View</jtok>
+<jtok eid="8" type="local_variable_name" span="115:9:115:13">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="115:16:115:21">jEdit</jtok>
+<jtok eid="8" type="method_call" span="115:22:115:35">getActiveView</jtok>
+<jtok eid="8" type="primary_name_ref" span="116:7:116:11">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="117:5:117:9">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="117:12:117:30">PerspectiveManager</jtok>
+<jtok eid="8" type="method_call" span="117:31:117:46">loadPerspective</jtok>
+<jtok eid="8" type="primary_name_ref" span="119:7:119:11">file</jtok>
+<jtok eid="8" type="method_call" span="119:12:119:23">isDirectory</jtok>
+<jtok eid="8" type="line_comment" span="121:5:121:35">// TODO: What to do with dirs?</jtok>
+<jtok eid="8" type="line_comment" span="122:5:122:73">//VFSBrowser.browseDirectory(jEdit.getActiveView(), file.getPath());</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:8:125:13">jEdit</jtok>
+<jtok eid="8" type="method_call" span="125:14:125:22">openFile</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:23:125:27">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:29:125:33">file</jtok>
+<jtok eid="8" type="method_call" span="125:34:125:41">getPath</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:5:126:8">Log</jtok>
+<jtok eid="8" type="method_call" span="126:9:126:12">log</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:13:126:16">Log</jtok>
+<jtok eid="8" type="qualified_name_ref" span="126:17:126:22">ERROR</jtok>
+<jtok eid="8" type="string_literal" span="126:30:126:53">"Unable to open file: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:56:126:64">filepath</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:4:130:7">Log</jtok>
+<jtok eid="8" type="method_call" span="130:8:130:11">log</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:12:130:15">Log</jtok>
+<jtok eid="8" type="qualified_name_ref" span="130:16:130:21">ERROR</jtok>
+<jtok eid="8" type="string_literal" span="130:29:130:62">"Cannot open non-existing file: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="130:65:130:73">filepath</jtok>
+<jtok eid="9" type="method_name" span="135:14:135:37">handleReOpenApplication</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:6:137:11">jEdit</jtok>
+<jtok eid="9" type="method_call" span="137:12:137:25">getActiveView</jtok>
+<jtok eid="9" type="primary_name_ref" span="139:4:139:9">jEdit</jtok>
+<jtok eid="9" type="method_call" span="139:10:139:23">getActiveView</jtok>
+<jtok eid="9" type="method_call" span="139:26:139:38">requestFocus</jtok>
+<jtok eid="9" type="primary_name_ref" span="143:4:143:22">PerspectiveManager</jtok>
+<jtok eid="9" type="method_call" span="143:23:143:38">loadPerspective</jtok>
+<jtok eid="10" type="method_name" span="147:14:147:27">handleMessage</jtok>
+<jtok eid="10" type="parameter_type" span="147:28:147:37">EBMessage</jtok>
+<jtok eid="10" type="parameter_name" span="147:38:147:45">message</jtok>
+<jtok eid="10" type="primary_name_ref" span="149:6:149:13">message</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="149:25:149:37">BufferUpdate</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="151:4:151:16">BufferUpdate</jtok>
+<jtok eid="10" type="local_variable_name" span="151:17:151:20">msg</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="151:24:151:36">BufferUpdate</jtok>
+<jtok eid="10" type="primary_name_ref" span="151:37:151:44">message</jtok>
+<jtok eid="10" type="method_call" span="152:4:152:27">refreshViewModification</jtok>
+<jtok eid="10" type="primary_name_ref" span="152:28:152:33">jEdit</jtok>
+<jtok eid="10" type="method_call" span="152:34:152:47">getActiveView</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:11:154:18">message</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="154:30:154:40">ViewUpdate</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="156:4:156:14">ViewUpdate</jtok>
+<jtok eid="10" type="local_variable_name" span="156:15:156:18">msg</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="156:22:156:32">ViewUpdate</jtok>
+<jtok eid="10" type="primary_name_ref" span="156:33:156:40">message</jtok>
+<jtok eid="10" type="method_call" span="157:4:157:27">refreshViewModification</jtok>
+<jtok eid="10" type="primary_name_ref" span="157:28:157:31">msg</jtok>
+<jtok eid="10" type="method_call" span="157:32:157:39">getView</jtok>
+<jtok eid="10" type="primary_name_ref" span="159:11:159:18">message</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="159:30:159:44">EditPaneUpdate</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="161:4:161:18">EditPaneUpdate</jtok>
+<jtok eid="10" type="local_variable_name" span="161:19:161:22">msg</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="161:26:161:40">EditPaneUpdate</jtok>
+<jtok eid="10" type="primary_name_ref" span="161:41:161:48">message</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="162:4:162:8">View</jtok>
+<jtok eid="10" type="local_variable_name" span="162:9:162:13">view</jtok>
+<jtok eid="10" type="primary_name_ref" span="162:16:162:19">msg</jtok>
+<jtok eid="10" type="method_call" span="162:20:162:31">getEditPane</jtok>
+<jtok eid="10" type="method_call" span="162:34:162:41">getView</jtok>
+<jtok eid="10" type="primary_name_ref" span="163:7:163:11">view</jtok>
+<jtok eid="10" type="primary_name_ref" span="165:8:165:12">view</jtok>
+<jtok eid="10" type="method_call" span="165:13:165:22">getBuffer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="167:6:167:12">String</jtok>
+<jtok eid="10" type="local_variable_name" span="167:13:167:17">path</jtok>
+<jtok eid="10" type="primary_name_ref" span="167:20:167:24">view</jtok>
+<jtok eid="10" type="method_call" span="167:25:167:34">getBuffer</jtok>
+<jtok eid="10" type="method_call" span="167:37:167:44">getPath</jtok>
+<jtok eid="10" type="primary_name_ref" span="168:6:168:10">view</jtok>
+<jtok eid="10" type="method_call" span="168:11:168:22">getRootPane</jtok>
+<jtok eid="10" type="method_call" span="168:25:168:42">putClientProperty</jtok>
+<jtok eid="10" type="string_literal" span="168:43:168:64">"Window.documentFile"</jtok>
+<jtok eid="10" type="constructor_call" span="168:70:168:74">File</jtok>
+<jtok eid="10" type="primary_name_ref" span="168:75:168:79">path</jtok>
+<jtok eid="11" type="method_name" span="174:14:174:37">refreshViewModification</jtok>
+<jtok eid="11" type="parameter_type" span="174:38:174:42">View</jtok>
+<jtok eid="11" type="parameter_name" span="174:43:174:47">view</jtok>
+<jtok eid="11" type="local_variable_name" span="176:11:176:23">modifiedView</jtok>
+<jtok eid="11" type="primary_name_ref" span="177:6:177:10">view</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="179:4:179:12">EditPane</jtok>
+<jtok eid="11" type="local_variable_name" span="179:15:179:24">editPanes</jtok>
+<jtok eid="11" type="primary_name_ref" span="179:27:179:31">view</jtok>
+<jtok eid="11" type="method_call" span="179:32:179:44">getEditPanes</jtok>
+<jtok eid="11" type="local_variable_name" span="180:12:180:13">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="180:19:180:20">i</jtok>
+<jtok eid="11" type="primary_name_ref" span="180:23:180:32">editPanes</jtok>
+<jtok eid="11" type="qualified_name_ref" span="180:33:180:39">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="180:41:180:42">i</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="182:5:182:11">Buffer</jtok>
+<jtok eid="11" type="local_variable_name" span="182:14:182:21">buffers</jtok>
+<jtok eid="11" type="primary_name_ref" span="182:24:182:33">editPanes</jtok>
+<jtok eid="11" type="primary_name_ref" span="182:34:182:35">i</jtok>
+<jtok eid="11" type="method_call" span="182:37:182:49">getBufferSet</jtok>
+<jtok eid="11" type="method_call" span="182:52:182:65">getAllBuffers</jtok>
+<jtok eid="11" type="local_variable_name" span="183:13:183:14">j</jtok>
+<jtok eid="11" type="primary_name_ref" span="183:20:183:21">j</jtok>
+<jtok eid="11" type="primary_name_ref" span="183:24:183:31">buffers</jtok>
+<jtok eid="11" type="qualified_name_ref" span="183:32:183:38">length</jtok>
+<jtok eid="11" type="primary_name_ref" span="183:40:183:41">j</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="185:6:185:12">Buffer</jtok>
+<jtok eid="11" type="local_variable_name" span="185:13:185:16">buf</jtok>
+<jtok eid="11" type="primary_name_ref" span="185:19:185:26">buffers</jtok>
+<jtok eid="11" type="primary_name_ref" span="185:27:185:28">j</jtok>
+<jtok eid="11" type="primary_name_ref" span="186:9:186:12">buf</jtok>
+<jtok eid="11" type="method_call" span="186:13:186:20">isDirty</jtok>
+<jtok eid="11" type="primary_name_ref" span="188:7:188:10">Log</jtok>
+<jtok eid="11" type="method_call" span="188:11:188:14">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="188:15:188:18">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="188:19:188:24">DEBUG</jtok>
+<jtok eid="11" type="string_literal" span="188:32:188:52">"Dirty buffer found"</jtok>
+<jtok eid="11" type="primary_name_ref" span="189:7:189:19">modifiedView</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:4:194:7">Log</jtok>
+<jtok eid="11" type="method_call" span="194:8:194:11">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:12:194:15">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="194:16:194:21">DEBUG</jtok>
+<jtok eid="11" type="string_literal" span="194:29:194:51">"Dirty buffer found? "</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:54:194:66">modifiedView</jtok>
+<jtok eid="11" type="string_literal" span="194:69:194:76">" for "</jtok>
+<jtok eid="11" type="primary_name_ref" span="194:79:194:88">editPanes</jtok>
+<jtok eid="11" type="qualified_name_ref" span="194:89:194:95">length</jtok>
+<jtok eid="11" type="string_literal" span="194:98:194:108">" buffers"</jtok>
+<jtok eid="11" type="primary_name_ref" span="195:7:195:19">modifiedView</jtok>
+<jtok eid="11" type="primary_name_ref" span="197:5:197:9">view</jtok>
+<jtok eid="11" type="method_call" span="197:10:197:21">getRootPane</jtok>
+<jtok eid="11" type="method_call" span="197:24:197:41">putClientProperty</jtok>
+<jtok eid="11" type="string_literal" span="197:42:197:67">"Window.documentModified"</jtok>
+<jtok eid="11" type="primary_name_ref" span="197:69:197:76">Boolean</jtok>
+<jtok eid="11" type="qualified_name_ref" span="197:77:197:81">TRUE</jtok>
+<jtok eid="11" type="primary_name_ref" span="198:5:198:9">view</jtok>
+<jtok eid="11" type="method_call" span="198:10:198:21">getRootPane</jtok>
+<jtok eid="11" type="method_call" span="198:24:198:41">putClientProperty</jtok>
+<jtok eid="11" type="string_literal" span="198:42:198:58">"windowModified"</jtok>
+<jtok eid="11" type="primary_name_ref" span="198:60:198:67">Boolean</jtok>
+<jtok eid="11" type="qualified_name_ref" span="198:68:198:72">TRUE</jtok>
+<jtok eid="11" type="line_comment" span="198:75:198:97">// * support for Tiger</jtok>
+<jtok eid="11" type="primary_name_ref" span="202:5:202:9">view</jtok>
+<jtok eid="11" type="method_call" span="202:10:202:21">getRootPane</jtok>
+<jtok eid="11" type="method_call" span="202:24:202:41">putClientProperty</jtok>
+<jtok eid="11" type="string_literal" span="202:42:202:67">"Window.documentModified"</jtok>
+<jtok eid="11" type="primary_name_ref" span="202:69:202:76">Boolean</jtok>
+<jtok eid="11" type="qualified_name_ref" span="202:77:202:82">FALSE</jtok>
+<jtok eid="11" type="primary_name_ref" span="203:5:203:9">view</jtok>
+<jtok eid="11" type="method_call" span="203:10:203:21">getRootPane</jtok>
+<jtok eid="11" type="method_call" span="203:24:203:41">putClientProperty</jtok>
+<jtok eid="11" type="string_literal" span="203:42:203:58">"windowModified"</jtok>
+<jtok eid="11" type="primary_name_ref" span="203:60:203:67">Boolean</jtok>
+<jtok eid="11" type="qualified_name_ref" span="203:68:203:73">FALSE</jtok>
+<jtok eid="11" type="line_comment" span="203:76:203:98">// * support for Tiger</jtok>
+<jtok eid="12" type="method_name" span="208:21:208:38">fixMacKeyBindings</jtok>
+<jtok eid="12" type="parameter_type" span="208:39:208:49">UIDefaults</jtok>
+<jtok eid="12" type="parameter_name" span="208:50:208:60">uiDefaults</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="210:3:210:9">Object</jtok>
+<jtok eid="12" type="local_variable_name" span="210:12:210:16">keys</jtok>
+<jtok eid="12" type="primary_name_ref" span="210:19:210:29">uiDefaults</jtok>
+<jtok eid="12" type="method_call" span="210:30:210:36">keySet</jtok>
+<jtok eid="12" type="method_call" span="210:39:210:46">toArray</jtok>
+<jtok eid="12" type="line_comment" span="210:50:210:102">// Copied to prevent concurrent modification issues.</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="212:8:212:14">Object</jtok>
+<jtok eid="12" type="local_variable_name" span="212:15:212:18">key</jtok>
+<jtok eid="12" type="primary_name_ref" span="212:21:212:25">keys</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="214:4:214:10">Object</jtok>
+<jtok eid="12" type="local_variable_name" span="214:12:214:17">value</jtok>
+<jtok eid="12" type="primary_name_ref" span="214:20:214:30">uiDefaults</jtok>
+<jtok eid="12" type="method_call" span="214:31:214:34">get</jtok>
+<jtok eid="12" type="primary_name_ref" span="214:35:214:38">key</jtok>
+<jtok eid="12" type="primary_name_ref" span="216:8:216:13">value</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="216:25:216:33">InputMap</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="218:5:218:13">InputMap</jtok>
+<jtok eid="12" type="local_variable_name" span="218:14:218:17">map</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="218:21:218:29">InputMap</jtok>
+<jtok eid="12" type="primary_name_ref" span="218:31:218:36">value</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="219:5:219:14">KeyStroke</jtok>
+<jtok eid="12" type="local_variable_name" span="219:17:219:27">keyStrokes</jtok>
+<jtok eid="12" type="primary_name_ref" span="219:30:219:33">map</jtok>
+<jtok eid="12" type="method_call" span="219:34:219:38">keys</jtok>
+<jtok eid="12" type="primary_name_ref" span="221:9:221:19">keyStrokes</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="223:11:223:20">KeyStroke</jtok>
+<jtok eid="12" type="local_variable_name" span="223:21:223:30">keyStroke</jtok>
+<jtok eid="12" type="primary_name_ref" span="223:33:223:43">keyStrokes</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="225:7:225:13">String</jtok>
+<jtok eid="12" type="local_variable_name" span="225:15:225:24">keyString</jtok>
+<jtok eid="12" type="primary_name_ref" span="225:27:225:36">keyStroke</jtok>
+<jtok eid="12" type="method_call" span="225:37:225:45">toString</jtok>
+<jtok eid="12" type="primary_name_ref" span="227:11:227:20">keyString</jtok>
+<jtok eid="12" type="method_call" span="227:21:227:28">indexOf</jtok>
+<jtok eid="12" type="string_literal" span="227:29:227:36">"ctrl "</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="229:8:229:14">Object</jtok>
+<jtok eid="12" type="local_variable_name" span="229:16:229:22">action</jtok>
+<jtok eid="12" type="primary_name_ref" span="229:25:229:28">map</jtok>
+<jtok eid="12" type="method_call" span="229:29:229:32">get</jtok>
+<jtok eid="12" type="primary_name_ref" span="229:33:229:42">keyStroke</jtok>
+<jtok eid="12" type="primary_name_ref" span="231:8:231:17">keyString</jtok>
+<jtok eid="12" type="primary_name_ref" span="231:20:231:27">ctrlPat</jtok>
+<jtok eid="12" type="method_call" span="231:28:231:35">matcher</jtok>
+<jtok eid="12" type="primary_name_ref" span="231:36:231:45">keyString</jtok>
+<jtok eid="12" type="method_call" span="231:47:231:57">replaceAll</jtok>
+<jtok eid="12" type="string_literal" span="231:58:231:64">"meta"</jtok>
+<jtok eid="12" type="primary_name_ref" span="232:8:232:11">map</jtok>
+<jtok eid="12" type="method_call" span="232:12:232:18">remove</jtok>
+<jtok eid="12" type="primary_name_ref" span="232:19:232:28">keyStroke</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:8:233:17">keyStroke</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:20:233:29">KeyStroke</jtok>
+<jtok eid="12" type="method_call" span="233:30:233:42">getKeyStroke</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:43:233:52">keyString</jtok>
+<jtok eid="12" type="primary_name_ref" span="234:8:234:11">map</jtok>
+<jtok eid="12" type="method_call" span="234:12:234:15">put</jtok>
+<jtok eid="12" type="primary_name_ref" span="234:16:234:25">keyStroke</jtok>
+<jtok eid="12" type="primary_name_ref" span="234:27:234:33">action</jtok>
+<jtok eid="1" type="line_comment" span="242:2:242:21">//{{{ osok() method</jtok>
+<jtok eid="13" type="method_name" span="243:18:243:22">osok</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="245:9:245:15">String</jtok>
+<jtok eid="13" type="local_variable_name" span="245:16:245:26">mrjversion</jtok>
+<jtok eid="13" type="primary_name_ref" span="245:29:245:34">jEdit</jtok>
+<jtok eid="13" type="method_call" span="245:35:245:46">getProperty</jtok>
+<jtok eid="13" type="string_literal" span="245:47:245:80">"MacOSXPlugin.depend.mrj.version"</jtok>
+<jtok eid="13" type="primary_name_ref" span="247:8:247:23">OperatingSystem</jtok>
+<jtok eid="13" type="method_call" span="247:24:247:31">isMacOS</jtok>
+<jtok eid="13" type="line_comment" span="249:4:249:40">// According to Slava this is better</jtok>
+<jtok eid="13" type="primary_name_ref" span="250:4:250:7">Log</jtok>
+<jtok eid="13" type="method_call" span="250:8:250:11">log</jtok>
+<jtok eid="13" type="primary_name_ref" span="250:12:250:15">Log</jtok>
+<jtok eid="13" type="qualified_name_ref" span="250:16:250:21">ERROR</jtok>
+<jtok eid="13" type="primary_name_ref" span="250:27:250:32">jEdit</jtok>
+<jtok eid="13" type="method_call" span="250:33:250:44">getProperty</jtok>
+<jtok eid="13" type="string_literal" span="250:45:250:81">"MacOSXPlugin.dialog.osname.message"</jtok>
+<jtok eid="13" type="primary_name_ref" span="254:7:254:24">StandardUtilities</jtok>
+<jtok eid="13" type="method_call" span="254:25:254:39">compareStrings</jtok>
+<jtok eid="13" type="primary_name_ref" span="254:40:254:46">System</jtok>
+<jtok eid="13" type="method_call" span="254:47:254:58">getProperty</jtok>
+<jtok eid="13" type="string_literal" span="254:59:254:72">"mrj.version"</jtok>
+<jtok eid="13" type="primary_name_ref" span="254:74:254:84">mrjversion</jtok>
+<jtok eid="13" type="primary_name_ref" span="256:4:256:18">SwingUtilities</jtok>
+<jtok eid="13" type="method_call" span="256:19:256:30">invokeLater</jtok>
+<jtok eid="13" type="constructor_call" span="256:36:256:44">Runnable</jtok>
+<jtok eid="15" type="method_name" span="256:61:256:64">run</jtok>
+<jtok eid="15" type="primary_name_ref" span="257:5:257:17">GUIUtilities</jtok>
+<jtok eid="15" type="method_call" span="257:18:257:23">error</jtok>
+<jtok eid="15" type="string_literal" span="257:29:257:61">"MacOSXPlugin.dialog.mrjversion"</jtok>
+<jtok eid="15" type="constructor_call" span="257:66:257:72">Object</jtok>
+<jtok eid="15" type="primary_name_ref" span="257:76:257:86">mrjversion</jtok>
+<jtok eid="1" type="line_comment" span="263:3:263:8">//}}}</jtok>
+</jdoc>

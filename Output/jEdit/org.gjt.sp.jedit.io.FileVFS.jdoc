@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.io.FileVFS" jls="java5">
+<jent id="0" type="file" span="0:0:686:2">Source/jEdit/org/gjt/sp/jedit/io/FileVFS.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:686:1">org.gjt.sp.jedit.io.FileVFS</jent>
+<jent id="2" pid="1" type="method" span="48:2:56:2">org.gjt.sp.jedit.io.FileVFS.FileVFS()</jent>
+<jent id="3" pid="1" type="method" span="60:2:73:2">org.gjt.sp.jedit.io.FileVFS.getParentOfPath(String)</jent>
+<jent id="4" pid="1" type="method" span="77:2:84:2">org.gjt.sp.jedit.io.FileVFS.constructPath(String,String)</jent>
+<jent id="5" pid="1" type="method" span="88:2:91:2">org.gjt.sp.jedit.io.FileVFS.getFileSeparator()</jent>
+<jent id="6" pid="1" type="method" span="104:2:118:2">org.gjt.sp.jedit.io.FileVFS.getTwoStageSaveName(String)</jent>
+<jent id="7" pid="1" type="method" span="122:2:133:2">org.gjt.sp.jedit.io.FileVFS.save(View,Buffer,String)</jent>
+<jent id="8" pid="1" type="method" span="137:2:160:2">org.gjt.sp.jedit.io.FileVFS.insert(View,Buffer,String)</jent>
+<jent id="9" pid="1" type="method" span="168:2:186:2">org.gjt.sp.jedit.io.FileVFS.recursiveDelete(File)</jent>
+<jent id="10" pid="1" type="method" span="199:2:203:2">org.gjt.sp.jedit.io.FileVFS._canonPath(Object,String,Component)</jent>
+<jent id="11" pid="1" type="class" span="206:2:339:2">org.gjt.sp.jedit.io.FileVFS.LocalFile</jent>
+<jent id="12" pid="11" type="method" span="221:3:235:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.LocalFile(File)</jent>
+<jent id="13" pid="11" type="method" span="239:3:250:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.getExtendedAttribute(String)</jent>
+<jent id="14" pid="11" type="method" span="255:3:268:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.fetchAttrs()</jent>
+<jent id="15" pid="11" type="method" span="280:3:290:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.getIcon(boolean,boolean)</jent>
+<jent id="16" pid="11" type="method" span="294:3:298:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.getSymlinkPath()</jent>
+<jent id="17" pid="11" type="method" span="302:3:306:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.getLength()</jent>
+<jent id="18" pid="11" type="method" span="310:3:314:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.isReadable()</jent>
+<jent id="19" pid="11" type="method" span="318:3:322:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.isWriteable()</jent>
+<jent id="20" pid="11" type="method" span="325:3:329:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.getModified()</jent>
+<jent id="21" pid="11" type="method" span="332:3:335:3">org.gjt.sp.jedit.io.FileVFS.LocalFile.setModified(long)</jent>
+<jent id="22" pid="1" type="method" span="343:2:377:2">org.gjt.sp.jedit.io.FileVFS._listFiles(Object,String,Component)</jent>
+<jent id="23" pid="1" type="method" span="381:2:395:2">org.gjt.sp.jedit.io.FileVFS._getFile(Object,String,Component)</jent>
+<jent id="24" pid="1" type="method" span="399:2:426:2">org.gjt.sp.jedit.io.FileVFS._delete(Object,String,Component)</jent>
+<jent id="25" pid="1" type="method" span="430:2:480:2">org.gjt.sp.jedit.io.FileVFS._rename(Object,String,String,Component)</jent>
+<jent id="26" pid="1" type="method" span="484:2:507:2">org.gjt.sp.jedit.io.FileVFS._mkdir(Object,String,Component)</jent>
+<jent id="27" pid="1" type="method" span="511:2:553:2">org.gjt.sp.jedit.io.FileVFS._backup(Object,String,Component)</jent>
+<jent id="28" pid="1" type="method" span="557:2:571:2">org.gjt.sp.jedit.io.FileVFS._createInputStream(Object,String,boolean,Component)</jent>
+<jent id="29" pid="1" type="method" span="575:2:579:2">org.gjt.sp.jedit.io.FileVFS._createOutputStream(Object,String,Component)</jent>
+<jent id="30" pid="1" type="method" span="583:2:588:2">org.gjt.sp.jedit.io.FileVFS._saveComplete(Object,Buffer,String,Component)</jent>
+<jent id="31" pid="1" type="method" span="601:2:638:2">org.gjt.sp.jedit.io.FileVFS.getPermissions(String)</jent>
+<jent id="32" pid="1" type="method" span="646:2:679:2">org.gjt.sp.jedit.io.FileVFS.setPermissions(String,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:23:4">/*
+ * FileVFS.java - Local filesystem VFS
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1998, 2005 Slava Pestov
+ * Portions copyright (C) 1998, 1999, 2000 Peter Graves
+ * Portions copyright (C) 2007 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="27:1:27:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="36:1:36:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="38:1:42:4">/**
+ * Local filesystem VFS.
+ * @author Slava Pestov
+ * @version $Id: FileVFS.java 15384 2009-06-03 13:49:06Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:14:43:21">FileVFS</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:30:43:33">VFS</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="45:22:45:28">String</jtok>
+<jtok eid="1" type="field_name" span="45:29:45:49">PERMISSIONS_PROPERTY</jtok>
+<jtok eid="1" type="string_literal" span="45:52:45:68">"FileVFS__perms"</jtok>
+<jtok eid="1" type="line_comment" span="47:2:47:27">//{{{ FileVFS constructor</jtok>
+<jtok eid="2" type="method_name" span="48:9:48:16">FileVFS</jtok>
+<jtok eid="2" type="string_literal" span="50:9:50:15">"file"</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:16:50:24">READ_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:27:50:36">WRITE_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:39:50:49">BROWSE_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:52:50:62">DELETE_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:6:51:16">RENAME_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:19:51:28">MKDIR_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:31:51:46">LOW_LATENCY_CAP</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:7:52:22">OperatingSystem</jtok>
+<jtok eid="2" type="method_call" span="52:23:52:42">isCaseInsensitiveFS</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:6:53:26">CASE_INSENSITIVE_CAP</jtok>
+<jtok eid="2" type="constructor_call" span="54:8:54:14">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:19:54:26">EA_TYPE</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:28:54:35">EA_SIZE</jtok>
+<jtok eid="2" type="primary_name_ref" span="54:37:54:46">EA_STATUS</jtok>
+<jtok eid="2" type="primary_name_ref" span="55:4:55:15">EA_MODIFIED</jtok>
+<jtok eid="1" type="line_comment" span="56:4:56:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="58:2:58:32">//{{{ getParentOfPath() method</jtok>
+<jtok eid="1" type="annotation_ref" span="59:3:59:11">Override</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="60:9:60:15">String</jtok>
+<jtok eid="3" type="method_name" span="60:16:60:31">getParentOfPath</jtok>
+<jtok eid="3" type="parameter_type" span="60:32:60:38">String</jtok>
+<jtok eid="3" type="parameter_name" span="60:39:60:43">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:6:62:21">OperatingSystem</jtok>
+<jtok eid="3" type="method_call" span="62:22:62:34">isDOSDerived</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:7:64:11">path</jtok>
+<jtok eid="3" type="method_call" span="64:12:64:18">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="64:29:64:33">path</jtok>
+<jtok eid="3" type="method_call" span="64:34:64:40">charAt</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:12:65:24">FileRootsVFS</jtok>
+<jtok eid="3" type="qualified_name_ref" span="65:25:65:33">PROTOCOL</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:12:66:16">path</jtok>
+<jtok eid="3" type="method_call" span="66:17:66:23">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:34:66:38">path</jtok>
+<jtok eid="3" type="method_call" span="66:39:66:47">endsWith</jtok>
+<jtok eid="3" type="string_literal" span="66:48:66:53">":\\"</jtok>
+<jtok eid="3" type="primary_name_ref" span="67:12:67:24">FileRootsVFS</jtok>
+<jtok eid="3" type="qualified_name_ref" span="67:25:67:33">PROTOCOL</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:12:68:16">path</jtok>
+<jtok eid="3" type="method_call" span="68:17:68:27">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="68:28:68:34">"\\\\"</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:39:68:43">path</jtok>
+<jtok eid="3" type="method_call" span="68:44:68:51">indexOf</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:12:69:16">path</jtok>
+<jtok eid="3" type="method_call" span="72:16:72:31">getParentOfPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:32:72:36">path</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:30">//{{{ constructPath() method</jtok>
+<jtok eid="1" type="annotation_ref" span="76:3:76:11">Override</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="77:9:77:15">String</jtok>
+<jtok eid="4" type="method_name" span="77:16:77:29">constructPath</jtok>
+<jtok eid="4" type="parameter_type" span="77:30:77:36">String</jtok>
+<jtok eid="4" type="parameter_name" span="77:37:77:43">parent</jtok>
+<jtok eid="4" type="parameter_type" span="77:45:77:51">String</jtok>
+<jtok eid="4" type="parameter_name" span="77:52:77:56">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:6:79:12">parent</jtok>
+<jtok eid="4" type="method_call" span="79:13:79:21">endsWith</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:22:79:26">File</jtok>
+<jtok eid="4" type="qualified_name_ref" span="79:27:79:36">separator</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:7:80:13">parent</jtok>
+<jtok eid="4" type="method_call" span="80:14:80:22">endsWith</jtok>
+<jtok eid="4" type="string_literal" span="80:23:80:26">"/"</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:11:81:17">parent</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:20:81:24">path</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:11:83:17">parent</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:20:83:24">File</jtok>
+<jtok eid="4" type="qualified_name_ref" span="83:25:83:34">separator</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:37:83:41">path</jtok>
+<jtok eid="1" type="line_comment" span="84:4:84:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="86:2:86:33">//{{{ getFileSeparator() method</jtok>
+<jtok eid="1" type="annotation_ref" span="87:3:87:11">Override</jtok>
+<jtok eid="5" type="method_name" span="88:14:88:30">getFileSeparator</jtok>
+<jtok eid="5" type="primary_name_ref" span="90:10:90:14">File</jtok>
+<jtok eid="5" type="qualified_name_ref" span="90:15:90:28">separatorChar</jtok>
+<jtok eid="1" type="line_comment" span="91:4:91:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="93:2:93:36">//{{{ getTwoStageSaveName() method</jtok>
+<jtok eid="1" type="block_comment" span="94:2:102:5">/**
+	 * Returns a temporary file name based on the given path.
+	 *
+	 * &lt;p&gt;If the directory where the file would be created cannot be
+	 * written (i.e., no new files can be created in that directory),
+	 * this method returns &lt;code&gt;null&lt;/code&gt;.&lt;/p&gt;
+	 *
+	 * @param path The path name
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="103:3:103:11">Override</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="104:9:104:15">String</jtok>
+<jtok eid="6" type="method_name" span="104:16:104:35">getTwoStageSaveName</jtok>
+<jtok eid="6" type="parameter_type" span="104:36:104:42">String</jtok>
+<jtok eid="6" type="parameter_name" span="104:43:104:47">path</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="106:3:106:7">File</jtok>
+<jtok eid="6" type="local_variable_name" span="106:8:106:14">parent</jtok>
+<jtok eid="6" type="constructor_call" span="106:21:106:25">File</jtok>
+<jtok eid="6" type="method_call" span="106:26:106:41">getParentOfPath</jtok>
+<jtok eid="6" type="primary_name_ref" span="106:42:106:46">path</jtok>
+<jtok eid="6" type="line_comment" span="107:3:107:56">// the ignorance of the canWrite() method for windows</jtok>
+<jtok eid="6" type="line_comment" span="108:3:108:51">// is, because the read-only flag on windows has</jtok>
+<jtok eid="6" type="line_comment" span="109:3:109:61">// not the effect of preventing the creation of new files.</jtok>
+<jtok eid="6" type="line_comment" span="110:3:110:62">// The only way to make a directory read-only in this means</jtok>
+<jtok eid="6" type="line_comment" span="111:3:111:58">// the ACL of the directory has to be set to read-only,</jtok>
+<jtok eid="6" type="line_comment" span="112:3:112:37">// which is not checkable by java.</jtok>
+<jtok eid="6" type="line_comment" span="113:3:113:58">// The " || OperatingSystem.isWindows()" can be removed</jtok>
+<jtok eid="6" type="line_comment" span="114:3:114:58">// if the canWrite() method gives back the right value.</jtok>
+<jtok eid="6" type="primary_name_ref" span="115:11:115:17">parent</jtok>
+<jtok eid="6" type="method_call" span="115:18:115:26">canWrite</jtok>
+<jtok eid="6" type="primary_name_ref" span="115:32:115:47">OperatingSystem</jtok>
+<jtok eid="6" type="method_call" span="115:48:115:57">isWindows</jtok>
+<jtok eid="6" type="method_call" span="116:12:116:31">getTwoStageSaveName</jtok>
+<jtok eid="6" type="primary_name_ref" span="116:32:116:36">path</jtok>
+<jtok eid="1" type="line_comment" span="118:4:118:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="120:2:120:21">//{{{ save() method</jtok>
+<jtok eid="1" type="annotation_ref" span="121:3:121:11">Override</jtok>
+<jtok eid="7" type="method_name" span="122:17:122:21">save</jtok>
+<jtok eid="7" type="parameter_type" span="122:22:122:26">View</jtok>
+<jtok eid="7" type="parameter_name" span="122:27:122:31">view</jtok>
+<jtok eid="7" type="parameter_type" span="122:33:122:39">Buffer</jtok>
+<jtok eid="7" type="parameter_name" span="122:40:122:46">buffer</jtok>
+<jtok eid="7" type="parameter_type" span="122:48:122:54">String</jtok>
+<jtok eid="7" type="parameter_name" span="122:55:122:59">path</jtok>
+<jtok eid="7" type="primary_name_ref" span="124:6:124:21">OperatingSystem</jtok>
+<jtok eid="7" type="method_call" span="124:22:124:28">isUnix</jtok>
+<jtok eid="7" type="local_variable_name" span="126:8:126:19">permissions</jtok>
+<jtok eid="7" type="method_call" span="126:22:126:36">getPermissions</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:37:126:43">buffer</jtok>
+<jtok eid="7" type="method_call" span="126:44:126:51">getPath</jtok>
+<jtok eid="7" type="primary_name_ref" span="127:4:127:7">Log</jtok>
+<jtok eid="7" type="method_call" span="127:8:127:11">log</jtok>
+<jtok eid="7" type="primary_name_ref" span="127:12:127:15">Log</jtok>
+<jtok eid="7" type="qualified_name_ref" span="127:16:127:21">DEBUG</jtok>
+<jtok eid="7" type="primary_name_ref" span="127:27:127:33">buffer</jtok>
+<jtok eid="7" type="method_call" span="127:34:127:41">getPath</jtok>
+<jtok eid="7" type="string_literal" span="127:46:127:66">" has permissions 0"</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:7:128:14">Integer</jtok>
+<jtok eid="7" type="method_call" span="128:15:128:23">toString</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:24:128:35">permissions</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:4:129:10">buffer</jtok>
+<jtok eid="7" type="method_call" span="129:11:129:29">setIntegerProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:30:129:50">PERMISSIONS_PROPERTY</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:51:129:62">permissions</jtok>
+<jtok eid="7" type="method_call" span="132:16:132:20">save</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:21:132:25">view</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:26:132:32">buffer</jtok>
+<jtok eid="7" type="primary_name_ref" span="132:33:132:37">path</jtok>
+<jtok eid="1" type="line_comment" span="133:4:133:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="135:2:135:23">//{{{ insert() method</jtok>
+<jtok eid="1" type="annotation_ref" span="136:3:136:11">Override</jtok>
+<jtok eid="8" type="method_name" span="137:17:137:23">insert</jtok>
+<jtok eid="8" type="parameter_type" span="137:24:137:28">View</jtok>
+<jtok eid="8" type="parameter_name" span="137:29:137:33">view</jtok>
+<jtok eid="8" type="parameter_type" span="137:35:137:41">Buffer</jtok>
+<jtok eid="8" type="parameter_name" span="137:42:137:48">buffer</jtok>
+<jtok eid="8" type="parameter_type" span="137:50:137:56">String</jtok>
+<jtok eid="8" type="parameter_name" span="137:57:137:61">path</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="139:3:139:7">File</jtok>
+<jtok eid="8" type="local_variable_name" span="139:8:139:12">file</jtok>
+<jtok eid="8" type="constructor_call" span="139:19:139:23">File</jtok>
+<jtok eid="8" type="primary_name_ref" span="139:24:139:28">path</jtok>
+<jtok eid="8" type="line_comment" span="141:3:141:31">//{{{ Check if file is valid</jtok>
+<jtok eid="8" type="primary_name_ref" span="142:7:142:11">file</jtok>
+<jtok eid="8" type="method_call" span="142:12:142:18">exists</jtok>
+<jtok eid="8" type="primary_name_ref" span="145:6:145:10">file</jtok>
+<jtok eid="8" type="method_call" span="145:11:145:22">isDirectory</jtok>
+<jtok eid="8" type="primary_name_ref" span="147:4:147:14">VFSManager</jtok>
+<jtok eid="8" type="method_call" span="147:15:147:20">error</jtok>
+<jtok eid="8" type="primary_name_ref" span="147:21:147:25">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="147:26:147:30">file</jtok>
+<jtok eid="8" type="method_call" span="147:31:147:38">getPath</jtok>
+<jtok eid="8" type="string_literal" span="148:5:148:29">"ioerror.open-directory"</jtok>
+<jtok eid="8" type="primary_name_ref" span="152:7:152:11">file</jtok>
+<jtok eid="8" type="method_call" span="152:12:152:19">canRead</jtok>
+<jtok eid="8" type="primary_name_ref" span="154:4:154:14">VFSManager</jtok>
+<jtok eid="8" type="method_call" span="154:15:154:20">error</jtok>
+<jtok eid="8" type="primary_name_ref" span="154:21:154:25">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="154:26:154:30">file</jtok>
+<jtok eid="8" type="method_call" span="154:31:154:38">getPath</jtok>
+<jtok eid="8" type="string_literal" span="155:5:155:22">"ioerror.no-read"</jtok>
+<jtok eid="8" type="line_comment" span="157:5:157:10">//}}}</jtok>
+<jtok eid="8" type="method_call" span="159:16:159:22">insert</jtok>
+<jtok eid="8" type="primary_name_ref" span="159:23:159:27">view</jtok>
+<jtok eid="8" type="primary_name_ref" span="159:28:159:34">buffer</jtok>
+<jtok eid="8" type="primary_name_ref" span="159:35:159:39">path</jtok>
+<jtok eid="1" type="line_comment" span="160:4:160:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="162:2:162:32">//{{{ recursiveDelete() method</jtok>
+<jtok eid="1" type="block_comment" span="163:2:167:5">/**
+	 * #
+	 * @param path the directory path to recursive delete
+	 * @return true if successful, else false
+	 */</jtok>
+<jtok eid="9" type="method_name" span="168:24:168:39">recursiveDelete</jtok>
+<jtok eid="9" type="parameter_type" span="168:40:168:44">File</jtok>
+<jtok eid="9" type="parameter_name" span="168:45:168:49">path</jtok>
+<jtok eid="9" type="primary_name_ref" span="170:7:170:11">path</jtok>
+<jtok eid="9" type="method_call" span="170:12:170:18">exists</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="172:4:172:8">File</jtok>
+<jtok eid="9" type="local_variable_name" span="172:11:172:16">files</jtok>
+<jtok eid="9" type="primary_name_ref" span="172:19:172:23">path</jtok>
+<jtok eid="9" type="method_call" span="172:24:172:33">listFiles</jtok>
+<jtok eid="9" type="local_variable_name" span="173:13:173:14">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:20:173:21">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:24:173:29">files</jtok>
+<jtok eid="9" type="qualified_name_ref" span="173:30:173:36">length</jtok>
+<jtok eid="9" type="primary_name_ref" span="173:38:173:39">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="175:9:175:14">files</jtok>
+<jtok eid="9" type="primary_name_ref" span="175:15:175:16">i</jtok>
+<jtok eid="9" type="method_call" span="175:18:175:29">isDirectory</jtok>
+<jtok eid="9" type="method_call" span="177:6:177:21">recursiveDelete</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:22:177:27">files</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:28:177:29">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:6:181:11">files</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:12:181:13">i</jtok>
+<jtok eid="9" type="method_call" span="181:15:181:21">delete</jtok>
+<jtok eid="9" type="primary_name_ref" span="185:10:185:14">path</jtok>
+<jtok eid="9" type="method_call" span="185:15:185:21">delete</jtok>
+<jtok eid="1" type="line_comment" span="186:4:186:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="188:2:188:27">//{{{ _canonPath() method</jtok>
+<jtok eid="1" type="block_comment" span="189:2:197:5">/**
+	 * Returns the canonical form if the specified path name. For example,
+	 * &lt;code&gt;~&lt;/code&gt; might be expanded to the user's home directory.
+	 * @param session The session
+	 * @param path The path
+	 * @param comp The component that will parent error dialog boxes
+	 * @exception IOException if an I/O error occurred
+	 * @since jEdit 4.0pre2
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="198:3:198:11">Override</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="199:9:199:15">String</jtok>
+<jtok eid="10" type="method_name" span="199:16:199:26">_canonPath</jtok>
+<jtok eid="10" type="parameter_type" span="199:27:199:33">Object</jtok>
+<jtok eid="10" type="parameter_name" span="199:34:199:41">session</jtok>
+<jtok eid="10" type="parameter_type" span="199:43:199:49">String</jtok>
+<jtok eid="10" type="parameter_name" span="199:50:199:54">path</jtok>
+<jtok eid="10" type="parameter_type" span="199:56:199:65">Component</jtok>
+<jtok eid="10" type="parameter_name" span="199:66:199:70">comp</jtok>
+<jtok eid="10" type="throws" span="200:10:200:21">IOException</jtok>
+<jtok eid="10" type="primary_name_ref" span="202:10:202:23">MiscUtilities</jtok>
+<jtok eid="10" type="method_call" span="202:24:202:33">canonPath</jtok>
+<jtok eid="10" type="primary_name_ref" span="202:34:202:38">path</jtok>
+<jtok eid="1" type="line_comment" span="203:4:203:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="205:2:205:23">//{{{ LocalFile class</jtok>
+<jtok eid="11" type="class_name" span="206:22:206:31">LocalFile</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="206:40:206:47">VFSFile</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="208:11:208:15">File</jtok>
+<jtok eid="11" type="field_name" span="208:16:208:20">file</jtok>
+<jtok eid="11" type="line_comment" span="210:3:210:37">// use system default short format</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="211:17:211:27">DateFormat</jtok>
+<jtok eid="11" type="field_name" span="211:28:211:39">DATE_FORMAT</jtok>
+<jtok eid="11" type="primary_name_ref" span="212:6:212:16">DateFormat</jtok>
+<jtok eid="11" type="method_call" span="212:17:212:28">getInstance</jtok>
+<jtok eid="11" type="block_comment" span="214:3:216:6">/**
+		 * @deprecated Call getModified() instead.
+		 */</jtok>
+<jtok eid="11" type="annotation_ref" span="217:4:217:14">Deprecated</jtok>
+<jtok eid="11" type="field_name" span="218:15:218:23">modified</jtok>
+<jtok eid="11" type="line_comment" span="220:3:220:26">//{{{ LocalFile() class</jtok>
+<jtok eid="12" type="method_name" span="221:10:221:19">LocalFile</jtok>
+<jtok eid="12" type="parameter_type" span="221:20:221:24">File</jtok>
+<jtok eid="12" type="parameter_name" span="221:25:221:29">file</jtok>
+<jtok eid="12" type="qualified_name_ref" span="223:9:223:13">file</jtok>
+<jtok eid="12" type="primary_name_ref" span="223:16:223:20">file</jtok>
+<jtok eid="12" type="block_comment" span="225:4:226:46">/* These attributes are fetched relatively
+			quickly. The rest are lazily filled in. */</jtok>
+<jtok eid="12" type="method_call" span="227:4:227:11">setName</jtok>
+<jtok eid="12" type="primary_name_ref" span="227:12:227:16">file</jtok>
+<jtok eid="12" type="method_call" span="227:17:227:24">getName</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="228:4:228:10">String</jtok>
+<jtok eid="12" type="local_variable_name" span="228:11:228:15">path</jtok>
+<jtok eid="12" type="primary_name_ref" span="228:18:228:22">file</jtok>
+<jtok eid="12" type="method_call" span="228:23:228:30">getPath</jtok>
+<jtok eid="12" type="method_call" span="229:4:229:11">setPath</jtok>
+<jtok eid="12" type="primary_name_ref" span="229:12:229:16">path</jtok>
+<jtok eid="12" type="method_call" span="230:4:230:17">setDeletePath</jtok>
+<jtok eid="12" type="primary_name_ref" span="230:18:230:22">path</jtok>
+<jtok eid="12" type="method_call" span="231:4:231:13">setHidden</jtok>
+<jtok eid="12" type="primary_name_ref" span="231:14:231:18">file</jtok>
+<jtok eid="12" type="method_call" span="231:19:231:27">isHidden</jtok>
+<jtok eid="12" type="method_call" span="232:4:232:11">setType</jtok>
+<jtok eid="12" type="primary_name_ref" span="232:12:232:16">file</jtok>
+<jtok eid="12" type="method_call" span="232:17:232:28">isDirectory</jtok>
+<jtok eid="12" type="primary_name_ref" span="233:7:233:14">VFSFile</jtok>
+<jtok eid="12" type="qualified_name_ref" span="233:15:233:24">DIRECTORY</jtok>
+<jtok eid="12" type="primary_name_ref" span="234:7:234:14">VFSFile</jtok>
+<jtok eid="12" type="qualified_name_ref" span="234:15:234:19">FILE</jtok>
+<jtok eid="11" type="line_comment" span="235:5:235:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="237:3:237:38">//{{{ getExtendedAttribute() method</jtok>
+<jtok eid="11" type="annotation_ref" span="238:4:238:12">Override</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="239:10:239:16">String</jtok>
+<jtok eid="13" type="method_name" span="239:17:239:37">getExtendedAttribute</jtok>
+<jtok eid="13" type="parameter_type" span="239:38:239:44">String</jtok>
+<jtok eid="13" type="parameter_name" span="239:45:239:49">name</jtok>
+<jtok eid="13" type="method_call" span="241:4:241:14">fetchAttrs</jtok>
+<jtok eid="13" type="primary_name_ref" span="242:8:242:12">name</jtok>
+<jtok eid="13" type="method_call" span="242:13:242:19">equals</jtok>
+<jtok eid="13" type="primary_name_ref" span="242:20:242:31">EA_MODIFIED</jtok>
+<jtok eid="13" type="primary_name_ref" span="244:12:244:23">DATE_FORMAT</jtok>
+<jtok eid="13" type="method_call" span="244:24:244:30">format</jtok>
+<jtok eid="13" type="constructor_call" span="244:35:244:39">Date</jtok>
+<jtok eid="13" type="primary_name_ref" span="244:40:244:48">modified</jtok>
+<jtok eid="13" type="method_call" span="248:18:248:38">getExtendedAttribute</jtok>
+<jtok eid="13" type="primary_name_ref" span="248:39:248:43">name</jtok>
+<jtok eid="11" type="line_comment" span="250:5:250:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="252:3:252:28">//{{{ fetchAttrs() method</jtok>
+<jtok eid="11" type="block_comment" span="253:3:253:49">/** Fetch the attributes of the local file. */</jtok>
+<jtok eid="11" type="annotation_ref" span="254:4:254:12">Override</jtok>
+<jtok eid="14" type="method_name" span="255:18:255:28">fetchAttrs</jtok>
+<jtok eid="14" type="method_call" span="257:7:257:19">fetchedAttrs</jtok>
+<jtok eid="14" type="method_call" span="260:10:260:20">fetchAttrs</jtok>
+<jtok eid="14" type="method_call" span="262:4:262:18">setSymlinkPath</jtok>
+<jtok eid="14" type="primary_name_ref" span="262:19:262:32">MiscUtilities</jtok>
+<jtok eid="14" type="method_call" span="262:33:262:48">resolveSymlinks</jtok>
+<jtok eid="14" type="primary_name_ref" span="263:5:263:9">file</jtok>
+<jtok eid="14" type="method_call" span="263:10:263:17">getPath</jtok>
+<jtok eid="14" type="method_call" span="264:4:264:15">setReadable</jtok>
+<jtok eid="14" type="primary_name_ref" span="264:16:264:20">file</jtok>
+<jtok eid="14" type="method_call" span="264:21:264:28">canRead</jtok>
+<jtok eid="14" type="method_call" span="265:4:265:16">setWriteable</jtok>
+<jtok eid="14" type="primary_name_ref" span="265:17:265:21">file</jtok>
+<jtok eid="14" type="method_call" span="265:22:265:30">canWrite</jtok>
+<jtok eid="14" type="method_call" span="266:4:266:13">setLength</jtok>
+<jtok eid="14" type="primary_name_ref" span="266:14:266:18">file</jtok>
+<jtok eid="14" type="method_call" span="266:19:266:25">length</jtok>
+<jtok eid="14" type="method_call" span="267:4:267:15">setModified</jtok>
+<jtok eid="14" type="primary_name_ref" span="267:16:267:20">file</jtok>
+<jtok eid="14" type="method_call" span="267:21:267:33">lastModified</jtok>
+<jtok eid="11" type="line_comment" span="268:5:268:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="270:3:270:25">//{{{ getIcon() method</jtok>
+<jtok eid="11" type="block_comment" span="271:3:278:6">/**
+		 * Returns the file system icon for the file.
+		 *
+		 * @param expanded not used here
+		 * @param openBuffer not used here
+		 * @return the file system icon
+		 * @since 4.3pre9
+		 */</jtok>
+<jtok eid="11" type="annotation_ref" span="279:4:279:12">Override</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="280:10:280:14">Icon</jtok>
+<jtok eid="15" type="method_name" span="280:15:280:22">getIcon</jtok>
+<jtok eid="15" type="parameter_name" span="280:31:280:39">expanded</jtok>
+<jtok eid="15" type="parameter_name" span="280:49:280:59">openBuffer</jtok>
+<jtok eid="15" type="primary_name_ref" span="282:8:282:12">icon</jtok>
+<jtok eid="15" type="primary_name_ref" span="284:9:284:15">fsView</jtok>
+<jtok eid="15" type="primary_name_ref" span="285:6:285:12">fsView</jtok>
+<jtok eid="15" type="primary_name_ref" span="285:15:285:29">FileSystemView</jtok>
+<jtok eid="15" type="method_call" span="285:30:285:47">getFileSystemView</jtok>
+<jtok eid="15" type="primary_name_ref" span="287:5:287:9">icon</jtok>
+<jtok eid="15" type="primary_name_ref" span="287:12:287:18">fsView</jtok>
+<jtok eid="15" type="method_call" span="287:19:287:32">getSystemIcon</jtok>
+<jtok eid="15" type="primary_name_ref" span="287:33:287:37">file</jtok>
+<jtok eid="15" type="primary_name_ref" span="289:11:289:15">icon</jtok>
+<jtok eid="11" type="line_comment" span="290:5:290:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="292:3:292:32">//{{{ getSymlinkPath() method</jtok>
+<jtok eid="11" type="annotation_ref" span="293:4:293:12">Override</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="294:10:294:16">String</jtok>
+<jtok eid="16" type="method_name" span="294:17:294:31">getSymlinkPath</jtok>
+<jtok eid="16" type="method_call" span="296:4:296:14">fetchAttrs</jtok>
+<jtok eid="16" type="method_call" span="297:17:297:31">getSymlinkPath</jtok>
+<jtok eid="11" type="line_comment" span="298:5:298:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="300:3:300:27">//{{{ getLength() method</jtok>
+<jtok eid="11" type="annotation_ref" span="301:4:301:12">Override</jtok>
+<jtok eid="17" type="method_name" span="302:15:302:24">getLength</jtok>
+<jtok eid="17" type="method_call" span="304:4:304:14">fetchAttrs</jtok>
+<jtok eid="17" type="method_call" span="305:17:305:26">getLength</jtok>
+<jtok eid="11" type="line_comment" span="306:5:306:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="308:3:308:28">//{{{ isReadable() method</jtok>
+<jtok eid="11" type="annotation_ref" span="309:4:309:12">Override</jtok>
+<jtok eid="18" type="method_name" span="310:18:310:28">isReadable</jtok>
+<jtok eid="18" type="method_call" span="312:4:312:14">fetchAttrs</jtok>
+<jtok eid="18" type="method_call" span="313:17:313:27">isReadable</jtok>
+<jtok eid="11" type="line_comment" span="314:5:314:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="316:3:316:29">//{{{ isWriteable() method</jtok>
+<jtok eid="11" type="annotation_ref" span="317:4:317:12">Override</jtok>
+<jtok eid="19" type="method_name" span="318:18:318:29">isWriteable</jtok>
+<jtok eid="19" type="method_call" span="320:4:320:14">fetchAttrs</jtok>
+<jtok eid="19" type="method_call" span="321:17:321:28">isWriteable</jtok>
+<jtok eid="11" type="line_comment" span="322:5:322:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="324:3:324:29">//{{{ getModified() method</jtok>
+<jtok eid="20" type="method_name" span="325:15:325:26">getModified</jtok>
+<jtok eid="20" type="method_call" span="327:4:327:14">fetchAttrs</jtok>
+<jtok eid="20" type="primary_name_ref" span="328:11:328:19">modified</jtok>
+<jtok eid="11" type="line_comment" span="329:5:329:10">//}}}</jtok>
+<jtok eid="11" type="line_comment" span="331:3:331:29">//{{{ setModified() method</jtok>
+<jtok eid="21" type="method_name" span="332:15:332:26">setModified</jtok>
+<jtok eid="21" type="parameter_name" span="332:32:332:40">modified</jtok>
+<jtok eid="21" type="qualified_name_ref" span="334:9:334:17">modified</jtok>
+<jtok eid="21" type="primary_name_ref" span="334:20:334:28">modified</jtok>
+<jtok eid="11" type="line_comment" span="335:5:335:10">//}}}</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="337:21:337:35">FileSystemView</jtok>
+<jtok eid="11" type="field_name" span="337:36:337:42">fsView</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="338:21:338:25">Icon</jtok>
+<jtok eid="11" type="field_name" span="338:26:338:30">icon</jtok>
+<jtok eid="1" type="line_comment" span="339:4:339:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="341:2:341:27">//{{{ _listFiles() method</jtok>
+<jtok eid="1" type="annotation_ref" span="342:3:342:11">Override</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="343:9:343:16">VFSFile</jtok>
+<jtok eid="22" type="method_name" span="343:19:343:29">_listFiles</jtok>
+<jtok eid="22" type="parameter_type" span="343:30:343:36">Object</jtok>
+<jtok eid="22" type="parameter_name" span="343:37:343:44">session</jtok>
+<jtok eid="22" type="parameter_type" span="343:46:343:52">String</jtok>
+<jtok eid="22" type="parameter_name" span="343:53:343:57">path</jtok>
+<jtok eid="22" type="parameter_type" span="344:3:344:12">Component</jtok>
+<jtok eid="22" type="parameter_name" span="344:13:344:17">comp</jtok>
+<jtok eid="22" type="line_comment" span="346:3:346:28">//{{{ Windows work around</jtok>
+<jtok eid="22" type="block_comment" span="347:3:354:6">/* On Windows, paths of the form X: list the last *working
+		 * directory* on that drive. To list the root of the drive,
+		 * you must use X:\.
+		 *
+		 * However, the VFS browser and friends strip off trailing
+		 * path separators, for various reasons. So to work around
+		 * that, we add a '\' to drive letter paths on Windows.
+		 */</jtok>
+<jtok eid="22" type="primary_name_ref" span="355:6:355:21">OperatingSystem</jtok>
+<jtok eid="22" type="method_call" span="355:22:355:31">isWindows</jtok>
+<jtok eid="22" type="primary_name_ref" span="357:7:357:11">path</jtok>
+<jtok eid="22" type="method_call" span="357:12:357:18">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="357:29:357:33">path</jtok>
+<jtok eid="22" type="method_call" span="357:34:357:40">charAt</jtok>
+<jtok eid="22" type="primary_name_ref" span="358:5:358:9">path</jtok>
+<jtok eid="22" type="primary_name_ref" span="358:12:358:16">path</jtok>
+<jtok eid="22" type="method_call" span="358:17:358:23">concat</jtok>
+<jtok eid="22" type="primary_name_ref" span="358:24:358:28">File</jtok>
+<jtok eid="22" type="qualified_name_ref" span="358:29:358:38">separator</jtok>
+<jtok eid="22" type="line_comment" span="359:5:359:10">//}}}</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="361:3:361:7">File</jtok>
+<jtok eid="22" type="local_variable_name" span="361:8:361:17">directory</jtok>
+<jtok eid="22" type="constructor_call" span="361:24:361:28">File</jtok>
+<jtok eid="22" type="primary_name_ref" span="361:29:361:33">path</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="362:3:362:7">File</jtok>
+<jtok eid="22" type="local_variable_name" span="362:10:362:14">list</jtok>
+<jtok eid="22" type="primary_name_ref" span="363:6:363:15">directory</jtok>
+<jtok eid="22" type="method_call" span="363:16:363:22">exists</jtok>
+<jtok eid="22" type="primary_name_ref" span="364:4:364:8">list</jtok>
+<jtok eid="22" type="primary_name_ref" span="364:11:364:17">fsView</jtok>
+<jtok eid="22" type="method_call" span="364:18:364:26">getFiles</jtok>
+<jtok eid="22" type="primary_name_ref" span="364:27:364:36">directory</jtok>
+<jtok eid="22" type="primary_name_ref" span="366:6:366:10">list</jtok>
+<jtok eid="22" type="primary_name_ref" span="368:4:368:14">VFSManager</jtok>
+<jtok eid="22" type="method_call" span="368:15:368:20">error</jtok>
+<jtok eid="22" type="primary_name_ref" span="368:21:368:25">comp</jtok>
+<jtok eid="22" type="primary_name_ref" span="368:26:368:30">path</jtok>
+<jtok eid="22" type="string_literal" span="368:31:368:62">"ioerror.directory-error-nomsg"</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="372:3:372:10">VFSFile</jtok>
+<jtok eid="22" type="local_variable_name" span="372:13:372:18">list2</jtok>
+<jtok eid="22" type="constructor_call" span="372:25:372:32">VFSFile</jtok>
+<jtok eid="22" type="primary_name_ref" span="372:33:372:37">list</jtok>
+<jtok eid="22" type="qualified_name_ref" span="372:38:372:44">length</jtok>
+<jtok eid="22" type="local_variable_name" span="373:11:373:12">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="373:18:373:19">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="373:22:373:26">list</jtok>
+<jtok eid="22" type="qualified_name_ref" span="373:27:373:33">length</jtok>
+<jtok eid="22" type="primary_name_ref" span="373:35:373:36">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="374:4:374:9">list2</jtok>
+<jtok eid="22" type="primary_name_ref" span="374:10:374:11">i</jtok>
+<jtok eid="22" type="constructor_call" span="374:19:374:28">LocalFile</jtok>
+<jtok eid="22" type="primary_name_ref" span="374:29:374:33">list</jtok>
+<jtok eid="22" type="primary_name_ref" span="374:34:374:35">i</jtok>
+<jtok eid="22" type="primary_name_ref" span="376:10:376:15">list2</jtok>
+<jtok eid="1" type="line_comment" span="377:4:377:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="379:2:379:25">//{{{ _getFile() method</jtok>
+<jtok eid="1" type="annotation_ref" span="380:3:380:11">Override</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="381:9:381:16">VFSFile</jtok>
+<jtok eid="23" type="method_name" span="381:17:381:25">_getFile</jtok>
+<jtok eid="23" type="parameter_type" span="381:26:381:32">Object</jtok>
+<jtok eid="23" type="parameter_name" span="381:33:381:40">session</jtok>
+<jtok eid="23" type="parameter_type" span="381:42:381:48">String</jtok>
+<jtok eid="23" type="parameter_name" span="381:49:381:53">path</jtok>
+<jtok eid="23" type="parameter_type" span="382:3:382:12">Component</jtok>
+<jtok eid="23" type="parameter_name" span="382:13:382:17">comp</jtok>
+<jtok eid="23" type="primary_name_ref" span="384:6:384:10">path</jtok>
+<jtok eid="23" type="method_call" span="384:11:384:17">equals</jtok>
+<jtok eid="23" type="string_literal" span="384:18:384:21">"/"</jtok>
+<jtok eid="23" type="primary_name_ref" span="384:26:384:41">OperatingSystem</jtok>
+<jtok eid="23" type="method_call" span="384:42:384:48">isUnix</jtok>
+<jtok eid="23" type="constructor_call" span="386:15:386:18">VFS</jtok>
+<jtok eid="23" type="constructor_call" span="386:19:386:33">DirectoryEntry</jtok>
+<jtok eid="23" type="primary_name_ref" span="386:34:386:38">path</jtok>
+<jtok eid="23" type="primary_name_ref" span="386:39:386:43">path</jtok>
+<jtok eid="23" type="primary_name_ref" span="386:44:386:48">path</jtok>
+<jtok eid="23" type="primary_name_ref" span="387:5:387:12">VFSFile</jtok>
+<jtok eid="23" type="qualified_name_ref" span="387:13:387:22">DIRECTORY</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="390:3:390:7">File</jtok>
+<jtok eid="23" type="local_variable_name" span="390:8:390:12">file</jtok>
+<jtok eid="23" type="constructor_call" span="390:19:390:23">File</jtok>
+<jtok eid="23" type="primary_name_ref" span="390:24:390:28">path</jtok>
+<jtok eid="23" type="primary_name_ref" span="391:7:391:11">file</jtok>
+<jtok eid="23" type="method_call" span="391:12:391:18">exists</jtok>
+<jtok eid="23" type="constructor_call" span="394:14:394:23">LocalFile</jtok>
+<jtok eid="23" type="primary_name_ref" span="394:24:394:28">file</jtok>
+<jtok eid="1" type="line_comment" span="395:4:395:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="397:2:397:24">//{{{ _delete() method</jtok>
+<jtok eid="1" type="annotation_ref" span="398:3:398:11">Override</jtok>
+<jtok eid="24" type="method_name" span="399:17:399:24">_delete</jtok>
+<jtok eid="24" type="parameter_type" span="399:25:399:31">Object</jtok>
+<jtok eid="24" type="parameter_name" span="399:32:399:39">session</jtok>
+<jtok eid="24" type="parameter_type" span="399:41:399:47">String</jtok>
+<jtok eid="24" type="parameter_name" span="399:48:399:52">path</jtok>
+<jtok eid="24" type="parameter_type" span="399:54:399:63">Component</jtok>
+<jtok eid="24" type="parameter_name" span="399:64:399:68">comp</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="401:3:401:7">File</jtok>
+<jtok eid="24" type="local_variable_name" span="401:8:401:12">file</jtok>
+<jtok eid="24" type="constructor_call" span="401:19:401:23">File</jtok>
+<jtok eid="24" type="primary_name_ref" span="401:24:401:28">path</jtok>
+<jtok eid="24" type="line_comment" span="402:3:402:67">// do some platforms throw exceptions if the file does not exist</jtok>
+<jtok eid="24" type="line_comment" span="403:3:403:41">// when we ask for the canonical path?</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="404:3:404:9">String</jtok>
+<jtok eid="24" type="local_variable_name" span="404:10:404:19">canonPath</jtok>
+<jtok eid="24" type="primary_name_ref" span="407:4:407:13">canonPath</jtok>
+<jtok eid="24" type="primary_name_ref" span="407:16:407:20">file</jtok>
+<jtok eid="24" type="method_call" span="407:21:407:37">getCanonicalPath</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="409:9:409:20">IOException</jtok>
+<jtok eid="24" type="local_variable_name" span="409:21:409:23">io</jtok>
+<jtok eid="24" type="primary_name_ref" span="411:4:411:13">canonPath</jtok>
+<jtok eid="24" type="primary_name_ref" span="411:16:411:20">path</jtok>
+<jtok eid="24" type="line_comment" span="413:3:413:39">// if directory, do recursive delete</jtok>
+<jtok eid="24" type="local_variable_name" span="414:11:414:17">retVal</jtok>
+<jtok eid="24" type="primary_name_ref" span="415:8:415:12">file</jtok>
+<jtok eid="24" type="method_call" span="415:13:415:24">isDirectory</jtok>
+<jtok eid="24" type="primary_name_ref" span="417:4:417:10">retVal</jtok>
+<jtok eid="24" type="primary_name_ref" span="417:13:417:17">file</jtok>
+<jtok eid="24" type="method_call" span="417:18:417:24">delete</jtok>
+<jtok eid="24" type="primary_name_ref" span="421:4:421:10">retVal</jtok>
+<jtok eid="24" type="method_call" span="421:13:421:28">recursiveDelete</jtok>
+<jtok eid="24" type="primary_name_ref" span="421:29:421:33">file</jtok>
+<jtok eid="24" type="primary_name_ref" span="423:6:423:12">retVal</jtok>
+<jtok eid="24" type="primary_name_ref" span="424:4:424:14">VFSManager</jtok>
+<jtok eid="24" type="method_call" span="424:15:424:28">sendVFSUpdate</jtok>
+<jtok eid="24" type="primary_name_ref" span="424:34:424:43">canonPath</jtok>
+<jtok eid="24" type="primary_name_ref" span="425:10:425:16">retVal</jtok>
+<jtok eid="1" type="line_comment" span="426:4:426:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="428:2:428:24">//{{{ _rename() method</jtok>
+<jtok eid="1" type="annotation_ref" span="429:3:429:11">Override</jtok>
+<jtok eid="25" type="method_name" span="430:17:430:24">_rename</jtok>
+<jtok eid="25" type="parameter_type" span="430:25:430:31">Object</jtok>
+<jtok eid="25" type="parameter_name" span="430:32:430:39">session</jtok>
+<jtok eid="25" type="parameter_type" span="430:41:430:47">String</jtok>
+<jtok eid="25" type="parameter_name" span="430:48:430:52">from</jtok>
+<jtok eid="25" type="parameter_type" span="430:54:430:60">String</jtok>
+<jtok eid="25" type="parameter_name" span="430:61:430:63">to</jtok>
+<jtok eid="25" type="parameter_type" span="431:3:431:12">Component</jtok>
+<jtok eid="25" type="parameter_name" span="431:13:431:17">comp</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="433:3:433:7">File</jtok>
+<jtok eid="25" type="local_variable_name" span="433:8:433:11">_to</jtok>
+<jtok eid="25" type="constructor_call" span="433:18:433:22">File</jtok>
+<jtok eid="25" type="primary_name_ref" span="433:23:433:25">to</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="435:3:435:9">String</jtok>
+<jtok eid="25" type="local_variable_name" span="435:10:435:21">toCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="438:4:438:15">toCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="438:18:438:21">_to</jtok>
+<jtok eid="25" type="method_call" span="438:22:438:38">getCanonicalPath</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="440:9:440:20">IOException</jtok>
+<jtok eid="25" type="local_variable_name" span="440:21:440:23">io</jtok>
+<jtok eid="25" type="primary_name_ref" span="442:4:442:15">toCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="442:18:442:20">to</jtok>
+<jtok eid="25" type="line_comment" span="445:3:445:63">// this is needed because on OS X renaming to a non-existent</jtok>
+<jtok eid="25" type="line_comment" span="446:3:446:31">// directory causes problems</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="447:3:447:7">File</jtok>
+<jtok eid="25" type="local_variable_name" span="447:8:447:14">parent</jtok>
+<jtok eid="25" type="constructor_call" span="447:21:447:25">File</jtok>
+<jtok eid="25" type="primary_name_ref" span="447:26:447:29">_to</jtok>
+<jtok eid="25" type="method_call" span="447:30:447:39">getParent</jtok>
+<jtok eid="25" type="primary_name_ref" span="448:6:448:12">parent</jtok>
+<jtok eid="25" type="method_call" span="448:13:448:19">exists</jtok>
+<jtok eid="25" type="primary_name_ref" span="450:8:450:14">parent</jtok>
+<jtok eid="25" type="method_call" span="450:15:450:26">isDirectory</jtok>
+<jtok eid="25" type="primary_name_ref" span="455:4:455:10">parent</jtok>
+<jtok eid="25" type="method_call" span="455:11:455:17">mkdirs</jtok>
+<jtok eid="25" type="primary_name_ref" span="456:8:456:14">parent</jtok>
+<jtok eid="25" type="method_call" span="456:15:456:21">exists</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="460:3:460:7">File</jtok>
+<jtok eid="25" type="local_variable_name" span="460:8:460:13">_from</jtok>
+<jtok eid="25" type="constructor_call" span="460:20:460:24">File</jtok>
+<jtok eid="25" type="primary_name_ref" span="460:25:460:29">from</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="462:3:462:9">String</jtok>
+<jtok eid="25" type="local_variable_name" span="462:10:462:23">fromCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="465:4:465:17">fromCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="465:20:465:25">_from</jtok>
+<jtok eid="25" type="method_call" span="465:26:465:42">getCanonicalPath</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="467:9:467:20">IOException</jtok>
+<jtok eid="25" type="local_variable_name" span="467:21:467:23">io</jtok>
+<jtok eid="25" type="primary_name_ref" span="469:4:469:17">fromCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="469:20:469:24">from</jtok>
+<jtok eid="25" type="line_comment" span="472:3:472:36">// Case-insensitive fs workaround</jtok>
+<jtok eid="25" type="primary_name_ref" span="473:7:473:20">fromCanonPath</jtok>
+<jtok eid="25" type="method_call" span="473:21:473:37">equalsIgnoreCase</jtok>
+<jtok eid="25" type="primary_name_ref" span="473:38:473:49">toCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="474:4:474:7">_to</jtok>
+<jtok eid="25" type="method_call" span="474:8:474:14">delete</jtok>
+<jtok eid="25" type="local_variable_name" span="476:11:476:17">retVal</jtok>
+<jtok eid="25" type="primary_name_ref" span="476:20:476:25">_from</jtok>
+<jtok eid="25" type="method_call" span="476:26:476:34">renameTo</jtok>
+<jtok eid="25" type="primary_name_ref" span="476:35:476:38">_to</jtok>
+<jtok eid="25" type="primary_name_ref" span="477:3:477:13">VFSManager</jtok>
+<jtok eid="25" type="method_call" span="477:14:477:27">sendVFSUpdate</jtok>
+<jtok eid="25" type="primary_name_ref" span="477:33:477:46">fromCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="478:3:478:13">VFSManager</jtok>
+<jtok eid="25" type="method_call" span="478:14:478:27">sendVFSUpdate</jtok>
+<jtok eid="25" type="primary_name_ref" span="478:33:478:44">toCanonPath</jtok>
+<jtok eid="25" type="primary_name_ref" span="479:10:479:16">retVal</jtok>
+<jtok eid="1" type="line_comment" span="480:4:480:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="482:2:482:23">//{{{ _mkdir() method</jtok>
+<jtok eid="1" type="annotation_ref" span="483:3:483:11">Override</jtok>
+<jtok eid="26" type="method_name" span="484:17:484:23">_mkdir</jtok>
+<jtok eid="26" type="parameter_type" span="484:24:484:30">Object</jtok>
+<jtok eid="26" type="parameter_name" span="484:31:484:38">session</jtok>
+<jtok eid="26" type="parameter_type" span="484:40:484:46">String</jtok>
+<jtok eid="26" type="parameter_name" span="484:47:484:56">directory</jtok>
+<jtok eid="26" type="parameter_type" span="484:58:484:67">Component</jtok>
+<jtok eid="26" type="parameter_name" span="484:68:484:72">comp</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="486:3:486:9">String</jtok>
+<jtok eid="26" type="local_variable_name" span="486:10:486:16">parent</jtok>
+<jtok eid="26" type="method_call" span="486:19:486:34">getParentOfPath</jtok>
+<jtok eid="26" type="primary_name_ref" span="486:35:486:44">directory</jtok>
+<jtok eid="26" type="constructor_call" span="487:11:487:15">File</jtok>
+<jtok eid="26" type="primary_name_ref" span="487:16:487:22">parent</jtok>
+<jtok eid="26" type="method_call" span="487:24:487:30">exists</jtok>
+<jtok eid="26" type="method_call" span="489:8:489:14">_mkdir</jtok>
+<jtok eid="26" type="primary_name_ref" span="489:15:489:22">session</jtok>
+<jtok eid="26" type="primary_name_ref" span="489:23:489:29">parent</jtok>
+<jtok eid="26" type="primary_name_ref" span="489:30:489:34">comp</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="493:3:493:7">File</jtok>
+<jtok eid="26" type="local_variable_name" span="493:8:493:12">file</jtok>
+<jtok eid="26" type="constructor_call" span="493:19:493:23">File</jtok>
+<jtok eid="26" type="primary_name_ref" span="493:24:493:33">directory</jtok>
+<jtok eid="26" type="local_variable_name" span="495:11:495:17">retVal</jtok>
+<jtok eid="26" type="primary_name_ref" span="495:20:495:24">file</jtok>
+<jtok eid="26" type="method_call" span="495:25:495:30">mkdir</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="496:3:496:9">String</jtok>
+<jtok eid="26" type="local_variable_name" span="496:10:496:19">canonPath</jtok>
+<jtok eid="26" type="primary_name_ref" span="499:4:499:13">canonPath</jtok>
+<jtok eid="26" type="primary_name_ref" span="499:16:499:20">file</jtok>
+<jtok eid="26" type="method_call" span="499:21:499:37">getCanonicalPath</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="501:9:501:20">IOException</jtok>
+<jtok eid="26" type="local_variable_name" span="501:21:501:23">io</jtok>
+<jtok eid="26" type="primary_name_ref" span="503:4:503:13">canonPath</jtok>
+<jtok eid="26" type="primary_name_ref" span="503:16:503:25">directory</jtok>
+<jtok eid="26" type="primary_name_ref" span="505:3:505:13">VFSManager</jtok>
+<jtok eid="26" type="method_call" span="505:14:505:27">sendVFSUpdate</jtok>
+<jtok eid="26" type="primary_name_ref" span="505:33:505:42">canonPath</jtok>
+<jtok eid="26" type="primary_name_ref" span="506:10:506:16">retVal</jtok>
+<jtok eid="1" type="line_comment" span="507:4:507:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="509:2:509:24">//{{{ _backup() method</jtok>
+<jtok eid="1" type="annotation_ref" span="510:3:510:11">Override</jtok>
+<jtok eid="27" type="method_name" span="511:14:511:21">_backup</jtok>
+<jtok eid="27" type="parameter_type" span="511:22:511:28">Object</jtok>
+<jtok eid="27" type="parameter_name" span="511:29:511:36">session</jtok>
+<jtok eid="27" type="parameter_type" span="511:38:511:44">String</jtok>
+<jtok eid="27" type="parameter_name" span="511:45:511:49">path</jtok>
+<jtok eid="27" type="parameter_type" span="511:51:511:60">Component</jtok>
+<jtok eid="27" type="parameter_name" span="511:61:511:65">comp</jtok>
+<jtok eid="27" type="throws" span="512:10:512:21">IOException</jtok>
+<jtok eid="27" type="line_comment" span="514:3:514:22">// Fetch properties</jtok>
+<jtok eid="27" type="local_variable_name" span="515:7:515:14">backups</jtok>
+<jtok eid="27" type="primary_name_ref" span="515:17:515:22">jEdit</jtok>
+<jtok eid="27" type="method_call" span="515:23:515:41">getIntegerProperty</jtok>
+<jtok eid="27" type="string_literal" span="515:42:515:51">"backups"</jtok>
+<jtok eid="27" type="primary_name_ref" span="517:6:517:13">backups</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="520:3:520:9">String</jtok>
+<jtok eid="27" type="local_variable_name" span="520:10:520:22">backupPrefix</jtok>
+<jtok eid="27" type="primary_name_ref" span="520:25:520:30">jEdit</jtok>
+<jtok eid="27" type="method_call" span="520:31:520:42">getProperty</jtok>
+<jtok eid="27" type="string_literal" span="520:43:520:58">"backup.prefix"</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="521:3:521:9">String</jtok>
+<jtok eid="27" type="local_variable_name" span="521:10:521:22">backupSuffix</jtok>
+<jtok eid="27" type="primary_name_ref" span="521:25:521:30">jEdit</jtok>
+<jtok eid="27" type="method_call" span="521:31:521:42">getProperty</jtok>
+<jtok eid="27" type="string_literal" span="521:43:521:58">"backup.suffix"</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="523:3:523:9">String</jtok>
+<jtok eid="27" type="local_variable_name" span="523:10:523:25">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="523:28:523:33">jEdit</jtok>
+<jtok eid="27" type="method_call" span="523:34:523:45">getProperty</jtok>
+<jtok eid="27" type="string_literal" span="523:46:523:64">"backup.directory"</jtok>
+<jtok eid="27" type="local_variable_name" span="525:7:525:25">backupTimeDistance</jtok>
+<jtok eid="27" type="primary_name_ref" span="525:28:525:33">jEdit</jtok>
+<jtok eid="27" type="method_call" span="525:34:525:52">getIntegerProperty</jtok>
+<jtok eid="27" type="string_literal" span="525:53:525:69">"backup.minTime"</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="526:3:526:7">File</jtok>
+<jtok eid="27" type="local_variable_name" span="526:8:526:12">file</jtok>
+<jtok eid="27" type="constructor_call" span="526:19:526:23">File</jtok>
+<jtok eid="27" type="primary_name_ref" span="526:24:526:28">path</jtok>
+<jtok eid="27" type="primary_name_ref" span="528:8:528:12">file</jtok>
+<jtok eid="27" type="method_call" span="528:13:528:19">exists</jtok>
+<jtok eid="27" type="line_comment" span="531:3:531:49">// Check for backup.directory, and create that</jtok>
+<jtok eid="27" type="line_comment" span="532:3:532:35">// directory if it doesn't exist</jtok>
+<jtok eid="27" type="primary_name_ref" span="533:6:533:21">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="533:33:533:48">backupDirectory</jtok>
+<jtok eid="27" type="method_call" span="533:49:533:55">length</jtok>
+<jtok eid="27" type="primary_name_ref" span="534:4:534:19">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="534:22:534:26">file</jtok>
+<jtok eid="27" type="method_call" span="534:27:534:36">getParent</jtok>
+<jtok eid="27" type="primary_name_ref" span="537:4:537:19">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="537:22:537:35">MiscUtilities</jtok>
+<jtok eid="27" type="method_call" span="537:36:537:49">constructPath</jtok>
+<jtok eid="27" type="primary_name_ref" span="538:5:538:11">System</jtok>
+<jtok eid="27" type="method_call" span="538:12:538:23">getProperty</jtok>
+<jtok eid="27" type="string_literal" span="538:24:538:35">"user.home"</jtok>
+<jtok eid="27" type="primary_name_ref" span="538:37:538:52">backupDirectory</jtok>
+<jtok eid="27" type="line_comment" span="540:4:540:47">// Perhaps here we would want to guard with</jtok>
+<jtok eid="27" type="line_comment" span="541:4:541:46">// a property for parallel backups or not.</jtok>
+<jtok eid="27" type="primary_name_ref" span="542:4:542:19">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="542:22:542:35">MiscUtilities</jtok>
+<jtok eid="27" type="method_call" span="542:36:542:46">concatPath</jtok>
+<jtok eid="27" type="primary_name_ref" span="543:5:543:20">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="543:21:543:25">file</jtok>
+<jtok eid="27" type="method_call" span="543:26:543:35">getParent</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="545:4:545:8">File</jtok>
+<jtok eid="27" type="local_variable_name" span="545:9:545:12">dir</jtok>
+<jtok eid="27" type="constructor_call" span="545:19:545:23">File</jtok>
+<jtok eid="27" type="primary_name_ref" span="545:24:545:39">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="547:9:547:12">dir</jtok>
+<jtok eid="27" type="method_call" span="547:13:547:19">exists</jtok>
+<jtok eid="27" type="primary_name_ref" span="548:5:548:8">dir</jtok>
+<jtok eid="27" type="method_call" span="548:9:548:15">mkdirs</jtok>
+<jtok eid="27" type="primary_name_ref" span="551:3:551:16">MiscUtilities</jtok>
+<jtok eid="27" type="method_call" span="551:17:551:27">saveBackup</jtok>
+<jtok eid="27" type="primary_name_ref" span="551:28:551:32">file</jtok>
+<jtok eid="27" type="primary_name_ref" span="551:33:551:40">backups</jtok>
+<jtok eid="27" type="primary_name_ref" span="551:41:551:53">backupPrefix</jtok>
+<jtok eid="27" type="primary_name_ref" span="552:4:552:16">backupSuffix</jtok>
+<jtok eid="27" type="primary_name_ref" span="552:17:552:32">backupDirectory</jtok>
+<jtok eid="27" type="primary_name_ref" span="552:33:552:51">backupTimeDistance</jtok>
+<jtok eid="1" type="line_comment" span="553:4:553:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="555:2:555:35">//{{{ _createInputStream() method</jtok>
+<jtok eid="1" type="annotation_ref" span="556:3:556:11">Override</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="557:9:557:20">InputStream</jtok>
+<jtok eid="28" type="method_name" span="557:21:557:39">_createInputStream</jtok>
+<jtok eid="28" type="parameter_type" span="557:40:557:46">Object</jtok>
+<jtok eid="28" type="parameter_name" span="557:47:557:54">session</jtok>
+<jtok eid="28" type="parameter_type" span="557:56:557:62">String</jtok>
+<jtok eid="28" type="parameter_name" span="557:63:557:67">path</jtok>
+<jtok eid="28" type="parameter_name" span="558:11:558:23">ignoreErrors</jtok>
+<jtok eid="28" type="parameter_type" span="558:25:558:34">Component</jtok>
+<jtok eid="28" type="parameter_name" span="558:35:558:39">comp</jtok>
+<jtok eid="28" type="throws" span="558:48:558:59">IOException</jtok>
+<jtok eid="28" type="constructor_call" span="562:15:562:30">FileInputStream</jtok>
+<jtok eid="28" type="primary_name_ref" span="562:31:562:35">path</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="564:9:564:20">IOException</jtok>
+<jtok eid="28" type="local_variable_name" span="564:21:564:23">io</jtok>
+<jtok eid="28" type="primary_name_ref" span="566:7:566:19">ignoreErrors</jtok>
+<jtok eid="28" type="primary_name_ref" span="569:11:569:13">io</jtok>
+<jtok eid="1" type="line_comment" span="571:4:571:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="573:2:573:36">//{{{ _createOutputStream() method</jtok>
+<jtok eid="1" type="annotation_ref" span="574:3:574:11">Override</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="575:9:575:21">OutputStream</jtok>
+<jtok eid="29" type="method_name" span="575:22:575:41">_createOutputStream</jtok>
+<jtok eid="29" type="parameter_type" span="575:42:575:48">Object</jtok>
+<jtok eid="29" type="parameter_name" span="575:49:575:56">session</jtok>
+<jtok eid="29" type="parameter_type" span="575:58:575:64">String</jtok>
+<jtok eid="29" type="parameter_name" span="575:65:575:69">path</jtok>
+<jtok eid="29" type="parameter_type" span="576:3:576:12">Component</jtok>
+<jtok eid="29" type="parameter_name" span="576:13:576:17">comp</jtok>
+<jtok eid="29" type="throws" span="576:26:576:37">IOException</jtok>
+<jtok eid="29" type="constructor_call" span="578:14:578:30">FileOutputStream</jtok>
+<jtok eid="29" type="primary_name_ref" span="578:31:578:35">path</jtok>
+<jtok eid="1" type="line_comment" span="579:4:579:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="581:2:581:30">//{{{ _saveComplete() method</jtok>
+<jtok eid="1" type="annotation_ref" span="582:3:582:11">Override</jtok>
+<jtok eid="30" type="method_name" span="583:14:583:27">_saveComplete</jtok>
+<jtok eid="30" type="parameter_type" span="583:28:583:34">Object</jtok>
+<jtok eid="30" type="parameter_name" span="583:35:583:42">session</jtok>
+<jtok eid="30" type="parameter_type" span="583:44:583:50">Buffer</jtok>
+<jtok eid="30" type="parameter_name" span="583:51:583:57">buffer</jtok>
+<jtok eid="30" type="parameter_type" span="583:59:583:65">String</jtok>
+<jtok eid="30" type="parameter_name" span="583:66:583:70">path</jtok>
+<jtok eid="30" type="parameter_type" span="584:3:584:12">Component</jtok>
+<jtok eid="30" type="parameter_name" span="584:13:584:17">comp</jtok>
+<jtok eid="30" type="local_variable_name" span="586:7:586:18">permissions</jtok>
+<jtok eid="30" type="primary_name_ref" span="586:21:586:27">buffer</jtok>
+<jtok eid="30" type="method_call" span="586:28:586:46">getIntegerProperty</jtok>
+<jtok eid="30" type="primary_name_ref" span="586:47:586:67">PERMISSIONS_PROPERTY</jtok>
+<jtok eid="30" type="method_call" span="587:3:587:17">setPermissions</jtok>
+<jtok eid="30" type="primary_name_ref" span="587:18:587:22">path</jtok>
+<jtok eid="30" type="primary_name_ref" span="587:23:587:34">permissions</jtok>
+<jtok eid="1" type="line_comment" span="588:4:588:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="590:2:590:36">//{{{ Permission preservation code</jtok>
+<jtok eid="1" type="block_comment" span="592:2:592:68">/** Code borrowed from j text editor (http://www.armedbear.org) */</jtok>
+<jtok eid="1" type="block_comment" span="593:2:593:75">/** I made some changes to make it support suid, sgid and sticky files */</jtok>
+<jtok eid="1" type="line_comment" span="595:2:595:31">//{{{ getPermissions() method</jtok>
+<jtok eid="1" type="block_comment" span="596:2:600:5">/**
+	 * Returns numeric permissions of a file. On non-Unix systems, always
+	 * returns zero.
+	 * @since jEdit 3.2pre9
+	 */</jtok>
+<jtok eid="31" type="method_name" span="601:20:601:34">getPermissions</jtok>
+<jtok eid="31" type="parameter_type" span="601:35:601:41">String</jtok>
+<jtok eid="31" type="parameter_name" span="601:42:601:46">path</jtok>
+<jtok eid="31" type="local_variable_name" span="603:7:603:18">permissions</jtok>
+<jtok eid="31" type="primary_name_ref" span="605:6:605:11">jEdit</jtok>
+<jtok eid="31" type="method_call" span="605:12:605:30">getBooleanProperty</jtok>
+<jtok eid="31" type="string_literal" span="605:31:605:46">"chmodDisabled"</jtok>
+<jtok eid="31" type="primary_name_ref" span="606:11:606:22">permissions</jtok>
+<jtok eid="31" type="primary_name_ref" span="608:6:608:21">OperatingSystem</jtok>
+<jtok eid="31" type="method_call" span="608:22:608:28">isUnix</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="610:4:610:10">String</jtok>
+<jtok eid="31" type="local_variable_name" span="610:13:610:21">cmdarray</jtok>
+<jtok eid="31" type="string_literal" span="610:26:610:30">"ls"</jtok>
+<jtok eid="31" type="string_literal" span="610:32:610:37">"-ld"</jtok>
+<jtok eid="31" type="primary_name_ref" span="610:39:610:43">path</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="614:5:614:12">Process</jtok>
+<jtok eid="31" type="local_variable_name" span="614:13:614:20">process</jtok>
+<jtok eid="31" type="primary_name_ref" span="614:23:614:30">Runtime</jtok>
+<jtok eid="31" type="method_call" span="614:31:614:41">getRuntime</jtok>
+<jtok eid="31" type="method_call" span="614:44:614:48">exec</jtok>
+<jtok eid="31" type="primary_name_ref" span="614:49:614:57">cmdarray</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="616:5:616:19">BufferedReader</jtok>
+<jtok eid="31" type="local_variable_name" span="616:20:616:26">reader</jtok>
+<jtok eid="31" type="constructor_call" span="616:33:616:47">BufferedReader</jtok>
+<jtok eid="31" type="constructor_call" span="616:52:616:69">InputStreamReader</jtok>
+<jtok eid="31" type="primary_name_ref" span="616:70:616:77">process</jtok>
+<jtok eid="31" type="method_call" span="616:78:616:92">getInputStream</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="618:5:618:11">String</jtok>
+<jtok eid="31" type="local_variable_name" span="618:12:618:18">output</jtok>
+<jtok eid="31" type="primary_name_ref" span="618:21:618:27">reader</jtok>
+<jtok eid="31" type="method_call" span="618:28:618:36">readLine</jtok>
+<jtok eid="31" type="primary_name_ref" span="620:8:620:14">output</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="622:6:622:12">String</jtok>
+<jtok eid="31" type="local_variable_name" span="622:13:622:14">s</jtok>
+<jtok eid="31" type="primary_name_ref" span="622:17:622:23">output</jtok>
+<jtok eid="31" type="method_call" span="622:24:622:33">substring</jtok>
+<jtok eid="31" type="primary_name_ref" span="624:6:624:17">permissions</jtok>
+<jtok eid="31" type="primary_name_ref" span="624:20:624:33">MiscUtilities</jtok>
+<jtok eid="31" type="method_call" span="625:8:625:24">parsePermissions</jtok>
+<jtok eid="31" type="primary_name_ref" span="625:25:625:26">s</jtok>
+<jtok eid="31" type="line_comment" span="629:4:629:25">// Feb 4 2000 5:30 PM</jtok>
+<jtok eid="31" type="line_comment" span="630:4:630:50">// Catch Throwable here rather than Exception.</jtok>
+<jtok eid="31" type="line_comment" span="631:4:631:77">// Kaffe's implementation of Runtime.exec throws java.lang.InternalError.</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="632:11:632:20">Throwable</jtok>
+<jtok eid="31" type="local_variable_name" span="632:21:632:22">t</jtok>
+<jtok eid="31" type="primary_name_ref" span="637:10:637:21">permissions</jtok>
+<jtok eid="1" type="line_comment" span="638:4:638:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="640:2:640:31">//{{{ setPermissions() method</jtok>
+<jtok eid="1" type="block_comment" span="641:2:645:5">/**
+	 * Sets numeric permissions of a file. On non-Unix platforms,
+	 * does nothing.
+	 * @since jEdit 3.2pre9
+	 */</jtok>
+<jtok eid="32" type="method_name" span="646:21:646:35">setPermissions</jtok>
+<jtok eid="32" type="parameter_type" span="646:36:646:42">String</jtok>
+<jtok eid="32" type="parameter_name" span="646:43:646:47">path</jtok>
+<jtok eid="32" type="parameter_name" span="646:53:646:64">permissions</jtok>
+<jtok eid="32" type="primary_name_ref" span="648:6:648:11">jEdit</jtok>
+<jtok eid="32" type="method_call" span="648:12:648:30">getBooleanProperty</jtok>
+<jtok eid="32" type="string_literal" span="648:31:648:46">"chmodDisabled"</jtok>
+<jtok eid="32" type="primary_name_ref" span="651:6:651:17">permissions</jtok>
+<jtok eid="32" type="primary_name_ref" span="653:7:653:22">OperatingSystem</jtok>
+<jtok eid="32" type="method_call" span="653:23:653:29">isUnix</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="655:5:655:11">String</jtok>
+<jtok eid="32" type="local_variable_name" span="655:14:655:22">cmdarray</jtok>
+<jtok eid="32" type="string_literal" span="655:27:655:34">"chmod"</jtok>
+<jtok eid="32" type="primary_name_ref" span="655:36:655:43">Integer</jtok>
+<jtok eid="32" type="method_call" span="655:44:655:52">toString</jtok>
+<jtok eid="32" type="primary_name_ref" span="655:53:655:64">permissions</jtok>
+<jtok eid="32" type="primary_name_ref" span="655:70:655:74">path</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="659:6:659:13">Process</jtok>
+<jtok eid="32" type="local_variable_name" span="659:14:659:21">process</jtok>
+<jtok eid="32" type="primary_name_ref" span="659:24:659:31">Runtime</jtok>
+<jtok eid="32" type="method_call" span="659:32:659:42">getRuntime</jtok>
+<jtok eid="32" type="method_call" span="659:45:659:49">exec</jtok>
+<jtok eid="32" type="primary_name_ref" span="659:50:659:58">cmdarray</jtok>
+<jtok eid="32" type="primary_name_ref" span="660:6:660:13">process</jtok>
+<jtok eid="32" type="method_call" span="660:14:660:28">getInputStream</jtok>
+<jtok eid="32" type="method_call" span="660:31:660:36">close</jtok>
+<jtok eid="32" type="primary_name_ref" span="661:6:661:13">process</jtok>
+<jtok eid="32" type="method_call" span="661:14:661:29">getOutputStream</jtok>
+<jtok eid="32" type="method_call" span="661:32:661:37">close</jtok>
+<jtok eid="32" type="primary_name_ref" span="662:6:662:13">process</jtok>
+<jtok eid="32" type="method_call" span="662:14:662:28">getErrorStream</jtok>
+<jtok eid="32" type="method_call" span="662:31:662:36">close</jtok>
+<jtok eid="32" type="line_comment" span="663:6:663:28">// Jun 9 2004 12:40 PM</jtok>
+<jtok eid="32" type="line_comment" span="664:6:664:37">// waitFor() hangs on some Java</jtok>
+<jtok eid="32" type="line_comment" span="665:6:665:25">// implementations.</jtok>
+<jtok eid="32" type="block_comment" span="666:6:668:81">/* int exitCode = process.waitFor();
+					if(exitCode != 0)
+						Log.log(Log.NOTICE,FileVFS.class,"chmod exited with code " + exitCode); */</jtok>
+<jtok eid="32" type="line_comment" span="671:5:671:26">// Feb 4 2000 5:30 PM</jtok>
+<jtok eid="32" type="line_comment" span="672:5:672:51">// Catch Throwable here rather than Exception.</jtok>
+<jtok eid="32" type="line_comment" span="673:5:673:78">// Kaffe's implementation of Runtime.exec throws java.lang.InternalError.</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="674:12:674:21">Throwable</jtok>
+<jtok eid="32" type="local_variable_name" span="674:22:674:23">t</jtok>
+<jtok eid="1" type="line_comment" span="679:4:679:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="681:2:681:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="683:2:683:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="684:23:684:37">FileSystemView</jtok>
+<jtok eid="1" type="field_name" span="684:38:684:44">fsView</jtok>
+<jtok eid="1" type="primary_name_ref" span="684:47:684:61">FileSystemView</jtok>
+<jtok eid="1" type="method_call" span="684:62:684:79">getFileSystemView</jtok>
+<jtok eid="1" type="line_comment" span="685:2:685:7">//}}}</jtok>
+</jdoc>

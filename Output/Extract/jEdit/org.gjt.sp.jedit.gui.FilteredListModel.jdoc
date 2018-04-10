@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.FilteredListModel" jls="java5">
+<jent id="0" type="file" span="0:0:278:2">Source/jEdit/org/gjt/sp/jedit/gui/FilteredListModel.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:278:1">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;</jent>
+<jent id="2" pid="1" type="method" span="62:2:67:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.FilteredListModel(E)</jent>
+<jent id="3" pid="1" type="method" span="77:2:82:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.setList(JList)</jent>
+<jent id="4" pid="1" type="method" span="85:2:88:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.getDelegated()</jent>
+<jent id="5" pid="1" type="method" span="91:2:96:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.setDelegated(E)</jent>
+<jent id="6" pid="1" type="method" span="99:2:102:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.resetFilter()</jent>
+<jent id="7" pid="1" type="method" span="105:2:141:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.setFilter(String)</jent>
+<jent id="8" pid="7" type="class" span="108:3:139:3">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.setFilter(String).$1</jent>
+<jent id="9" pid="8" type="method" span="109:4:138:4">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.setFilter(String).$1.run()</jent>
+<jent id="10" pid="1" type="method" span="144:2:147:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.prepareFilter(String)</jent>
+<jent id="11" pid="1" type="method" span="157:2:157:60">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.passFilter(int,String)</jent>
+<jent id="12" pid="1" type="method" span="161:2:175:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.saveSelection()</jent>
+<jent id="13" pid="1" type="method" span="178:2:211:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.restoreSelection(Set&lt;Integer&gt;)</jent>
+<jent id="14" pid="1" type="method" span="220:2:225:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.getTrueRow(int)</jent>
+<jent id="15" pid="1" type="method" span="234:2:244:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.getInternal2ExternalRow(int)</jent>
+<jent id="16" pid="1" type="method" span="247:2:251:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.getElementAt(int)</jent>
+<jent id="17" pid="1" type="method" span="254:2:259:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.getSize()</jent>
+<jent id="18" pid="1" type="method" span="262:2:265:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.contentsChanged(ListDataEvent)</jent>
+<jent id="19" pid="1" type="method" span="268:2:271:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.intervalAdded(ListDataEvent)</jent>
+<jent id="20" pid="1" type="method" span="274:2:277:2">org.gjt.sp.jedit.gui.FilteredListModel&lt;E&gt;.intervalRemoved(ListDataEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * FilteredTableModel.java - A Filtered table model decorator
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2008 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="block_comment" span="28:1:42:4">/**
+ * This ListModel delegates another model to add some filtering features to any
+ * JList.
+ * To use it you must implement the abstract method passFilter().
+ * This method is called for each row, and must return true if the row should be
+ * visible, and false otherwise.
+ * It is also possible to override the method prepareFilter() that allow you to
+ * transform the filter String. Usually you can return it as lowercase
+ * It is not mandatory but highly recommended to give the JList instance to the
+ * model in order to keep the selection after the filter has been updated
+ *
+ * @author Matthieu Casanova
+ * @version $Id: Buffer.java 8190 2006-12-07 07:58:34Z kpouer $
+ * @since jEdit 4.3pre11
+ */</jtok>
+<jtok eid="1" type="class_name" span="43:23:43:40">FilteredListModel</jtok>
+<jtok eid="1" type="type_parameter_name" span="43:41:43:42">E</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:51:43:60">ListModel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:70:43:87">AbstractListModel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:99:43:115">ListDataListener</jtok>
+<jtok eid="1" type="block_comment" span="45:2:47:5">/**
+	 * The delegated table model.
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:12:48:13">E</jtok>
+<jtok eid="1" type="field_name" span="48:14:48:23">delegated</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:10:50:16">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:17:50:24">Integer</jtok>
+<jtok eid="1" type="field_name" span="50:26:50:41">filteredIndices</jtok>
+<jtok eid="1" type="block_comment" span="52:2:54:5">/**
+	 * This map contains the delegated indices as key and true indices as values.
+	 */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:10:55:13">Map</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:14:55:21">Integer</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="55:23:55:30">Integer</jtok>
+<jtok eid="1" type="field_name" span="55:32:55:47">invertedIndices</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="57:10:57:16">String</jtok>
+<jtok eid="1" type="field_name" span="57:17:57:23">filter</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="59:10:59:15">JList</jtok>
+<jtok eid="1" type="field_name" span="59:16:59:20">list</jtok>
+<jtok eid="1" type="line_comment" span="61:2:61:40">//{{{ FilteredTableModel() constructor</jtok>
+<jtok eid="2" type="method_name" span="62:12:62:29">FilteredListModel</jtok>
+<jtok eid="2" type="parameter_type" span="62:30:62:31">E</jtok>
+<jtok eid="2" type="parameter_name" span="62:32:62:41">delegated</jtok>
+<jtok eid="2" type="qualified_name_ref" span="64:8:64:17">delegated</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:20:64:29">delegated</jtok>
+<jtok eid="2" type="primary_name_ref" span="65:3:65:12">delegated</jtok>
+<jtok eid="2" type="method_call" span="65:13:65:32">addListDataListener</jtok>
+<jtok eid="2" type="method_call" span="66:3:66:14">resetFilter</jtok>
+<jtok eid="1" type="line_comment" span="67:4:67:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="69:2:69:24">//{{{ setList() method</jtok>
+<jtok eid="1" type="block_comment" span="70:2:76:5">/**
+	 * Set the JList that uses this model.
+	 * It is used to restore the selection after the filter has been applied
+	 * If it is null,
+	 *
+	 * @param list the list that uses the model
+	 */</jtok>
+<jtok eid="3" type="method_name" span="77:14:77:21">setList</jtok>
+<jtok eid="3" type="parameter_type" span="77:22:77:27">JList</jtok>
+<jtok eid="3" type="parameter_name" span="77:28:77:32">list</jtok>
+<jtok eid="3" type="primary_name_ref" span="79:7:79:11">list</jtok>
+<jtok eid="3" type="method_call" span="79:12:79:20">getModel</jtok>
+<jtok eid="3" type="constructor_call" span="80:14:80:38">IllegalArgumentException</jtok>
+<jtok eid="3" type="string_literal" span="80:39:80:56">"The given list "</jtok>
+<jtok eid="3" type="primary_name_ref" span="80:59:80:63">list</jtok>
+<jtok eid="3" type="string_literal" span="80:66:80:92">" doesn't use this model "</jtok>
+<jtok eid="3" type="qualified_name_ref" span="81:8:81:12">list</jtok>
+<jtok eid="3" type="primary_name_ref" span="81:15:81:19">list</jtok>
+<jtok eid="1" type="line_comment" span="82:4:82:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="84:2:84:29">//{{{ getDelegated() method</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="85:9:85:10">E</jtok>
+<jtok eid="4" type="method_name" span="85:11:85:23">getDelegated</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:10:87:19">delegated</jtok>
+<jtok eid="1" type="line_comment" span="88:4:88:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="90:2:90:29">//{{{ setDelegated() method</jtok>
+<jtok eid="5" type="method_name" span="91:14:91:26">setDelegated</jtok>
+<jtok eid="5" type="parameter_type" span="91:27:91:28">E</jtok>
+<jtok eid="5" type="parameter_name" span="91:29:91:38">delegated</jtok>
+<jtok eid="5" type="qualified_name_ref" span="93:8:93:17">delegated</jtok>
+<jtok eid="5" type="method_call" span="93:18:93:40">removeListDataListener</jtok>
+<jtok eid="5" type="primary_name_ref" span="94:3:94:12">delegated</jtok>
+<jtok eid="5" type="method_call" span="94:13:94:32">addListDataListener</jtok>
+<jtok eid="5" type="qualified_name_ref" span="95:8:95:17">delegated</jtok>
+<jtok eid="5" type="primary_name_ref" span="95:20:95:29">delegated</jtok>
+<jtok eid="1" type="line_comment" span="96:4:96:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="98:2:98:28">//{{{ resetFilter() method</jtok>
+<jtok eid="6" type="method_name" span="99:15:99:26">resetFilter</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:3:101:18">filteredIndices</jtok>
+<jtok eid="1" type="line_comment" span="102:4:102:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="104:2:104:26">//{{{ setFilter() method</jtok>
+<jtok eid="7" type="method_name" span="105:14:105:23">setFilter</jtok>
+<jtok eid="7" type="parameter_type" span="105:30:105:36">String</jtok>
+<jtok eid="7" type="parameter_name" span="105:37:105:43">filter</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="107:3:107:11">Runnable</jtok>
+<jtok eid="7" type="local_variable_name" span="107:12:107:18">runner</jtok>
+<jtok eid="7" type="constructor_call" span="107:25:107:33">Runnable</jtok>
+<jtok eid="9" type="method_name" span="109:16:109:19">run</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="111:5:111:8">Set</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="111:9:111:16">Integer</jtok>
+<jtok eid="9" type="local_variable_name" span="111:18:111:33">selectedIndices</jtok>
+<jtok eid="9" type="method_call" span="111:36:111:49">saveSelection</jtok>
+<jtok eid="9" type="primary_name_ref" span="112:5:112:9">list</jtok>
+<jtok eid="9" type="method_call" span="112:10:112:24">clearSelection</jtok>
+<jtok eid="9" type="primary_name_ref" span="113:5:113:22">FilteredListModel</jtok>
+<jtok eid="9" type="qualified_name_ref" span="113:28:113:34">filter</jtok>
+<jtok eid="9" type="primary_name_ref" span="113:37:113:43">filter</jtok>
+<jtok eid="9" type="primary_name_ref" span="114:9:114:15">filter</jtok>
+<jtok eid="9" type="primary_name_ref" span="114:27:114:33">filter</jtok>
+<jtok eid="9" type="method_call" span="114:34:114:40">length</jtok>
+<jtok eid="9" type="local_variable_name" span="116:10:116:14">size</jtok>
+<jtok eid="9" type="primary_name_ref" span="116:17:116:26">delegated</jtok>
+<jtok eid="9" type="method_call" span="116:27:116:34">getSize</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="117:6:117:12">String</jtok>
+<jtok eid="9" type="local_variable_name" span="117:13:117:27">prepped_filter</jtok>
+<jtok eid="9" type="method_call" span="117:30:117:43">prepareFilter</jtok>
+<jtok eid="9" type="primary_name_ref" span="117:44:117:50">filter</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="118:6:118:12">Vector</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="118:13:118:20">Integer</jtok>
+<jtok eid="9" type="local_variable_name" span="118:22:118:29">indices</jtok>
+<jtok eid="9" type="constructor_call" span="118:36:118:42">Vector</jtok>
+<jtok eid="9" type="constructor_call" span="118:43:118:50">Integer</jtok>
+<jtok eid="9" type="primary_name_ref" span="118:52:118:56">size</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="119:6:119:9">Map</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="119:10:119:17">Integer</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="119:19:119:26">Integer</jtok>
+<jtok eid="9" type="local_variable_name" span="119:28:119:43">invertedIndices</jtok>
+<jtok eid="9" type="constructor_call" span="119:50:119:57">HashMap</jtok>
+<jtok eid="9" type="constructor_call" span="119:58:119:65">Integer</jtok>
+<jtok eid="9" type="constructor_call" span="119:67:119:74">Integer</jtok>
+<jtok eid="9" type="local_variable_name" span="120:15:120:16">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="120:22:120:23">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="120:26:120:30">size</jtok>
+<jtok eid="9" type="primary_name_ref" span="120:32:120:33">i</jtok>
+<jtok eid="9" type="method_call" span="122:11:122:21">passFilter</jtok>
+<jtok eid="9" type="primary_name_ref" span="122:22:122:23">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="122:25:122:39">prepped_filter</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="124:8:124:15">Integer</jtok>
+<jtok eid="9" type="local_variable_name" span="124:16:124:31">delegatedIndice</jtok>
+<jtok eid="9" type="primary_name_ref" span="124:34:124:41">Integer</jtok>
+<jtok eid="9" type="method_call" span="124:42:124:49">valueOf</jtok>
+<jtok eid="9" type="primary_name_ref" span="124:50:124:51">i</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:8:125:15">indices</jtok>
+<jtok eid="9" type="method_call" span="125:16:125:19">add</jtok>
+<jtok eid="9" type="primary_name_ref" span="125:20:125:35">delegatedIndice</jtok>
+<jtok eid="9" type="primary_name_ref" span="127:8:127:23">invertedIndices</jtok>
+<jtok eid="9" type="method_call" span="127:24:127:27">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="127:28:127:43">delegatedIndice</jtok>
+<jtok eid="9" type="primary_name_ref" span="127:45:127:52">indices</jtok>
+<jtok eid="9" type="method_call" span="127:53:127:57">size</jtok>
+<jtok eid="9" type="primary_name_ref" span="130:6:130:23">FilteredListModel</jtok>
+<jtok eid="9" type="qualified_name_ref" span="130:29:130:44">invertedIndices</jtok>
+<jtok eid="9" type="primary_name_ref" span="130:47:130:62">invertedIndices</jtok>
+<jtok eid="9" type="primary_name_ref" span="131:6:131:21">filteredIndices</jtok>
+<jtok eid="9" type="primary_name_ref" span="131:24:131:31">indices</jtok>
+<jtok eid="9" type="method_call" span="134:6:134:17">resetFilter</jtok>
+<jtok eid="9" type="method_call" span="136:5:136:24">fireContentsChanged</jtok>
+<jtok eid="9" type="method_call" span="136:34:136:41">getSize</jtok>
+<jtok eid="9" type="method_call" span="137:5:137:21">restoreSelection</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:22:137:37">selectedIndices</jtok>
+<jtok eid="7" type="primary_name_ref" span="140:3:140:17">SwingUtilities</jtok>
+<jtok eid="7" type="method_call" span="140:18:140:29">invokeLater</jtok>
+<jtok eid="7" type="primary_name_ref" span="140:30:140:36">runner</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:30">//{{{ prepareFilter() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="144:9:144:15">String</jtok>
+<jtok eid="10" type="method_name" span="144:16:144:29">prepareFilter</jtok>
+<jtok eid="10" type="parameter_type" span="144:30:144:36">String</jtok>
+<jtok eid="10" type="parameter_name" span="144:37:144:43">filter</jtok>
+<jtok eid="10" type="primary_name_ref" span="146:10:146:16">filter</jtok>
+<jtok eid="1" type="line_comment" span="147:4:147:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="149:2:149:27">//{{{ passFilter() method</jtok>
+<jtok eid="1" type="block_comment" span="150:2:156:5">/**
+	 * This callback indicates if a row passes the filter.
+	 *
+	 * @param row    the row number the delegate row count
+	 * @param filter the filter string
+	 * @return true if the row must be visible
+	 */</jtok>
+<jtok eid="11" type="method_name" span="157:26:157:36">passFilter</jtok>
+<jtok eid="11" type="parameter_name" span="157:41:157:44">row</jtok>
+<jtok eid="11" type="parameter_type" span="157:46:157:52">String</jtok>
+<jtok eid="11" type="parameter_name" span="157:53:157:59">filter</jtok>
+<jtok eid="1" type="line_comment" span="158:2:158:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:23">//{{{ saveSelection()</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="161:12:161:15">Set</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="161:16:161:23">Integer</jtok>
+<jtok eid="12" type="method_name" span="161:25:161:38">saveSelection</jtok>
+<jtok eid="12" type="primary_name_ref" span="163:7:163:11">list</jtok>
+<jtok eid="12" type="local_variable_name" span="165:9:165:13">rows</jtok>
+<jtok eid="12" type="primary_name_ref" span="165:16:165:20">list</jtok>
+<jtok eid="12" type="method_call" span="165:21:165:39">getSelectedIndices</jtok>
+<jtok eid="12" type="primary_name_ref" span="166:7:166:11">rows</jtok>
+<jtok eid="12" type="qualified_name_ref" span="166:12:166:18">length</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="169:3:169:6">Set</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="169:7:169:14">Integer</jtok>
+<jtok eid="12" type="local_variable_name" span="169:16:169:28">selectedRows</jtok>
+<jtok eid="12" type="constructor_call" span="169:35:169:42">HashSet</jtok>
+<jtok eid="12" type="constructor_call" span="169:43:169:50">Integer</jtok>
+<jtok eid="12" type="primary_name_ref" span="169:52:169:56">rows</jtok>
+<jtok eid="12" type="qualified_name_ref" span="169:57:169:63">length</jtok>
+<jtok eid="12" type="local_variable_name" span="170:12:170:15">row</jtok>
+<jtok eid="12" type="primary_name_ref" span="170:18:170:22">rows</jtok>
+<jtok eid="12" type="primary_name_ref" span="172:4:172:16">selectedRows</jtok>
+<jtok eid="12" type="method_call" span="172:17:172:20">add</jtok>
+<jtok eid="12" type="method_call" span="172:21:172:31">getTrueRow</jtok>
+<jtok eid="12" type="primary_name_ref" span="172:32:172:35">row</jtok>
+<jtok eid="12" type="primary_name_ref" span="174:10:174:22">selectedRows</jtok>
+<jtok eid="1" type="line_comment" span="175:4:175:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="177:2:177:33">//{{{ restoreSelection() method</jtok>
+<jtok eid="13" type="method_name" span="178:17:178:33">restoreSelection</jtok>
+<jtok eid="13" type="parameter_type" span="178:34:178:37">Set</jtok>
+<jtok eid="13" type="parameter_type" span="178:38:178:45">Integer</jtok>
+<jtok eid="13" type="parameter_name" span="178:47:178:62">selectedIndices</jtok>
+<jtok eid="13" type="primary_name_ref" span="180:7:180:22">selectedIndices</jtok>
+<jtok eid="13" type="method_call" span="180:34:180:41">getSize</jtok>
+<jtok eid="13" type="line_comment" span="183:3:183:59">// To correctly handle "single interval" selection mode,</jtok>
+<jtok eid="13" type="line_comment" span="184:3:184:61">// each interval has to be selected using a single call to</jtok>
+<jtok eid="13" type="line_comment" span="185:3:185:59">// setSelectionInterval; calling setSelectionInterval on</jtok>
+<jtok eid="13" type="line_comment" span="186:3:186:47">// each item cancels the previous selection.</jtok>
+<jtok eid="13" type="line_comment" span="187:3:187:60">// Sort the list of selected indices to simplify interval</jtok>
+<jtok eid="13" type="line_comment" span="188:3:188:21">// identification.</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="189:3:189:9">Vector</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="189:10:189:17">Integer</jtok>
+<jtok eid="13" type="local_variable_name" span="189:19:189:22">sel</jtok>
+<jtok eid="13" type="constructor_call" span="189:29:189:35">Vector</jtok>
+<jtok eid="13" type="constructor_call" span="189:36:189:43">Integer</jtok>
+<jtok eid="13" type="primary_name_ref" span="189:45:189:60">selectedIndices</jtok>
+<jtok eid="13" type="primary_name_ref" span="190:3:190:14">Collections</jtok>
+<jtok eid="13" type="method_call" span="190:15:190:19">sort</jtok>
+<jtok eid="13" type="primary_name_ref" span="190:20:190:23">sel</jtok>
+<jtok eid="13" type="local_variable_name" span="191:7:191:11">from</jtok>
+<jtok eid="13" type="local_variable_name" span="192:7:192:9">to</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="193:8:193:15">Integer</jtok>
+<jtok eid="13" type="local_variable_name" span="193:16:193:29">selectedIndex</jtok>
+<jtok eid="13" type="primary_name_ref" span="193:32:193:35">sel</jtok>
+<jtok eid="13" type="local_variable_name" span="195:8:195:9">i</jtok>
+<jtok eid="13" type="method_call" span="195:12:195:35">getInternal2ExternalRow</jtok>
+<jtok eid="13" type="primary_name_ref" span="195:36:195:49">selectedIndex</jtok>
+<jtok eid="13" type="method_call" span="195:50:195:58">intValue</jtok>
+<jtok eid="13" type="primary_name_ref" span="196:8:196:9">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="198:9:198:13">from</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:6:199:10">from</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:13:199:15">to</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:18:199:19">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="200:14:200:15">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="200:19:200:21">to</jtok>
+<jtok eid="13" type="primary_name_ref" span="201:6:201:8">to</jtok>
+<jtok eid="13" type="primary_name_ref" span="201:11:201:12">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:6:204:10">list</jtok>
+<jtok eid="13" type="method_call" span="204:11:204:31">setSelectionInterval</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:32:204:36">from</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:38:204:40">to</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:6:205:10">from</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:13:205:15">to</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:18:205:19">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="209:7:209:11">from</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:4:210:8">list</jtok>
+<jtok eid="13" type="method_call" span="210:9:210:29">setSelectionInterval</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:30:210:34">from</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:36:210:38">to</jtok>
+<jtok eid="1" type="line_comment" span="211:5:211:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="213:2:213:27">//{{{ getTrueRow() method</jtok>
+<jtok eid="1" type="block_comment" span="214:2:219:5">/**
+	 * Converts a row index from the JTable to an internal row index from the delegated model.
+	 *
+	 * @param rowIndex the row index
+	 * @return the row index in the delegated model
+	 */</jtok>
+<jtok eid="14" type="method_name" span="220:13:220:23">getTrueRow</jtok>
+<jtok eid="14" type="parameter_name" span="220:28:220:36">rowIndex</jtok>
+<jtok eid="14" type="primary_name_ref" span="222:7:222:22">filteredIndices</jtok>
+<jtok eid="14" type="primary_name_ref" span="223:11:223:19">rowIndex</jtok>
+<jtok eid="14" type="primary_name_ref" span="224:10:224:25">filteredIndices</jtok>
+<jtok eid="14" type="method_call" span="224:26:224:29">get</jtok>
+<jtok eid="14" type="primary_name_ref" span="224:30:224:38">rowIndex</jtok>
+<jtok eid="14" type="method_call" span="224:40:224:48">intValue</jtok>
+<jtok eid="1" type="line_comment" span="225:4:225:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="227:2:227:40">//{{{ getInternal2ExternalRow() method</jtok>
+<jtok eid="1" type="block_comment" span="228:2:233:5">/**
+	 * Converts a row index from the delegated table model into a row index of the JTable.
+	 *
+	 * @param internalRowIndex the internal row index
+	 * @return the table row index or -1 if this row is not visible
+	 */</jtok>
+<jtok eid="15" type="method_name" span="234:13:234:36">getInternal2ExternalRow</jtok>
+<jtok eid="15" type="parameter_name" span="234:41:234:57">internalRowIndex</jtok>
+<jtok eid="15" type="primary_name_ref" span="236:7:236:22">invertedIndices</jtok>
+<jtok eid="15" type="primary_name_ref" span="237:11:237:27">internalRowIndex</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="239:3:239:10">Integer</jtok>
+<jtok eid="15" type="local_variable_name" span="239:11:239:27">externalRowIndex</jtok>
+<jtok eid="15" type="primary_name_ref" span="239:30:239:45">invertedIndices</jtok>
+<jtok eid="15" type="method_call" span="239:46:239:49">get</jtok>
+<jtok eid="15" type="primary_name_ref" span="239:50:239:66">internalRowIndex</jtok>
+<jtok eid="15" type="primary_name_ref" span="240:7:240:23">externalRowIndex</jtok>
+<jtok eid="15" type="primary_name_ref" span="243:10:243:26">externalRowIndex</jtok>
+<jtok eid="15" type="method_call" span="243:27:243:35">intValue</jtok>
+<jtok eid="1" type="line_comment" span="244:4:244:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="246:2:246:29">//{{{ getElementAt() method</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="247:9:247:15">Object</jtok>
+<jtok eid="16" type="method_name" span="247:16:247:28">getElementAt</jtok>
+<jtok eid="16" type="parameter_name" span="247:33:247:38">index</jtok>
+<jtok eid="16" type="local_variable_name" span="249:7:249:19">trueRowIndex</jtok>
+<jtok eid="16" type="method_call" span="249:22:249:32">getTrueRow</jtok>
+<jtok eid="16" type="primary_name_ref" span="249:33:249:38">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="250:10:250:19">delegated</jtok>
+<jtok eid="16" type="method_call" span="250:20:250:32">getElementAt</jtok>
+<jtok eid="16" type="primary_name_ref" span="250:33:250:45">trueRowIndex</jtok>
+<jtok eid="1" type="line_comment" span="251:4:251:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="253:2:253:24">//{{{ getSize() method</jtok>
+<jtok eid="17" type="method_name" span="254:13:254:20">getSize</jtok>
+<jtok eid="17" type="primary_name_ref" span="256:7:256:22">filteredIndices</jtok>
+<jtok eid="17" type="primary_name_ref" span="257:11:257:20">delegated</jtok>
+<jtok eid="17" type="method_call" span="257:21:257:28">getSize</jtok>
+<jtok eid="17" type="primary_name_ref" span="258:10:258:25">filteredIndices</jtok>
+<jtok eid="17" type="method_call" span="258:26:258:30">size</jtok>
+<jtok eid="1" type="line_comment" span="259:4:259:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="261:2:261:32">//{{{ contentsChanged() method</jtok>
+<jtok eid="18" type="method_name" span="262:14:262:29">contentsChanged</jtok>
+<jtok eid="18" type="parameter_type" span="262:30:262:43">ListDataEvent</jtok>
+<jtok eid="18" type="parameter_name" span="262:44:262:45">e</jtok>
+<jtok eid="18" type="method_call" span="264:3:264:12">setFilter</jtok>
+<jtok eid="18" type="primary_name_ref" span="264:13:264:19">filter</jtok>
+<jtok eid="1" type="line_comment" span="265:4:265:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="267:2:267:30">//{{{ intervalAdded() method</jtok>
+<jtok eid="19" type="method_name" span="268:14:268:27">intervalAdded</jtok>
+<jtok eid="19" type="parameter_type" span="268:28:268:41">ListDataEvent</jtok>
+<jtok eid="19" type="parameter_name" span="268:42:268:43">e</jtok>
+<jtok eid="19" type="method_call" span="270:3:270:12">setFilter</jtok>
+<jtok eid="19" type="primary_name_ref" span="270:13:270:19">filter</jtok>
+<jtok eid="1" type="line_comment" span="271:4:271:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="273:2:273:32">//{{{ intervalRemoved() method</jtok>
+<jtok eid="20" type="method_name" span="274:14:274:29">intervalRemoved</jtok>
+<jtok eid="20" type="parameter_type" span="274:30:274:43">ListDataEvent</jtok>
+<jtok eid="20" type="parameter_name" span="274:44:274:45">e</jtok>
+<jtok eid="20" type="method_call" span="276:3:276:12">setFilter</jtok>
+<jtok eid="20" type="primary_name_ref" span="276:13:276:19">filter</jtok>
+<jtok eid="1" type="line_comment" span="277:4:277:9">//}}}</jtok>
+</jdoc>

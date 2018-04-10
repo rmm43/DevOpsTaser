@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor" jls="java5">
+<jent id="0" type="file" span="0:0:287:2">Source/jEdit/org/gjt/sp/jedit/bsh/org/objectweb/asm/CodeVisitor.java</jent>
+<jent id="1" pid="0" type="interface" span="38:1:287:1">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor</jent>
+<jent id="2" pid="1" type="method" span="73:3:73:30">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitInsn(int)</jent>
+<jent id="3" pid="1" type="method" span="83:3:83:46">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitIntInsn(int,int)</jent>
+<jent id="4" pid="1" type="method" span="96:3:96:42">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitVarInsn(int,int)</jent>
+<jent id="5" pid="1" type="method" span="109:3:109:47">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitTypeInsn(int,String)</jent>
+<jent id="6" pid="1" type="method" span="123:3:123:75">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitFieldInsn(int,String,String,String)</jent>
+<jent id="7" pid="1" type="method" span="138:3:138:76">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitMethodInsn(int,String,String,String)</jent>
+<jent id="8" pid="1" type="method" span="153:3:153:47">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitJumpInsn(int,Label)</jent>
+<jent id="9" pid="1" type="method" span="162:3:162:32">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitLabel(Label)</jent>
+<jent id="10" pid="1" type="method" span="177:3:177:33">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitLdcInsn(Object)</jent>
+<jent id="11" pid="1" type="method" span="186:3:186:46">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitIincInsn(int,int)</jent>
+<jent id="12" pid="1" type="method" span="198:3:198:75">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitTableSwitchInsn(int,int,Label,Label)</jent>
+<jent id="13" pid="1" type="method" span="209:3:209:70">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitLookupSwitchInsn(Label,int,Label)</jent>
+<jent id="14" pid="1" type="method" span="218:3:218:55">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitMultiANewArrayInsn(String,int)</jent>
+<jent id="15" pid="1" type="method" span="237:3:237:79">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitTryCatchBlock(Label,Label,Label,String)</jent>
+<jent id="16" pid="1" type="method" span="247:3:247:47">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitMaxs(int,int)</jent>
+<jent id="17" pid="1" type="method" span="268:3:273:15">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitLocalVariable(String,String,Label,Label,int)</jent>
+<jent id="18" pid="1" type="method" span="286:3:286:47">org.gjt.sp.jedit.bsh.org.objectweb.asm.CodeVisitor.visitLineNumber(int,Label)</jent>
+<jtok eid="0" type="block_comment" span="1:1:23:4">/***
+ * ASM: a very small and fast Java bytecode manipulation framework
+ * Copyright (C) 2000 INRIA, France Telecom
+ * Copyright (C) 2002 France Telecom
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Contact: Eric.Bruneton@rd.francetelecom.com
+ *
+ * Author: Eric Bruneton
+ */</jtok>
+<jtok eid="0" type="block_comment" span="27:1:36:4">/**
+ * A visitor to visit the bytecode instructions of a Java method. The methods
+ * of this visitor must be called in the sequential order of the bytecode
+ * instructions of the visited code. The {@link #visitMaxs visitMaxs} method
+ * must be called after all the instructions have been visited. The {@link
+ * #visitTryCatchBlock visitTryCatchBlock}, {@link #visitLocalVariable
+ * visitLocalVariable} and {@link #visitLineNumber visitLineNumber} methods may
+ * be called in any order, at any time (provided the labels passed as arguments
+ * have already been visited with {@link #visitLabel visitLabel}).
+ */</jtok>
+<jtok eid="1" type="interface_name" span="38:18:38:29">CodeVisitor</jtok>
+<jtok eid="1" type="block_comment" span="40:3:71:6">/**
+   * Visits a zero operand instruction.
+   *
+   * @param opcode the opcode of the instruction to be visited. This opcode is
+   *      either NOP, ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1, ICONST_2,
+   *      ICONST_3, ICONST_4, ICONST_5, LCONST_0, LCONST_1, FCONST_0, FCONST_1,
+   *      FCONST_2, DCONST_0, DCONST_1,
+   *
+   *      IALOAD, LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD,
+   *      IASTORE, LASTORE, FASTORE, DASTORE, AASTORE, BASTORE, CASTORE,
+   *      SASTORE,
+   *
+   *      POP, POP2, DUP, DUP_X1, DUP_X2, DUP2, DUP2_X1, DUP2_X2, SWAP,
+   *
+   *      IADD, LADD, FADD, DADD, ISUB, LSUB, FSUB, DSUB, IMUL, LMUL, FMUL,
+   *      DMUL, IDIV, LDIV, FDIV, DDIV, IREM, LREM, FREM, DREM, INEG, LNEG,
+   *      FNEG, DNEG, ISHL, LSHL, ISHR, LSHR, IUSHR, LUSHR, IAND, LAND, IOR,
+   *      LOR, IXOR, LXOR,
+   *
+   *      I2L, I2F, I2D, L2I, L2F, L2D, F2I, F2L, F2D, D2I, D2L, D2F, I2B, I2C,
+   *      I2S,
+   *
+   *      LCMP, FCMPL, FCMPG, DCMPL, DCMPG,
+   *
+   *      IRETURN, LRETURN, FRETURN, DRETURN, ARETURN, RETURN,
+   *
+   *      ARRAYLENGTH,
+   *
+   *      ATHROW,
+   *
+   *      MONITORENTER, or MONITOREXIT.
+   */</jtok>
+<jtok eid="2" type="method_name" span="73:8:73:17">visitInsn</jtok>
+<jtok eid="2" type="parameter_name" span="73:23:73:29">opcode</jtok>
+<jtok eid="1" type="block_comment" span="75:3:81:6">/**
+   * Visits an instruction with a single int operand.
+   *
+   * @param opcode the opcode of the instruction to be visited. This opcode is
+   *      either BIPUSH, SIPUSH or NEWARRAY.
+   * @param operand the operand of the instruction to be visited.
+   */</jtok>
+<jtok eid="3" type="method_name" span="83:8:83:20">visitIntInsn</jtok>
+<jtok eid="3" type="parameter_name" span="83:26:83:32">opcode</jtok>
+<jtok eid="3" type="parameter_name" span="83:38:83:45">operand</jtok>
+<jtok eid="1" type="block_comment" span="85:3:94:6">/**
+   * Visits a local variable instruction. A local variable instruction is an
+   * instruction that loads or stores the value of a local variable.
+   *
+   * @param opcode the opcode of the local variable instruction to be visited.
+   *      This opcode is either ILOAD, LLOAD, FLOAD, DLOAD, ALOAD, ISTORE,
+   *      LSTORE, FSTORE, DSTORE, ASTORE or RET.
+   * @param var the operand of the instruction to be visited. This operand is
+   *      the index of a local variable.
+   */</jtok>
+<jtok eid="4" type="method_name" span="96:8:96:20">visitVarInsn</jtok>
+<jtok eid="4" type="parameter_name" span="96:26:96:32">opcode</jtok>
+<jtok eid="4" type="parameter_name" span="96:38:96:41">var</jtok>
+<jtok eid="1" type="block_comment" span="98:3:107:6">/**
+   * Visits a type instruction. A type instruction is an instruction that
+   * takes a type descriptor as parameter.
+   *
+   * @param opcode the opcode of the type instruction to be visited. This opcode
+   *      is either NEW, ANEWARRAY, CHECKCAST or INSTANCEOF.
+   * @param desc the operand of the instruction to be visited. This operand is
+   *      must be a fully qualified class name in internal form, or the type
+   *      descriptor of an array type (see {@link Type Type}).
+   */</jtok>
+<jtok eid="5" type="method_name" span="109:8:109:21">visitTypeInsn</jtok>
+<jtok eid="5" type="parameter_name" span="109:27:109:33">opcode</jtok>
+<jtok eid="5" type="parameter_type" span="109:35:109:41">String</jtok>
+<jtok eid="5" type="parameter_name" span="109:42:109:46">desc</jtok>
+<jtok eid="1" type="block_comment" span="111:3:121:6">/**
+   * Visits a field instruction. A field instruction is an instruction that
+   * loads or stores the value of a field of an object.
+   *
+   * @param opcode the opcode of the type instruction to be visited. This opcode
+   *      is either GETSTATIC, PUTSTATIC, GETFIELD or PUTFIELD.
+   * @param owner the internal name of the field's owner class (see {@link
+   *      Type#getInternalName getInternalName}).
+   * @param name the field's name.
+   * @param desc the field's descriptor (see {@link Type Type}).
+   */</jtok>
+<jtok eid="6" type="method_name" span="123:8:123:22">visitFieldInsn</jtok>
+<jtok eid="6" type="parameter_name" span="123:28:123:34">opcode</jtok>
+<jtok eid="6" type="parameter_type" span="123:36:123:42">String</jtok>
+<jtok eid="6" type="parameter_name" span="123:43:123:48">owner</jtok>
+<jtok eid="6" type="parameter_type" span="123:50:123:56">String</jtok>
+<jtok eid="6" type="parameter_name" span="123:57:123:61">name</jtok>
+<jtok eid="6" type="parameter_type" span="123:63:123:69">String</jtok>
+<jtok eid="6" type="parameter_name" span="123:70:123:74">desc</jtok>
+<jtok eid="1" type="block_comment" span="125:3:136:6">/**
+   * Visits a method instruction. A method instruction is an instruction that
+   * invokes a method.
+   *
+   * @param opcode the opcode of the type instruction to be visited. This opcode
+   *      is either INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
+   *      INVOKEINTERFACE.
+   * @param owner the internal name of the method's owner class (see {@link
+   *      Type#getInternalName getInternalName}).
+   * @param name the method's name.
+   * @param desc the method's descriptor (see {@link Type Type}).
+   */</jtok>
+<jtok eid="7" type="method_name" span="138:8:138:23">visitMethodInsn</jtok>
+<jtok eid="7" type="parameter_name" span="138:29:138:35">opcode</jtok>
+<jtok eid="7" type="parameter_type" span="138:37:138:43">String</jtok>
+<jtok eid="7" type="parameter_name" span="138:44:138:49">owner</jtok>
+<jtok eid="7" type="parameter_type" span="138:51:138:57">String</jtok>
+<jtok eid="7" type="parameter_name" span="138:58:138:62">name</jtok>
+<jtok eid="7" type="parameter_type" span="138:64:138:70">String</jtok>
+<jtok eid="7" type="parameter_name" span="138:71:138:75">desc</jtok>
+<jtok eid="1" type="block_comment" span="140:3:151:6">/**
+   * Visits a jump instruction. A jump instruction is an instruction that may
+   * jump to another instruction.
+   *
+   * @param opcode the opcode of the type instruction to be visited. This opcode
+   *      is either IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE, IF_ICMPEQ, IF_ICMPNE,
+   *      IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE, IF_ACMPEQ, IF_ACMPNE,
+   *      GOTO, JSR, IFNULL or IFNONNULL.
+   * @param label the operand of the instruction to be visited. This operand is
+   *      a label that designates the instruction to which the jump instruction
+   *      may jump.
+   */</jtok>
+<jtok eid="8" type="method_name" span="153:8:153:21">visitJumpInsn</jtok>
+<jtok eid="8" type="parameter_name" span="153:27:153:33">opcode</jtok>
+<jtok eid="8" type="parameter_type" span="153:35:153:40">Label</jtok>
+<jtok eid="8" type="parameter_name" span="153:41:153:46">label</jtok>
+<jtok eid="1" type="block_comment" span="155:3:160:6">/**
+   * Visits a label. A label designates the instruction that will be visited
+   * just after it.
+   *
+   * @param label a {@link Label Label} object.
+   */</jtok>
+<jtok eid="9" type="method_name" span="162:8:162:18">visitLabel</jtok>
+<jtok eid="9" type="parameter_type" span="162:20:162:25">Label</jtok>
+<jtok eid="9" type="parameter_name" span="162:26:162:31">label</jtok>
+<jtok eid="1" type="line_comment" span="164:3:164:79">// -------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="165:3:165:26">// Special instructions</jtok>
+<jtok eid="1" type="line_comment" span="166:3:166:79">// -------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="block_comment" span="168:3:175:6">/**
+   * Visits a LDC instruction.
+   *
+   * @param cst the constant to be loaded on the stack. This parameter must be
+   *      a non null {@link java.lang.Integer Integer}, a {@link java.lang.Float
+   *      Float}, a {@link java.lang.Long Long}, a {@link java.lang.Double
+   *      Double} or a {@link String String}.
+   */</jtok>
+<jtok eid="10" type="method_name" span="177:8:177:20">visitLdcInsn</jtok>
+<jtok eid="10" type="parameter_type" span="177:22:177:28">Object</jtok>
+<jtok eid="10" type="parameter_name" span="177:29:177:32">cst</jtok>
+<jtok eid="1" type="block_comment" span="179:3:184:6">/**
+   * Visits an IINC instruction.
+   *
+   * @param var index of the local variable to be incremented.
+   * @param increment amount to increment the local variable by.
+   */</jtok>
+<jtok eid="11" type="method_name" span="186:8:186:21">visitIincInsn</jtok>
+<jtok eid="11" type="parameter_name" span="186:27:186:30">var</jtok>
+<jtok eid="11" type="parameter_name" span="186:36:186:45">increment</jtok>
+<jtok eid="1" type="block_comment" span="188:3:196:6">/**
+   * Visits a TABLESWITCH instruction.
+   *
+   * @param min the minimum key value.
+   * @param max the maximum key value.
+   * @param dflt beginning of the default handler block.
+   * @param labels beginnings of the handler blocks. &lt;tt&gt;labels[i]&lt;/tt&gt; is the
+   *      beginning of the handler block for the &lt;tt&gt;min + i&lt;/tt&gt; key.
+   */</jtok>
+<jtok eid="12" type="method_name" span="198:8:198:28">visitTableSwitchInsn</jtok>
+<jtok eid="12" type="parameter_name" span="198:34:198:37">min</jtok>
+<jtok eid="12" type="parameter_name" span="198:43:198:46">max</jtok>
+<jtok eid="12" type="parameter_type" span="198:48:198:53">Label</jtok>
+<jtok eid="12" type="parameter_name" span="198:54:198:58">dflt</jtok>
+<jtok eid="12" type="parameter_type" span="198:60:198:65">Label</jtok>
+<jtok eid="12" type="parameter_name" span="198:66:198:72">labels</jtok>
+<jtok eid="1" type="block_comment" span="200:3:207:6">/**
+   * Visits a LOOKUPSWITCH instruction.
+   *
+   * @param dflt beginning of the default handler block.
+   * @param keys the values of the keys.
+   * @param labels beginnings of the handler blocks. &lt;tt&gt;labels[i]&lt;/tt&gt; is the
+   *      beginning of the handler block for the &lt;tt&gt;keys[i]&lt;/tt&gt; key.
+   */</jtok>
+<jtok eid="13" type="method_name" span="209:8:209:29">visitLookupSwitchInsn</jtok>
+<jtok eid="13" type="parameter_type" span="209:31:209:36">Label</jtok>
+<jtok eid="13" type="parameter_name" span="209:37:209:41">dflt</jtok>
+<jtok eid="13" type="parameter_name" span="209:47:209:51">keys</jtok>
+<jtok eid="13" type="parameter_type" span="209:55:209:60">Label</jtok>
+<jtok eid="13" type="parameter_name" span="209:61:209:67">labels</jtok>
+<jtok eid="1" type="block_comment" span="211:3:216:6">/**
+   * Visits a MULTIANEWARRAY instruction.
+   *
+   * @param desc an array type descriptor (see {@link Type Type}).
+   * @param dims number of dimensions of the array to allocate.
+   */</jtok>
+<jtok eid="14" type="method_name" span="218:8:218:31">visitMultiANewArrayInsn</jtok>
+<jtok eid="14" type="parameter_type" span="218:33:218:39">String</jtok>
+<jtok eid="14" type="parameter_name" span="218:40:218:44">desc</jtok>
+<jtok eid="14" type="parameter_name" span="218:50:218:54">dims</jtok>
+<jtok eid="1" type="line_comment" span="220:3:220:79">// -------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="221:3:221:61">// Exceptions table entries, max stack size and max locals</jtok>
+<jtok eid="1" type="line_comment" span="222:3:222:79">// -------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="block_comment" span="224:3:235:6">/**
+   * Visits a try catch block.
+   *
+   * @param start beginning of the exception handler's scope (inclusive).
+   * @param end end of the exception handler's scope (exclusive).
+   * @param handler beginning of the exception handler's code.
+   * @param type internal name of the type of exceptions handled by the handler,
+   *      or &lt;tt&gt;null&lt;/tt&gt; to catch any exceptions (for "finally" blocks).
+   * @throws IllegalArgumentException if one of the labels has not already been
+   *      visited by this visitor (by the {@link #visitLabel visitLabel}
+   *      method).
+   */</jtok>
+<jtok eid="15" type="method_name" span="237:8:237:26">visitTryCatchBlock</jtok>
+<jtok eid="15" type="parameter_type" span="237:28:237:33">Label</jtok>
+<jtok eid="15" type="parameter_name" span="237:34:237:39">start</jtok>
+<jtok eid="15" type="parameter_type" span="237:41:237:46">Label</jtok>
+<jtok eid="15" type="parameter_name" span="237:47:237:50">end</jtok>
+<jtok eid="15" type="parameter_type" span="237:52:237:57">Label</jtok>
+<jtok eid="15" type="parameter_name" span="237:58:237:65">handler</jtok>
+<jtok eid="15" type="parameter_type" span="237:67:237:73">String</jtok>
+<jtok eid="15" type="parameter_name" span="237:74:237:78">type</jtok>
+<jtok eid="1" type="block_comment" span="239:3:245:6">/**
+   * Visits the maximum stack size and the maximum number of local variables of
+   * the method.
+   *
+   * @param maxStack maximum stack size of the method.
+   * @param maxLocals maximum number of local variables for the method.
+   */</jtok>
+<jtok eid="16" type="method_name" span="247:8:247:17">visitMaxs</jtok>
+<jtok eid="16" type="parameter_name" span="247:23:247:31">maxStack</jtok>
+<jtok eid="16" type="parameter_name" span="247:37:247:46">maxLocals</jtok>
+<jtok eid="1" type="line_comment" span="249:3:249:79">// -------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="250:3:250:23">// Debug information</jtok>
+<jtok eid="1" type="line_comment" span="251:3:251:79">// -------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="block_comment" span="253:3:266:6">/**
+   * Visits a local variable declaration.
+   *
+   * @param name the name of a local variable.
+   * @param desc the type descriptor of this local variable.
+   * @param start the first instruction corresponding to the scope of this
+   *      local variable (inclusive).
+   * @param end the last instruction corresponding to the scope of this
+   *      local variable (exclusive).
+   * @param index the local variable's index.
+   * @throws IllegalArgumentException if one of the labels has not already been
+   *      visited by this visitor (by the {@link #visitLabel visitLabel}
+   *      method).
+   */</jtok>
+<jtok eid="17" type="method_name" span="268:8:268:26">visitLocalVariable</jtok>
+<jtok eid="17" type="parameter_type" span="269:5:269:11">String</jtok>
+<jtok eid="17" type="parameter_name" span="269:12:269:16">name</jtok>
+<jtok eid="17" type="parameter_type" span="270:5:270:11">String</jtok>
+<jtok eid="17" type="parameter_name" span="270:12:270:16">desc</jtok>
+<jtok eid="17" type="parameter_type" span="271:5:271:10">Label</jtok>
+<jtok eid="17" type="parameter_name" span="271:11:271:16">start</jtok>
+<jtok eid="17" type="parameter_type" span="272:5:272:10">Label</jtok>
+<jtok eid="17" type="parameter_name" span="272:11:272:14">end</jtok>
+<jtok eid="17" type="parameter_name" span="273:9:273:14">index</jtok>
+<jtok eid="1" type="block_comment" span="275:3:284:6">/**
+   * Visits a line number declaration.
+   *
+   * @param line a line number. This number refers to the source file
+   *      from which the class was compiled.
+   * @param start the first instruction corresponding to this line number.
+   * @throws IllegalArgumentException if &lt;tt&gt;start&lt;/tt&gt; has not already been
+   *      visited by this visitor (by the {@link #visitLabel visitLabel}
+   *      method).
+   */</jtok>
+<jtok eid="18" type="method_name" span="286:8:286:23">visitLineNumber</jtok>
+<jtok eid="18" type="parameter_name" span="286:29:286:33">line</jtok>
+<jtok eid="18" type="parameter_type" span="286:35:286:40">Label</jtok>
+<jtok eid="18" type="parameter_name" span="286:41:286:46">start</jtok>
+</jdoc>

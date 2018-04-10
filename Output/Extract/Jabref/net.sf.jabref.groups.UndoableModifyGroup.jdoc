@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.groups.UndoableModifyGroup" jls="java5">
+<jent id="0" type="file" span="0:0:79:1">Source/jabref/src/java/net/sf/jabref/groups/UndoableModifyGroup.java</jent>
+<jent id="1" pid="0" type="class" span="33:1:79:1">net.sf.jabref.groups.UndoableModifyGroup</jent>
+<jent id="2" pid="1" type="method" span="47:5:54:5">net.sf.jabref.groups.UndoableModifyGroup.UndoableModifyGroup(GroupSelector,GroupTreeNode,GroupTreeNode,AbstractGroup)</jent>
+<jent id="3" pid="1" type="method" span="56:5:59:5">net.sf.jabref.groups.UndoableModifyGroup.getUndoPresentationName()</jent>
+<jent id="4" pid="1" type="method" span="61:5:64:5">net.sf.jabref.groups.UndoableModifyGroup.getRedoPresentationName()</jent>
+<jent id="5" pid="1" type="method" span="66:5:71:5">net.sf.jabref.groups.UndoableModifyGroup.undo()</jent>
+<jent id="6" pid="1" type="method" span="73:5:78:5">net.sf.jabref.groups.UndoableModifyGroup.redo()</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2003 Morten O. Alver, Nizar N. Batada
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="1" type="class_name" span="33:14:33:33">UndoableModifyGroup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:42:33:62">AbstractUndoableEdit</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="34:19:34:32">GroupSelector</jtok>
+<jtok eid="1" type="field_name" span="34:33:34:48">m_groupSelector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="35:19:35:32">AbstractGroup</jtok>
+<jtok eid="1" type="field_name" span="35:33:35:49">m_oldGroupBackup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="36:19:36:32">AbstractGroup</jtok>
+<jtok eid="1" type="field_name" span="36:33:36:49">m_newGroupBackup</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="37:19:37:32">GroupTreeNode</jtok>
+<jtok eid="1" type="field_name" span="37:33:37:51">m_groupsRootHandle</jtok>
+<jtok eid="1" type="field_name" span="38:25:38:37">m_pathToNode</jtok>
+<jtok eid="1" type="block_comment" span="40:5:46:8">/**
+     * @param node
+     *            The node which still contains the old group.
+     * @param newGroup
+     *            The new group to replace the one currently stored in &lt;b&gt;node
+     *            &lt;/b&gt;.
+     */</jtok>
+<jtok eid="2" type="method_name" span="47:12:47:31">UndoableModifyGroup</jtok>
+<jtok eid="2" type="parameter_type" span="47:32:47:45">GroupSelector</jtok>
+<jtok eid="2" type="parameter_name" span="47:46:47:48">gs</jtok>
+<jtok eid="2" type="parameter_type" span="47:50:47:63">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_name" span="47:64:47:74">groupsRoot</jtok>
+<jtok eid="2" type="parameter_type" span="48:13:48:26">GroupTreeNode</jtok>
+<jtok eid="2" type="parameter_name" span="48:27:48:31">node</jtok>
+<jtok eid="2" type="parameter_type" span="48:33:48:46">AbstractGroup</jtok>
+<jtok eid="2" type="parameter_name" span="48:47:48:55">newGroup</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:9:49:24">m_groupSelector</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:27:49:29">gs</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:9:50:25">m_oldGroupBackup</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:28:50:32">node</jtok>
+<jtok eid="2" type="method_call" span="50:33:50:41">getGroup</jtok>
+<jtok eid="2" type="method_call" span="50:44:50:52">deepCopy</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:9:51:25">m_newGroupBackup</jtok>
+<jtok eid="2" type="primary_name_ref" span="51:28:51:36">newGroup</jtok>
+<jtok eid="2" type="method_call" span="51:37:51:45">deepCopy</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:9:52:21">m_pathToNode</jtok>
+<jtok eid="2" type="primary_name_ref" span="52:24:52:28">node</jtok>
+<jtok eid="2" type="method_call" span="52:29:52:43">getIndexedPath</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:9:53:27">m_groupsRootHandle</jtok>
+<jtok eid="2" type="primary_name_ref" span="53:30:53:40">groupsRoot</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="56:12:56:18">String</jtok>
+<jtok eid="3" type="method_name" span="56:19:56:42">getUndoPresentationName</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:16:57:23">Globals</jtok>
+<jtok eid="3" type="method_call" span="57:24:57:28">lang</jtok>
+<jtok eid="3" type="string_literal" span="57:29:57:35">"Undo"</jtok>
+<jtok eid="3" type="string_literal" span="57:39:57:43">": "</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:15:58:22">Globals</jtok>
+<jtok eid="3" type="method_call" span="58:23:58:27">lang</jtok>
+<jtok eid="3" type="string_literal" span="58:28:58:42">"modify group"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="61:12:61:18">String</jtok>
+<jtok eid="4" type="method_name" span="61:19:61:42">getRedoPresentationName</jtok>
+<jtok eid="4" type="primary_name_ref" span="62:16:62:23">Globals</jtok>
+<jtok eid="4" type="method_call" span="62:24:62:28">lang</jtok>
+<jtok eid="4" type="string_literal" span="62:29:62:35">"Redo"</jtok>
+<jtok eid="4" type="string_literal" span="62:39:62:43">": "</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:15:63:22">Globals</jtok>
+<jtok eid="4" type="method_call" span="63:23:63:27">lang</jtok>
+<jtok eid="4" type="string_literal" span="63:28:63:42">"modify group"</jtok>
+<jtok eid="5" type="method_name" span="66:17:66:21">undo</jtok>
+<jtok eid="5" type="method_call" span="67:15:67:19">undo</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:9:68:27">m_groupsRootHandle</jtok>
+<jtok eid="5" type="method_call" span="68:28:68:41">getDescendant</jtok>
+<jtok eid="5" type="primary_name_ref" span="68:42:68:54">m_pathToNode</jtok>
+<jtok eid="5" type="method_call" span="68:56:68:64">setGroup</jtok>
+<jtok eid="5" type="primary_name_ref" span="69:17:69:33">m_oldGroupBackup</jtok>
+<jtok eid="5" type="method_call" span="69:34:69:42">deepCopy</jtok>
+<jtok eid="5" type="primary_name_ref" span="70:9:70:24">m_groupSelector</jtok>
+<jtok eid="5" type="method_call" span="70:25:70:41">revalidateGroups</jtok>
+<jtok eid="6" type="method_name" span="73:17:73:21">redo</jtok>
+<jtok eid="6" type="method_call" span="74:15:74:19">redo</jtok>
+<jtok eid="6" type="primary_name_ref" span="75:9:75:27">m_groupsRootHandle</jtok>
+<jtok eid="6" type="method_call" span="75:28:75:41">getDescendant</jtok>
+<jtok eid="6" type="primary_name_ref" span="75:42:75:54">m_pathToNode</jtok>
+<jtok eid="6" type="method_call" span="75:56:75:64">setGroup</jtok>
+<jtok eid="6" type="primary_name_ref" span="76:17:76:33">m_newGroupBackup</jtok>
+<jtok eid="6" type="method_call" span="76:34:76:42">deepCopy</jtok>
+<jtok eid="6" type="primary_name_ref" span="77:9:77:24">m_groupSelector</jtok>
+<jtok eid="6" type="method_call" span="77:25:77:41">revalidateGroups</jtok>
+</jdoc>

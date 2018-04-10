@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="com.jgoodies.uif_lite.component.UIFSplitPane" jls="java5">
+<jent id="0" type="file" span="0:0:270:1">Source/jabref/src/java/com/jgoodies/uif_lite/component/UIFSplitPane.java</jent>
+<jent id="1" pid="0" type="class" span="56:1:270:1">com.jgoodies.uif_lite.component.UIFSplitPane</jent>
+<jent id="2" pid="1" type="method" span="91:5:95:5">com.jgoodies.uif_lite.component.UIFSplitPane.UIFSplitPane()</jent>
+<jent id="3" pid="1" type="method" span="107:5:109:5">com.jgoodies.uif_lite.component.UIFSplitPane.UIFSplitPane(int)</jent>
+<jent id="4" pid="1" type="method" span="124:5:127:5">com.jgoodies.uif_lite.component.UIFSplitPane.UIFSplitPane(int,boolean)</jent>
+<jent id="5" pid="1" type="method" span="145:5:149:5">com.jgoodies.uif_lite.component.UIFSplitPane.UIFSplitPane(int,Component,Component)</jent>
+<jent id="6" pid="1" type="method" span="172:5:178:5">com.jgoodies.uif_lite.component.UIFSplitPane.UIFSplitPane(int,boolean,Component,Component)</jent>
+<jent id="7" pid="1" type="method" span="197:5:205:5">com.jgoodies.uif_lite.component.UIFSplitPane.createStrippedSplitPane(int,Component,Component)</jent>
+<jent id="8" pid="1" type="method" span="219:5:221:5">com.jgoodies.uif_lite.component.UIFSplitPane.isDividerBorderVisible()</jent>
+<jent id="9" pid="1" type="method" span="232:5:240:5">com.jgoodies.uif_lite.component.UIFSplitPane.setDividerBorderVisible(boolean)</jent>
+<jent id="10" pid="1" type="method" span="250:5:254:5">com.jgoodies.uif_lite.component.UIFSplitPane.updateUI()</jent>
+<jent id="11" pid="1" type="method" span="261:5:267:5">com.jgoodies.uif_lite.component.UIFSplitPane.setEmptyDividerBorder()</jent>
+<jtok eid="0" type="block_comment" span="1:1:29:4">/*
+ * Copyright (c) 2003, 2004 JGoodies Karsten Lentzsch. All Rights Reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ *  o Redistributions of source code must retain the above copyright notice, 
+ *    this list of conditions and the following disclaimer. 
+ *     
+ *  o Redistributions in binary form must reproduce the above copyright notice, 
+ *    this list of conditions and the following disclaimer in the documentation 
+ *    and/or other materials provided with the distribution. 
+ *     
+ *  o Neither the name of JGoodies Karsten Lentzsch nor the names of 
+ *    its contributors may be used to endorse or promote products derived 
+ *    from this software without specific prior written permission. 
+ *     
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ */</jtok>
+<jtok eid="0" type="block_comment" span="43:1:54:4">/**
+ * A &lt;code&gt;JSplitPane&lt;/code&gt; subclass that can try to remove the divider border. 
+ * Useful if the splitted components render their own borders.
+ * Note that this feature is not supported by all look&amp;amp;feels.
+ * Some look&amp;amp;feel implementation will always show a divider border, 
+ * and conversely, others will never show a divider border.
+ * 
+ * @author Karsten Lentzsch
+ * @version $Revision: 806 $
+ * 
+ * @see javax.swing.plaf.basic.BasicSplitPaneUI
+ */</jtok>
+<jtok eid="1" type="class_name" span="56:20:56:32">UIFSplitPane</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="56:41:56:51">JSplitPane</jtok>
+<jtok eid="1" type="block_comment" span="58:5:64:8">/**
+     * Holds the name of the bound property that tries to show or hide
+     * the split pane's divider border.
+     * 
+     * @see #isDividerBorderVisible()
+     * @see #setDividerBorderVisible(boolean)
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="65:25:65:31">String</jtok>
+<jtok eid="1" type="field_name" span="65:32:65:67">PROPERTYNAME_DIVIDER_BORDER_VISIBLE</jtok>
+<jtok eid="1" type="string_literal" span="66:9:66:31">"dividerBorderVisible"</jtok>
+<jtok eid="1" type="block_comment" span="68:5:71:8">/**
+     * Holds an empty border that is reused for the split pane itself
+     * and the divider.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="72:26:72:32">Border</jtok>
+<jtok eid="1" type="field_name" span="72:33:72:45">EMPTY_BORDER</jtok>
+<jtok eid="1" type="constructor_call" span="72:52:72:63">EmptyBorder</jtok>
+<jtok eid="1" type="block_comment" span="74:5:80:8">/**
+     * Determines whether the divider border shall be removed when
+     * the UI is updated.
+     * 
+     * @see #isDividerBorderVisible()
+     * @see #setDividerBorderVisible(boolean) 
+     */</jtok>
+<jtok eid="1" type="field_name" span="81:21:81:41">dividerBorderVisible</jtok>
+<jtok eid="1" type="line_comment" span="84:5:84:79">// Instance Creation *****************************************************</jtok>
+<jtok eid="1" type="block_comment" span="86:5:90:8">/**
+     * Constructs a &lt;code&gt;UIFSplitPane&lt;/code&gt; configured to arrange the child
+     * components side-by-side horizontally with no continuous 
+     * layout, using two buttons for the components.
+     */</jtok>
+<jtok eid="2" type="method_name" span="91:12:91:24">UIFSplitPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:14:92:24">JSplitPane</jtok>
+<jtok eid="2" type="qualified_name_ref" span="92:25:92:41">HORIZONTAL_SPLIT</jtok>
+<jtok eid="2" type="constructor_call" span="93:21:93:28">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:29:93:38">UIManager</jtok>
+<jtok eid="2" type="method_call" span="93:39:93:48">getString</jtok>
+<jtok eid="2" type="string_literal" span="93:49:93:75">"SplitPane.leftButtonText"</jtok>
+<jtok eid="2" type="constructor_call" span="94:21:94:28">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:29:94:38">UIManager</jtok>
+<jtok eid="2" type="method_call" span="94:39:94:48">getString</jtok>
+<jtok eid="2" type="string_literal" span="94:49:94:76">"SplitPane.rightButtonText"</jtok>
+<jtok eid="1" type="block_comment" span="98:5:106:8">/**
+     * Constructs a &lt;code&gt;UIFSplitPane&lt;/code&gt; configured with the
+     * specified orientation and no continuous layout.
+     *
+     * @param newOrientation  &lt;code&gt;JSplitPane.HORIZONTAL_SPLIT&lt;/code&gt; or
+     *                        &lt;code&gt;JSplitPane.VERTICAL_SPLIT&lt;/code&gt;
+     * @throws IllegalArgumentException if &lt;code&gt;orientation&lt;/code&gt;
+     *		is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT.
+     */</jtok>
+<jtok eid="3" type="method_name" span="107:12:107:24">UIFSplitPane</jtok>
+<jtok eid="3" type="parameter_name" span="107:29:107:43">newOrientation</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:14:108:28">newOrientation</jtok>
+<jtok eid="1" type="block_comment" span="112:5:123:8">/**
+     * Constructs a &lt;code&gt;UIFSplitPane&lt;/code&gt; with the specified
+     * orientation and redrawing style.
+     *
+     * @param newOrientation  &lt;code&gt;JSplitPane.HORIZONTAL_SPLIT&lt;/code&gt; or
+     *                        &lt;code&gt;JSplitPane.VERTICAL_SPLIT&lt;/code&gt;
+     * @param newContinuousLayout  a boolean, true for the components to 
+     *        redraw continuously as the divider changes position, false
+     *        to wait until the divider position stops changing to redraw
+     * @throws IllegalArgumentException if &lt;code&gt;orientation&lt;/code&gt;
+     *		is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */</jtok>
+<jtok eid="4" type="method_name" span="124:12:124:24">UIFSplitPane</jtok>
+<jtok eid="4" type="parameter_name" span="124:29:124:43">newOrientation</jtok>
+<jtok eid="4" type="parameter_name" span="125:31:125:50">newContinuousLayout</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:14:126:28">newOrientation</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:30:126:49">newContinuousLayout</jtok>
+<jtok eid="1" type="block_comment" span="130:5:144:8">/**
+     * Constructs a &lt;code&gt;UIFSplitPane&lt;/code&gt; with the specified orientation
+     * and the given componenents.
+     * 
+     * @param orientation  &lt;code&gt;JSplitPane.HORIZONTAL_SPLIT&lt;/code&gt; or
+     *                        &lt;code&gt;JSplitPane.VERTICAL_SPLIT&lt;/code&gt;
+     * @param leftComponent the &lt;code&gt;Component&lt;/code&gt; that will
+     *    appear on the left of a horizontally-split pane, 
+     *    or at the top of a vertically-split pane
+     * @param rightComponent the &lt;code&gt;Component&lt;/code&gt; that will
+     *    appear on the right of a horizontally-split pane, 
+     *    or at the bottom of a	vertically-split pane
+     * @throws IllegalArgumentException if &lt;code&gt;orientation&lt;/code&gt;
+     *    is not one of: HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */</jtok>
+<jtok eid="5" type="method_name" span="145:12:145:24">UIFSplitPane</jtok>
+<jtok eid="5" type="parameter_name" span="145:29:145:40">orientation</jtok>
+<jtok eid="5" type="parameter_type" span="146:26:146:35">Component</jtok>
+<jtok eid="5" type="parameter_name" span="146:36:146:49">leftComponent</jtok>
+<jtok eid="5" type="parameter_type" span="147:26:147:35">Component</jtok>
+<jtok eid="5" type="parameter_name" span="147:36:147:50">rightComponent</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:14:148:25">orientation</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:34:148:47">leftComponent</jtok>
+<jtok eid="5" type="primary_name_ref" span="148:49:148:63">rightComponent</jtok>
+<jtok eid="1" type="block_comment" span="152:5:171:8">/**
+     * Constructs a &lt;code&gt;UIFSplitPane&lt;/code&gt; with the specified orientation,
+     * redrawing style, and given components.
+     *
+     * @param orientation  &lt;code&gt;JSplitPane.HORIZONTAL_SPLIT&lt;/code&gt; or
+     *                        &lt;code&gt;JSplitPane.VERTICAL_SPLIT&lt;/code&gt;
+     * @param continuousLayout  a boolean, true for the components to 
+     *        redraw continuously as the divider changes position, false
+     *        to wait until the divider position stops changing to redraw
+     * @param leftComponent the &lt;code&gt;Component&lt;/code&gt; that will
+     *		appear on the left
+     *        	of a horizontally-split pane, or at the top of a
+     *        	vertically-split pane
+     * @param rightComponent the &lt;code&gt;Component&lt;/code&gt; that will
+     *		appear on the right
+     *        	of a horizontally-split pane, or at the bottom of a
+     *        	vertically-split pane
+     * @throws IllegalArgumentException if &lt;code&gt;orientation&lt;/code&gt;
+     *		is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */</jtok>
+<jtok eid="6" type="method_name" span="172:12:172:24">UIFSplitPane</jtok>
+<jtok eid="6" type="parameter_name" span="172:29:172:40">orientation</jtok>
+<jtok eid="6" type="parameter_name" span="173:31:173:47">continuousLayout</jtok>
+<jtok eid="6" type="parameter_type" span="174:23:174:32">Component</jtok>
+<jtok eid="6" type="parameter_name" span="174:33:174:46">leftComponent</jtok>
+<jtok eid="6" type="parameter_type" span="175:23:175:32">Component</jtok>
+<jtok eid="6" type="parameter_name" span="175:33:175:47">rightComponent</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:15:176:26">orientation</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:28:176:44">continuousLayout</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:46:176:59">leftComponent</jtok>
+<jtok eid="6" type="primary_name_ref" span="176:61:176:75">rightComponent</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:9:177:29">dividerBorderVisible</jtok>
+<jtok eid="1" type="block_comment" span="181:5:196:8">/**
+     * Constructs a &lt;code&gt;UIFSplitPane&lt;/code&gt;, 
+     * i.e. a &lt;code&gt;JSplitPane&lt;/code&gt; that has no borders.
+     * Also disabled the one touch exandable property.
+     * 
+     * @param orientation  &lt;code&gt;JSplitPane.HORIZONTAL_SPLIT&lt;/code&gt; or
+     *                        &lt;code&gt;JSplitPane.VERTICAL_SPLIT&lt;/code&gt;
+     * @param leftComponent the &lt;code&gt;Component&lt;/code&gt; that will
+     *    appear on the left of a horizontally-split pane, 
+     *    or at the top of a vertically-split pane
+     * @param rightComponent the &lt;code&gt;Component&lt;/code&gt; that will
+     *    appear on the right of a horizontally-split pane, 
+     *    or at the bottom of a	vertically-split pane
+     * @throws IllegalArgumentException if &lt;code&gt;orientation&lt;/code&gt;
+     *    is not one of: HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="197:19:197:31">UIFSplitPane</jtok>
+<jtok eid="7" type="method_name" span="197:32:197:55">createStrippedSplitPane</jtok>
+<jtok eid="7" type="parameter_name" span="198:18:198:29">orientation</jtok>
+<jtok eid="7" type="parameter_type" span="199:14:199:23">Component</jtok>
+<jtok eid="7" type="parameter_name" span="199:24:199:37">leftComponent</jtok>
+<jtok eid="7" type="parameter_type" span="200:14:200:23">Component</jtok>
+<jtok eid="7" type="parameter_name" span="200:24:200:38">rightComponent</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="201:9:201:21">UIFSplitPane</jtok>
+<jtok eid="7" type="local_variable_name" span="201:22:201:27">split</jtok>
+<jtok eid="7" type="constructor_call" span="201:34:201:46">UIFSplitPane</jtok>
+<jtok eid="7" type="primary_name_ref" span="201:47:201:58">orientation</jtok>
+<jtok eid="7" type="primary_name_ref" span="201:60:201:73">leftComponent</jtok>
+<jtok eid="7" type="primary_name_ref" span="201:75:201:89">rightComponent</jtok>
+<jtok eid="7" type="primary_name_ref" span="202:9:202:14">split</jtok>
+<jtok eid="7" type="method_call" span="202:15:202:24">setBorder</jtok>
+<jtok eid="7" type="primary_name_ref" span="202:25:202:37">EMPTY_BORDER</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:9:203:14">split</jtok>
+<jtok eid="7" type="method_call" span="203:15:203:36">setOneTouchExpandable</jtok>
+<jtok eid="7" type="primary_name_ref" span="204:16:204:21">split</jtok>
+<jtok eid="1" type="line_comment" span="208:5:208:79">// Accessing Properties **************************************************</jtok>
+<jtok eid="1" type="block_comment" span="210:5:218:8">/**
+     * Checks and answers whether the divider border shall be visible 
+     * or invisible. 
+     * Note that this feature is not supported by all look&amp;amp;feels.
+     * Some look&amp;amp;feel implementation will always show a divider border, 
+     * and conversely, others will never show a divider border.
+     * 
+     * @return the desired (but potentially inaccurate) divider border visiblity
+     */</jtok>
+<jtok eid="8" type="method_name" span="219:20:219:42">isDividerBorderVisible</jtok>
+<jtok eid="8" type="primary_name_ref" span="220:16:220:36">dividerBorderVisible</jtok>
+<jtok eid="1" type="block_comment" span="224:5:231:8">/**
+     * Makes the divider border visible or invisible.
+     * Note that this feature is not supported by all look&amp;amp;feels.
+     * Some look&amp;amp;feel implementation will always show a divider border, 
+     * and conversely, others will never show a divider border.
+     * 
+     * @param newVisibility   true for visible, false for invisible
+     */</jtok>
+<jtok eid="9" type="method_name" span="232:17:232:40">setDividerBorderVisible</jtok>
+<jtok eid="9" type="parameter_name" span="232:49:232:62">newVisibility</jtok>
+<jtok eid="9" type="local_variable_name" span="233:17:233:30">oldVisibility</jtok>
+<jtok eid="9" type="method_call" span="233:33:233:55">isDividerBorderVisible</jtok>
+<jtok eid="9" type="primary_name_ref" span="234:13:234:26">oldVisibility</jtok>
+<jtok eid="9" type="primary_name_ref" span="234:30:234:43">newVisibility</jtok>
+<jtok eid="9" type="primary_name_ref" span="236:9:236:29">dividerBorderVisible</jtok>
+<jtok eid="9" type="primary_name_ref" span="236:32:236:45">newVisibility</jtok>
+<jtok eid="9" type="method_call" span="237:9:237:27">firePropertyChange</jtok>
+<jtok eid="9" type="primary_name_ref" span="237:28:237:63">PROPERTYNAME_DIVIDER_BORDER_VISIBLE</jtok>
+<jtok eid="9" type="primary_name_ref" span="238:28:238:41">oldVisibility</jtok>
+<jtok eid="9" type="primary_name_ref" span="239:28:239:41">newVisibility</jtok>
+<jtok eid="1" type="line_comment" span="243:5:243:80">// Changing the Divider Border Visibility *********************************</jtok>
+<jtok eid="1" type="block_comment" span="245:5:249:8">/**
+     * Updates the UI and sets an empty divider border. The divider border
+     * may be restored by a L&amp;F at UI installation time. And so, we
+     * try to reset it each time the UI is changed.
+     */</jtok>
+<jtok eid="10" type="method_name" span="250:17:250:25">updateUI</jtok>
+<jtok eid="10" type="method_call" span="251:15:251:23">updateUI</jtok>
+<jtok eid="10" type="method_call" span="252:14:252:36">isDividerBorderVisible</jtok>
+<jtok eid="10" type="method_call" span="253:13:253:34">setEmptyDividerBorder</jtok>
+<jtok eid="1" type="block_comment" span="257:5:260:8">/**
+     * Sets an empty divider border if and only if the UI is 
+     * an instance of &lt;code&gt;BasicSplitPaneUI&lt;/code&gt;.
+     */</jtok>
+<jtok eid="11" type="method_name" span="261:18:261:39">setEmptyDividerBorder</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="262:9:262:20">SplitPaneUI</jtok>
+<jtok eid="11" type="local_variable_name" span="262:21:262:32">splitPaneUI</jtok>
+<jtok eid="11" type="method_call" span="262:35:262:40">getUI</jtok>
+<jtok eid="11" type="primary_name_ref" span="263:13:263:24">splitPaneUI</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="263:36:263:52">BasicSplitPaneUI</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="264:13:264:29">BasicSplitPaneUI</jtok>
+<jtok eid="11" type="local_variable_name" span="264:30:264:37">basicUI</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="264:41:264:57">BasicSplitPaneUI</jtok>
+<jtok eid="11" type="primary_name_ref" span="264:59:264:70">splitPaneUI</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:13:265:20">basicUI</jtok>
+<jtok eid="11" type="method_call" span="265:21:265:31">getDivider</jtok>
+<jtok eid="11" type="method_call" span="265:34:265:43">setBorder</jtok>
+<jtok eid="11" type="primary_name_ref" span="265:44:265:56">EMPTY_BORDER</jtok>
+</jdoc>

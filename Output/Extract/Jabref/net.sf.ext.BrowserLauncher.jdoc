@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.ext.BrowserLauncher" jls="java5">
+<jent id="0" type="file" span="0:0:598:1">Source/jabref/src/java/net/sf/ext/BrowserLauncher.java</jent>
+<jent id="1" pid="0" type="class" span="54:1:598:1">net.sf.ext.BrowserLauncher</jent>
+<jent id="2" pid="1" type="method" span="252:5:252:33">net.sf.ext.BrowserLauncher.BrowserLauncher()</jent>
+<jent id="3" pid="1" type="method" span="260:5:362:5">net.sf.ext.BrowserLauncher.loadClasses()</jent>
+<jent id="4" pid="1" type="method" span="372:5:480:5">net.sf.ext.BrowserLauncher.locateBrowser()</jent>
+<jent id="5" pid="1" type="method" span="487:5:588:5">net.sf.ext.BrowserLauncher.openURL(String)</jent>
+<jent id="6" pid="1" type="method" span="594:5:594:69">net.sf.ext.BrowserLauncher.ICStart(int[],int)</jent>
+<jent id="7" pid="1" type="method" span="595:5:595:53">net.sf.ext.BrowserLauncher.ICStop(int[])</jent>
+<jent id="8" pid="1" type="method" span="596:5:597:86">net.sf.ext.BrowserLauncher.ICLaunchURL(int,byte[],byte[],int,int[],int[])</jent>
+<jtok eid="0" type="block_comment" span="10:1:53:4">/**
+ * BrowserLauncher is a class that provides one static method, openURL, which opens the default
+ * web browser for the current user of the system to the given URL.  It may support other
+ * protocols depending on the system -- mailto, ftp, etc. -- but that has not been rigorously
+ * tested and is not guaranteed to work.
+ * &lt;p&gt;
+ * Yes, this is platform-specific code, and yes, it may rely on classes on certain platforms
+ * that are not part of the standard JDK.  What we're trying to do, though, is to take something
+ * that's frequently desirable but inherently platform-specific -- opening a default browser --
+ * and allow programmers (you, for example) to do so without worrying about dropping into native
+ * code or doing anything else similarly evil.
+ * &lt;p&gt;
+ * Anyway, this code is completely in Java and will run on all JDK 1.1-compliant systems without
+ * modification or a need for additional libraries.  All classes that are required on certain
+ * platforms to allow this to run are dynamically loaded at runtime via reflection and, if not
+ * found, will not cause this to do anything other than returning an error when opening the
+ * browser.
+ * &lt;p&gt;
+ * There are certain system requirements for this class, as it's running through Runtime.exec(),
+ * which is Java's way of making a native system call.  Currently, this requires that a Macintosh
+ * have a Finder which supports the GURL event, which is true for Mac OS 8.0 and 8.1 systems that
+ * have the Internet Scripting AppleScript dictionary installed in the Scripting Additions folder
+ * in the Extensions folder (which is installed by default as far as I know under Mac OS 8.0 and
+ * 8.1), and for all Mac OS 8.5 and later systems.  On Windows, it only runs under Win32 systems
+ * (Windows 95, 98, and NT 4.0, as well as later versions of all).  On other systems, this drops
+ * back from the inherently platform-sensitive concept of a default browser and simply attempts
+ * to launch Netscape via a shell command.
+ * &lt;p&gt;
+ * This code is Copyright 1999-2001 by Eric Albert (ejalbert@cs.stanford.edu) and may be
+ * redistributed or modified in any form without restrictions as long as the portion of this
+ * comment from this paragraph through the end of the comment is not removed.  The author
+ * requests that he be notified of any application, applet, or other binary that makes use of
+ * this code, but that's more out of curiosity than anything and is not required.  This software
+ * includes no warranty.  The author is not repsonsible for any loss of data or functionality
+ * or any adverse or unexpected effects of using this software.
+ * &lt;p&gt;
+ * Credits:
+ * &lt;br&gt;Steven Spencer, JavaWorld magazine (&lt;a href="http://www.javaworld.com/javaworld/javatips/jw-javatip66.html"&gt;Java Tip 66&lt;/a&gt;)
+ * &lt;br&gt;Thanks also to Ron B. Yeh, Eric Shapiro, Ben Engber, Paul Teitlebaum, Andrea Cantatore,
+ * Larry Barowski, Trevor Bedzek, Frank Miedrich, and Ron Rabakukk
+ *
+ * @author Eric Albert (&lt;a href="mailto:ejalbert@cs.stanford.edu"&gt;ejalbert@cs.stanford.edu&lt;/a&gt;)
+ * @version 1.4b1 (Released June 20, 2001)
+ */</jtok>
+<jtok eid="1" type="class_name" span="54:14:54:29">BrowserLauncher</jtok>
+<jtok eid="1" type="block_comment" span="56:5:58:97">/**
+     * The Java virtual machine that we are running on.  Actually, in most cases we only care
+     * about the operating system, but some operating systems require us to switch on the VM. */</jtok>
+<jtok eid="1" type="field_name" span="59:24:59:27">jvm</jtok>
+<jtok eid="1" type="block_comment" span="61:5:61:38">/** The browser for the system */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="62:20:62:26">Object</jtok>
+<jtok eid="1" type="field_name" span="62:27:62:34">browser</jtok>
+<jtok eid="1" type="block_comment" span="64:5:70:8">/**
+     * Caches whether any classes, methods, and fields that are not part of the JDK and need to
+     * be dynamically loaded at runtime loaded successfully.
+     * &lt;p&gt;
+     * Note that if this is &lt;code&gt;false&lt;/code&gt;, &lt;code&gt;openURL()&lt;/code&gt; will always return an
+     * IOException.
+     */</jtok>
+<jtok eid="1" type="field_name" span="71:28:71:47">loadedWithoutErrors</jtok>
+<jtok eid="1" type="block_comment" span="73:5:73:48">/** The com.apple.mrj.MRJFileUtils class */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="74:20:74:25">Class</jtok>
+<jtok eid="1" type="field_name" span="74:29:74:46">mrjFileUtilsClass</jtok>
+<jtok eid="1" type="block_comment" span="76:5:76:45">/** The com.apple.mrj.MRJOSType class */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="77:20:77:25">Class</jtok>
+<jtok eid="1" type="field_name" span="77:29:77:43">mrjOSTypeClass</jtok>
+<jtok eid="1" type="block_comment" span="79:5:79:44">/** The com.apple.MacOS.AEDesc class */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="80:20:80:25">Class</jtok>
+<jtok eid="1" type="field_name" span="80:29:80:40">aeDescClass</jtok>
+<jtok eid="1" type="block_comment" span="82:5:82:62">/** The &lt;init&gt;(int) method of com.apple.MacOS.AETarget */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="83:20:83:31">Constructor</jtok>
+<jtok eid="1" type="field_name" span="83:35:83:54">aeTargetConstructor</jtok>
+<jtok eid="1" type="block_comment" span="85:5:85:74">/** The &lt;init&gt;(int, int, int) method of com.apple.MacOS.AppleEvent */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="86:20:86:31">Constructor</jtok>
+<jtok eid="1" type="field_name" span="86:35:86:56">appleEventConstructor</jtok>
+<jtok eid="1" type="block_comment" span="88:5:88:63">/** The &lt;init&gt;(String) method of com.apple.MacOS.AEDesc */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="89:20:89:31">Constructor</jtok>
+<jtok eid="1" type="field_name" span="89:35:89:52">aeDescConstructor</jtok>
+<jtok eid="1" type="block_comment" span="91:5:91:63">/** The findFolder method of com.apple.mrj.MRJFileUtils */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="92:20:92:26">Method</jtok>
+<jtok eid="1" type="field_name" span="92:27:92:37">findFolder</jtok>
+<jtok eid="1" type="block_comment" span="94:5:94:67">/** The getFileCreator method of com.apple.mrj.MRJFileUtils */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="95:20:95:26">Method</jtok>
+<jtok eid="1" type="field_name" span="95:27:95:41">getFileCreator</jtok>
+<jtok eid="1" type="block_comment" span="97:5:97:64">/** The getFileType method of com.apple.mrj.MRJFileUtils */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="98:20:98:26">Method</jtok>
+<jtok eid="1" type="field_name" span="98:27:98:38">getFileType</jtok>
+<jtok eid="1" type="block_comment" span="100:5:100:60">/** The openURL method of com.apple.mrj.MRJFileUtils */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="101:20:101:26">Method</jtok>
+<jtok eid="1" type="field_name" span="101:27:101:34">openURL</jtok>
+<jtok eid="1" type="block_comment" span="103:5:103:60">/** The makeOSType method of com.apple.MacOS.OSUtils */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="104:20:104:26">Method</jtok>
+<jtok eid="1" type="field_name" span="104:27:104:37">makeOSType</jtok>
+<jtok eid="1" type="block_comment" span="106:5:106:65">/** The putParameter method of com.apple.MacOS.AppleEvent */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="107:20:107:26">Method</jtok>
+<jtok eid="1" type="field_name" span="107:27:107:39">putParameter</jtok>
+<jtok eid="1" type="block_comment" span="109:5:109:64">/** The sendNoReply method of com.apple.MacOS.AppleEvent */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="110:20:110:26">Method</jtok>
+<jtok eid="1" type="field_name" span="110:27:110:38">sendNoReply</jtok>
+<jtok eid="1" type="block_comment" span="112:5:112:78">/** Actually an MRJOSType pointing to the System Folder on a Macintosh */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="113:20:113:26">Object</jtok>
+<jtok eid="1" type="field_name" span="113:27:113:44">kSystemFolderType</jtok>
+<jtok eid="1" type="block_comment" span="115:5:115:57">/** The keyDirectObject AppleEvent parameter type */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="116:20:116:27">Integer</jtok>
+<jtok eid="1" type="field_name" span="116:28:116:43">keyDirectObject</jtok>
+<jtok eid="1" type="block_comment" span="118:5:118:53">/** The kAutoGenerateReturnID AppleEvent code */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="119:20:119:27">Integer</jtok>
+<jtok eid="1" type="field_name" span="119:28:119:49">kAutoGenerateReturnID</jtok>
+<jtok eid="1" type="block_comment" span="121:5:121:49">/** The kAnyTransactionID AppleEvent code */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="122:20:122:27">Integer</jtok>
+<jtok eid="1" type="field_name" span="122:28:122:45">kAnyTransactionID</jtok>
+<jtok eid="1" type="block_comment" span="124:5:124:66">/** The linkage object required for JDirect 3 on Mac OS X. */</jtok>
+<jtok eid="1" type="annotation_ref" span="125:6:125:22">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="125:23:125:31">"unused"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="126:17:126:23">Object</jtok>
+<jtok eid="1" type="field_name" span="126:24:126:31">linkage</jtok>
+<jtok eid="1" type="block_comment" span="128:5:128:50">/** The framework to reference on Mac OS X */</jtok>
+<jtok eid="1" type="annotation_ref" span="129:6:129:22">SuppressWarnings</jtok>
+<jtok eid="1" type="string_literal" span="129:23:129:31">"unused"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="130:23:130:29">String</jtok>
+<jtok eid="1" type="field_name" span="130:30:130:44">JDirect_MacOSX</jtok>
+<jtok eid="1" type="string_literal" span="130:47:130:133">"/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/HIToolbox"</jtok>
+<jtok eid="1" type="block_comment" span="132:5:132:36">/** JVM constant for MRJ 2.0 */</jtok>
+<jtok eid="1" type="field_name" span="133:30:133:37">MRJ_2_0</jtok>
+<jtok eid="1" type="block_comment" span="135:5:135:45">/** JVM constant for MRJ 2.1 or later */</jtok>
+<jtok eid="1" type="field_name" span="136:30:136:37">MRJ_2_1</jtok>
+<jtok eid="1" type="block_comment" span="138:5:138:60">/** JVM constant for Java on Mac OS X 10.0 (MRJ 3.0) */</jtok>
+<jtok eid="1" type="field_name" span="139:30:139:37">MRJ_3_0</jtok>
+<jtok eid="1" type="block_comment" span="141:5:141:36">/** JVM constant for MRJ 3.1 */</jtok>
+<jtok eid="1" type="field_name" span="142:30:142:37">MRJ_3_1</jtok>
+<jtok eid="1" type="block_comment" span="144:5:144:47">/** JVM constant for any Windows NT JVM */</jtok>
+<jtok eid="1" type="field_name" span="145:30:145:40">WINDOWS_NT</jtok>
+<jtok eid="1" type="block_comment" span="147:5:147:47">/** JVM constant for any Windows 9x JVM */</jtok>
+<jtok eid="1" type="field_name" span="148:30:148:40">WINDOWS_9x</jtok>
+<jtok eid="1" type="block_comment" span="150:5:150:42">/** JVM constant for any Linux JVM */</jtok>
+<jtok eid="1" type="field_name" span="151:30:151:35">LINUX</jtok>
+<jtok eid="1" type="block_comment" span="153:5:153:47">/** JVM constant for any other platform */</jtok>
+<jtok eid="1" type="field_name" span="154:30:154:35">OTHER</jtok>
+<jtok eid="1" type="block_comment" span="156:5:159:8">/**
+     * The file type of the Finder on a Macintosh.  Hardcoding "Finder" would keep non-U.S. English
+     * systems from working properly.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="160:26:160:32">String</jtok>
+<jtok eid="1" type="field_name" span="160:33:160:44">FINDER_TYPE</jtok>
+<jtok eid="1" type="string_literal" span="160:47:160:53">"FNDR"</jtok>
+<jtok eid="1" type="block_comment" span="162:5:165:8">/**
+     * The creator code of the Finder on a Macintosh, which is needed to send AppleEvents to the
+     * application.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="166:26:166:32">String</jtok>
+<jtok eid="1" type="field_name" span="166:33:166:47">FINDER_CREATOR</jtok>
+<jtok eid="1" type="string_literal" span="166:50:166:56">"MACS"</jtok>
+<jtok eid="1" type="block_comment" span="168:5:168:77">/** The name for the AppleEvent type corresponding to a GetURL event. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="169:26:169:32">String</jtok>
+<jtok eid="1" type="field_name" span="169:33:169:43">GURL_EVENT</jtok>
+<jtok eid="1" type="string_literal" span="169:46:169:52">"GURL"</jtok>
+<jtok eid="1" type="block_comment" span="171:5:174:8">/**
+     * The first parameter that needs to be passed into Runtime.exec() to open the default web
+     * browser on Windows.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="175:26:175:32">String</jtok>
+<jtok eid="1" type="field_name" span="175:33:175:56">FIRST_WINDOWS_PARAMETER</jtok>
+<jtok eid="1" type="string_literal" span="175:59:175:63">"/c"</jtok>
+<jtok eid="1" type="block_comment" span="177:5:177:63">/** The second parameter for Runtime.exec() on Windows. */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="178:26:178:32">String</jtok>
+<jtok eid="1" type="field_name" span="178:33:178:57">SECOND_WINDOWS_PARAMETER</jtok>
+<jtok eid="1" type="string_literal" span="178:60:178:67">"start"</jtok>
+<jtok eid="1" type="block_comment" span="180:5:184:8">/**
+     * The third parameter for Runtime.exec() on Windows.  This is a "title"
+     * parameter that the command line expects.  Setting this parameter allows
+     * URLs containing spaces to work.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="185:26:185:32">String</jtok>
+<jtok eid="1" type="field_name" span="185:33:185:56">THIRD_WINDOWS_PARAMETER</jtok>
+<jtok eid="1" type="string_literal" span="185:59:185:65">"\"\""</jtok>
+<jtok eid="1" type="block_comment" span="187:5:190:8">/**
+     * The shell parameters for Netscape that opens a given URL in an already-open copy of Netscape
+     * on many command-line systems.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="191:26:191:32">String</jtok>
+<jtok eid="1" type="field_name" span="191:33:191:58">NETSCAPE_REMOTE_PARAMETER</jtok>
+<jtok eid="1" type="string_literal" span="191:61:191:70">"-remote"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="192:26:192:32">String</jtok>
+<jtok eid="1" type="field_name" span="192:33:192:62">NETSCAPE_OPEN_PARAMETER_START</jtok>
+<jtok eid="1" type="string_literal" span="192:65:192:76">"'openURL("</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="193:26:193:32">String</jtok>
+<jtok eid="1" type="field_name" span="193:33:193:60">NETSCAPE_OPEN_PARAMETER_END</jtok>
+<jtok eid="1" type="string_literal" span="193:63:193:67">")'"</jtok>
+<jtok eid="1" type="block_comment" span="195:5:197:8">/**
+     * The message from any exception thrown throughout the initialization process.
+     */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="198:20:198:26">String</jtok>
+<jtok eid="1" type="field_name" span="198:27:198:39">errorMessage</jtok>
+<jtok eid="1" type="block_comment" span="200:5:203:8">/**
+     * An initialization block that determines the operating system and loads the necessary
+     * runtime data.
+     */</jtok>
+<jtok eid="1" type="primary_name_ref" span="205:9:205:28">loadedWithoutErrors</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="206:9:206:15">String</jtok>
+<jtok eid="1" type="field_name" span="206:16:206:22">osName</jtok>
+<jtok eid="1" type="primary_name_ref" span="206:25:206:31">System</jtok>
+<jtok eid="1" type="method_call" span="206:32:206:43">getProperty</jtok>
+<jtok eid="1" type="string_literal" span="206:44:206:53">"os.name"</jtok>
+<jtok eid="1" type="primary_name_ref" span="207:13:207:19">osName</jtok>
+<jtok eid="1" type="method_call" span="207:20:207:30">startsWith</jtok>
+<jtok eid="1" type="string_literal" span="207:31:207:39">"Mac OS"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="208:13:208:19">String</jtok>
+<jtok eid="1" type="field_name" span="208:20:208:30">mrjVersion</jtok>
+<jtok eid="1" type="primary_name_ref" span="208:33:208:39">System</jtok>
+<jtok eid="1" type="method_call" span="208:40:208:51">getProperty</jtok>
+<jtok eid="1" type="string_literal" span="208:52:208:65">"mrj.version"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="209:13:209:19">String</jtok>
+<jtok eid="1" type="field_name" span="209:20:209:35">majorMRJVersion</jtok>
+<jtok eid="1" type="primary_name_ref" span="209:38:209:48">mrjVersion</jtok>
+<jtok eid="1" type="method_call" span="209:49:209:58">substring</jtok>
+<jtok eid="1" type="field_name" span="211:24:211:31">version</jtok>
+<jtok eid="1" type="primary_name_ref" span="211:34:211:40">Double</jtok>
+<jtok eid="1" type="method_call" span="211:41:211:48">valueOf</jtok>
+<jtok eid="1" type="primary_name_ref" span="211:49:211:64">majorMRJVersion</jtok>
+<jtok eid="1" type="method_call" span="211:66:211:77">doubleValue</jtok>
+<jtok eid="1" type="primary_name_ref" span="212:21:212:28">version</jtok>
+<jtok eid="1" type="primary_name_ref" span="213:21:213:24">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="213:27:213:34">MRJ_2_0</jtok>
+<jtok eid="1" type="primary_name_ref" span="214:28:214:35">version</jtok>
+<jtok eid="1" type="primary_name_ref" span="214:46:214:53">version</jtok>
+<jtok eid="1" type="line_comment" span="215:21:215:92">// Assume that all 2.x versions of MRJ work the same.  MRJ 2.1 actually</jtok>
+<jtok eid="1" type="line_comment" span="216:21:216:98">// works via Runtime.exec() and 2.2 supports that but has an openURL() method</jtok>
+<jtok eid="1" type="line_comment" span="217:21:217:57">// as well that we currently ignore.</jtok>
+<jtok eid="1" type="primary_name_ref" span="218:21:218:24">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="218:27:218:34">MRJ_2_1</jtok>
+<jtok eid="1" type="primary_name_ref" span="219:28:219:35">version</jtok>
+<jtok eid="1" type="primary_name_ref" span="220:21:220:24">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="220:27:220:34">MRJ_3_0</jtok>
+<jtok eid="1" type="primary_name_ref" span="221:28:221:35">version</jtok>
+<jtok eid="1" type="line_comment" span="222:21:222:84">// Assume that all 3.1 and later versions of MRJ work the same.</jtok>
+<jtok eid="1" type="primary_name_ref" span="223:21:223:24">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="223:27:223:34">MRJ_3_1</jtok>
+<jtok eid="1" type="primary_name_ref" span="225:21:225:40">loadedWithoutErrors</jtok>
+<jtok eid="1" type="primary_name_ref" span="226:21:226:33">errorMessage</jtok>
+<jtok eid="1" type="string_literal" span="226:36:226:63">"Unsupported MRJ version: "</jtok>
+<jtok eid="1" type="primary_name_ref" span="226:66:226:73">version</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="228:22:228:43">NumberFormatException</jtok>
+<jtok eid="1" type="field_name" span="228:44:228:47">nfe</jtok>
+<jtok eid="1" type="primary_name_ref" span="229:17:229:36">loadedWithoutErrors</jtok>
+<jtok eid="1" type="primary_name_ref" span="230:17:230:29">errorMessage</jtok>
+<jtok eid="1" type="string_literal" span="230:32:230:55">"Invalid MRJ version: "</jtok>
+<jtok eid="1" type="primary_name_ref" span="230:58:230:68">mrjVersion</jtok>
+<jtok eid="1" type="primary_name_ref" span="232:20:232:26">osName</jtok>
+<jtok eid="1" type="method_call" span="232:27:232:37">startsWith</jtok>
+<jtok eid="1" type="string_literal" span="232:38:232:47">"Windows"</jtok>
+<jtok eid="1" type="primary_name_ref" span="233:17:233:23">osName</jtok>
+<jtok eid="1" type="method_call" span="233:24:233:31">indexOf</jtok>
+<jtok eid="1" type="string_literal" span="233:32:233:35">"9"</jtok>
+<jtok eid="1" type="primary_name_ref" span="234:17:234:20">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="234:23:234:33">WINDOWS_9x</jtok>
+<jtok eid="1" type="primary_name_ref" span="236:17:236:20">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="236:23:236:33">WINDOWS_NT</jtok>
+<jtok eid="1" type="primary_name_ref" span="238:20:238:26">osName</jtok>
+<jtok eid="1" type="method_call" span="238:27:238:37">startsWith</jtok>
+<jtok eid="1" type="string_literal" span="238:38:238:45">"Linux"</jtok>
+<jtok eid="1" type="primary_name_ref" span="239:11:239:14">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="239:17:239:22">LINUX</jtok>
+<jtok eid="1" type="primary_name_ref" span="241:13:241:16">jvm</jtok>
+<jtok eid="1" type="primary_name_ref" span="241:19:241:24">OTHER</jtok>
+<jtok eid="1" type="primary_name_ref" span="244:13:244:32">loadedWithoutErrors</jtok>
+<jtok eid="1" type="line_comment" span="244:37:244:72">// if we haven't hit any errors yet</jtok>
+<jtok eid="1" type="primary_name_ref" span="245:13:245:32">loadedWithoutErrors</jtok>
+<jtok eid="1" type="method_call" span="245:35:245:46">loadClasses</jtok>
+<jtok eid="1" type="block_comment" span="249:5:251:8">/**
+     * This class should be never be instantiated; this just ensures so.
+     */</jtok>
+<jtok eid="2" type="method_name" span="252:13:252:28">BrowserLauncher</jtok>
+<jtok eid="1" type="block_comment" span="254:5:259:8">/**
+     * Called by a static initializer to load any classes, fields, and methods required at runtime
+     * to locate the user's web browser.
+     * @return &lt;code&gt;true&lt;/code&gt; if all intialization succeeded
+     *          &lt;code&gt;false&lt;/code&gt; if any portion of the initialization failed
+     */</jtok>
+<jtok eid="3" type="method_name" span="260:28:260:39">loadClasses</jtok>
+<jtok eid="3" type="primary_name_ref" span="261:17:261:20">jvm</jtok>
+<jtok eid="3" type="primary_name_ref" span="262:18:262:25">MRJ_2_0</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="264:21:264:26">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="264:30:264:43">aeTargetClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="264:46:264:51">Class</jtok>
+<jtok eid="3" type="method_call" span="264:52:264:59">forName</jtok>
+<jtok eid="3" type="string_literal" span="264:60:264:86">"com.apple.MacOS.AETarget"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="265:21:265:26">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="265:30:265:42">osUtilsClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="265:45:265:50">Class</jtok>
+<jtok eid="3" type="method_call" span="265:51:265:58">forName</jtok>
+<jtok eid="3" type="string_literal" span="265:59:265:84">"com.apple.MacOS.OSUtils"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="266:21:266:26">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="266:30:266:45">appleEventClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="266:48:266:53">Class</jtok>
+<jtok eid="3" type="method_call" span="266:54:266:61">forName</jtok>
+<jtok eid="3" type="string_literal" span="266:62:266:90">"com.apple.MacOS.AppleEvent"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="267:21:267:26">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="267:30:267:37">aeClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="267:40:267:45">Class</jtok>
+<jtok eid="3" type="method_call" span="267:46:267:53">forName</jtok>
+<jtok eid="3" type="string_literal" span="267:54:267:74">"com.apple.MacOS.ae"</jtok>
+<jtok eid="3" type="primary_name_ref" span="268:21:268:32">aeDescClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="268:35:268:40">Class</jtok>
+<jtok eid="3" type="method_call" span="268:41:268:48">forName</jtok>
+<jtok eid="3" type="string_literal" span="268:49:268:73">"com.apple.MacOS.AEDesc"</jtok>
+<jtok eid="3" type="primary_name_ref" span="270:21:270:40">aeTargetConstructor</jtok>
+<jtok eid="3" type="primary_name_ref" span="270:43:270:56">aeTargetClass</jtok>
+<jtok eid="3" type="method_call" span="270:57:270:79">getDeclaredConstructor</jtok>
+<jtok eid="3" type="constructor_call" span="270:84:270:89">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="271:21:271:42">appleEventConstructor</jtok>
+<jtok eid="3" type="primary_name_ref" span="271:45:271:60">appleEventClass</jtok>
+<jtok eid="3" type="method_call" span="271:61:271:83">getDeclaredConstructor</jtok>
+<jtok eid="3" type="constructor_call" span="271:88:271:93">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="271:120:271:133">aeTargetClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="272:21:272:38">aeDescConstructor</jtok>
+<jtok eid="3" type="primary_name_ref" span="272:41:272:52">aeDescClass</jtok>
+<jtok eid="3" type="method_call" span="272:53:272:75">getDeclaredConstructor</jtok>
+<jtok eid="3" type="constructor_call" span="272:80:272:85">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="272:90:272:96">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="274:21:274:31">makeOSType</jtok>
+<jtok eid="3" type="primary_name_ref" span="274:34:274:46">osUtilsClass</jtok>
+<jtok eid="3" type="method_call" span="274:47:274:64">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="274:65:274:77">"makeOSType"</jtok>
+<jtok eid="3" type="constructor_call" span="274:83:274:88">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="274:94:274:100">String</jtok>
+<jtok eid="3" type="primary_name_ref" span="275:21:275:33">putParameter</jtok>
+<jtok eid="3" type="primary_name_ref" span="275:36:275:51">appleEventClass</jtok>
+<jtok eid="3" type="method_call" span="275:52:275:69">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="275:70:275:84">"putParameter"</jtok>
+<jtok eid="3" type="constructor_call" span="275:90:275:95">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="275:111:275:122">aeDescClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="276:21:276:32">sendNoReply</jtok>
+<jtok eid="3" type="primary_name_ref" span="276:35:276:50">appleEventClass</jtok>
+<jtok eid="3" type="method_call" span="276:51:276:68">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="276:69:276:82">"sendNoReply"</jtok>
+<jtok eid="3" type="constructor_call" span="276:88:276:93">Class</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="278:21:278:26">Field</jtok>
+<jtok eid="3" type="local_variable_name" span="278:27:278:47">keyDirectObjectField</jtok>
+<jtok eid="3" type="primary_name_ref" span="278:50:278:57">aeClass</jtok>
+<jtok eid="3" type="method_call" span="278:58:278:74">getDeclaredField</jtok>
+<jtok eid="3" type="string_literal" span="278:75:278:92">"keyDirectObject"</jtok>
+<jtok eid="3" type="primary_name_ref" span="279:21:279:36">keyDirectObject</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="279:40:279:47">Integer</jtok>
+<jtok eid="3" type="primary_name_ref" span="279:49:279:69">keyDirectObjectField</jtok>
+<jtok eid="3" type="method_call" span="279:70:279:73">get</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="280:21:280:26">Field</jtok>
+<jtok eid="3" type="local_variable_name" span="280:27:280:52">autoGenerateReturnIDField</jtok>
+<jtok eid="3" type="primary_name_ref" span="280:55:280:70">appleEventClass</jtok>
+<jtok eid="3" type="method_call" span="280:71:280:87">getDeclaredField</jtok>
+<jtok eid="3" type="string_literal" span="280:88:280:111">"kAutoGenerateReturnID"</jtok>
+<jtok eid="3" type="primary_name_ref" span="281:21:281:42">kAutoGenerateReturnID</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="281:46:281:53">Integer</jtok>
+<jtok eid="3" type="primary_name_ref" span="281:55:281:80">autoGenerateReturnIDField</jtok>
+<jtok eid="3" type="method_call" span="281:81:281:84">get</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="282:21:282:26">Field</jtok>
+<jtok eid="3" type="local_variable_name" span="282:27:282:48">anyTransactionIDField</jtok>
+<jtok eid="3" type="primary_name_ref" span="282:51:282:66">appleEventClass</jtok>
+<jtok eid="3" type="method_call" span="282:67:282:83">getDeclaredField</jtok>
+<jtok eid="3" type="string_literal" span="282:84:282:103">"kAnyTransactionID"</jtok>
+<jtok eid="3" type="primary_name_ref" span="283:21:283:38">kAnyTransactionID</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="283:42:283:49">Integer</jtok>
+<jtok eid="3" type="primary_name_ref" span="283:51:283:72">anyTransactionIDField</jtok>
+<jtok eid="3" type="method_call" span="283:73:283:76">get</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="284:26:284:48">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="284:49:284:53">cnfe</jtok>
+<jtok eid="3" type="primary_name_ref" span="285:21:285:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="285:36:285:40">cnfe</jtok>
+<jtok eid="3" type="method_call" span="285:41:285:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="287:26:287:47">NoSuchMethodException</jtok>
+<jtok eid="3" type="local_variable_name" span="287:48:287:52">nsme</jtok>
+<jtok eid="3" type="primary_name_ref" span="288:21:288:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="288:36:288:40">nsme</jtok>
+<jtok eid="3" type="method_call" span="288:41:288:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="290:26:290:46">NoSuchFieldException</jtok>
+<jtok eid="3" type="local_variable_name" span="290:47:290:51">nsfe</jtok>
+<jtok eid="3" type="primary_name_ref" span="291:21:291:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="291:36:291:40">nsfe</jtok>
+<jtok eid="3" type="method_call" span="291:41:291:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="293:26:293:48">IllegalAccessException</jtok>
+<jtok eid="3" type="local_variable_name" span="293:49:293:52">iae</jtok>
+<jtok eid="3" type="primary_name_ref" span="294:21:294:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="294:36:294:39">iae</jtok>
+<jtok eid="3" type="method_call" span="294:40:294:50">getMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="298:18:298:25">MRJ_2_1</jtok>
+<jtok eid="3" type="primary_name_ref" span="300:21:300:38">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="300:41:300:46">Class</jtok>
+<jtok eid="3" type="method_call" span="300:47:300:54">forName</jtok>
+<jtok eid="3" type="string_literal" span="300:55:300:83">"com.apple.mrj.MRJFileUtils"</jtok>
+<jtok eid="3" type="primary_name_ref" span="301:21:301:35">mrjOSTypeClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="301:38:301:43">Class</jtok>
+<jtok eid="3" type="method_call" span="301:44:301:51">forName</jtok>
+<jtok eid="3" type="string_literal" span="301:52:301:77">"com.apple.mrj.MRJOSType"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="302:21:302:26">Field</jtok>
+<jtok eid="3" type="local_variable_name" span="302:27:302:44">systemFolderField</jtok>
+<jtok eid="3" type="primary_name_ref" span="302:47:302:64">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="method_call" span="302:65:302:81">getDeclaredField</jtok>
+<jtok eid="3" type="string_literal" span="302:82:302:101">"kSystemFolderType"</jtok>
+<jtok eid="3" type="primary_name_ref" span="303:21:303:38">kSystemFolderType</jtok>
+<jtok eid="3" type="primary_name_ref" span="303:41:303:58">systemFolderField</jtok>
+<jtok eid="3" type="method_call" span="303:59:303:62">get</jtok>
+<jtok eid="3" type="primary_name_ref" span="304:21:304:31">findFolder</jtok>
+<jtok eid="3" type="primary_name_ref" span="304:34:304:51">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="method_call" span="304:52:304:69">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="304:70:304:82">"findFolder"</jtok>
+<jtok eid="3" type="constructor_call" span="304:88:304:93">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="304:98:304:112">mrjOSTypeClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="305:21:305:35">getFileCreator</jtok>
+<jtok eid="3" type="primary_name_ref" span="305:38:305:55">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="method_call" span="305:56:305:73">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="305:74:305:90">"getFileCreator"</jtok>
+<jtok eid="3" type="constructor_call" span="305:96:305:101">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="305:106:305:110">File</jtok>
+<jtok eid="3" type="primary_name_ref" span="306:21:306:32">getFileType</jtok>
+<jtok eid="3" type="primary_name_ref" span="306:35:306:52">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="method_call" span="306:53:306:70">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="306:71:306:84">"getFileType"</jtok>
+<jtok eid="3" type="constructor_call" span="306:90:306:95">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="306:100:306:104">File</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="307:26:307:48">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="307:49:307:53">cnfe</jtok>
+<jtok eid="3" type="primary_name_ref" span="308:21:308:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="308:36:308:40">cnfe</jtok>
+<jtok eid="3" type="method_call" span="308:41:308:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="310:26:310:46">NoSuchFieldException</jtok>
+<jtok eid="3" type="local_variable_name" span="310:47:310:51">nsfe</jtok>
+<jtok eid="3" type="primary_name_ref" span="311:21:311:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="311:36:311:40">nsfe</jtok>
+<jtok eid="3" type="method_call" span="311:41:311:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="313:26:313:47">NoSuchMethodException</jtok>
+<jtok eid="3" type="local_variable_name" span="313:48:313:52">nsme</jtok>
+<jtok eid="3" type="primary_name_ref" span="314:21:314:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="314:36:314:40">nsme</jtok>
+<jtok eid="3" type="method_call" span="314:41:314:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="316:26:316:43">SecurityException</jtok>
+<jtok eid="3" type="local_variable_name" span="316:44:316:46">se</jtok>
+<jtok eid="3" type="primary_name_ref" span="317:21:317:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="317:36:317:38">se</jtok>
+<jtok eid="3" type="method_call" span="317:39:317:49">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="319:26:319:48">IllegalAccessException</jtok>
+<jtok eid="3" type="local_variable_name" span="319:49:319:52">iae</jtok>
+<jtok eid="3" type="primary_name_ref" span="320:21:320:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="320:36:320:39">iae</jtok>
+<jtok eid="3" type="method_call" span="320:40:320:50">getMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="324:18:324:25">MRJ_3_0</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="326:21:326:26">Class</jtok>
+<jtok eid="3" type="local_variable_name" span="326:30:326:36">linker</jtok>
+<jtok eid="3" type="primary_name_ref" span="326:39:326:44">Class</jtok>
+<jtok eid="3" type="method_call" span="326:45:326:52">forName</jtok>
+<jtok eid="3" type="string_literal" span="326:53:326:83">"com.apple.mrj.jdirect.Linker"</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="327:21:327:32">Constructor</jtok>
+<jtok eid="3" type="local_variable_name" span="327:36:327:47">constructor</jtok>
+<jtok eid="3" type="primary_name_ref" span="327:50:327:56">linker</jtok>
+<jtok eid="3" type="method_call" span="327:57:327:71">getConstructor</jtok>
+<jtok eid="3" type="constructor_call" span="327:76:327:81">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="327:85:327:90">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="328:21:328:28">linkage</jtok>
+<jtok eid="3" type="primary_name_ref" span="328:31:328:42">constructor</jtok>
+<jtok eid="3" type="method_call" span="328:43:328:54">newInstance</jtok>
+<jtok eid="3" type="constructor_call" span="328:59:328:65">Object</jtok>
+<jtok eid="3" type="primary_name_ref" span="328:70:328:85">BrowserLauncher</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="329:26:329:48">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="329:49:329:53">cnfe</jtok>
+<jtok eid="3" type="primary_name_ref" span="330:21:330:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="330:36:330:40">cnfe</jtok>
+<jtok eid="3" type="method_call" span="330:41:330:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="332:26:332:47">NoSuchMethodException</jtok>
+<jtok eid="3" type="local_variable_name" span="332:48:332:52">nsme</jtok>
+<jtok eid="3" type="primary_name_ref" span="333:21:333:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="333:36:333:40">nsme</jtok>
+<jtok eid="3" type="method_call" span="333:41:333:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="335:26:335:51">InvocationTargetException</jtok>
+<jtok eid="3" type="local_variable_name" span="335:52:335:55">ite</jtok>
+<jtok eid="3" type="primary_name_ref" span="336:21:336:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="336:36:336:39">ite</jtok>
+<jtok eid="3" type="method_call" span="336:40:336:50">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="338:26:338:48">InstantiationException</jtok>
+<jtok eid="3" type="local_variable_name" span="338:49:338:51">ie</jtok>
+<jtok eid="3" type="primary_name_ref" span="339:21:339:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="339:36:339:38">ie</jtok>
+<jtok eid="3" type="method_call" span="339:39:339:49">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="341:26:341:48">IllegalAccessException</jtok>
+<jtok eid="3" type="local_variable_name" span="341:49:341:52">iae</jtok>
+<jtok eid="3" type="primary_name_ref" span="342:21:342:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="342:36:342:39">iae</jtok>
+<jtok eid="3" type="method_call" span="342:40:342:50">getMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="346:18:346:25">MRJ_3_1</jtok>
+<jtok eid="3" type="primary_name_ref" span="348:21:348:38">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="primary_name_ref" span="348:41:348:46">Class</jtok>
+<jtok eid="3" type="method_call" span="348:47:348:54">forName</jtok>
+<jtok eid="3" type="string_literal" span="348:55:348:83">"com.apple.mrj.MRJFileUtils"</jtok>
+<jtok eid="3" type="primary_name_ref" span="349:21:349:28">openURL</jtok>
+<jtok eid="3" type="primary_name_ref" span="349:31:349:48">mrjFileUtilsClass</jtok>
+<jtok eid="3" type="method_call" span="349:49:349:66">getDeclaredMethod</jtok>
+<jtok eid="3" type="string_literal" span="349:67:349:76">"openURL"</jtok>
+<jtok eid="3" type="constructor_call" span="349:82:349:87">Class</jtok>
+<jtok eid="3" type="primary_name_ref" span="349:92:349:98">String</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="350:26:350:48">ClassNotFoundException</jtok>
+<jtok eid="3" type="local_variable_name" span="350:49:350:53">cnfe</jtok>
+<jtok eid="3" type="primary_name_ref" span="351:21:351:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="351:36:351:40">cnfe</jtok>
+<jtok eid="3" type="method_call" span="351:41:351:51">getMessage</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="353:26:353:47">NoSuchMethodException</jtok>
+<jtok eid="3" type="local_variable_name" span="353:48:353:52">nsme</jtok>
+<jtok eid="3" type="primary_name_ref" span="354:21:354:33">errorMessage</jtok>
+<jtok eid="3" type="primary_name_ref" span="354:36:354:40">nsme</jtok>
+<jtok eid="3" type="method_call" span="354:41:354:51">getMessage</jtok>
+<jtok eid="1" type="block_comment" span="364:5:371:8">/**
+     * Attempts to locate the default web browser on the local system.  Caches results so it
+     * only locates the browser once for each use of this class per JVM instance.
+     * @return The browser for the system.  Note that this may not be what you would consider
+     *          to be a standard web browser; instead, it's the application that gets called to
+     *          open the default web browser.  In some cases, this will be a non-String object
+     *          that provides the means of calling the default browser.
+     */</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="372:20:372:26">Object</jtok>
+<jtok eid="4" type="method_name" span="372:27:372:40">locateBrowser</jtok>
+<jtok eid="4" type="primary_name_ref" span="373:13:373:20">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="374:20:374:27">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="376:17:376:20">jvm</jtok>
+<jtok eid="4" type="primary_name_ref" span="377:18:377:25">MRJ_2_0</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="379:21:379:28">Integer</jtok>
+<jtok eid="4" type="local_variable_name" span="379:29:379:46">finderCreatorCode</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="379:50:379:57">Integer</jtok>
+<jtok eid="4" type="primary_name_ref" span="379:59:379:69">makeOSType</jtok>
+<jtok eid="4" type="method_call" span="379:70:379:76">invoke</jtok>
+<jtok eid="4" type="constructor_call" span="379:87:379:93">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="379:98:379:112">FINDER_CREATOR</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="380:21:380:27">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="380:28:380:36">aeTarget</jtok>
+<jtok eid="4" type="primary_name_ref" span="380:39:380:58">aeTargetConstructor</jtok>
+<jtok eid="4" type="method_call" span="380:59:380:70">newInstance</jtok>
+<jtok eid="4" type="constructor_call" span="380:75:380:81">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="380:86:380:103">finderCreatorCode</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="381:21:381:28">Integer</jtok>
+<jtok eid="4" type="local_variable_name" span="381:29:381:37">gurlType</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="381:41:381:48">Integer</jtok>
+<jtok eid="4" type="primary_name_ref" span="381:50:381:60">makeOSType</jtok>
+<jtok eid="4" type="method_call" span="381:61:381:67">invoke</jtok>
+<jtok eid="4" type="constructor_call" span="381:78:381:84">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="381:89:381:99">GURL_EVENT</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="382:21:382:27">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="382:28:382:38">appleEvent</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:41:382:62">appleEventConstructor</jtok>
+<jtok eid="4" type="method_call" span="382:63:382:74">newInstance</jtok>
+<jtok eid="4" type="constructor_call" span="382:79:382:85">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:90:382:98">gurlType</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:100:382:108">gurlType</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:110:382:118">aeTarget</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:120:382:141">kAutoGenerateReturnID</jtok>
+<jtok eid="4" type="primary_name_ref" span="382:143:382:160">kAnyTransactionID</jtok>
+<jtok eid="4" type="line_comment" span="383:21:383:89">// Don't set browser = appleEvent because then the next time we call</jtok>
+<jtok eid="4" type="line_comment" span="384:21:384:99">// locateBrowser(), we'll get the same AppleEvent, to which we'll already have</jtok>
+<jtok eid="4" type="line_comment" span="385:21:385:100">// added the relevant parameter. Instead, regenerate the AppleEvent every time.</jtok>
+<jtok eid="4" type="line_comment" span="386:21:386:98">// There's probably a way to do this better; if any has any ideas, please let</jtok>
+<jtok eid="4" type="line_comment" span="387:21:387:32">// me know.</jtok>
+<jtok eid="4" type="primary_name_ref" span="388:28:388:38">appleEvent</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="389:26:389:48">IllegalAccessException</jtok>
+<jtok eid="4" type="local_variable_name" span="389:49:389:52">iae</jtok>
+<jtok eid="4" type="primary_name_ref" span="390:21:390:28">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="391:21:391:33">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="391:36:391:39">iae</jtok>
+<jtok eid="4" type="method_call" span="391:40:391:50">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="392:28:392:35">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="393:26:393:48">InstantiationException</jtok>
+<jtok eid="4" type="local_variable_name" span="393:49:393:51">ie</jtok>
+<jtok eid="4" type="primary_name_ref" span="394:21:394:28">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="395:21:395:33">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="395:36:395:38">ie</jtok>
+<jtok eid="4" type="method_call" span="395:39:395:49">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="396:28:396:35">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="397:26:397:51">InvocationTargetException</jtok>
+<jtok eid="4" type="local_variable_name" span="397:52:397:55">ite</jtok>
+<jtok eid="4" type="primary_name_ref" span="398:21:398:28">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="399:21:399:33">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="399:36:399:39">ite</jtok>
+<jtok eid="4" type="method_call" span="399:40:399:50">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="400:28:400:35">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="402:18:402:25">MRJ_2_1</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="403:17:403:21">File</jtok>
+<jtok eid="4" type="local_variable_name" span="403:22:403:34">systemFolder</jtok>
+<jtok eid="4" type="primary_name_ref" span="405:21:405:33">systemFolder</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="405:37:405:41">File</jtok>
+<jtok eid="4" type="primary_name_ref" span="405:43:405:53">findFolder</jtok>
+<jtok eid="4" type="method_call" span="405:54:405:60">invoke</jtok>
+<jtok eid="4" type="constructor_call" span="405:71:405:77">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="405:82:405:99">kSystemFolderType</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="406:26:406:50">IllegalArgumentException</jtok>
+<jtok eid="4" type="local_variable_name" span="406:51:406:55">iare</jtok>
+<jtok eid="4" type="primary_name_ref" span="407:21:407:28">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="408:21:408:33">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="408:36:408:40">iare</jtok>
+<jtok eid="4" type="method_call" span="408:41:408:51">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="409:28:409:35">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="410:26:410:48">IllegalAccessException</jtok>
+<jtok eid="4" type="local_variable_name" span="410:49:410:52">iae</jtok>
+<jtok eid="4" type="primary_name_ref" span="411:21:411:28">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="412:21:412:33">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="412:36:412:39">iae</jtok>
+<jtok eid="4" type="method_call" span="412:40:412:50">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="413:28:413:35">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="414:26:414:51">InvocationTargetException</jtok>
+<jtok eid="4" type="local_variable_name" span="414:52:414:55">ite</jtok>
+<jtok eid="4" type="primary_name_ref" span="415:21:415:28">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="416:21:416:33">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="416:36:416:39">ite</jtok>
+<jtok eid="4" type="method_call" span="416:40:416:58">getTargetException</jtok>
+<jtok eid="4" type="method_call" span="416:61:416:69">getClass</jtok>
+<jtok eid="4" type="string_literal" span="416:74:416:78">": "</jtok>
+<jtok eid="4" type="primary_name_ref" span="416:81:416:84">ite</jtok>
+<jtok eid="4" type="method_call" span="416:85:416:103">getTargetException</jtok>
+<jtok eid="4" type="method_call" span="416:106:416:116">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="417:28:417:35">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="419:17:419:23">String</jtok>
+<jtok eid="4" type="local_variable_name" span="419:26:419:43">systemFolderFiles</jtok>
+<jtok eid="4" type="primary_name_ref" span="419:46:419:58">systemFolder</jtok>
+<jtok eid="4" type="method_call" span="419:59:419:63">list</jtok>
+<jtok eid="4" type="line_comment" span="420:17:420:81">// Avoid a FilenameFilter because that can't be stopped mid-list</jtok>
+<jtok eid="4" type="local_variable_name" span="421:25:421:26">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="421:32:421:33">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="421:36:421:53">systemFolderFiles</jtok>
+<jtok eid="4" type="qualified_name_ref" span="421:54:421:60">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="421:62:421:63">i</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="423:25:423:29">File</jtok>
+<jtok eid="4" type="local_variable_name" span="423:30:423:34">file</jtok>
+<jtok eid="4" type="constructor_call" span="423:41:423:45">File</jtok>
+<jtok eid="4" type="primary_name_ref" span="423:46:423:58">systemFolder</jtok>
+<jtok eid="4" type="primary_name_ref" span="423:60:423:77">systemFolderFiles</jtok>
+<jtok eid="4" type="primary_name_ref" span="423:78:423:79">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="424:30:424:34">file</jtok>
+<jtok eid="4" type="method_call" span="424:35:424:41">isFile</jtok>
+<jtok eid="4" type="line_comment" span="427:25:427:86">// We're looking for a file with a creator code of 'MACS' and</jtok>
+<jtok eid="4" type="line_comment" span="428:25:428:92">// a type of 'FNDR'.  Only requiring the type results in non-Finder</jtok>
+<jtok eid="4" type="line_comment" span="429:25:429:85">// applications being picked up on certain Mac OS 9 systems,</jtok>
+<jtok eid="4" type="line_comment" span="430:25:430:85">// especially German ones, and sending a GURL event to those</jtok>
+<jtok eid="4" type="line_comment" span="431:25:431:82">// applications results in a logout under Multiple Users.</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="432:25:432:31">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="432:32:432:40">fileType</jtok>
+<jtok eid="4" type="primary_name_ref" span="432:43:432:54">getFileType</jtok>
+<jtok eid="4" type="method_call" span="432:55:432:61">invoke</jtok>
+<jtok eid="4" type="constructor_call" span="432:72:432:78">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="432:83:432:87">file</jtok>
+<jtok eid="4" type="primary_name_ref" span="433:29:433:40">FINDER_TYPE</jtok>
+<jtok eid="4" type="method_call" span="433:41:433:47">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="433:48:433:56">fileType</jtok>
+<jtok eid="4" type="method_call" span="433:57:433:65">toString</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="434:29:434:35">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="434:36:434:47">fileCreator</jtok>
+<jtok eid="4" type="primary_name_ref" span="434:50:434:64">getFileCreator</jtok>
+<jtok eid="4" type="method_call" span="434:65:434:71">invoke</jtok>
+<jtok eid="4" type="constructor_call" span="434:82:434:88">Object</jtok>
+<jtok eid="4" type="primary_name_ref" span="434:93:434:97">file</jtok>
+<jtok eid="4" type="primary_name_ref" span="435:33:435:47">FINDER_CREATOR</jtok>
+<jtok eid="4" type="method_call" span="435:48:435:54">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="435:55:435:66">fileCreator</jtok>
+<jtok eid="4" type="method_call" span="435:67:435:75">toString</jtok>
+<jtok eid="4" type="primary_name_ref" span="436:33:436:40">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="436:43:436:47">file</jtok>
+<jtok eid="4" type="method_call" span="436:48:436:56">toString</jtok>
+<jtok eid="4" type="line_comment" span="436:61:436:98">// Actually the Finder, but that's OK</jtok>
+<jtok eid="4" type="primary_name_ref" span="437:40:437:47">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="440:30:440:54">IllegalArgumentException</jtok>
+<jtok eid="4" type="local_variable_name" span="440:55:440:59">iare</jtok>
+<jtok eid="4" type="line_comment" span="441:25:441:46">// browser = browser;</jtok>
+<jtok eid="4" type="primary_name_ref" span="442:25:442:37">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="442:40:442:44">iare</jtok>
+<jtok eid="4" type="method_call" span="442:45:442:55">getMessage</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="444:30:444:52">IllegalAccessException</jtok>
+<jtok eid="4" type="local_variable_name" span="444:53:444:56">iae</jtok>
+<jtok eid="4" type="primary_name_ref" span="445:25:445:32">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="446:25:446:37">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="446:40:446:43">iae</jtok>
+<jtok eid="4" type="method_call" span="446:44:446:54">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="447:32:447:39">browser</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="448:30:448:55">InvocationTargetException</jtok>
+<jtok eid="4" type="local_variable_name" span="448:56:448:59">ite</jtok>
+<jtok eid="4" type="primary_name_ref" span="449:25:449:32">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="450:25:450:37">errorMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="450:40:450:43">ite</jtok>
+<jtok eid="4" type="method_call" span="450:44:450:62">getTargetException</jtok>
+<jtok eid="4" type="method_call" span="450:65:450:73">getClass</jtok>
+<jtok eid="4" type="string_literal" span="450:78:450:82">": "</jtok>
+<jtok eid="4" type="primary_name_ref" span="450:85:450:88">ite</jtok>
+<jtok eid="4" type="method_call" span="450:89:450:107">getTargetException</jtok>
+<jtok eid="4" type="method_call" span="450:110:450:120">getMessage</jtok>
+<jtok eid="4" type="primary_name_ref" span="451:32:451:39">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="454:17:454:24">browser</jtok>
+<jtok eid="4" type="primary_name_ref" span="456:18:456:25">MRJ_3_0</jtok>
+<jtok eid="4" type="primary_name_ref" span="457:18:457:25">MRJ_3_1</jtok>
+<jtok eid="4" type="primary_name_ref" span="458:17:458:24">browser</jtok>
+<jtok eid="4" type="string_literal" span="458:27:458:29">""</jtok>
+<jtok eid="4" type="line_comment" span="458:33:458:61">// Return something non-null</jtok>
+<jtok eid="4" type="primary_name_ref" span="460:18:460:28">WINDOWS_NT</jtok>
+<jtok eid="4" type="primary_name_ref" span="461:17:461:24">browser</jtok>
+<jtok eid="4" type="string_literal" span="461:27:461:36">"cmd.exe"</jtok>
+<jtok eid="4" type="primary_name_ref" span="463:18:463:28">WINDOWS_9x</jtok>
+<jtok eid="4" type="primary_name_ref" span="464:17:464:24">browser</jtok>
+<jtok eid="4" type="string_literal" span="464:27:464:40">"command.com"</jtok>
+<jtok eid="4" type="primary_name_ref" span="466:18:466:23">LINUX</jtok>
+<jtok eid="4" type="constructor_call" span="467:12:467:16">File</jtok>
+<jtok eid="4" type="string_literal" span="467:17:467:35">"/usr/bin/mozilla"</jtok>
+<jtok eid="4" type="method_call" span="467:38:467:44">exists</jtok>
+<jtok eid="4" type="primary_name_ref" span="468:7:468:14">browser</jtok>
+<jtok eid="4" type="string_literal" span="468:17:468:26">"mozilla"</jtok>
+<jtok eid="4" type="constructor_call" span="469:17:469:21">File</jtok>
+<jtok eid="4" type="string_literal" span="469:22:469:40">"/usr/bin/firefox"</jtok>
+<jtok eid="4" type="method_call" span="469:43:469:49">exists</jtok>
+<jtok eid="4" type="primary_name_ref" span="470:7:470:14">browser</jtok>
+<jtok eid="4" type="string_literal" span="470:17:470:26">"firefox"</jtok>
+<jtok eid="4" type="primary_name_ref" span="472:7:472:14">browser</jtok>
+<jtok eid="4" type="string_literal" span="472:17:472:26">"mozilla"</jtok>
+<jtok eid="4" type="primary_name_ref" span="474:18:474:23">OTHER</jtok>
+<jtok eid="4" type="primary_name_ref" span="476:17:476:24">browser</jtok>
+<jtok eid="4" type="string_literal" span="476:27:476:37">"netscape"</jtok>
+<jtok eid="4" type="primary_name_ref" span="479:16:479:23">browser</jtok>
+<jtok eid="1" type="block_comment" span="482:5:486:8">/**
+     * Attempts to open the default web browser to the given URL.
+     * @param url The URL to open
+     * @throws IOException If the web browser could not be located or does not run
+     */</jtok>
+<jtok eid="5" type="method_name" span="487:24:487:31">openURL</jtok>
+<jtok eid="5" type="parameter_type" span="487:32:487:38">String</jtok>
+<jtok eid="5" type="parameter_name" span="487:39:487:42">url</jtok>
+<jtok eid="5" type="throws" span="487:51:487:62">IOException</jtok>
+<jtok eid="5" type="primary_name_ref" span="488:14:488:33">loadedWithoutErrors</jtok>
+<jtok eid="5" type="constructor_call" span="489:23:489:34">IOException</jtok>
+<jtok eid="5" type="string_literal" span="489:35:489:67">"Exception in finding browser: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="489:70:489:82">errorMessage</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="491:9:491:15">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="491:16:491:23">browser</jtok>
+<jtok eid="5" type="method_call" span="491:26:491:39">locateBrowser</jtok>
+<jtok eid="5" type="primary_name_ref" span="492:13:492:20">browser</jtok>
+<jtok eid="5" type="constructor_call" span="493:23:493:34">IOException</jtok>
+<jtok eid="5" type="string_literal" span="493:35:493:63">"Unable to locate browser: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="493:66:493:78">errorMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="496:17:496:20">jvm</jtok>
+<jtok eid="5" type="primary_name_ref" span="497:18:497:25">MRJ_2_0</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="498:17:498:23">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="498:24:498:30">aeDesc</jtok>
+<jtok eid="5" type="primary_name_ref" span="500:21:500:27">aeDesc</jtok>
+<jtok eid="5" type="primary_name_ref" span="500:30:500:47">aeDescConstructor</jtok>
+<jtok eid="5" type="method_call" span="500:48:500:59">newInstance</jtok>
+<jtok eid="5" type="constructor_call" span="500:64:500:70">Object</jtok>
+<jtok eid="5" type="primary_name_ref" span="500:75:500:78">url</jtok>
+<jtok eid="5" type="primary_name_ref" span="501:21:501:33">putParameter</jtok>
+<jtok eid="5" type="method_call" span="501:34:501:40">invoke</jtok>
+<jtok eid="5" type="primary_name_ref" span="501:41:501:48">browser</jtok>
+<jtok eid="5" type="constructor_call" span="501:54:501:60">Object</jtok>
+<jtok eid="5" type="primary_name_ref" span="501:65:501:80">keyDirectObject</jtok>
+<jtok eid="5" type="primary_name_ref" span="501:82:501:88">aeDesc</jtok>
+<jtok eid="5" type="primary_name_ref" span="502:21:502:32">sendNoReply</jtok>
+<jtok eid="5" type="method_call" span="502:33:502:39">invoke</jtok>
+<jtok eid="5" type="primary_name_ref" span="502:40:502:47">browser</jtok>
+<jtok eid="5" type="constructor_call" span="502:53:502:59">Object</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="503:26:503:51">InvocationTargetException</jtok>
+<jtok eid="5" type="local_variable_name" span="503:52:503:55">ite</jtok>
+<jtok eid="5" type="constructor_call" span="504:31:504:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="504:43:504:94">"InvocationTargetException while creating AEDesc: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="504:97:504:100">ite</jtok>
+<jtok eid="5" type="method_call" span="504:101:504:111">getMessage</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="505:26:505:48">IllegalAccessException</jtok>
+<jtok eid="5" type="local_variable_name" span="505:49:505:52">iae</jtok>
+<jtok eid="5" type="constructor_call" span="506:31:506:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="506:43:506:95">"IllegalAccessException while building AppleEvent: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="506:98:506:101">iae</jtok>
+<jtok eid="5" type="method_call" span="506:102:506:112">getMessage</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="507:26:507:48">InstantiationException</jtok>
+<jtok eid="5" type="local_variable_name" span="507:49:507:51">ie</jtok>
+<jtok eid="5" type="constructor_call" span="508:31:508:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="508:43:508:91">"InstantiationException while creating AEDesc: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="508:94:508:96">ie</jtok>
+<jtok eid="5" type="method_call" span="508:97:508:107">getMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="510:21:510:27">aeDesc</jtok>
+<jtok eid="5" type="line_comment" span="510:37:510:86">// Encourage it to get disposed if it was created</jtok>
+<jtok eid="5" type="primary_name_ref" span="511:21:511:28">browser</jtok>
+<jtok eid="5" type="line_comment" span="511:37:511:45">// Ditto</jtok>
+<jtok eid="5" type="primary_name_ref" span="514:18:514:25">MRJ_2_1</jtok>
+<jtok eid="5" type="primary_name_ref" span="515:17:515:24">Runtime</jtok>
+<jtok eid="5" type="method_call" span="515:25:515:35">getRuntime</jtok>
+<jtok eid="5" type="method_call" span="515:38:515:42">exec</jtok>
+<jtok eid="5" type="constructor_call" span="515:47:515:53">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="515:59:515:65">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="515:67:515:74">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="515:76:515:79">url</jtok>
+<jtok eid="5" type="primary_name_ref" span="517:18:517:25">MRJ_3_0</jtok>
+<jtok eid="5" type="local_variable_name" span="518:23:518:31">instance</jtok>
+<jtok eid="5" type="local_variable_name" span="519:21:519:27">result</jtok>
+<jtok eid="5" type="method_call" span="519:30:519:37">ICStart</jtok>
+<jtok eid="5" type="primary_name_ref" span="519:38:519:46">instance</jtok>
+<jtok eid="5" type="primary_name_ref" span="520:21:520:27">result</jtok>
+<jtok eid="5" type="local_variable_name" span="521:27:521:41">selectionStart</jtok>
+<jtok eid="5" type="local_variable_name" span="522:28:522:36">urlBytes</jtok>
+<jtok eid="5" type="primary_name_ref" span="522:39:522:42">url</jtok>
+<jtok eid="5" type="method_call" span="522:43:522:51">getBytes</jtok>
+<jtok eid="5" type="local_variable_name" span="523:27:523:39">selectionEnd</jtok>
+<jtok eid="5" type="primary_name_ref" span="523:54:523:62">urlBytes</jtok>
+<jtok eid="5" type="qualified_name_ref" span="523:63:523:69">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="524:21:524:27">result</jtok>
+<jtok eid="5" type="method_call" span="524:30:524:41">ICLaunchURL</jtok>
+<jtok eid="5" type="primary_name_ref" span="524:42:524:50">instance</jtok>
+<jtok eid="5" type="primary_name_ref" span="524:73:524:81">urlBytes</jtok>
+<jtok eid="5" type="primary_name_ref" span="525:45:525:53">urlBytes</jtok>
+<jtok eid="5" type="qualified_name_ref" span="525:54:525:60">length</jtok>
+<jtok eid="5" type="primary_name_ref" span="525:62:525:76">selectionStart</jtok>
+<jtok eid="5" type="primary_name_ref" span="526:45:526:57">selectionEnd</jtok>
+<jtok eid="5" type="primary_name_ref" span="527:25:527:31">result</jtok>
+<jtok eid="5" type="line_comment" span="528:25:528:86">// Ignore the return value; the URL was launched successfully</jtok>
+<jtok eid="5" type="line_comment" span="529:25:529:60">// regardless of what happens here.</jtok>
+<jtok eid="5" type="method_call" span="530:25:530:31">ICStop</jtok>
+<jtok eid="5" type="primary_name_ref" span="530:32:530:40">instance</jtok>
+<jtok eid="5" type="constructor_call" span="532:35:532:46">IOException</jtok>
+<jtok eid="5" type="string_literal" span="532:47:532:71">"Unable to launch URL: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="532:74:532:80">result</jtok>
+<jtok eid="5" type="constructor_call" span="535:31:535:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="535:43:535:91">"Unable to create an Internet Config instance: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="535:94:535:100">result</jtok>
+<jtok eid="5" type="primary_name_ref" span="538:18:538:25">MRJ_3_1</jtok>
+<jtok eid="5" type="primary_name_ref" span="540:21:540:28">openURL</jtok>
+<jtok eid="5" type="method_call" span="540:29:540:35">invoke</jtok>
+<jtok eid="5" type="constructor_call" span="540:46:540:52">Object</jtok>
+<jtok eid="5" type="primary_name_ref" span="540:57:540:60">url</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="541:26:541:51">InvocationTargetException</jtok>
+<jtok eid="5" type="local_variable_name" span="541:52:541:55">ite</jtok>
+<jtok eid="5" type="constructor_call" span="542:31:542:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="542:43:542:94">"InvocationTargetException while calling openURL: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="542:97:542:100">ite</jtok>
+<jtok eid="5" type="method_call" span="542:101:542:111">getMessage</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="543:26:543:48">IllegalAccessException</jtok>
+<jtok eid="5" type="local_variable_name" span="543:49:543:52">iae</jtok>
+<jtok eid="5" type="constructor_call" span="544:31:544:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="544:43:544:91">"IllegalAccessException while calling openURL: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="544:94:544:97">iae</jtok>
+<jtok eid="5" type="method_call" span="544:98:544:108">getMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="547:18:547:28">WINDOWS_NT</jtok>
+<jtok eid="5" type="primary_name_ref" span="548:18:548:28">WINDOWS_9x</jtok>
+<jtok eid="5" type="line_comment" span="549:17:549:83">// Add quotes around the URL to allow ampersands and other special</jtok>
+<jtok eid="5" type="line_comment" span="550:17:550:39">// characters to work.</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="551:17:551:24">Process</jtok>
+<jtok eid="5" type="local_variable_name" span="551:25:551:32">process</jtok>
+<jtok eid="5" type="primary_name_ref" span="551:35:551:42">Runtime</jtok>
+<jtok eid="5" type="method_call" span="551:43:551:53">getRuntime</jtok>
+<jtok eid="5" type="method_call" span="551:56:551:60">exec</jtok>
+<jtok eid="5" type="constructor_call" span="551:65:551:71">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="551:77:551:83">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="551:85:551:92">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="552:65:552:88">FIRST_WINDOWS_PARAMETER</jtok>
+<jtok eid="5" type="primary_name_ref" span="553:65:553:89">SECOND_WINDOWS_PARAMETER</jtok>
+<jtok eid="5" type="primary_name_ref" span="554:65:554:88">THIRD_WINDOWS_PARAMETER</jtok>
+<jtok eid="5" type="primary_name_ref" span="555:71:555:74">url</jtok>
+<jtok eid="5" type="line_comment" span="556:17:556:82">// This avoids a memory leak on some versions of Java on Windows.</jtok>
+<jtok eid="5" type="line_comment" span="557:17:557:98">// That's hinted at in &lt;http://developer.java.sun.com/developer/qow/archive/68/&gt;.</jtok>
+<jtok eid="5" type="primary_name_ref" span="559:21:559:28">process</jtok>
+<jtok eid="5" type="method_call" span="559:29:559:36">waitFor</jtok>
+<jtok eid="5" type="primary_name_ref" span="560:21:560:28">process</jtok>
+<jtok eid="5" type="method_call" span="560:29:560:38">exitValue</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="561:26:561:46">InterruptedException</jtok>
+<jtok eid="5" type="local_variable_name" span="561:47:561:49">ie</jtok>
+<jtok eid="5" type="constructor_call" span="562:31:562:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="562:43:562:91">"InterruptedException while launching browser: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="562:94:562:96">ie</jtok>
+<jtok eid="5" type="method_call" span="562:97:562:107">getMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="565:18:565:23">OTHER</jtok>
+<jtok eid="5" type="line_comment" span="566:17:566:76">// Assume that we're on Unix and that Netscape is installed</jtok>
+<jtok eid="5" type="line_comment" span="568:17:568:93">// First, attempt to open the URL in a currently running session of Netscape</jtok>
+<jtok eid="5" type="primary_name_ref" span="569:17:569:24">process</jtok>
+<jtok eid="5" type="primary_name_ref" span="569:27:569:34">Runtime</jtok>
+<jtok eid="5" type="method_call" span="569:35:569:45">getRuntime</jtok>
+<jtok eid="5" type="method_call" span="569:48:569:52">exec</jtok>
+<jtok eid="5" type="constructor_call" span="569:57:569:63">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="569:69:569:75">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="569:77:569:84">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="570:53:570:78">NETSCAPE_REMOTE_PARAMETER</jtok>
+<jtok eid="5" type="primary_name_ref" span="571:53:571:82">NETSCAPE_OPEN_PARAMETER_START</jtok>
+<jtok eid="5" type="primary_name_ref" span="572:53:572:56">url</jtok>
+<jtok eid="5" type="primary_name_ref" span="573:53:573:80">NETSCAPE_OPEN_PARAMETER_END</jtok>
+<jtok eid="5" type="local_variable_name" span="575:25:575:33">exitCode</jtok>
+<jtok eid="5" type="primary_name_ref" span="575:36:575:43">process</jtok>
+<jtok eid="5" type="method_call" span="575:44:575:51">waitFor</jtok>
+<jtok eid="5" type="primary_name_ref" span="576:25:576:33">exitCode</jtok>
+<jtok eid="5" type="line_comment" span="576:45:576:72">// if Netscape was not open</jtok>
+<jtok eid="5" type="primary_name_ref" span="577:25:577:32">Runtime</jtok>
+<jtok eid="5" type="method_call" span="577:33:577:43">getRuntime</jtok>
+<jtok eid="5" type="method_call" span="577:46:577:50">exec</jtok>
+<jtok eid="5" type="constructor_call" span="577:55:577:61">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="577:67:577:73">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="577:75:577:82">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="577:84:577:87">url</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="579:26:579:46">InterruptedException</jtok>
+<jtok eid="5" type="local_variable_name" span="579:47:579:49">ie</jtok>
+<jtok eid="5" type="constructor_call" span="580:31:580:42">IOException</jtok>
+<jtok eid="5" type="string_literal" span="580:43:580:91">"InterruptedException while launching browser: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="580:94:580:96">ie</jtok>
+<jtok eid="5" type="method_call" span="580:97:580:107">getMessage</jtok>
+<jtok eid="5" type="line_comment" span="584:17:584:98">// This should never occur, but if it does, we'll try the simplest thing possible</jtok>
+<jtok eid="5" type="primary_name_ref" span="585:17:585:24">Runtime</jtok>
+<jtok eid="5" type="method_call" span="585:25:585:35">getRuntime</jtok>
+<jtok eid="5" type="method_call" span="585:38:585:42">exec</jtok>
+<jtok eid="5" type="constructor_call" span="585:47:585:53">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="585:59:585:65">String</jtok>
+<jtok eid="5" type="primary_name_ref" span="585:67:585:74">browser</jtok>
+<jtok eid="5" type="primary_name_ref" span="585:76:585:79">url</jtok>
+<jtok eid="1" type="block_comment" span="590:5:593:8">/**
+     * Methods required for Mac OS X.  The presence of native methods does not cause
+     * any problems on other platforms.
+     */</jtok>
+<jtok eid="6" type="method_name" span="594:31:594:38">ICStart</jtok>
+<jtok eid="6" type="parameter_name" span="594:45:594:53">instance</jtok>
+<jtok eid="6" type="parameter_name" span="594:59:594:68">signature</jtok>
+<jtok eid="7" type="method_name" span="595:31:595:37">ICStop</jtok>
+<jtok eid="7" type="parameter_name" span="595:44:595:52">instance</jtok>
+<jtok eid="8" type="method_name" span="596:31:596:42">ICLaunchURL</jtok>
+<jtok eid="8" type="parameter_name" span="596:47:596:55">instance</jtok>
+<jtok eid="8" type="parameter_name" span="596:64:596:68">hint</jtok>
+<jtok eid="8" type="parameter_name" span="596:77:596:81">data</jtok>
+<jtok eid="8" type="parameter_name" span="596:87:596:90">len</jtok>
+<jtok eid="8" type="parameter_name" span="597:51:597:65">selectionStart</jtok>
+<jtok eid="8" type="parameter_name" span="597:73:597:85">selectionEnd</jtok>
+</jdoc>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.ExternalNameSpace" jls="java5">
+<jent id="0" type="file" span="0:0:234:1">Source/jEdit/org/gjt/sp/jedit/bsh/ExternalNameSpace.java</jent>
+<jent id="1" pid="0" type="class" span="30:1:233:1">org.gjt.sp.jedit.bsh.ExternalNameSpace</jent>
+<jent id="2" pid="1" type="method" span="34:5:37:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.ExternalNameSpace()</jent>
+<jent id="3" pid="1" type="method" span="41:5:50:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.ExternalNameSpace(NameSpace,String,Map)</jent>
+<jent id="4" pid="1" type="method" span="55:2:55:44">org.gjt.sp.jedit.bsh.ExternalNameSpace.getMap()</jent>
+<jent id="5" pid="1" type="method" span="63:2:70:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.setMap(Map)</jent>
+<jent id="6" pid="1" type="method" span="74:5:80:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.setVariable(String,Object,boolean,boolean)</jent>
+<jent id="7" pid="1" type="method" span="84:2:88:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.unsetVariable(String)</jent>
+<jent id="8" pid="1" type="method" span="92:2:100:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.getVariableNames()</jent>
+<jent id="9" pid="1" type="method" span="112:5:144:5">org.gjt.sp.jedit.bsh.ExternalNameSpace.getVariableImpl(String,boolean)</jent>
+<jent id="10" pid="1" type="method" span="154:2:157:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.getDeclaredVariables()</jent>
+<jent id="11" pid="1" type="method" span="161:5:167:5">org.gjt.sp.jedit.bsh.ExternalNameSpace.setTypedVariable(String,Class,Object,Modifiers)</jent>
+<jent id="12" pid="1" type="method" span="173:5:177:5">org.gjt.sp.jedit.bsh.ExternalNameSpace.setMethod(String,BshMethod)</jent>
+<jent id="13" pid="1" type="method" span="183:5:188:5">org.gjt.sp.jedit.bsh.ExternalNameSpace.getMethod(String,Class[],boolean)</jent>
+<jent id="14" pid="1" type="method" span="195:2:198:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.getAllNamesAux(Vector)</jent>
+<jent id="15" pid="1" type="method" span="204:2:208:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.clear()</jent>
+<jent id="16" pid="1" type="method" span="216:2:232:2">org.gjt.sp.jedit.bsh.ExternalNameSpace.putExternalMap(String,Object)</jent>
+<jtok eid="0" type="block_comment" span="5:1:23:3">/**
+	A namespace which maintains an external map of values held in variables in
+	its scope.  This mechanism provides a standard collections based interface
+	to the namespace as well as a convenient way to export and view values of
+	the namespace without the ordinary BeanShell wrappers.   
+	&lt;/p&gt;
+
+	Variables are maintained internally in the normal fashion to support
+	meta-information (such as variable type and visibility modifiers), but
+	exported and imported in a synchronized way.  Variables are exported each
+	time they are written by BeanShell.  Imported variables from the map appear
+	in the BeanShell namespace as untyped variables with no modifiers and
+	shadow any previously defined variables in the scope. 
+	&lt;p/&gt;
+
+	Note: this class is inherentely dependent on Java 1.2, however it is not
+	used directly by the core as other than type NameSpace, so no dependency is
+	introduced.
+*/</jtok>
+<jtok eid="0" type="block_comment" span="24:1:29:3">/*
+	Implementation notes:  bsh methods are not currently expored to the
+	external namespace.  All that would be required to add this is to override
+	setMethod() and provide a friendlier view than vector (currently used) for
+	overloaded forms (perhaps a map by method SignatureKey).
+*/</jtok>
+<jtok eid="1" type="class_name" span="30:14:30:31">ExternalNameSpace</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="30:40:30:49">NameSpace</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="32:10:32:13">Map</jtok>
+<jtok eid="1" type="field_name" span="32:14:32:25">externalMap</jtok>
+<jtok eid="2" type="method_name" span="34:12:34:29">ExternalNameSpace</jtok>
+<jtok eid="2" type="string_literal" span="36:15:36:39">"External Map Namespace"</jtok>
+<jtok eid="1" type="block_comment" span="39:2:40:4">/**
+	*/</jtok>
+<jtok eid="3" type="method_name" span="41:12:41:29">ExternalNameSpace</jtok>
+<jtok eid="3" type="parameter_type" span="41:31:41:40">NameSpace</jtok>
+<jtok eid="3" type="parameter_name" span="41:41:41:47">parent</jtok>
+<jtok eid="3" type="parameter_type" span="41:49:41:55">String</jtok>
+<jtok eid="3" type="parameter_name" span="41:56:41:60">name</jtok>
+<jtok eid="3" type="parameter_type" span="41:62:41:65">Map</jtok>
+<jtok eid="3" type="parameter_name" span="41:66:41:77">externalMap</jtok>
+<jtok eid="3" type="primary_name_ref" span="43:10:43:16">parent</jtok>
+<jtok eid="3" type="primary_name_ref" span="43:18:43:22">name</jtok>
+<jtok eid="3" type="primary_name_ref" span="45:8:45:19">externalMap</jtok>
+<jtok eid="3" type="primary_name_ref" span="46:4:46:15">externalMap</jtok>
+<jtok eid="3" type="constructor_call" span="46:22:46:29">HashMap</jtok>
+<jtok eid="3" type="qualified_name_ref" span="48:8:48:19">externalMap</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:22:48:33">externalMap</jtok>
+<jtok eid="1" type="block_comment" span="52:2:54:4">/**
+		Get the map view of this namespace.
+	*/</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="55:9:55:12">Map</jtok>
+<jtok eid="4" type="method_name" span="55:13:55:19">getMap</jtok>
+<jtok eid="4" type="primary_name_ref" span="55:31:55:42">externalMap</jtok>
+<jtok eid="1" type="block_comment" span="57:2:62:4">/**
+		Set the external Map which to which this namespace synchronizes.
+		The previous external map is detached from this namespace.  Previous
+		map values are retained in the external map, but are removed from the
+		BeanShell namespace.
+	*/</jtok>
+<jtok eid="5" type="method_name" span="63:14:63:20">setMap</jtok>
+<jtok eid="5" type="parameter_type" span="63:22:63:25">Map</jtok>
+<jtok eid="5" type="parameter_name" span="63:26:63:29">map</jtok>
+<jtok eid="5" type="line_comment" span="65:3:65:67">// Detach any existing namespace to preserve it, then clear this</jtok>
+<jtok eid="5" type="line_comment" span="66:3:66:35">// namespace and set the new one</jtok>
+<jtok eid="5" type="qualified_name_ref" span="67:8:67:19">externalMap</jtok>
+<jtok eid="5" type="method_call" span="68:3:68:8">clear</jtok>
+<jtok eid="5" type="qualified_name_ref" span="69:8:69:19">externalMap</jtok>
+<jtok eid="5" type="primary_name_ref" span="69:22:69:25">map</jtok>
+<jtok eid="1" type="block_comment" span="72:2:73:4">/**
+	*/</jtok>
+<jtok eid="6" type="method_name" span="74:10:74:21">setVariable</jtok>
+<jtok eid="6" type="parameter_type" span="75:3:75:9">String</jtok>
+<jtok eid="6" type="parameter_name" span="75:10:75:14">name</jtok>
+<jtok eid="6" type="parameter_type" span="75:16:75:22">Object</jtok>
+<jtok eid="6" type="parameter_name" span="75:23:75:28">value</jtok>
+<jtok eid="6" type="parameter_name" span="75:38:75:48">strictJava</jtok>
+<jtok eid="6" type="parameter_name" span="75:58:75:65">recurse</jtok>
+<jtok eid="6" type="throws" span="76:10:76:23">UtilEvalError</jtok>
+<jtok eid="6" type="method_call" span="78:9:78:20">setVariable</jtok>
+<jtok eid="6" type="primary_name_ref" span="78:22:78:26">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="78:28:78:33">value</jtok>
+<jtok eid="6" type="primary_name_ref" span="78:35:78:45">strictJava</jtok>
+<jtok eid="6" type="primary_name_ref" span="78:47:78:54">recurse</jtok>
+<jtok eid="6" type="method_call" span="79:3:79:17">putExternalMap</jtok>
+<jtok eid="6" type="primary_name_ref" span="79:19:79:23">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="79:25:79:30">value</jtok>
+<jtok eid="1" type="block_comment" span="82:2:83:4">/**
+	*/</jtok>
+<jtok eid="7" type="method_name" span="84:14:84:27">unsetVariable</jtok>
+<jtok eid="7" type="parameter_type" span="84:29:84:35">String</jtok>
+<jtok eid="7" type="parameter_name" span="84:36:84:40">name</jtok>
+<jtok eid="7" type="method_call" span="86:9:86:22">unsetVariable</jtok>
+<jtok eid="7" type="primary_name_ref" span="86:24:86:28">name</jtok>
+<jtok eid="7" type="primary_name_ref" span="87:3:87:14">externalMap</jtok>
+<jtok eid="7" type="method_call" span="87:15:87:21">remove</jtok>
+<jtok eid="7" type="primary_name_ref" span="87:23:87:27">name</jtok>
+<jtok eid="1" type="block_comment" span="90:2:91:4">/**
+	*/</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="92:9:92:15">String</jtok>
+<jtok eid="8" type="method_name" span="92:19:92:35">getVariableNames</jtok>
+<jtok eid="8" type="line_comment" span="94:3:94:67">// union of the names in the internal namespace and external map</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="95:3:95:6">Set</jtok>
+<jtok eid="8" type="local_variable_name" span="95:7:95:14">nameSet</jtok>
+<jtok eid="8" type="constructor_call" span="95:21:95:28">HashSet</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="96:3:96:9">String</jtok>
+<jtok eid="8" type="local_variable_name" span="96:13:96:20">nsNames</jtok>
+<jtok eid="8" type="method_call" span="96:29:96:45">getVariableNames</jtok>
+<jtok eid="8" type="primary_name_ref" span="97:3:97:10">nameSet</jtok>
+<jtok eid="8" type="method_call" span="97:11:97:17">addAll</jtok>
+<jtok eid="8" type="primary_name_ref" span="97:19:97:25">Arrays</jtok>
+<jtok eid="8" type="method_call" span="97:26:97:32">asList</jtok>
+<jtok eid="8" type="primary_name_ref" span="97:34:97:41">nsNames</jtok>
+<jtok eid="8" type="primary_name_ref" span="98:3:98:10">nameSet</jtok>
+<jtok eid="8" type="method_call" span="98:11:98:17">addAll</jtok>
+<jtok eid="8" type="primary_name_ref" span="98:19:98:30">externalMap</jtok>
+<jtok eid="8" type="method_call" span="98:31:98:37">keySet</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="99:11:99:17">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="99:21:99:28">nameSet</jtok>
+<jtok eid="8" type="method_call" span="99:29:99:36">toArray</jtok>
+<jtok eid="8" type="constructor_call" span="99:42:99:48">String</jtok>
+<jtok eid="1" type="block_comment" span="102:2:103:4">/**
+	*/</jtok>
+<jtok eid="1" type="block_comment" span="104:2:111:4">/*
+		Notes: This implmenetation of getVariableImpl handles the following
+		cases:
+		1) var in map not in local scope - var was added through map
+		2) var in map and in local scope - var was added through namespace
+		3) var not in map but in local scope - var was removed via map
+		4) var not in map and not in local scope - non-existent var
+	*/</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="112:15:112:23">Variable</jtok>
+<jtok eid="9" type="method_name" span="112:24:112:39">getVariableImpl</jtok>
+<jtok eid="9" type="parameter_type" span="112:41:112:47">String</jtok>
+<jtok eid="9" type="parameter_name" span="112:48:112:52">name</jtok>
+<jtok eid="9" type="parameter_name" span="112:62:112:69">recurse</jtok>
+<jtok eid="9" type="throws" span="113:10:113:23">UtilEvalError</jtok>
+<jtok eid="9" type="line_comment" span="115:3:115:50">// check the external map for the variable name</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="116:3:116:9">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="116:10:116:15">value</jtok>
+<jtok eid="9" type="primary_name_ref" span="116:18:116:29">externalMap</jtok>
+<jtok eid="9" type="method_call" span="116:30:116:33">get</jtok>
+<jtok eid="9" type="primary_name_ref" span="116:35:116:39">name</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="118:3:118:11">Variable</jtok>
+<jtok eid="9" type="local_variable_name" span="118:12:118:15">var</jtok>
+<jtok eid="9" type="primary_name_ref" span="119:8:119:13">value</jtok>
+<jtok eid="9" type="line_comment" span="121:4:121:68">// The var is not in external map and it should therefore not be</jtok>
+<jtok eid="9" type="line_comment" span="122:4:122:67">// found in local scope (it may have been removed via the map).</jtok>
+<jtok eid="9" type="line_comment" span="123:4:123:33">// Clear it prophalactically.</jtok>
+<jtok eid="9" type="method_call" span="124:10:124:23">unsetVariable</jtok>
+<jtok eid="9" type="primary_name_ref" span="124:25:124:29">name</jtok>
+<jtok eid="9" type="line_comment" span="126:4:126:43">// Search parent for var if applicable.</jtok>
+<jtok eid="9" type="primary_name_ref" span="127:4:127:7">var</jtok>
+<jtok eid="9" type="method_call" span="127:16:127:31">getVariableImpl</jtok>
+<jtok eid="9" type="primary_name_ref" span="127:33:127:37">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="127:39:127:46">recurse</jtok>
+<jtok eid="9" type="line_comment" span="130:4:130:68">// Var in external map may be found in local scope with type and</jtok>
+<jtok eid="9" type="line_comment" span="131:4:131:21">// modifier info.</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="132:4:132:12">Variable</jtok>
+<jtok eid="9" type="local_variable_name" span="132:13:132:21">localVar</jtok>
+<jtok eid="9" type="method_call" span="132:30:132:45">getVariableImpl</jtok>
+<jtok eid="9" type="primary_name_ref" span="132:47:132:51">name</jtok>
+<jtok eid="9" type="line_comment" span="134:4:134:68">// If not in local scope then it was added via the external map,</jtok>
+<jtok eid="9" type="line_comment" span="135:4:135:65">// we'll wrap it and pass it along.  Else we'll use the local</jtok>
+<jtok eid="9" type="line_comment" span="136:4:136:15">// version.</jtok>
+<jtok eid="9" type="primary_name_ref" span="137:9:137:17">localVar</jtok>
+<jtok eid="9" type="primary_name_ref" span="138:5:138:8">var</jtok>
+<jtok eid="9" type="constructor_call" span="138:15:138:23">Variable</jtok>
+<jtok eid="9" type="primary_name_ref" span="138:25:138:29">name</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="138:32:138:37">Class</jtok>
+<jtok eid="9" type="primary_name_ref" span="138:44:138:49">value</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="138:52:138:61">Modifiers</jtok>
+<jtok eid="9" type="primary_name_ref" span="140:5:140:8">var</jtok>
+<jtok eid="9" type="primary_name_ref" span="140:11:140:19">localVar</jtok>
+<jtok eid="9" type="primary_name_ref" span="143:10:143:13">var</jtok>
+<jtok eid="1" type="block_comment" span="146:2:147:4">/**
+	*/</jtok>
+<jtok eid="1" type="block_comment" span="148:2:153:4">/*
+		Note: the meaning of getDeclaredVariables() is not entirely clear, but
+		the name (and current usage in class generation support) suggests that
+		untyped variables should not be inclueded.  Therefore we do not
+		currently have to add the external names here.
+	*/</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="154:9:154:17">Variable</jtok>
+<jtok eid="10" type="method_name" span="154:21:154:41">getDeclaredVariables</jtok>
+<jtok eid="10" type="method_call" span="156:16:156:36">getDeclaredVariables</jtok>
+<jtok eid="1" type="block_comment" span="159:5:160:7">/**
+    */</jtok>
+<jtok eid="11" type="method_name" span="161:17:161:33">setTypedVariable</jtok>
+<jtok eid="11" type="parameter_type" span="162:3:162:9">String</jtok>
+<jtok eid="11" type="parameter_name" span="162:10:162:14">name</jtok>
+<jtok eid="11" type="parameter_type" span="162:16:162:21">Class</jtok>
+<jtok eid="11" type="parameter_name" span="162:22:162:26">type</jtok>
+<jtok eid="11" type="parameter_type" span="162:28:162:34">Object</jtok>
+<jtok eid="11" type="parameter_name" span="162:35:162:40">value</jtok>
+<jtok eid="11" type="parameter_type" span="162:42:162:51">Modifiers</jtok>
+<jtok eid="11" type="parameter_name" span="162:52:162:61">modifiers</jtok>
+<jtok eid="11" type="throws" span="163:10:163:23">UtilEvalError</jtok>
+<jtok eid="11" type="method_call" span="165:9:165:25">setTypedVariable</jtok>
+<jtok eid="11" type="primary_name_ref" span="165:27:165:31">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="165:33:165:37">type</jtok>
+<jtok eid="11" type="primary_name_ref" span="165:39:165:44">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="165:46:165:55">modifiers</jtok>
+<jtok eid="11" type="method_call" span="166:3:166:17">putExternalMap</jtok>
+<jtok eid="11" type="primary_name_ref" span="166:19:166:23">name</jtok>
+<jtok eid="11" type="primary_name_ref" span="166:25:166:30">value</jtok>
+<jtok eid="1" type="block_comment" span="169:2:172:4">/*
+		Note: we could override this method to allow bsh methods to appear in
+		the external map.
+	*/</jtok>
+<jtok eid="12" type="method_name" span="173:17:173:26">setMethod</jtok>
+<jtok eid="12" type="parameter_type" span="173:28:173:34">String</jtok>
+<jtok eid="12" type="parameter_name" span="173:35:173:39">name</jtok>
+<jtok eid="12" type="parameter_type" span="173:41:173:50">BshMethod</jtok>
+<jtok eid="12" type="parameter_name" span="173:51:173:57">method</jtok>
+<jtok eid="12" type="throws" span="174:10:174:23">UtilEvalError</jtok>
+<jtok eid="12" type="method_call" span="176:9:176:18">setMethod</jtok>
+<jtok eid="12" type="primary_name_ref" span="176:20:176:24">name</jtok>
+<jtok eid="12" type="primary_name_ref" span="176:26:176:32">method</jtok>
+<jtok eid="1" type="block_comment" span="179:2:182:4">/*
+		Note: kind of far-fetched, but... we could override this method to
+		allow bsh methods to be inserted into this namespace via the map.
+	*/</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="183:12:183:21">BshMethod</jtok>
+<jtok eid="13" type="method_name" span="183:22:183:31">getMethod</jtok>
+<jtok eid="13" type="parameter_type" span="184:3:184:9">String</jtok>
+<jtok eid="13" type="parameter_name" span="184:10:184:14">name</jtok>
+<jtok eid="13" type="parameter_type" span="184:16:184:21">Class</jtok>
+<jtok eid="13" type="parameter_name" span="184:25:184:28">sig</jtok>
+<jtok eid="13" type="parameter_name" span="184:38:184:50">declaredOnly</jtok>
+<jtok eid="13" type="throws" span="185:10:185:23">UtilEvalError</jtok>
+<jtok eid="13" type="method_call" span="187:16:187:25">getMethod</jtok>
+<jtok eid="13" type="primary_name_ref" span="187:27:187:31">name</jtok>
+<jtok eid="13" type="primary_name_ref" span="187:33:187:36">sig</jtok>
+<jtok eid="13" type="primary_name_ref" span="187:38:187:50">declaredOnly</jtok>
+<jtok eid="1" type="block_comment" span="191:2:194:4">/*
+		Note: this method should be overridden to add the names from the
+		external map, as is done in getVariableNames();
+	*/</jtok>
+<jtok eid="14" type="method_name" span="195:17:195:31">getAllNamesAux</jtok>
+<jtok eid="14" type="parameter_type" span="195:33:195:39">Vector</jtok>
+<jtok eid="14" type="parameter_name" span="195:40:195:43">vec</jtok>
+<jtok eid="14" type="method_call" span="197:9:197:23">getAllNamesAux</jtok>
+<jtok eid="14" type="primary_name_ref" span="197:25:197:28">vec</jtok>
+<jtok eid="1" type="block_comment" span="200:2:203:4">/**
+		Clear all variables, methods, and imports from this namespace and clear
+		all values from the external map (via Map clear()).
+	*/</jtok>
+<jtok eid="15" type="method_name" span="204:14:204:19">clear</jtok>
+<jtok eid="15" type="method_call" span="206:9:206:14">clear</jtok>
+<jtok eid="15" type="primary_name_ref" span="207:3:207:14">externalMap</jtok>
+<jtok eid="15" type="method_call" span="207:15:207:20">clear</jtok>
+<jtok eid="1" type="block_comment" span="210:2:215:4">/**
+		Place an unwrapped value in the external map.
+		BeanShell primitive types are represented by their object wrappers, so
+		it is not possible to differentiate between wrapper types and primitive
+		types via the external Map.
+	*/</jtok>
+<jtok eid="16" type="method_name" span="216:17:216:31">putExternalMap</jtok>
+<jtok eid="16" type="parameter_type" span="216:33:216:39">String</jtok>
+<jtok eid="16" type="parameter_name" span="216:40:216:44">name</jtok>
+<jtok eid="16" type="parameter_type" span="216:46:216:52">Object</jtok>
+<jtok eid="16" type="parameter_name" span="216:53:216:58">value</jtok>
+<jtok eid="16" type="primary_name_ref" span="218:8:218:13">value</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="218:25:218:33">Variable</jtok>
+<jtok eid="16" type="primary_name_ref" span="220:5:220:10">value</jtok>
+<jtok eid="16" type="method_call" span="220:13:220:27">unwrapVariable</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="220:30:220:38">Variable</jtok>
+<jtok eid="16" type="primary_name_ref" span="220:39:220:44">value</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="221:14:221:27">UtilEvalError</jtok>
+<jtok eid="16" type="local_variable_name" span="221:28:221:31">ute</jtok>
+<jtok eid="16" type="line_comment" span="222:5:222:64">// There should be no case for this.  unwrapVariable throws</jtok>
+<jtok eid="16" type="line_comment" span="223:5:223:66">// UtilEvalError in some cases where it holds an LHS or array</jtok>
+<jtok eid="16" type="line_comment" span="224:5:224:14">// index.</jtok>
+<jtok eid="16" type="constructor_call" span="225:15:225:31">InterpreterError</jtok>
+<jtok eid="16" type="string_literal" span="225:32:225:58">"unexpected UtilEvalError"</jtok>
+<jtok eid="16" type="primary_name_ref" span="228:8:228:13">value</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="228:25:228:34">Primitive</jtok>
+<jtok eid="16" type="primary_name_ref" span="229:4:229:9">value</jtok>
+<jtok eid="16" type="primary_name_ref" span="229:12:229:21">Primitive</jtok>
+<jtok eid="16" type="method_call" span="229:22:229:28">unwrap</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="229:31:229:40">Primitive</jtok>
+<jtok eid="16" type="primary_name_ref" span="229:41:229:46">value</jtok>
+<jtok eid="16" type="primary_name_ref" span="231:3:231:14">externalMap</jtok>
+<jtok eid="16" type="method_call" span="231:15:231:18">put</jtok>
+<jtok eid="16" type="primary_name_ref" span="231:20:231:24">name</jtok>
+<jtok eid="16" type="primary_name_ref" span="231:26:231:31">value</jtok>
+</jdoc>

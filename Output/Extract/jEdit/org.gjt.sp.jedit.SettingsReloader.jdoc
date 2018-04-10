@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.SettingsReloader" jls="java5">
+<jent id="0" type="file" span="0:0:95:2">Source/jEdit/org/gjt/sp/jedit/SettingsReloader.java</jent>
+<jent id="1" pid="0" type="class" span="33:1:95:1">org.gjt.sp.jedit.SettingsReloader</jent>
+<jent id="2" pid="1" type="method" span="36:2:43:2">org.gjt.sp.jedit.SettingsReloader.handleMessage(EBMessage)</jent>
+<jent id="3" pid="1" type="method" span="46:2:94:2">org.gjt.sp.jedit.SettingsReloader.maybeReload(String)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * SettingsReloader.java - Utility class reloads macros and modes when necessary
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2001, 2003 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:6">//}}}</jtok>
+<jtok eid="1" type="class_name" span="33:7:33:23">SettingsReloader</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="33:35:33:46">EBComponent</jtok>
+<jtok eid="1" type="line_comment" span="35:2:35:30">//{{{ handleMessage() method</jtok>
+<jtok eid="2" type="method_name" span="36:14:36:27">handleMessage</jtok>
+<jtok eid="2" type="parameter_type" span="36:28:36:37">EBMessage</jtok>
+<jtok eid="2" type="parameter_name" span="36:38:36:41">msg</jtok>
+<jtok eid="2" type="primary_name_ref" span="38:6:38:9">msg</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="38:21:38:30">VFSUpdate</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="40:4:40:13">VFSUpdate</jtok>
+<jtok eid="2" type="local_variable_name" span="40:14:40:18">vmsg</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="40:22:40:31">VFSUpdate</jtok>
+<jtok eid="2" type="primary_name_ref" span="40:32:40:35">msg</jtok>
+<jtok eid="2" type="method_call" span="41:4:41:15">maybeReload</jtok>
+<jtok eid="2" type="primary_name_ref" span="41:16:41:20">vmsg</jtok>
+<jtok eid="2" type="method_call" span="41:21:41:28">getPath</jtok>
+<jtok eid="1" type="line_comment" span="43:4:43:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="45:2:45:28">//{{{ maybeReload() method</jtok>
+<jtok eid="3" type="method_name" span="46:15:46:26">maybeReload</jtok>
+<jtok eid="3" type="parameter_type" span="46:27:46:33">String</jtok>
+<jtok eid="3" type="parameter_name" span="46:34:46:38">path</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:3:48:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="48:10:48:19">jEditHome</jtok>
+<jtok eid="3" type="primary_name_ref" span="48:22:48:27">jEdit</jtok>
+<jtok eid="3" type="method_call" span="48:28:48:40">getJEditHome</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="49:3:49:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="49:10:49:27">settingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="49:30:49:35">jEdit</jtok>
+<jtok eid="3" type="method_call" span="49:36:49:56">getSettingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:7:51:20">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="51:21:51:26">isURL</jtok>
+<jtok eid="3" type="primary_name_ref" span="51:27:51:31">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:4:52:8">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:11:52:24">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="52:25:52:40">resolveSymlinks</jtok>
+<jtok eid="3" type="primary_name_ref" span="52:41:52:45">path</jtok>
+<jtok eid="3" type="line_comment" span="54:3:54:59">// On Windows and MacOS, path names are case insensitive</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:7:55:17">VFSManager</jtok>
+<jtok eid="3" type="method_call" span="55:18:55:31">getVFSForPath</jtok>
+<jtok eid="3" type="primary_name_ref" span="55:32:55:36">path</jtok>
+<jtok eid="3" type="method_call" span="55:38:55:53">getCapabilities</jtok>
+<jtok eid="3" type="primary_name_ref" span="56:6:56:9">VFS</jtok>
+<jtok eid="3" type="qualified_name_ref" span="56:10:56:30">CASE_INSENSITIVE_CAP</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:4:58:8">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="58:11:58:15">path</jtok>
+<jtok eid="3" type="method_call" span="58:16:58:27">toLowerCase</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:4:59:13">jEditHome</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:16:59:25">jEditHome</jtok>
+<jtok eid="3" type="method_call" span="59:26:59:37">toLowerCase</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:7:60:24">settingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:5:61:22">settingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:25:61:42">settingsDirectory</jtok>
+<jtok eid="3" type="method_call" span="61:43:61:54">toLowerCase</jtok>
+<jtok eid="3" type="line_comment" span="64:3:64:40">// XXX: does this really belong here?</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="65:3:65:16">SearchFileSet</jtok>
+<jtok eid="3" type="local_variable_name" span="65:17:65:24">fileset</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:27:65:43">SearchAndReplace</jtok>
+<jtok eid="3" type="method_call" span="65:44:65:60">getSearchFileSet</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:6:66:13">fileset</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="66:25:66:41">DirectoryListSet</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="68:4:68:20">DirectoryListSet</jtok>
+<jtok eid="3" type="local_variable_name" span="68:21:68:27">dirset</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="68:31:68:47">DirectoryListSet</jtok>
+<jtok eid="3" type="primary_name_ref" span="68:48:68:55">fileset</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:4:69:10">String</jtok>
+<jtok eid="3" type="local_variable_name" span="69:11:69:14">dir</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:17:69:30">MiscUtilities</jtok>
+<jtok eid="3" type="method_call" span="69:31:69:46">resolveSymlinks</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:5:70:11">dirset</jtok>
+<jtok eid="3" type="method_call" span="70:12:70:24">getDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:7:71:11">path</jtok>
+<jtok eid="3" type="method_call" span="71:12:71:22">startsWith</jtok>
+<jtok eid="3" type="primary_name_ref" span="71:23:71:26">dir</jtok>
+<jtok eid="3" type="primary_name_ref" span="72:5:72:11">dirset</jtok>
+<jtok eid="3" type="method_call" span="72:12:72:32">invalidateCachedList</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:6:75:15">jEditHome</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:27:75:31">path</jtok>
+<jtok eid="3" type="method_call" span="75:32:75:42">startsWith</jtok>
+<jtok eid="3" type="primary_name_ref" span="75:43:75:52">jEditHome</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:4:76:8">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:11:76:15">path</jtok>
+<jtok eid="3" type="method_call" span="76:16:76:25">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="76:26:76:35">jEditHome</jtok>
+<jtok eid="3" type="method_call" span="76:36:76:42">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:11:77:28">settingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:40:77:44">path</jtok>
+<jtok eid="3" type="method_call" span="77:45:77:55">startsWith</jtok>
+<jtok eid="3" type="primary_name_ref" span="77:56:77:73">settingsDirectory</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:4:78:8">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:11:78:15">path</jtok>
+<jtok eid="3" type="method_call" span="78:16:78:25">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="78:26:78:43">settingsDirectory</jtok>
+<jtok eid="3" type="method_call" span="78:44:78:50">length</jtok>
+<jtok eid="3" type="line_comment" span="81:4:81:57">// not in settings directory or jEdit home directory.</jtok>
+<jtok eid="3" type="line_comment" span="82:4:82:34">// no need to reload anything.</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:6:86:10">path</jtok>
+<jtok eid="3" type="method_call" span="86:11:86:21">startsWith</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:22:86:26">File</jtok>
+<jtok eid="3" type="qualified_name_ref" span="86:27:86:36">separator</jtok>
+<jtok eid="3" type="primary_name_ref" span="86:41:86:45">path</jtok>
+<jtok eid="3" type="method_call" span="86:46:86:56">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="86:57:86:60">"/"</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:4:87:8">path</jtok>
+<jtok eid="3" type="primary_name_ref" span="87:11:87:15">path</jtok>
+<jtok eid="3" type="method_call" span="87:16:87:25">substring</jtok>
+<jtok eid="3" type="primary_name_ref" span="89:6:89:10">path</jtok>
+<jtok eid="3" type="method_call" span="89:11:89:21">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="89:22:89:30">"macros"</jtok>
+<jtok eid="3" type="primary_name_ref" span="90:4:90:10">Macros</jtok>
+<jtok eid="3" type="method_call" span="90:11:90:21">loadMacros</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:11:91:15">path</jtok>
+<jtok eid="3" type="method_call" span="91:16:91:26">startsWith</jtok>
+<jtok eid="3" type="string_literal" span="91:27:91:34">"modes"</jtok>
+<jtok eid="3" type="primary_name_ref" span="91:40:91:44">path</jtok>
+<jtok eid="3" type="method_call" span="91:45:91:53">endsWith</jtok>
+<jtok eid="3" type="string_literal" span="91:54:91:60">".xml"</jtok>
+<jtok eid="3" type="primary_name_ref" span="92:7:92:11">path</jtok>
+<jtok eid="3" type="method_call" span="92:12:92:20">endsWith</jtok>
+<jtok eid="3" type="string_literal" span="92:21:92:30">"catalog"</jtok>
+<jtok eid="3" type="primary_name_ref" span="93:4:93:9">jEdit</jtok>
+<jtok eid="3" type="method_call" span="93:10:93:21">reloadModes</jtok>
+<jtok eid="1" type="line_comment" span="94:4:94:9">//}}}</jtok>
+</jdoc>

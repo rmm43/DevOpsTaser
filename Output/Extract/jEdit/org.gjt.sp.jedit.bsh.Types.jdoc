@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.Types" jls="java5">
+<jent id="0" type="file" span="0:0:530:2">Source/jEdit/org/gjt/sp/jedit/bsh/Types.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:530:1">org.gjt.sp.jedit.bsh.Types</jent>
+<jent id="2" pid="1" type="method" span="75:5:94:5">org.gjt.sp.jedit.bsh.Types.getTypes(Object[])</jent>
+<jent id="3" pid="1" type="method" span="103:2:130:2">org.gjt.sp.jedit.bsh.Types.isSignatureAssignable(Class[],Class[],int)</jent>
+<jent id="4" pid="1" type="method" span="132:2:136:2">org.gjt.sp.jedit.bsh.Types.isSignatureVarargsAssignable(Class[],Class[])</jent>
+<jent id="5" pid="1" type="method" span="163:2:166:2">org.gjt.sp.jedit.bsh.Types.isJavaAssignable(Class,Class)</jent>
+<jent id="6" pid="1" type="method" span="173:2:229:5">org.gjt.sp.jedit.bsh.Types.isJavaBaseAssignable(Class,Class)</jent>
+<jent id="7" pid="1" type="method" span="234:2:260:2">org.gjt.sp.jedit.bsh.Types.isJavaBoxTypesAssignable(Class,Class)</jent>
+<jent id="8" pid="1" type="method" span="266:2:277:2">org.gjt.sp.jedit.bsh.Types.isBshAssignable(Class,Class)</jent>
+<jent id="9" pid="1" type="method" span="298:2:312:2">org.gjt.sp.jedit.bsh.Types.castObject(Object,Class,int)</jent>
+<jent id="10" pid="1" type="method" span="375:2:504:2">org.gjt.sp.jedit.bsh.Types.castObject(Class,Class,Object,int,boolean)</jent>
+<jent id="11" pid="1" type="method" span="510:5:516:5">org.gjt.sp.jedit.bsh.Types.castError(Class,Class,int)</jent>
+<jent id="12" pid="1" type="method" span="518:5:528:5">org.gjt.sp.jedit.bsh.Types.castError(String,String,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="36:1:42:3">/**
+	Static routines supporing type comparison and conversion in BeanShell.
+
+ The following are notes on type comparison and conversion in BeanShell.
+
+
+*/</jtok>
+<jtok eid="1" type="class_name" span="43:7:43:12">Types</jtok>
+<jtok eid="1" type="block_comment" span="45:2:50:4">/*
+		Type conversion identifiers.  An ASSIGNMENT allows conversions that would
+		normally happen on assignment.  A CAST performs numeric conversions to smaller
+		types (as in an explicit Java cast) and things allowed only in variable and array
+		declarations (e.g. byte b = 42;)
+	*/</jtok>
+<jtok eid="1" type="field_name" span="51:19:51:23">CAST</jtok>
+<jtok eid="1" type="field_name" span="51:27:51:37">ASSIGNMENT</jtok>
+<jtok eid="1" type="field_name" span="54:3:54:23">JAVA_BASE_ASSIGNABLE</jtok>
+<jtok eid="1" type="field_name" span="55:3:55:27">JAVA_BOX_TYPES_ASSIGABLE</jtok>
+<jtok eid="1" type="field_name" span="56:3:56:26">JAVA_VARARGS_ASSIGNABLE</jtok>
+<jtok eid="1" type="field_name" span="57:3:57:17">BSH_ASSIGNABLE</jtok>
+<jtok eid="1" type="field_name" span="60:3:60:25">FIRST_ROUND_ASSIGNABLE</jtok>
+<jtok eid="1" type="primary_name_ref" span="60:28:60:48">JAVA_BASE_ASSIGNABLE</jtok>
+<jtok eid="1" type="field_name" span="61:3:61:24">LAST_ROUND_ASSIGNABLE</jtok>
+<jtok eid="1" type="primary_name_ref" span="61:27:61:41">BSH_ASSIGNABLE</jtok>
+<jtok eid="1" type="block_comment" span="63:2:68:4">/**
+		Special value that indicates by identity that the result of a cast
+		operation was a valid cast.  This is used by castObject() and
+		castPrimitive() in the checkOnly mode of operation.  This value is a
+		Primitive type so that it can be returned by castPrimitive.
+	*/</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="69:9:69:18">Primitive</jtok>
+<jtok eid="1" type="field_name" span="69:19:69:29">VALID_CAST</jtok>
+<jtok eid="1" type="constructor_call" span="69:36:69:45">Primitive</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="70:9:70:18">Primitive</jtok>
+<jtok eid="1" type="field_name" span="70:19:70:31">INVALID_CAST</jtok>
+<jtok eid="1" type="constructor_call" span="70:38:70:47">Primitive</jtok>
+<jtok eid="1" type="block_comment" span="72:2:74:4">/**
+		Get the Java types of the arguments.
+	*/</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="75:19:75:24">Class</jtok>
+<jtok eid="2" type="method_name" span="75:27:75:35">getTypes</jtok>
+<jtok eid="2" type="parameter_type" span="75:37:75:43">Object</jtok>
+<jtok eid="2" type="parameter_name" span="75:46:75:50">args</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:14:77:18">args</jtok>
+<jtok eid="2" type="constructor_call" span="78:24:78:29">Class</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="80:9:80:14">Class</jtok>
+<jtok eid="2" type="local_variable_name" span="80:17:80:22">types</jtok>
+<jtok eid="2" type="constructor_call" span="80:29:80:34">Class</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:36:80:40">args</jtok>
+<jtok eid="2" type="qualified_name_ref" span="80:41:80:47">length</jtok>
+<jtok eid="2" type="local_variable_name" span="82:18:82:19">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:23:82:24">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:25:82:29">args</jtok>
+<jtok eid="2" type="qualified_name_ref" span="82:30:82:36">length</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:38:82:39">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:9:84:13">args</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:14:84:15">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:5:85:10">types</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:11:85:12">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:9:87:13">args</jtok>
+<jtok eid="2" type="primary_name_ref" span="87:14:87:15">i</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="87:28:87:37">Primitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:17:88:22">types</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:23:88:24">i</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="88:30:88:39">Primitive</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:40:88:44">args</jtok>
+<jtok eid="2" type="primary_name_ref" span="88:45:88:46">i</jtok>
+<jtok eid="2" type="method_call" span="88:49:88:56">getType</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:17:90:22">types</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:23:90:24">i</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:28:90:32">args</jtok>
+<jtok eid="2" type="primary_name_ref" span="90:33:90:34">i</jtok>
+<jtok eid="2" type="method_call" span="90:36:90:44">getClass</jtok>
+<jtok eid="2" type="primary_name_ref" span="93:16:93:21">types</jtok>
+<jtok eid="1" type="block_comment" span="96:2:101:5">/**
+	 Is the 'from' signature (argument types) assignable to the 'to'
+	 signature (candidate method types)
+	 This method handles the special case of null values in 'to' types
+	 indicating a loose type and matching anything.
+	 */</jtok>
+<jtok eid="1" type="block_comment" span="102:2:102:73">/* Should check for strict java here and limit to isJavaAssignable() */</jtok>
+<jtok eid="3" type="method_name" span="103:17:103:38">isSignatureAssignable</jtok>
+<jtok eid="3" type="parameter_type" span="103:40:103:45">Class</jtok>
+<jtok eid="3" type="parameter_name" span="103:48:103:52">from</jtok>
+<jtok eid="3" type="parameter_type" span="103:54:103:59">Class</jtok>
+<jtok eid="3" type="parameter_name" span="103:62:103:64">to</jtok>
+<jtok eid="3" type="parameter_name" span="103:70:103:75">round</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:8:105:13">round</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:17:105:40">JAVA_VARARGS_ASSIGNABLE</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:44:105:48">from</jtok>
+<jtok eid="3" type="qualified_name_ref" span="105:49:105:55">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:59:105:61">to</jtok>
+<jtok eid="3" type="qualified_name_ref" span="105:62:105:68">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:12:108:17">round</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:9:110:29">JAVA_BASE_ASSIGNABLE</jtok>
+<jtok eid="3" type="local_variable_name" span="111:14:111:15">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:19:111:20">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:21:111:25">from</jtok>
+<jtok eid="3" type="qualified_name_ref" span="111:26:111:32">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="111:34:111:35">i</jtok>
+<jtok eid="3" type="method_call" span="112:12:112:32">isJavaBaseAssignable</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:34:112:36">to</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:37:112:38">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:41:112:45">from</jtok>
+<jtok eid="3" type="primary_name_ref" span="112:46:112:47">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="115:9:115:33">JAVA_BOX_TYPES_ASSIGABLE</jtok>
+<jtok eid="3" type="local_variable_name" span="116:14:116:15">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:19:116:20">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:21:116:25">from</jtok>
+<jtok eid="3" type="qualified_name_ref" span="116:26:116:32">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="116:34:116:35">i</jtok>
+<jtok eid="3" type="method_call" span="117:12:117:36">isJavaBoxTypesAssignable</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:38:117:40">to</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:41:117:42">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:45:117:49">from</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:50:117:51">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="120:9:120:32">JAVA_VARARGS_ASSIGNABLE</jtok>
+<jtok eid="3" type="method_call" span="121:12:121:40">isSignatureVarargsAssignable</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:42:121:46">from</jtok>
+<jtok eid="3" type="primary_name_ref" span="121:48:121:50">to</jtok>
+<jtok eid="3" type="primary_name_ref" span="122:9:122:23">BSH_ASSIGNABLE</jtok>
+<jtok eid="3" type="local_variable_name" span="123:14:123:15">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:19:123:20">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:21:123:25">from</jtok>
+<jtok eid="3" type="qualified_name_ref" span="123:26:123:32">length</jtok>
+<jtok eid="3" type="primary_name_ref" span="123:34:123:35">i</jtok>
+<jtok eid="3" type="method_call" span="124:12:124:27">isBshAssignable</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:29:124:31">to</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:32:124:33">i</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:36:124:40">from</jtok>
+<jtok eid="3" type="primary_name_ref" span="124:41:124:42">i</jtok>
+<jtok eid="3" type="constructor_call" span="128:15:128:31">InterpreterError</jtok>
+<jtok eid="3" type="string_literal" span="128:32:128:42">"bad case"</jtok>
+<jtok eid="4" type="method_name" span="132:25:132:53">isSignatureVarargsAssignable</jtok>
+<jtok eid="4" type="parameter_type" span="133:3:133:8">Class</jtok>
+<jtok eid="4" type="parameter_name" span="133:11:133:15">from</jtok>
+<jtok eid="4" type="parameter_type" span="133:17:133:22">Class</jtok>
+<jtok eid="4" type="parameter_name" span="133:25:133:27">to</jtok>
+<jtok eid="1" type="block_comment" span="138:2:162:4">/**
+		Test if a conversion of the rhsType type to the lhsType type is legal via
+	 standard Java assignment conversion rules (i.e. without a cast).
+	 The rules include Java 5 autoboxing/unboxing.
+		&lt;p/&gt;
+
+		For Java primitive TYPE classes this method takes primitive promotion
+		into account.  The ordinary Class.isAssignableFrom() does not take
+		primitive promotion conversions into account.  Note that Java allows
+		additional assignments without a cast in combination with variable
+		declarations and array allocations.  Those are handled elsewhere
+	 	(maybe should be here with a flag?)
+		&lt;p/&gt;
+		This class accepts a null rhsType type indicating that the rhsType was the
+		value Primitive.NULL and allows it to be assigned to any reference lhsType
+		type (non primitive).
+		&lt;p/&gt;
+
+		Note that the getAssignableForm() method is the primary bsh method for
+		checking assignability.  It adds additional bsh conversions, etc.
+
+		@see #isBshAssignable( Class, Class )
+		@param lhsType assigning from rhsType to lhsType
+		@param rhsType assigning from rhsType to lhsType
+	*/</jtok>
+<jtok eid="5" type="method_name" span="163:17:163:33">isJavaAssignable</jtok>
+<jtok eid="5" type="parameter_type" span="163:35:163:40">Class</jtok>
+<jtok eid="5" type="parameter_name" span="163:41:163:48">lhsType</jtok>
+<jtok eid="5" type="parameter_type" span="163:50:163:55">Class</jtok>
+<jtok eid="5" type="parameter_name" span="163:56:163:63">rhsType</jtok>
+<jtok eid="5" type="method_call" span="164:10:164:30">isJavaBaseAssignable</jtok>
+<jtok eid="5" type="primary_name_ref" span="164:32:164:39">lhsType</jtok>
+<jtok eid="5" type="primary_name_ref" span="164:41:164:48">rhsType</jtok>
+<jtok eid="5" type="method_call" span="165:7:165:31">isJavaBoxTypesAssignable</jtok>
+<jtok eid="5" type="primary_name_ref" span="165:33:165:40">lhsType</jtok>
+<jtok eid="5" type="primary_name_ref" span="165:42:165:49">rhsType</jtok>
+<jtok eid="1" type="block_comment" span="168:2:172:4">/**
+		Is the assignment legal via original Java (up to version 1.4)
+		assignment rules, not including auto-boxing/unboxing.
+	 @param rhsType may be null to indicate primitive null value
+	*/</jtok>
+<jtok eid="6" type="method_name" span="173:17:173:37">isJavaBaseAssignable</jtok>
+<jtok eid="6" type="parameter_type" span="173:39:173:44">Class</jtok>
+<jtok eid="6" type="parameter_name" span="173:45:173:52">lhsType</jtok>
+<jtok eid="6" type="parameter_type" span="173:54:173:59">Class</jtok>
+<jtok eid="6" type="parameter_name" span="173:60:173:67">rhsType</jtok>
+<jtok eid="6" type="block_comment" span="175:3:181:5">/*
+			Assignment to loose type, defer to bsh extensions
+			Note: we could shortcut this here:
+			if ( lhsType == null ) return true;
+			rather than forcing another round.  It's not strictly a Java issue,
+			so does it belong here?
+		*/</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:8:182:15">lhsType</jtok>
+<jtok eid="6" type="line_comment" span="185:3:185:57">// null rhs type corresponds to type of Primitive.NULL</jtok>
+<jtok eid="6" type="line_comment" span="186:3:186:35">// assignable to any object type</jtok>
+<jtok eid="6" type="primary_name_ref" span="187:8:187:15">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="188:12:188:19">lhsType</jtok>
+<jtok eid="6" type="method_call" span="188:20:188:31">isPrimitive</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:8:190:15">lhsType</jtok>
+<jtok eid="6" type="method_call" span="190:16:190:27">isPrimitive</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:33:190:40">rhsType</jtok>
+<jtok eid="6" type="method_call" span="190:41:190:52">isPrimitive</jtok>
+<jtok eid="6" type="primary_name_ref" span="192:9:192:16">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="192:20:192:27">rhsType</jtok>
+<jtok eid="6" type="line_comment" span="195:4:195:56">// handle primitive widening conversions - JLS 5.1.2</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:10:196:17">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="196:21:196:25">Byte</jtok>
+<jtok eid="6" type="qualified_name_ref" span="196:26:196:30">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:6:197:13">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:17:197:22">Short</jtok>
+<jtok eid="6" type="qualified_name_ref" span="197:23:197:27">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:31:197:38">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="197:42:197:49">Integer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="197:50:197:54">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="198:8:198:15">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="198:19:198:23">Long</jtok>
+<jtok eid="6" type="qualified_name_ref" span="198:24:198:28">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="198:32:198:39">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="198:43:198:48">Float</jtok>
+<jtok eid="6" type="qualified_name_ref" span="198:49:198:53">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="199:8:199:15">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="199:19:199:25">Double</jtok>
+<jtok eid="6" type="qualified_name_ref" span="199:26:199:30">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:19:202:26">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="202:30:202:35">Short</jtok>
+<jtok eid="6" type="qualified_name_ref" span="202:36:202:40">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:6:203:13">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:17:203:24">Integer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="203:25:203:29">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:33:203:40">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="203:44:203:48">Long</jtok>
+<jtok eid="6" type="qualified_name_ref" span="203:49:203:53">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:17:204:24">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:28:204:33">Float</jtok>
+<jtok eid="6" type="qualified_name_ref" span="204:34:204:38">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:42:204:49">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="204:53:204:59">Double</jtok>
+<jtok eid="6" type="qualified_name_ref" span="204:60:204:64">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:18:207:25">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="207:29:207:38">Character</jtok>
+<jtok eid="6" type="qualified_name_ref" span="207:39:207:43">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="208:6:208:13">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="208:17:208:24">Integer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="208:25:208:29">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="208:33:208:40">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="208:44:208:48">Long</jtok>
+<jtok eid="6" type="qualified_name_ref" span="208:49:208:53">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="209:17:209:24">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="209:28:209:33">Float</jtok>
+<jtok eid="6" type="qualified_name_ref" span="209:34:209:38">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="209:42:209:49">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="209:53:209:59">Double</jtok>
+<jtok eid="6" type="qualified_name_ref" span="209:60:209:64">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="212:18:212:25">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="212:29:212:36">Integer</jtok>
+<jtok eid="6" type="qualified_name_ref" span="212:37:212:41">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:6:213:13">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:17:213:21">Long</jtok>
+<jtok eid="6" type="qualified_name_ref" span="213:22:213:26">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:30:213:37">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:41:213:46">Float</jtok>
+<jtok eid="6" type="qualified_name_ref" span="213:47:213:51">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:17:214:24">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="214:28:214:34">Double</jtok>
+<jtok eid="6" type="qualified_name_ref" span="214:35:214:39">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="217:18:217:25">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="217:29:217:33">Long</jtok>
+<jtok eid="6" type="qualified_name_ref" span="217:34:217:38">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:6:218:13">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:17:218:22">Float</jtok>
+<jtok eid="6" type="qualified_name_ref" span="218:23:218:27">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:31:218:38">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="218:42:218:48">Double</jtok>
+<jtok eid="6" type="qualified_name_ref" span="218:49:218:53">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="221:18:221:25">rhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="221:29:221:34">Float</jtok>
+<jtok eid="6" type="qualified_name_ref" span="221:35:221:39">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="221:45:221:52">lhsType</jtok>
+<jtok eid="6" type="primary_name_ref" span="221:56:221:62">Double</jtok>
+<jtok eid="6" type="qualified_name_ref" span="221:63:221:67">TYPE</jtok>
+<jtok eid="6" type="primary_name_ref" span="225:18:225:25">lhsType</jtok>
+<jtok eid="6" type="method_call" span="225:26:225:42">isAssignableFrom</jtok>
+<jtok eid="6" type="primary_name_ref" span="225:43:225:50">rhsType</jtok>
+<jtok eid="1" type="block_comment" span="231:2:233:4">/**
+		Determine if the type is assignable via Java boxing/unboxing rules.
+	*/</jtok>
+<jtok eid="7" type="method_name" span="234:17:234:41">isJavaBoxTypesAssignable</jtok>
+<jtok eid="7" type="parameter_type" span="235:3:235:8">Class</jtok>
+<jtok eid="7" type="parameter_name" span="235:9:235:16">lhsType</jtok>
+<jtok eid="7" type="parameter_type" span="235:18:235:23">Class</jtok>
+<jtok eid="7" type="parameter_name" span="235:24:235:31">rhsType</jtok>
+<jtok eid="7" type="line_comment" span="237:3:237:57">// Assignment to loose type... defer to bsh extensions</jtok>
+<jtok eid="7" type="primary_name_ref" span="238:8:238:15">lhsType</jtok>
+<jtok eid="7" type="line_comment" span="241:3:241:46">// prim can be boxed and assigned to Object</jtok>
+<jtok eid="7" type="primary_name_ref" span="242:8:242:15">lhsType</jtok>
+<jtok eid="7" type="primary_name_ref" span="242:19:242:25">Object</jtok>
+<jtok eid="7" type="line_comment" span="245:3:245:59">// prim numeric type can be boxed and assigned to number</jtok>
+<jtok eid="7" type="primary_name_ref" span="246:8:246:15">lhsType</jtok>
+<jtok eid="7" type="primary_name_ref" span="246:19:246:25">Number</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:7:247:14">rhsType</jtok>
+<jtok eid="7" type="primary_name_ref" span="247:18:247:27">Character</jtok>
+<jtok eid="7" type="qualified_name_ref" span="247:28:247:32">TYPE</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:7:248:14">rhsType</jtok>
+<jtok eid="7" type="primary_name_ref" span="248:18:248:25">Boolean</jtok>
+<jtok eid="7" type="qualified_name_ref" span="248:26:248:30">TYPE</jtok>
+<jtok eid="7" type="line_comment" span="252:3:252:54">// General case prim type to wrapper or vice versa.</jtok>
+<jtok eid="7" type="line_comment" span="253:3:253:74">// I don't know if this is faster than a flat list of 'if's like above.</jtok>
+<jtok eid="7" type="line_comment" span="254:3:254:69">// wrapperMap maps both prim to wrapper and wrapper to prim types,</jtok>
+<jtok eid="7" type="line_comment" span="255:3:255:31">// so this test is symmetric</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:8:256:17">Primitive</jtok>
+<jtok eid="7" type="qualified_name_ref" span="256:18:256:28">wrapperMap</jtok>
+<jtok eid="7" type="method_call" span="256:29:256:32">get</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:34:256:41">lhsType</jtok>
+<jtok eid="7" type="primary_name_ref" span="256:47:256:54">rhsType</jtok>
+<jtok eid="1" type="block_comment" span="262:2:265:5">/**
+	 Test if a type can be converted to another type via BeanShell
+	 extended syntax rules (a superset of Java conversion rules).
+	 */</jtok>
+<jtok eid="8" type="method_name" span="266:17:266:32">isBshAssignable</jtok>
+<jtok eid="8" type="parameter_type" span="266:34:266:39">Class</jtok>
+<jtok eid="8" type="parameter_name" span="266:40:266:46">toType</jtok>
+<jtok eid="8" type="parameter_type" span="266:48:266:53">Class</jtok>
+<jtok eid="8" type="parameter_name" span="266:54:266:62">fromType</jtok>
+<jtok eid="8" type="method_call" span="269:11:269:21">castObject</jtok>
+<jtok eid="8" type="primary_name_ref" span="270:5:270:11">toType</jtok>
+<jtok eid="8" type="primary_name_ref" span="270:13:270:21">fromType</jtok>
+<jtok eid="8" type="block_comment" span="270:27:270:40">/*fromValue*/</jtok>
+<jtok eid="8" type="primary_name_ref" span="271:5:271:15">ASSIGNMENT</jtok>
+<jtok eid="8" type="block_comment" span="271:21:271:34">/*checkOnly*/</jtok>
+<jtok eid="8" type="primary_name_ref" span="272:9:272:19">VALID_CAST</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="273:13:273:26">UtilEvalError</jtok>
+<jtok eid="8" type="local_variable_name" span="273:27:273:28">e</jtok>
+<jtok eid="8" type="line_comment" span="274:4:274:49">// This should not happen with checkOnly true</jtok>
+<jtok eid="8" type="constructor_call" span="275:14:275:30">InterpreterError</jtok>
+<jtok eid="8" type="string_literal" span="275:31:275:52">"err in cast check: "</jtok>
+<jtok eid="8" type="primary_name_ref" span="275:53:275:54">e</jtok>
+<jtok eid="1" type="block_comment" span="279:2:297:4">/**
+		Attempt to cast an object instance to a new type if possible via
+	 BeanShell extended syntax rules.  These rules are always a superset of
+	 Java conversion rules.  If you wish to impose context sensitive
+	 conversion rules then you must test before calling this method.
+	 &lt;p/&gt;
+
+		This method can handle fromValue Primitive types (representing
+		primitive casts) as well as fromValue object casts requiring interface
+		generation, etc.
+
+		@param toType the class type of the cast result, which may include
+		primitive types, e.g. Byte.TYPE
+
+		@param fromValue an Object or bsh.Primitive primitive value (including
+			Primitive.NULL or Primitive.VOID )
+
+		@see #isBshAssignable( Class, Class )
+	*/</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="298:16:298:22">Object</jtok>
+<jtok eid="9" type="method_name" span="298:23:298:33">castObject</jtok>
+<jtok eid="9" type="parameter_type" span="299:3:299:9">Object</jtok>
+<jtok eid="9" type="parameter_name" span="299:10:299:19">fromValue</jtok>
+<jtok eid="9" type="parameter_type" span="299:21:299:26">Class</jtok>
+<jtok eid="9" type="parameter_name" span="299:27:299:33">toType</jtok>
+<jtok eid="9" type="parameter_name" span="299:39:299:48">operation</jtok>
+<jtok eid="9" type="throws" span="300:10:300:23">UtilEvalError</jtok>
+<jtok eid="9" type="primary_name_ref" span="302:8:302:17">fromValue</jtok>
+<jtok eid="9" type="constructor_call" span="303:14:303:30">InterpreterError</jtok>
+<jtok eid="9" type="string_literal" span="303:31:303:47">"null fromValue"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="305:3:305:8">Class</jtok>
+<jtok eid="9" type="local_variable_name" span="305:9:305:17">fromType</jtok>
+<jtok eid="9" type="primary_name_ref" span="306:4:306:13">fromValue</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="306:25:306:34">Primitive</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="307:7:307:16">Primitive</jtok>
+<jtok eid="9" type="primary_name_ref" span="307:17:307:26">fromValue</jtok>
+<jtok eid="9" type="method_call" span="307:28:307:35">getType</jtok>
+<jtok eid="9" type="primary_name_ref" span="308:7:308:16">fromValue</jtok>
+<jtok eid="9" type="method_call" span="308:17:308:25">getClass</jtok>
+<jtok eid="9" type="method_call" span="310:10:310:20">castObject</jtok>
+<jtok eid="9" type="primary_name_ref" span="311:4:311:10">toType</jtok>
+<jtok eid="9" type="primary_name_ref" span="311:12:311:20">fromType</jtok>
+<jtok eid="9" type="primary_name_ref" span="311:22:311:31">fromValue</jtok>
+<jtok eid="9" type="primary_name_ref" span="311:33:311:42">operation</jtok>
+<jtok eid="9" type="block_comment" span="311:49:311:62">/*checkonly*/</jtok>
+<jtok eid="1" type="block_comment" span="314:2:370:4">/**
+	 Perform a type conversion or test if a type conversion is possible with
+	 respect to BeanShell extended rules.  These rules are always a superset of
+	 the Java language rules, so this method can also perform (but not test)
+	 any Java language assignment or cast conversion.
+	 &lt;p/&gt;
+
+	 This method can perform the functionality of testing if an assignment
+	 or cast is ultimately possible (with respect to BeanShell) as well as the
+	 functionality of performing the necessary conversion of a value based
+	 on the specified target type.  This combined functionality is done for
+	 expediency and could be separated later.
+	 &lt;p/&gt;
+
+	 Other methods such as isJavaAssignable() should be used to determine the
+	 suitability of an assignment in a fine grained or restrictive way based
+	 on context before calling this method
+	 &lt;p/&gt;
+
+	 A CAST is stronger than an ASSIGNMENT operation in that it will attempt to
+	 perform primtive operations that cast to a smaller type. e.g. (byte)myLong;
+	 These are used in explicit primitive casts, primitive delclarations and
+	 array declarations. I don't believe there are any object conversions which are
+	 different between  ASSIGNMENT and CAST (e.g. scripted object to interface proxy
+	 in bsh is done on assignment as well as cast).
+	 &lt;p/&gt;
+
+	 This method does not obey strictJava(), you must test first before
+	 using this method if you care. (See #isJavaAssignable()).
+	 &lt;p/&gt;
+
+		@param toType the class type of the cast result, which may include
+			primitive types, e.g. Byte.TYPE.  toType may be null to indicate a
+			loose type assignment (which matches any fromType).
+
+		@param fromType is the class type of the value to be cast including
+			java primitive TYPE classes for primitives.
+			If fromValue is (or would be) Primitive.NULL then fromType should be null.
+
+		@param fromValue an Object or bsh.Primitive primitive value (including
+			Primitive.NULL or Primitive.VOID )
+
+		@param checkOnly If checkOnly is true then fromValue must be null.
+			FromType is checked for the cast to toType...
+			If checkOnly is false then fromValue must be non-null
+			(Primitive.NULL is ok) and the actual cast is performed.
+
+		@throws UtilEvalError on invalid assignment (when operation is
+			assignment ).
+
+		@throws UtilTargetError wrapping ClassCastException on cast error
+			(when operation is cast)
+
+		@param operation is Types.CAST or Types.ASSIGNMENT
+
+		@see org.gjt.sp.jedit.bsh.Primitive.getType()
+	*/</jtok>
+<jtok eid="1" type="block_comment" span="371:2:374:4">/*
+		Notes: This method is currently responsible for auto-boxing/unboxing
+		conversions...  Where does that need to go?
+	*/</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="375:17:375:23">Object</jtok>
+<jtok eid="10" type="method_name" span="375:24:375:34">castObject</jtok>
+<jtok eid="10" type="parameter_type" span="376:3:376:8">Class</jtok>
+<jtok eid="10" type="parameter_name" span="376:9:376:15">toType</jtok>
+<jtok eid="10" type="parameter_type" span="376:17:376:22">Class</jtok>
+<jtok eid="10" type="parameter_name" span="376:23:376:31">fromType</jtok>
+<jtok eid="10" type="parameter_type" span="376:33:376:39">Object</jtok>
+<jtok eid="10" type="parameter_name" span="376:40:376:49">fromValue</jtok>
+<jtok eid="10" type="parameter_name" span="377:7:377:16">operation</jtok>
+<jtok eid="10" type="parameter_name" span="377:26:377:35">checkOnly</jtok>
+<jtok eid="10" type="throws" span="378:10:378:23">UtilEvalError</jtok>
+<jtok eid="10" type="block_comment" span="380:3:384:5">/*
+			Lots of preconditions checked here...
+			Once things are running smoothly we might comment these out
+			(That's what assertions are for).
+		*/</jtok>
+<jtok eid="10" type="primary_name_ref" span="385:8:385:17">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="385:21:385:30">fromValue</jtok>
+<jtok eid="10" type="constructor_call" span="386:14:386:30">InterpreterError</jtok>
+<jtok eid="10" type="string_literal" span="386:31:386:50">"bad cast params 1"</jtok>
+<jtok eid="10" type="primary_name_ref" span="387:9:387:18">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="387:22:387:31">fromValue</jtok>
+<jtok eid="10" type="constructor_call" span="388:14:388:30">InterpreterError</jtok>
+<jtok eid="10" type="string_literal" span="388:31:388:50">"bad cast params 2"</jtok>
+<jtok eid="10" type="primary_name_ref" span="389:8:389:16">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="389:20:389:29">Primitive</jtok>
+<jtok eid="10" type="constructor_call" span="390:14:390:30">InterpreterError</jtok>
+<jtok eid="10" type="string_literal" span="390:31:390:62">"bad from Type, need to unwrap"</jtok>
+<jtok eid="10" type="primary_name_ref" span="391:8:391:17">fromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="391:21:391:30">Primitive</jtok>
+<jtok eid="10" type="qualified_name_ref" span="391:31:391:35">NULL</jtok>
+<jtok eid="10" type="primary_name_ref" span="391:39:391:47">fromType</jtok>
+<jtok eid="10" type="constructor_call" span="392:14:392:30">InterpreterError</jtok>
+<jtok eid="10" type="string_literal" span="392:31:392:52">"inconsistent args 1"</jtok>
+<jtok eid="10" type="primary_name_ref" span="393:8:393:17">fromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="393:21:393:30">Primitive</jtok>
+<jtok eid="10" type="qualified_name_ref" span="393:31:393:35">VOID</jtok>
+<jtok eid="10" type="primary_name_ref" span="393:39:393:47">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="393:51:393:55">Void</jtok>
+<jtok eid="10" type="qualified_name_ref" span="393:56:393:60">TYPE</jtok>
+<jtok eid="10" type="constructor_call" span="394:14:394:30">InterpreterError</jtok>
+<jtok eid="10" type="string_literal" span="394:31:394:52">"inconsistent args 2"</jtok>
+<jtok eid="10" type="primary_name_ref" span="395:8:395:14">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="395:18:395:22">Void</jtok>
+<jtok eid="10" type="qualified_name_ref" span="395:23:395:27">TYPE</jtok>
+<jtok eid="10" type="constructor_call" span="396:14:396:30">InterpreterError</jtok>
+<jtok eid="10" type="string_literal" span="396:31:396:60">"loose toType should be null"</jtok>
+<jtok eid="10" type="line_comment" span="398:3:398:63">// assignment to loose type, void type, or exactly same type</jtok>
+<jtok eid="10" type="primary_name_ref" span="399:8:399:14">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="399:26:399:32">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="399:36:399:44">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="400:11:400:20">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="400:23:400:33">VALID_CAST</jtok>
+<jtok eid="10" type="primary_name_ref" span="401:5:401:14">fromValue</jtok>
+<jtok eid="10" type="line_comment" span="403:3:403:31">// Casting to primitive type</jtok>
+<jtok eid="10" type="primary_name_ref" span="404:14:404:20">toType</jtok>
+<jtok eid="10" type="method_call" span="404:21:404:32">isPrimitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="406:9:406:17">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="406:21:406:25">Void</jtok>
+<jtok eid="10" type="qualified_name_ref" span="406:26:406:30">TYPE</jtok>
+<jtok eid="10" type="primary_name_ref" span="406:34:406:42">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="407:8:407:16">fromType</jtok>
+<jtok eid="10" type="method_call" span="407:17:407:28">isPrimitive</jtok>
+<jtok eid="10" type="line_comment" span="409:5:409:42">// Both primitives, do primitive cast</jtok>
+<jtok eid="10" type="primary_name_ref" span="410:12:410:21">Primitive</jtok>
+<jtok eid="10" type="method_call" span="410:22:410:35">castPrimitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="411:6:411:12">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="411:14:411:22">fromType</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="411:25:411:34">Primitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="411:35:411:44">fromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="412:6:412:15">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="412:17:412:26">operation</jtok>
+<jtok eid="10" type="primary_name_ref" span="415:10:415:19">Primitive</jtok>
+<jtok eid="10" type="method_call" span="415:20:415:33">isWrapperType</jtok>
+<jtok eid="10" type="primary_name_ref" span="415:35:415:43">fromType</jtok>
+<jtok eid="10" type="line_comment" span="417:6:417:29">// wrapper to primitive</jtok>
+<jtok eid="10" type="line_comment" span="418:6:418:54">// Convert value to Primitive and check/cast it.</jtok>
+<jtok eid="10" type="line_comment" span="420:6:420:43">//Object r = checkOnly ? VALID_CAST :</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="421:6:421:11">Class</jtok>
+<jtok eid="10" type="local_variable_name" span="421:12:421:27">unboxedFromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="421:30:421:39">Primitive</jtok>
+<jtok eid="10" type="method_call" span="421:40:421:49">unboxType</jtok>
+<jtok eid="10" type="primary_name_ref" span="421:51:421:59">fromType</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="422:6:422:15">Primitive</jtok>
+<jtok eid="10" type="local_variable_name" span="422:16:422:29">primFromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="423:11:423:20">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="424:7:424:20">primFromValue</jtok>
+<jtok eid="10" type="line_comment" span="424:29:424:57">// must be null in checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="426:7:426:20">primFromValue</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="426:24:426:33">Primitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="426:34:426:43">Primitive</jtok>
+<jtok eid="10" type="method_call" span="426:44:426:48">wrap</jtok>
+<jtok eid="10" type="primary_name_ref" span="427:8:427:17">fromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="427:19:427:34">unboxedFromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="429:13:429:22">Primitive</jtok>
+<jtok eid="10" type="method_call" span="429:23:429:36">castPrimitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="430:7:430:13">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="430:15:430:30">unboxedFromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="430:32:430:45">primFromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="431:7:431:16">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="431:18:431:27">operation</jtok>
+<jtok eid="10" type="line_comment" span="434:6:434:55">// Cannot cast from arbitrary object to primitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="435:11:435:20">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="436:14:436:26">INVALID_CAST</jtok>
+<jtok eid="10" type="method_call" span="438:13:438:22">castError</jtok>
+<jtok eid="10" type="primary_name_ref" span="438:24:438:30">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="438:32:438:40">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="438:42:438:51">operation</jtok>
+<jtok eid="10" type="line_comment" span="443:3:443:37">// Else, casting to reference type</jtok>
+<jtok eid="10" type="line_comment" span="445:3:445:56">// Casting from primitive or void (to reference type)</jtok>
+<jtok eid="10" type="primary_name_ref" span="446:8:446:16">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="446:20:446:24">Void</jtok>
+<jtok eid="10" type="qualified_name_ref" span="446:25:446:29">TYPE</jtok>
+<jtok eid="10" type="primary_name_ref" span="446:33:446:41">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="447:7:447:15">fromType</jtok>
+<jtok eid="10" type="method_call" span="447:16:447:27">isPrimitive</jtok>
+<jtok eid="10" type="line_comment" span="449:4:449:42">// cast from primitive to wrapper type</jtok>
+<jtok eid="10" type="primary_name_ref" span="450:9:450:18">Primitive</jtok>
+<jtok eid="10" type="method_call" span="450:19:450:32">isWrapperType</jtok>
+<jtok eid="10" type="primary_name_ref" span="450:34:450:40">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="451:8:451:16">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="451:20:451:24">Void</jtok>
+<jtok eid="10" type="qualified_name_ref" span="451:25:451:29">TYPE</jtok>
+<jtok eid="10" type="primary_name_ref" span="451:33:451:41">fromType</jtok>
+<jtok eid="10" type="line_comment" span="453:5:453:33">// primitive to wrapper type</jtok>
+<jtok eid="10" type="primary_name_ref" span="454:12:454:21">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="454:24:454:34">VALID_CAST</jtok>
+<jtok eid="10" type="primary_name_ref" span="455:6:455:15">Primitive</jtok>
+<jtok eid="10" type="method_call" span="455:16:455:27">castWrapper</jtok>
+<jtok eid="10" type="primary_name_ref" span="456:7:456:16">Primitive</jtok>
+<jtok eid="10" type="method_call" span="456:17:456:26">unboxType</jtok>
+<jtok eid="10" type="primary_name_ref" span="456:27:456:33">toType</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="457:9:457:18">Primitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="457:19:457:28">fromValue</jtok>
+<jtok eid="10" type="method_call" span="457:30:457:38">getValue</jtok>
+<jtok eid="10" type="line_comment" span="460:4:460:56">// Primitive (not null or void) to Object.class type</jtok>
+<jtok eid="10" type="primary_name_ref" span="461:9:461:15">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="461:19:461:25">Object</jtok>
+<jtok eid="10" type="primary_name_ref" span="462:8:462:16">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="462:20:462:24">Void</jtok>
+<jtok eid="10" type="qualified_name_ref" span="462:25:462:29">TYPE</jtok>
+<jtok eid="10" type="primary_name_ref" span="462:33:462:41">fromType</jtok>
+<jtok eid="10" type="line_comment" span="464:5:464:14">// box it</jtok>
+<jtok eid="10" type="primary_name_ref" span="465:12:465:21">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="465:24:465:34">VALID_CAST</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="466:8:466:17">Primitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="466:18:466:27">fromValue</jtok>
+<jtok eid="10" type="method_call" span="466:29:466:37">getValue</jtok>
+<jtok eid="10" type="line_comment" span="469:4:469:42">// Primitive to arbitrary object type.</jtok>
+<jtok eid="10" type="line_comment" span="470:4:470:68">// Allow Primitive.castToType() to handle it as well as cases of</jtok>
+<jtok eid="10" type="line_comment" span="471:4:471:40">// Primitive.NULL and Primitive.VOID</jtok>
+<jtok eid="10" type="primary_name_ref" span="472:11:472:20">Primitive</jtok>
+<jtok eid="10" type="method_call" span="472:21:472:34">castPrimitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="473:5:473:11">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="473:13:473:21">fromType</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="473:24:473:33">Primitive</jtok>
+<jtok eid="10" type="primary_name_ref" span="473:34:473:43">fromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="473:45:473:54">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="473:56:473:65">operation</jtok>
+<jtok eid="10" type="line_comment" span="476:3:476:50">// If type already assignable no cast necessary</jtok>
+<jtok eid="10" type="line_comment" span="477:3:477:65">// We do this last to allow various errors above to be caught.</jtok>
+<jtok eid="10" type="line_comment" span="478:3:478:55">// e.g cast Primitive.Void to Object would pass this</jtok>
+<jtok eid="10" type="primary_name_ref" span="479:8:479:14">toType</jtok>
+<jtok eid="10" type="method_call" span="479:15:479:31">isAssignableFrom</jtok>
+<jtok eid="10" type="primary_name_ref" span="479:33:479:41">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="480:11:480:20">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="480:23:480:33">VALID_CAST</jtok>
+<jtok eid="10" type="primary_name_ref" span="481:5:481:14">fromValue</jtok>
+<jtok eid="10" type="line_comment" span="483:3:483:58">// Can we use the proxy mechanism to cast a bsh.This to</jtok>
+<jtok eid="10" type="line_comment" span="484:3:484:28">// the correct interface?</jtok>
+<jtok eid="10" type="primary_name_ref" span="485:8:485:14">toType</jtok>
+<jtok eid="10" type="method_call" span="485:15:485:26">isInterface</jtok>
+<jtok eid="10" type="primary_name_ref" span="486:7:486:10">org</jtok>
+<jtok eid="10" type="qualified_name_ref" span="486:11:486:14">gjt</jtok>
+<jtok eid="10" type="qualified_name_ref" span="486:15:486:17">sp</jtok>
+<jtok eid="10" type="qualified_name_ref" span="486:18:486:23">jedit</jtok>
+<jtok eid="10" type="qualified_name_ref" span="486:24:486:27">bsh</jtok>
+<jtok eid="10" type="qualified_name_ref" span="486:28:486:32">This</jtok>
+<jtok eid="10" type="method_call" span="486:39:486:55">isAssignableFrom</jtok>
+<jtok eid="10" type="primary_name_ref" span="486:57:486:65">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="487:7:487:19">Capabilities</jtok>
+<jtok eid="10" type="method_call" span="487:20:487:41">canGenerateInterfaces</jtok>
+<jtok eid="10" type="primary_name_ref" span="489:11:489:20">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="489:23:489:33">VALID_CAST</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="490:7:490:10">org</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="490:11:490:14">gjt</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="490:15:490:17">sp</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="490:18:490:23">jedit</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="490:24:490:27">bsh</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="490:28:490:32">This</jtok>
+<jtok eid="10" type="primary_name_ref" span="490:33:490:42">fromValue</jtok>
+<jtok eid="10" type="method_call" span="490:44:490:56">getInterface</jtok>
+<jtok eid="10" type="primary_name_ref" span="490:58:490:64">toType</jtok>
+<jtok eid="10" type="line_comment" span="492:3:492:33">// Both numeric wrapper types?</jtok>
+<jtok eid="10" type="line_comment" span="493:3:493:46">// Try numeric style promotion wrapper cast</jtok>
+<jtok eid="10" type="primary_name_ref" span="494:8:494:17">Primitive</jtok>
+<jtok eid="10" type="method_call" span="494:18:494:31">isWrapperType</jtok>
+<jtok eid="10" type="primary_name_ref" span="494:33:494:39">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="495:7:495:16">Primitive</jtok>
+<jtok eid="10" type="method_call" span="495:17:495:30">isWrapperType</jtok>
+<jtok eid="10" type="primary_name_ref" span="495:32:495:40">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="497:11:497:20">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="497:23:497:33">VALID_CAST</jtok>
+<jtok eid="10" type="primary_name_ref" span="498:5:498:14">Primitive</jtok>
+<jtok eid="10" type="method_call" span="498:15:498:26">castWrapper</jtok>
+<jtok eid="10" type="primary_name_ref" span="498:28:498:34">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="498:36:498:45">fromValue</jtok>
+<jtok eid="10" type="primary_name_ref" span="500:8:500:17">checkOnly</jtok>
+<jtok eid="10" type="primary_name_ref" span="501:11:501:23">INVALID_CAST</jtok>
+<jtok eid="10" type="method_call" span="503:10:503:19">castError</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:21:503:27">toType</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:29:503:37">fromType</jtok>
+<jtok eid="10" type="primary_name_ref" span="503:40:503:49">operation</jtok>
+<jtok eid="1" type="block_comment" span="506:2:509:4">/**
+		Return a UtilEvalError or UtilTargetError wrapping a ClassCastException
+		describing an illegal assignment or illegal cast, respectively.	
+	*/</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="510:12:510:25">UtilEvalError</jtok>
+<jtok eid="11" type="method_name" span="510:26:510:35">castError</jtok>
+<jtok eid="11" type="parameter_type" span="511:3:511:8">Class</jtok>
+<jtok eid="11" type="parameter_name" span="511:9:511:16">lhsType</jtok>
+<jtok eid="11" type="parameter_type" span="511:18:511:23">Class</jtok>
+<jtok eid="11" type="parameter_name" span="511:24:511:31">rhsType</jtok>
+<jtok eid="11" type="parameter_name" span="511:37:511:46">operation</jtok>
+<jtok eid="11" type="method_call" span="513:10:513:19">castError</jtok>
+<jtok eid="11" type="primary_name_ref" span="514:4:514:11">Reflect</jtok>
+<jtok eid="11" type="method_call" span="514:12:514:30">normalizeClassName</jtok>
+<jtok eid="11" type="primary_name_ref" span="514:31:514:38">lhsType</jtok>
+<jtok eid="11" type="primary_name_ref" span="515:4:515:11">Reflect</jtok>
+<jtok eid="11" type="method_call" span="515:12:515:30">normalizeClassName</jtok>
+<jtok eid="11" type="primary_name_ref" span="515:31:515:38">rhsType</jtok>
+<jtok eid="11" type="primary_name_ref" span="515:41:515:50">operation</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="518:12:518:25">UtilEvalError</jtok>
+<jtok eid="12" type="method_name" span="518:26:518:35">castError</jtok>
+<jtok eid="12" type="parameter_type" span="519:3:519:9">String</jtok>
+<jtok eid="12" type="parameter_name" span="519:10:519:13">lhs</jtok>
+<jtok eid="12" type="parameter_type" span="519:15:519:21">String</jtok>
+<jtok eid="12" type="parameter_name" span="519:22:519:25">rhs</jtok>
+<jtok eid="12" type="parameter_name" span="519:31:519:40">operation</jtok>
+<jtok eid="12" type="primary_name_ref" span="521:8:521:17">operation</jtok>
+<jtok eid="12" type="primary_name_ref" span="521:21:521:31">ASSIGNMENT</jtok>
+<jtok eid="12" type="constructor_call" span="522:15:522:28">UtilEvalError</jtok>
+<jtok eid="12" type="string_literal" span="523:5:523:20">"Can't assign "</jtok>
+<jtok eid="12" type="primary_name_ref" span="523:23:523:26">rhs</jtok>
+<jtok eid="12" type="string_literal" span="523:29:523:35">" to "</jtok>
+<jtok eid="12" type="primary_name_ref" span="523:37:523:40">lhs</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="525:3:525:12">Exception</jtok>
+<jtok eid="12" type="local_variable_name" span="525:13:525:16">cce</jtok>
+<jtok eid="12" type="constructor_call" span="525:23:525:41">ClassCastException</jtok>
+<jtok eid="12" type="string_literal" span="526:4:526:18">"Cannot cast "</jtok>
+<jtok eid="12" type="primary_name_ref" span="526:21:526:24">rhs</jtok>
+<jtok eid="12" type="string_literal" span="526:27:526:33">" to "</jtok>
+<jtok eid="12" type="primary_name_ref" span="526:36:526:39">lhs</jtok>
+<jtok eid="12" type="constructor_call" span="527:14:527:29">UtilTargetError</jtok>
+<jtok eid="12" type="primary_name_ref" span="527:31:527:34">cce</jtok>
+</jdoc>

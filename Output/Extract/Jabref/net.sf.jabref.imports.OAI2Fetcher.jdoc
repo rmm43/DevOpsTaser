@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.imports.OAI2Fetcher" jls="java5">
+<jent id="0" type="file" span="0:0:316:1">Source/jabref/src/java/net/sf/jabref/imports/OAI2Fetcher.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:316:1">net.sf.jabref.imports.OAI2Fetcher</jent>
+<jent id="2" pid="1" type="method" span="73:5:75:5">net.sf.jabref.imports.OAI2Fetcher.shouldWait()</jent>
+<jent id="3" pid="1" type="method" span="96:5:112:5">net.sf.jabref.imports.OAI2Fetcher.OAI2Fetcher(String,String,String,String,String,long)</jent>
+<jent id="4" pid="1" type="method" span="118:5:121:5">net.sf.jabref.imports.OAI2Fetcher.OAI2Fetcher()</jent>
+<jent id="5" pid="1" type="method" span="131:5:146:5">net.sf.jabref.imports.OAI2Fetcher.constructUrl(String)</jent>
+<jent id="6" pid="1" type="method" span="154:5:167:5">net.sf.jabref.imports.OAI2Fetcher.fixKey(String)</jent>
+<jent id="7" pid="1" type="method" span="169:5:173:5">net.sf.jabref.imports.OAI2Fetcher.correctLineBreaks(String)</jent>
+<jent id="8" pid="1" type="method" span="183:5:233:5">net.sf.jabref.imports.OAI2Fetcher.importOai2Entry(String)</jent>
+<jent id="9" pid="1" type="method" span="235:5:238:5">net.sf.jabref.imports.OAI2Fetcher.getHelpPage()</jent>
+<jent id="10" pid="1" type="method" span="240:5:242:5">net.sf.jabref.imports.OAI2Fetcher.getIcon()</jent>
+<jent id="11" pid="1" type="method" span="244:5:246:5">net.sf.jabref.imports.OAI2Fetcher.getKeyName()</jent>
+<jent id="12" pid="1" type="method" span="248:5:251:5">net.sf.jabref.imports.OAI2Fetcher.getOptionsPanel()</jent>
+<jent id="13" pid="1" type="method" span="253:5:255:5">net.sf.jabref.imports.OAI2Fetcher.getTitle()</jent>
+<jent id="14" pid="1" type="method" span="257:5:311:5">net.sf.jabref.imports.OAI2Fetcher.processQuery(String,ImportInspector,OutputPrinter)</jent>
+<jent id="15" pid="1" type="method" span="313:5:315:5">net.sf.jabref.imports.OAI2Fetcher.stopFetching()</jent>
+<jtok eid="0" type="block_comment" span="27:1:37:4">/**
+ * 
+ * This class can be used to access any archive offering an OAI2 interface. By
+ * default it will access ArXiv.org
+ * 
+ * @author Ulrich St&amp;auml;rk
+ * @author Christian Kopf
+ * 
+ * @version $Revision: 3203 $ ($Date: 2010-03-04 19:05:17 +0100 (Thu, 04 Mar 2010) $)
+ * 
+ */</jtok>
+<jtok eid="1" type="class_name" span="38:14:38:25">OAI2Fetcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="38:37:38:49">EntryFetcher</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:25:40:31">String</jtok>
+<jtok eid="1" type="field_name" span="40:32:40:59">OAI2_ARXIV_PREFIXIDENTIFIER</jtok>
+<jtok eid="1" type="string_literal" span="40:62:40:82">"oai%3AarXiv.org%3A"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:25:42:31">String</jtok>
+<jtok eid="1" type="field_name" span="42:32:42:47">OAI2_ARXIV_HOST</jtok>
+<jtok eid="1" type="string_literal" span="42:50:42:68">"export.arxiv.org"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:25:44:31">String</jtok>
+<jtok eid="1" type="field_name" span="44:32:44:49">OAI2_ARXIV_SCRIPT</jtok>
+<jtok eid="1" type="string_literal" span="44:52:44:58">"oai2"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:25:46:31">String</jtok>
+<jtok eid="1" type="field_name" span="46:32:46:57">OAI2_ARXIV_METADATAPREFIX</jtok>
+<jtok eid="1" type="string_literal" span="46:60:46:67">"arXiv"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="48:25:48:31">String</jtok>
+<jtok eid="1" type="field_name" span="48:32:48:54">OAI2_ARXIV_ARCHIVENAME</jtok>
+<jtok eid="1" type="string_literal" span="48:57:48:68">"ArXiv.org"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="50:25:50:31">String</jtok>
+<jtok eid="1" type="field_name" span="50:32:50:53">OAI2_IDENTIFIER_FIELD</jtok>
+<jtok eid="1" type="string_literal" span="50:56:50:72">"oai2identifier"</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="52:13:52:29">SAXParserFactory</jtok>
+<jtok eid="1" type="field_name" span="52:30:52:43">parserFactory</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="54:13:54:22">SAXParser</jtok>
+<jtok eid="1" type="field_name" span="54:23:54:32">saxParser</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="56:13:56:19">String</jtok>
+<jtok eid="1" type="field_name" span="56:20:56:28">oai2Host</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:13:58:19">String</jtok>
+<jtok eid="1" type="field_name" span="58:20:58:30">oai2Script</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="60:13:60:19">String</jtok>
+<jtok eid="1" type="field_name" span="60:20:60:38">oai2MetaDataPrefix</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="62:13:62:19">String</jtok>
+<jtok eid="1" type="field_name" span="62:20:62:40">oai2PrefixIdentifier</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:13:64:19">String</jtok>
+<jtok eid="1" type="field_name" span="64:20:64:35">oai2ArchiveName</jtok>
+<jtok eid="1" type="field_name" span="66:21:66:35">shouldContinue</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="68:13:68:26">OutputPrinter</jtok>
+<jtok eid="1" type="field_name" span="68:27:68:33">status</jtok>
+<jtok eid="1" type="block_comment" span="70:5:72:8">/**
+     * some archives - like arxive.org - might expect of you to wait some time 
+     */</jtok>
+<jtok eid="2" type="method_name" span="73:21:73:31">shouldWait</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:16:74:24">waitTime</jtok>
+<jtok eid="1" type="field_name" span="77:18:77:26">waitTime</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="79:13:79:17">Date</jtok>
+<jtok eid="1" type="field_name" span="79:18:79:26">lastCall</jtok>
+<jtok eid="1" type="block_comment" span="81:5:95:8">/**
+     * 
+     * 
+     * @param oai2Host
+     *            the host to query without leading http:// and without trailing /
+     * @param oai2Script
+     *            the relative location of the oai2 interface without leading
+     *            and trailing /
+     * @param oai2Metadataprefix
+     *            the urlencoded metadataprefix
+     * @param oai2Prefixidentifier
+     *            the urlencoded prefix identifier
+     * @param waitTimeMs
+     *            Time to wait in milliseconds between query-requests.
+     */</jtok>
+<jtok eid="3" type="method_name" span="96:12:96:23">OAI2Fetcher</jtok>
+<jtok eid="3" type="parameter_type" span="96:24:96:30">String</jtok>
+<jtok eid="3" type="parameter_name" span="96:31:96:39">oai2Host</jtok>
+<jtok eid="3" type="parameter_type" span="96:41:96:47">String</jtok>
+<jtok eid="3" type="parameter_name" span="96:48:96:58">oai2Script</jtok>
+<jtok eid="3" type="parameter_type" span="96:60:96:66">String</jtok>
+<jtok eid="3" type="parameter_name" span="96:67:96:85">oai2Metadataprefix</jtok>
+<jtok eid="3" type="parameter_type" span="97:9:97:15">String</jtok>
+<jtok eid="3" type="parameter_name" span="97:16:97:36">oai2Prefixidentifier</jtok>
+<jtok eid="3" type="parameter_type" span="97:38:97:44">String</jtok>
+<jtok eid="3" type="parameter_name" span="97:45:97:60">oai2ArchiveName</jtok>
+<jtok eid="3" type="parameter_name" span="97:67:97:77">waitTimeMs</jtok>
+<jtok eid="3" type="qualified_name_ref" span="98:14:98:22">oai2Host</jtok>
+<jtok eid="3" type="primary_name_ref" span="98:25:98:33">oai2Host</jtok>
+<jtok eid="3" type="qualified_name_ref" span="99:14:99:24">oai2Script</jtok>
+<jtok eid="3" type="primary_name_ref" span="99:27:99:37">oai2Script</jtok>
+<jtok eid="3" type="qualified_name_ref" span="100:14:100:32">oai2MetaDataPrefix</jtok>
+<jtok eid="3" type="primary_name_ref" span="100:35:100:53">oai2Metadataprefix</jtok>
+<jtok eid="3" type="qualified_name_ref" span="101:14:101:34">oai2PrefixIdentifier</jtok>
+<jtok eid="3" type="primary_name_ref" span="101:37:101:57">oai2Prefixidentifier</jtok>
+<jtok eid="3" type="qualified_name_ref" span="102:14:102:29">oai2ArchiveName</jtok>
+<jtok eid="3" type="primary_name_ref" span="102:32:102:47">oai2ArchiveName</jtok>
+<jtok eid="3" type="qualified_name_ref" span="103:14:103:22">waitTime</jtok>
+<jtok eid="3" type="primary_name_ref" span="103:25:103:35">waitTimeMs</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:13:105:26">parserFactory</jtok>
+<jtok eid="3" type="primary_name_ref" span="105:29:105:45">SAXParserFactory</jtok>
+<jtok eid="3" type="method_call" span="105:46:105:57">newInstance</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:13:106:22">saxParser</jtok>
+<jtok eid="3" type="primary_name_ref" span="106:25:106:38">parserFactory</jtok>
+<jtok eid="3" type="method_call" span="106:39:106:51">newSAXParser</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="107:18:107:46">ParserConfigurationException</jtok>
+<jtok eid="3" type="local_variable_name" span="107:47:107:48">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="108:13:108:14">e</jtok>
+<jtok eid="3" type="method_call" span="108:15:108:30">printStackTrace</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="109:18:109:30">SAXException</jtok>
+<jtok eid="3" type="local_variable_name" span="109:31:109:32">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="110:13:110:14">e</jtok>
+<jtok eid="3" type="method_call" span="110:15:110:30">printStackTrace</jtok>
+<jtok eid="1" type="block_comment" span="114:5:117:8">/**
+     * Default Constructor. The archive queried will be ArXiv.org
+     * 
+     */</jtok>
+<jtok eid="4" type="method_name" span="118:12:118:23">OAI2Fetcher</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:14:119:29">OAI2_ARXIV_HOST</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:31:119:48">OAI2_ARXIV_SCRIPT</jtok>
+<jtok eid="4" type="primary_name_ref" span="119:50:119:75">OAI2_ARXIV_METADATAPREFIX</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:13:120:40">OAI2_ARXIV_PREFIXIDENTIFIER</jtok>
+<jtok eid="4" type="primary_name_ref" span="120:42:120:64">OAI2_ARXIV_ARCHIVENAME</jtok>
+<jtok eid="1" type="block_comment" span="123:5:130:8">/**
+     * Construct the query URL
+     * 
+     * @param key
+     *            The key of the OAI2 entry that the url should point to.
+     *            
+     * @return a String denoting the query URL
+     */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="131:12:131:18">String</jtok>
+<jtok eid="5" type="method_name" span="131:19:131:31">constructUrl</jtok>
+<jtok eid="5" type="parameter_type" span="131:32:131:38">String</jtok>
+<jtok eid="5" type="parameter_name" span="131:39:131:42">key</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="132:9:132:15">String</jtok>
+<jtok eid="5" type="local_variable_name" span="132:16:132:26">identifier</jtok>
+<jtok eid="5" type="string_literal" span="132:29:132:31">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:13:134:23">identifier</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:26:134:36">URLEncoder</jtok>
+<jtok eid="5" type="method_call" span="134:37:134:43">encode</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:44:134:47">key</jtok>
+<jtok eid="5" type="string_literal" span="134:49:134:56">"UTF-8"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="135:18:135:46">UnsupportedEncodingException</jtok>
+<jtok eid="5" type="local_variable_name" span="135:47:135:48">e</jtok>
+<jtok eid="5" type="string_literal" span="136:20:136:22">""</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="138:9:138:21">StringBuffer</jtok>
+<jtok eid="5" type="local_variable_name" span="138:22:138:24">sb</jtok>
+<jtok eid="5" type="constructor_call" span="138:31:138:43">StringBuffer</jtok>
+<jtok eid="5" type="string_literal" span="138:44:138:53">"http://"</jtok>
+<jtok eid="5" type="method_call" span="138:55:138:61">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="138:62:138:70">oai2Host</jtok>
+<jtok eid="5" type="method_call" span="138:72:138:78">append</jtok>
+<jtok eid="5" type="string_literal" span="138:79:138:82">"/"</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:9:139:11">sb</jtok>
+<jtok eid="5" type="method_call" span="139:12:139:18">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:19:139:29">oai2Script</jtok>
+<jtok eid="5" type="method_call" span="139:31:139:37">append</jtok>
+<jtok eid="5" type="string_literal" span="139:38:139:41">"?"</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:9:140:11">sb</jtok>
+<jtok eid="5" type="method_call" span="140:12:140:18">append</jtok>
+<jtok eid="5" type="string_literal" span="140:19:140:35">"verb=GetRecord"</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:9:141:11">sb</jtok>
+<jtok eid="5" type="method_call" span="141:12:141:18">append</jtok>
+<jtok eid="5" type="string_literal" span="141:19:141:33">"&amp;identifier="</jtok>
+<jtok eid="5" type="primary_name_ref" span="142:9:142:11">sb</jtok>
+<jtok eid="5" type="method_call" span="142:12:142:18">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="142:19:142:39">oai2PrefixIdentifier</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:9:143:11">sb</jtok>
+<jtok eid="5" type="method_call" span="143:12:143:18">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:19:143:29">identifier</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:9:144:11">sb</jtok>
+<jtok eid="5" type="method_call" span="144:12:144:18">append</jtok>
+<jtok eid="5" type="string_literal" span="144:19:144:37">"&amp;metadataPrefix="</jtok>
+<jtok eid="5" type="method_call" span="144:39:144:45">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="144:46:144:64">oai2MetaDataPrefix</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:16:145:18">sb</jtok>
+<jtok eid="5" type="method_call" span="145:19:145:27">toString</jtok>
+<jtok eid="1" type="block_comment" span="148:5:153:8">/**
+     * Strip subcategories from ArXiv key.
+     * 
+     * @param key The key to fix.
+     * @return Fixed key.
+     */</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="154:19:154:25">String</jtok>
+<jtok eid="6" type="method_name" span="154:26:154:32">fixKey</jtok>
+<jtok eid="6" type="parameter_type" span="154:33:154:39">String</jtok>
+<jtok eid="6" type="parameter_name" span="154:40:154:43">key</jtok>
+<jtok eid="6" type="primary_name_ref" span="156:13:156:16">key</jtok>
+<jtok eid="6" type="method_call" span="156:17:156:28">toLowerCase</jtok>
+<jtok eid="6" type="method_call" span="156:31:156:41">startsWith</jtok>
+<jtok eid="6" type="string_literal" span="156:42:156:50">"arxiv:"</jtok>
+<jtok eid="6" type="primary_name_ref" span="157:13:157:16">key</jtok>
+<jtok eid="6" type="primary_name_ref" span="157:19:157:22">key</jtok>
+<jtok eid="6" type="method_call" span="157:23:157:32">substring</jtok>
+<jtok eid="6" type="local_variable_name" span="160:13:160:16">dot</jtok>
+<jtok eid="6" type="primary_name_ref" span="160:19:160:22">key</jtok>
+<jtok eid="6" type="method_call" span="160:23:160:30">indexOf</jtok>
+<jtok eid="6" type="local_variable_name" span="161:13:161:18">slash</jtok>
+<jtok eid="6" type="primary_name_ref" span="161:21:161:24">key</jtok>
+<jtok eid="6" type="method_call" span="161:25:161:32">indexOf</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:13:163:16">dot</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:25:163:28">dot</jtok>
+<jtok eid="6" type="primary_name_ref" span="163:31:163:36">slash</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:13:164:16">key</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:19:164:22">key</jtok>
+<jtok eid="6" type="method_call" span="164:23:164:32">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:36:164:39">dot</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:43:164:46">key</jtok>
+<jtok eid="6" type="method_call" span="164:47:164:56">substring</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:57:164:62">slash</jtok>
+<jtok eid="6" type="primary_name_ref" span="164:64:164:67">key</jtok>
+<jtok eid="6" type="method_call" span="164:68:164:74">length</jtok>
+<jtok eid="6" type="primary_name_ref" span="166:16:166:19">key</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="169:19:169:25">String</jtok>
+<jtok eid="7" type="method_name" span="169:26:169:43">correctLineBreaks</jtok>
+<jtok eid="7" type="parameter_type" span="169:44:169:50">String</jtok>
+<jtok eid="7" type="parameter_name" span="169:51:169:52">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="170:9:170:10">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="170:13:170:14">s</jtok>
+<jtok eid="7" type="method_call" span="170:15:170:25">replaceAll</jtok>
+<jtok eid="7" type="string_literal" span="170:26:170:42">"\\n(?!\\s*\\n)"</jtok>
+<jtok eid="7" type="string_literal" span="170:44:170:47">" "</jtok>
+<jtok eid="7" type="primary_name_ref" span="171:9:171:10">s</jtok>
+<jtok eid="7" type="primary_name_ref" span="171:13:171:14">s</jtok>
+<jtok eid="7" type="method_call" span="171:15:171:25">replaceAll</jtok>
+<jtok eid="7" type="string_literal" span="171:26:171:39">"\\s*\\n\\s*"</jtok>
+<jtok eid="7" type="string_literal" span="171:41:171:45">"\n"</jtok>
+<jtok eid="7" type="primary_name_ref" span="172:16:172:17">s</jtok>
+<jtok eid="7" type="method_call" span="172:18:172:28">replaceAll</jtok>
+<jtok eid="7" type="string_literal" span="172:29:172:36">" {2,}"</jtok>
+<jtok eid="7" type="string_literal" span="172:38:172:41">" "</jtok>
+<jtok eid="7" type="method_call" span="172:43:172:53">replaceAll</jtok>
+<jtok eid="7" type="string_literal" span="172:54:172:69">"(^\\s*|\\s+$)"</jtok>
+<jtok eid="7" type="string_literal" span="172:71:172:73">""</jtok>
+<jtok eid="1" type="block_comment" span="175:5:182:8">/**
+     * Import an entry from an OAI2 archive. The BibtexEntry provided has to
+     * have the field OAI2_IDENTIFIER_FIELD set to the search string.
+     * 
+     * @param key
+     *            The OAI2 key to fetch from ArXiv.
+     * @return The imnported BibtexEntry or null if none.
+     */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="183:12:183:23">BibtexEntry</jtok>
+<jtok eid="8" type="method_name" span="183:24:183:39">importOai2Entry</jtok>
+<jtok eid="8" type="parameter_type" span="183:40:183:46">String</jtok>
+<jtok eid="8" type="parameter_name" span="183:47:183:50">key</jtok>
+<jtok eid="8" type="block_comment" span="184:9:187:12">/**
+         * Fix for problem reported in mailing-list: 
+         *   https://sourceforge.net/forum/message.php?msg_id=4087158
+         */</jtok>
+<jtok eid="8" type="primary_name_ref" span="188:9:188:12">key</jtok>
+<jtok eid="8" type="method_call" span="188:15:188:21">fixKey</jtok>
+<jtok eid="8" type="primary_name_ref" span="188:22:188:25">key</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="190:9:190:15">String</jtok>
+<jtok eid="8" type="local_variable_name" span="190:16:190:19">url</jtok>
+<jtok eid="8" type="method_call" span="190:22:190:34">constructUrl</jtok>
+<jtok eid="8" type="primary_name_ref" span="190:35:190:38">key</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="192:13:192:16">URL</jtok>
+<jtok eid="8" type="local_variable_name" span="192:17:192:24">oai2Url</jtok>
+<jtok eid="8" type="constructor_call" span="192:31:192:34">URL</jtok>
+<jtok eid="8" type="primary_name_ref" span="192:35:192:38">url</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="193:13:193:30">HttpURLConnection</jtok>
+<jtok eid="8" type="local_variable_name" span="193:31:193:45">oai2Connection</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="193:49:193:66">HttpURLConnection</jtok>
+<jtok eid="8" type="primary_name_ref" span="193:68:193:75">oai2Url</jtok>
+<jtok eid="8" type="method_call" span="193:76:193:90">openConnection</jtok>
+<jtok eid="8" type="primary_name_ref" span="194:13:194:27">oai2Connection</jtok>
+<jtok eid="8" type="method_call" span="194:28:194:46">setRequestProperty</jtok>
+<jtok eid="8" type="string_literal" span="194:47:194:59">"User-Agent"</jtok>
+<jtok eid="8" type="string_literal" span="194:61:194:69">"Jabref"</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="195:13:195:24">InputStream</jtok>
+<jtok eid="8" type="local_variable_name" span="195:25:195:36">inputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="195:39:195:53">oai2Connection</jtok>
+<jtok eid="8" type="method_call" span="195:54:195:68">getInputStream</jtok>
+<jtok eid="8" type="block_comment" span="197:13:197:79">/* create an empty BibtexEntry and set the oai2identifier field */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="198:13:198:24">BibtexEntry</jtok>
+<jtok eid="8" type="local_variable_name" span="198:25:198:27">be</jtok>
+<jtok eid="8" type="constructor_call" span="198:34:198:45">BibtexEntry</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:46:198:50">Util</jtok>
+<jtok eid="8" type="method_call" span="198:51:198:66">createNeutralId</jtok>
+<jtok eid="8" type="primary_name_ref" span="198:70:198:85">BibtexEntryType</jtok>
+<jtok eid="8" type="qualified_name_ref" span="198:86:198:93">ARTICLE</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:13:199:15">be</jtok>
+<jtok eid="8" type="method_call" span="199:16:199:24">setField</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:25:199:46">OAI2_IDENTIFIER_FIELD</jtok>
+<jtok eid="8" type="primary_name_ref" span="199:48:199:51">key</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="200:13:200:27">DefaultHandler</jtok>
+<jtok eid="8" type="local_variable_name" span="200:28:200:39">handlerBase</jtok>
+<jtok eid="8" type="constructor_call" span="200:46:200:57">OAI2Handler</jtok>
+<jtok eid="8" type="primary_name_ref" span="200:58:200:60">be</jtok>
+<jtok eid="8" type="block_comment" span="201:13:201:35">/* parse the result */</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:13:202:22">saxParser</jtok>
+<jtok eid="8" type="method_call" span="202:23:202:28">parse</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:29:202:40">inputStream</jtok>
+<jtok eid="8" type="primary_name_ref" span="202:42:202:53">handlerBase</jtok>
+<jtok eid="8" type="block_comment" span="204:13:204:50">/* Correct line breaks and spacing */</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="205:18:205:24">String</jtok>
+<jtok eid="8" type="local_variable_name" span="205:25:205:29">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="205:32:205:34">be</jtok>
+<jtok eid="8" type="method_call" span="205:35:205:47">getAllFields</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:17:206:19">be</jtok>
+<jtok eid="8" type="method_call" span="206:20:206:28">setField</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:29:206:33">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:35:206:46">OAI2Fetcher</jtok>
+<jtok eid="8" type="method_call" span="206:47:206:64">correctLineBreaks</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:65:206:67">be</jtok>
+<jtok eid="8" type="method_call" span="206:68:206:76">getField</jtok>
+<jtok eid="8" type="primary_name_ref" span="206:77:206:81">name</jtok>
+<jtok eid="8" type="method_call" span="206:83:206:91">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="209:17:209:20">key</jtok>
+<jtok eid="8" type="method_call" span="209:21:209:28">matches</jtok>
+<jtok eid="8" type="string_literal" span="209:29:209:48">"\\d\\d\\d\\d\\..*"</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:17:210:19">be</jtok>
+<jtok eid="8" type="method_call" span="210:20:210:28">setField</jtok>
+<jtok eid="8" type="string_literal" span="210:29:210:35">"year"</jtok>
+<jtok eid="8" type="string_literal" span="210:37:210:41">"20"</jtok>
+<jtok eid="8" type="primary_name_ref" span="210:44:210:47">key</jtok>
+<jtok eid="8" type="method_call" span="210:48:210:57">substring</jtok>
+<jtok eid="8" type="local_variable_name" span="212:21:212:26">month</jtok>
+<jtok eid="8" type="primary_name_ref" span="212:29:212:36">Integer</jtok>
+<jtok eid="8" type="method_call" span="212:37:212:45">parseInt</jtok>
+<jtok eid="8" type="primary_name_ref" span="212:46:212:49">key</jtok>
+<jtok eid="8" type="method_call" span="212:50:212:59">substring</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:21:213:26">month</jtok>
+<jtok eid="8" type="primary_name_ref" span="213:35:213:40">month</jtok>
+<jtok eid="8" type="primary_name_ref" span="214:21:214:23">be</jtok>
+<jtok eid="8" type="method_call" span="214:24:214:32">setField</jtok>
+<jtok eid="8" type="string_literal" span="214:33:214:40">"month"</jtok>
+<jtok eid="8" type="string_literal" span="214:42:214:45">"#"</jtok>
+<jtok eid="8" type="primary_name_ref" span="214:48:214:55">Globals</jtok>
+<jtok eid="8" type="qualified_name_ref" span="214:56:214:62">MONTHS</jtok>
+<jtok eid="8" type="primary_name_ref" span="214:63:214:68">month</jtok>
+<jtok eid="8" type="string_literal" span="214:76:214:79">"#"</jtok>
+<jtok eid="8" type="primary_name_ref" span="218:20:218:22">be</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="219:18:219:29">IOException</jtok>
+<jtok eid="8" type="local_variable_name" span="219:30:219:31">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="220:13:220:19">status</jtok>
+<jtok eid="8" type="method_call" span="220:20:220:31">showMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="220:32:220:39">Globals</jtok>
+<jtok eid="8" type="method_call" span="220:40:220:44">lang</jtok>
+<jtok eid="8" type="string_literal" span="221:17:221:60">"An Exception ocurred while accessing '%0'"</jtok>
+<jtok eid="8" type="primary_name_ref" span="221:62:221:65">url</jtok>
+<jtok eid="8" type="string_literal" span="222:19:222:25">"\n\n"</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:28:222:29">e</jtok>
+<jtok eid="8" type="method_call" span="222:30:222:38">toString</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:42:222:49">Globals</jtok>
+<jtok eid="8" type="method_call" span="222:50:222:54">lang</jtok>
+<jtok eid="8" type="method_call" span="222:55:222:65">getKeyName</jtok>
+<jtok eid="8" type="primary_name_ref" span="222:70:222:81">JOptionPane</jtok>
+<jtok eid="8" type="qualified_name_ref" span="222:82:222:95">ERROR_MESSAGE</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="223:18:223:30">SAXException</jtok>
+<jtok eid="8" type="local_variable_name" span="223:31:223:32">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:13:224:19">status</jtok>
+<jtok eid="8" type="method_call" span="224:20:224:31">showMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:32:224:39">Globals</jtok>
+<jtok eid="8" type="method_call" span="224:40:224:44">lang</jtok>
+<jtok eid="8" type="string_literal" span="225:17:225:62">"An SAXException ocurred while parsing '%0':"</jtok>
+<jtok eid="8" type="constructor_call" span="225:68:225:74">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:77:225:80">url</jtok>
+<jtok eid="8" type="string_literal" span="226:19:226:25">"\n\n"</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:28:226:29">e</jtok>
+<jtok eid="8" type="method_call" span="226:30:226:40">getMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:44:226:51">Globals</jtok>
+<jtok eid="8" type="method_call" span="226:52:226:56">lang</jtok>
+<jtok eid="8" type="method_call" span="226:57:226:67">getKeyName</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:72:226:83">JOptionPane</jtok>
+<jtok eid="8" type="qualified_name_ref" span="226:84:226:97">ERROR_MESSAGE</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="227:18:227:34">RuntimeException</jtok>
+<jtok eid="8" type="local_variable_name" span="227:35:227:36">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="228:13:228:19">status</jtok>
+<jtok eid="8" type="method_call" span="228:20:228:31">showMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="228:32:228:39">Globals</jtok>
+<jtok eid="8" type="method_call" span="228:40:228:44">lang</jtok>
+<jtok eid="8" type="string_literal" span="229:17:229:74">"An Error occurred while fetching from OAI2 source (%0):"</jtok>
+<jtok eid="8" type="constructor_call" span="229:80:229:86">String</jtok>
+<jtok eid="8" type="primary_name_ref" span="229:89:229:92">url</jtok>
+<jtok eid="8" type="string_literal" span="230:19:230:25">"\n\n"</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:28:230:29">e</jtok>
+<jtok eid="8" type="method_call" span="230:30:230:40">getMessage</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:44:230:51">Globals</jtok>
+<jtok eid="8" type="method_call" span="230:52:230:56">lang</jtok>
+<jtok eid="8" type="method_call" span="230:57:230:67">getKeyName</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:72:230:83">JOptionPane</jtok>
+<jtok eid="8" type="qualified_name_ref" span="230:84:230:97">ERROR_MESSAGE</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="235:12:235:18">String</jtok>
+<jtok eid="9" type="method_name" span="235:19:235:30">getHelpPage</jtok>
+<jtok eid="9" type="line_comment" span="236:9:236:32">// there is no helppage</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="240:12:240:15">URL</jtok>
+<jtok eid="10" type="method_name" span="240:16:240:23">getIcon</jtok>
+<jtok eid="10" type="primary_name_ref" span="241:16:241:26">GUIGlobals</jtok>
+<jtok eid="10" type="method_call" span="241:27:241:37">getIconUrl</jtok>
+<jtok eid="10" type="string_literal" span="241:38:241:43">"www"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="244:12:244:18">String</jtok>
+<jtok eid="11" type="method_name" span="244:19:244:29">getKeyName</jtok>
+<jtok eid="11" type="string_literal" span="245:16:245:24">"Fetch "</jtok>
+<jtok eid="11" type="primary_name_ref" span="245:27:245:42">oai2ArchiveName</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="248:12:248:18">JPanel</jtok>
+<jtok eid="12" type="method_name" span="248:19:248:34">getOptionsPanel</jtok>
+<jtok eid="12" type="line_comment" span="249:9:249:41">// we have no additional options</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="253:12:253:18">String</jtok>
+<jtok eid="13" type="method_name" span="253:19:253:27">getTitle</jtok>
+<jtok eid="13" type="primary_name_ref" span="254:16:254:23">Globals</jtok>
+<jtok eid="13" type="method_call" span="254:24:254:33">menuTitle</jtok>
+<jtok eid="13" type="method_call" span="254:34:254:44">getKeyName</jtok>
+<jtok eid="14" type="method_name" span="257:20:257:32">processQuery</jtok>
+<jtok eid="14" type="parameter_type" span="257:33:257:39">String</jtok>
+<jtok eid="14" type="parameter_name" span="257:40:257:45">query</jtok>
+<jtok eid="14" type="parameter_type" span="257:47:257:62">ImportInspector</jtok>
+<jtok eid="14" type="parameter_name" span="257:63:257:69">dialog</jtok>
+<jtok eid="14" type="parameter_type" span="257:71:257:84">OutputPrinter</jtok>
+<jtok eid="14" type="parameter_name" span="257:85:257:91">status</jtok>
+<jtok eid="14" type="qualified_name_ref" span="259:14:259:20">status</jtok>
+<jtok eid="14" type="primary_name_ref" span="259:23:259:29">status</jtok>
+<jtok eid="14" type="primary_name_ref" span="262:13:262:27">shouldContinue</jtok>
+<jtok eid="14" type="block_comment" span="264:13:264:63">/* multiple keys can be delimited by ; or space */</jtok>
+<jtok eid="14" type="primary_name_ref" span="265:13:265:18">query</jtok>
+<jtok eid="14" type="primary_name_ref" span="265:21:265:26">query</jtok>
+<jtok eid="14" type="method_call" span="265:27:265:37">replaceAll</jtok>
+<jtok eid="14" type="string_literal" span="265:38:265:41">" "</jtok>
+<jtok eid="14" type="string_literal" span="265:43:265:46">";"</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="266:13:266:19">String</jtok>
+<jtok eid="14" type="local_variable_name" span="266:22:266:26">keys</jtok>
+<jtok eid="14" type="primary_name_ref" span="266:29:266:34">query</jtok>
+<jtok eid="14" type="method_call" span="266:35:266:40">split</jtok>
+<jtok eid="14" type="string_literal" span="266:41:266:44">";"</jtok>
+<jtok eid="14" type="local_variable_name" span="267:22:267:23">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="267:29:267:30">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="267:33:267:37">keys</jtok>
+<jtok eid="14" type="qualified_name_ref" span="267:38:267:44">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="267:46:267:47">i</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="268:17:268:23">String</jtok>
+<jtok eid="14" type="local_variable_name" span="268:24:268:27">key</jtok>
+<jtok eid="14" type="primary_name_ref" span="268:30:268:34">keys</jtok>
+<jtok eid="14" type="primary_name_ref" span="268:35:268:36">i</jtok>
+<jtok eid="14" type="block_comment" span="270:17:273:20">/*
+                 * some archives - like arxive.org - might expect of you to wait
+                 * some time
+                 */</jtok>
+<jtok eid="14" type="method_call" span="274:21:274:31">shouldWait</jtok>
+<jtok eid="14" type="primary_name_ref" span="274:37:274:45">lastCall</jtok>
+<jtok eid="14" type="local_variable_name" span="276:26:276:33">elapsed</jtok>
+<jtok eid="14" type="constructor_call" span="276:40:276:44">Date</jtok>
+<jtok eid="14" type="method_call" span="276:47:276:54">getTime</jtok>
+<jtok eid="14" type="primary_name_ref" span="276:59:276:67">lastCall</jtok>
+<jtok eid="14" type="method_call" span="276:68:276:75">getTime</jtok>
+<jtok eid="14" type="primary_name_ref" span="278:28:278:35">elapsed</jtok>
+<jtok eid="14" type="primary_name_ref" span="278:38:278:46">waitTime</jtok>
+<jtok eid="14" type="primary_name_ref" span="279:25:279:31">status</jtok>
+<jtok eid="14" type="method_call" span="279:32:279:41">setStatus</jtok>
+<jtok eid="14" type="primary_name_ref" span="279:42:279:49">Globals</jtok>
+<jtok eid="14" type="method_call" span="279:50:279:54">lang</jtok>
+<jtok eid="14" type="string_literal" span="279:55:279:77">"Waiting for ArXiv..."</jtok>
+<jtok eid="14" type="primary_name_ref" span="279:83:279:91">waitTime</jtok>
+<jtok eid="14" type="primary_name_ref" span="279:94:279:101">elapsed</jtok>
+<jtok eid="14" type="string_literal" span="279:113:279:117">" s"</jtok>
+<jtok eid="14" type="primary_name_ref" span="280:25:280:31">Thread</jtok>
+<jtok eid="14" type="method_call" span="280:32:280:37">sleep</jtok>
+<jtok eid="14" type="primary_name_ref" span="281:25:281:32">elapsed</jtok>
+<jtok eid="14" type="constructor_call" span="281:39:281:43">Date</jtok>
+<jtok eid="14" type="method_call" span="281:46:281:53">getTime</jtok>
+<jtok eid="14" type="primary_name_ref" span="281:58:281:66">lastCall</jtok>
+<jtok eid="14" type="method_call" span="281:67:281:74">getTime</jtok>
+<jtok eid="14" type="primary_name_ref" span="285:17:285:23">status</jtok>
+<jtok eid="14" type="method_call" span="285:24:285:33">setStatus</jtok>
+<jtok eid="14" type="primary_name_ref" span="285:34:285:41">Globals</jtok>
+<jtok eid="14" type="method_call" span="285:42:285:46">lang</jtok>
+<jtok eid="14" type="string_literal" span="285:47:285:60">"Processing "</jtok>
+<jtok eid="14" type="primary_name_ref" span="285:64:285:67">key</jtok>
+<jtok eid="14" type="block_comment" span="287:17:287:53">/* the cancel button has been hit */</jtok>
+<jtok eid="14" type="primary_name_ref" span="288:22:288:36">shouldContinue</jtok>
+<jtok eid="14" type="block_comment" span="291:17:291:82">/* query the archive and load the results into the BibtexEntry */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="292:17:292:28">BibtexEntry</jtok>
+<jtok eid="14" type="local_variable_name" span="292:29:292:31">be</jtok>
+<jtok eid="14" type="method_call" span="292:34:292:49">importOai2Entry</jtok>
+<jtok eid="14" type="primary_name_ref" span="292:50:292:53">key</jtok>
+<jtok eid="14" type="method_call" span="294:21:294:31">shouldWait</jtok>
+<jtok eid="14" type="primary_name_ref" span="295:21:295:29">lastCall</jtok>
+<jtok eid="14" type="constructor_call" span="295:36:295:40">Date</jtok>
+<jtok eid="14" type="block_comment" span="297:17:297:61">/* add the entry to the inspection dialog */</jtok>
+<jtok eid="14" type="primary_name_ref" span="298:21:298:23">be</jtok>
+<jtok eid="14" type="primary_name_ref" span="299:21:299:27">dialog</jtok>
+<jtok eid="14" type="method_call" span="299:28:299:36">addEntry</jtok>
+<jtok eid="14" type="primary_name_ref" span="299:37:299:39">be</jtok>
+<jtok eid="14" type="block_comment" span="301:17:301:54">/* update the dialogs progress bar */</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:17:302:23">dialog</jtok>
+<jtok eid="14" type="method_call" span="302:24:302:35">setProgress</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:36:302:37">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="302:43:302:47">keys</jtok>
+<jtok eid="14" type="qualified_name_ref" span="302:48:302:54">length</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="306:18:306:27">Exception</jtok>
+<jtok eid="14" type="local_variable_name" span="306:28:306:29">e</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:13:307:19">status</jtok>
+<jtok eid="14" type="method_call" span="307:20:307:29">setStatus</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:30:307:37">Globals</jtok>
+<jtok eid="14" type="method_call" span="307:38:307:42">lang</jtok>
+<jtok eid="14" type="string_literal" span="307:43:307:75">"Error while fetching from OIA2"</jtok>
+<jtok eid="14" type="string_literal" span="307:78:307:82">": "</jtok>
+<jtok eid="14" type="primary_name_ref" span="307:85:307:86">e</jtok>
+<jtok eid="14" type="method_call" span="307:87:307:97">getMessage</jtok>
+<jtok eid="14" type="primary_name_ref" span="308:13:308:14">e</jtok>
+<jtok eid="14" type="method_call" span="308:15:308:30">printStackTrace</jtok>
+<jtok eid="15" type="method_name" span="313:17:313:29">stopFetching</jtok>
+<jtok eid="15" type="primary_name_ref" span="314:9:314:23">shouldContinue</jtok>
+</jdoc>

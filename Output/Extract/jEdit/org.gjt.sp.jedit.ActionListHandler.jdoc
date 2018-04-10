@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.ActionListHandler" jls="java5">
+<jent id="0" type="file" span="0:0:197:2">Source/jEdit/org/gjt/sp/jedit/ActionListHandler.java</jent>
+<jent id="1" pid="0" type="class" span="41:1:197:1">org.gjt.sp.jedit.ActionListHandler</jent>
+<jent id="2" pid="1" type="method" span="44:2:51:2">org.gjt.sp.jedit.ActionListHandler.ActionListHandler(String,JEditActionSet)</jent>
+<jent id="3" pid="1" type="method" span="55:2:58:2">org.gjt.sp.jedit.ActionListHandler.resolveEntity(String,String)</jent>
+<jent id="4" pid="1" type="method" span="61:2:74:2">org.gjt.sp.jedit.ActionListHandler.attribute(String,String,boolean)</jent>
+<jent id="5" pid="1" type="method" span="78:2:89:2">org.gjt.sp.jedit.ActionListHandler.characters(char[],int,int)</jent>
+<jent id="6" pid="1" type="method" span="93:2:107:2">org.gjt.sp.jedit.ActionListHandler.startElement(String,String,String,Attributes)</jent>
+<jent id="7" pid="1" type="method" span="111:2:141:2">org.gjt.sp.jedit.ActionListHandler.endElement(String,String,String)</jent>
+<jent id="8" pid="1" type="method" span="145:2:155:2">org.gjt.sp.jedit.ActionListHandler.startDocument()</jent>
+<jent id="9" pid="1" type="method" span="175:2:182:2">org.gjt.sp.jedit.ActionListHandler.pushElement(String)</jent>
+<jent id="10" pid="1" type="method" span="185:2:188:2">org.gjt.sp.jedit.ActionListHandler.peekElement()</jent>
+<jent id="11" pid="1" type="method" span="191:2:194:2">org.gjt.sp.jedit.ActionListHandler.popElement()</jent>
+<jtok eid="0" type="block_comment" span="1:1:22:4">/*
+ * ActionListHandler.java - XML handler for action files
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2001 Slava Pestov
+ * Portions copyright (C) 1999 mike dillon
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="26:1:26:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="35:1:35:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="37:1:40:4">/**
+ * This class loads the actions.xml files into a {@link JEditActionSet}. * @author Slava Pestov
+ * @author Mike Dillon
+ */</jtok>
+<jtok eid="1" type="class_name" span="41:7:41:24">ActionListHandler</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:33:41:47">DefaultHandler</jtok>
+<jtok eid="1" type="line_comment" span="43:2:43:37">//{{{ ActionListHandler constructor</jtok>
+<jtok eid="2" type="method_name" span="44:2:44:19">ActionListHandler</jtok>
+<jtok eid="2" type="parameter_type" span="44:20:44:26">String</jtok>
+<jtok eid="2" type="parameter_name" span="44:27:44:31">path</jtok>
+<jtok eid="2" type="parameter_type" span="44:33:44:47">JEditActionSet</jtok>
+<jtok eid="2" type="parameter_name" span="44:48:44:57">actionSet</jtok>
+<jtok eid="2" type="qualified_name_ref" span="46:8:46:12">path</jtok>
+<jtok eid="2" type="primary_name_ref" span="46:15:46:19">path</jtok>
+<jtok eid="2" type="qualified_name_ref" span="47:8:47:17">actionSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="47:20:47:29">actionSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="48:3:48:13">stateStack</jtok>
+<jtok eid="2" type="constructor_call" span="48:20:48:25">Stack</jtok>
+<jtok eid="2" type="constructor_call" span="48:26:48:32">String</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:3:49:7">code</jtok>
+<jtok eid="2" type="constructor_call" span="49:14:49:27">StringBuilder</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:3:50:13">isSelected</jtok>
+<jtok eid="2" type="constructor_call" span="50:20:50:33">StringBuilder</jtok>
+<jtok eid="1" type="line_comment" span="51:4:51:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="53:2:53:30">//{{{ resolveEntity() method</jtok>
+<jtok eid="1" type="annotation_ref" span="54:3:54:11">Override</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="55:9:55:20">InputSource</jtok>
+<jtok eid="3" type="method_name" span="55:21:55:34">resolveEntity</jtok>
+<jtok eid="3" type="parameter_type" span="55:35:55:41">String</jtok>
+<jtok eid="3" type="parameter_name" span="55:42:55:50">publicId</jtok>
+<jtok eid="3" type="parameter_type" span="55:52:55:58">String</jtok>
+<jtok eid="3" type="parameter_name" span="55:59:55:67">systemId</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:10:57:22">XMLUtilities</jtok>
+<jtok eid="3" type="method_call" span="57:23:57:33">findEntity</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:34:57:42">systemId</jtok>
+<jtok eid="3" type="string_literal" span="57:44:57:57">"actions.dtd"</jtok>
+<jtok eid="3" type="method_call" span="57:59:57:67">getClass</jtok>
+<jtok eid="1" type="line_comment" span="58:4:58:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="60:2:60:26">//{{{ attribute() method</jtok>
+<jtok eid="4" type="method_name" span="61:14:61:23">attribute</jtok>
+<jtok eid="4" type="parameter_type" span="61:24:61:30">String</jtok>
+<jtok eid="4" type="parameter_name" span="61:31:61:36">aname</jtok>
+<jtok eid="4" type="parameter_type" span="61:38:61:44">String</jtok>
+<jtok eid="4" type="parameter_name" span="61:45:61:50">value</jtok>
+<jtok eid="4" type="parameter_name" span="61:60:61:71">isSpecified</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:3:63:8">aname</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:12:63:17">aname</jtok>
+<jtok eid="4" type="primary_name_ref" span="63:36:63:41">aname</jtok>
+<jtok eid="4" type="method_call" span="63:42:63:48">intern</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:3:64:8">value</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:12:64:17">value</jtok>
+<jtok eid="4" type="primary_name_ref" span="64:36:64:41">value</jtok>
+<jtok eid="4" type="method_call" span="64:42:64:48">intern</jtok>
+<jtok eid="4" type="primary_name_ref" span="66:6:66:11">aname</jtok>
+<jtok eid="4" type="string_literal" span="66:15:66:21">"NAME"</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:4:67:14">actionName</jtok>
+<jtok eid="4" type="primary_name_ref" span="67:17:67:22">value</jtok>
+<jtok eid="4" type="primary_name_ref" span="68:11:68:16">aname</jtok>
+<jtok eid="4" type="string_literal" span="68:20:68:31">"NO_REPEAT"</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:4:69:12">noRepeat</jtok>
+<jtok eid="4" type="primary_name_ref" span="69:16:69:21">value</jtok>
+<jtok eid="4" type="string_literal" span="69:25:69:31">"TRUE"</jtok>
+<jtok eid="4" type="primary_name_ref" span="70:11:70:16">aname</jtok>
+<jtok eid="4" type="string_literal" span="70:20:70:31">"NO_RECORD"</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:4:71:12">noRecord</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:16:71:21">value</jtok>
+<jtok eid="4" type="string_literal" span="71:25:71:31">"TRUE"</jtok>
+<jtok eid="4" type="primary_name_ref" span="72:11:72:16">aname</jtok>
+<jtok eid="4" type="string_literal" span="72:20:72:38">"NO_REMEMBER_LAST"</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:4:73:18">noRememberLast</jtok>
+<jtok eid="4" type="primary_name_ref" span="73:22:73:27">value</jtok>
+<jtok eid="4" type="string_literal" span="73:31:73:37">"TRUE"</jtok>
+<jtok eid="1" type="line_comment" span="74:4:74:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="76:2:76:27">//{{{ characters() method</jtok>
+<jtok eid="1" type="annotation_ref" span="77:3:77:11">Override</jtok>
+<jtok eid="5" type="method_name" span="78:14:78:24">characters</jtok>
+<jtok eid="5" type="parameter_name" span="78:32:78:33">c</jtok>
+<jtok eid="5" type="parameter_name" span="78:39:78:42">off</jtok>
+<jtok eid="5" type="parameter_name" span="78:48:78:51">len</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="80:3:80:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="80:10:80:13">tag</jtok>
+<jtok eid="5" type="method_call" span="80:16:80:27">peekElement</jtok>
+<jtok eid="5" type="primary_name_ref" span="81:7:81:10">tag</jtok>
+<jtok eid="5" type="method_call" span="81:11:81:17">equals</jtok>
+<jtok eid="5" type="string_literal" span="81:18:81:24">"CODE"</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:4:83:8">code</jtok>
+<jtok eid="5" type="method_call" span="83:9:83:15">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:16:83:17">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:19:83:22">off</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:24:83:27">len</jtok>
+<jtok eid="5" type="primary_name_ref" span="85:12:85:15">tag</jtok>
+<jtok eid="5" type="method_call" span="85:16:85:22">equals</jtok>
+<jtok eid="5" type="string_literal" span="85:23:85:36">"IS_SELECTED"</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:4:87:14">isSelected</jtok>
+<jtok eid="5" type="method_call" span="87:15:87:21">append</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:22:87:23">c</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:25:87:28">off</jtok>
+<jtok eid="5" type="primary_name_ref" span="87:30:87:33">len</jtok>
+<jtok eid="1" type="line_comment" span="89:4:89:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="91:2:91:29">//{{{ startElement() method</jtok>
+<jtok eid="1" type="annotation_ref" span="92:3:92:11">Override</jtok>
+<jtok eid="6" type="method_name" span="93:14:93:26">startElement</jtok>
+<jtok eid="6" type="parameter_type" span="93:27:93:33">String</jtok>
+<jtok eid="6" type="parameter_name" span="93:34:93:37">uri</jtok>
+<jtok eid="6" type="parameter_type" span="93:39:93:45">String</jtok>
+<jtok eid="6" type="parameter_name" span="93:46:93:55">localName</jtok>
+<jtok eid="6" type="parameter_type" span="94:6:94:12">String</jtok>
+<jtok eid="6" type="parameter_name" span="94:13:94:18">qName</jtok>
+<jtok eid="6" type="parameter_type" span="94:20:94:30">Attributes</jtok>
+<jtok eid="6" type="parameter_name" span="94:31:94:36">attrs</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="96:3:96:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="96:10:96:13">tag</jtok>
+<jtok eid="6" type="method_call" span="96:16:96:27">pushElement</jtok>
+<jtok eid="6" type="primary_name_ref" span="96:28:96:33">qName</jtok>
+<jtok eid="6" type="primary_name_ref" span="98:7:98:10">tag</jtok>
+<jtok eid="6" type="method_call" span="98:11:98:17">equals</jtok>
+<jtok eid="6" type="string_literal" span="98:18:98:26">"ACTION"</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:4:100:14">actionName</jtok>
+<jtok eid="6" type="primary_name_ref" span="100:17:100:22">attrs</jtok>
+<jtok eid="6" type="method_call" span="100:23:100:31">getValue</jtok>
+<jtok eid="6" type="string_literal" span="100:32:100:38">"NAME"</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:4:101:12">noRepeat</jtok>
+<jtok eid="6" type="string_literal" span="101:15:101:21">"TRUE"</jtok>
+<jtok eid="6" type="method_call" span="101:22:101:28">equals</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:29:101:34">attrs</jtok>
+<jtok eid="6" type="method_call" span="101:35:101:43">getValue</jtok>
+<jtok eid="6" type="string_literal" span="101:44:101:55">"NO_REPEAT"</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:4:102:12">noRecord</jtok>
+<jtok eid="6" type="string_literal" span="102:15:102:21">"TRUE"</jtok>
+<jtok eid="6" type="method_call" span="102:22:102:28">equals</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:29:102:34">attrs</jtok>
+<jtok eid="6" type="method_call" span="102:35:102:43">getValue</jtok>
+<jtok eid="6" type="string_literal" span="102:44:102:55">"NO_RECORD"</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:4:103:18">noRememberLast</jtok>
+<jtok eid="6" type="string_literal" span="103:21:103:27">"TRUE"</jtok>
+<jtok eid="6" type="method_call" span="103:28:103:34">equals</jtok>
+<jtok eid="6" type="primary_name_ref" span="103:35:103:40">attrs</jtok>
+<jtok eid="6" type="method_call" span="103:41:103:49">getValue</jtok>
+<jtok eid="6" type="string_literal" span="103:50:103:68">"NO_REMEMBER_LAST"</jtok>
+<jtok eid="6" type="primary_name_ref" span="104:4:104:8">code</jtok>
+<jtok eid="6" type="method_call" span="104:9:104:18">setLength</jtok>
+<jtok eid="6" type="primary_name_ref" span="105:4:105:14">isSelected</jtok>
+<jtok eid="6" type="method_call" span="105:15:105:24">setLength</jtok>
+<jtok eid="1" type="line_comment" span="107:4:107:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="109:2:109:27">//{{{ endElement() method</jtok>
+<jtok eid="1" type="annotation_ref" span="110:3:110:11">Override</jtok>
+<jtok eid="7" type="method_name" span="111:14:111:24">endElement</jtok>
+<jtok eid="7" type="parameter_type" span="111:25:111:31">String</jtok>
+<jtok eid="7" type="parameter_name" span="111:32:111:35">uri</jtok>
+<jtok eid="7" type="parameter_type" span="111:37:111:43">String</jtok>
+<jtok eid="7" type="parameter_name" span="111:44:111:53">localName</jtok>
+<jtok eid="7" type="parameter_type" span="111:55:111:61">String</jtok>
+<jtok eid="7" type="parameter_name" span="111:62:111:67">qName</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="113:3:113:9">String</jtok>
+<jtok eid="7" type="local_variable_name" span="113:10:113:13">tag</jtok>
+<jtok eid="7" type="method_call" span="113:16:113:27">peekElement</jtok>
+<jtok eid="7" type="primary_name_ref" span="115:7:115:12">qName</jtok>
+<jtok eid="7" type="method_call" span="115:13:115:19">equals</jtok>
+<jtok eid="7" type="primary_name_ref" span="115:20:115:23">tag</jtok>
+<jtok eid="7" type="primary_name_ref" span="117:8:117:11">tag</jtok>
+<jtok eid="7" type="method_call" span="117:12:117:18">equals</jtok>
+<jtok eid="7" type="string_literal" span="117:19:117:27">"ACTION"</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="119:5:119:11">String</jtok>
+<jtok eid="7" type="local_variable_name" span="119:12:119:20">selected</jtok>
+<jtok eid="7" type="primary_name_ref" span="119:24:119:34">isSelected</jtok>
+<jtok eid="7" type="method_call" span="119:35:119:41">length</jtok>
+<jtok eid="7" type="primary_name_ref" span="120:6:120:16">isSelected</jtok>
+<jtok eid="7" type="method_call" span="120:17:120:25">toString</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="121:5:121:28">JEditAbstractEditAction</jtok>
+<jtok eid="7" type="local_variable_name" span="121:29:121:35">action</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:6:122:15">actionSet</jtok>
+<jtok eid="7" type="method_call" span="122:16:122:37">createBeanShellAction</jtok>
+<jtok eid="7" type="primary_name_ref" span="122:38:122:48">actionName</jtok>
+<jtok eid="7" type="primary_name_ref" span="123:10:123:14">code</jtok>
+<jtok eid="7" type="method_call" span="123:15:123:23">toString</jtok>
+<jtok eid="7" type="primary_name_ref" span="124:10:124:18">selected</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:10:125:18">noRepeat</jtok>
+<jtok eid="7" type="primary_name_ref" span="126:10:126:18">noRecord</jtok>
+<jtok eid="7" type="primary_name_ref" span="127:10:127:24">noRememberLast</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:5:128:14">actionSet</jtok>
+<jtok eid="7" type="method_call" span="128:15:128:24">addAction</jtok>
+<jtok eid="7" type="primary_name_ref" span="128:25:128:31">action</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:5:129:13">noRepeat</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:16:129:24">noRecord</jtok>
+<jtok eid="7" type="primary_name_ref" span="129:27:129:41">noRememberLast</jtok>
+<jtok eid="7" type="primary_name_ref" span="130:5:130:9">code</jtok>
+<jtok eid="7" type="method_call" span="130:10:130:19">setLength</jtok>
+<jtok eid="7" type="primary_name_ref" span="131:5:131:15">isSelected</jtok>
+<jtok eid="7" type="method_call" span="131:16:131:25">setLength</jtok>
+<jtok eid="7" type="method_call" span="134:4:134:14">popElement</jtok>
+<jtok eid="7" type="line_comment" span="138:4:138:19">// can't happen</jtok>
+<jtok eid="7" type="constructor_call" span="139:14:139:27">InternalError</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:30">//{{{ startDocument() method</jtok>
+<jtok eid="1" type="annotation_ref" span="144:3:144:11">Override</jtok>
+<jtok eid="8" type="method_name" span="145:14:145:27">startDocument</jtok>
+<jtok eid="8" type="method_call" span="149:4:149:15">pushElement</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="151:10:151:19">Exception</jtok>
+<jtok eid="8" type="local_variable_name" span="151:20:151:21">e</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:4:153:7">Log</jtok>
+<jtok eid="8" type="method_call" span="153:8:153:11">log</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:12:153:15">Log</jtok>
+<jtok eid="8" type="qualified_name_ref" span="153:16:153:21">ERROR</jtok>
+<jtok eid="8" type="primary_name_ref" span="153:28:153:29">e</jtok>
+<jtok eid="1" type="line_comment" span="155:4:155:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="157:2:157:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="159:2:159:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="160:10:160:16">String</jtok>
+<jtok eid="1" type="field_name" span="160:17:160:21">path</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="161:10:161:24">JEditActionSet</jtok>
+<jtok eid="1" type="field_name" span="161:25:161:34">actionSet</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="163:10:163:16">String</jtok>
+<jtok eid="1" type="field_name" span="163:17:163:27">actionName</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="164:16:164:29">StringBuilder</jtok>
+<jtok eid="1" type="field_name" span="164:30:164:34">code</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="165:16:165:29">StringBuilder</jtok>
+<jtok eid="1" type="field_name" span="165:30:165:40">isSelected</jtok>
+<jtok eid="1" type="field_name" span="167:18:167:26">noRepeat</jtok>
+<jtok eid="1" type="field_name" span="168:18:168:26">noRecord</jtok>
+<jtok eid="1" type="field_name" span="169:18:169:32">noRememberLast</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="171:16:171:21">Stack</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="171:22:171:28">String</jtok>
+<jtok eid="1" type="field_name" span="171:30:171:40">stateStack</jtok>
+<jtok eid="1" type="line_comment" span="172:2:172:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="174:2:174:28">//{{{ pushElement() method</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="175:10:175:16">String</jtok>
+<jtok eid="9" type="method_name" span="175:17:175:28">pushElement</jtok>
+<jtok eid="9" type="parameter_type" span="175:29:175:35">String</jtok>
+<jtok eid="9" type="parameter_name" span="175:36:175:40">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:3:177:7">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:11:177:15">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="177:34:177:38">name</jtok>
+<jtok eid="9" type="method_call" span="177:39:177:45">intern</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:3:179:13">stateStack</jtok>
+<jtok eid="9" type="method_call" span="179:14:179:18">push</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:19:179:23">name</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:10:181:14">name</jtok>
+<jtok eid="1" type="line_comment" span="182:4:182:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="184:2:184:28">//{{{ peekElement() method</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="185:10:185:16">String</jtok>
+<jtok eid="10" type="method_name" span="185:17:185:28">peekElement</jtok>
+<jtok eid="10" type="primary_name_ref" span="187:10:187:20">stateStack</jtok>
+<jtok eid="10" type="method_call" span="187:21:187:25">peek</jtok>
+<jtok eid="1" type="line_comment" span="188:4:188:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="190:2:190:27">//{{{ popElement() method</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="191:10:191:16">String</jtok>
+<jtok eid="11" type="method_name" span="191:17:191:27">popElement</jtok>
+<jtok eid="11" type="primary_name_ref" span="193:10:193:20">stateStack</jtok>
+<jtok eid="11" type="method_call" span="193:21:193:24">pop</jtok>
+<jtok eid="1" type="line_comment" span="194:4:194:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="196:2:196:7">//}}}</jtok>
+</jdoc>

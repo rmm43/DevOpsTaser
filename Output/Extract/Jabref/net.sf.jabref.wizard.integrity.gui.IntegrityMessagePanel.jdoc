@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel" jls="java5">
+<jent id="0" type="file" span="0:0:244:1">Source/jabref/src/java/net/sf/jabref/wizard/integrity/gui/IntegrityMessagePanel.java</jent>
+<jent id="1" pid="0" type="class" span="56:1:244:1">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel</jent>
+<jent id="2" pid="1" type="method" span="71:3:111:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.IntegrityMessagePanel(BasePanel)</jent>
+<jent id="3" pid="1" type="method" span="115:3:120:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.updateView(BibtexEntry)</jent>
+<jent id="4" pid="1" type="method" span="122:3:127:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.updateView(BibtexDatabase)</jent>
+<jent id="5" pid="1" type="method" span="132:3:155:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.valueChanged(ListSelectionEvent)</jent>
+<jent id="6" pid="1" type="method" span="159:3:161:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.keyPressed(KeyEvent)</jent>
+<jent id="7" pid="1" type="method" span="163:3:170:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.keyReleased(KeyEvent)</jent>
+<jent id="8" pid="1" type="method" span="172:3:174:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.keyTyped(KeyEvent)</jent>
+<jent id="9" pid="1" type="method" span="176:3:204:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.actionPerformed(ActionEvent)</jent>
+<jent id="10" pid="1" type="class" span="207:3:242:3">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.IntegrityListRenderer</jent>
+<jent id="11" pid="10" type="method" span="214:5:241:5">net.sf.jabref.wizard.integrity.gui.IntegrityMessagePanel.IntegrityListRenderer.getListCellRendererComponent(JList,Object,int,boolean,boolean)</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:3">/*
+Copyright (C) 2004 R. Nagel
+
+All programs in this directory and
+subdirectories are published under the GNU General Public License as
+described below.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+USA
+
+Further information about the GNU GPL is available at:
+http://www.gnu.org/copyleft/gpl.ja.html
+
+*/</jtok>
+<jtok eid="0" type="line_comment" span="28:1:28:35">// created by : r.nagel 09.12.2004</jtok>
+<jtok eid="0" type="line_comment" span="29:1:29:3">//</jtok>
+<jtok eid="0" type="line_comment" span="30:1:30:69">// function : shows the IntegrityMessages produced by IntegrityCheck</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:3">//</jtok>
+<jtok eid="0" type="line_comment" span="32:1:32:44">//     todo : several entries not supported</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:3">//</jtok>
+<jtok eid="0" type="line_comment" span="34:1:34:14">// modified :</jtok>
+<jtok eid="1" type="class_name" span="56:14:56:35">IntegrityMessagePanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="57:13:57:19">JPanel</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:16:58:37">ListSelectionListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:39:58:50">KeyListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="58:52:58:66">ActionListener</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="61:11:61:16">JList</jtok>
+<jtok eid="1" type="field_name" span="61:17:61:25">warnings</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="62:11:62:24">HintListModel</jtok>
+<jtok eid="1" type="field_name" span="62:25:62:36">warningData</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="64:11:64:25">IntegrityCheck</jtok>
+<jtok eid="1" type="field_name" span="64:26:64:38">validChecker</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="66:11:66:21">JTextField</jtok>
+<jtok eid="1" type="field_name" span="66:22:66:29">content</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="67:11:67:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="67:19:67:30">applyButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="68:11:68:18">JButton</jtok>
+<jtok eid="1" type="field_name" span="68:19:68:28">fixButton</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="69:11:69:20">BasePanel</jtok>
+<jtok eid="1" type="field_name" span="69:21:69:30">basePanel</jtok>
+<jtok eid="2" type="method_name" span="71:10:71:31">IntegrityMessagePanel</jtok>
+<jtok eid="2" type="parameter_type" span="71:32:71:41">BasePanel</jtok>
+<jtok eid="2" type="parameter_name" span="71:42:71:51">basePanel</jtok>
+<jtok eid="2" type="qualified_name_ref" span="73:10:73:19">basePanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:22:73:31">basePanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="74:5:74:17">validChecker</jtok>
+<jtok eid="2" type="constructor_call" span="74:24:74:38">IntegrityCheck</jtok>
+<jtok eid="2" type="line_comment" span="74:43:74:69">// errors, warnings, hints</jtok>
+<jtok eid="2" type="line_comment" span="76:3:76:74">// JList --------------------------------------------------------------</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:5:77:16">warningData</jtok>
+<jtok eid="2" type="constructor_call" span="77:23:77:36">HintListModel</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:5:78:13">warnings</jtok>
+<jtok eid="2" type="constructor_call" span="78:20:78:25">JList</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:27:78:38">warningData</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:5:79:13">warnings</jtok>
+<jtok eid="2" type="method_call" span="79:14:79:29">setCellRenderer</jtok>
+<jtok eid="2" type="constructor_call" span="79:35:79:56">IntegrityListRenderer</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:5:80:13">warnings</jtok>
+<jtok eid="2" type="method_call" span="80:14:80:38">addListSelectionListener</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="82:5:82:16">JScrollPane</jtok>
+<jtok eid="2" type="local_variable_name" span="82:17:82:31">paneScrollPane</jtok>
+<jtok eid="2" type="constructor_call" span="82:38:82:49">JScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="82:51:82:59">warnings</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:5:83:19">paneScrollPane</jtok>
+<jtok eid="2" type="method_call" span="83:20:83:46">setVerticalScrollBarPolicy</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:9:84:20">JScrollPane</jtok>
+<jtok eid="2" type="qualified_name_ref" span="84:21:84:46">VERTICAL_SCROLLBAR_ALWAYS</jtok>
+<jtok eid="2" type="primary_name_ref" span="85:5:85:19">paneScrollPane</jtok>
+<jtok eid="2" type="method_call" span="85:20:85:36">setPreferredSize</jtok>
+<jtok eid="2" type="constructor_call" span="85:42:85:51">Dimension</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:5:86:19">paneScrollPane</jtok>
+<jtok eid="2" type="method_call" span="86:20:86:34">setMinimumSize</jtok>
+<jtok eid="2" type="constructor_call" span="86:40:86:49">Dimension</jtok>
+<jtok eid="2" type="line_comment" span="88:3:88:73">// Fix Panel ---------------------------------------------------------</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="89:5:89:11">JPanel</jtok>
+<jtok eid="2" type="local_variable_name" span="89:12:89:20">fixPanel</jtok>
+<jtok eid="2" type="constructor_call" span="89:27:89:33">JPanel</jtok>
+<jtok eid="2" type="line_comment" span="90:1:90:69">//    BoxLayout box = new BoxLayout(fixPanel, BoxLayout.LINE_AXIS) ;</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="92:5:92:11">JLabel</jtok>
+<jtok eid="2" type="local_variable_name" span="92:12:92:18">label1</jtok>
+<jtok eid="2" type="constructor_call" span="92:25:92:31">JLabel</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:32:92:39">Globals</jtok>
+<jtok eid="2" type="method_call" span="92:40:92:44">lang</jtok>
+<jtok eid="2" type="string_literal" span="92:45:92:60">"Field_content"</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:5:94:12">content</jtok>
+<jtok eid="2" type="constructor_call" span="94:19:94:29">JTextField</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:5:95:12">content</jtok>
+<jtok eid="2" type="method_call" span="95:13:95:27">addKeyListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:5:96:16">applyButton</jtok>
+<jtok eid="2" type="constructor_call" span="96:23:96:30">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="96:31:96:38">Globals</jtok>
+<jtok eid="2" type="method_call" span="96:39:96:43">lang</jtok>
+<jtok eid="2" type="string_literal" span="96:44:96:51">"Apply"</jtok>
+<jtok eid="2" type="primary_name_ref" span="97:5:97:16">applyButton</jtok>
+<jtok eid="2" type="method_call" span="97:17:97:34">addActionListener</jtok>
+<jtok eid="2" type="primary_name_ref" span="98:5:98:16">applyButton</jtok>
+<jtok eid="2" type="method_call" span="98:17:98:27">setEnabled</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:5:99:14">fixButton</jtok>
+<jtok eid="2" type="constructor_call" span="99:21:99:28">JButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="99:29:99:36">Globals</jtok>
+<jtok eid="2" type="method_call" span="99:37:99:41">lang</jtok>
+<jtok eid="2" type="string_literal" span="99:42:99:51">"Suggest"</jtok>
+<jtok eid="2" type="primary_name_ref" span="100:5:100:14">fixButton</jtok>
+<jtok eid="2" type="method_call" span="100:15:100:25">setEnabled</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:5:102:13">fixPanel</jtok>
+<jtok eid="2" type="method_call" span="102:14:102:17">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="102:18:102:24">label1</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:5:103:13">fixPanel</jtok>
+<jtok eid="2" type="method_call" span="103:14:103:17">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="103:18:103:25">content</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:5:104:13">fixPanel</jtok>
+<jtok eid="2" type="method_call" span="104:14:104:17">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="104:18:104:29">applyButton</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:5:105:13">fixPanel</jtok>
+<jtok eid="2" type="method_call" span="105:14:105:17">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="105:18:105:27">fixButton</jtok>
+<jtok eid="2" type="line_comment" span="107:3:107:73">// Main Panel --------------------------------------------------------</jtok>
+<jtok eid="2" type="method_call" span="108:10:108:19">setLayout</jtok>
+<jtok eid="2" type="constructor_call" span="108:25:108:37">BorderLayout</jtok>
+<jtok eid="2" type="method_call" span="109:10:109:13">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:15:109:29">paneScrollPane</jtok>
+<jtok eid="2" type="primary_name_ref" span="109:31:109:43">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="109:44:109:50">CENTER</jtok>
+<jtok eid="2" type="method_call" span="110:10:110:13">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="110:15:110:23">fixPanel</jtok>
+<jtok eid="2" type="primary_name_ref" span="110:25:110:37">BorderLayout</jtok>
+<jtok eid="2" type="qualified_name_ref" span="110:38:110:43">SOUTH</jtok>
+<jtok eid="1" type="line_comment" span="113:3:113:78">// ------------------------------------------------------------------------</jtok>
+<jtok eid="3" type="method_name" span="115:15:115:25">updateView</jtok>
+<jtok eid="3" type="parameter_type" span="115:27:115:38">BibtexEntry</jtok>
+<jtok eid="3" type="parameter_name" span="115:39:115:44">entry</jtok>
+<jtok eid="3" type="primary_name_ref" span="117:5:117:16">warningData</jtok>
+<jtok eid="3" type="method_call" span="117:17:117:22">clear</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:5:118:21">IntegrityMessage</jtok>
+<jtok eid="3" type="method_call" span="118:22:118:34">setPrintMode</jtok>
+<jtok eid="3" type="primary_name_ref" span="118:36:118:52">IntegrityMessage</jtok>
+<jtok eid="3" type="qualified_name_ref" span="118:53:118:64">SINLGE_MODE</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:5:119:16">warningData</jtok>
+<jtok eid="3" type="method_call" span="119:17:119:24">setData</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:26:119:38">validChecker</jtok>
+<jtok eid="3" type="method_call" span="119:39:119:55">checkBibtexEntry</jtok>
+<jtok eid="3" type="primary_name_ref" span="119:57:119:62">entry</jtok>
+<jtok eid="4" type="method_name" span="122:15:122:25">updateView</jtok>
+<jtok eid="4" type="parameter_type" span="122:27:122:41">BibtexDatabase</jtok>
+<jtok eid="4" type="parameter_name" span="122:42:122:46">base</jtok>
+<jtok eid="4" type="primary_name_ref" span="124:5:124:16">warningData</jtok>
+<jtok eid="4" type="method_call" span="124:17:124:22">clear</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:5:125:21">IntegrityMessage</jtok>
+<jtok eid="4" type="method_call" span="125:22:125:34">setPrintMode</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:36:125:52">IntegrityMessage</jtok>
+<jtok eid="4" type="qualified_name_ref" span="125:53:125:62">FULL_MODE</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:5:126:16">warningData</jtok>
+<jtok eid="4" type="method_call" span="126:17:126:24">setData</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:26:126:38">validChecker</jtok>
+<jtok eid="4" type="method_call" span="126:39:126:58">checkBibtexDatabase</jtok>
+<jtok eid="4" type="primary_name_ref" span="126:60:126:64">base</jtok>
+<jtok eid="1" type="line_comment" span="130:3:130:78">// ------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="131:3:131:54">//This method is required by ListSelectionListener.</jtok>
+<jtok eid="5" type="method_name" span="132:15:132:27">valueChanged</jtok>
+<jtok eid="5" type="parameter_type" span="132:29:132:47">ListSelectionEvent</jtok>
+<jtok eid="5" type="parameter_name" span="132:48:132:49">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="134:10:134:11">e</jtok>
+<jtok eid="5" type="method_call" span="134:12:134:31">getValueIsAdjusting</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="136:7:136:13">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="136:14:136:17">obj</jtok>
+<jtok eid="5" type="primary_name_ref" span="136:20:136:28">warnings</jtok>
+<jtok eid="5" type="method_call" span="136:29:136:45">getSelectedValue</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="137:7:137:13">String</jtok>
+<jtok eid="5" type="local_variable_name" span="137:14:137:17">str</jtok>
+<jtok eid="5" type="string_literal" span="137:20:137:22">""</jtok>
+<jtok eid="5" type="primary_name_ref" span="138:11:138:14">obj</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="140:9:140:25">IntegrityMessage</jtok>
+<jtok eid="5" type="local_variable_name" span="140:26:140:29">msg</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="140:33:140:49">IntegrityMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="140:51:140:54">obj</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="141:9:141:20">BibtexEntry</jtok>
+<jtok eid="5" type="local_variable_name" span="141:21:141:26">entry</jtok>
+<jtok eid="5" type="primary_name_ref" span="141:29:141:32">msg</jtok>
+<jtok eid="5" type="method_call" span="141:33:141:41">getEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="143:13:143:18">entry</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:11:145:14">str</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:17:145:22">entry</jtok>
+<jtok eid="5" type="method_call" span="145:23:145:31">getField</jtok>
+<jtok eid="5" type="primary_name_ref" span="145:32:145:35">msg</jtok>
+<jtok eid="5" type="method_call" span="145:36:145:48">getFieldName</jtok>
+<jtok eid="5" type="primary_name_ref" span="146:11:146:20">basePanel</jtok>
+<jtok eid="5" type="method_call" span="146:21:146:35">highlightEntry</jtok>
+<jtok eid="5" type="primary_name_ref" span="146:36:146:41">entry</jtok>
+<jtok eid="5" type="line_comment" span="147:3:147:44">// make the "invalid" field visible  ....</jtok>
+<jtok eid="5" type="line_comment" span="148:3:148:66">//          EntryEditor editor = basePanel.getCurrentEditor() ;</jtok>
+<jtok eid="5" type="line_comment" span="149:3:149:22">//          editor.</jtok>
+<jtok eid="5" type="primary_name_ref" span="152:7:152:14">content</jtok>
+<jtok eid="5" type="method_call" span="152:15:152:22">setText</jtok>
+<jtok eid="5" type="primary_name_ref" span="152:23:152:26">str</jtok>
+<jtok eid="5" type="primary_name_ref" span="153:7:153:18">applyButton</jtok>
+<jtok eid="5" type="method_call" span="153:19:153:29">setEnabled</jtok>
+<jtok eid="1" type="line_comment" span="157:1:157:78">// --------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="158:1:158:44">// This methods are required by KeyListener</jtok>
+<jtok eid="6" type="method_name" span="159:15:159:25">keyPressed</jtok>
+<jtok eid="6" type="parameter_type" span="159:27:159:35">KeyEvent</jtok>
+<jtok eid="6" type="parameter_name" span="159:36:159:37">e</jtok>
+<jtok eid="7" type="method_name" span="163:15:163:26">keyReleased</jtok>
+<jtok eid="7" type="parameter_type" span="163:28:163:36">KeyEvent</jtok>
+<jtok eid="7" type="parameter_name" span="163:37:163:38">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="165:5:165:16">applyButton</jtok>
+<jtok eid="7" type="method_call" span="165:17:165:27">setEnabled</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:9:166:10">e</jtok>
+<jtok eid="7" type="method_call" span="166:11:166:21">getKeyCode</jtok>
+<jtok eid="7" type="primary_name_ref" span="166:27:166:35">KeyEvent</jtok>
+<jtok eid="7" type="qualified_name_ref" span="166:36:166:44">VK_ENTER</jtok>
+<jtok eid="7" type="primary_name_ref" span="168:7:168:18">applyButton</jtok>
+<jtok eid="7" type="method_call" span="168:19:168:26">doClick</jtok>
+<jtok eid="8" type="method_name" span="172:15:172:23">keyTyped</jtok>
+<jtok eid="8" type="parameter_type" span="172:25:172:33">KeyEvent</jtok>
+<jtok eid="8" type="parameter_name" span="172:34:172:35">e</jtok>
+<jtok eid="9" type="method_name" span="176:15:176:30">actionPerformed</jtok>
+<jtok eid="9" type="parameter_type" span="176:32:176:43">ActionEvent</jtok>
+<jtok eid="9" type="parameter_name" span="176:44:176:45">e</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="178:5:178:11">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="178:12:178:15">obj</jtok>
+<jtok eid="9" type="primary_name_ref" span="178:18:178:19">e</jtok>
+<jtok eid="9" type="method_call" span="178:20:178:29">getSource</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:9:179:12">obj</jtok>
+<jtok eid="9" type="primary_name_ref" span="179:16:179:27">applyButton</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="181:7:181:13">Object</jtok>
+<jtok eid="9" type="local_variable_name" span="181:14:181:18">data</jtok>
+<jtok eid="9" type="primary_name_ref" span="181:21:181:29">warnings</jtok>
+<jtok eid="9" type="method_call" span="181:30:181:46">getSelectedValue</jtok>
+<jtok eid="9" type="primary_name_ref" span="182:11:182:15">data</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="184:9:184:25">IntegrityMessage</jtok>
+<jtok eid="9" type="local_variable_name" span="184:26:184:29">msg</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="184:33:184:49">IntegrityMessage</jtok>
+<jtok eid="9" type="primary_name_ref" span="184:51:184:55">data</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="185:9:185:20">BibtexEntry</jtok>
+<jtok eid="9" type="local_variable_name" span="185:21:185:26">entry</jtok>
+<jtok eid="9" type="primary_name_ref" span="185:29:185:32">msg</jtok>
+<jtok eid="9" type="method_call" span="185:33:185:41">getEntry</jtok>
+<jtok eid="9" type="primary_name_ref" span="187:13:187:18">entry</jtok>
+<jtok eid="9" type="line_comment" span="189:1:189:43">//          System.out.println("update") ;</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="190:13:190:19">String</jtok>
+<jtok eid="9" type="local_variable_name" span="190:20:190:30">oldContent</jtok>
+<jtok eid="9" type="primary_name_ref" span="190:33:190:38">entry</jtok>
+<jtok eid="9" type="method_call" span="190:39:190:47">getField</jtok>
+<jtok eid="9" type="primary_name_ref" span="190:48:190:51">msg</jtok>
+<jtok eid="9" type="method_call" span="190:52:190:64">getFieldName</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="191:13:191:32">UndoableFieldChange</jtok>
+<jtok eid="9" type="local_variable_name" span="191:33:191:37">edit</jtok>
+<jtok eid="9" type="constructor_call" span="191:44:191:63">UndoableFieldChange</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:64:191:69">entry</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:71:191:74">msg</jtok>
+<jtok eid="9" type="method_call" span="191:75:191:87">getFieldName</jtok>
+<jtok eid="9" type="primary_name_ref" span="191:91:191:101">oldContent</jtok>
+<jtok eid="9" type="primary_name_ref" span="192:25:192:32">content</jtok>
+<jtok eid="9" type="method_call" span="192:33:192:40">getText</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:13:193:18">entry</jtok>
+<jtok eid="9" type="method_call" span="193:19:193:27">setField</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:28:193:31">msg</jtok>
+<jtok eid="9" type="method_call" span="193:32:193:44">getFieldName</jtok>
+<jtok eid="9" type="primary_name_ref" span="193:48:193:55">content</jtok>
+<jtok eid="9" type="method_call" span="193:56:193:63">getText</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:13:194:22">basePanel</jtok>
+<jtok eid="9" type="qualified_name_ref" span="194:23:194:34">undoManager</jtok>
+<jtok eid="9" type="method_call" span="194:35:194:42">addEdit</jtok>
+<jtok eid="9" type="primary_name_ref" span="194:43:194:47">edit</jtok>
+<jtok eid="9" type="primary_name_ref" span="195:13:195:22">basePanel</jtok>
+<jtok eid="9" type="method_call" span="195:23:195:38">markBaseChanged</jtok>
+<jtok eid="9" type="primary_name_ref" span="196:13:196:16">msg</jtok>
+<jtok eid="9" type="method_call" span="196:17:196:25">setFixed</jtok>
+<jtok eid="9" type="line_comment" span="197:1:197:32">//          updateView(entry) ;</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:11:198:22">warningData</jtok>
+<jtok eid="9" type="method_call" span="198:23:198:35">valueUpdated</jtok>
+<jtok eid="9" type="primary_name_ref" span="198:36:198:44">warnings</jtok>
+<jtok eid="9" type="method_call" span="198:45:198:61">getSelectedIndex</jtok>
+<jtok eid="9" type="primary_name_ref" span="202:7:202:18">applyButton</jtok>
+<jtok eid="9" type="method_call" span="202:19:202:29">setEnabled</jtok>
+<jtok eid="1" type="line_comment" span="205:3:205:81">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="1" type="line_comment" span="206:3:206:81">// ---------------------------------------------------------------------------</jtok>
+<jtok eid="10" type="class_name" span="207:9:207:30">IntegrityListRenderer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="207:39:207:62">DefaultListCellRenderer</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="209:11:209:20">ImageIcon</jtok>
+<jtok eid="10" type="field_name" span="209:21:209:29">warnIcon</jtok>
+<jtok eid="10" type="primary_name_ref" span="209:32:209:42">GUIGlobals</jtok>
+<jtok eid="10" type="method_call" span="209:43:209:51">getImage</jtok>
+<jtok eid="10" type="string_literal" span="209:52:209:67">"integrityWarn"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="210:11:210:20">ImageIcon</jtok>
+<jtok eid="10" type="field_name" span="210:21:210:29">infoIcon</jtok>
+<jtok eid="10" type="primary_name_ref" span="210:32:210:42">GUIGlobals</jtok>
+<jtok eid="10" type="method_call" span="210:43:210:51">getImage</jtok>
+<jtok eid="10" type="string_literal" span="210:52:210:67">"integrityInfo"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="211:11:211:20">ImageIcon</jtok>
+<jtok eid="10" type="field_name" span="211:21:211:29">failIcon</jtok>
+<jtok eid="10" type="primary_name_ref" span="211:32:211:42">GUIGlobals</jtok>
+<jtok eid="10" type="method_call" span="211:43:211:51">getImage</jtok>
+<jtok eid="10" type="string_literal" span="211:52:211:67">"integrityFail"</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="212:11:212:20">ImageIcon</jtok>
+<jtok eid="10" type="field_name" span="212:21:212:30">fixedIcon</jtok>
+<jtok eid="10" type="primary_name_ref" span="212:33:212:43">GUIGlobals</jtok>
+<jtok eid="10" type="method_call" span="212:44:212:52">getImage</jtok>
+<jtok eid="10" type="string_literal" span="212:53:212:63">"complete"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="214:12:214:21">Component</jtok>
+<jtok eid="11" type="method_name" span="214:22:214:50">getListCellRendererComponent</jtok>
+<jtok eid="11" type="parameter_type" span="215:9:215:14">JList</jtok>
+<jtok eid="11" type="parameter_name" span="215:15:215:19">list</jtok>
+<jtok eid="11" type="parameter_type" span="216:9:216:15">Object</jtok>
+<jtok eid="11" type="parameter_name" span="216:16:216:21">value</jtok>
+<jtok eid="11" type="line_comment" span="216:23:216:42">// value to display</jtok>
+<jtok eid="11" type="parameter_name" span="217:13:217:18">index</jtok>
+<jtok eid="11" type="line_comment" span="217:20:217:33">// cell index</jtok>
+<jtok eid="11" type="parameter_name" span="218:17:218:20">iss</jtok>
+<jtok eid="11" type="line_comment" span="218:22:218:45">// is the cell selected</jtok>
+<jtok eid="11" type="parameter_name" span="219:17:219:20">chf</jtok>
+<jtok eid="11" type="line_comment" span="219:23:219:62">// the list and the cell have the focus</jtok>
+<jtok eid="11" type="method_call" span="221:13:221:41">getListCellRendererComponent</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:43:221:47">list</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:49:221:54">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:56:221:61">index</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:63:221:66">iss</jtok>
+<jtok eid="11" type="primary_name_ref" span="221:68:221:71">chf</jtok>
+<jtok eid="11" type="primary_name_ref" span="223:11:223:16">value</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="225:9:225:25">IntegrityMessage</jtok>
+<jtok eid="11" type="local_variable_name" span="225:26:225:29">msg</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="225:33:225:49">IntegrityMessage</jtok>
+<jtok eid="11" type="primary_name_ref" span="225:51:225:56">value</jtok>
+<jtok eid="11" type="primary_name_ref" span="226:13:226:16">msg</jtok>
+<jtok eid="11" type="method_call" span="226:17:226:25">getFixed</jtok>
+<jtok eid="11" type="method_call" span="228:11:228:18">setIcon</jtok>
+<jtok eid="11" type="primary_name_ref" span="228:19:228:28">fixedIcon</jtok>
+<jtok eid="11" type="local_variable_name" span="232:15:232:17">id</jtok>
+<jtok eid="11" type="primary_name_ref" span="232:20:232:23">msg</jtok>
+<jtok eid="11" type="method_call" span="232:24:232:31">getType</jtok>
+<jtok eid="11" type="primary_name_ref" span="233:16:233:18">id</jtok>
+<jtok eid="11" type="method_call" span="234:13:234:20">setIcon</jtok>
+<jtok eid="11" type="primary_name_ref" span="234:22:234:30">infoIcon</jtok>
+<jtok eid="11" type="primary_name_ref" span="235:21:235:23">id</jtok>
+<jtok eid="11" type="method_call" span="236:13:236:20">setIcon</jtok>
+<jtok eid="11" type="primary_name_ref" span="236:22:236:30">warnIcon</jtok>
+<jtok eid="11" type="method_call" span="237:16:237:23">setIcon</jtok>
+<jtok eid="11" type="primary_name_ref" span="237:25:237:33">failIcon</jtok>
+</jdoc>

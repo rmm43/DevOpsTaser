@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="net.sf.jabref.MetaData" jls="java5">
+<jent id="0" type="file" span="0:0:293:1">Source/jabref/src/java/net/sf/jabref/MetaData.java</jent>
+<jent id="1" pid="0" type="class" span="40:1:293:1">net.sf.jabref.MetaData</jent>
+<jent id="2" pid="1" type="method" span="54:5:97:5">net.sf.jabref.MetaData.MetaData(HashMap&lt;String,String&gt;,BibtexDatabase)</jent>
+<jent id="3" pid="1" type="method" span="102:5:104:5">net.sf.jabref.MetaData.MetaData()</jent>
+<jent id="4" pid="1" type="method" span="109:5:114:5">net.sf.jabref.MetaData.initializeNewDatabase()</jent>
+<jent id="5" pid="1" type="method" span="116:5:118:5">net.sf.jabref.MetaData.iterator()</jent>
+<jent id="6" pid="1" type="method" span="120:5:122:5">net.sf.jabref.MetaData.getData(String)</jent>
+<jent id="7" pid="1" type="method" span="124:5:126:5">net.sf.jabref.MetaData.remove(String)</jent>
+<jent id="8" pid="1" type="method" span="134:5:136:5">net.sf.jabref.MetaData.putData(String,Vector&lt;String&gt;)</jent>
+<jent id="9" pid="1" type="method" span="144:5:169:5">net.sf.jabref.MetaData.getFileDirectory(String)</jent>
+<jent id="10" pid="1" type="method" span="171:5:179:5">net.sf.jabref.MetaData.putGroups(Vector&lt;String&gt;,BibtexDatabase,int)</jent>
+<jent id="11" pid="1" type="method" span="181:5:183:5">net.sf.jabref.MetaData.getGroups()</jent>
+<jent id="12" pid="1" type="method" span="189:5:191:5">net.sf.jabref.MetaData.setGroups(GroupTreeNode)</jent>
+<jent id="13" pid="1" type="method" span="197:5:246:5">net.sf.jabref.MetaData.writeMetaData(Writer)</jent>
+<jent id="14" pid="1" type="method" span="248:5:252:5">net.sf.jabref.MetaData.wrapStringBuffer(StringBuffer,int)</jent>
+<jent id="15" pid="1" type="method" span="257:5:276:5">net.sf.jabref.MetaData.getNextUnit(Reader)</jent>
+<jent id="16" pid="1" type="method" span="278:5:280:5">net.sf.jabref.MetaData.getFile()</jent>
+<jent id="17" pid="1" type="method" span="282:5:284:5">net.sf.jabref.MetaData.setFile(File)</jent>
+<jent id="18" pid="1" type="method" span="286:5:288:5">net.sf.jabref.MetaData.getDBStrings()</jent>
+<jent id="19" pid="1" type="method" span="290:5:292:5">net.sf.jabref.MetaData.setDBStrings(DBStrings)</jent>
+<jtok eid="0" type="block_comment" span="1:1:26:4">/*
+ Copyright (C) 2003 Morten O. Alver, Nizar N. Batada
+
+ All programs in this directory and
+ subdirectories are published under the GNU General Public License as
+ described below.
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or (at
+ your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ Further information about the GNU GPL is available at:
+ http://www.gnu.org/copyleft/gpl.ja.html
+
+ */</jtok>
+<jtok eid="1" type="class_name" span="40:14:40:22">MetaData</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:34:40:42">Iterable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:43:40:49">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:13:41:20">HashMap</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:21:41:27">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:29:41:35">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="41:36:41:42">String</jtok>
+<jtok eid="1" type="field_name" span="41:45:41:53">metaData</jtok>
+<jtok eid="1" type="constructor_call" span="41:60:41:67">HashMap</jtok>
+<jtok eid="1" type="constructor_call" span="41:68:41:74">String</jtok>
+<jtok eid="1" type="constructor_call" span="41:76:41:82">Vector</jtok>
+<jtok eid="1" type="constructor_call" span="41:83:41:89">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="42:13:42:25">StringReader</jtok>
+<jtok eid="1" type="field_name" span="42:26:42:30">data</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:13:43:26">GroupTreeNode</jtok>
+<jtok eid="1" type="field_name" span="43:27:43:37">groupsRoot</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:13:44:17">File</jtok>
+<jtok eid="1" type="field_name" span="44:18:44:22">file</jtok>
+<jtok eid="1" type="line_comment" span="44:31:44:70">// The File where this base gets saved.</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="46:13:46:22">DBStrings</jtok>
+<jtok eid="1" type="field_name" span="46:23:46:32">dbStrings</jtok>
+<jtok eid="1" type="constructor_call" span="46:39:46:48">DBStrings</jtok>
+<jtok eid="1" type="block_comment" span="48:5:53:8">/**
+     * The MetaData object stores all meta data sets in Vectors. To ensure that
+     * the data is written correctly to string, the user of a meta data Vector
+     * must simply make sure the appropriate changes are reflected in the Vector
+     * it has been passed.
+     */</jtok>
+<jtok eid="2" type="method_name" span="54:12:54:20">MetaData</jtok>
+<jtok eid="2" type="parameter_type" span="54:21:54:28">HashMap</jtok>
+<jtok eid="2" type="parameter_type" span="54:29:54:35">String</jtok>
+<jtok eid="2" type="parameter_type" span="54:37:54:43">String</jtok>
+<jtok eid="2" type="parameter_name" span="54:45:54:51">inData</jtok>
+<jtok eid="2" type="parameter_type" span="54:53:54:67">BibtexDatabase</jtok>
+<jtok eid="2" type="parameter_name" span="54:68:54:70">db</jtok>
+<jtok eid="2" type="local_variable_name" span="55:17:55:34">groupsTreePresent</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:9:56:15">Vector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="56:16:56:22">String</jtok>
+<jtok eid="2" type="local_variable_name" span="56:24:56:38">flatGroupsData</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:9:57:15">Vector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="57:16:57:22">String</jtok>
+<jtok eid="2" type="local_variable_name" span="57:24:57:38">treeGroupsData</jtok>
+<jtok eid="2" type="line_comment" span="58:9:58:65">// The first version (0) lacked a version specification,</jtok>
+<jtok eid="2" type="line_comment" span="59:9:59:42">// thus this value defaults to 0.</jtok>
+<jtok eid="2" type="local_variable_name" span="60:13:60:32">groupsVersionOnDisk</jtok>
+<jtok eid="2" type="primary_name_ref" span="62:13:62:19">inData</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="63:15:63:21">String</jtok>
+<jtok eid="2" type="local_variable_name" span="63:22:63:25">key</jtok>
+<jtok eid="2" type="primary_name_ref" span="63:28:63:34">inData</jtok>
+<jtok eid="2" type="method_call" span="63:35:63:41">keySet</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:13:64:17">data</jtok>
+<jtok eid="2" type="constructor_call" span="64:24:64:36">StringReader</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:37:64:43">inData</jtok>
+<jtok eid="2" type="method_call" span="64:44:64:47">get</jtok>
+<jtok eid="2" type="primary_name_ref" span="64:48:64:51">key</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="65:13:65:19">String</jtok>
+<jtok eid="2" type="local_variable_name" span="65:20:65:24">unit</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="66:13:66:19">Vector</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="66:20:66:26">String</jtok>
+<jtok eid="2" type="local_variable_name" span="66:28:66:39">orderedData</jtok>
+<jtok eid="2" type="constructor_call" span="66:46:66:52">Vector</jtok>
+<jtok eid="2" type="constructor_call" span="66:53:66:59">String</jtok>
+<jtok eid="2" type="line_comment" span="67:13:67:62">// We must allow for ; and \ in escape sequences.</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:25:69:29">unit</jtok>
+<jtok eid="2" type="method_call" span="69:32:69:43">getNextUnit</jtok>
+<jtok eid="2" type="primary_name_ref" span="69:44:69:48">data</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:21:70:32">orderedData</jtok>
+<jtok eid="2" type="method_call" span="70:33:70:36">add</jtok>
+<jtok eid="2" type="primary_name_ref" span="70:37:70:41">unit</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="72:22:72:33">IOException</jtok>
+<jtok eid="2" type="local_variable_name" span="72:34:72:36">ex</jtok>
+<jtok eid="2" type="primary_name_ref" span="73:17:73:23">System</jtok>
+<jtok eid="2" type="qualified_name_ref" span="73:24:73:27">err</jtok>
+<jtok eid="2" type="method_call" span="73:28:73:35">println</jtok>
+<jtok eid="2" type="string_literal" span="73:36:73:74">"Weird error while parsing meta data."</jtok>
+<jtok eid="2" type="primary_name_ref" span="75:17:75:20">key</jtok>
+<jtok eid="2" type="method_call" span="75:21:75:27">equals</jtok>
+<jtok eid="2" type="string_literal" span="75:28:75:43">"groupsversion"</jtok>
+<jtok eid="2" type="primary_name_ref" span="76:21:76:32">orderedData</jtok>
+<jtok eid="2" type="method_call" span="76:33:76:37">size</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:21:77:40">groupsVersionOnDisk</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:43:77:50">Integer</jtok>
+<jtok eid="2" type="method_call" span="77:51:77:59">parseInt</jtok>
+<jtok eid="2" type="primary_name_ref" span="77:60:77:71">orderedData</jtok>
+<jtok eid="2" type="method_call" span="77:72:77:84">firstElement</jtok>
+<jtok eid="2" type="method_call" span="77:87:77:95">toString</jtok>
+<jtok eid="2" type="primary_name_ref" span="78:24:78:27">key</jtok>
+<jtok eid="2" type="method_call" span="78:28:78:34">equals</jtok>
+<jtok eid="2" type="string_literal" span="78:35:78:47">"groupstree"</jtok>
+<jtok eid="2" type="primary_name_ref" span="79:17:79:34">groupsTreePresent</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:17:80:31">treeGroupsData</jtok>
+<jtok eid="2" type="primary_name_ref" span="80:34:80:45">orderedData</jtok>
+<jtok eid="2" type="line_comment" span="80:47:80:69">// save for later user</jtok>
+<jtok eid="2" type="line_comment" span="81:17:81:84">// actual import operation is handled later because "groupsversion"</jtok>
+<jtok eid="2" type="line_comment" span="82:17:82:52">// tag might not yet have been read</jtok>
+<jtok eid="2" type="primary_name_ref" span="83:24:83:27">key</jtok>
+<jtok eid="2" type="method_call" span="83:28:83:34">equals</jtok>
+<jtok eid="2" type="string_literal" span="83:35:83:43">"groups"</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:17:84:31">flatGroupsData</jtok>
+<jtok eid="2" type="primary_name_ref" span="84:34:84:45">orderedData</jtok>
+<jtok eid="2" type="method_call" span="86:17:86:24">putData</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:25:86:28">key</jtok>
+<jtok eid="2" type="primary_name_ref" span="86:30:86:41">orderedData</jtok>
+<jtok eid="2" type="line_comment" span="90:9:90:69">// this possibly handles import of a previous groups version</jtok>
+<jtok eid="2" type="primary_name_ref" span="91:13:91:30">groupsTreePresent</jtok>
+<jtok eid="2" type="method_call" span="92:13:92:22">putGroups</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:23:92:37">treeGroupsData</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:39:92:41">db</jtok>
+<jtok eid="2" type="primary_name_ref" span="92:43:92:62">groupsVersionOnDisk</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:14:94:31">groupsTreePresent</jtok>
+<jtok eid="2" type="primary_name_ref" span="94:35:94:49">flatGroupsData</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:13:95:23">groupsRoot</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:26:95:41">VersionHandling</jtok>
+<jtok eid="2" type="method_call" span="95:42:95:58">importFlatGroups</jtok>
+<jtok eid="2" type="primary_name_ref" span="95:59:95:73">flatGroupsData</jtok>
+<jtok eid="1" type="block_comment" span="99:5:101:8">/**
+     * The MetaData object can be constructed with no data in it.
+     */</jtok>
+<jtok eid="3" type="method_name" span="102:12:102:20">MetaData</jtok>
+<jtok eid="1" type="block_comment" span="106:5:108:8">/**
+     * Add default metadata for new database:
+     */</jtok>
+<jtok eid="4" type="method_name" span="109:17:109:38">initializeNewDatabase</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:9:110:17">metaData</jtok>
+<jtok eid="4" type="method_call" span="110:18:110:21">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="110:22:110:29">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="110:30:110:50">SELECTOR_META_PREFIX</jtok>
+<jtok eid="4" type="string_literal" span="110:53:110:63">"keywords"</jtok>
+<jtok eid="4" type="constructor_call" span="110:69:110:75">Vector</jtok>
+<jtok eid="4" type="constructor_call" span="110:76:110:82">String</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:9:111:17">metaData</jtok>
+<jtok eid="4" type="method_call" span="111:18:111:21">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:22:111:29">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="111:30:111:50">SELECTOR_META_PREFIX</jtok>
+<jtok eid="4" type="string_literal" span="111:53:111:61">"author"</jtok>
+<jtok eid="4" type="constructor_call" span="111:67:111:73">Vector</jtok>
+<jtok eid="4" type="constructor_call" span="111:74:111:80">String</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:9:112:17">metaData</jtok>
+<jtok eid="4" type="method_call" span="112:18:112:21">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:22:112:29">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="112:30:112:50">SELECTOR_META_PREFIX</jtok>
+<jtok eid="4" type="string_literal" span="112:53:112:62">"journal"</jtok>
+<jtok eid="4" type="constructor_call" span="112:68:112:74">Vector</jtok>
+<jtok eid="4" type="constructor_call" span="112:75:112:81">String</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:9:113:17">metaData</jtok>
+<jtok eid="4" type="method_call" span="113:18:113:21">put</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:22:113:29">Globals</jtok>
+<jtok eid="4" type="qualified_name_ref" span="113:30:113:50">SELECTOR_META_PREFIX</jtok>
+<jtok eid="4" type="string_literal" span="113:53:113:64">"publisher"</jtok>
+<jtok eid="4" type="constructor_call" span="113:70:113:76">Vector</jtok>
+<jtok eid="4" type="constructor_call" span="113:77:113:83">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="116:12:116:20">Iterator</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="116:21:116:27">String</jtok>
+<jtok eid="5" type="method_name" span="116:29:116:37">iterator</jtok>
+<jtok eid="5" type="primary_name_ref" span="117:16:117:24">metaData</jtok>
+<jtok eid="5" type="method_call" span="117:25:117:31">keySet</jtok>
+<jtok eid="5" type="method_call" span="117:34:117:42">iterator</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="120:12:120:18">Vector</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="120:19:120:25">String</jtok>
+<jtok eid="6" type="method_name" span="120:27:120:34">getData</jtok>
+<jtok eid="6" type="parameter_type" span="120:35:120:41">String</jtok>
+<jtok eid="6" type="parameter_name" span="120:42:120:45">key</jtok>
+<jtok eid="6" type="primary_name_ref" span="121:16:121:24">metaData</jtok>
+<jtok eid="6" type="method_call" span="121:25:121:28">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="121:29:121:32">key</jtok>
+<jtok eid="7" type="method_name" span="124:17:124:23">remove</jtok>
+<jtok eid="7" type="parameter_type" span="124:24:124:30">String</jtok>
+<jtok eid="7" type="parameter_name" span="124:31:124:34">key</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:9:125:17">metaData</jtok>
+<jtok eid="7" type="method_call" span="125:18:125:24">remove</jtok>
+<jtok eid="7" type="primary_name_ref" span="125:25:125:28">key</jtok>
+<jtok eid="1" type="block_comment" span="128:5:133:8">/**
+     * Stores the specified data in this object, using the specified key. For
+     * certain keys (e.g. "groupstree"), the objects in orderedData are
+     * reconstructed from their textual (String) representation if they are of
+     * type String, and stored as an actual instance.
+     */</jtok>
+<jtok eid="8" type="method_name" span="134:17:134:24">putData</jtok>
+<jtok eid="8" type="parameter_type" span="134:25:134:31">String</jtok>
+<jtok eid="8" type="parameter_name" span="134:32:134:35">key</jtok>
+<jtok eid="8" type="parameter_type" span="134:37:134:43">Vector</jtok>
+<jtok eid="8" type="parameter_type" span="134:44:134:50">String</jtok>
+<jtok eid="8" type="parameter_name" span="134:52:134:63">orderedData</jtok>
+<jtok eid="8" type="primary_name_ref" span="135:9:135:17">metaData</jtok>
+<jtok eid="8" type="method_call" span="135:18:135:21">put</jtok>
+<jtok eid="8" type="primary_name_ref" span="135:22:135:25">key</jtok>
+<jtok eid="8" type="primary_name_ref" span="135:27:135:38">orderedData</jtok>
+<jtok eid="1" type="block_comment" span="138:5:143:8">/**
+     * Look up the directory set up for the given field type for this database.
+     * If no directory is set up, return that defined in global preferences.
+     * @param fieldName The field type
+     * @return The default directory for this field type.
+     */</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="144:12:144:18">String</jtok>
+<jtok eid="9" type="method_name" span="144:19:144:35">getFileDirectory</jtok>
+<jtok eid="9" type="parameter_type" span="144:36:144:42">String</jtok>
+<jtok eid="9" type="parameter_name" span="144:43:144:52">fieldName</jtok>
+<jtok eid="9" type="line_comment" span="145:9:145:89">// There can be up to two directory definitions for these files - the database's</jtok>
+<jtok eid="9" type="line_comment" span="146:9:146:85">// metadata can specify a directory, or the preferences can specify one. The</jtok>
+<jtok eid="9" type="line_comment" span="147:9:147:59">// metadata directory takes precedence if defined.</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="148:9:148:15">String</jtok>
+<jtok eid="9" type="local_variable_name" span="148:16:148:19">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="148:22:148:31">fieldName</jtok>
+<jtok eid="9" type="string_literal" span="148:34:148:45">"Directory"</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="149:9:149:15">String</jtok>
+<jtok eid="9" type="local_variable_name" span="149:16:149:19">dir</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="150:9:150:15">Vector</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="150:16:150:22">String</jtok>
+<jtok eid="9" type="local_variable_name" span="150:24:150:27">vec</jtok>
+<jtok eid="9" type="method_call" span="150:30:150:37">getData</jtok>
+<jtok eid="9" type="primary_name_ref" span="150:38:150:41">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="151:14:151:17">vec</jtok>
+<jtok eid="9" type="primary_name_ref" span="151:31:151:34">vec</jtok>
+<jtok eid="9" type="method_call" span="151:35:151:39">size</jtok>
+<jtok eid="9" type="primary_name_ref" span="152:13:152:16">dir</jtok>
+<jtok eid="9" type="primary_name_ref" span="152:19:152:22">vec</jtok>
+<jtok eid="9" type="method_call" span="152:23:152:26">get</jtok>
+<jtok eid="9" type="line_comment" span="153:13:153:84">// If this directory is relative, we try to interpret it as relative to</jtok>
+<jtok eid="9" type="line_comment" span="154:13:154:47">// the file path of this bib file:</jtok>
+<jtok eid="9" type="constructor_call" span="155:23:155:27">File</jtok>
+<jtok eid="9" type="primary_name_ref" span="155:28:155:31">dir</jtok>
+<jtok eid="9" type="method_call" span="155:34:155:44">isAbsolute</jtok>
+<jtok eid="9" type="primary_name_ref" span="155:51:155:55">file</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="156:17:156:23">String</jtok>
+<jtok eid="9" type="local_variable_name" span="156:24:156:30">relDir</jtok>
+<jtok eid="9" type="constructor_call" span="156:37:156:49">StringBuffer</jtok>
+<jtok eid="9" type="primary_name_ref" span="156:50:156:54">file</jtok>
+<jtok eid="9" type="method_call" span="156:55:156:64">getParent</jtok>
+<jtok eid="9" type="method_call" span="157:25:157:31">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="157:32:157:38">System</jtok>
+<jtok eid="9" type="method_call" span="157:39:157:50">getProperty</jtok>
+<jtok eid="9" type="string_literal" span="157:51:157:67">"file.separator"</jtok>
+<jtok eid="9" type="method_call" span="158:25:158:31">append</jtok>
+<jtok eid="9" type="primary_name_ref" span="158:32:158:35">dir</jtok>
+<jtok eid="9" type="method_call" span="158:37:158:45">toString</jtok>
+<jtok eid="9" type="line_comment" span="159:17:159:81">// If this directory actually exists, it is very likely that the</jtok>
+<jtok eid="9" type="line_comment" span="160:17:160:44">// user wants us to use it:</jtok>
+<jtok eid="9" type="constructor_call" span="161:26:161:30">File</jtok>
+<jtok eid="9" type="primary_name_ref" span="161:31:161:37">relDir</jtok>
+<jtok eid="9" type="method_call" span="161:40:161:46">exists</jtok>
+<jtok eid="9" type="primary_name_ref" span="162:21:162:24">dir</jtok>
+<jtok eid="9" type="primary_name_ref" span="162:27:162:33">relDir</jtok>
+<jtok eid="9" type="primary_name_ref" span="166:13:166:16">dir</jtok>
+<jtok eid="9" type="primary_name_ref" span="166:19:166:26">Globals</jtok>
+<jtok eid="9" type="qualified_name_ref" span="166:27:166:32">prefs</jtok>
+<jtok eid="9" type="method_call" span="166:33:166:36">get</jtok>
+<jtok eid="9" type="primary_name_ref" span="166:37:166:40">key</jtok>
+<jtok eid="9" type="primary_name_ref" span="168:16:168:19">dir</jtok>
+<jtok eid="10" type="method_name" span="171:18:171:27">putGroups</jtok>
+<jtok eid="10" type="parameter_type" span="171:28:171:34">Vector</jtok>
+<jtok eid="10" type="parameter_type" span="171:35:171:41">String</jtok>
+<jtok eid="10" type="parameter_name" span="171:43:171:54">orderedData</jtok>
+<jtok eid="10" type="parameter_type" span="171:56:171:70">BibtexDatabase</jtok>
+<jtok eid="10" type="parameter_name" span="171:71:171:73">db</jtok>
+<jtok eid="10" type="parameter_name" span="171:79:171:86">version</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:13:173:23">groupsRoot</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:26:173:41">VersionHandling</jtok>
+<jtok eid="10" type="method_call" span="173:42:173:54">importGroups</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:55:173:66">orderedData</jtok>
+<jtok eid="10" type="primary_name_ref" span="173:68:173:70">db</jtok>
+<jtok eid="10" type="primary_name_ref" span="174:21:174:28">version</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="175:18:175:27">Exception</jtok>
+<jtok eid="10" type="local_variable_name" span="175:28:175:29">e</jtok>
+<jtok eid="10" type="line_comment" span="176:13:176:60">// we cannot really do anything about this here</jtok>
+<jtok eid="10" type="primary_name_ref" span="177:13:177:19">System</jtok>
+<jtok eid="10" type="qualified_name_ref" span="177:20:177:23">err</jtok>
+<jtok eid="10" type="method_call" span="177:24:177:31">println</jtok>
+<jtok eid="10" type="primary_name_ref" span="177:32:177:33">e</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="181:12:181:25">GroupTreeNode</jtok>
+<jtok eid="11" type="method_name" span="181:26:181:35">getGroups</jtok>
+<jtok eid="11" type="primary_name_ref" span="182:16:182:26">groupsRoot</jtok>
+<jtok eid="1" type="block_comment" span="185:5:188:8">/**
+     * Sets a new group root node. &lt;b&gt;WARNING &lt;/b&gt;: This invalidates everything
+     * returned by getGroups() so far!!!
+     */</jtok>
+<jtok eid="12" type="method_name" span="189:17:189:26">setGroups</jtok>
+<jtok eid="12" type="parameter_type" span="189:27:189:40">GroupTreeNode</jtok>
+<jtok eid="12" type="parameter_name" span="189:41:189:45">root</jtok>
+<jtok eid="12" type="primary_name_ref" span="190:9:190:19">groupsRoot</jtok>
+<jtok eid="12" type="primary_name_ref" span="190:22:190:26">root</jtok>
+<jtok eid="1" type="block_comment" span="193:5:196:8">/**
+     * Writes all data to the specified writer, using each object's toString()
+     * method.
+     */</jtok>
+<jtok eid="13" type="method_name" span="197:17:197:30">writeMetaData</jtok>
+<jtok eid="13" type="parameter_type" span="197:31:197:37">Writer</jtok>
+<jtok eid="13" type="parameter_name" span="197:38:197:41">out</jtok>
+<jtok eid="13" type="throws" span="197:50:197:61">IOException</jtok>
+<jtok eid="13" type="line_comment" span="198:9:198:45">// write all meta data except groups</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="199:14:199:22">Iterator</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="199:23:199:29">String</jtok>
+<jtok eid="13" type="local_variable_name" span="199:31:199:32">i</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:35:199:43">metaData</jtok>
+<jtok eid="13" type="method_call" span="199:44:199:50">keySet</jtok>
+<jtok eid="13" type="method_call" span="199:53:199:61">iterator</jtok>
+<jtok eid="13" type="primary_name_ref" span="199:65:199:66">i</jtok>
+<jtok eid="13" type="method_call" span="199:67:199:74">hasNext</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="200:13:200:19">String</jtok>
+<jtok eid="13" type="local_variable_name" span="200:20:200:23">key</jtok>
+<jtok eid="13" type="primary_name_ref" span="200:26:200:27">i</jtok>
+<jtok eid="13" type="method_call" span="200:28:200:32">next</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="201:13:201:25">StringBuffer</jtok>
+<jtok eid="13" type="local_variable_name" span="201:26:201:28">sb</jtok>
+<jtok eid="13" type="constructor_call" span="201:35:201:47">StringBuffer</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="202:13:202:19">Vector</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="202:20:202:26">String</jtok>
+<jtok eid="13" type="local_variable_name" span="202:28:202:39">orderedData</jtok>
+<jtok eid="13" type="primary_name_ref" span="202:42:202:50">metaData</jtok>
+<jtok eid="13" type="method_call" span="202:51:202:54">get</jtok>
+<jtok eid="13" type="primary_name_ref" span="202:55:202:58">key</jtok>
+<jtok eid="13" type="primary_name_ref" span="203:17:203:28">orderedData</jtok>
+<jtok eid="13" type="method_call" span="203:29:203:33">size</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:17:204:19">sb</jtok>
+<jtok eid="13" type="method_call" span="204:20:204:26">append</jtok>
+<jtok eid="13" type="string_literal" span="204:27:204:38">"@comment{"</jtok>
+<jtok eid="13" type="method_call" span="204:40:204:46">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:47:204:57">GUIGlobals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="204:58:204:67">META_FLAG</jtok>
+<jtok eid="13" type="method_call" span="204:69:204:75">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="204:76:204:79">key</jtok>
+<jtok eid="13" type="method_call" span="204:81:204:87">append</jtok>
+<jtok eid="13" type="string_literal" span="204:88:204:91">":"</jtok>
+<jtok eid="13" type="local_variable_name" span="205:26:205:27">j</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:33:205:34">j</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:37:205:48">orderedData</jtok>
+<jtok eid="13" type="method_call" span="205:49:205:53">size</jtok>
+<jtok eid="13" type="primary_name_ref" span="205:57:205:58">j</jtok>
+<jtok eid="13" type="primary_name_ref" span="206:21:206:23">sb</jtok>
+<jtok eid="13" type="method_call" span="206:24:206:30">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="206:31:206:35">Util</jtok>
+<jtok eid="13" type="method_call" span="206:36:206:41">quote</jtok>
+<jtok eid="13" type="primary_name_ref" span="206:42:206:53">orderedData</jtok>
+<jtok eid="13" type="method_call" span="206:54:206:63">elementAt</jtok>
+<jtok eid="13" type="primary_name_ref" span="206:64:206:65">j</jtok>
+<jtok eid="13" type="string_literal" span="206:68:206:71">";"</jtok>
+<jtok eid="13" type="method_call" span="206:80:206:86">append</jtok>
+<jtok eid="13" type="string_literal" span="206:87:206:90">";"</jtok>
+<jtok eid="13" type="primary_name_ref" span="208:17:208:19">sb</jtok>
+<jtok eid="13" type="method_call" span="208:20:208:26">append</jtok>
+<jtok eid="13" type="string_literal" span="208:27:208:30">"}"</jtok>
+<jtok eid="13" type="method_call" span="210:13:210:29">wrapStringBuffer</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:30:210:32">sb</jtok>
+<jtok eid="13" type="primary_name_ref" span="210:34:210:41">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="210:42:210:62">METADATA_LINE_LENGTH</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:13:211:15">sb</jtok>
+<jtok eid="13" type="method_call" span="211:16:211:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="211:23:211:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="211:31:211:38">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="212:13:212:15">sb</jtok>
+<jtok eid="13" type="method_call" span="212:16:212:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="212:23:212:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="212:31:212:38">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="214:13:214:16">out</jtok>
+<jtok eid="13" type="method_call" span="214:17:214:22">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="214:23:214:25">sb</jtok>
+<jtok eid="13" type="method_call" span="214:26:214:34">toString</jtok>
+<jtok eid="13" type="line_comment" span="216:9:216:75">// write groups if present. skip this if only the root node exists</jtok>
+<jtok eid="13" type="line_comment" span="217:9:217:50">// (which is always the AllEntriesGroup).</jtok>
+<jtok eid="13" type="primary_name_ref" span="218:13:218:23">groupsRoot</jtok>
+<jtok eid="13" type="primary_name_ref" span="218:35:218:45">groupsRoot</jtok>
+<jtok eid="13" type="method_call" span="218:46:218:59">getChildCount</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="219:13:219:25">StringBuffer</jtok>
+<jtok eid="13" type="local_variable_name" span="219:26:219:28">sb</jtok>
+<jtok eid="13" type="constructor_call" span="219:35:219:47">StringBuffer</jtok>
+<jtok eid="13" type="line_comment" span="220:13:220:35">// write version first</jtok>
+<jtok eid="13" type="primary_name_ref" span="221:13:221:15">sb</jtok>
+<jtok eid="13" type="method_call" span="221:16:221:22">append</jtok>
+<jtok eid="13" type="string_literal" span="221:23:221:34">"@comment{"</jtok>
+<jtok eid="13" type="method_call" span="221:36:221:42">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="221:43:221:53">GUIGlobals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="221:54:221:63">META_FLAG</jtok>
+<jtok eid="13" type="method_call" span="221:65:221:71">append</jtok>
+<jtok eid="13" type="string_literal" span="221:72:221:88">"groupsversion:"</jtok>
+<jtok eid="13" type="primary_name_ref" span="222:13:222:15">sb</jtok>
+<jtok eid="13" type="method_call" span="222:16:222:22">append</jtok>
+<jtok eid="13" type="string_literal" span="222:23:222:25">""</jtok>
+<jtok eid="13" type="primary_name_ref" span="222:26:222:41">VersionHandling</jtok>
+<jtok eid="13" type="qualified_name_ref" span="222:42:222:57">CURRENT_VERSION</jtok>
+<jtok eid="13" type="string_literal" span="222:58:222:61">";"</jtok>
+<jtok eid="13" type="primary_name_ref" span="223:13:223:15">sb</jtok>
+<jtok eid="13" type="method_call" span="223:16:223:22">append</jtok>
+<jtok eid="13" type="string_literal" span="223:23:223:26">"}"</jtok>
+<jtok eid="13" type="primary_name_ref" span="224:13:224:15">sb</jtok>
+<jtok eid="13" type="method_call" span="224:16:224:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="224:23:224:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="224:31:224:38">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="225:13:225:15">sb</jtok>
+<jtok eid="13" type="method_call" span="225:16:225:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="225:23:225:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="225:31:225:38">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="226:13:226:16">out</jtok>
+<jtok eid="13" type="method_call" span="226:17:226:22">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="226:23:226:25">sb</jtok>
+<jtok eid="13" type="method_call" span="226:26:226:34">toString</jtok>
+<jtok eid="13" type="line_comment" span="228:13:228:39">// now write actual groups</jtok>
+<jtok eid="13" type="primary_name_ref" span="229:13:229:15">sb</jtok>
+<jtok eid="13" type="constructor_call" span="229:22:229:34">StringBuffer</jtok>
+<jtok eid="13" type="primary_name_ref" span="230:13:230:15">sb</jtok>
+<jtok eid="13" type="method_call" span="230:16:230:22">append</jtok>
+<jtok eid="13" type="string_literal" span="230:23:230:34">"@comment{"</jtok>
+<jtok eid="13" type="method_call" span="230:36:230:42">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="230:43:230:53">GUIGlobals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="230:54:230:63">META_FLAG</jtok>
+<jtok eid="13" type="method_call" span="230:65:230:71">append</jtok>
+<jtok eid="13" type="string_literal" span="230:72:230:85">"groupstree:"</jtok>
+<jtok eid="13" type="primary_name_ref" span="231:13:231:15">sb</jtok>
+<jtok eid="13" type="method_call" span="231:16:231:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="231:23:231:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="231:31:231:38">NEWLINE</jtok>
+<jtok eid="13" type="line_comment" span="232:13:232:66">// GroupsTreeNode.toString() uses "\n" for separation</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="233:13:233:28">StringTokenizer</jtok>
+<jtok eid="13" type="local_variable_name" span="233:29:233:32">tok</jtok>
+<jtok eid="13" type="constructor_call" span="233:39:233:54">StringTokenizer</jtok>
+<jtok eid="13" type="primary_name_ref" span="233:55:233:65">groupsRoot</jtok>
+<jtok eid="13" type="method_call" span="233:66:233:81">getTreeAsString</jtok>
+<jtok eid="13" type="primary_name_ref" span="233:84:233:91">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="233:92:233:99">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="234:20:234:23">tok</jtok>
+<jtok eid="13" type="method_call" span="234:24:234:37">hasMoreTokens</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="235:17:235:29">StringBuffer</jtok>
+<jtok eid="13" type="local_variable_name" span="235:30:235:31">s</jtok>
+<jtok eid="13" type="constructor_call" span="236:25:236:37">StringBuffer</jtok>
+<jtok eid="13" type="primary_name_ref" span="236:38:236:42">Util</jtok>
+<jtok eid="13" type="method_call" span="236:43:236:48">quote</jtok>
+<jtok eid="13" type="primary_name_ref" span="236:49:236:52">tok</jtok>
+<jtok eid="13" type="method_call" span="236:53:236:62">nextToken</jtok>
+<jtok eid="13" type="string_literal" span="236:66:236:69">";"</jtok>
+<jtok eid="13" type="string_literal" span="236:79:236:82">";"</jtok>
+<jtok eid="13" type="method_call" span="237:17:237:33">wrapStringBuffer</jtok>
+<jtok eid="13" type="primary_name_ref" span="237:34:237:35">s</jtok>
+<jtok eid="13" type="primary_name_ref" span="237:37:237:44">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="237:45:237:65">METADATA_LINE_LENGTH</jtok>
+<jtok eid="13" type="primary_name_ref" span="238:17:238:19">sb</jtok>
+<jtok eid="13" type="method_call" span="238:20:238:26">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="238:27:238:28">s</jtok>
+<jtok eid="13" type="primary_name_ref" span="239:17:239:19">sb</jtok>
+<jtok eid="13" type="method_call" span="239:20:239:26">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="239:27:239:34">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="239:35:239:42">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="241:13:241:15">sb</jtok>
+<jtok eid="13" type="method_call" span="241:16:241:22">append</jtok>
+<jtok eid="13" type="string_literal" span="241:23:241:26">"}"</jtok>
+<jtok eid="13" type="primary_name_ref" span="242:13:242:15">sb</jtok>
+<jtok eid="13" type="method_call" span="242:16:242:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="242:23:242:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="242:31:242:38">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="243:13:243:15">sb</jtok>
+<jtok eid="13" type="method_call" span="243:16:243:22">append</jtok>
+<jtok eid="13" type="primary_name_ref" span="243:23:243:30">Globals</jtok>
+<jtok eid="13" type="qualified_name_ref" span="243:31:243:38">NEWLINE</jtok>
+<jtok eid="13" type="primary_name_ref" span="244:13:244:16">out</jtok>
+<jtok eid="13" type="method_call" span="244:17:244:22">write</jtok>
+<jtok eid="13" type="primary_name_ref" span="244:23:244:25">sb</jtok>
+<jtok eid="13" type="method_call" span="244:26:244:34">toString</jtok>
+<jtok eid="14" type="method_name" span="248:18:248:34">wrapStringBuffer</jtok>
+<jtok eid="14" type="parameter_type" span="248:35:248:47">StringBuffer</jtok>
+<jtok eid="14" type="parameter_name" span="248:48:248:50">sb</jtok>
+<jtok eid="14" type="parameter_name" span="248:56:248:66">lineLength</jtok>
+<jtok eid="14" type="local_variable_name" span="249:18:249:19">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:20:249:30">lineLength</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:32:249:33">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:34:249:36">sb</jtok>
+<jtok eid="14" type="method_call" span="249:37:249:43">length</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:47:249:48">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:50:249:60">lineLength</jtok>
+<jtok eid="14" type="primary_name_ref" span="249:61:249:68">Globals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="249:69:249:83">NEWLINE_LENGTH</jtok>
+<jtok eid="14" type="primary_name_ref" span="250:13:250:15">sb</jtok>
+<jtok eid="14" type="method_call" span="250:16:250:22">insert</jtok>
+<jtok eid="14" type="primary_name_ref" span="250:23:250:24">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="250:26:250:33">Globals</jtok>
+<jtok eid="14" type="qualified_name_ref" span="250:34:250:41">NEWLINE</jtok>
+<jtok eid="1" type="block_comment" span="254:5:256:8">/**
+     * Reads the next unit. Units are delimited by ';'. 
+     */</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="257:13:257:19">String</jtok>
+<jtok eid="15" type="method_name" span="257:20:257:31">getNextUnit</jtok>
+<jtok eid="15" type="parameter_type" span="257:32:257:38">Reader</jtok>
+<jtok eid="15" type="parameter_name" span="257:39:257:45">reader</jtok>
+<jtok eid="15" type="throws" span="257:54:257:65">IOException</jtok>
+<jtok eid="15" type="local_variable_name" span="258:13:258:14">c</jtok>
+<jtok eid="15" type="local_variable_name" span="259:17:259:23">escape</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="260:9:260:21">StringBuffer</jtok>
+<jtok eid="15" type="local_variable_name" span="260:22:260:25">res</jtok>
+<jtok eid="15" type="constructor_call" span="260:32:260:44">StringBuffer</jtok>
+<jtok eid="15" type="primary_name_ref" span="261:17:261:18">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="261:21:261:27">reader</jtok>
+<jtok eid="15" type="method_call" span="261:28:261:32">read</jtok>
+<jtok eid="15" type="primary_name_ref" span="262:17:262:23">escape</jtok>
+<jtok eid="15" type="primary_name_ref" span="263:17:263:20">res</jtok>
+<jtok eid="15" type="method_call" span="263:21:263:27">append</jtok>
+<jtok eid="15" type="primary_name_ref" span="263:34:263:35">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="264:17:264:23">escape</jtok>
+<jtok eid="15" type="primary_name_ref" span="265:24:265:25">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="266:17:266:23">escape</jtok>
+<jtok eid="15" type="primary_name_ref" span="267:24:267:25">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="270:17:270:20">res</jtok>
+<jtok eid="15" type="method_call" span="270:21:270:27">append</jtok>
+<jtok eid="15" type="primary_name_ref" span="270:34:270:35">c</jtok>
+<jtok eid="15" type="primary_name_ref" span="273:13:273:16">res</jtok>
+<jtok eid="15" type="method_call" span="273:17:273:23">length</jtok>
+<jtok eid="15" type="primary_name_ref" span="274:20:274:23">res</jtok>
+<jtok eid="15" type="method_call" span="274:24:274:32">toString</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="278:12:278:16">File</jtok>
+<jtok eid="16" type="method_name" span="278:17:278:24">getFile</jtok>
+<jtok eid="16" type="primary_name_ref" span="279:16:279:20">file</jtok>
+<jtok eid="17" type="method_name" span="282:17:282:24">setFile</jtok>
+<jtok eid="17" type="parameter_type" span="282:25:282:29">File</jtok>
+<jtok eid="17" type="parameter_name" span="282:30:282:34">file</jtok>
+<jtok eid="17" type="qualified_name_ref" span="283:14:283:18">file</jtok>
+<jtok eid="17" type="primary_name_ref" span="283:21:283:25">file</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="286:12:286:21">DBStrings</jtok>
+<jtok eid="18" type="method_name" span="286:22:286:34">getDBStrings</jtok>
+<jtok eid="18" type="primary_name_ref" span="287:16:287:25">dbStrings</jtok>
+<jtok eid="19" type="method_name" span="290:17:290:29">setDBStrings</jtok>
+<jtok eid="19" type="parameter_type" span="290:30:290:39">DBStrings</jtok>
+<jtok eid="19" type="parameter_name" span="290:40:290:49">dbStrings</jtok>
+<jtok eid="19" type="qualified_name_ref" span="291:14:291:23">dbStrings</jtok>
+<jtok eid="19" type="primary_name_ref" span="291:26:291:35">dbStrings</jtok>
+</jdoc>

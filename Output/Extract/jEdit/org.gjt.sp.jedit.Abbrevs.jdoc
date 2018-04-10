@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.Abbrevs" jls="java5">
+<jent id="0" type="file" span="0:0:594:2">Source/jEdit/org/gjt/sp/jedit/Abbrevs.java</jent>
+<jent id="1" pid="0" type="class" span="38:1:594:1">org.gjt.sp.jedit.Abbrevs</jent>
+<jent id="2" pid="1" type="method" span="47:2:50:2">org.gjt.sp.jedit.Abbrevs.getExpandOnInput()</jent>
+<jent id="3" pid="1" type="method" span="59:2:62:2">org.gjt.sp.jedit.Abbrevs.setExpandOnInput(boolean)</jent>
+<jent id="4" pid="1" type="method" span="73:2:189:2">org.gjt.sp.jedit.Abbrevs.expandAbbrev(View,boolean)</jent>
+<jent id="5" pid="1" type="method" span="196:2:202:2">org.gjt.sp.jedit.Abbrevs.getGlobalAbbrevs()</jent>
+<jent id="6" pid="1" type="method" span="210:2:214:2">org.gjt.sp.jedit.Abbrevs.setGlobalAbbrevs(Hashtable&lt;String,String&gt;)</jent>
+<jent id="7" pid="1" type="method" span="221:2:227:2">org.gjt.sp.jedit.Abbrevs.getModeAbbrevs()</jent>
+<jent id="8" pid="1" type="method" span="235:2:239:2">org.gjt.sp.jedit.Abbrevs.setModeAbbrevs(Hashtable&lt;Hashtable&lt;String,String,String&gt;&gt;)</jent>
+<jent id="9" pid="1" type="method" span="248:2:255:2">org.gjt.sp.jedit.Abbrevs.addGlobalAbbrev(String,String)</jent>
+<jent id="10" pid="1" type="method" span="265:2:278:2">org.gjt.sp.jedit.Abbrevs.addModeAbbrev(String,String,String)</jent>
+<jent id="11" pid="1" type="method" span="281:2:315:2">org.gjt.sp.jedit.Abbrevs.save()</jent>
+<jent id="12" pid="1" type="method" span="331:2:331:21">org.gjt.sp.jedit.Abbrevs.Abbrevs()</jent>
+<jent id="13" pid="1" type="method" span="339:2:382:2">org.gjt.sp.jedit.Abbrevs.load()</jent>
+<jent id="14" pid="1" type="method" span="385:2:396:2">org.gjt.sp.jedit.Abbrevs.countNewlines(String,int)</jent>
+<jent id="15" pid="1" type="method" span="399:2:419:2">org.gjt.sp.jedit.Abbrevs.expandAbbrev(String,String,int,Vector&lt;String&gt;)</jent>
+<jent id="16" pid="1" type="method" span="422:2:464:2">org.gjt.sp.jedit.Abbrevs.loadAbbrevs(Reader)</jent>
+<jent id="17" pid="1" type="method" span="467:2:491:2">org.gjt.sp.jedit.Abbrevs.saveAbbrevs(Writer)</jent>
+<jent id="18" pid="1" type="method" span="494:2:509:2">org.gjt.sp.jedit.Abbrevs.saveAbbrevs(Writer,Hashtable&lt;String,String&gt;)</jent>
+<jent id="19" pid="1" type="class" span="514:2:593:2">org.gjt.sp.jedit.Abbrevs.Expansion</jent>
+<jent id="20" pid="19" type="method" span="524:3:592:3">org.gjt.sp.jedit.Abbrevs.Expansion.Expansion(String,int,List&lt;String&gt;)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * Abbrevs.java - Abbreviation manager
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2004 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="31:1:31:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="33:1:37:4">/**
+ * Abbreviation manager.
+ * @author Slava Pestov
+ * @version $Id: Abbrevs.java 12504 2008-04-22 23:12:43Z ezust $
+ */</jtok>
+<jtok eid="1" type="class_name" span="38:14:38:21">Abbrevs</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="40:22:40:28">String</jtok>
+<jtok eid="1" type="field_name" span="40:29:40:37">ENCODING</jtok>
+<jtok eid="1" type="string_literal" span="40:40:40:46">"UTF8"</jtok>
+<jtok eid="1" type="line_comment" span="42:2:42:33">//{{{ getExpandOnInput() method</jtok>
+<jtok eid="1" type="block_comment" span="43:2:46:5">/**
+	 * Returns if abbreviations should be expanded after the
+	 * user finishes typing a word.
+	 */</jtok>
+<jtok eid="2" type="method_name" span="47:24:47:40">getExpandOnInput</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:10:49:23">expandOnInput</jtok>
+<jtok eid="1" type="line_comment" span="50:4:50:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="52:2:52:33">//{{{ setExpandOnInput() method</jtok>
+<jtok eid="1" type="block_comment" span="53:2:58:5">/**
+	 * Sets if abbreviations should be expanded after the
+	 * user finishes typing a word.
+	 * @param expandOnInput If true, typing a non-alphanumeric character
+	 * will automatically attempt to expand the current abbrev
+	 */</jtok>
+<jtok eid="3" type="method_name" span="59:21:59:37">setExpandOnInput</jtok>
+<jtok eid="3" type="parameter_name" span="59:46:59:59">expandOnInput</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:3:61:10">Abbrevs</jtok>
+<jtok eid="3" type="qualified_name_ref" span="61:11:61:24">expandOnInput</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:27:61:40">expandOnInput</jtok>
+<jtok eid="1" type="line_comment" span="62:4:62:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="64:2:64:29">//{{{ expandAbbrev() method</jtok>
+<jtok eid="1" type="block_comment" span="65:2:72:5">/**
+	 * Expands the abbrev at the caret position in the specified
+	 * view.
+	 * @param view The view
+	 * @param add If true and abbrev not found, will ask user if
+	 * it should be added
+	 * @since jEdit 2.6pre4
+	 */</jtok>
+<jtok eid="4" type="method_name" span="73:24:73:36">expandAbbrev</jtok>
+<jtok eid="4" type="parameter_type" span="73:37:73:41">View</jtok>
+<jtok eid="4" type="parameter_name" span="73:42:73:46">view</jtok>
+<jtok eid="4" type="parameter_name" span="73:56:73:59">add</jtok>
+<jtok eid="4" type="line_comment" span="75:3:75:37">//{{{ Figure out some minor things</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="76:3:76:9">Buffer</jtok>
+<jtok eid="4" type="local_variable_name" span="76:10:76:16">buffer</jtok>
+<jtok eid="4" type="primary_name_ref" span="76:19:76:23">view</jtok>
+<jtok eid="4" type="method_call" span="76:24:76:33">getBuffer</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="77:3:77:16">JEditTextArea</jtok>
+<jtok eid="4" type="local_variable_name" span="77:17:77:25">textArea</jtok>
+<jtok eid="4" type="primary_name_ref" span="77:28:77:32">view</jtok>
+<jtok eid="4" type="method_call" span="77:33:77:44">getTextArea</jtok>
+<jtok eid="4" type="primary_name_ref" span="78:7:78:13">buffer</jtok>
+<jtok eid="4" type="method_call" span="78:14:78:24">isEditable</jtok>
+<jtok eid="4" type="primary_name_ref" span="80:4:80:8">view</jtok>
+<jtok eid="4" type="method_call" span="80:9:80:19">getToolkit</jtok>
+<jtok eid="4" type="method_call" span="80:22:80:26">beep</jtok>
+<jtok eid="4" type="local_variable_name" span="84:7:84:11">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="84:14:84:22">textArea</jtok>
+<jtok eid="4" type="method_call" span="84:23:84:35">getCaretLine</jtok>
+<jtok eid="4" type="local_variable_name" span="85:7:85:16">lineStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:19:85:25">buffer</jtok>
+<jtok eid="4" type="method_call" span="85:26:85:44">getLineStartOffset</jtok>
+<jtok eid="4" type="primary_name_ref" span="85:45:85:49">line</jtok>
+<jtok eid="4" type="local_variable_name" span="86:7:86:12">caret</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:15:86:23">textArea</jtok>
+<jtok eid="4" type="method_call" span="86:24:86:40">getCaretPosition</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="88:3:88:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="88:10:88:18">lineText</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:21:88:27">buffer</jtok>
+<jtok eid="4" type="method_call" span="88:28:88:39">getLineText</jtok>
+<jtok eid="4" type="primary_name_ref" span="88:40:88:44">line</jtok>
+<jtok eid="4" type="primary_name_ref" span="89:6:89:14">lineText</jtok>
+<jtok eid="4" type="method_call" span="89:15:89:21">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:7:91:10">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:5:92:9">view</jtok>
+<jtok eid="4" type="method_call" span="92:10:92:20">getToolkit</jtok>
+<jtok eid="4" type="method_call" span="92:23:92:27">beep</jtok>
+<jtok eid="4" type="local_variable_name" span="96:7:96:10">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:13:96:18">caret</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:21:96:30">lineStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="97:6:97:9">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:7:99:10">add</jtok>
+<jtok eid="4" type="primary_name_ref" span="100:5:100:9">view</jtok>
+<jtok eid="4" type="method_call" span="100:10:100:20">getToolkit</jtok>
+<jtok eid="4" type="method_call" span="100:23:100:27">beep</jtok>
+<jtok eid="4" type="line_comment" span="102:5:102:10">//}}}</jtok>
+<jtok eid="4" type="line_comment" span="104:3:104:43">// we reuse the 'pp' vector to save time</jtok>
+<jtok eid="4" type="primary_name_ref" span="105:3:105:7">m_pp</jtok>
+<jtok eid="4" type="method_call" span="105:8:105:25">removeAllElements</jtok>
+<jtok eid="4" type="local_variable_name" span="107:7:107:16">wordStart</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="108:3:108:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="108:10:108:16">abbrev</jtok>
+<jtok eid="4" type="line_comment" span="110:3:110:61">//{{{ Handle abbrevs of the form abbrev#pos1#pos2#pos3#...</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:6:111:14">lineText</jtok>
+<jtok eid="4" type="method_call" span="111:15:111:21">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="111:22:111:25">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:4:113:13">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="113:16:113:24">lineText</jtok>
+<jtok eid="4" type="method_call" span="113:25:113:32">indexOf</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:4:114:13">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:16:114:29">TextUtilities</jtok>
+<jtok eid="4" type="method_call" span="114:30:114:43">findWordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:44:114:52">lineText</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:53:114:62">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="115:5:115:11">buffer</jtok>
+<jtok eid="4" type="method_call" span="115:12:115:29">getStringProperty</jtok>
+<jtok eid="4" type="string_literal" span="115:30:115:41">"noWordSep"</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:4:117:10">abbrev</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:13:117:21">lineText</jtok>
+<jtok eid="4" type="method_call" span="117:22:117:31">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:32:117:41">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="117:42:117:45">pos</jtok>
+<jtok eid="4" type="line_comment" span="119:4:119:67">// positional parameters will be inserted where $1, $2, $3, ...</jtok>
+<jtok eid="4" type="line_comment" span="120:4:120:30">// occurs in the expansion</jtok>
+<jtok eid="4" type="local_variable_name" span="122:8:122:17">lastIndex</jtok>
+<jtok eid="4" type="local_variable_name" span="123:12:123:13">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:19:123:20">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:23:123:29">abbrev</jtok>
+<jtok eid="4" type="method_call" span="123:30:123:36">length</jtok>
+<jtok eid="4" type="primary_name_ref" span="123:40:123:41">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:8:125:14">abbrev</jtok>
+<jtok eid="4" type="method_call" span="125:15:125:21">charAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="125:22:125:23">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:6:127:10">m_pp</jtok>
+<jtok eid="4" type="method_call" span="127:11:127:21">addElement</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:22:127:28">abbrev</jtok>
+<jtok eid="4" type="method_call" span="127:29:127:38">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:39:127:48">lastIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="127:49:127:50">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:6:128:15">lastIndex</jtok>
+<jtok eid="4" type="primary_name_ref" span="128:18:128:19">i</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:4:132:8">m_pp</jtok>
+<jtok eid="4" type="method_call" span="132:9:132:19">addElement</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:20:132:26">abbrev</jtok>
+<jtok eid="4" type="method_call" span="132:27:132:36">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="132:37:132:46">lastIndex</jtok>
+<jtok eid="4" type="line_comment" span="134:4:134:51">// the first element of pp is the abbrev itself</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:4:135:10">abbrev</jtok>
+<jtok eid="4" type="primary_name_ref" span="135:13:135:17">m_pp</jtok>
+<jtok eid="4" type="method_call" span="135:18:135:27">elementAt</jtok>
+<jtok eid="4" type="primary_name_ref" span="136:4:136:8">m_pp</jtok>
+<jtok eid="4" type="method_call" span="136:9:136:24">removeElementAt</jtok>
+<jtok eid="4" type="line_comment" span="137:5:137:10">//}}}</jtok>
+<jtok eid="4" type="line_comment" span="138:3:138:32">//{{{ Handle ordinary abbrevs</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:4:141:13">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:16:141:29">TextUtilities</jtok>
+<jtok eid="4" type="method_call" span="141:30:141:43">findWordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:44:141:52">lineText</jtok>
+<jtok eid="4" type="primary_name_ref" span="141:53:141:56">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="142:5:142:11">buffer</jtok>
+<jtok eid="4" type="method_call" span="142:12:142:29">getStringProperty</jtok>
+<jtok eid="4" type="string_literal" span="142:30:142:41">"noWordSep"</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:4:144:10">abbrev</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:13:144:21">lineText</jtok>
+<jtok eid="4" type="method_call" span="144:22:144:31">substring</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:32:144:41">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="144:42:144:45">pos</jtok>
+<jtok eid="4" type="line_comment" span="145:5:145:10">//}}}</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="147:3:147:12">Expansion</jtok>
+<jtok eid="4" type="local_variable_name" span="147:13:147:19">expand</jtok>
+<jtok eid="4" type="method_call" span="147:22:147:34">expandAbbrev</jtok>
+<jtok eid="4" type="primary_name_ref" span="147:35:147:41">buffer</jtok>
+<jtok eid="4" type="method_call" span="147:42:147:49">getMode</jtok>
+<jtok eid="4" type="method_call" span="147:52:147:59">getName</jtok>
+<jtok eid="4" type="primary_name_ref" span="148:4:148:10">abbrev</jtok>
+<jtok eid="4" type="primary_name_ref" span="148:12:148:18">buffer</jtok>
+<jtok eid="4" type="method_call" span="148:19:148:37">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="148:38:148:46">"noTabs"</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:4:149:10">buffer</jtok>
+<jtok eid="4" type="method_call" span="149:11:149:21">getTabSize</jtok>
+<jtok eid="4" type="primary_name_ref" span="149:29:149:33">m_pp</jtok>
+<jtok eid="4" type="line_comment" span="151:3:151:37">//{{{ Maybe show add abbrev dialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="152:6:152:12">expand</jtok>
+<jtok eid="4" type="primary_name_ref" span="154:7:154:10">add</jtok>
+<jtok eid="4" type="constructor_call" span="155:9:155:24">AddAbbrevDialog</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:25:155:29">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="155:30:155:36">abbrev</jtok>
+<jtok eid="4" type="line_comment" span="158:5:158:10">//}}}</jtok>
+<jtok eid="4" type="line_comment" span="159:3:159:29">//{{{ Insert the expansion</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:4:162:10">buffer</jtok>
+<jtok eid="4" type="method_call" span="162:11:162:17">remove</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:18:162:27">lineStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="162:30:162:39">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:5:163:8">pos</jtok>
+<jtok eid="4" type="primary_name_ref" span="163:11:163:20">wordStart</jtok>
+<jtok eid="4" type="local_variable_name" span="165:8:165:18">whitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="165:21:165:27">buffer</jtok>
+<jtok eid="4" type="method_call" span="165:28:165:42">insertIndented</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:5:166:14">lineStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="166:17:166:26">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="167:5:167:11">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="167:12:167:16">text</jtok>
+<jtok eid="4" type="local_variable_name" span="169:8:169:16">newlines</jtok>
+<jtok eid="4" type="method_call" span="169:19:169:32">countNewlines</jtok>
+<jtok eid="4" type="primary_name_ref" span="169:33:169:39">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="169:40:169:44">text</jtok>
+<jtok eid="4" type="primary_name_ref" span="170:5:170:11">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="170:12:170:25">caretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="172:7:172:13">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="172:14:172:27">caretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="174:5:174:13">textArea</jtok>
+<jtok eid="4" type="method_call" span="174:14:174:30">setCaretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="174:31:174:40">lineStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="174:43:174:52">wordStart</jtok>
+<jtok eid="4" type="primary_name_ref" span="175:8:175:14">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="175:15:175:28">caretPosition</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:8:176:16">newlines</jtok>
+<jtok eid="4" type="primary_name_ref" span="176:19:176:29">whitespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:7:178:13">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="178:14:178:27">posParamCount</jtok>
+<jtok eid="4" type="primary_name_ref" span="178:31:178:35">m_pp</jtok>
+<jtok eid="4" type="method_call" span="178:36:178:40">size</jtok>
+<jtok eid="4" type="primary_name_ref" span="180:5:180:9">view</jtok>
+<jtok eid="4" type="method_call" span="180:10:180:19">getStatus</jtok>
+<jtok eid="4" type="method_call" span="180:22:180:40">setMessageAndClear</jtok>
+<jtok eid="4" type="primary_name_ref" span="181:6:181:11">jEdit</jtok>
+<jtok eid="4" type="method_call" span="181:12:181:23">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="182:6:182:37">"view.status.incomplete-abbrev"</jtok>
+<jtok eid="4" type="constructor_call" span="183:10:183:17">Integer</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:22:183:29">Integer</jtok>
+<jtok eid="4" type="method_call" span="183:30:183:37">valueOf</jtok>
+<jtok eid="4" type="primary_name_ref" span="183:38:183:42">m_pp</jtok>
+<jtok eid="4" type="method_call" span="183:43:183:47">size</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:6:184:13">Integer</jtok>
+<jtok eid="4" type="method_call" span="184:14:184:21">valueOf</jtok>
+<jtok eid="4" type="primary_name_ref" span="184:22:184:28">expand</jtok>
+<jtok eid="4" type="qualified_name_ref" span="184:29:184:42">posParamCount</jtok>
+<jtok eid="4" type="line_comment" span="188:5:188:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="189:4:189:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="191:2:191:33">//{{{ getGlobalAbbrevs() method</jtok>
+<jtok eid="1" type="block_comment" span="192:2:195:5">/**
+	 * Returns the global abbreviation set.
+	 * @since jEdit 2.3pre1
+	 */</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="196:16:196:25">Hashtable</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="196:26:196:32">String</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="196:33:196:39">String</jtok>
+<jtok eid="5" type="method_name" span="196:41:196:57">getGlobalAbbrevs</jtok>
+<jtok eid="5" type="primary_name_ref" span="198:7:198:13">loaded</jtok>
+<jtok eid="5" type="method_call" span="199:4:199:8">load</jtok>
+<jtok eid="5" type="primary_name_ref" span="201:10:201:23">globalAbbrevs</jtok>
+<jtok eid="1" type="line_comment" span="202:4:202:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="204:2:204:33">//{{{ setGlobalAbbrevs() method</jtok>
+<jtok eid="1" type="block_comment" span="205:2:209:5">/**
+	 * Sets the global abbreviation set.
+	 * @param globalAbbrevs The new global abbrev set
+	 * @since jEdit 2.3pre1
+	 */</jtok>
+<jtok eid="6" type="method_name" span="210:21:210:37">setGlobalAbbrevs</jtok>
+<jtok eid="6" type="parameter_type" span="210:38:210:47">Hashtable</jtok>
+<jtok eid="6" type="parameter_type" span="210:48:210:54">String</jtok>
+<jtok eid="6" type="parameter_type" span="210:55:210:61">String</jtok>
+<jtok eid="6" type="parameter_name" span="210:63:210:76">globalAbbrevs</jtok>
+<jtok eid="6" type="primary_name_ref" span="212:3:212:17">abbrevsChanged</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:3:213:10">Abbrevs</jtok>
+<jtok eid="6" type="qualified_name_ref" span="213:11:213:24">globalAbbrevs</jtok>
+<jtok eid="6" type="primary_name_ref" span="213:27:213:40">globalAbbrevs</jtok>
+<jtok eid="1" type="line_comment" span="214:4:214:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="216:2:216:31">//{{{ getModeAbbrevs() method</jtok>
+<jtok eid="1" type="block_comment" span="217:2:220:5">/**
+	 * Returns the mode-specific abbreviation set.
+	 * @since jEdit 2.3pre1
+	 */</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="221:16:221:25">Hashtable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="221:26:221:32">String</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="221:33:221:42">Hashtable</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="221:43:221:49">String</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="221:50:221:56">String</jtok>
+<jtok eid="7" type="method_name" span="221:59:221:73">getModeAbbrevs</jtok>
+<jtok eid="7" type="primary_name_ref" span="223:7:223:13">loaded</jtok>
+<jtok eid="7" type="method_call" span="224:4:224:8">load</jtok>
+<jtok eid="7" type="primary_name_ref" span="226:10:226:15">modes</jtok>
+<jtok eid="1" type="line_comment" span="227:4:227:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="229:2:229:31">//{{{ setModeAbbrevs() method</jtok>
+<jtok eid="1" type="block_comment" span="230:2:234:5">/**
+	 * Sets the mode-specific abbreviation set.
+	 * @param modes The new mode abbrev set
+	 * @since jEdit 2.3pre1
+	 */</jtok>
+<jtok eid="8" type="method_name" span="235:21:235:35">setModeAbbrevs</jtok>
+<jtok eid="8" type="parameter_type" span="235:36:235:45">Hashtable</jtok>
+<jtok eid="8" type="parameter_type" span="235:46:235:52">String</jtok>
+<jtok eid="8" type="parameter_type" span="235:53:235:62">Hashtable</jtok>
+<jtok eid="8" type="parameter_type" span="235:63:235:69">String</jtok>
+<jtok eid="8" type="parameter_type" span="235:70:235:76">String</jtok>
+<jtok eid="8" type="parameter_name" span="235:79:235:84">modes</jtok>
+<jtok eid="8" type="primary_name_ref" span="237:3:237:17">abbrevsChanged</jtok>
+<jtok eid="8" type="primary_name_ref" span="238:3:238:10">Abbrevs</jtok>
+<jtok eid="8" type="qualified_name_ref" span="238:11:238:16">modes</jtok>
+<jtok eid="8" type="primary_name_ref" span="238:19:238:24">modes</jtok>
+<jtok eid="1" type="line_comment" span="239:4:239:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="241:2:241:32">//{{{ addGlobalAbbrev() method</jtok>
+<jtok eid="1" type="block_comment" span="242:2:247:5">/**
+	 * Adds an abbreviation to the global abbreviation list.
+	 * @param abbrev The abbreviation
+	 * @param expansion The expansion
+	 * @since jEdit 3.1pre1
+	 */</jtok>
+<jtok eid="9" type="method_name" span="248:21:248:36">addGlobalAbbrev</jtok>
+<jtok eid="9" type="parameter_type" span="248:37:248:43">String</jtok>
+<jtok eid="9" type="parameter_name" span="248:44:248:50">abbrev</jtok>
+<jtok eid="9" type="parameter_type" span="248:52:248:58">String</jtok>
+<jtok eid="9" type="parameter_name" span="248:59:248:68">expansion</jtok>
+<jtok eid="9" type="primary_name_ref" span="250:7:250:13">loaded</jtok>
+<jtok eid="9" type="method_call" span="251:4:251:8">load</jtok>
+<jtok eid="9" type="primary_name_ref" span="253:3:253:16">globalAbbrevs</jtok>
+<jtok eid="9" type="method_call" span="253:17:253:20">put</jtok>
+<jtok eid="9" type="primary_name_ref" span="253:21:253:27">abbrev</jtok>
+<jtok eid="9" type="primary_name_ref" span="253:28:253:37">expansion</jtok>
+<jtok eid="9" type="primary_name_ref" span="254:3:254:17">abbrevsChanged</jtok>
+<jtok eid="1" type="line_comment" span="255:4:255:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="257:2:257:30">//{{{ addModeAbbrev() method</jtok>
+<jtok eid="1" type="block_comment" span="258:2:264:5">/**
+	 * Adds a mode-specific abbrev.
+	 * @param mode The edit mode
+	 * @param abbrev The abbrev
+	 * @param expansion The expansion
+	 * @since jEdit 3.1pre1
+	 */</jtok>
+<jtok eid="10" type="method_name" span="265:21:265:34">addModeAbbrev</jtok>
+<jtok eid="10" type="parameter_type" span="265:35:265:41">String</jtok>
+<jtok eid="10" type="parameter_name" span="265:42:265:46">mode</jtok>
+<jtok eid="10" type="parameter_type" span="265:48:265:54">String</jtok>
+<jtok eid="10" type="parameter_name" span="265:55:265:61">abbrev</jtok>
+<jtok eid="10" type="parameter_type" span="265:63:265:69">String</jtok>
+<jtok eid="10" type="parameter_name" span="265:70:265:79">expansion</jtok>
+<jtok eid="10" type="primary_name_ref" span="267:7:267:13">loaded</jtok>
+<jtok eid="10" type="method_call" span="268:4:268:8">load</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="270:3:270:12">Hashtable</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="270:13:270:19">String</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="270:20:270:26">String</jtok>
+<jtok eid="10" type="local_variable_name" span="270:28:270:39">modeAbbrevs</jtok>
+<jtok eid="10" type="primary_name_ref" span="270:42:270:47">modes</jtok>
+<jtok eid="10" type="method_call" span="270:48:270:51">get</jtok>
+<jtok eid="10" type="primary_name_ref" span="270:52:270:56">mode</jtok>
+<jtok eid="10" type="primary_name_ref" span="271:6:271:17">modeAbbrevs</jtok>
+<jtok eid="10" type="primary_name_ref" span="273:4:273:15">modeAbbrevs</jtok>
+<jtok eid="10" type="constructor_call" span="273:22:273:31">Hashtable</jtok>
+<jtok eid="10" type="constructor_call" span="273:32:273:38">String</jtok>
+<jtok eid="10" type="constructor_call" span="273:39:273:45">String</jtok>
+<jtok eid="10" type="primary_name_ref" span="274:4:274:9">modes</jtok>
+<jtok eid="10" type="method_call" span="274:10:274:13">put</jtok>
+<jtok eid="10" type="primary_name_ref" span="274:14:274:18">mode</jtok>
+<jtok eid="10" type="primary_name_ref" span="274:19:274:30">modeAbbrevs</jtok>
+<jtok eid="10" type="primary_name_ref" span="276:3:276:14">modeAbbrevs</jtok>
+<jtok eid="10" type="method_call" span="276:15:276:18">put</jtok>
+<jtok eid="10" type="primary_name_ref" span="276:19:276:25">abbrev</jtok>
+<jtok eid="10" type="primary_name_ref" span="276:26:276:35">expansion</jtok>
+<jtok eid="10" type="primary_name_ref" span="277:3:277:17">abbrevsChanged</jtok>
+<jtok eid="1" type="line_comment" span="278:4:278:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="280:2:280:21">//{{{ save() method</jtok>
+<jtok eid="11" type="method_name" span="281:14:281:18">save</jtok>
+<jtok eid="11" type="primary_name_ref" span="283:3:283:8">jEdit</jtok>
+<jtok eid="11" type="method_call" span="283:9:283:27">setBooleanProperty</jtok>
+<jtok eid="11" type="string_literal" span="283:28:283:48">"view.expandOnInput"</jtok>
+<jtok eid="11" type="primary_name_ref" span="283:49:283:62">expandOnInput</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="285:3:285:9">String</jtok>
+<jtok eid="11" type="local_variable_name" span="285:10:285:18">settings</jtok>
+<jtok eid="11" type="primary_name_ref" span="285:21:285:26">jEdit</jtok>
+<jtok eid="11" type="method_call" span="285:27:285:47">getSettingsDirectory</jtok>
+<jtok eid="11" type="primary_name_ref" span="286:6:286:20">abbrevsChanged</jtok>
+<jtok eid="11" type="primary_name_ref" span="286:24:286:32">settings</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="288:4:288:8">File</jtok>
+<jtok eid="11" type="local_variable_name" span="288:9:288:14">file1</jtok>
+<jtok eid="11" type="constructor_call" span="288:21:288:25">File</jtok>
+<jtok eid="11" type="primary_name_ref" span="288:26:288:39">MiscUtilities</jtok>
+<jtok eid="11" type="method_call" span="288:40:288:53">constructPath</jtok>
+<jtok eid="11" type="primary_name_ref" span="288:54:288:62">settings</jtok>
+<jtok eid="11" type="string_literal" span="288:63:288:79">"#abbrevs#save#"</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="289:4:289:8">File</jtok>
+<jtok eid="11" type="local_variable_name" span="289:9:289:14">file2</jtok>
+<jtok eid="11" type="constructor_call" span="289:21:289:25">File</jtok>
+<jtok eid="11" type="primary_name_ref" span="289:26:289:39">MiscUtilities</jtok>
+<jtok eid="11" type="method_call" span="289:40:289:53">constructPath</jtok>
+<jtok eid="11" type="primary_name_ref" span="289:54:289:62">settings</jtok>
+<jtok eid="11" type="string_literal" span="289:63:289:72">"abbrevs"</jtok>
+<jtok eid="11" type="primary_name_ref" span="290:7:290:12">file2</jtok>
+<jtok eid="11" type="method_call" span="290:13:290:19">exists</jtok>
+<jtok eid="11" type="primary_name_ref" span="290:25:290:30">file2</jtok>
+<jtok eid="11" type="method_call" span="290:31:290:43">lastModified</jtok>
+<jtok eid="11" type="primary_name_ref" span="290:49:290:63">abbrevsModTime</jtok>
+<jtok eid="11" type="primary_name_ref" span="292:5:292:8">Log</jtok>
+<jtok eid="11" type="method_call" span="292:9:292:12">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="292:13:292:16">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="292:17:292:24">WARNING</jtok>
+<jtok eid="11" type="primary_name_ref" span="292:25:292:32">Abbrevs</jtok>
+<jtok eid="11" type="primary_name_ref" span="292:39:292:44">file2</jtok>
+<jtok eid="11" type="string_literal" span="292:47:292:66">" changed on disk;"</jtok>
+<jtok eid="11" type="string_literal" span="293:8:293:32">" will not save abbrevs"</jtok>
+<jtok eid="11" type="primary_name_ref" span="297:5:297:10">jEdit</jtok>
+<jtok eid="11" type="method_call" span="297:11:297:29">backupSettingsFile</jtok>
+<jtok eid="11" type="primary_name_ref" span="297:30:297:35">file2</jtok>
+<jtok eid="11" type="method_call" span="301:6:301:17">saveAbbrevs</jtok>
+<jtok eid="11" type="constructor_call" span="301:22:301:40">OutputStreamWriter</jtok>
+<jtok eid="11" type="constructor_call" span="302:11:302:27">FileOutputStream</jtok>
+<jtok eid="11" type="primary_name_ref" span="302:28:302:33">file1</jtok>
+<jtok eid="11" type="primary_name_ref" span="303:7:303:15">ENCODING</jtok>
+<jtok eid="11" type="primary_name_ref" span="304:6:304:11">file2</jtok>
+<jtok eid="11" type="method_call" span="304:12:304:18">delete</jtok>
+<jtok eid="11" type="primary_name_ref" span="305:6:305:11">file1</jtok>
+<jtok eid="11" type="method_call" span="305:12:305:20">renameTo</jtok>
+<jtok eid="11" type="primary_name_ref" span="305:21:305:26">file2</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="307:11:307:20">Exception</jtok>
+<jtok eid="11" type="local_variable_name" span="307:21:307:22">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:6:309:9">Log</jtok>
+<jtok eid="11" type="method_call" span="309:10:309:13">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:14:309:17">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="309:18:309:23">ERROR</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:24:309:31">Abbrevs</jtok>
+<jtok eid="11" type="string_literal" span="309:38:309:59">"Error while saving "</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:62:309:67">file1</jtok>
+<jtok eid="11" type="primary_name_ref" span="310:6:310:9">Log</jtok>
+<jtok eid="11" type="method_call" span="310:10:310:13">log</jtok>
+<jtok eid="11" type="primary_name_ref" span="310:14:310:17">Log</jtok>
+<jtok eid="11" type="qualified_name_ref" span="310:18:310:23">ERROR</jtok>
+<jtok eid="11" type="primary_name_ref" span="310:24:310:31">Abbrevs</jtok>
+<jtok eid="11" type="primary_name_ref" span="310:38:310:39">e</jtok>
+<jtok eid="11" type="primary_name_ref" span="312:5:312:19">abbrevsModTime</jtok>
+<jtok eid="11" type="primary_name_ref" span="312:22:312:27">file2</jtok>
+<jtok eid="11" type="method_call" span="312:28:312:40">lastModified</jtok>
+<jtok eid="1" type="line_comment" span="315:4:315:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="317:2:317:23">//{{{ Private members</jtok>
+<jtok eid="1" type="line_comment" span="319:2:319:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="field_name" span="320:25:320:31">loaded</jtok>
+<jtok eid="1" type="field_name" span="321:25:321:39">abbrevsChanged</jtok>
+<jtok eid="1" type="field_name" span="322:22:322:36">abbrevsModTime</jtok>
+<jtok eid="1" type="field_name" span="323:25:323:38">expandOnInput</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="324:17:324:26">Hashtable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="324:27:324:33">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="324:34:324:40">String</jtok>
+<jtok eid="1" type="field_name" span="324:42:324:55">globalAbbrevs</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="325:17:325:26">Hashtable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="325:27:325:33">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="325:34:325:43">Hashtable</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="325:44:325:50">String</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="325:51:325:57">String</jtok>
+<jtok eid="1" type="field_name" span="325:60:325:65">modes</jtok>
+<jtok eid="1" type="block_comment" span="327:2:327:41">/**  Vector of Positional Parameters */</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="328:17:328:23">Vector</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="328:24:328:30">String</jtok>
+<jtok eid="1" type="field_name" span="328:32:328:36">m_pp</jtok>
+<jtok eid="1" type="constructor_call" span="328:43:328:49">Vector</jtok>
+<jtok eid="1" type="constructor_call" span="328:50:328:56">String</jtok>
+<jtok eid="1" type="line_comment" span="329:2:329:7">//}}}</jtok>
+<jtok eid="12" type="method_name" span="331:10:331:17">Abbrevs</jtok>
+<jtok eid="1" type="primary_name_ref" span="335:3:335:16">expandOnInput</jtok>
+<jtok eid="1" type="primary_name_ref" span="335:19:335:24">jEdit</jtok>
+<jtok eid="1" type="method_call" span="335:25:335:43">getBooleanProperty</jtok>
+<jtok eid="1" type="string_literal" span="335:44:335:64">"view.expandOnInput"</jtok>
+<jtok eid="1" type="line_comment" span="338:2:338:21">//{{{ load() method</jtok>
+<jtok eid="13" type="method_name" span="339:22:339:26">load</jtok>
+<jtok eid="13" type="primary_name_ref" span="341:3:341:16">globalAbbrevs</jtok>
+<jtok eid="13" type="constructor_call" span="341:23:341:32">Hashtable</jtok>
+<jtok eid="13" type="constructor_call" span="341:33:341:39">String</jtok>
+<jtok eid="13" type="constructor_call" span="341:40:341:46">String</jtok>
+<jtok eid="13" type="primary_name_ref" span="342:3:342:8">modes</jtok>
+<jtok eid="13" type="constructor_call" span="342:15:342:24">Hashtable</jtok>
+<jtok eid="13" type="constructor_call" span="342:25:342:31">String</jtok>
+<jtok eid="13" type="constructor_call" span="342:32:342:41">Hashtable</jtok>
+<jtok eid="13" type="constructor_call" span="342:42:342:48">String</jtok>
+<jtok eid="13" type="constructor_call" span="342:49:342:55">String</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="344:3:344:9">String</jtok>
+<jtok eid="13" type="local_variable_name" span="344:10:344:18">settings</jtok>
+<jtok eid="13" type="primary_name_ref" span="344:21:344:26">jEdit</jtok>
+<jtok eid="13" type="method_call" span="344:27:344:47">getSettingsDirectory</jtok>
+<jtok eid="13" type="primary_name_ref" span="345:6:345:14">settings</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="347:4:347:8">File</jtok>
+<jtok eid="13" type="local_variable_name" span="347:9:347:13">file</jtok>
+<jtok eid="13" type="constructor_call" span="347:20:347:24">File</jtok>
+<jtok eid="13" type="primary_name_ref" span="347:25:347:38">MiscUtilities</jtok>
+<jtok eid="13" type="method_call" span="347:39:347:52">constructPath</jtok>
+<jtok eid="13" type="primary_name_ref" span="347:53:347:61">settings</jtok>
+<jtok eid="13" type="string_literal" span="347:62:347:71">"abbrevs"</jtok>
+<jtok eid="13" type="primary_name_ref" span="348:4:348:18">abbrevsModTime</jtok>
+<jtok eid="13" type="primary_name_ref" span="348:21:348:25">file</jtok>
+<jtok eid="13" type="method_call" span="348:26:348:38">lastModified</jtok>
+<jtok eid="13" type="method_call" span="352:5:352:16">loadAbbrevs</jtok>
+<jtok eid="13" type="constructor_call" span="352:21:352:38">InputStreamReader</jtok>
+<jtok eid="13" type="constructor_call" span="353:10:353:25">FileInputStream</jtok>
+<jtok eid="13" type="primary_name_ref" span="353:26:353:30">file</jtok>
+<jtok eid="13" type="primary_name_ref" span="353:32:353:40">ENCODING</jtok>
+<jtok eid="13" type="primary_name_ref" span="354:5:354:11">loaded</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="356:10:356:31">FileNotFoundException</jtok>
+<jtok eid="13" type="local_variable_name" span="356:32:356:35">fnf</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="359:10:359:19">Exception</jtok>
+<jtok eid="13" type="local_variable_name" span="359:20:359:21">e</jtok>
+<jtok eid="13" type="primary_name_ref" span="361:5:361:8">Log</jtok>
+<jtok eid="13" type="method_call" span="361:9:361:12">log</jtok>
+<jtok eid="13" type="primary_name_ref" span="361:13:361:16">Log</jtok>
+<jtok eid="13" type="qualified_name_ref" span="361:17:361:22">ERROR</jtok>
+<jtok eid="13" type="primary_name_ref" span="361:23:361:30">Abbrevs</jtok>
+<jtok eid="13" type="string_literal" span="361:37:361:59">"Error while loading "</jtok>
+<jtok eid="13" type="primary_name_ref" span="361:62:361:66">file</jtok>
+<jtok eid="13" type="primary_name_ref" span="362:5:362:8">Log</jtok>
+<jtok eid="13" type="method_call" span="362:9:362:12">log</jtok>
+<jtok eid="13" type="primary_name_ref" span="362:13:362:16">Log</jtok>
+<jtok eid="13" type="qualified_name_ref" span="362:17:362:22">ERROR</jtok>
+<jtok eid="13" type="primary_name_ref" span="362:23:362:30">Abbrevs</jtok>
+<jtok eid="13" type="primary_name_ref" span="362:37:362:38">e</jtok>
+<jtok eid="13" type="line_comment" span="366:3:366:71">// only load global abbrevs if user abbrevs file could not be loaded</jtok>
+<jtok eid="13" type="primary_name_ref" span="367:7:367:13">loaded</jtok>
+<jtok eid="13" type="method_call" span="371:5:371:16">loadAbbrevs</jtok>
+<jtok eid="13" type="constructor_call" span="371:21:371:38">InputStreamReader</jtok>
+<jtok eid="13" type="primary_name_ref" span="371:39:371:46">Abbrevs</jtok>
+<jtok eid="13" type="method_call" span="372:7:372:26">getResourceAsStream</jtok>
+<jtok eid="13" type="string_literal" span="372:27:372:44">"default.abbrevs"</jtok>
+<jtok eid="13" type="primary_name_ref" span="373:6:373:14">ENCODING</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="375:10:375:19">Exception</jtok>
+<jtok eid="13" type="local_variable_name" span="375:20:375:21">e</jtok>
+<jtok eid="13" type="primary_name_ref" span="377:5:377:8">Log</jtok>
+<jtok eid="13" type="method_call" span="377:9:377:12">log</jtok>
+<jtok eid="13" type="primary_name_ref" span="377:13:377:16">Log</jtok>
+<jtok eid="13" type="qualified_name_ref" span="377:17:377:22">ERROR</jtok>
+<jtok eid="13" type="primary_name_ref" span="377:23:377:30">Abbrevs</jtok>
+<jtok eid="13" type="string_literal" span="377:37:377:74">"Error while loading default.abbrevs"</jtok>
+<jtok eid="13" type="primary_name_ref" span="378:5:378:8">Log</jtok>
+<jtok eid="13" type="method_call" span="378:9:378:12">log</jtok>
+<jtok eid="13" type="primary_name_ref" span="378:13:378:16">Log</jtok>
+<jtok eid="13" type="qualified_name_ref" span="378:17:378:22">ERROR</jtok>
+<jtok eid="13" type="primary_name_ref" span="378:23:378:30">Abbrevs</jtok>
+<jtok eid="13" type="primary_name_ref" span="378:37:378:38">e</jtok>
+<jtok eid="13" type="primary_name_ref" span="380:4:380:10">loaded</jtok>
+<jtok eid="1" type="line_comment" span="382:4:382:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="384:2:384:30">//{{{ countNewlines() method</jtok>
+<jtok eid="14" type="method_name" span="385:21:385:34">countNewlines</jtok>
+<jtok eid="14" type="parameter_type" span="385:35:385:41">String</jtok>
+<jtok eid="14" type="parameter_name" span="385:42:385:43">s</jtok>
+<jtok eid="14" type="parameter_name" span="385:49:385:52">end</jtok>
+<jtok eid="14" type="local_variable_name" span="387:7:387:14">counter</jtok>
+<jtok eid="14" type="local_variable_name" span="389:11:389:12">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="389:18:389:19">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="389:22:389:25">end</jtok>
+<jtok eid="14" type="primary_name_ref" span="389:27:389:28">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="391:7:391:8">s</jtok>
+<jtok eid="14" type="method_call" span="391:9:391:15">charAt</jtok>
+<jtok eid="14" type="primary_name_ref" span="391:16:391:17">i</jtok>
+<jtok eid="14" type="primary_name_ref" span="392:5:392:12">counter</jtok>
+<jtok eid="14" type="primary_name_ref" span="395:10:395:17">counter</jtok>
+<jtok eid="1" type="line_comment" span="396:4:396:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="398:2:398:29">//{{{ expandAbbrev() method</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="399:17:399:26">Expansion</jtok>
+<jtok eid="15" type="method_name" span="399:27:399:39">expandAbbrev</jtok>
+<jtok eid="15" type="parameter_type" span="399:40:399:46">String</jtok>
+<jtok eid="15" type="parameter_name" span="399:47:399:51">mode</jtok>
+<jtok eid="15" type="parameter_type" span="399:53:399:59">String</jtok>
+<jtok eid="15" type="parameter_name" span="399:60:399:66">abbrev</jtok>
+<jtok eid="15" type="parameter_name" span="400:7:400:18">softTabSize</jtok>
+<jtok eid="15" type="parameter_type" span="400:20:400:26">Vector</jtok>
+<jtok eid="15" type="parameter_type" span="400:27:400:33">String</jtok>
+<jtok eid="15" type="parameter_name" span="400:35:400:37">pp</jtok>
+<jtok eid="15" type="primary_name_ref" span="402:3:402:7">m_pp</jtok>
+<jtok eid="15" type="primary_name_ref" span="402:10:402:12">pp</jtok>
+<jtok eid="15" type="primary_name_ref" span="403:7:403:13">loaded</jtok>
+<jtok eid="15" type="method_call" span="404:4:404:8">load</jtok>
+<jtok eid="15" type="line_comment" span="406:3:406:37">// try mode-specific abbrevs first</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="407:3:407:9">String</jtok>
+<jtok eid="15" type="local_variable_name" span="407:10:407:16">expand</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="408:3:408:12">Hashtable</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="408:13:408:19">String</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="408:20:408:26">String</jtok>
+<jtok eid="15" type="local_variable_name" span="408:28:408:39">modeAbbrevs</jtok>
+<jtok eid="15" type="primary_name_ref" span="408:42:408:47">modes</jtok>
+<jtok eid="15" type="method_call" span="408:48:408:51">get</jtok>
+<jtok eid="15" type="primary_name_ref" span="408:52:408:56">mode</jtok>
+<jtok eid="15" type="primary_name_ref" span="409:6:409:17">modeAbbrevs</jtok>
+<jtok eid="15" type="primary_name_ref" span="410:4:410:10">expand</jtok>
+<jtok eid="15" type="primary_name_ref" span="410:13:410:24">modeAbbrevs</jtok>
+<jtok eid="15" type="method_call" span="410:25:410:28">get</jtok>
+<jtok eid="15" type="primary_name_ref" span="410:29:410:35">abbrev</jtok>
+<jtok eid="15" type="primary_name_ref" span="412:6:412:12">expand</jtok>
+<jtok eid="15" type="primary_name_ref" span="413:4:413:10">expand</jtok>
+<jtok eid="15" type="primary_name_ref" span="413:13:413:26">globalAbbrevs</jtok>
+<jtok eid="15" type="method_call" span="413:27:413:30">get</jtok>
+<jtok eid="15" type="primary_name_ref" span="413:31:413:37">abbrev</jtok>
+<jtok eid="15" type="primary_name_ref" span="415:6:415:12">expand</jtok>
+<jtok eid="15" type="constructor_call" span="418:15:418:24">Expansion</jtok>
+<jtok eid="15" type="primary_name_ref" span="418:25:418:31">expand</jtok>
+<jtok eid="15" type="primary_name_ref" span="418:32:418:43">softTabSize</jtok>
+<jtok eid="15" type="primary_name_ref" span="418:44:418:48">m_pp</jtok>
+<jtok eid="1" type="line_comment" span="419:4:419:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="421:2:421:28">//{{{ loadAbbrevs() method</jtok>
+<jtok eid="16" type="method_name" span="422:22:422:33">loadAbbrevs</jtok>
+<jtok eid="16" type="parameter_type" span="422:34:422:40">Reader</jtok>
+<jtok eid="16" type="parameter_name" span="422:41:422:44">_in</jtok>
+<jtok eid="16" type="throws" span="422:53:422:62">Exception</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="424:3:424:17">BufferedReader</jtok>
+<jtok eid="16" type="local_variable_name" span="424:18:424:20">in</jtok>
+<jtok eid="16" type="constructor_call" span="424:27:424:41">BufferedReader</jtok>
+<jtok eid="16" type="primary_name_ref" span="424:42:424:45">_in</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="428:4:428:13">Hashtable</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="428:14:428:20">String</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="428:21:428:27">String</jtok>
+<jtok eid="16" type="local_variable_name" span="428:29:428:43">currentAbbrevs</jtok>
+<jtok eid="16" type="primary_name_ref" span="428:46:428:59">globalAbbrevs</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="430:4:430:10">String</jtok>
+<jtok eid="16" type="local_variable_name" span="430:11:430:15">line</jtok>
+<jtok eid="16" type="primary_name_ref" span="431:11:431:15">line</jtok>
+<jtok eid="16" type="primary_name_ref" span="431:18:431:20">in</jtok>
+<jtok eid="16" type="method_call" span="431:21:431:29">readLine</jtok>
+<jtok eid="16" type="local_variable_name" span="433:9:433:14">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="433:17:433:21">line</jtok>
+<jtok eid="16" type="method_call" span="433:22:433:29">indexOf</jtok>
+<jtok eid="16" type="primary_name_ref" span="435:8:435:12">line</jtok>
+<jtok eid="16" type="method_call" span="435:13:435:19">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="437:13:437:17">line</jtok>
+<jtok eid="16" type="method_call" span="437:18:437:28">startsWith</jtok>
+<jtok eid="16" type="string_literal" span="437:29:437:32">"["</jtok>
+<jtok eid="16" type="primary_name_ref" span="437:37:437:42">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="439:9:439:13">line</jtok>
+<jtok eid="16" type="method_call" span="439:14:439:20">equals</jtok>
+<jtok eid="16" type="string_literal" span="439:21:439:31">"[global]"</jtok>
+<jtok eid="16" type="primary_name_ref" span="440:7:440:21">currentAbbrevs</jtok>
+<jtok eid="16" type="primary_name_ref" span="440:24:440:37">globalAbbrevs</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="443:7:443:13">String</jtok>
+<jtok eid="16" type="local_variable_name" span="443:14:443:18">mode</jtok>
+<jtok eid="16" type="primary_name_ref" span="443:21:443:25">line</jtok>
+<jtok eid="16" type="method_call" span="443:26:443:35">substring</jtok>
+<jtok eid="16" type="primary_name_ref" span="444:8:444:12">line</jtok>
+<jtok eid="16" type="method_call" span="444:13:444:19">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="445:7:445:21">currentAbbrevs</jtok>
+<jtok eid="16" type="primary_name_ref" span="445:24:445:29">modes</jtok>
+<jtok eid="16" type="method_call" span="445:30:445:33">get</jtok>
+<jtok eid="16" type="primary_name_ref" span="445:34:445:38">mode</jtok>
+<jtok eid="16" type="primary_name_ref" span="446:10:446:24">currentAbbrevs</jtok>
+<jtok eid="16" type="primary_name_ref" span="448:8:448:22">currentAbbrevs</jtok>
+<jtok eid="16" type="constructor_call" span="448:29:448:38">Hashtable</jtok>
+<jtok eid="16" type="constructor_call" span="448:39:448:45">String</jtok>
+<jtok eid="16" type="constructor_call" span="448:46:448:52">String</jtok>
+<jtok eid="16" type="primary_name_ref" span="449:8:449:13">modes</jtok>
+<jtok eid="16" type="method_call" span="449:14:449:17">put</jtok>
+<jtok eid="16" type="primary_name_ref" span="449:18:449:22">mode</jtok>
+<jtok eid="16" type="primary_name_ref" span="449:23:449:37">currentAbbrevs</jtok>
+<jtok eid="16" type="primary_name_ref" span="453:13:453:18">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="455:6:455:20">currentAbbrevs</jtok>
+<jtok eid="16" type="method_call" span="455:21:455:24">put</jtok>
+<jtok eid="16" type="primary_name_ref" span="455:25:455:29">line</jtok>
+<jtok eid="16" type="method_call" span="455:30:455:39">substring</jtok>
+<jtok eid="16" type="primary_name_ref" span="455:42:455:47">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="456:7:456:11">line</jtok>
+<jtok eid="16" type="method_call" span="456:12:456:21">substring</jtok>
+<jtok eid="16" type="primary_name_ref" span="456:22:456:27">index</jtok>
+<jtok eid="16" type="primary_name_ref" span="462:4:462:6">in</jtok>
+<jtok eid="16" type="method_call" span="462:7:462:12">close</jtok>
+<jtok eid="1" type="line_comment" span="464:4:464:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="466:2:466:28">//{{{ saveAbbrevs() method</jtok>
+<jtok eid="17" type="method_name" span="467:22:467:33">saveAbbrevs</jtok>
+<jtok eid="17" type="parameter_type" span="467:34:467:40">Writer</jtok>
+<jtok eid="17" type="parameter_name" span="467:41:467:45">_out</jtok>
+<jtok eid="17" type="throws" span="467:54:467:63">Exception</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="469:3:469:17">BufferedWriter</jtok>
+<jtok eid="17" type="local_variable_name" span="469:18:469:21">out</jtok>
+<jtok eid="17" type="constructor_call" span="469:28:469:42">BufferedWriter</jtok>
+<jtok eid="17" type="primary_name_ref" span="469:43:469:47">_out</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="470:3:470:9">String</jtok>
+<jtok eid="17" type="local_variable_name" span="470:10:470:17">lineSep</jtok>
+<jtok eid="17" type="primary_name_ref" span="470:20:470:26">System</jtok>
+<jtok eid="17" type="method_call" span="470:27:470:38">getProperty</jtok>
+<jtok eid="17" type="string_literal" span="470:39:470:55">"line.separator"</jtok>
+<jtok eid="17" type="line_comment" span="472:3:472:26">// write global abbrevs</jtok>
+<jtok eid="17" type="primary_name_ref" span="473:3:473:6">out</jtok>
+<jtok eid="17" type="method_call" span="473:7:473:12">write</jtok>
+<jtok eid="17" type="string_literal" span="473:13:473:23">"[global]"</jtok>
+<jtok eid="17" type="primary_name_ref" span="474:3:474:6">out</jtok>
+<jtok eid="17" type="method_call" span="474:7:474:12">write</jtok>
+<jtok eid="17" type="primary_name_ref" span="474:13:474:20">lineSep</jtok>
+<jtok eid="17" type="method_call" span="476:3:476:14">saveAbbrevs</jtok>
+<jtok eid="17" type="primary_name_ref" span="476:15:476:18">out</jtok>
+<jtok eid="17" type="primary_name_ref" span="476:19:476:32">globalAbbrevs</jtok>
+<jtok eid="17" type="line_comment" span="478:3:478:24">// write mode abbrevs</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="479:3:479:14">Enumeration</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="479:15:479:21">String</jtok>
+<jtok eid="17" type="local_variable_name" span="479:23:479:27">keys</jtok>
+<jtok eid="17" type="primary_name_ref" span="479:30:479:35">modes</jtok>
+<jtok eid="17" type="method_call" span="479:36:479:40">keys</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="480:3:480:14">Enumeration</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="480:15:480:24">Hashtable</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="480:25:480:31">String</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="480:32:480:38">String</jtok>
+<jtok eid="17" type="local_variable_name" span="480:41:480:47">values</jtok>
+<jtok eid="17" type="primary_name_ref" span="480:50:480:55">modes</jtok>
+<jtok eid="17" type="method_call" span="480:56:480:64">elements</jtok>
+<jtok eid="17" type="primary_name_ref" span="481:9:481:13">keys</jtok>
+<jtok eid="17" type="method_call" span="481:14:481:29">hasMoreElements</jtok>
+<jtok eid="17" type="primary_name_ref" span="483:4:483:7">out</jtok>
+<jtok eid="17" type="method_call" span="483:8:483:13">write</jtok>
+<jtok eid="17" type="primary_name_ref" span="484:4:484:7">out</jtok>
+<jtok eid="17" type="method_call" span="484:8:484:13">write</jtok>
+<jtok eid="17" type="primary_name_ref" span="484:14:484:18">keys</jtok>
+<jtok eid="17" type="method_call" span="484:19:484:30">nextElement</jtok>
+<jtok eid="17" type="primary_name_ref" span="485:4:485:7">out</jtok>
+<jtok eid="17" type="method_call" span="485:8:485:13">write</jtok>
+<jtok eid="17" type="primary_name_ref" span="486:4:486:7">out</jtok>
+<jtok eid="17" type="method_call" span="486:8:486:13">write</jtok>
+<jtok eid="17" type="primary_name_ref" span="486:14:486:21">lineSep</jtok>
+<jtok eid="17" type="method_call" span="487:4:487:15">saveAbbrevs</jtok>
+<jtok eid="17" type="primary_name_ref" span="487:16:487:19">out</jtok>
+<jtok eid="17" type="primary_name_ref" span="487:20:487:26">values</jtok>
+<jtok eid="17" type="method_call" span="487:27:487:38">nextElement</jtok>
+<jtok eid="17" type="primary_name_ref" span="490:3:490:6">out</jtok>
+<jtok eid="17" type="method_call" span="490:7:490:12">close</jtok>
+<jtok eid="1" type="line_comment" span="491:4:491:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="493:2:493:28">//{{{ saveAbbrevs() method</jtok>
+<jtok eid="18" type="method_name" span="494:22:494:33">saveAbbrevs</jtok>
+<jtok eid="18" type="parameter_type" span="494:34:494:40">Writer</jtok>
+<jtok eid="18" type="parameter_name" span="494:41:494:44">out</jtok>
+<jtok eid="18" type="parameter_type" span="494:46:494:55">Hashtable</jtok>
+<jtok eid="18" type="parameter_type" span="494:56:494:62">String</jtok>
+<jtok eid="18" type="parameter_type" span="494:63:494:69">String</jtok>
+<jtok eid="18" type="parameter_name" span="494:71:494:78">abbrevs</jtok>
+<jtok eid="18" type="throws" span="495:10:495:19">Exception</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="497:3:497:9">String</jtok>
+<jtok eid="18" type="local_variable_name" span="497:10:497:17">lineSep</jtok>
+<jtok eid="18" type="primary_name_ref" span="497:20:497:26">System</jtok>
+<jtok eid="18" type="method_call" span="497:27:497:38">getProperty</jtok>
+<jtok eid="18" type="string_literal" span="497:39:497:55">"line.separator"</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="499:3:499:14">Enumeration</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="499:15:499:21">String</jtok>
+<jtok eid="18" type="local_variable_name" span="499:23:499:27">keys</jtok>
+<jtok eid="18" type="primary_name_ref" span="499:30:499:37">abbrevs</jtok>
+<jtok eid="18" type="method_call" span="499:38:499:42">keys</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="500:3:500:14">Enumeration</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="500:15:500:21">String</jtok>
+<jtok eid="18" type="local_variable_name" span="500:23:500:29">values</jtok>
+<jtok eid="18" type="primary_name_ref" span="500:32:500:39">abbrevs</jtok>
+<jtok eid="18" type="method_call" span="500:40:500:48">elements</jtok>
+<jtok eid="18" type="primary_name_ref" span="501:9:501:13">keys</jtok>
+<jtok eid="18" type="method_call" span="501:14:501:29">hasMoreElements</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="503:4:503:10">String</jtok>
+<jtok eid="18" type="local_variable_name" span="503:11:503:17">abbrev</jtok>
+<jtok eid="18" type="primary_name_ref" span="503:20:503:24">keys</jtok>
+<jtok eid="18" type="method_call" span="503:25:503:36">nextElement</jtok>
+<jtok eid="18" type="primary_name_ref" span="504:4:504:7">out</jtok>
+<jtok eid="18" type="method_call" span="504:8:504:13">write</jtok>
+<jtok eid="18" type="primary_name_ref" span="504:14:504:20">abbrev</jtok>
+<jtok eid="18" type="primary_name_ref" span="505:4:505:7">out</jtok>
+<jtok eid="18" type="method_call" span="505:8:505:13">write</jtok>
+<jtok eid="18" type="primary_name_ref" span="506:4:506:7">out</jtok>
+<jtok eid="18" type="method_call" span="506:8:506:13">write</jtok>
+<jtok eid="18" type="primary_name_ref" span="506:14:506:20">values</jtok>
+<jtok eid="18" type="method_call" span="506:21:506:32">nextElement</jtok>
+<jtok eid="18" type="primary_name_ref" span="507:4:507:7">out</jtok>
+<jtok eid="18" type="method_call" span="507:8:507:13">write</jtok>
+<jtok eid="18" type="primary_name_ref" span="507:14:507:21">lineSep</jtok>
+<jtok eid="1" type="line_comment" span="509:4:509:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="511:2:511:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="513:2:513:23">//{{{ Expansion class</jtok>
+<jtok eid="19" type="class_name" span="514:15:514:24">Expansion</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="516:3:516:9">String</jtok>
+<jtok eid="19" type="field_name" span="516:10:516:14">text</jtok>
+<jtok eid="19" type="field_name" span="517:7:517:20">caretPosition</jtok>
+<jtok eid="19" type="field_name" span="518:7:518:16">lineCount</jtok>
+<jtok eid="19" type="line_comment" span="520:3:520:63">// number of positional parameters in abbreviation expansion</jtok>
+<jtok eid="19" type="field_name" span="521:7:521:20">posParamCount</jtok>
+<jtok eid="19" type="line_comment" span="523:3:523:30">//{{{ Expansion constructor</jtok>
+<jtok eid="20" type="method_name" span="524:3:524:12">Expansion</jtok>
+<jtok eid="20" type="parameter_type" span="524:13:524:19">String</jtok>
+<jtok eid="20" type="parameter_name" span="524:20:524:24">text</jtok>
+<jtok eid="20" type="parameter_name" span="524:30:524:41">softTabSize</jtok>
+<jtok eid="20" type="parameter_type" span="524:43:524:47">List</jtok>
+<jtok eid="20" type="parameter_type" span="524:48:524:54">String</jtok>
+<jtok eid="20" type="parameter_name" span="524:56:524:58">pp</jtok>
+<jtok eid="20" type="class_or_interface_ref" span="526:4:526:17">StringBuilder</jtok>
+<jtok eid="20" type="local_variable_name" span="526:18:526:21">buf</jtok>
+<jtok eid="20" type="constructor_call" span="526:28:526:41">StringBuilder</jtok>
+<jtok eid="20" type="local_variable_name" span="527:12:527:21">backslash</jtok>
+<jtok eid="20" type="local_variable_name" span="529:12:529:13">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="529:19:529:20">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="529:23:529:27">text</jtok>
+<jtok eid="20" type="method_call" span="529:28:529:34">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="529:38:529:39">i</jtok>
+<jtok eid="20" type="local_variable_name" span="531:10:531:12">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="531:15:531:19">text</jtok>
+<jtok eid="20" type="method_call" span="531:20:531:26">charAt</jtok>
+<jtok eid="20" type="primary_name_ref" span="531:27:531:28">i</jtok>
+<jtok eid="20" type="line_comment" span="532:5:532:27">//{{{ Handle backslash</jtok>
+<jtok eid="20" type="primary_name_ref" span="533:8:533:17">backslash</jtok>
+<jtok eid="20" type="primary_name_ref" span="535:6:535:15">backslash</jtok>
+<jtok eid="20" type="primary_name_ref" span="537:9:537:11">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="538:7:538:20">caretPosition</jtok>
+<jtok eid="20" type="primary_name_ref" span="538:23:538:26">buf</jtok>
+<jtok eid="20" type="method_call" span="538:27:538:33">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="539:14:539:16">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="541:7:541:10">buf</jtok>
+<jtok eid="20" type="method_call" span="541:11:541:17">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="542:7:542:16">lineCount</jtok>
+<jtok eid="20" type="primary_name_ref" span="544:14:544:16">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="546:10:546:21">softTabSize</jtok>
+<jtok eid="20" type="primary_name_ref" span="547:8:547:11">buf</jtok>
+<jtok eid="20" type="method_call" span="547:12:547:18">append</jtok>
+<jtok eid="20" type="local_variable_name" span="550:16:550:17">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="550:23:550:24">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="550:27:550:38">softTabSize</jtok>
+<jtok eid="20" type="primary_name_ref" span="550:40:550:41">j</jtok>
+<jtok eid="20" type="primary_name_ref" span="551:9:551:12">buf</jtok>
+<jtok eid="20" type="method_call" span="551:13:551:19">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="555:7:555:10">buf</jtok>
+<jtok eid="20" type="method_call" span="555:11:555:17">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="555:18:555:20">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="557:13:557:15">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="558:6:558:15">backslash</jtok>
+<jtok eid="20" type="line_comment" span="559:5:559:10">//}}}</jtok>
+<jtok eid="20" type="line_comment" span="560:5:560:19">//{{{ Handle $</jtok>
+<jtok eid="20" type="primary_name_ref" span="561:13:561:15">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="563:9:563:10">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="563:14:563:18">text</jtok>
+<jtok eid="20" type="method_call" span="563:19:563:25">length</jtok>
+<jtok eid="20" type="primary_name_ref" span="565:7:565:9">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="565:12:565:16">text</jtok>
+<jtok eid="20" type="method_call" span="565:17:565:23">charAt</jtok>
+<jtok eid="20" type="primary_name_ref" span="565:24:565:25">i</jtok>
+<jtok eid="20" type="primary_name_ref" span="566:10:566:19">Character</jtok>
+<jtok eid="20" type="method_call" span="566:20:566:27">isDigit</jtok>
+<jtok eid="20" type="primary_name_ref" span="566:28:566:30">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="566:35:566:37">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="568:8:568:9">i</jtok>
+<jtok eid="20" type="local_variable_name" span="570:12:570:15">pos</jtok>
+<jtok eid="20" type="primary_name_ref" span="570:18:570:20">ch</jtok>
+<jtok eid="20" type="primary_name_ref" span="571:8:571:21">posParamCount</jtok>
+<jtok eid="20" type="primary_name_ref" span="571:24:571:28">Math</jtok>
+<jtok eid="20" type="method_call" span="571:29:571:32">max</jtok>
+<jtok eid="20" type="primary_name_ref" span="571:33:571:36">pos</jtok>
+<jtok eid="20" type="primary_name_ref" span="571:37:571:50">posParamCount</jtok>
+<jtok eid="20" type="line_comment" span="572:8:572:38">// $n is 1-indexed, but vector</jtok>
+<jtok eid="20" type="line_comment" span="573:8:573:35">// contents is zero indexed</jtok>
+<jtok eid="20" type="primary_name_ref" span="574:11:574:14">pos</jtok>
+<jtok eid="20" type="primary_name_ref" span="574:18:574:20">pp</jtok>
+<jtok eid="20" type="method_call" span="574:21:574:25">size</jtok>
+<jtok eid="20" type="primary_name_ref" span="575:9:575:12">buf</jtok>
+<jtok eid="20" type="method_call" span="575:13:575:19">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="575:20:575:22">pp</jtok>
+<jtok eid="20" type="method_call" span="575:23:575:26">get</jtok>
+<jtok eid="20" type="primary_name_ref" span="575:27:575:30">pos</jtok>
+<jtok eid="20" type="line_comment" span="579:8:579:33">// $key will be $key, for</jtok>
+<jtok eid="20" type="line_comment" span="580:8:580:18">// example</jtok>
+<jtok eid="20" type="primary_name_ref" span="581:8:581:11">buf</jtok>
+<jtok eid="20" type="method_call" span="581:12:581:18">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="585:7:585:10">buf</jtok>
+<jtok eid="20" type="method_call" span="585:11:585:17">append</jtok>
+<jtok eid="20" type="line_comment" span="585:24:585:46">// $ at end is literal</jtok>
+<jtok eid="20" type="line_comment" span="586:7:586:12">//}}}</jtok>
+<jtok eid="20" type="primary_name_ref" span="588:6:588:9">buf</jtok>
+<jtok eid="20" type="method_call" span="588:10:588:16">append</jtok>
+<jtok eid="20" type="primary_name_ref" span="588:17:588:19">ch</jtok>
+<jtok eid="20" type="qualified_name_ref" span="591:9:591:13">text</jtok>
+<jtok eid="20" type="primary_name_ref" span="591:16:591:19">buf</jtok>
+<jtok eid="20" type="method_call" span="591:20:591:28">toString</jtok>
+<jtok eid="19" type="line_comment" span="592:5:592:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="593:4:593:9">//}}}</jtok>
+</jdoc>

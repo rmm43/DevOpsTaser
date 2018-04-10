@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.JCheckBoxList" jls="java5">
+<jent id="0" type="file" span="0:0:350:7">Source/jEdit/org/gjt/sp/jedit/gui/JCheckBoxList.java</jent>
+<jent id="1" pid="0" type="class" span="39:1:253:1">org.gjt.sp.jedit.gui.JCheckBoxList</jent>
+<jent id="2" pid="1" type="method" span="47:2:50:2">org.gjt.sp.jedit.gui.JCheckBoxList.JCheckBoxList(Object[])</jent>
+<jent id="3" pid="1" type="method" span="58:2:61:2">org.gjt.sp.jedit.gui.JCheckBoxList.JCheckBoxList(Vector)</jent>
+<jent id="4" pid="1" type="method" span="69:2:73:2">org.gjt.sp.jedit.gui.JCheckBoxList.setModel(Object[])</jent>
+<jent id="5" pid="1" type="method" span="81:2:85:2">org.gjt.sp.jedit.gui.JCheckBoxList.setModel(Vector)</jent>
+<jent id="6" pid="1" type="method" span="88:2:103:2">org.gjt.sp.jedit.gui.JCheckBoxList.getCheckedValues()</jent>
+<jent id="7" pid="1" type="method" span="107:2:118:2">org.gjt.sp.jedit.gui.JCheckBoxList.selectAll()</jent>
+<jent id="8" pid="1" type="method" span="121:2:127:2">org.gjt.sp.jedit.gui.JCheckBoxList.getValues()</jent>
+<jent id="9" pid="1" type="method" span="130:2:141:2">org.gjt.sp.jedit.gui.JCheckBoxList.getSelectedValue()</jent>
+<jent id="10" pid="1" type="method" span="145:2:155:2">org.gjt.sp.jedit.gui.JCheckBoxList.getCellRenderer(int,int)</jent>
+<jent id="11" pid="1" type="method" span="161:2:178:2">org.gjt.sp.jedit.gui.JCheckBoxList.init()</jent>
+<jent id="12" pid="1" type="class" span="186:2:213:2">org.gjt.sp.jedit.gui.JCheckBoxList.Entry</jent>
+<jent id="13" pid="12" type="method" span="192:3:196:3">org.gjt.sp.jedit.gui.JCheckBoxList.Entry.Entry(Object)</jent>
+<jent id="14" pid="12" type="method" span="198:3:202:3">org.gjt.sp.jedit.gui.JCheckBoxList.Entry.Entry(boolean,Object)</jent>
+<jent id="15" pid="12" type="method" span="204:3:207:3">org.gjt.sp.jedit.gui.JCheckBoxList.Entry.isChecked()</jent>
+<jent id="16" pid="12" type="method" span="209:3:212:3">org.gjt.sp.jedit.gui.JCheckBoxList.Entry.getValue()</jent>
+<jent id="17" pid="1" type="class" span="216:2:225:2">org.gjt.sp.jedit.gui.JCheckBoxList.DummyRenderer</jent>
+<jent id="18" pid="17" type="method" span="219:3:224:3">org.gjt.sp.jedit.gui.JCheckBoxList.DummyRenderer.getTableCellRendererComponent(JTable,Object,boolean,boolean,int,int)</jent>
+<jent id="19" pid="1" type="class" span="228:2:252:2">org.gjt.sp.jedit.gui.JCheckBoxList.LabelRenderer</jent>
+<jent id="20" pid="19" type="method" span="232:3:236:3">org.gjt.sp.jedit.gui.JCheckBoxList.LabelRenderer.LabelRenderer()</jent>
+<jent id="21" pid="19" type="method" span="239:3:251:3">org.gjt.sp.jedit.gui.JCheckBoxList.LabelRenderer.getTableCellRendererComponent(JTable,Object,boolean,boolean,int,int)</jent>
+<jent id="22" pid="0" type="class" span="256:1:350:1">org.gjt.sp.jedit.gui.CheckBoxListModel</jent>
+<jent id="23" pid="22" type="method" span="260:2:267:2">org.gjt.sp.jedit.gui.CheckBoxListModel.CheckBoxListModel(Vector)</jent>
+<jent id="24" pid="22" type="method" span="269:2:276:2">org.gjt.sp.jedit.gui.CheckBoxListModel.CheckBoxListModel(Object[])</jent>
+<jent id="25" pid="22" type="method" span="278:2:284:2">org.gjt.sp.jedit.gui.CheckBoxListModel.createEntry(Object)</jent>
+<jent id="26" pid="22" type="method" span="286:2:289:2">org.gjt.sp.jedit.gui.CheckBoxListModel.getRowCount()</jent>
+<jent id="27" pid="22" type="method" span="291:2:294:2">org.gjt.sp.jedit.gui.CheckBoxListModel.getColumnCount()</jent>
+<jent id="28" pid="22" type="method" span="297:2:300:2">org.gjt.sp.jedit.gui.CheckBoxListModel.getColumnName(int)</jent>
+<jent id="29" pid="22" type="method" span="302:2:314:2">org.gjt.sp.jedit.gui.CheckBoxListModel.getValueAt(int,int)</jent>
+<jent id="30" pid="22" type="method" span="317:2:328:2">org.gjt.sp.jedit.gui.CheckBoxListModel.getColumnClass(int)</jent>
+<jent id="31" pid="22" type="method" span="331:2:335:2">org.gjt.sp.jedit.gui.CheckBoxListModel.isCellEditable(int,int)</jent>
+<jent id="32" pid="22" type="method" span="338:2:349:2">org.gjt.sp.jedit.gui.CheckBoxListModel.setValueAt(Object,int,int)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * JCheckBoxList.java - A list, each item can be checked or unchecked
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2000, 2001, 2002 Slava Pestov
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="33:1:33:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="35:1:38:4">/**
+ * A list where items can be selected and checked off independently.
+ * @since jEdit 3.2pre9
+ */</jtok>
+<jtok eid="1" type="class_name" span="39:14:39:27">JCheckBoxList</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="39:36:39:42">JTable</jtok>
+<jtok eid="1" type="line_comment" span="41:2:41:33">//{{{ JCheckBoxList constructor</jtok>
+<jtok eid="1" type="block_comment" span="42:2:46:5">/**
+	 * Creates a checkbox list with the given list of objects. The elements
+	 * of this array can either be Entry instances, or other objects (if the
+	 * latter, they will default to being unchecked).
+	 */</jtok>
+<jtok eid="2" type="method_name" span="47:9:47:22">JCheckBoxList</jtok>
+<jtok eid="2" type="parameter_type" span="47:23:47:29">Object</jtok>
+<jtok eid="2" type="parameter_name" span="47:32:47:37">items</jtok>
+<jtok eid="2" type="method_call" span="49:3:49:11">setModel</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:12:49:17">items</jtok>
+<jtok eid="1" type="line_comment" span="50:4:50:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="52:2:52:33">//{{{ JCheckBoxList constructor</jtok>
+<jtok eid="1" type="block_comment" span="53:2:57:5">/**
+	 * Creates a checkbox list with the given list of objects. The elements
+	 * of this vector can either be Entry instances, or other objects (if the
+	 * latter, they will default to being unchecked).
+	 */</jtok>
+<jtok eid="3" type="method_name" span="58:9:58:22">JCheckBoxList</jtok>
+<jtok eid="3" type="parameter_type" span="58:23:58:29">Vector</jtok>
+<jtok eid="3" type="parameter_name" span="58:30:58:35">items</jtok>
+<jtok eid="3" type="method_call" span="60:3:60:11">setModel</jtok>
+<jtok eid="3" type="primary_name_ref" span="60:12:60:17">items</jtok>
+<jtok eid="1" type="line_comment" span="61:4:61:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="63:2:63:25">//{{{ setModel() method</jtok>
+<jtok eid="1" type="block_comment" span="64:2:68:5">/**
+	 * Sets the model to the given list of objects. The elements of this
+	 * array can either be Entry instances, or other objects (if the
+	 * latter, they will default to being unchecked).
+	 */</jtok>
+<jtok eid="4" type="method_name" span="69:14:69:22">setModel</jtok>
+<jtok eid="4" type="parameter_type" span="69:23:69:29">Object</jtok>
+<jtok eid="4" type="parameter_name" span="69:32:69:37">items</jtok>
+<jtok eid="4" type="method_call" span="71:3:71:11">setModel</jtok>
+<jtok eid="4" type="constructor_call" span="71:16:71:33">CheckBoxListModel</jtok>
+<jtok eid="4" type="primary_name_ref" span="71:34:71:39">items</jtok>
+<jtok eid="4" type="method_call" span="72:3:72:7">init</jtok>
+<jtok eid="1" type="line_comment" span="73:4:73:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="75:2:75:25">//{{{ setModel() method</jtok>
+<jtok eid="1" type="block_comment" span="76:2:80:5">/**
+	 * Sets the model to the given list of objects. The elements of this
+	 * vector can either be Entry instances, or other objects (if the
+	 * latter, they will default to being unchecked).
+	 */</jtok>
+<jtok eid="5" type="method_name" span="81:14:81:22">setModel</jtok>
+<jtok eid="5" type="parameter_type" span="81:23:81:29">Vector</jtok>
+<jtok eid="5" type="parameter_name" span="81:30:81:35">items</jtok>
+<jtok eid="5" type="method_call" span="83:3:83:11">setModel</jtok>
+<jtok eid="5" type="constructor_call" span="83:16:83:33">CheckBoxListModel</jtok>
+<jtok eid="5" type="primary_name_ref" span="83:34:83:39">items</jtok>
+<jtok eid="5" type="method_call" span="84:3:84:7">init</jtok>
+<jtok eid="1" type="line_comment" span="85:4:85:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="87:2:87:33">//{{{ getCheckedValues() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="88:9:88:15">Object</jtok>
+<jtok eid="6" type="method_name" span="88:18:88:34">getCheckedValues</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="90:3:90:7">List</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="90:8:90:14">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="90:16:90:22">values</jtok>
+<jtok eid="6" type="constructor_call" span="90:29:90:38">ArrayList</jtok>
+<jtok eid="6" type="constructor_call" span="90:39:90:45">Object</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="91:3:91:20">CheckBoxListModel</jtok>
+<jtok eid="6" type="local_variable_name" span="91:21:91:26">model</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="91:30:91:47">CheckBoxListModel</jtok>
+<jtok eid="6" type="method_call" span="91:48:91:56">getModel</jtok>
+<jtok eid="6" type="local_variable_name" span="92:11:92:12">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="92:18:92:19">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="92:22:92:27">model</jtok>
+<jtok eid="6" type="qualified_name_ref" span="92:28:92:33">items</jtok>
+<jtok eid="6" type="method_call" span="92:34:92:38">size</jtok>
+<jtok eid="6" type="primary_name_ref" span="92:42:92:43">i</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="94:4:94:9">Entry</jtok>
+<jtok eid="6" type="local_variable_name" span="94:10:94:15">entry</jtok>
+<jtok eid="6" type="primary_name_ref" span="94:18:94:23">model</jtok>
+<jtok eid="6" type="qualified_name_ref" span="94:24:94:29">items</jtok>
+<jtok eid="6" type="method_call" span="94:30:94:33">get</jtok>
+<jtok eid="6" type="primary_name_ref" span="94:34:94:35">i</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:7:95:12">entry</jtok>
+<jtok eid="6" type="qualified_name_ref" span="95:13:95:20">checked</jtok>
+<jtok eid="6" type="primary_name_ref" span="95:25:95:30">entry</jtok>
+<jtok eid="6" type="qualified_name_ref" span="95:31:95:38">caption</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:5:97:11">values</jtok>
+<jtok eid="6" type="method_call" span="97:12:97:15">add</jtok>
+<jtok eid="6" type="primary_name_ref" span="97:16:97:21">entry</jtok>
+<jtok eid="6" type="qualified_name_ref" span="97:22:97:27">value</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="101:3:101:9">Object</jtok>
+<jtok eid="6" type="local_variable_name" span="101:12:101:18">retVal</jtok>
+<jtok eid="6" type="constructor_call" span="101:25:101:31">Object</jtok>
+<jtok eid="6" type="primary_name_ref" span="101:32:101:38">values</jtok>
+<jtok eid="6" type="method_call" span="101:39:101:43">size</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:10:102:16">values</jtok>
+<jtok eid="6" type="method_call" span="102:17:102:24">toArray</jtok>
+<jtok eid="6" type="primary_name_ref" span="102:25:102:31">retVal</jtok>
+<jtok eid="1" type="line_comment" span="103:4:103:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="105:2:105:26">//{{{ selectAll() method</jtok>
+<jtok eid="1" type="annotation_ref" span="106:3:106:11">Override</jtok>
+<jtok eid="7" type="method_name" span="107:14:107:23">selectAll</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="109:3:109:20">CheckBoxListModel</jtok>
+<jtok eid="7" type="local_variable_name" span="109:21:109:26">model</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="109:30:109:47">CheckBoxListModel</jtok>
+<jtok eid="7" type="method_call" span="109:48:109:56">getModel</jtok>
+<jtok eid="7" type="local_variable_name" span="110:11:110:12">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:18:110:19">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:22:110:27">model</jtok>
+<jtok eid="7" type="qualified_name_ref" span="110:28:110:33">items</jtok>
+<jtok eid="7" type="method_call" span="110:34:110:38">size</jtok>
+<jtok eid="7" type="primary_name_ref" span="110:42:110:43">i</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="112:4:112:9">Entry</jtok>
+<jtok eid="7" type="local_variable_name" span="112:10:112:15">entry</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:18:112:23">model</jtok>
+<jtok eid="7" type="qualified_name_ref" span="112:24:112:29">items</jtok>
+<jtok eid="7" type="method_call" span="112:30:112:39">elementAt</jtok>
+<jtok eid="7" type="primary_name_ref" span="112:40:112:41">i</jtok>
+<jtok eid="7" type="primary_name_ref" span="113:8:113:13">entry</jtok>
+<jtok eid="7" type="qualified_name_ref" span="113:14:113:21">caption</jtok>
+<jtok eid="7" type="primary_name_ref" span="114:5:114:10">entry</jtok>
+<jtok eid="7" type="qualified_name_ref" span="114:11:114:18">checked</jtok>
+<jtok eid="7" type="primary_name_ref" span="117:3:117:8">model</jtok>
+<jtok eid="7" type="method_call" span="117:9:117:29">fireTableRowsUpdated</jtok>
+<jtok eid="7" type="primary_name_ref" span="117:32:117:37">model</jtok>
+<jtok eid="7" type="method_call" span="117:38:117:49">getRowCount</jtok>
+<jtok eid="1" type="line_comment" span="118:4:118:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="120:2:120:26">//{{{ getValues() method</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="121:9:121:14">Entry</jtok>
+<jtok eid="8" type="method_name" span="121:17:121:26">getValues</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="123:3:123:20">CheckBoxListModel</jtok>
+<jtok eid="8" type="local_variable_name" span="123:21:123:26">model</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="123:30:123:47">CheckBoxListModel</jtok>
+<jtok eid="8" type="method_call" span="123:48:123:56">getModel</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="124:3:124:8">Entry</jtok>
+<jtok eid="8" type="local_variable_name" span="124:11:124:17">retVal</jtok>
+<jtok eid="8" type="constructor_call" span="124:24:124:29">Entry</jtok>
+<jtok eid="8" type="primary_name_ref" span="124:30:124:35">model</jtok>
+<jtok eid="8" type="qualified_name_ref" span="124:36:124:41">items</jtok>
+<jtok eid="8" type="method_call" span="124:42:124:46">size</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:3:125:8">model</jtok>
+<jtok eid="8" type="qualified_name_ref" span="125:9:125:14">items</jtok>
+<jtok eid="8" type="method_call" span="125:15:125:23">copyInto</jtok>
+<jtok eid="8" type="primary_name_ref" span="125:24:125:30">retVal</jtok>
+<jtok eid="8" type="primary_name_ref" span="126:10:126:16">retVal</jtok>
+<jtok eid="1" type="line_comment" span="127:4:127:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="129:2:129:33">//{{{ getSelectedValue() method</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="130:9:130:15">Object</jtok>
+<jtok eid="9" type="method_name" span="130:16:130:32">getSelectedValue</jtok>
+<jtok eid="9" type="local_variable_name" span="132:7:132:10">row</jtok>
+<jtok eid="9" type="method_call" span="132:13:132:27">getSelectedRow</jtok>
+<jtok eid="9" type="primary_name_ref" span="133:6:133:9">row</jtok>
+<jtok eid="9" type="method_call" span="139:11:139:19">getModel</jtok>
+<jtok eid="9" type="method_call" span="139:22:139:32">getValueAt</jtok>
+<jtok eid="9" type="primary_name_ref" span="139:33:139:36">row</jtok>
+<jtok eid="1" type="line_comment" span="141:4:141:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="143:2:143:32">//{{{ getCellRenderer() method</jtok>
+<jtok eid="1" type="annotation_ref" span="144:3:144:11">Override</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="145:9:145:26">TableCellRenderer</jtok>
+<jtok eid="10" type="method_name" span="145:27:145:42">getCellRenderer</jtok>
+<jtok eid="10" type="parameter_name" span="145:47:145:50">row</jtok>
+<jtok eid="10" type="parameter_name" span="145:56:145:62">column</jtok>
+<jtok eid="10" type="primary_name_ref" span="147:6:147:12">column</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="149:4:149:9">Entry</jtok>
+<jtok eid="10" type="local_variable_name" span="149:10:149:15">entry</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="149:20:149:37">CheckBoxListModel</jtok>
+<jtok eid="10" type="method_call" span="149:38:149:46">getModel</jtok>
+<jtok eid="10" type="qualified_name_ref" span="149:50:149:55">items</jtok>
+<jtok eid="10" type="method_call" span="149:56:149:59">get</jtok>
+<jtok eid="10" type="primary_name_ref" span="149:60:149:63">row</jtok>
+<jtok eid="10" type="primary_name_ref" span="150:7:150:12">entry</jtok>
+<jtok eid="10" type="qualified_name_ref" span="150:13:150:20">caption</jtok>
+<jtok eid="10" type="primary_name_ref" span="151:12:151:17">dummy</jtok>
+<jtok eid="10" type="method_call" span="154:16:154:31">getCellRenderer</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:32:154:35">row</jtok>
+<jtok eid="10" type="primary_name_ref" span="154:36:154:42">column</jtok>
+<jtok eid="1" type="line_comment" span="155:4:155:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="157:2:157:23">//{{{ Private members</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="158:10:158:27">TableCellRenderer</jtok>
+<jtok eid="1" type="field_name" span="158:28:158:33">dummy</jtok>
+<jtok eid="1" type="line_comment" span="160:2:160:21">//{{{ init() method</jtok>
+<jtok eid="11" type="method_name" span="161:15:161:19">init</jtok>
+<jtok eid="11" type="primary_name_ref" span="163:3:163:8">dummy</jtok>
+<jtok eid="11" type="constructor_call" span="163:15:163:28">DummyRenderer</jtok>
+<jtok eid="11" type="method_call" span="164:3:164:20">getSelectionModel</jtok>
+<jtok eid="11" type="method_call" span="164:23:164:39">setSelectionMode</jtok>
+<jtok eid="11" type="primary_name_ref" span="164:40:164:58">ListSelectionModel</jtok>
+<jtok eid="11" type="qualified_name_ref" span="165:5:165:21">SINGLE_SELECTION</jtok>
+<jtok eid="11" type="method_call" span="166:3:166:14">setShowGrid</jtok>
+<jtok eid="11" type="method_call" span="167:3:167:20">setAutoResizeMode</jtok>
+<jtok eid="11" type="primary_name_ref" span="167:21:167:27">JTable</jtok>
+<jtok eid="11" type="qualified_name_ref" span="167:28:167:51">AUTO_RESIZE_LAST_COLUMN</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="168:3:168:14">TableColumn</jtok>
+<jtok eid="11" type="local_variable_name" span="168:15:168:21">column</jtok>
+<jtok eid="11" type="method_call" span="168:24:168:38">getColumnModel</jtok>
+<jtok eid="11" type="method_call" span="168:41:168:50">getColumn</jtok>
+<jtok eid="11" type="local_variable_name" span="169:7:169:20">checkBoxWidth</jtok>
+<jtok eid="11" type="constructor_call" span="169:27:169:36">JCheckBox</jtok>
+<jtok eid="11" type="method_call" span="169:39:169:55">getPreferredSize</jtok>
+<jtok eid="11" type="qualified_name_ref" span="169:58:169:63">width</jtok>
+<jtok eid="11" type="primary_name_ref" span="170:3:170:9">column</jtok>
+<jtok eid="11" type="method_call" span="170:10:170:27">setPreferredWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="170:28:170:41">checkBoxWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="171:3:171:9">column</jtok>
+<jtok eid="11" type="method_call" span="171:10:171:21">setMinWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="171:22:171:35">checkBoxWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="172:3:172:9">column</jtok>
+<jtok eid="11" type="method_call" span="172:10:172:18">setWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="172:19:172:32">checkBoxWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="173:3:173:9">column</jtok>
+<jtok eid="11" type="method_call" span="173:10:173:21">setMaxWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="173:22:173:35">checkBoxWidth</jtok>
+<jtok eid="11" type="primary_name_ref" span="174:3:174:9">column</jtok>
+<jtok eid="11" type="method_call" span="174:10:174:22">setResizable</jtok>
+<jtok eid="11" type="primary_name_ref" span="176:3:176:9">column</jtok>
+<jtok eid="11" type="method_call" span="176:12:176:26">getColumnModel</jtok>
+<jtok eid="11" type="method_call" span="176:29:176:38">getColumn</jtok>
+<jtok eid="11" type="primary_name_ref" span="177:3:177:9">column</jtok>
+<jtok eid="11" type="method_call" span="177:10:177:25">setCellRenderer</jtok>
+<jtok eid="11" type="constructor_call" span="177:30:177:43">LabelRenderer</jtok>
+<jtok eid="1" type="line_comment" span="178:4:178:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="180:2:180:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="182:2:182:19">//{{{ Entry class</jtok>
+<jtok eid="1" type="block_comment" span="183:2:185:5">/**
+	 * A check box list entry.
+	 */</jtok>
+<jtok eid="12" type="class_name" span="186:22:186:27">Entry</jtok>
+<jtok eid="12" type="field_name" span="188:11:188:18">checked</jtok>
+<jtok eid="12" type="field_name" span="189:11:189:18">caption</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="190:3:190:9">Object</jtok>
+<jtok eid="12" type="field_name" span="190:10:190:15">value</jtok>
+<jtok eid="13" type="method_name" span="192:10:192:15">Entry</jtok>
+<jtok eid="13" type="parameter_type" span="192:16:192:22">Object</jtok>
+<jtok eid="13" type="parameter_name" span="192:23:192:28">value</jtok>
+<jtok eid="13" type="qualified_name_ref" span="194:9:194:16">caption</jtok>
+<jtok eid="13" type="qualified_name_ref" span="195:9:195:14">value</jtok>
+<jtok eid="13" type="primary_name_ref" span="195:17:195:22">value</jtok>
+<jtok eid="14" type="method_name" span="198:10:198:15">Entry</jtok>
+<jtok eid="14" type="parameter_name" span="198:24:198:31">checked</jtok>
+<jtok eid="14" type="parameter_type" span="198:33:198:39">Object</jtok>
+<jtok eid="14" type="parameter_name" span="198:40:198:45">value</jtok>
+<jtok eid="14" type="qualified_name_ref" span="200:9:200:16">checked</jtok>
+<jtok eid="14" type="primary_name_ref" span="200:19:200:26">checked</jtok>
+<jtok eid="14" type="qualified_name_ref" span="201:9:201:14">value</jtok>
+<jtok eid="14" type="primary_name_ref" span="201:17:201:22">value</jtok>
+<jtok eid="15" type="method_name" span="204:18:204:27">isChecked</jtok>
+<jtok eid="15" type="primary_name_ref" span="206:11:206:18">checked</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="209:10:209:16">Object</jtok>
+<jtok eid="16" type="method_name" span="209:17:209:25">getValue</jtok>
+<jtok eid="16" type="primary_name_ref" span="211:11:211:16">value</jtok>
+<jtok eid="1" type="line_comment" span="213:4:213:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="215:2:215:27">//{{{ DummyRenderer class</jtok>
+<jtok eid="17" type="class_name" span="216:23:216:36">DummyRenderer</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="216:45:216:69">DefaultTableCellRenderer</jtok>
+<jtok eid="17" type="annotation_ref" span="218:4:218:12">Override</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="219:10:219:19">Component</jtok>
+<jtok eid="18" type="method_name" span="219:20:219:49">getTableCellRendererComponent</jtok>
+<jtok eid="18" type="parameter_type" span="219:50:219:56">JTable</jtok>
+<jtok eid="18" type="parameter_name" span="219:57:219:62">table</jtok>
+<jtok eid="18" type="parameter_type" span="219:64:219:70">Object</jtok>
+<jtok eid="18" type="parameter_name" span="219:71:219:76">value</jtok>
+<jtok eid="18" type="parameter_name" span="220:12:220:22">isSelected</jtok>
+<jtok eid="18" type="parameter_name" span="220:32:220:40">hasFocus</jtok>
+<jtok eid="18" type="parameter_name" span="220:46:220:49">row</jtok>
+<jtok eid="18" type="parameter_name" span="220:55:220:61">column</jtok>
+<jtok eid="18" type="method_call" span="222:17:222:46">getTableCellRendererComponent</jtok>
+<jtok eid="18" type="primary_name_ref" span="222:47:222:52">table</jtok>
+<jtok eid="18" type="block_comment" span="222:58:222:69">/* value */</jtok>
+<jtok eid="18" type="primary_name_ref" span="223:5:223:15">isSelected</jtok>
+<jtok eid="18" type="block_comment" span="223:22:223:36">/* hasFocus */</jtok>
+<jtok eid="18" type="primary_name_ref" span="223:37:223:40">row</jtok>
+<jtok eid="18" type="primary_name_ref" span="223:41:223:47">column</jtok>
+<jtok eid="1" type="line_comment" span="225:4:225:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="227:2:227:27">//{{{ LabelRenderer class</jtok>
+<jtok eid="19" type="class_name" span="228:16:228:29">LabelRenderer</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="228:38:228:62">DefaultTableCellRenderer</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="230:3:230:7">Font</jtok>
+<jtok eid="19" type="field_name" span="230:8:230:17">plainFont</jtok>
+<jtok eid="19" type="field_name" span="230:19:230:27">boldFont</jtok>
+<jtok eid="20" type="method_name" span="232:3:232:16">LabelRenderer</jtok>
+<jtok eid="20" type="primary_name_ref" span="234:4:234:13">plainFont</jtok>
+<jtok eid="20" type="primary_name_ref" span="234:16:234:25">UIManager</jtok>
+<jtok eid="20" type="method_call" span="234:26:234:33">getFont</jtok>
+<jtok eid="20" type="string_literal" span="234:34:234:45">"Tree.font"</jtok>
+<jtok eid="20" type="primary_name_ref" span="235:4:235:12">boldFont</jtok>
+<jtok eid="20" type="primary_name_ref" span="235:15:235:24">plainFont</jtok>
+<jtok eid="20" type="method_call" span="235:25:235:35">deriveFont</jtok>
+<jtok eid="20" type="primary_name_ref" span="235:36:235:40">Font</jtok>
+<jtok eid="20" type="qualified_name_ref" span="235:41:235:45">BOLD</jtok>
+<jtok eid="19" type="annotation_ref" span="238:4:238:12">Override</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="239:10:239:19">Component</jtok>
+<jtok eid="21" type="method_name" span="239:20:239:49">getTableCellRendererComponent</jtok>
+<jtok eid="21" type="parameter_type" span="239:50:239:56">JTable</jtok>
+<jtok eid="21" type="parameter_name" span="239:57:239:62">table</jtok>
+<jtok eid="21" type="parameter_type" span="239:64:239:70">Object</jtok>
+<jtok eid="21" type="parameter_name" span="239:71:239:76">value</jtok>
+<jtok eid="21" type="parameter_name" span="240:12:240:22">isSelected</jtok>
+<jtok eid="21" type="parameter_name" span="240:32:240:40">hasFocus</jtok>
+<jtok eid="21" type="parameter_name" span="240:46:240:49">row</jtok>
+<jtok eid="21" type="parameter_name" span="240:55:240:61">column</jtok>
+<jtok eid="21" type="method_call" span="242:10:242:39">getTableCellRendererComponent</jtok>
+<jtok eid="21" type="primary_name_ref" span="242:40:242:45">table</jtok>
+<jtok eid="21" type="primary_name_ref" span="242:46:242:51">value</jtok>
+<jtok eid="21" type="primary_name_ref" span="242:52:242:62">isSelected</jtok>
+<jtok eid="21" type="primary_name_ref" span="243:5:243:13">hasFocus</jtok>
+<jtok eid="21" type="primary_name_ref" span="243:14:243:17">row</jtok>
+<jtok eid="21" type="primary_name_ref" span="243:18:243:24">column</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="245:4:245:9">Entry</jtok>
+<jtok eid="21" type="local_variable_name" span="245:10:245:15">entry</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="245:20:245:37">CheckBoxListModel</jtok>
+<jtok eid="21" type="method_call" span="245:38:245:46">getModel</jtok>
+<jtok eid="21" type="qualified_name_ref" span="245:50:245:55">items</jtok>
+<jtok eid="21" type="method_call" span="245:56:245:59">get</jtok>
+<jtok eid="21" type="primary_name_ref" span="245:60:245:63">row</jtok>
+<jtok eid="21" type="primary_name_ref" span="246:7:246:12">entry</jtok>
+<jtok eid="21" type="qualified_name_ref" span="246:13:246:20">caption</jtok>
+<jtok eid="21" type="method_call" span="247:5:247:12">setFont</jtok>
+<jtok eid="21" type="primary_name_ref" span="247:13:247:21">boldFont</jtok>
+<jtok eid="21" type="method_call" span="249:5:249:12">setFont</jtok>
+<jtok eid="21" type="primary_name_ref" span="249:13:249:22">plainFont</jtok>
+<jtok eid="1" type="line_comment" span="252:4:252:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="255:1:255:30">//{{{ CheckBoxListModel class</jtok>
+<jtok eid="22" type="class_name" span="256:7:256:24">CheckBoxListModel</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="256:33:256:51">AbstractTableModel</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="258:2:258:8">Vector</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="258:9:258:22">JCheckBoxList</jtok>
+<jtok eid="22" type="class_or_interface_ref" span="258:23:258:28">Entry</jtok>
+<jtok eid="22" type="field_name" span="258:30:258:35">items</jtok>
+<jtok eid="23" type="method_name" span="260:2:260:19">CheckBoxListModel</jtok>
+<jtok eid="23" type="parameter_type" span="260:20:260:26">Vector</jtok>
+<jtok eid="23" type="parameter_name" span="260:27:260:33">_items</jtok>
+<jtok eid="23" type="primary_name_ref" span="262:3:262:8">items</jtok>
+<jtok eid="23" type="constructor_call" span="262:15:262:21">Vector</jtok>
+<jtok eid="23" type="constructor_call" span="262:22:262:35">JCheckBoxList</jtok>
+<jtok eid="23" type="constructor_call" span="262:36:262:41">Entry</jtok>
+<jtok eid="23" type="primary_name_ref" span="262:43:262:49">_items</jtok>
+<jtok eid="23" type="method_call" span="262:50:262:54">size</jtok>
+<jtok eid="23" type="local_variable_name" span="263:11:263:12">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="263:18:263:19">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="263:22:263:28">_items</jtok>
+<jtok eid="23" type="method_call" span="263:29:263:33">size</jtok>
+<jtok eid="23" type="primary_name_ref" span="263:37:263:38">i</jtok>
+<jtok eid="23" type="primary_name_ref" span="265:4:265:9">items</jtok>
+<jtok eid="23" type="method_call" span="265:10:265:13">add</jtok>
+<jtok eid="23" type="method_call" span="265:14:265:25">createEntry</jtok>
+<jtok eid="23" type="primary_name_ref" span="265:26:265:32">_items</jtok>
+<jtok eid="23" type="method_call" span="265:33:265:42">elementAt</jtok>
+<jtok eid="23" type="primary_name_ref" span="265:43:265:44">i</jtok>
+<jtok eid="24" type="method_name" span="269:2:269:19">CheckBoxListModel</jtok>
+<jtok eid="24" type="parameter_type" span="269:20:269:26">Object</jtok>
+<jtok eid="24" type="parameter_name" span="269:29:269:35">_items</jtok>
+<jtok eid="24" type="primary_name_ref" span="271:3:271:8">items</jtok>
+<jtok eid="24" type="constructor_call" span="271:15:271:21">Vector</jtok>
+<jtok eid="24" type="constructor_call" span="271:22:271:35">JCheckBoxList</jtok>
+<jtok eid="24" type="constructor_call" span="271:36:271:41">Entry</jtok>
+<jtok eid="24" type="primary_name_ref" span="271:43:271:49">_items</jtok>
+<jtok eid="24" type="qualified_name_ref" span="271:50:271:56">length</jtok>
+<jtok eid="24" type="local_variable_name" span="272:11:272:12">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="272:18:272:19">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="272:22:272:28">_items</jtok>
+<jtok eid="24" type="qualified_name_ref" span="272:29:272:35">length</jtok>
+<jtok eid="24" type="primary_name_ref" span="272:37:272:38">i</jtok>
+<jtok eid="24" type="primary_name_ref" span="274:4:274:9">items</jtok>
+<jtok eid="24" type="method_call" span="274:10:274:13">add</jtok>
+<jtok eid="24" type="method_call" span="274:14:274:25">createEntry</jtok>
+<jtok eid="24" type="primary_name_ref" span="274:26:274:32">_items</jtok>
+<jtok eid="24" type="primary_name_ref" span="274:33:274:34">i</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="278:17:278:30">JCheckBoxList</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="278:31:278:36">Entry</jtok>
+<jtok eid="25" type="method_name" span="278:37:278:48">createEntry</jtok>
+<jtok eid="25" type="parameter_type" span="278:49:278:55">Object</jtok>
+<jtok eid="25" type="parameter_name" span="278:56:278:59">obj</jtok>
+<jtok eid="25" type="primary_name_ref" span="280:6:280:9">obj</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="280:21:280:34">JCheckBoxList</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="280:35:280:40">Entry</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="281:12:281:25">JCheckBoxList</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="281:26:281:31">Entry</jtok>
+<jtok eid="25" type="primary_name_ref" span="281:32:281:35">obj</jtok>
+<jtok eid="25" type="constructor_call" span="283:15:283:28">JCheckBoxList</jtok>
+<jtok eid="25" type="constructor_call" span="283:29:283:34">Entry</jtok>
+<jtok eid="25" type="primary_name_ref" span="283:41:283:44">obj</jtok>
+<jtok eid="26" type="method_name" span="286:13:286:24">getRowCount</jtok>
+<jtok eid="26" type="primary_name_ref" span="288:10:288:15">items</jtok>
+<jtok eid="26" type="method_call" span="288:16:288:20">size</jtok>
+<jtok eid="27" type="method_name" span="291:13:291:27">getColumnCount</jtok>
+<jtok eid="22" type="annotation_ref" span="296:3:296:11">Override</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="297:9:297:15">String</jtok>
+<jtok eid="28" type="method_name" span="297:16:297:29">getColumnName</jtok>
+<jtok eid="28" type="parameter_name" span="297:34:297:37">col</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="302:9:302:15">Object</jtok>
+<jtok eid="29" type="method_name" span="302:16:302:26">getValueAt</jtok>
+<jtok eid="29" type="parameter_name" span="302:31:302:34">row</jtok>
+<jtok eid="29" type="parameter_name" span="302:40:302:43">col</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="304:3:304:16">JCheckBoxList</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="304:17:304:22">Entry</jtok>
+<jtok eid="29" type="local_variable_name" span="304:23:304:28">entry</jtok>
+<jtok eid="29" type="primary_name_ref" span="304:31:304:36">items</jtok>
+<jtok eid="29" type="method_call" span="304:37:304:40">get</jtok>
+<jtok eid="29" type="primary_name_ref" span="304:41:304:44">row</jtok>
+<jtok eid="29" type="primary_name_ref" span="305:10:305:13">col</jtok>
+<jtok eid="29" type="primary_name_ref" span="308:11:308:18">Boolean</jtok>
+<jtok eid="29" type="method_call" span="308:19:308:26">valueOf</jtok>
+<jtok eid="29" type="primary_name_ref" span="308:27:308:32">entry</jtok>
+<jtok eid="29" type="qualified_name_ref" span="308:33:308:40">checked</jtok>
+<jtok eid="29" type="primary_name_ref" span="310:11:310:16">entry</jtok>
+<jtok eid="29" type="qualified_name_ref" span="310:17:310:22">value</jtok>
+<jtok eid="29" type="constructor_call" span="312:14:312:27">InternalError</jtok>
+<jtok eid="22" type="annotation_ref" span="316:3:316:11">Override</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="317:9:317:14">Class</jtok>
+<jtok eid="30" type="method_name" span="317:15:317:29">getColumnClass</jtok>
+<jtok eid="30" type="parameter_name" span="317:34:317:37">col</jtok>
+<jtok eid="30" type="primary_name_ref" span="319:10:319:13">col</jtok>
+<jtok eid="30" type="primary_name_ref" span="322:11:322:18">Boolean</jtok>
+<jtok eid="30" type="primary_name_ref" span="324:11:324:17">String</jtok>
+<jtok eid="30" type="constructor_call" span="326:14:326:27">InternalError</jtok>
+<jtok eid="22" type="annotation_ref" span="330:3:330:11">Override</jtok>
+<jtok eid="31" type="method_name" span="331:17:331:31">isCellEditable</jtok>
+<jtok eid="31" type="parameter_name" span="331:36:331:39">row</jtok>
+<jtok eid="31" type="parameter_name" span="331:45:331:48">col</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="333:3:333:16">JCheckBoxList</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="333:17:333:22">Entry</jtok>
+<jtok eid="31" type="local_variable_name" span="333:23:333:28">entry</jtok>
+<jtok eid="31" type="primary_name_ref" span="333:31:333:36">items</jtok>
+<jtok eid="31" type="method_call" span="333:37:333:40">get</jtok>
+<jtok eid="31" type="primary_name_ref" span="333:41:333:44">row</jtok>
+<jtok eid="31" type="primary_name_ref" span="334:10:334:13">col</jtok>
+<jtok eid="31" type="primary_name_ref" span="334:23:334:28">entry</jtok>
+<jtok eid="31" type="qualified_name_ref" span="334:29:334:36">caption</jtok>
+<jtok eid="22" type="annotation_ref" span="337:3:337:11">Override</jtok>
+<jtok eid="32" type="method_name" span="338:14:338:24">setValueAt</jtok>
+<jtok eid="32" type="parameter_type" span="338:25:338:31">Object</jtok>
+<jtok eid="32" type="parameter_name" span="338:32:338:37">value</jtok>
+<jtok eid="32" type="parameter_name" span="338:43:338:46">row</jtok>
+<jtok eid="32" type="parameter_name" span="338:52:338:55">col</jtok>
+<jtok eid="32" type="primary_name_ref" span="340:6:340:9">col</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="342:4:342:17">JCheckBoxList</jtok>
+<jtok eid="32" type="class_or_interface_ref" span="342:18:342:23">Entry</jtok>
+<jtok eid="32" type="local_variable_name" span="342:24:342:29">entry</jtok>
+<jtok eid="32" type="primary_name_ref" span="342:32:342:37">items</jtok>
+<jtok eid="32" type="method_call" span="342:38:342:41">get</jtok>
+<jtok eid="32" type="primary_name_ref" span="342:42:342:45">row</jtok>
+<jtok eid="32" type="primary_name_ref" span="343:8:343:13">entry</jtok>
+<jtok eid="32" type="qualified_name_ref" span="343:14:343:21">caption</jtok>
+<jtok eid="32" type="primary_name_ref" span="345:5:345:10">entry</jtok>
+<jtok eid="32" type="qualified_name_ref" span="345:11:345:18">checked</jtok>
+<jtok eid="32" type="primary_name_ref" span="345:21:345:26">value</jtok>
+<jtok eid="32" type="method_call" span="345:27:345:33">equals</jtok>
+<jtok eid="32" type="primary_name_ref" span="345:34:345:41">Boolean</jtok>
+<jtok eid="32" type="qualified_name_ref" span="345:42:345:46">TRUE</jtok>
+<jtok eid="32" type="method_call" span="346:5:346:25">fireTableRowsUpdated</jtok>
+<jtok eid="32" type="primary_name_ref" span="346:26:346:29">row</jtok>
+<jtok eid="32" type="primary_name_ref" span="346:30:346:33">row</jtok>
+<jtok eid="0" type="line_comment" span="350:3:350:8">//}}}</jtok>
+</jdoc>

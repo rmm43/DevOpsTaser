@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.textarea.StandaloneTextArea" jls="java5">
+<jent id="0" type="file" span="0:0:681:7">Source/jEdit/org/gjt/sp/jedit/textarea/StandaloneTextArea.java</jent>
+<jent id="1" pid="0" type="class" span="101:1:681:1">org.gjt.sp.jedit.textarea.StandaloneTextArea</jent>
+<jent id="2" pid="1" type="method" span="115:2:169:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneTextArea(IPropertyManager)</jent>
+<jent id="3" pid="1" type="method" span="176:2:203:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.initTextArea()</jent>
+<jent id="4" pid="1" type="method" span="206:2:253:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.initGutter()</jent>
+<jent id="5" pid="1" type="method" span="260:2:312:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.initPainter()</jent>
+<jent id="6" pid="1" type="method" span="320:2:323:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getProperty(String)</jent>
+<jent id="7" pid="1" type="method" span="330:2:333:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getBooleanProperty(String)</jent>
+<jent id="8" pid="1" type="method" span="341:2:354:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getBooleanProperty(String,boolean)</jent>
+<jent id="9" pid="1" type="method" span="361:2:364:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getIntegerProperty(String)</jent>
+<jent id="10" pid="1" type="method" span="373:2:389:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getIntegerProperty(String,int)</jent>
+<jent id="11" pid="1" type="method" span="406:2:409:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getFontProperty(String)</jent>
+<jent id="12" pid="1" type="method" span="425:2:458:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getFontProperty(String,Font)</jent>
+<jent id="13" pid="1" type="method" span="466:2:469:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getColorProperty(String)</jent>
+<jent id="14" pid="1" type="method" span="477:2:484:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.getColorProperty(String,Color)</jent>
+<jent id="15" pid="1" type="method" span="492:2:503:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.propertiesChanged()</jent>
+<jent id="16" pid="1" type="method" span="509:2:536:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.initBuffer()</jent>
+<jent id="17" pid="1" type="method" span="544:2:553:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.createPopupMenu(MouseEvent)</jent>
+<jent id="18" pid="1" type="method" span="560:2:575:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.addMenuItem(String,String)</jent>
+<jent id="19" pid="18" type="class" span="567:3:572:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.addMenuItem(String,String).$1</jent>
+<jent id="20" pid="19" type="method" span="568:4:571:4">org.gjt.sp.jedit.textarea.StandaloneTextArea.addMenuItem(String,String).$1.actionPerformed(ActionEvent)</jent>
+<jent id="21" pid="1" type="method" span="585:2:599:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.createTextArea()</jent>
+<jent id="22" pid="21" type="class" span="591:3:596:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.createTextArea().$2</jent>
+<jent id="23" pid="22" type="method" span="592:4:595:4">org.gjt.sp.jedit.textarea.StandaloneTextArea.createTextArea().$2.getProperty(String)</jent>
+<jent id="24" pid="1" type="method" span="602:2:619:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.loadProperties(String)</jent>
+<jent id="25" pid="1" type="class" span="626:2:665:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneActionSet</jent>
+<jent id="26" pid="25" type="method" span="631:3:636:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneActionSet.StandaloneActionSet(IPropertyManager,TextArea,URL)</jent>
+<jent id="27" pid="25" type="method" span="639:3:642:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneActionSet.getArray(int)</jent>
+<jent id="28" pid="25" type="method" span="645:3:648:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneActionSet.getProperty(String)</jent>
+<jent id="29" pid="25" type="method" span="650:3:653:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneActionSet.getInputHandler()</jent>
+<jent id="30" pid="25" type="method" span="656:3:664:3">org.gjt.sp.jedit.textarea.StandaloneTextArea.StandaloneActionSet.createBeanShellAction(String,String,String,boolean,boolean,boolean)</jent>
+<jent id="31" pid="1" type="method" span="668:2:680:2">org.gjt.sp.jedit.textarea.StandaloneTextArea.main(String[])</jent>
+<jtok eid="0" type="block_comment" span="1:1:24:4">/*
+ * StandaloneTextArea.java - A TextArea that can be embedded in applications
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 1999, 2005 Slava Pestov
+ * Portions copyright (C) 2000 Ollie Rutherfurd
+ * Portions copyright (C) 2006 Matthieu Casanova
+ * Portions copyright (C) 2008 Dakshinamurthy Karra
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="27:1:27:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="63:1:63:6">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="64:1:64:32">// {{{ class StandaloneTextArea</jtok>
+<jtok eid="0" type="block_comment" span="65:1:100:4">/**
+ * jEdit's standalone text component.&lt;p&gt;
+ *
+ * Use this class to embed a jEdit text area into other applications.
+ *
+ * Example:
+ * &lt;code&gt;
+ * class MyTextArea extends StandaloneTextArea
+ * {
+ *     static final Properties props = new Properties();
+ *     static IPropertyManager propertyManager;
+ *
+ *     static
+ *     {
+ *        props = new Properties();
+ *        load(props);
+ *        propertyManager = new IPropertyManager() {
+ *        	public String getProperty() {
+ *        		return props.getProperty();
+ *        	}
+ *        }
+ *     }
+ *
+ *     public MyTextArea()
+ *     {
+ *         super(propertyManager);
+ *     }
+ * }
+ * &lt;/code&gt;
+ *
+ * See jedit.props for properties that can be set.
+ *
+ * @author Slava Pestov
+ * @author John Gellene (API documentation)
+ * @version $Id: StandaloneTextArea.java 16346 2009-10-14 10:35:10Z kpouer $
+ */</jtok>
+<jtok eid="1" type="class_name" span="101:14:101:32">StandaloneTextArea</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="101:41:101:49">TextArea</jtok>
+<jtok eid="1" type="line_comment" span="104:2:104:26">//{{{ Instance variables</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="105:16:105:32">IPropertyManager</jtok>
+<jtok eid="1" type="field_name" span="105:33:105:48">propertyManager</jtok>
+<jtok eid="1" type="line_comment" span="106:2:106:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="108:2:108:38">//{{{ StandaloneTextArea constructor</jtok>
+<jtok eid="1" type="block_comment" span="109:2:114:5">/**
+	 * Creates a new StandaloneTextArea. A reference to the propertyManager is saved and used to read the properties
+	 * when {@link StandaloneTextArea#propertiesChanged()} is called.
+	 *
+	 * @param propertyManager the property manager that contains both shortcut bindings and UI information
+	 */</jtok>
+<jtok eid="2" type="method_name" span="115:9:115:27">StandaloneTextArea</jtok>
+<jtok eid="2" type="parameter_type" span="115:28:115:44">IPropertyManager</jtok>
+<jtok eid="2" type="parameter_name" span="115:45:115:60">propertyManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="117:9:117:24">propertyManager</jtok>
+<jtok eid="2" type="qualified_name_ref" span="118:8:118:23">propertyManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="118:26:118:41">propertyManager</jtok>
+<jtok eid="2" type="method_call" span="120:3:120:19">initInputHandler</jtok>
+<jtok eid="2" type="method_call" span="122:3:122:18">setMouseHandler</jtok>
+<jtok eid="2" type="constructor_call" span="122:23:122:43">TextAreaMouseHandler</jtok>
+<jtok eid="2" type="line_comment" span="123:3:123:52">// todo : make TextareaTransferHandler standalone</jtok>
+<jtok eid="2" type="line_comment" span="124:1:124:64">//		textArea.setTransferHandler(new TextAreaTransferHandler());</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="126:3:126:17">JEditActionSet</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="126:18:126:38">JEditBeanShellAction</jtok>
+<jtok eid="2" type="local_variable_name" span="126:40:126:49">actionSet</jtok>
+<jtok eid="2" type="constructor_call" span="126:56:126:75">StandaloneActionSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:76:126:91">propertyManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="126:99:126:107">TextArea</jtok>
+<jtok eid="2" type="method_call" span="126:114:126:125">getResource</jtok>
+<jtok eid="2" type="string_literal" span="126:126:126:148">"textarea.actions.xml"</jtok>
+<jtok eid="2" type="method_call" span="128:3:128:15">addActionSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="128:16:128:25">actionSet</jtok>
+<jtok eid="2" type="primary_name_ref" span="129:3:129:12">actionSet</jtok>
+<jtok eid="2" type="method_call" span="129:13:129:17">load</jtok>
+<jtok eid="2" type="primary_name_ref" span="130:3:130:12">actionSet</jtok>
+<jtok eid="2" type="method_call" span="130:13:130:28">initKeyBindings</jtok>
+<jtok eid="2" type="line_comment" span="132:3:132:36">//{{{ init Style property manager</jtok>
+<jtok eid="2" type="primary_name_ref" span="133:7:133:22">SyntaxUtilities</jtok>
+<jtok eid="2" type="qualified_name_ref" span="133:23:133:38">propertyManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:4:135:19">SyntaxUtilities</jtok>
+<jtok eid="2" type="qualified_name_ref" span="135:20:135:35">propertyManager</jtok>
+<jtok eid="2" type="primary_name_ref" span="135:38:135:53">propertyManager</jtok>
+<jtok eid="2" type="line_comment" span="137:3:137:8">//}}}</jtok>
+<jtok eid="2" type="method_call" span="139:3:139:15">initTextArea</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="141:3:141:29">DefaultFoldHandlerProvider</jtok>
+<jtok eid="2" type="local_variable_name" span="141:30:141:49">foldHandlerProvider</jtok>
+<jtok eid="2" type="constructor_call" span="141:56:141:82">DefaultFoldHandlerProvider</jtok>
+<jtok eid="2" type="primary_name_ref" span="143:3:143:14">FoldHandler</jtok>
+<jtok eid="2" type="qualified_name_ref" span="143:15:143:34">foldHandlerProvider</jtok>
+<jtok eid="2" type="primary_name_ref" span="143:37:143:56">foldHandlerProvider</jtok>
+<jtok eid="2" type="primary_name_ref" span="144:3:144:22">foldHandlerProvider</jtok>
+<jtok eid="2" type="method_call" span="144:23:144:37">addFoldHandler</jtok>
+<jtok eid="2" type="constructor_call" span="144:42:144:61">ExplicitFoldHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="145:3:145:22">foldHandlerProvider</jtok>
+<jtok eid="2" type="method_call" span="145:23:145:37">addFoldHandler</jtok>
+<jtok eid="2" type="constructor_call" span="145:42:145:59">IndentFoldHandler</jtok>
+<jtok eid="2" type="primary_name_ref" span="146:3:146:22">foldHandlerProvider</jtok>
+<jtok eid="2" type="method_call" span="146:23:146:37">addFoldHandler</jtok>
+<jtok eid="2" type="constructor_call" span="146:42:146:58">DummyFoldHandler</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="147:3:147:14">JEditBuffer</jtok>
+<jtok eid="2" type="local_variable_name" span="147:15:147:21">buffer</jtok>
+<jtok eid="2" type="constructor_call" span="147:28:147:39">JEditBuffer</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="148:3:148:14">TokenMarker</jtok>
+<jtok eid="2" type="local_variable_name" span="148:15:148:26">tokenMarker</jtok>
+<jtok eid="2" type="constructor_call" span="148:33:148:44">TokenMarker</jtok>
+<jtok eid="2" type="primary_name_ref" span="149:3:149:14">tokenMarker</jtok>
+<jtok eid="2" type="method_call" span="149:15:149:25">addRuleSet</jtok>
+<jtok eid="2" type="constructor_call" span="149:30:149:43">ParserRuleSet</jtok>
+<jtok eid="2" type="string_literal" span="149:44:149:50">"text"</jtok>
+<jtok eid="2" type="string_literal" span="149:51:149:57">"MAIN"</jtok>
+<jtok eid="2" type="primary_name_ref" span="150:3:150:9">buffer</jtok>
+<jtok eid="2" type="method_call" span="150:10:150:24">setTokenMarker</jtok>
+<jtok eid="2" type="primary_name_ref" span="150:25:150:36">tokenMarker</jtok>
+<jtok eid="2" type="method_call" span="151:3:151:12">setBuffer</jtok>
+<jtok eid="2" type="primary_name_ref" span="151:13:151:19">buffer</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="152:3:152:9">String</jtok>
+<jtok eid="2" type="local_variable_name" span="152:10:152:18">property</jtok>
+<jtok eid="2" type="primary_name_ref" span="152:21:152:36">propertyManager</jtok>
+<jtok eid="2" type="method_call" span="152:37:152:48">getProperty</jtok>
+<jtok eid="2" type="string_literal" span="152:49:152:67">"buffer.undoCount"</jtok>
+<jtok eid="2" type="local_variable_name" span="153:7:153:16">undoCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="154:7:154:15">property</jtok>
+<jtok eid="2" type="primary_name_ref" span="157:5:157:14">undoCount</jtok>
+<jtok eid="2" type="primary_name_ref" span="157:17:157:24">Integer</jtok>
+<jtok eid="2" type="method_call" span="157:25:157:33">parseInt</jtok>
+<jtok eid="2" type="primary_name_ref" span="157:34:157:42">property</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="159:11:159:32">NumberFormatException</jtok>
+<jtok eid="2" type="local_variable_name" span="159:33:159:34">e</jtok>
+<jtok eid="2" type="qualified_name_ref" span="162:8:162:14">buffer</jtok>
+<jtok eid="2" type="method_call" span="162:15:162:27">setUndoLimit</jtok>
+<jtok eid="2" type="primary_name_ref" span="162:28:162:37">undoCount</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="163:3:163:7">Mode</jtok>
+<jtok eid="2" type="local_variable_name" span="163:8:163:12">mode</jtok>
+<jtok eid="2" type="constructor_call" span="163:19:163:23">Mode</jtok>
+<jtok eid="2" type="string_literal" span="163:24:163:30">"text"</jtok>
+<jtok eid="2" type="primary_name_ref" span="164:3:164:7">mode</jtok>
+<jtok eid="2" type="method_call" span="164:8:164:22">setTokenMarker</jtok>
+<jtok eid="2" type="primary_name_ref" span="164:23:164:34">tokenMarker</jtok>
+<jtok eid="2" type="primary_name_ref" span="165:3:165:15">ModeProvider</jtok>
+<jtok eid="2" type="qualified_name_ref" span="165:16:165:24">instance</jtok>
+<jtok eid="2" type="method_call" span="165:25:165:32">addMode</jtok>
+<jtok eid="2" type="primary_name_ref" span="165:33:165:37">mode</jtok>
+<jtok eid="2" type="primary_name_ref" span="166:3:166:11">KillRing</jtok>
+<jtok eid="2" type="method_call" span="166:12:166:23">setInstance</jtok>
+<jtok eid="2" type="constructor_call" span="166:28:166:36">KillRing</jtok>
+<jtok eid="2" type="primary_name_ref" span="167:3:167:11">KillRing</jtok>
+<jtok eid="2" type="method_call" span="167:12:167:23">getInstance</jtok>
+<jtok eid="2" type="method_call" span="167:26:167:43">propertiesChanged</jtok>
+<jtok eid="1" type="line_comment" span="169:4:169:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="171:2:171:29">//{{{ initTextArea() method</jtok>
+<jtok eid="1" type="block_comment" span="172:2:175:5">/**
+	 * Initializes the text area by re-reading the properties from the property manager passed to the
+	 * constructor.
+	 */</jtok>
+<jtok eid="3" type="method_name" span="176:15:176:27">initTextArea</jtok>
+<jtok eid="3" type="method_call" span="178:3:178:14">initPainter</jtok>
+<jtok eid="3" type="method_call" span="179:3:179:13">initGutter</jtok>
+<jtok eid="3" type="method_call" span="181:3:181:23">setCaretBlinkEnabled</jtok>
+<jtok eid="3" type="method_call" span="181:24:181:42">getBooleanProperty</jtok>
+<jtok eid="3" type="string_literal" span="182:4:182:21">"view.caretBlink"</jtok>
+<jtok eid="3" type="method_call" span="184:3:184:20">setElectricScroll</jtok>
+<jtok eid="3" type="method_call" span="184:21:184:39">getIntegerProperty</jtok>
+<jtok eid="3" type="string_literal" span="185:4:185:26">"view.electricBorders"</jtok>
+<jtok eid="3" type="primary_name_ref" span="187:7:187:13">buffer</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="190:3:190:9">String</jtok>
+<jtok eid="3" type="local_variable_name" span="190:10:190:18">property</jtok>
+<jtok eid="3" type="primary_name_ref" span="190:21:190:36">propertyManager</jtok>
+<jtok eid="3" type="method_call" span="190:37:190:48">getProperty</jtok>
+<jtok eid="3" type="string_literal" span="190:49:190:67">"buffer.undoCount"</jtok>
+<jtok eid="3" type="local_variable_name" span="191:7:191:16">undoCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="192:7:192:15">property</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:5:196:14">undoCount</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:17:196:24">Integer</jtok>
+<jtok eid="3" type="method_call" span="196:25:196:33">parseInt</jtok>
+<jtok eid="3" type="primary_name_ref" span="196:34:196:42">property</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="198:11:198:32">NumberFormatException</jtok>
+<jtok eid="3" type="local_variable_name" span="198:33:198:34">e</jtok>
+<jtok eid="3" type="primary_name_ref" span="202:3:202:9">buffer</jtok>
+<jtok eid="3" type="method_call" span="202:10:202:22">setUndoLimit</jtok>
+<jtok eid="3" type="primary_name_ref" span="202:23:202:32">undoCount</jtok>
+<jtok eid="1" type="line_comment" span="203:4:203:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="205:2:205:27">//{{{ initGutter() method</jtok>
+<jtok eid="4" type="method_name" span="206:15:206:25">initGutter</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="208:3:208:9">Gutter</jtok>
+<jtok eid="4" type="local_variable_name" span="208:10:208:16">gutter</jtok>
+<jtok eid="4" type="method_call" span="208:19:208:28">getGutter</jtok>
+<jtok eid="4" type="primary_name_ref" span="209:3:209:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="209:10:209:21">setExpanded</jtok>
+<jtok eid="4" type="method_call" span="209:22:209:40">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="210:4:210:29">"view.gutter.lineNumbers"</jtok>
+<jtok eid="4" type="local_variable_name" span="211:7:211:15">interval</jtok>
+<jtok eid="4" type="method_call" span="211:18:211:36">getIntegerProperty</jtok>
+<jtok eid="4" type="string_literal" span="212:4:212:35">"view.gutter.highlightInterval"</jtok>
+<jtok eid="4" type="primary_name_ref" span="213:3:213:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="213:10:213:30">setHighlightInterval</jtok>
+<jtok eid="4" type="primary_name_ref" span="213:31:213:39">interval</jtok>
+<jtok eid="4" type="primary_name_ref" span="214:3:214:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="214:10:214:40">setCurrentLineHighlightEnabled</jtok>
+<jtok eid="4" type="method_call" span="214:41:214:59">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="215:4:215:38">"view.gutter.highlightCurrentLine"</jtok>
+<jtok eid="4" type="primary_name_ref" span="216:3:216:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="216:10:216:38">setStructureHighlightEnabled</jtok>
+<jtok eid="4" type="method_call" span="216:39:216:57">getBooleanProperty</jtok>
+<jtok eid="4" type="string_literal" span="217:4:217:36">"view.gutter.structureHighlight"</jtok>
+<jtok eid="4" type="primary_name_ref" span="218:3:218:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="218:10:218:36">setStructureHighlightColor</jtok>
+<jtok eid="4" type="method_call" span="219:4:219:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="219:21:219:58">"view.gutter.structureHighlightColor"</jtok>
+<jtok eid="4" type="primary_name_ref" span="220:3:220:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="220:10:220:23">setBackground</jtok>
+<jtok eid="4" type="method_call" span="221:4:221:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="221:21:221:42">"view.gutter.bgColor"</jtok>
+<jtok eid="4" type="primary_name_ref" span="222:3:222:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="222:10:222:23">setForeground</jtok>
+<jtok eid="4" type="method_call" span="223:4:223:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="223:21:223:42">"view.gutter.fgColor"</jtok>
+<jtok eid="4" type="primary_name_ref" span="224:3:224:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="224:10:224:34">setHighlightedForeground</jtok>
+<jtok eid="4" type="method_call" span="225:4:225:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="225:21:225:49">"view.gutter.highlightColor"</jtok>
+<jtok eid="4" type="primary_name_ref" span="226:3:226:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="226:10:226:22">setFoldColor</jtok>
+<jtok eid="4" type="method_call" span="227:4:227:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="227:21:227:44">"view.gutter.foldColor"</jtok>
+<jtok eid="4" type="primary_name_ref" span="228:3:228:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="228:10:228:34">setCurrentLineForeground</jtok>
+<jtok eid="4" type="method_call" span="229:4:229:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="229:21:229:51">"view.gutter.currentLineColor"</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="230:3:230:9">String</jtok>
+<jtok eid="4" type="local_variable_name" span="230:10:230:19">alignment</jtok>
+<jtok eid="4" type="method_call" span="230:22:230:33">getProperty</jtok>
+<jtok eid="4" type="string_literal" span="231:4:231:33">"view.gutter.numberAlignment"</jtok>
+<jtok eid="4" type="string_literal" span="232:7:232:14">"right"</jtok>
+<jtok eid="4" type="method_call" span="232:15:232:21">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="232:22:232:31">alignment</jtok>
+<jtok eid="4" type="primary_name_ref" span="234:4:234:10">gutter</jtok>
+<jtok eid="4" type="method_call" span="234:11:234:33">setLineNumberAlignment</jtok>
+<jtok eid="4" type="primary_name_ref" span="234:34:234:40">Gutter</jtok>
+<jtok eid="4" type="qualified_name_ref" span="234:41:234:46">RIGHT</jtok>
+<jtok eid="4" type="string_literal" span="236:12:236:20">"center"</jtok>
+<jtok eid="4" type="method_call" span="236:21:236:27">equals</jtok>
+<jtok eid="4" type="primary_name_ref" span="236:28:236:37">alignment</jtok>
+<jtok eid="4" type="primary_name_ref" span="238:4:238:10">gutter</jtok>
+<jtok eid="4" type="method_call" span="238:11:238:33">setLineNumberAlignment</jtok>
+<jtok eid="4" type="primary_name_ref" span="238:34:238:40">Gutter</jtok>
+<jtok eid="4" type="qualified_name_ref" span="238:41:238:47">CENTER</jtok>
+<jtok eid="4" type="line_comment" span="240:8:240:31">// left == default case</jtok>
+<jtok eid="4" type="primary_name_ref" span="242:4:242:10">gutter</jtok>
+<jtok eid="4" type="method_call" span="242:11:242:33">setLineNumberAlignment</jtok>
+<jtok eid="4" type="primary_name_ref" span="242:34:242:40">Gutter</jtok>
+<jtok eid="4" type="qualified_name_ref" span="242:41:242:45">LEFT</jtok>
+<jtok eid="4" type="primary_name_ref" span="245:3:245:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="245:10:245:17">setFont</jtok>
+<jtok eid="4" type="method_call" span="245:18:245:33">getFontProperty</jtok>
+<jtok eid="4" type="string_literal" span="245:34:245:52">"view.gutter.font"</jtok>
+<jtok eid="4" type="local_variable_name" span="247:7:247:12">width</jtok>
+<jtok eid="4" type="method_call" span="247:15:247:33">getIntegerProperty</jtok>
+<jtok eid="4" type="string_literal" span="248:4:248:29">"view.gutter.borderWidth"</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:3:249:9">gutter</jtok>
+<jtok eid="4" type="method_call" span="249:10:249:19">setBorder</jtok>
+<jtok eid="4" type="primary_name_ref" span="249:20:249:25">width</jtok>
+<jtok eid="4" type="method_call" span="250:4:250:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="250:21:250:51">"view.gutter.focusBorderColor"</jtok>
+<jtok eid="4" type="method_call" span="251:4:251:20">getColorProperty</jtok>
+<jtok eid="4" type="string_literal" span="251:21:251:53">"view.gutter.noFocusBorderColor"</jtok>
+<jtok eid="4" type="primary_name_ref" span="252:4:252:11">painter</jtok>
+<jtok eid="4" type="method_call" span="252:12:252:25">getBackground</jtok>
+<jtok eid="1" type="line_comment" span="253:4:253:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="255:2:255:28">//{{{ initPainter() method</jtok>
+<jtok eid="1" type="block_comment" span="256:2:259:5">/**
+	 * Init the painter of this textarea.
+	 *
+	 */</jtok>
+<jtok eid="5" type="method_name" span="260:15:260:26">initPainter</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="262:3:262:18">TextAreaPainter</jtok>
+<jtok eid="5" type="local_variable_name" span="262:19:262:26">painter</jtok>
+<jtok eid="5" type="method_call" span="262:29:262:39">getPainter</jtok>
+<jtok eid="5" type="primary_name_ref" span="263:3:263:10">painter</jtok>
+<jtok eid="5" type="method_call" span="263:11:263:31">setBlockCaretEnabled</jtok>
+<jtok eid="5" type="primary_name_ref" span="265:3:265:10">painter</jtok>
+<jtok eid="5" type="method_call" span="265:11:265:18">setFont</jtok>
+<jtok eid="5" type="method_call" span="265:19:265:34">getFontProperty</jtok>
+<jtok eid="5" type="string_literal" span="265:35:265:46">"view.font"</jtok>
+<jtok eid="5" type="primary_name_ref" span="266:3:266:10">painter</jtok>
+<jtok eid="5" type="method_call" span="266:11:266:39">setStructureHighlightEnabled</jtok>
+<jtok eid="5" type="method_call" span="266:40:266:58">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="267:4:267:29">"view.structureHighlight"</jtok>
+<jtok eid="5" type="primary_name_ref" span="268:3:268:10">painter</jtok>
+<jtok eid="5" type="method_call" span="268:11:268:37">setStructureHighlightColor</jtok>
+<jtok eid="5" type="method_call" span="269:4:269:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="269:21:269:51">"view.structureHighlightColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="270:3:270:10">painter</jtok>
+<jtok eid="5" type="method_call" span="270:11:270:31">setEOLMarkersPainted</jtok>
+<jtok eid="5" type="method_call" span="270:32:270:50">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="271:4:271:21">"view.eolMarkers"</jtok>
+<jtok eid="5" type="primary_name_ref" span="272:3:272:10">painter</jtok>
+<jtok eid="5" type="method_call" span="272:11:272:28">setEOLMarkerColor</jtok>
+<jtok eid="5" type="method_call" span="273:4:273:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="273:21:273:42">"view.eolMarkerColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="274:3:274:10">painter</jtok>
+<jtok eid="5" type="method_call" span="274:11:274:30">setWrapGuidePainted</jtok>
+<jtok eid="5" type="method_call" span="274:31:274:49">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="275:4:275:20">"view.wrapGuide"</jtok>
+<jtok eid="5" type="primary_name_ref" span="276:3:276:10">painter</jtok>
+<jtok eid="5" type="method_call" span="276:11:276:28">setWrapGuideColor</jtok>
+<jtok eid="5" type="method_call" span="277:4:277:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="277:21:277:42">"view.wrapGuideColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="278:3:278:10">painter</jtok>
+<jtok eid="5" type="method_call" span="278:11:278:24">setCaretColor</jtok>
+<jtok eid="5" type="method_call" span="279:4:279:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="279:21:279:38">"view.caretColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="280:3:280:10">painter</jtok>
+<jtok eid="5" type="method_call" span="280:11:280:28">setSelectionColor</jtok>
+<jtok eid="5" type="method_call" span="281:4:281:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="281:21:281:42">"view.selectionColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="282:3:282:10">painter</jtok>
+<jtok eid="5" type="method_call" span="282:11:282:36">setMultipleSelectionColor</jtok>
+<jtok eid="5" type="method_call" span="283:4:283:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="283:21:283:50">"view.multipleSelectionColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="284:3:284:10">painter</jtok>
+<jtok eid="5" type="method_call" span="284:11:284:24">setBackground</jtok>
+<jtok eid="5" type="method_call" span="285:4:285:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="285:21:285:35">"view.bgColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="286:3:286:10">painter</jtok>
+<jtok eid="5" type="method_call" span="286:11:286:24">setForeground</jtok>
+<jtok eid="5" type="method_call" span="287:4:287:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="287:21:287:35">"view.fgColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="288:3:288:10">painter</jtok>
+<jtok eid="5" type="method_call" span="288:11:288:31">setBlockCaretEnabled</jtok>
+<jtok eid="5" type="method_call" span="288:32:288:50">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="289:4:289:21">"view.blockCaret"</jtok>
+<jtok eid="5" type="primary_name_ref" span="290:3:290:10">painter</jtok>
+<jtok eid="5" type="method_call" span="290:11:290:31">setThickCaretEnabled</jtok>
+<jtok eid="5" type="method_call" span="290:32:290:50">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="291:4:291:21">"view.thickCaret"</jtok>
+<jtok eid="5" type="primary_name_ref" span="292:3:292:10">painter</jtok>
+<jtok eid="5" type="method_call" span="292:11:292:34">setLineHighlightEnabled</jtok>
+<jtok eid="5" type="method_call" span="292:35:292:53">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="293:4:293:24">"view.lineHighlight"</jtok>
+<jtok eid="5" type="primary_name_ref" span="294:3:294:10">painter</jtok>
+<jtok eid="5" type="method_call" span="294:11:294:32">setLineHighlightColor</jtok>
+<jtok eid="5" type="method_call" span="295:4:295:20">getColorProperty</jtok>
+<jtok eid="5" type="string_literal" span="295:21:295:46">"view.lineHighlightColor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="296:3:296:10">painter</jtok>
+<jtok eid="5" type="method_call" span="296:11:296:23">setAntiAlias</jtok>
+<jtok eid="5" type="constructor_call" span="296:28:296:37">AntiAlias</jtok>
+<jtok eid="5" type="method_call" span="296:38:296:49">getProperty</jtok>
+<jtok eid="5" type="string_literal" span="296:50:296:66">"view.antiAlias"</jtok>
+<jtok eid="5" type="primary_name_ref" span="297:3:297:10">painter</jtok>
+<jtok eid="5" type="method_call" span="297:11:297:42">setFractionalFontMetricsEnabled</jtok>
+<jtok eid="5" type="method_call" span="297:43:297:61">getBooleanProperty</jtok>
+<jtok eid="5" type="string_literal" span="298:4:298:26">"view.fracFontMetrics"</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="300:3:300:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="300:10:300:21">defaultFont</jtok>
+<jtok eid="5" type="method_call" span="300:24:300:35">getProperty</jtok>
+<jtok eid="5" type="string_literal" span="300:36:300:47">"view.font"</jtok>
+<jtok eid="5" type="local_variable_name" span="301:7:301:22">defaultFontSize</jtok>
+<jtok eid="5" type="method_call" span="301:25:301:43">getIntegerProperty</jtok>
+<jtok eid="5" type="string_literal" span="301:44:301:59">"view.fontsize"</jtok>
+<jtok eid="5" type="primary_name_ref" span="302:3:302:10">painter</jtok>
+<jtok eid="5" type="method_call" span="302:11:302:20">setStyles</jtok>
+<jtok eid="5" type="primary_name_ref" span="302:21:302:36">SyntaxUtilities</jtok>
+<jtok eid="5" type="method_call" span="302:37:302:47">loadStyles</jtok>
+<jtok eid="5" type="primary_name_ref" span="302:48:302:59">defaultFont</jtok>
+<jtok eid="5" type="primary_name_ref" span="302:60:302:75">defaultFontSize</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="304:3:304:14">SyntaxStyle</jtok>
+<jtok eid="5" type="local_variable_name" span="304:17:304:30">foldLineStyle</jtok>
+<jtok eid="5" type="constructor_call" span="304:37:304:48">SyntaxStyle</jtok>
+<jtok eid="5" type="local_variable_name" span="305:11:305:12">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="305:18:305:19">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="305:26:305:27">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="307:4:307:17">foldLineStyle</jtok>
+<jtok eid="5" type="primary_name_ref" span="307:18:307:19">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="307:23:307:38">SyntaxUtilities</jtok>
+<jtok eid="5" type="method_call" span="307:39:307:49">parseStyle</jtok>
+<jtok eid="5" type="method_call" span="308:5:308:16">getProperty</jtok>
+<jtok eid="5" type="string_literal" span="308:17:308:39">"view.style.foldLine."</jtok>
+<jtok eid="5" type="primary_name_ref" span="308:42:308:43">i</jtok>
+<jtok eid="5" type="primary_name_ref" span="309:5:309:16">defaultFont</jtok>
+<jtok eid="5" type="primary_name_ref" span="309:17:309:32">defaultFontSize</jtok>
+<jtok eid="5" type="primary_name_ref" span="311:3:311:10">painter</jtok>
+<jtok eid="5" type="method_call" span="311:11:311:27">setFoldLineStyle</jtok>
+<jtok eid="5" type="primary_name_ref" span="311:28:311:41">foldLineStyle</jtok>
+<jtok eid="1" type="line_comment" span="312:4:312:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="314:2:314:7">//{{{</jtok>
+<jtok eid="1" type="line_comment" span="315:2:315:93">// The following methods are copied from jEdit.java and refer to the propertyManager passed</jtok>
+<jtok eid="1" type="line_comment" span="316:2:316:24">// to the constructor.</jtok>
+<jtok eid="1" type="line_comment" span="317:2:317:7">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="319:2:319:28">//{{{ getProperty() method</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="320:9:320:15">String</jtok>
+<jtok eid="6" type="method_name" span="320:16:320:27">getProperty</jtok>
+<jtok eid="6" type="parameter_type" span="320:28:320:34">String</jtok>
+<jtok eid="6" type="parameter_name" span="320:35:320:39">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="322:10:322:25">propertyManager</jtok>
+<jtok eid="6" type="method_call" span="322:26:322:37">getProperty</jtok>
+<jtok eid="6" type="primary_name_ref" span="322:38:322:42">name</jtok>
+<jtok eid="1" type="line_comment" span="323:4:323:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="325:2:325:35">//{{{ getBooleanProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="326:2:329:5">/**
+	 * Returns the value of a boolean property.
+	 * @param name The property
+	 */</jtok>
+<jtok eid="7" type="method_name" span="330:18:330:36">getBooleanProperty</jtok>
+<jtok eid="7" type="parameter_type" span="330:37:330:43">String</jtok>
+<jtok eid="7" type="parameter_name" span="330:44:330:48">name</jtok>
+<jtok eid="7" type="method_call" span="332:10:332:28">getBooleanProperty</jtok>
+<jtok eid="7" type="primary_name_ref" span="332:29:332:33">name</jtok>
+<jtok eid="1" type="line_comment" span="333:4:333:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="335:2:335:35">//{{{ getBooleanProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="336:2:340:5">/**
+	 * Returns the value of a boolean property.
+	 * @param name The property
+	 * @param def The default value
+	 */</jtok>
+<jtok eid="8" type="method_name" span="341:18:341:36">getBooleanProperty</jtok>
+<jtok eid="8" type="parameter_type" span="341:37:341:43">String</jtok>
+<jtok eid="8" type="parameter_name" span="341:44:341:48">name</jtok>
+<jtok eid="8" type="parameter_name" span="341:58:341:61">def</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="343:3:343:9">String</jtok>
+<jtok eid="8" type="local_variable_name" span="343:10:343:15">value</jtok>
+<jtok eid="8" type="method_call" span="343:18:343:29">getProperty</jtok>
+<jtok eid="8" type="primary_name_ref" span="343:30:343:34">name</jtok>
+<jtok eid="8" type="primary_name_ref" span="344:6:344:11">value</jtok>
+<jtok eid="8" type="primary_name_ref" span="345:11:345:14">def</jtok>
+<jtok eid="8" type="primary_name_ref" span="346:11:346:16">value</jtok>
+<jtok eid="8" type="method_call" span="346:17:346:23">equals</jtok>
+<jtok eid="8" type="string_literal" span="346:24:346:30">"true"</jtok>
+<jtok eid="8" type="primary_name_ref" span="346:35:346:40">value</jtok>
+<jtok eid="8" type="method_call" span="346:41:346:47">equals</jtok>
+<jtok eid="8" type="string_literal" span="346:48:346:53">"yes"</jtok>
+<jtok eid="8" type="primary_name_ref" span="347:7:347:12">value</jtok>
+<jtok eid="8" type="method_call" span="347:13:347:19">equals</jtok>
+<jtok eid="8" type="string_literal" span="347:20:347:24">"on"</jtok>
+<jtok eid="8" type="primary_name_ref" span="349:11:349:16">value</jtok>
+<jtok eid="8" type="method_call" span="349:17:349:23">equals</jtok>
+<jtok eid="8" type="string_literal" span="349:24:349:31">"false"</jtok>
+<jtok eid="8" type="primary_name_ref" span="349:36:349:41">value</jtok>
+<jtok eid="8" type="method_call" span="349:42:349:48">equals</jtok>
+<jtok eid="8" type="string_literal" span="349:49:349:53">"no"</jtok>
+<jtok eid="8" type="primary_name_ref" span="350:7:350:12">value</jtok>
+<jtok eid="8" type="method_call" span="350:13:350:19">equals</jtok>
+<jtok eid="8" type="string_literal" span="350:20:350:25">"off"</jtok>
+<jtok eid="8" type="primary_name_ref" span="353:11:353:14">def</jtok>
+<jtok eid="1" type="line_comment" span="354:4:354:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="356:2:356:35">//{{{ getIntegerProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="357:2:360:5">/**
+	 * Returns the value of an integer property.
+	 * @param name The property
+	 */</jtok>
+<jtok eid="9" type="method_name" span="361:14:361:32">getIntegerProperty</jtok>
+<jtok eid="9" type="parameter_type" span="361:33:361:39">String</jtok>
+<jtok eid="9" type="parameter_name" span="361:40:361:44">name</jtok>
+<jtok eid="9" type="method_call" span="363:10:363:28">getIntegerProperty</jtok>
+<jtok eid="9" type="primary_name_ref" span="363:29:363:33">name</jtok>
+<jtok eid="1" type="line_comment" span="364:4:364:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="366:2:366:35">//{{{ getIntegerProperty() method</jtok>
+<jtok eid="1" type="block_comment" span="367:2:372:5">/**
+	 * Returns the value of an integer property.
+	 * @param name The property
+	 * @param def The default value
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="10" type="method_name" span="373:14:373:32">getIntegerProperty</jtok>
+<jtok eid="10" type="parameter_type" span="373:33:373:39">String</jtok>
+<jtok eid="10" type="parameter_name" span="373:40:373:44">name</jtok>
+<jtok eid="10" type="parameter_name" span="373:50:373:53">def</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="375:3:375:9">String</jtok>
+<jtok eid="10" type="local_variable_name" span="375:10:375:15">value</jtok>
+<jtok eid="10" type="method_call" span="375:18:375:29">getProperty</jtok>
+<jtok eid="10" type="primary_name_ref" span="375:30:375:34">name</jtok>
+<jtok eid="10" type="primary_name_ref" span="376:6:376:11">value</jtok>
+<jtok eid="10" type="primary_name_ref" span="377:11:377:14">def</jtok>
+<jtok eid="10" type="primary_name_ref" span="382:12:382:19">Integer</jtok>
+<jtok eid="10" type="method_call" span="382:20:382:28">parseInt</jtok>
+<jtok eid="10" type="primary_name_ref" span="382:29:382:34">value</jtok>
+<jtok eid="10" type="method_call" span="382:35:382:39">trim</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="384:10:384:31">NumberFormatException</jtok>
+<jtok eid="10" type="local_variable_name" span="384:32:384:34">nf</jtok>
+<jtok eid="10" type="primary_name_ref" span="386:12:386:15">def</jtok>
+<jtok eid="1" type="line_comment" span="389:4:389:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="392:2:392:33">//{{{ getFontProperty() methods</jtok>
+<jtok eid="1" type="block_comment" span="393:2:405:5">/**
+	 * Returns the value of a font property. The family is stored
+	 * in the &lt;code&gt;&lt;i&gt;name&lt;/i&gt;&lt;/code&gt; property, the font size is stored
+	 * in the &lt;code&gt;&lt;i&gt;name&lt;/i&gt;size&lt;/code&gt; property, and the font style is
+	 * stored in &lt;code&gt;&lt;i&gt;name&lt;/i&gt;style&lt;/code&gt;. For example, if
+	 * &lt;code&gt;&lt;i&gt;name&lt;/i&gt;&lt;/code&gt; is &lt;code&gt;view.gutter.font&lt;/code&gt;, the
+	 * properties will be named &lt;code&gt;view.gutter.font&lt;/code&gt;,
+	 * &lt;code&gt;view.gutter.fontsize&lt;/code&gt;, and
+	 * &lt;code&gt;view.gutter.fontstyle&lt;/code&gt;.
+	 *
+	 * @param name The property
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="406:10:406:14">Font</jtok>
+<jtok eid="11" type="method_name" span="406:15:406:30">getFontProperty</jtok>
+<jtok eid="11" type="parameter_type" span="406:31:406:37">String</jtok>
+<jtok eid="11" type="parameter_name" span="406:38:406:42">name</jtok>
+<jtok eid="11" type="method_call" span="408:10:408:25">getFontProperty</jtok>
+<jtok eid="11" type="primary_name_ref" span="408:26:408:30">name</jtok>
+<jtok eid="1" type="block_comment" span="411:2:424:5">/**
+	 * Returns the value of a font property. The family is stored
+	 * in the &lt;code&gt;&lt;i&gt;name&lt;/i&gt;&lt;/code&gt; property, the font size is stored
+	 * in the &lt;code&gt;&lt;i&gt;name&lt;/i&gt;size&lt;/code&gt; property, and the font style is
+	 * stored in &lt;code&gt;&lt;i&gt;name&lt;/i&gt;style&lt;/code&gt;. For example, if
+	 * &lt;code&gt;&lt;i&gt;name&lt;/i&gt;&lt;/code&gt; is &lt;code&gt;view.gutter.font&lt;/code&gt;, the
+	 * properties will be named &lt;code&gt;view.gutter.font&lt;/code&gt;,
+	 * &lt;code&gt;view.gutter.fontsize&lt;/code&gt;, and
+	 * &lt;code&gt;view.gutter.fontstyle&lt;/code&gt;.
+	 *
+	 * @param name The property
+	 * @param def The default value
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="425:10:425:14">Font</jtok>
+<jtok eid="12" type="method_name" span="425:15:425:30">getFontProperty</jtok>
+<jtok eid="12" type="parameter_type" span="425:31:425:37">String</jtok>
+<jtok eid="12" type="parameter_name" span="425:38:425:42">name</jtok>
+<jtok eid="12" type="parameter_type" span="425:44:425:48">Font</jtok>
+<jtok eid="12" type="parameter_name" span="425:49:425:52">def</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="427:3:427:9">String</jtok>
+<jtok eid="12" type="local_variable_name" span="427:10:427:16">family</jtok>
+<jtok eid="12" type="method_call" span="427:19:427:30">getProperty</jtok>
+<jtok eid="12" type="primary_name_ref" span="427:31:427:35">name</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="428:3:428:9">String</jtok>
+<jtok eid="12" type="local_variable_name" span="428:10:428:20">sizeString</jtok>
+<jtok eid="12" type="method_call" span="428:23:428:34">getProperty</jtok>
+<jtok eid="12" type="primary_name_ref" span="428:35:428:39">name</jtok>
+<jtok eid="12" type="string_literal" span="428:42:428:48">"size"</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="429:3:429:9">String</jtok>
+<jtok eid="12" type="local_variable_name" span="429:10:429:21">styleString</jtok>
+<jtok eid="12" type="method_call" span="429:24:429:35">getProperty</jtok>
+<jtok eid="12" type="primary_name_ref" span="429:36:429:40">name</jtok>
+<jtok eid="12" type="string_literal" span="429:43:429:50">"style"</jtok>
+<jtok eid="12" type="primary_name_ref" span="431:6:431:12">family</jtok>
+<jtok eid="12" type="primary_name_ref" span="431:24:431:34">sizeString</jtok>
+<jtok eid="12" type="primary_name_ref" span="431:46:431:57">styleString</jtok>
+<jtok eid="12" type="primary_name_ref" span="432:11:432:14">def</jtok>
+<jtok eid="12" type="local_variable_name" span="435:8:435:12">size</jtok>
+<jtok eid="12" type="primary_name_ref" span="439:5:439:9">size</jtok>
+<jtok eid="12" type="primary_name_ref" span="439:12:439:19">Integer</jtok>
+<jtok eid="12" type="method_call" span="439:20:439:28">parseInt</jtok>
+<jtok eid="12" type="primary_name_ref" span="439:29:439:39">sizeString</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="441:10:441:31">NumberFormatException</jtok>
+<jtok eid="12" type="local_variable_name" span="441:32:441:34">nf</jtok>
+<jtok eid="12" type="primary_name_ref" span="443:12:443:15">def</jtok>
+<jtok eid="12" type="local_variable_name" span="446:8:446:13">style</jtok>
+<jtok eid="12" type="primary_name_ref" span="449:5:449:10">style</jtok>
+<jtok eid="12" type="primary_name_ref" span="449:13:449:20">Integer</jtok>
+<jtok eid="12" type="method_call" span="449:21:449:29">parseInt</jtok>
+<jtok eid="12" type="primary_name_ref" span="449:30:449:41">styleString</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="451:10:451:31">NumberFormatException</jtok>
+<jtok eid="12" type="local_variable_name" span="451:32:451:34">nf</jtok>
+<jtok eid="12" type="primary_name_ref" span="453:12:453:15">def</jtok>
+<jtok eid="12" type="constructor_call" span="456:15:456:19">Font</jtok>
+<jtok eid="12" type="primary_name_ref" span="456:20:456:26">family</jtok>
+<jtok eid="12" type="primary_name_ref" span="456:27:456:32">style</jtok>
+<jtok eid="12" type="primary_name_ref" span="456:33:456:37">size</jtok>
+<jtok eid="1" type="line_comment" span="458:4:458:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="460:2:460:34">//{{{ getColorProperty() methods</jtok>
+<jtok eid="1" type="block_comment" span="461:2:465:5">/**
+	 * Returns the value of a color property.
+	 * @param name The property name
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="13" type="class_or_interface_ref" span="466:10:466:15">Color</jtok>
+<jtok eid="13" type="method_name" span="466:16:466:32">getColorProperty</jtok>
+<jtok eid="13" type="parameter_type" span="466:33:466:39">String</jtok>
+<jtok eid="13" type="parameter_name" span="466:40:466:44">name</jtok>
+<jtok eid="13" type="method_call" span="468:10:468:26">getColorProperty</jtok>
+<jtok eid="13" type="primary_name_ref" span="468:27:468:31">name</jtok>
+<jtok eid="13" type="primary_name_ref" span="468:32:468:37">Color</jtok>
+<jtok eid="13" type="qualified_name_ref" span="468:38:468:43">black</jtok>
+<jtok eid="1" type="block_comment" span="471:2:476:5">/**
+	 * Returns the value of a color property.
+	 * @param name The property name
+	 * @param def The default value
+	 * @since jEdit 4.0pre1
+	 */</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="477:10:477:15">Color</jtok>
+<jtok eid="14" type="method_name" span="477:16:477:32">getColorProperty</jtok>
+<jtok eid="14" type="parameter_type" span="477:33:477:39">String</jtok>
+<jtok eid="14" type="parameter_name" span="477:40:477:44">name</jtok>
+<jtok eid="14" type="parameter_type" span="477:46:477:51">Color</jtok>
+<jtok eid="14" type="parameter_name" span="477:52:477:55">def</jtok>
+<jtok eid="14" type="class_or_interface_ref" span="479:3:479:9">String</jtok>
+<jtok eid="14" type="local_variable_name" span="479:10:479:15">value</jtok>
+<jtok eid="14" type="method_call" span="479:18:479:29">getProperty</jtok>
+<jtok eid="14" type="primary_name_ref" span="479:30:479:34">name</jtok>
+<jtok eid="14" type="primary_name_ref" span="480:6:480:11">value</jtok>
+<jtok eid="14" type="primary_name_ref" span="481:11:481:14">def</jtok>
+<jtok eid="14" type="primary_name_ref" span="483:11:483:26">SyntaxUtilities</jtok>
+<jtok eid="14" type="method_call" span="483:27:483:37">parseColor</jtok>
+<jtok eid="14" type="primary_name_ref" span="483:38:483:43">value</jtok>
+<jtok eid="14" type="primary_name_ref" span="483:45:483:48">def</jtok>
+<jtok eid="1" type="line_comment" span="484:4:484:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="487:2:487:34">//{{{ propertiesChanged() method</jtok>
+<jtok eid="1" type="block_comment" span="488:2:490:5">/**
+	 * Reinitializes the textarea by reading the properties from the property manager
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="491:3:491:11">Override</jtok>
+<jtok eid="15" type="method_name" span="492:14:492:31">propertiesChanged</jtok>
+<jtok eid="15" type="method_call" span="494:3:494:18">getInputHandler</jtok>
+<jtok eid="15" type="method_call" span="494:21:494:41">removeAllKeyBindings</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="495:3:495:17">JEditActionSet</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="495:18:495:38">JEditBeanShellAction</jtok>
+<jtok eid="15" type="local_variable_name" span="495:42:495:52">actionSets</jtok>
+<jtok eid="15" type="method_call" span="495:55:495:71">getActionContext</jtok>
+<jtok eid="15" type="method_call" span="495:74:495:87">getActionSets</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="496:8:496:22">JEditActionSet</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="496:23:496:43">JEditBeanShellAction</jtok>
+<jtok eid="15" type="local_variable_name" span="496:45:496:54">actionSet</jtok>
+<jtok eid="15" type="primary_name_ref" span="496:57:496:67">actionSets</jtok>
+<jtok eid="15" type="primary_name_ref" span="498:4:498:13">actionSet</jtok>
+<jtok eid="15" type="method_call" span="498:14:498:29">initKeyBindings</jtok>
+<jtok eid="15" type="method_call" span="500:3:500:13">initBuffer</jtok>
+<jtok eid="15" type="method_call" span="501:3:501:15">initTextArea</jtok>
+<jtok eid="15" type="method_call" span="502:9:502:26">propertiesChanged</jtok>
+<jtok eid="1" type="line_comment" span="503:4:503:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="505:2:505:27">//{{{ initBuffer() method</jtok>
+<jtok eid="1" type="block_comment" span="506:2:508:5">/**
+	 * Reinitializes the buffer by reading the properties from the property manager
+	 */</jtok>
+<jtok eid="16" type="method_name" span="509:15:509:25">initBuffer</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="511:3:511:9">String</jtok>
+<jtok eid="16" type="local_variable_name" span="511:12:511:28">bufferProperties</jtok>
+<jtok eid="16" type="string_literal" span="512:4:512:19">"lineSeparator"</jtok>
+<jtok eid="16" type="string_literal" span="513:4:513:24">"encodingAutodetect"</jtok>
+<jtok eid="16" type="string_literal" span="514:4:514:13">"tabSize"</jtok>
+<jtok eid="16" type="string_literal" span="515:4:515:16">"indentSize"</jtok>
+<jtok eid="16" type="string_literal" span="516:4:516:12">"noTabs"</jtok>
+<jtok eid="16" type="string_literal" span="517:4:517:17">"defaultMode"</jtok>
+<jtok eid="16" type="string_literal" span="518:4:518:15">"undoCount"</jtok>
+<jtok eid="16" type="string_literal" span="519:4:519:10">"wrap"</jtok>
+<jtok eid="16" type="string_literal" span="520:4:520:16">"maxLineLen"</jtok>
+<jtok eid="16" type="string_literal" span="521:4:521:20">"wordBreakChars"</jtok>
+<jtok eid="16" type="string_literal" span="522:4:522:15">"noWordSep"</jtok>
+<jtok eid="16" type="string_literal" span="523:4:523:21">"camelCasedWords"</jtok>
+<jtok eid="16" type="string_literal" span="524:4:524:13">"folding"</jtok>
+<jtok eid="16" type="string_literal" span="525:4:525:19">"collapseFolds"</jtok>
+<jtok eid="16" type="local_variable_name" span="527:12:527:13">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="527:19:527:20">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="527:23:527:39">bufferProperties</jtok>
+<jtok eid="16" type="qualified_name_ref" span="527:40:527:46">length</jtok>
+<jtok eid="16" type="primary_name_ref" span="527:48:527:49">i</jtok>
+<jtok eid="16" type="class_or_interface_ref" span="529:4:529:10">String</jtok>
+<jtok eid="16" type="local_variable_name" span="529:11:529:16">value</jtok>
+<jtok eid="16" type="method_call" span="529:19:529:30">getProperty</jtok>
+<jtok eid="16" type="string_literal" span="529:31:529:40">"buffer."</jtok>
+<jtok eid="16" type="primary_name_ref" span="529:43:529:59">bufferProperties</jtok>
+<jtok eid="16" type="primary_name_ref" span="529:60:529:61">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="530:8:530:13">value</jtok>
+<jtok eid="16" type="primary_name_ref" span="531:5:531:11">buffer</jtok>
+<jtok eid="16" type="method_call" span="531:12:531:25">unsetProperty</jtok>
+<jtok eid="16" type="primary_name_ref" span="531:26:531:42">bufferProperties</jtok>
+<jtok eid="16" type="primary_name_ref" span="531:43:531:44">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="533:5:533:11">buffer</jtok>
+<jtok eid="16" type="method_call" span="533:12:533:23">setProperty</jtok>
+<jtok eid="16" type="primary_name_ref" span="533:24:533:40">bufferProperties</jtok>
+<jtok eid="16" type="primary_name_ref" span="533:41:533:42">i</jtok>
+<jtok eid="16" type="primary_name_ref" span="533:45:533:50">value</jtok>
+<jtok eid="16" type="primary_name_ref" span="535:3:535:9">buffer</jtok>
+<jtok eid="16" type="method_call" span="535:10:535:27">propertiesChanged</jtok>
+<jtok eid="1" type="line_comment" span="536:4:536:10">// }}}</jtok>
+<jtok eid="1" type="line_comment" span="538:2:538:32">//{{{ createPopupMenu() method</jtok>
+<jtok eid="1" type="block_comment" span="539:2:542:5">/**
+	 * Creates the popup menu.
+	 * @since 4.3pre15
+	 */</jtok>
+<jtok eid="1" type="annotation_ref" span="543:3:543:11">Override</jtok>
+<jtok eid="17" type="method_name" span="544:14:544:29">createPopupMenu</jtok>
+<jtok eid="17" type="parameter_type" span="544:30:544:40">MouseEvent</jtok>
+<jtok eid="17" type="parameter_name" span="544:41:544:44">evt</jtok>
+<jtok eid="17" type="primary_name_ref" span="546:3:546:8">popup</jtok>
+<jtok eid="17" type="constructor_call" span="546:15:546:25">JPopupMenu</jtok>
+<jtok eid="17" type="method_call" span="547:3:547:14">addMenuItem</jtok>
+<jtok eid="17" type="string_literal" span="547:15:547:21">"undo"</jtok>
+<jtok eid="17" type="string_literal" span="547:23:547:29">"Undo"</jtok>
+<jtok eid="17" type="method_call" span="548:3:548:14">addMenuItem</jtok>
+<jtok eid="17" type="string_literal" span="548:15:548:21">"redo"</jtok>
+<jtok eid="17" type="string_literal" span="548:23:548:29">"Redo"</jtok>
+<jtok eid="17" type="primary_name_ref" span="549:3:549:8">popup</jtok>
+<jtok eid="17" type="method_call" span="549:9:549:21">addSeparator</jtok>
+<jtok eid="17" type="method_call" span="550:3:550:14">addMenuItem</jtok>
+<jtok eid="17" type="string_literal" span="550:15:550:20">"cut"</jtok>
+<jtok eid="17" type="string_literal" span="550:22:550:27">"Cut"</jtok>
+<jtok eid="17" type="method_call" span="551:3:551:14">addMenuItem</jtok>
+<jtok eid="17" type="string_literal" span="551:15:551:21">"copy"</jtok>
+<jtok eid="17" type="string_literal" span="551:23:551:29">"Copy"</jtok>
+<jtok eid="17" type="method_call" span="552:3:552:14">addMenuItem</jtok>
+<jtok eid="17" type="string_literal" span="552:15:552:22">"paste"</jtok>
+<jtok eid="17" type="string_literal" span="552:24:552:31">"Paste"</jtok>
+<jtok eid="1" type="line_comment" span="553:4:553:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="555:2:555:28">//{{{ addMenuItem() method</jtok>
+<jtok eid="1" type="block_comment" span="556:2:559:5">/**
+	 * Adds a menu item from the action context to the popup menu and returns the item.
+	 * @return the menu item added
+	 */</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="560:9:560:18">JMenuItem</jtok>
+<jtok eid="18" type="method_name" span="560:19:560:30">addMenuItem</jtok>
+<jtok eid="18" type="parameter_type" span="560:31:560:37">String</jtok>
+<jtok eid="18" type="parameter_name" span="560:38:560:44">action</jtok>
+<jtok eid="18" type="parameter_type" span="560:46:560:52">String</jtok>
+<jtok eid="18" type="parameter_name" span="560:53:560:58">label</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="562:9:562:29">JEditBeanShellAction</jtok>
+<jtok eid="18" type="local_variable_name" span="562:30:562:41">shellAction</jtok>
+<jtok eid="18" type="method_call" span="562:44:562:60">getActionContext</jtok>
+<jtok eid="18" type="method_call" span="562:63:562:72">getAction</jtok>
+<jtok eid="18" type="primary_name_ref" span="562:73:562:79">action</jtok>
+<jtok eid="18" type="primary_name_ref" span="563:7:563:18">shellAction</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="565:3:565:12">JMenuItem</jtok>
+<jtok eid="18" type="local_variable_name" span="565:13:565:17">item</jtok>
+<jtok eid="18" type="constructor_call" span="565:24:565:33">JMenuItem</jtok>
+<jtok eid="18" type="primary_name_ref" span="566:3:566:7">item</jtok>
+<jtok eid="18" type="method_call" span="566:8:566:17">setAction</jtok>
+<jtok eid="18" type="constructor_call" span="566:22:566:36">AbstractAction</jtok>
+<jtok eid="18" type="primary_name_ref" span="566:37:566:42">label</jtok>
+<jtok eid="20" type="method_name" span="568:16:568:31">actionPerformed</jtok>
+<jtok eid="20" type="parameter_type" span="568:32:568:43">ActionEvent</jtok>
+<jtok eid="20" type="parameter_name" span="568:44:568:45">e</jtok>
+<jtok eid="20" type="primary_name_ref" span="570:5:570:16">shellAction</jtok>
+<jtok eid="20" type="method_call" span="570:17:570:23">invoke</jtok>
+<jtok eid="20" type="primary_name_ref" span="570:24:570:42">StandaloneTextArea</jtok>
+<jtok eid="18" type="primary_name_ref" span="573:3:573:8">popup</jtok>
+<jtok eid="18" type="method_call" span="573:9:573:12">add</jtok>
+<jtok eid="18" type="primary_name_ref" span="573:13:573:17">item</jtok>
+<jtok eid="18" type="primary_name_ref" span="574:10:574:14">item</jtok>
+<jtok eid="1" type="line_comment" span="575:4:575:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="577:2:577:31">//{{{ createTextArea() method</jtok>
+<jtok eid="1" type="block_comment" span="578:2:584:5">/**
+	 * Create a standalone TextArea.
+	 * If you want to use it in jEdit, please use {@link JEditEmbeddedTextArea#JEditEmbeddedTextArea()}
+	 *
+	 * @return a textarea
+	 * @since 4.3pre13
+	 */</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="585:16:585:34">StandaloneTextArea</jtok>
+<jtok eid="21" type="method_name" span="585:35:585:49">createTextArea</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="587:9:587:19">Properties</jtok>
+<jtok eid="21" type="local_variable_name" span="587:20:587:25">props</jtok>
+<jtok eid="21" type="constructor_call" span="587:32:587:42">Properties</jtok>
+<jtok eid="21" type="primary_name_ref" span="588:3:588:8">props</jtok>
+<jtok eid="21" type="method_call" span="588:9:588:15">putAll</jtok>
+<jtok eid="21" type="method_call" span="588:16:588:30">loadProperties</jtok>
+<jtok eid="21" type="string_literal" span="588:31:588:67">"/org/gjt/sp/jedit/jedit_keys.props"</jtok>
+<jtok eid="21" type="primary_name_ref" span="589:3:589:8">props</jtok>
+<jtok eid="21" type="method_call" span="589:9:589:15">putAll</jtok>
+<jtok eid="21" type="method_call" span="589:16:589:30">loadProperties</jtok>
+<jtok eid="21" type="string_literal" span="589:31:589:62">"/org/gjt/sp/jedit/jedit.props"</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="590:3:590:21">StandaloneTextArea</jtok>
+<jtok eid="21" type="local_variable_name" span="590:22:590:30">textArea</jtok>
+<jtok eid="21" type="constructor_call" span="590:37:590:55">StandaloneTextArea</jtok>
+<jtok eid="21" type="constructor_call" span="590:60:590:76">IPropertyManager</jtok>
+<jtok eid="23" type="class_or_interface_ref" span="592:11:592:17">String</jtok>
+<jtok eid="23" type="method_name" span="592:18:592:29">getProperty</jtok>
+<jtok eid="23" type="parameter_type" span="592:30:592:36">String</jtok>
+<jtok eid="23" type="parameter_name" span="592:37:592:41">name</jtok>
+<jtok eid="23" type="primary_name_ref" span="594:12:594:17">props</jtok>
+<jtok eid="23" type="method_call" span="594:18:594:29">getProperty</jtok>
+<jtok eid="23" type="primary_name_ref" span="594:30:594:34">name</jtok>
+<jtok eid="21" type="primary_name_ref" span="597:3:597:11">textArea</jtok>
+<jtok eid="21" type="method_call" span="597:12:597:21">getBuffer</jtok>
+<jtok eid="21" type="method_call" span="597:24:597:35">setProperty</jtok>
+<jtok eid="21" type="string_literal" span="597:36:597:45">"folding"</jtok>
+<jtok eid="21" type="string_literal" span="597:47:597:57">"explicit"</jtok>
+<jtok eid="21" type="primary_name_ref" span="598:10:598:18">textArea</jtok>
+<jtok eid="1" type="line_comment" span="599:4:599:10">// }}}</jtok>
+<jtok eid="1" type="line_comment" span="601:2:601:31">//{{{ loadProperties() method</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="602:17:602:27">Properties</jtok>
+<jtok eid="24" type="method_name" span="602:28:602:42">loadProperties</jtok>
+<jtok eid="24" type="parameter_type" span="602:43:602:49">String</jtok>
+<jtok eid="24" type="parameter_name" span="602:50:602:58">fileName</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="604:3:604:13">Properties</jtok>
+<jtok eid="24" type="local_variable_name" span="604:14:604:19">props</jtok>
+<jtok eid="24" type="constructor_call" span="604:26:604:36">Properties</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="605:3:605:14">InputStream</jtok>
+<jtok eid="24" type="local_variable_name" span="605:15:605:17">in</jtok>
+<jtok eid="24" type="primary_name_ref" span="605:20:605:28">TextArea</jtok>
+<jtok eid="24" type="method_call" span="605:35:605:54">getResourceAsStream</jtok>
+<jtok eid="24" type="primary_name_ref" span="605:55:605:63">fileName</jtok>
+<jtok eid="24" type="primary_name_ref" span="608:4:608:9">props</jtok>
+<jtok eid="24" type="method_call" span="608:10:608:14">load</jtok>
+<jtok eid="24" type="primary_name_ref" span="608:15:608:17">in</jtok>
+<jtok eid="24" type="class_or_interface_ref" span="610:10:610:21">IOException</jtok>
+<jtok eid="24" type="local_variable_name" span="610:22:610:23">e</jtok>
+<jtok eid="24" type="primary_name_ref" span="612:4:612:7">Log</jtok>
+<jtok eid="24" type="method_call" span="612:8:612:11">log</jtok>
+<jtok eid="24" type="primary_name_ref" span="612:12:612:15">Log</jtok>
+<jtok eid="24" type="qualified_name_ref" span="612:16:612:21">ERROR</jtok>
+<jtok eid="24" type="primary_name_ref" span="612:23:612:31">TextArea</jtok>
+<jtok eid="24" type="primary_name_ref" span="612:39:612:40">e</jtok>
+<jtok eid="24" type="primary_name_ref" span="616:4:616:15">IOUtilities</jtok>
+<jtok eid="24" type="method_call" span="616:16:616:28">closeQuietly</jtok>
+<jtok eid="24" type="primary_name_ref" span="616:29:616:31">in</jtok>
+<jtok eid="24" type="primary_name_ref" span="618:10:618:15">props</jtok>
+<jtok eid="1" type="line_comment" span="619:4:619:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="621:2:621:33">//{{{ StandaloneActionSet class</jtok>
+<jtok eid="1" type="block_comment" span="622:2:625:5">/**
+	 * The actionSet for standalone textArea.
+	 * @author Matthieu Casanova
+	 */</jtok>
+<jtok eid="25" type="class_name" span="626:25:626:44">StandaloneActionSet</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="626:53:626:67">JEditActionSet</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="626:68:626:88">JEditBeanShellAction</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="628:17:628:33">IPropertyManager</jtok>
+<jtok eid="25" type="field_name" span="628:34:628:50">iPropertyManager</jtok>
+<jtok eid="25" type="class_or_interface_ref" span="629:17:629:25">TextArea</jtok>
+<jtok eid="25" type="field_name" span="629:26:629:34">textArea</jtok>
+<jtok eid="26" type="method_name" span="631:10:631:29">StandaloneActionSet</jtok>
+<jtok eid="26" type="parameter_type" span="631:30:631:46">IPropertyManager</jtok>
+<jtok eid="26" type="parameter_name" span="631:47:631:63">iPropertyManager</jtok>
+<jtok eid="26" type="parameter_type" span="631:65:631:73">TextArea</jtok>
+<jtok eid="26" type="parameter_name" span="631:74:631:82">textArea</jtok>
+<jtok eid="26" type="parameter_type" span="631:84:631:87">URL</jtok>
+<jtok eid="26" type="parameter_name" span="631:88:631:91">url</jtok>
+<jtok eid="26" type="primary_name_ref" span="633:16:633:19">url</jtok>
+<jtok eid="26" type="qualified_name_ref" span="634:9:634:25">iPropertyManager</jtok>
+<jtok eid="26" type="primary_name_ref" span="634:28:634:44">iPropertyManager</jtok>
+<jtok eid="26" type="qualified_name_ref" span="635:9:635:17">textArea</jtok>
+<jtok eid="26" type="primary_name_ref" span="635:20:635:28">textArea</jtok>
+<jtok eid="25" type="annotation_ref" span="638:4:638:12">Override</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="639:13:639:33">JEditBeanShellAction</jtok>
+<jtok eid="27" type="method_name" span="639:36:639:44">getArray</jtok>
+<jtok eid="27" type="parameter_name" span="639:49:639:53">size</jtok>
+<jtok eid="27" type="constructor_call" span="641:15:641:35">JEditBeanShellAction</jtok>
+<jtok eid="27" type="primary_name_ref" span="641:36:641:40">size</jtok>
+<jtok eid="25" type="annotation_ref" span="644:4:644:12">Override</jtok>
+<jtok eid="28" type="class_or_interface_ref" span="645:13:645:19">String</jtok>
+<jtok eid="28" type="method_name" span="645:20:645:31">getProperty</jtok>
+<jtok eid="28" type="parameter_type" span="645:32:645:38">String</jtok>
+<jtok eid="28" type="parameter_name" span="645:39:645:43">name</jtok>
+<jtok eid="28" type="primary_name_ref" span="647:11:647:27">iPropertyManager</jtok>
+<jtok eid="28" type="method_call" span="647:28:647:39">getProperty</jtok>
+<jtok eid="28" type="primary_name_ref" span="647:40:647:44">name</jtok>
+<jtok eid="29" type="class_or_interface_ref" span="650:10:650:30">AbstractInputHandler</jtok>
+<jtok eid="29" type="method_name" span="650:31:650:46">getInputHandler</jtok>
+<jtok eid="29" type="primary_name_ref" span="652:11:652:19">textArea</jtok>
+<jtok eid="29" type="method_call" span="652:20:652:35">getInputHandler</jtok>
+<jtok eid="25" type="annotation_ref" span="655:4:655:12">Override</jtok>
+<jtok eid="30" type="class_or_interface_ref" span="656:13:656:33">JEditBeanShellAction</jtok>
+<jtok eid="30" type="method_name" span="656:34:656:55">createBeanShellAction</jtok>
+<jtok eid="30" type="parameter_type" span="656:56:656:62">String</jtok>
+<jtok eid="30" type="parameter_name" span="656:63:656:73">actionName</jtok>
+<jtok eid="30" type="parameter_type" span="657:14:657:20">String</jtok>
+<jtok eid="30" type="parameter_name" span="657:21:657:25">code</jtok>
+<jtok eid="30" type="parameter_type" span="658:14:658:20">String</jtok>
+<jtok eid="30" type="parameter_name" span="658:21:658:29">selected</jtok>
+<jtok eid="30" type="parameter_name" span="659:22:659:30">noRepeat</jtok>
+<jtok eid="30" type="parameter_name" span="660:22:660:30">noRecord</jtok>
+<jtok eid="30" type="parameter_name" span="661:22:661:36">noRememberLast</jtok>
+<jtok eid="30" type="constructor_call" span="663:15:663:35">JEditBeanShellAction</jtok>
+<jtok eid="30" type="primary_name_ref" span="663:36:663:46">actionName</jtok>
+<jtok eid="30" type="primary_name_ref" span="663:47:663:51">code</jtok>
+<jtok eid="30" type="primary_name_ref" span="663:52:663:60">selected</jtok>
+<jtok eid="30" type="primary_name_ref" span="663:61:663:69">noRepeat</jtok>
+<jtok eid="30" type="primary_name_ref" span="663:70:663:78">noRecord</jtok>
+<jtok eid="30" type="primary_name_ref" span="663:79:663:93">noRememberLast</jtok>
+<jtok eid="1" type="line_comment" span="665:4:665:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="667:2:667:21">//{{{ main() method</jtok>
+<jtok eid="31" type="method_name" span="668:21:668:25">main</jtok>
+<jtok eid="31" type="parameter_type" span="668:26:668:32">String</jtok>
+<jtok eid="31" type="parameter_name" span="668:35:668:39">args</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="670:3:670:9">JFrame</jtok>
+<jtok eid="31" type="local_variable_name" span="670:10:670:15">frame</jtok>
+<jtok eid="31" type="constructor_call" span="670:22:670:28">JFrame</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="671:3:671:11">TextArea</jtok>
+<jtok eid="31" type="local_variable_name" span="671:12:671:16">text</jtok>
+<jtok eid="31" type="method_call" span="671:19:671:33">createTextArea</jtok>
+<jtok eid="31" type="class_or_interface_ref" span="672:3:672:7">Mode</jtok>
+<jtok eid="31" type="local_variable_name" span="672:8:672:12">mode</jtok>
+<jtok eid="31" type="constructor_call" span="672:19:672:23">Mode</jtok>
+<jtok eid="31" type="string_literal" span="672:24:672:29">"xml"</jtok>
+<jtok eid="31" type="primary_name_ref" span="673:3:673:7">mode</jtok>
+<jtok eid="31" type="method_call" span="673:8:673:19">setProperty</jtok>
+<jtok eid="31" type="string_literal" span="673:20:673:26">"file"</jtok>
+<jtok eid="31" type="string_literal" span="673:27:673:42">"modes/xml.xml"</jtok>
+<jtok eid="31" type="primary_name_ref" span="674:3:674:15">ModeProvider</jtok>
+<jtok eid="31" type="qualified_name_ref" span="674:16:674:24">instance</jtok>
+<jtok eid="31" type="method_call" span="674:25:674:32">addMode</jtok>
+<jtok eid="31" type="primary_name_ref" span="674:33:674:37">mode</jtok>
+<jtok eid="31" type="primary_name_ref" span="675:3:675:7">text</jtok>
+<jtok eid="31" type="method_call" span="675:8:675:17">getBuffer</jtok>
+<jtok eid="31" type="method_call" span="675:20:675:27">setMode</jtok>
+<jtok eid="31" type="primary_name_ref" span="675:28:675:32">mode</jtok>
+<jtok eid="31" type="primary_name_ref" span="676:3:676:8">frame</jtok>
+<jtok eid="31" type="method_call" span="676:9:676:23">getContentPane</jtok>
+<jtok eid="31" type="method_call" span="676:26:676:29">add</jtok>
+<jtok eid="31" type="primary_name_ref" span="676:30:676:34">text</jtok>
+<jtok eid="31" type="primary_name_ref" span="677:3:677:8">frame</jtok>
+<jtok eid="31" type="method_call" span="677:9:677:33">setDefaultCloseOperation</jtok>
+<jtok eid="31" type="primary_name_ref" span="677:34:677:49">WindowConstants</jtok>
+<jtok eid="31" type="qualified_name_ref" span="677:50:677:63">EXIT_ON_CLOSE</jtok>
+<jtok eid="31" type="primary_name_ref" span="678:3:678:8">frame</jtok>
+<jtok eid="31" type="method_call" span="678:9:678:13">pack</jtok>
+<jtok eid="31" type="primary_name_ref" span="679:3:679:8">frame</jtok>
+<jtok eid="31" type="method_call" span="679:9:679:19">setVisible</jtok>
+<jtok eid="1" type="line_comment" span="680:4:680:9">//}}}</jtok>
+<jtok eid="0" type="line_comment" span="681:2:681:8">// }}}</jtok>
+</jdoc>

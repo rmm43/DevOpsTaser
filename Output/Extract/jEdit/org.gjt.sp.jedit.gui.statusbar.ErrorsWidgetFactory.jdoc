@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory" jls="java5">
+<jent id="0" type="file" span="0:0:305:1">Source/jEdit/org/gjt/sp/jedit/gui/statusbar/ErrorsWidgetFactory.java</jent>
+<jent id="1" pid="0" type="class" span="44:1:305:1">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory</jent>
+<jent id="2" pid="1" type="method" span="47:2:51:2">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.getWidget(View)</jent>
+<jent id="3" pid="1" type="class" span="54:2:76:2">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorWidget</jent>
+<jent id="4" pid="3" type="method" span="58:3:61:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorWidget.ErrorWidget(View)</jent>
+<jent id="5" pid="3" type="method" span="63:3:66:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorWidget.getComponent()</jent>
+<jent id="6" pid="3" type="method" span="68:3:71:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorWidget.update()</jent>
+<jent id="7" pid="3" type="method" span="73:3:75:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorWidget.propertiesChanged()</jent>
+<jent id="8" pid="1" type="class" span="79:2:178:2">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight</jent>
+<jent id="9" pid="8" type="method" span="84:3:89:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.ErrorHighlight(View)</jent>
+<jent id="10" pid="8" type="method" span="93:3:102:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.addNotify()</jent>
+<jent id="11" pid="8" type="method" span="107:3:112:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.removeNotify()</jent>
+<jent id="12" pid="8" type="method" span="116:3:119:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.getToolTipLocation(MouseEvent)</jent>
+<jent id="13" pid="8" type="method" span="122:3:125:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.actionPerformed(ActionEvent)</jent>
+<jent id="14" pid="8" type="method" span="130:3:149:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.update()</jent>
+<jent id="15" pid="8" type="class" span="152:3:176:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.MyMouseAdapter</jent>
+<jent id="16" pid="15" type="method" span="156:4:159:4">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.MyMouseAdapter.MyMouseAdapter(View)</jent>
+<jent id="17" pid="15" type="method" span="162:5:175:4">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorHighlight.MyMouseAdapter.mouseClicked(MouseEvent)</jent>
+<jent id="18" pid="1" type="class" span="181:2:304:2">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog</jent>
+<jent id="19" pid="18" type="method" span="192:3:235:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.ErrorDialog(Frame)</jent>
+<jent id="20" pid="19" type="class" span="207:4:212:4">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.ErrorDialog(Frame).$1</jent>
+<jent id="21" pid="20" type="method" span="208:5:211:5">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.ErrorDialog(Frame).$1.itemStateChanged(ItemEvent)</jent>
+<jent id="22" pid="18" type="method" span="238:3:251:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.setThrowable(Throwable)</jent>
+<jent id="23" pid="18" type="method" span="255:3:259:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.dispose()</jent>
+<jent id="24" pid="18" type="method" span="263:3:266:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.ok()</jent>
+<jent id="25" pid="18" type="method" span="270:3:273:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.cancel()</jent>
+<jent id="26" pid="18" type="class" span="276:3:303:3">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.MyActionListener</jent>
+<jent id="27" pid="26" type="method" span="278:4:302:4">org.gjt.sp.jedit.gui.statusbar.ErrorsWidgetFactory.ErrorDialog.MyActionListener.actionPerformed(ActionEvent)</jent>
+<jtok eid="0" type="block_comment" span="1:1:21:4">/*
+ * ErrorsWidgetFactory.java - The error widget service
+ * :tabSize=8:indentSize=8:noTabs=false:
+ * :folding=explicit:collapseFolds=1:
+ *
+ * Copyright (C) 2008 Matthieu Casanova
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */</jtok>
+<jtok eid="0" type="line_comment" span="25:1:25:14">//{{{ Imports</jtok>
+<jtok eid="0" type="line_comment" span="37:1:37:6">//}}}</jtok>
+<jtok eid="0" type="block_comment" span="39:1:43:4">/**
+ * This widget will show you in the status bar the last errors reported in jEdit.
+ * @author Matthieu Casanova
+ * @since jEdit 4.3pre15
+ */</jtok>
+<jtok eid="1" type="class_name" span="44:14:44:33">ErrorsWidgetFactory</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="44:45:44:64">StatusWidgetFactory</jtok>
+<jtok eid="1" type="line_comment" span="46:2:46:26">//{{{ getWidget() method</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="47:9:47:15">Widget</jtok>
+<jtok eid="2" type="method_name" span="47:16:47:25">getWidget</jtok>
+<jtok eid="2" type="parameter_type" span="47:26:47:30">View</jtok>
+<jtok eid="2" type="parameter_name" span="47:31:47:35">view</jtok>
+<jtok eid="2" type="class_or_interface_ref" span="49:3:49:9">Widget</jtok>
+<jtok eid="2" type="local_variable_name" span="49:10:49:21">errorWidget</jtok>
+<jtok eid="2" type="constructor_call" span="49:28:49:39">ErrorWidget</jtok>
+<jtok eid="2" type="primary_name_ref" span="49:40:49:44">view</jtok>
+<jtok eid="2" type="primary_name_ref" span="50:10:50:21">errorWidget</jtok>
+<jtok eid="1" type="line_comment" span="51:4:51:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="53:2:53:25">//{{{ ErrorWidget class</jtok>
+<jtok eid="3" type="class_name" span="54:23:54:34">ErrorWidget</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="54:46:54:52">Widget</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="56:17:56:31">ErrorHighlight</jtok>
+<jtok eid="3" type="field_name" span="56:32:56:46">errorHighlight</jtok>
+<jtok eid="4" type="method_name" span="58:3:58:14">ErrorWidget</jtok>
+<jtok eid="4" type="parameter_type" span="58:15:58:19">View</jtok>
+<jtok eid="4" type="parameter_name" span="58:20:58:24">view</jtok>
+<jtok eid="4" type="primary_name_ref" span="60:4:60:18">errorHighlight</jtok>
+<jtok eid="4" type="constructor_call" span="60:25:60:39">ErrorHighlight</jtok>
+<jtok eid="4" type="primary_name_ref" span="60:40:60:44">view</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="63:10:63:20">JComponent</jtok>
+<jtok eid="5" type="method_name" span="63:21:63:33">getComponent</jtok>
+<jtok eid="5" type="primary_name_ref" span="65:11:65:25">errorHighlight</jtok>
+<jtok eid="6" type="method_name" span="68:15:68:21">update</jtok>
+<jtok eid="6" type="primary_name_ref" span="70:4:70:18">errorHighlight</jtok>
+<jtok eid="6" type="method_call" span="70:19:70:25">update</jtok>
+<jtok eid="7" type="method_name" span="73:15:73:32">propertiesChanged</jtok>
+<jtok eid="1" type="line_comment" span="76:4:76:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="78:2:78:28">//{{{ ErrorHighlight class</jtok>
+<jtok eid="8" type="class_name" span="79:23:79:37">ErrorHighlight</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="79:46:79:52">JLabel</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="79:64:79:78">ActionListener</jtok>
+<jtok eid="8" type="field_name" span="81:15:81:26">currentSize</jtok>
+<jtok eid="8" type="line_comment" span="83:3:83:35">//{{{ ErrorHighlight constructor</jtok>
+<jtok eid="9" type="method_name" span="84:3:84:17">ErrorHighlight</jtok>
+<jtok eid="9" type="parameter_type" span="84:18:84:22">View</jtok>
+<jtok eid="9" type="parameter_name" span="84:23:84:27">view</jtok>
+<jtok eid="9" type="method_call" span="86:4:86:17">setForeground</jtok>
+<jtok eid="9" type="primary_name_ref" span="86:18:86:23">jEdit</jtok>
+<jtok eid="9" type="method_call" span="86:24:86:40">getColorProperty</jtok>
+<jtok eid="9" type="string_literal" span="86:41:86:65">"view.status.foreground"</jtok>
+<jtok eid="9" type="method_call" span="87:4:87:17">setBackground</jtok>
+<jtok eid="9" type="primary_name_ref" span="87:18:87:23">jEdit</jtok>
+<jtok eid="9" type="method_call" span="87:24:87:40">getColorProperty</jtok>
+<jtok eid="9" type="string_literal" span="87:41:87:65">"view.status.background"</jtok>
+<jtok eid="9" type="method_call" span="88:4:88:20">addMouseListener</jtok>
+<jtok eid="9" type="constructor_call" span="88:25:88:39">MyMouseAdapter</jtok>
+<jtok eid="9" type="primary_name_ref" span="88:40:88:44">view</jtok>
+<jtok eid="8" type="line_comment" span="89:5:89:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="91:3:91:27">//{{{ addNotify() method</jtok>
+<jtok eid="8" type="annotation_ref" span="92:4:92:12">Override</jtok>
+<jtok eid="10" type="method_name" span="93:15:93:24">addNotify</jtok>
+<jtok eid="10" type="method_call" span="95:10:95:19">addNotify</jtok>
+<jtok eid="10" type="method_call" span="96:4:96:10">update</jtok>
+<jtok eid="10" type="local_variable_name" span="97:8:97:29">millisecondsPerMinute</jtok>
+<jtok eid="10" type="primary_name_ref" span="99:4:99:9">timer</jtok>
+<jtok eid="10" type="constructor_call" span="99:16:99:21">Timer</jtok>
+<jtok eid="10" type="primary_name_ref" span="99:22:99:43">millisecondsPerMinute</jtok>
+<jtok eid="10" type="primary_name_ref" span="100:4:100:9">timer</jtok>
+<jtok eid="10" type="method_call" span="100:10:100:15">start</jtok>
+<jtok eid="10" type="primary_name_ref" span="101:4:101:18">ToolTipManager</jtok>
+<jtok eid="10" type="method_call" span="101:19:101:33">sharedInstance</jtok>
+<jtok eid="10" type="method_call" span="101:36:101:53">registerComponent</jtok>
+<jtok eid="8" type="line_comment" span="102:5:102:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="105:3:105:30">//{{{ removeNotify() method</jtok>
+<jtok eid="8" type="annotation_ref" span="106:4:106:12">Override</jtok>
+<jtok eid="11" type="method_name" span="107:15:107:27">removeNotify</jtok>
+<jtok eid="11" type="primary_name_ref" span="109:4:109:9">timer</jtok>
+<jtok eid="11" type="method_call" span="109:10:109:14">stop</jtok>
+<jtok eid="11" type="primary_name_ref" span="110:4:110:18">ToolTipManager</jtok>
+<jtok eid="11" type="method_call" span="110:19:110:33">sharedInstance</jtok>
+<jtok eid="11" type="method_call" span="110:36:110:55">unregisterComponent</jtok>
+<jtok eid="11" type="method_call" span="111:10:111:22">removeNotify</jtok>
+<jtok eid="8" type="line_comment" span="112:5:112:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="114:3:114:36">//{{{ getToolTipLocation() method</jtok>
+<jtok eid="8" type="annotation_ref" span="115:4:115:12">Override</jtok>
+<jtok eid="12" type="class_or_interface_ref" span="116:10:116:15">Point</jtok>
+<jtok eid="12" type="method_name" span="116:16:116:34">getToolTipLocation</jtok>
+<jtok eid="12" type="parameter_type" span="116:35:116:45">MouseEvent</jtok>
+<jtok eid="12" type="parameter_name" span="116:46:116:51">event</jtok>
+<jtok eid="12" type="constructor_call" span="118:15:118:20">Point</jtok>
+<jtok eid="12" type="primary_name_ref" span="118:21:118:26">event</jtok>
+<jtok eid="12" type="method_call" span="118:27:118:31">getX</jtok>
+<jtok eid="8" type="line_comment" span="119:5:119:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="121:3:121:33">//{{{ actionPerformed() method</jtok>
+<jtok eid="13" type="method_name" span="122:15:122:30">actionPerformed</jtok>
+<jtok eid="13" type="parameter_type" span="122:31:122:42">ActionEvent</jtok>
+<jtok eid="13" type="parameter_name" span="122:43:122:44">e</jtok>
+<jtok eid="13" type="method_call" span="124:4:124:10">update</jtok>
+<jtok eid="8" type="line_comment" span="125:5:125:10">//}}}</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="127:11:127:16">Timer</jtok>
+<jtok eid="8" type="field_name" span="127:17:127:22">timer</jtok>
+<jtok eid="8" type="line_comment" span="129:3:129:24">//{{{ update() method</jtok>
+<jtok eid="14" type="method_name" span="130:16:130:22">update</jtok>
+<jtok eid="14" type="local_variable_name" span="132:8:132:12">size</jtok>
+<jtok eid="14" type="primary_name_ref" span="132:15:132:18">Log</jtok>
+<jtok eid="14" type="qualified_name_ref" span="132:19:132:29">throwables</jtok>
+<jtok eid="14" type="method_call" span="132:30:132:34">size</jtok>
+<jtok eid="14" type="primary_name_ref" span="133:8:133:12">size</jtok>
+<jtok eid="14" type="primary_name_ref" span="133:16:133:27">currentSize</jtok>
+<jtok eid="14" type="primary_name_ref" span="135:5:135:16">currentSize</jtok>
+<jtok eid="14" type="primary_name_ref" span="135:19:135:23">size</jtok>
+<jtok eid="14" type="primary_name_ref" span="136:9:136:13">size</jtok>
+<jtok eid="14" type="method_call" span="138:6:138:19">setForeground</jtok>
+<jtok eid="14" type="primary_name_ref" span="138:20:138:25">jEdit</jtok>
+<jtok eid="14" type="method_call" span="138:26:138:42">getColorProperty</jtok>
+<jtok eid="14" type="string_literal" span="138:43:138:67">"view.status.foreground"</jtok>
+<jtok eid="14" type="method_call" span="139:6:139:13">setText</jtok>
+<jtok eid="14" type="method_call" span="140:6:140:20">setToolTipText</jtok>
+<jtok eid="14" type="primary_name_ref" span="140:21:140:25">size</jtok>
+<jtok eid="14" type="string_literal" span="140:28:140:36">" error"</jtok>
+<jtok eid="14" type="method_call" span="144:6:144:19">setForeground</jtok>
+<jtok eid="14" type="primary_name_ref" span="144:20:144:25">Color</jtok>
+<jtok eid="14" type="qualified_name_ref" span="144:26:144:29">red</jtok>
+<jtok eid="14" type="method_call" span="145:6:145:13">setText</jtok>
+<jtok eid="14" type="primary_name_ref" span="145:14:145:21">Integer</jtok>
+<jtok eid="14" type="method_call" span="145:22:145:30">toString</jtok>
+<jtok eid="14" type="primary_name_ref" span="145:31:145:35">size</jtok>
+<jtok eid="14" type="string_literal" span="145:39:145:50">" error(s)"</jtok>
+<jtok eid="14" type="method_call" span="146:6:146:20">setToolTipText</jtok>
+<jtok eid="14" type="primary_name_ref" span="146:21:146:25">size</jtok>
+<jtok eid="14" type="string_literal" span="146:28:146:39">" error(s)"</jtok>
+<jtok eid="8" type="line_comment" span="149:5:149:10">//}}}</jtok>
+<jtok eid="8" type="line_comment" span="151:3:151:29">//{{{ MyMouseAdapter class</jtok>
+<jtok eid="15" type="class_name" span="152:17:152:31">MyMouseAdapter</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="152:40:152:52">MouseAdapter</jtok>
+<jtok eid="15" type="class_or_interface_ref" span="154:18:154:22">View</jtok>
+<jtok eid="15" type="field_name" span="154:23:154:27">view</jtok>
+<jtok eid="16" type="method_name" span="156:4:156:18">MyMouseAdapter</jtok>
+<jtok eid="16" type="parameter_type" span="156:19:156:23">View</jtok>
+<jtok eid="16" type="parameter_name" span="156:24:156:28">view</jtok>
+<jtok eid="16" type="qualified_name_ref" span="158:10:158:14">view</jtok>
+<jtok eid="16" type="primary_name_ref" span="158:17:158:21">view</jtok>
+<jtok eid="15" type="annotation_ref" span="161:5:161:13">Override</jtok>
+<jtok eid="17" type="method_name" span="162:17:162:29">mouseClicked</jtok>
+<jtok eid="17" type="parameter_type" span="162:30:162:40">MouseEvent</jtok>
+<jtok eid="17" type="parameter_name" span="162:41:162:42">e</jtok>
+<jtok eid="17" type="primary_name_ref" span="164:9:164:12">Log</jtok>
+<jtok eid="17" type="qualified_name_ref" span="164:13:164:23">throwables</jtok>
+<jtok eid="17" type="method_call" span="164:24:164:31">isEmpty</jtok>
+<jtok eid="17" type="primary_name_ref" span="166:9:166:21">GUIUtilities</jtok>
+<jtok eid="17" type="method_call" span="166:22:166:35">isRightButton</jtok>
+<jtok eid="17" type="primary_name_ref" span="166:36:166:37">e</jtok>
+<jtok eid="17" type="method_call" span="166:38:166:50">getModifiers</jtok>
+<jtok eid="17" type="class_or_interface_ref" span="168:6:168:16">JPopupMenu</jtok>
+<jtok eid="17" type="local_variable_name" span="168:17:168:21">menu</jtok>
+<jtok eid="17" type="primary_name_ref" span="168:24:168:36">GUIUtilities</jtok>
+<jtok eid="17" type="method_call" span="168:37:168:50">loadPopupMenu</jtok>
+<jtok eid="17" type="string_literal" span="168:51:168:74">"errorwidget.popupmenu"</jtok>
+<jtok eid="17" type="primary_name_ref" span="169:6:169:18">GUIUtilities</jtok>
+<jtok eid="17" type="method_call" span="169:19:169:32">showPopupMenu</jtok>
+<jtok eid="17" type="primary_name_ref" span="169:33:169:37">menu</jtok>
+<jtok eid="17" type="primary_name_ref" span="169:39:169:53">ErrorHighlight</jtok>
+<jtok eid="17" type="primary_name_ref" span="169:60:169:61">e</jtok>
+<jtok eid="17" type="method_call" span="169:62:169:66">getX</jtok>
+<jtok eid="17" type="primary_name_ref" span="169:70:169:71">e</jtok>
+<jtok eid="17" type="method_call" span="169:72:169:76">getY</jtok>
+<jtok eid="17" type="primary_name_ref" span="172:14:172:15">e</jtok>
+<jtok eid="17" type="method_call" span="172:16:172:29">getClickCount</jtok>
+<jtok eid="17" type="constructor_call" span="173:10:173:21">ErrorDialog</jtok>
+<jtok eid="17" type="primary_name_ref" span="173:22:173:26">view</jtok>
+<jtok eid="8" type="line_comment" span="176:5:176:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="178:4:178:9">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="180:2:180:25">//{{{ ErrorDialog class</jtok>
+<jtok eid="18" type="class_name" span="181:23:181:34">ErrorDialog</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="181:43:181:57">EnhancedDialog</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="183:17:183:26">JTextArea</jtok>
+<jtok eid="18" type="field_name" span="183:27:183:35">textArea</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="184:17:184:38">ByteArrayOutputStream</jtok>
+<jtok eid="18" type="field_name" span="184:39:184:60">byteArrayOutputStream</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="185:17:185:28">PrintStream</jtok>
+<jtok eid="18" type="field_name" span="185:29:185:40">printStream</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="186:17:186:24">JButton</jtok>
+<jtok eid="18" type="field_name" span="186:25:186:40">removeThisError</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="187:17:187:24">JButton</jtok>
+<jtok eid="18" type="field_name" span="187:25:187:40">removeAllErrors</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="188:17:188:23">Object</jtok>
+<jtok eid="18" type="field_name" span="188:26:188:36">throwables</jtok>
+<jtok eid="18" type="class_or_interface_ref" span="189:17:189:26">JComboBox</jtok>
+<jtok eid="18" type="field_name" span="189:27:189:32">combo</jtok>
+<jtok eid="18" type="line_comment" span="191:3:191:32">//{{{ ErrorDialog constructor</jtok>
+<jtok eid="19" type="method_name" span="192:11:192:22">ErrorDialog</jtok>
+<jtok eid="19" type="parameter_type" span="192:23:192:28">Frame</jtok>
+<jtok eid="19" type="parameter_name" span="192:29:192:33">view</jtok>
+<jtok eid="19" type="primary_name_ref" span="194:10:194:14">view</jtok>
+<jtok eid="19" type="string_literal" span="194:16:194:24">"Errors"</jtok>
+<jtok eid="19" type="primary_name_ref" span="195:4:195:25">byteArrayOutputStream</jtok>
+<jtok eid="19" type="constructor_call" span="195:32:195:53">ByteArrayOutputStream</jtok>
+<jtok eid="19" type="primary_name_ref" span="196:4:196:15">printStream</jtok>
+<jtok eid="19" type="constructor_call" span="196:22:196:33">PrintStream</jtok>
+<jtok eid="19" type="primary_name_ref" span="196:34:196:55">byteArrayOutputStream</jtok>
+<jtok eid="19" type="primary_name_ref" span="197:4:197:14">throwables</jtok>
+<jtok eid="19" type="primary_name_ref" span="197:17:197:20">Log</jtok>
+<jtok eid="19" type="qualified_name_ref" span="197:21:197:31">throwables</jtok>
+<jtok eid="19" type="method_call" span="197:32:197:39">toArray</jtok>
+<jtok eid="19" type="primary_name_ref" span="198:4:198:12">textArea</jtok>
+<jtok eid="19" type="constructor_call" span="198:19:198:28">JTextArea</jtok>
+<jtok eid="19" type="primary_name_ref" span="199:4:199:12">textArea</jtok>
+<jtok eid="19" type="method_call" span="199:13:199:24">setEditable</jtok>
+<jtok eid="19" type="primary_name_ref" span="200:8:200:18">throwables</jtok>
+<jtok eid="19" type="qualified_name_ref" span="200:19:200:25">length</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="202:5:202:14">Throwable</jtok>
+<jtok eid="19" type="local_variable_name" span="202:15:202:24">throwable</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="202:28:202:37">Throwable</jtok>
+<jtok eid="19" type="primary_name_ref" span="202:39:202:49">throwables</jtok>
+<jtok eid="19" type="method_call" span="203:5:203:17">setThrowable</jtok>
+<jtok eid="19" type="primary_name_ref" span="203:18:203:27">throwable</jtok>
+<jtok eid="19" type="primary_name_ref" span="205:4:205:9">combo</jtok>
+<jtok eid="19" type="constructor_call" span="205:16:205:25">JComboBox</jtok>
+<jtok eid="19" type="primary_name_ref" span="205:26:205:36">throwables</jtok>
+<jtok eid="19" type="primary_name_ref" span="206:4:206:9">combo</jtok>
+<jtok eid="19" type="method_call" span="206:10:206:25">addItemListener</jtok>
+<jtok eid="19" type="constructor_call" span="206:30:206:42">ItemListener</jtok>
+<jtok eid="21" type="method_name" span="208:17:208:33">itemStateChanged</jtok>
+<jtok eid="21" type="parameter_type" span="208:34:208:43">ItemEvent</jtok>
+<jtok eid="21" type="parameter_name" span="208:44:208:45">e</jtok>
+<jtok eid="21" type="method_call" span="210:6:210:18">setThrowable</jtok>
+<jtok eid="21" type="class_or_interface_ref" span="210:20:210:29">Throwable</jtok>
+<jtok eid="21" type="primary_name_ref" span="210:31:210:36">combo</jtok>
+<jtok eid="21" type="method_call" span="210:37:210:52">getSelectedItem</jtok>
+<jtok eid="19" type="method_call" span="213:4:213:18">getContentPane</jtok>
+<jtok eid="19" type="method_call" span="213:21:213:24">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="213:25:213:30">combo</jtok>
+<jtok eid="19" type="primary_name_ref" span="213:32:213:44">BorderLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="213:45:213:50">NORTH</jtok>
+<jtok eid="19" type="method_call" span="214:4:214:18">getContentPane</jtok>
+<jtok eid="19" type="method_call" span="214:21:214:24">add</jtok>
+<jtok eid="19" type="constructor_call" span="214:29:214:40">JScrollPane</jtok>
+<jtok eid="19" type="primary_name_ref" span="214:41:214:49">textArea</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="218:4:218:7">Box</jtok>
+<jtok eid="19" type="local_variable_name" span="218:8:218:15">buttons</jtok>
+<jtok eid="19" type="constructor_call" span="218:22:218:25">Box</jtok>
+<jtok eid="19" type="primary_name_ref" span="218:26:218:35">BoxLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="218:36:218:42">X_AXIS</jtok>
+<jtok eid="19" type="primary_name_ref" span="219:4:219:11">buttons</jtok>
+<jtok eid="19" type="method_call" span="219:12:219:15">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="219:16:219:19">Box</jtok>
+<jtok eid="19" type="method_call" span="219:20:219:30">createGlue</jtok>
+<jtok eid="19" type="primary_name_ref" span="221:4:221:11">buttons</jtok>
+<jtok eid="19" type="method_call" span="221:12:221:15">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="221:16:221:31">removeThisError</jtok>
+<jtok eid="19" type="constructor_call" span="221:38:221:45">JButton</jtok>
+<jtok eid="19" type="primary_name_ref" span="221:46:221:51">jEdit</jtok>
+<jtok eid="19" type="method_call" span="221:52:221:63">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="221:64:221:81">"grab-key.remove"</jtok>
+<jtok eid="19" type="primary_name_ref" span="222:4:222:11">buttons</jtok>
+<jtok eid="19" type="method_call" span="222:12:222:15">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="222:16:222:19">Box</jtok>
+<jtok eid="19" type="method_call" span="222:20:222:41">createHorizontalStrut</jtok>
+<jtok eid="19" type="primary_name_ref" span="223:4:223:11">buttons</jtok>
+<jtok eid="19" type="method_call" span="223:12:223:15">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="223:16:223:31">removeAllErrors</jtok>
+<jtok eid="19" type="constructor_call" span="223:38:223:45">JButton</jtok>
+<jtok eid="19" type="primary_name_ref" span="223:46:223:51">jEdit</jtok>
+<jtok eid="19" type="method_call" span="223:52:223:63">getProperty</jtok>
+<jtok eid="19" type="string_literal" span="223:64:223:81">"common.clearAll"</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="225:4:225:15">ErrorDialog</jtok>
+<jtok eid="19" type="class_or_interface_ref" span="225:16:225:32">MyActionListener</jtok>
+<jtok eid="19" type="local_variable_name" span="225:33:225:47">actionListener</jtok>
+<jtok eid="19" type="constructor_call" span="225:54:225:70">MyActionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="226:4:226:19">removeThisError</jtok>
+<jtok eid="19" type="method_call" span="226:20:226:37">addActionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="226:38:226:52">actionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="227:4:227:19">removeAllErrors</jtok>
+<jtok eid="19" type="method_call" span="227:20:227:37">addActionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="227:38:227:52">actionListener</jtok>
+<jtok eid="19" type="primary_name_ref" span="228:4:228:11">buttons</jtok>
+<jtok eid="19" type="method_call" span="228:12:228:15">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="228:16:228:19">Box</jtok>
+<jtok eid="19" type="method_call" span="228:20:228:30">createGlue</jtok>
+<jtok eid="19" type="method_call" span="231:4:231:18">getContentPane</jtok>
+<jtok eid="19" type="method_call" span="231:21:231:24">add</jtok>
+<jtok eid="19" type="primary_name_ref" span="231:25:231:32">buttons</jtok>
+<jtok eid="19" type="primary_name_ref" span="231:34:231:46">BorderLayout</jtok>
+<jtok eid="19" type="qualified_name_ref" span="231:47:231:52">SOUTH</jtok>
+<jtok eid="19" type="method_call" span="232:4:232:8">pack</jtok>
+<jtok eid="19" type="primary_name_ref" span="233:4:233:16">GUIUtilities</jtok>
+<jtok eid="19" type="method_call" span="233:17:233:29">loadGeometry</jtok>
+<jtok eid="19" type="string_literal" span="233:35:233:55">"status.errorWidget"</jtok>
+<jtok eid="19" type="method_call" span="234:4:234:14">setVisible</jtok>
+<jtok eid="18" type="line_comment" span="235:5:235:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="237:3:237:30">//{{{ setThrowable() method</jtok>
+<jtok eid="22" type="method_name" span="238:16:238:28">setThrowable</jtok>
+<jtok eid="22" type="parameter_type" span="238:29:238:38">Throwable</jtok>
+<jtok eid="22" type="parameter_name" span="238:39:238:48">throwable</jtok>
+<jtok eid="22" type="primary_name_ref" span="240:8:240:17">throwable</jtok>
+<jtok eid="22" type="primary_name_ref" span="242:5:242:13">textArea</jtok>
+<jtok eid="22" type="method_call" span="242:14:242:21">setText</jtok>
+<jtok eid="22" type="primary_name_ref" span="246:5:246:14">throwable</jtok>
+<jtok eid="22" type="method_call" span="246:15:246:30">printStackTrace</jtok>
+<jtok eid="22" type="primary_name_ref" span="246:31:246:42">printStream</jtok>
+<jtok eid="22" type="primary_name_ref" span="247:5:247:13">textArea</jtok>
+<jtok eid="22" type="method_call" span="247:14:247:21">setText</jtok>
+<jtok eid="22" type="primary_name_ref" span="247:22:247:43">byteArrayOutputStream</jtok>
+<jtok eid="22" type="method_call" span="247:44:247:52">toString</jtok>
+<jtok eid="22" type="primary_name_ref" span="248:5:248:13">textArea</jtok>
+<jtok eid="22" type="method_call" span="248:14:248:30">setCaretPosition</jtok>
+<jtok eid="22" type="primary_name_ref" span="249:5:249:26">byteArrayOutputStream</jtok>
+<jtok eid="22" type="method_call" span="249:27:249:32">reset</jtok>
+<jtok eid="18" type="line_comment" span="251:5:251:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="253:3:253:25">//{{{ dispose() method</jtok>
+<jtok eid="18" type="annotation_ref" span="254:4:254:12">Override</jtok>
+<jtok eid="23" type="method_name" span="255:15:255:22">dispose</jtok>
+<jtok eid="23" type="primary_name_ref" span="257:4:257:16">GUIUtilities</jtok>
+<jtok eid="23" type="method_call" span="257:17:257:29">saveGeometry</jtok>
+<jtok eid="23" type="string_literal" span="257:36:257:56">"status.errorWidget"</jtok>
+<jtok eid="23" type="method_call" span="258:10:258:17">dispose</jtok>
+<jtok eid="18" type="line_comment" span="259:5:259:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="261:3:261:20">//{{{ ok() method</jtok>
+<jtok eid="18" type="annotation_ref" span="262:4:262:12">Override</jtok>
+<jtok eid="24" type="method_name" span="263:15:263:17">ok</jtok>
+<jtok eid="24" type="method_call" span="265:4:265:11">dispose</jtok>
+<jtok eid="18" type="line_comment" span="266:5:266:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="268:3:268:24">//{{{ cancel() method</jtok>
+<jtok eid="18" type="annotation_ref" span="269:4:269:12">Override</jtok>
+<jtok eid="25" type="method_name" span="270:15:270:21">cancel</jtok>
+<jtok eid="25" type="method_call" span="272:4:272:11">dispose</jtok>
+<jtok eid="18" type="line_comment" span="273:5:273:10">//}}}</jtok>
+<jtok eid="18" type="line_comment" span="275:3:275:31">//{{{ MyActionListener class</jtok>
+<jtok eid="26" type="class_name" span="276:17:276:33">MyActionListener</jtok>
+<jtok eid="26" type="class_or_interface_ref" span="276:45:276:59">ActionListener</jtok>
+<jtok eid="27" type="method_name" span="278:16:278:31">actionPerformed</jtok>
+<jtok eid="27" type="parameter_type" span="278:32:278:43">ActionEvent</jtok>
+<jtok eid="27" type="parameter_name" span="278:44:278:45">e</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="280:5:280:11">Object</jtok>
+<jtok eid="27" type="local_variable_name" span="280:12:280:18">source</jtok>
+<jtok eid="27" type="primary_name_ref" span="280:21:280:22">e</jtok>
+<jtok eid="27" type="method_call" span="280:23:280:32">getSource</jtok>
+<jtok eid="27" type="primary_name_ref" span="281:9:281:15">source</jtok>
+<jtok eid="27" type="primary_name_ref" span="281:19:281:34">removeThisError</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="283:6:283:15">Throwable</jtok>
+<jtok eid="27" type="local_variable_name" span="283:16:283:25">throwable</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="283:29:283:38">Throwable</jtok>
+<jtok eid="27" type="primary_name_ref" span="283:40:283:45">combo</jtok>
+<jtok eid="27" type="method_call" span="283:46:283:61">getSelectedItem</jtok>
+<jtok eid="27" type="primary_name_ref" span="284:10:284:19">throwable</jtok>
+<jtok eid="27" type="primary_name_ref" span="286:7:286:10">Log</jtok>
+<jtok eid="27" type="qualified_name_ref" span="286:11:286:21">throwables</jtok>
+<jtok eid="27" type="method_call" span="286:22:286:28">remove</jtok>
+<jtok eid="27" type="primary_name_ref" span="286:29:286:38">throwable</jtok>
+<jtok eid="27" type="primary_name_ref" span="287:7:287:12">combo</jtok>
+<jtok eid="27" type="method_call" span="287:13:287:23">removeItem</jtok>
+<jtok eid="27" type="primary_name_ref" span="287:24:287:33">throwable</jtok>
+<jtok eid="27" type="primary_name_ref" span="288:11:288:16">combo</jtok>
+<jtok eid="27" type="method_call" span="288:17:288:29">getItemCount</jtok>
+<jtok eid="27" type="method_call" span="290:8:290:15">dispose</jtok>
+<jtok eid="27" type="primary_name_ref" span="294:14:294:20">source</jtok>
+<jtok eid="27" type="primary_name_ref" span="294:24:294:39">removeAllErrors</jtok>
+<jtok eid="27" type="class_or_interface_ref" span="296:11:296:17">Object</jtok>
+<jtok eid="27" type="local_variable_name" span="296:18:296:27">throwable</jtok>
+<jtok eid="27" type="primary_name_ref" span="296:30:296:40">throwables</jtok>
+<jtok eid="27" type="primary_name_ref" span="298:7:298:10">Log</jtok>
+<jtok eid="27" type="qualified_name_ref" span="298:11:298:21">throwables</jtok>
+<jtok eid="27" type="method_call" span="298:22:298:28">remove</jtok>
+<jtok eid="27" type="primary_name_ref" span="298:29:298:38">throwable</jtok>
+<jtok eid="27" type="method_call" span="300:6:300:13">dispose</jtok>
+<jtok eid="18" type="line_comment" span="303:5:303:10">//}}}</jtok>
+<jtok eid="1" type="line_comment" span="304:4:304:9">//}}}</jtok>
+</jdoc>

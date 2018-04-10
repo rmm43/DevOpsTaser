@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jdoc cUnit="org.gjt.sp.jedit.bsh.BSHAllocationExpression" jls="java5">
+<jent id="0" type="file" span="0:0:312:2">Source/jEdit/org/gjt/sp/jedit/bsh/BSHAllocationExpression.java</jent>
+<jent id="1" pid="0" type="class" span="43:1:312:1">org.gjt.sp.jedit.bsh.BSHAllocationExpression</jent>
+<jent id="2" pid="1" type="method" span="45:5:45:50">org.gjt.sp.jedit.bsh.BSHAllocationExpression.BSHAllocationExpression(int)</jent>
+<jent id="3" pid="1" type="method" span="48:5:71:5">org.gjt.sp.jedit.bsh.BSHAllocationExpression.eval(CallStack,Interpreter)</jent>
+<jent id="4" pid="1" type="method" span="73:5:115:5">org.gjt.sp.jedit.bsh.BSHAllocationExpression.objectAllocation(BSHAmbiguousName,BSHArguments,CallStack,Interpreter)</jent>
+<jent id="5" pid="1" type="method" span="117:2:168:2">org.gjt.sp.jedit.bsh.BSHAllocationExpression.constructObject(Class,Object[],CallStack)</jent>
+<jent id="6" pid="1" type="method" span="170:2:196:2">org.gjt.sp.jedit.bsh.BSHAllocationExpression.constructWithClassBody(Class,Object[],BSHBlock,CallStack,Interpreter)</jent>
+<jent id="7" pid="1" type="method" span="198:2:216:2">org.gjt.sp.jedit.bsh.BSHAllocationExpression.constructWithInterfaceBody(Class,Object[],BSHBlock,CallStack,Interpreter)</jent>
+<jent id="8" pid="1" type="method" span="218:5:231:5">org.gjt.sp.jedit.bsh.BSHAllocationExpression.objectArrayAllocation(BSHAmbiguousName,BSHArrayDimensions,CallStack,Interpreter)</jent>
+<jent id="9" pid="1" type="method" span="233:5:242:5">org.gjt.sp.jedit.bsh.BSHAllocationExpression.primitiveArrayAllocation(BSHPrimitiveType,BSHArrayDimensions,CallStack,Interpreter)</jent>
+<jent id="10" pid="1" type="method" span="244:2:259:2">org.gjt.sp.jedit.bsh.BSHAllocationExpression.arrayAllocation(BSHArrayDimensions,Class,CallStack,Interpreter)</jent>
+<jent id="11" pid="1" type="method" span="291:2:311:2">org.gjt.sp.jedit.bsh.BSHAllocationExpression.arrayNewInstance(Class,BSHArrayDimensions,CallStack)</jent>
+<jtok eid="0" type="block_comment" span="1:1:32:80">/*****************************************************************************
+ *                                                                           *
+ *  This file is part of the BeanShell Java Scripting distribution.          *
+ *  Documentation and updates may be found at http://www.beanshell.org/      *
+ *                                                                           *
+ *  Sun Public License Notice:                                               *
+ *                                                                           *
+ *  The contents of this file are subject to the Sun Public License Version  *
+ *  1.0 (the "License"); you may not use this file except in compliance with *
+ *  the License. A copy of the License is available at http://www.sun.com    * 
+ *                                                                           *
+ *  The Original Code is BeanShell. The Initial Developer of the Original    *
+ *  Code is Pat Niemeyer. Portions created by Pat Niemeyer are Copyright     *
+ *  (C) 2000.  All Rights Reserved.                                          *
+ *                                                                           *
+ *  GNU Public License Notice:                                               *
+ *                                                                           *
+ *  Alternatively, the contents of this file may be used under the terms of  *
+ *  the GNU Lesser General Public License (the "LGPL"), in which case the    *
+ *  provisions of LGPL are applicable instead of those above. If you wish to *
+ *  allow use of your version of this file only under the  terms of the LGPL *
+ *  and not to allow others to use your version of this file under the SPL,  *
+ *  indicate your decision by deleting the provisions above and replace      *
+ *  them with the notice and other provisions required by the LGPL.  If you  *
+ *  do not delete the provisions above, a recipient may use your version of  *
+ *  this file under either the SPL or the LGPL.                              *
+ *                                                                           *
+ *  Patrick Niemeyer (pat@pat.net)                                           *
+ *  Author of Learning Java, O'Reilly &amp; Associates                           *
+ *  http://www.pat.net/~pat/                                                 *
+ *                                                                           *
+ *****************************************************************************/</jtok>
+<jtok eid="0" type="block_comment" span="40:1:42:3">/**
+	New object, new array, or inner class style allocation with body.
+*/</jtok>
+<jtok eid="1" type="class_name" span="43:7:43:30">BSHAllocationExpression</jtok>
+<jtok eid="1" type="class_or_interface_ref" span="43:39:43:49">SimpleNode</jtok>
+<jtok eid="2" type="method_name" span="45:5:45:28">BSHAllocationExpression</jtok>
+<jtok eid="2" type="parameter_name" span="45:33:45:35">id</jtok>
+<jtok eid="2" type="primary_name_ref" span="45:45:45:47">id</jtok>
+<jtok eid="1" type="field_name" span="46:21:46:36">innerClassCount</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="48:12:48:18">Object</jtok>
+<jtok eid="3" type="method_name" span="48:19:48:23">eval</jtok>
+<jtok eid="3" type="parameter_type" span="48:25:48:34">CallStack</jtok>
+<jtok eid="3" type="parameter_name" span="48:35:48:44">callstack</jtok>
+<jtok eid="3" type="parameter_type" span="48:46:48:57">Interpreter</jtok>
+<jtok eid="3" type="parameter_name" span="48:58:48:69">interpreter</jtok>
+<jtok eid="3" type="throws" span="49:10:49:19">EvalError</jtok>
+<jtok eid="3" type="line_comment" span="51:9:51:59">// type is either a class name or a primitive type</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="52:9:52:19">SimpleNode</jtok>
+<jtok eid="3" type="local_variable_name" span="52:20:52:24">type</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="52:28:52:38">SimpleNode</jtok>
+<jtok eid="3" type="method_call" span="52:39:52:50">jjtGetChild</jtok>
+<jtok eid="3" type="line_comment" span="54:9:54:68">// args is either constructor arguments or array dimensions</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="55:9:55:19">SimpleNode</jtok>
+<jtok eid="3" type="local_variable_name" span="55:20:55:24">args</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="55:28:55:38">SimpleNode</jtok>
+<jtok eid="3" type="method_call" span="55:39:55:50">jjtGetChild</jtok>
+<jtok eid="3" type="primary_name_ref" span="57:14:57:18">type</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="57:30:57:46">BSHAmbiguousName</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="59:13:59:29">BSHAmbiguousName</jtok>
+<jtok eid="3" type="local_variable_name" span="59:30:59:34">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="59:38:59:54">BSHAmbiguousName</jtok>
+<jtok eid="3" type="primary_name_ref" span="59:55:59:59">type</jtok>
+<jtok eid="3" type="primary_name_ref" span="61:17:61:21">args</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="61:33:61:45">BSHArguments</jtok>
+<jtok eid="3" type="method_call" span="62:24:62:40">objectAllocation</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:41:62:45">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="62:48:62:60">BSHArguments</jtok>
+<jtok eid="3" type="primary_name_ref" span="62:61:62:65">args</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:6:63:15">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="63:17:63:28">interpreter</jtok>
+<jtok eid="3" type="method_call" span="65:24:65:45">objectArrayAllocation</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:46:65:50">name</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="65:53:65:71">BSHArrayDimensions</jtok>
+<jtok eid="3" type="primary_name_ref" span="65:72:65:76">args</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:6:66:15">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="66:17:66:28">interpreter</jtok>
+<jtok eid="3" type="method_call" span="69:20:69:44">primitiveArrayAllocation</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="69:46:69:62">BSHPrimitiveType</jtok>
+<jtok eid="3" type="primary_name_ref" span="69:63:69:67">type</jtok>
+<jtok eid="3" type="class_or_interface_ref" span="70:18:70:36">BSHArrayDimensions</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:37:70:41">args</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:43:70:52">callstack</jtok>
+<jtok eid="3" type="primary_name_ref" span="70:54:70:65">interpreter</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="73:13:73:19">Object</jtok>
+<jtok eid="4" type="method_name" span="73:20:73:36">objectAllocation</jtok>
+<jtok eid="4" type="parameter_type" span="74:3:74:19">BSHAmbiguousName</jtok>
+<jtok eid="4" type="parameter_name" span="74:20:74:28">nameNode</jtok>
+<jtok eid="4" type="parameter_type" span="74:30:74:42">BSHArguments</jtok>
+<jtok eid="4" type="parameter_name" span="74:43:74:56">argumentsNode</jtok>
+<jtok eid="4" type="parameter_type" span="75:3:75:12">CallStack</jtok>
+<jtok eid="4" type="parameter_name" span="75:13:75:22">callstack</jtok>
+<jtok eid="4" type="parameter_type" span="75:24:75:35">Interpreter</jtok>
+<jtok eid="4" type="parameter_name" span="75:36:75:47">interpreter</jtok>
+<jtok eid="4" type="throws" span="77:10:77:19">EvalError</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="79:3:79:12">NameSpace</jtok>
+<jtok eid="4" type="local_variable_name" span="79:13:79:22">namespace</jtok>
+<jtok eid="4" type="primary_name_ref" span="79:25:79:34">callstack</jtok>
+<jtok eid="4" type="method_call" span="79:35:79:38">top</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="81:9:81:15">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="81:18:81:22">args</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:25:81:38">argumentsNode</jtok>
+<jtok eid="4" type="method_call" span="81:39:81:51">getArguments</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:53:81:62">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="81:64:81:75">interpreter</jtok>
+<jtok eid="4" type="primary_name_ref" span="82:14:82:18">args</jtok>
+<jtok eid="4" type="constructor_call" span="83:23:83:32">EvalError</jtok>
+<jtok eid="4" type="string_literal" span="83:34:83:53">"Null args in new."</jtok>
+<jtok eid="4" type="primary_name_ref" span="83:61:83:70">callstack</jtok>
+<jtok eid="4" type="line_comment" span="85:3:85:36">// Look for scripted class object</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="86:9:86:15">Object</jtok>
+<jtok eid="4" type="local_variable_name" span="86:16:86:19">obj</jtok>
+<jtok eid="4" type="primary_name_ref" span="86:22:86:30">nameNode</jtok>
+<jtok eid="4" type="method_call" span="86:31:86:39">toObject</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:4:87:13">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="87:15:87:26">interpreter</jtok>
+<jtok eid="4" type="block_comment" span="87:33:87:49">/* force class*/</jtok>
+<jtok eid="4" type="line_comment" span="89:3:89:23">// Try regular class</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:9:91:12">obj</jtok>
+<jtok eid="4" type="primary_name_ref" span="91:15:91:23">nameNode</jtok>
+<jtok eid="4" type="method_call" span="91:24:91:32">toObject</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:4:92:13">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="92:15:92:26">interpreter</jtok>
+<jtok eid="4" type="block_comment" span="92:32:92:47">/*force class*/</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="94:9:94:14">Class</jtok>
+<jtok eid="4" type="local_variable_name" span="94:15:94:19">type</jtok>
+<jtok eid="4" type="primary_name_ref" span="95:8:95:11">obj</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="95:23:95:38">ClassIdentifier</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:10:96:14">type</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="96:19:96:34">ClassIdentifier</jtok>
+<jtok eid="4" type="primary_name_ref" span="96:35:96:38">obj</jtok>
+<jtok eid="4" type="method_call" span="96:40:96:54">getTargetClass</jtok>
+<jtok eid="4" type="constructor_call" span="98:14:98:23">EvalError</jtok>
+<jtok eid="4" type="string_literal" span="99:5:99:22">"Unknown class: "</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:23:99:31">nameNode</jtok>
+<jtok eid="4" type="qualified_name_ref" span="99:32:99:36">text</jtok>
+<jtok eid="4" type="primary_name_ref" span="99:44:99:53">callstack</jtok>
+<jtok eid="4" type="line_comment" span="101:3:101:47">// Is an inner class style object allocation</jtok>
+<jtok eid="4" type="local_variable_name" span="102:11:102:18">hasBody</jtok>
+<jtok eid="4" type="method_call" span="102:21:102:38">jjtGetNumChildren</jtok>
+<jtok eid="4" type="primary_name_ref" span="104:8:104:15">hasBody</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="106:10:106:18">BSHBlock</jtok>
+<jtok eid="4" type="local_variable_name" span="106:19:106:23">body</jtok>
+<jtok eid="4" type="class_or_interface_ref" span="106:27:106:35">BSHBlock</jtok>
+<jtok eid="4" type="method_call" span="106:36:106:47">jjtGetChild</jtok>
+<jtok eid="4" type="primary_name_ref" span="107:9:107:13">type</jtok>
+<jtok eid="4" type="method_call" span="107:14:107:25">isInterface</jtok>
+<jtok eid="4" type="method_call" span="108:12:108:38">constructWithInterfaceBody</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:6:109:10">type</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:12:109:16">args</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:18:109:22">body</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:24:109:33">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="109:35:109:46">interpreter</jtok>
+<jtok eid="4" type="method_call" span="111:12:111:34">constructWithClassBody</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:6:112:10">type</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:12:112:16">args</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:18:112:22">body</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:24:112:33">callstack</jtok>
+<jtok eid="4" type="primary_name_ref" span="112:35:112:46">interpreter</jtok>
+<jtok eid="4" type="method_call" span="114:11:114:26">constructObject</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:28:114:32">type</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:34:114:38">args</jtok>
+<jtok eid="4" type="primary_name_ref" span="114:40:114:49">callstack</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="117:10:117:16">Object</jtok>
+<jtok eid="5" type="method_name" span="117:17:117:32">constructObject</jtok>
+<jtok eid="5" type="parameter_type" span="118:3:118:8">Class</jtok>
+<jtok eid="5" type="parameter_name" span="118:9:118:13">type</jtok>
+<jtok eid="5" type="parameter_type" span="118:15:118:21">Object</jtok>
+<jtok eid="5" type="parameter_name" span="118:24:118:28">args</jtok>
+<jtok eid="5" type="parameter_type" span="118:30:118:39">CallStack</jtok>
+<jtok eid="5" type="parameter_name" span="118:40:118:49">callstack</jtok>
+<jtok eid="5" type="throws" span="119:10:119:19">EvalError</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="121:3:121:9">Object</jtok>
+<jtok eid="5" type="local_variable_name" span="121:10:121:13">obj</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:13:123:16">obj</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:19:123:26">Reflect</jtok>
+<jtok eid="5" type="method_call" span="123:27:123:42">constructObject</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:44:123:48">type</jtok>
+<jtok eid="5" type="primary_name_ref" span="123:50:123:54">args</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="124:19:124:31">ReflectError</jtok>
+<jtok eid="5" type="local_variable_name" span="124:32:124:33">e</jtok>
+<jtok eid="5" type="constructor_call" span="125:23:125:32">EvalError</jtok>
+<jtok eid="5" type="string_literal" span="126:5:126:26">"Constructor error: "</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:29:126:30">e</jtok>
+<jtok eid="5" type="method_call" span="126:31:126:41">getMessage</jtok>
+<jtok eid="5" type="primary_name_ref" span="126:51:126:60">callstack</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="127:17:127:42">InvocationTargetException</jtok>
+<jtok eid="5" type="local_variable_name" span="127:43:127:44">e</jtok>
+<jtok eid="5" type="line_comment" span="128:4:128:33">// No need to wrap this debug</jtok>
+<jtok eid="5" type="primary_name_ref" span="129:4:129:15">Interpreter</jtok>
+<jtok eid="5" type="method_call" span="129:16:129:21">debug</jtok>
+<jtok eid="5" type="string_literal" span="129:22:129:63">"The constructor threw an exception:\n\t"</jtok>
+<jtok eid="5" type="primary_name_ref" span="130:5:130:6">e</jtok>
+<jtok eid="5" type="method_call" span="130:7:130:25">getTargetException</jtok>
+<jtok eid="5" type="constructor_call" span="131:23:131:34">TargetError</jtok>
+<jtok eid="5" type="string_literal" span="132:5:132:25">"Object constructor"</jtok>
+<jtok eid="5" type="primary_name_ref" span="132:27:132:28">e</jtok>
+<jtok eid="5" type="method_call" span="132:29:132:47">getTargetException</jtok>
+<jtok eid="5" type="primary_name_ref" span="133:11:133:20">callstack</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="136:3:136:9">String</jtok>
+<jtok eid="5" type="local_variable_name" span="136:10:136:19">className</jtok>
+<jtok eid="5" type="primary_name_ref" span="136:22:136:26">type</jtok>
+<jtok eid="5" type="method_call" span="136:27:136:34">getName</jtok>
+<jtok eid="5" type="line_comment" span="137:3:137:27">// Is it an inner class?</jtok>
+<jtok eid="5" type="primary_name_ref" span="138:8:138:17">className</jtok>
+<jtok eid="5" type="method_call" span="138:18:138:25">indexOf</jtok>
+<jtok eid="5" type="string_literal" span="138:26:138:29">"$"</jtok>
+<jtok eid="5" type="primary_name_ref" span="139:11:139:14">obj</jtok>
+<jtok eid="5" type="line_comment" span="141:3:141:45">// Temporary hack to support inner classes</jtok>
+<jtok eid="5" type="line_comment" span="142:3:142:71">// If the obj is a non-static inner class then import the context...</jtok>
+<jtok eid="5" type="line_comment" span="143:3:143:58">// This is not a sufficient emulation of inner classes.</jtok>
+<jtok eid="5" type="line_comment" span="144:3:144:27">// Replace this later...</jtok>
+<jtok eid="5" type="line_comment" span="146:3:146:34">// work through to class 'this'</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="147:3:147:7">This</jtok>
+<jtok eid="5" type="local_variable_name" span="147:8:147:11">ths</jtok>
+<jtok eid="5" type="primary_name_ref" span="147:14:147:23">callstack</jtok>
+<jtok eid="5" type="method_call" span="147:24:147:27">top</jtok>
+<jtok eid="5" type="method_call" span="147:30:147:37">getThis</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="148:3:148:12">NameSpace</jtok>
+<jtok eid="5" type="local_variable_name" span="148:13:148:30">instanceNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:4:149:8">Name</jtok>
+<jtok eid="5" type="method_call" span="149:9:149:26">getClassNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="149:28:149:31">ths</jtok>
+<jtok eid="5" type="method_call" span="149:32:149:44">getNameSpace</jtok>
+<jtok eid="5" type="line_comment" span="151:3:151:74">// Change the parent (which was the class static) to the class instance</jtok>
+<jtok eid="5" type="line_comment" span="152:3:152:73">// We really need to check if we're a static inner class here first...</jtok>
+<jtok eid="5" type="line_comment" span="153:3:153:68">// but for some reason Java won't show the static modifier on our</jtok>
+<jtok eid="5" type="line_comment" span="154:3:154:57">// fake inner classes...  could generate a flag field.</jtok>
+<jtok eid="5" type="primary_name_ref" span="155:8:155:25">instanceNameSpace</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:7:156:16">className</jtok>
+<jtok eid="5" type="method_call" span="156:17:156:27">startsWith</jtok>
+<jtok eid="5" type="primary_name_ref" span="156:29:156:46">instanceNameSpace</jtok>
+<jtok eid="5" type="method_call" span="156:47:156:54">getName</jtok>
+<jtok eid="5" type="string_literal" span="156:58:156:61">"$"</jtok>
+<jtok eid="5" type="primary_name_ref" span="160:5:160:19">ClassGenerator</jtok>
+<jtok eid="5" type="method_call" span="160:20:160:37">getClassGenerator</jtok>
+<jtok eid="5" type="method_call" span="160:40:160:66">setInstanceNameSpaceParent</jtok>
+<jtok eid="5" type="primary_name_ref" span="161:6:161:9">obj</jtok>
+<jtok eid="5" type="primary_name_ref" span="161:11:161:20">className</jtok>
+<jtok eid="5" type="primary_name_ref" span="161:22:161:39">instanceNameSpace</jtok>
+<jtok eid="5" type="class_or_interface_ref" span="162:14:162:27">UtilEvalError</jtok>
+<jtok eid="5" type="local_variable_name" span="162:28:162:29">e</jtok>
+<jtok eid="5" type="primary_name_ref" span="163:11:163:12">e</jtok>
+<jtok eid="5" type="method_call" span="163:13:163:24">toEvalError</jtok>
+<jtok eid="5" type="primary_name_ref" span="163:32:163:41">callstack</jtok>
+<jtok eid="5" type="primary_name_ref" span="167:10:167:13">obj</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="170:10:170:16">Object</jtok>
+<jtok eid="6" type="method_name" span="170:17:170:39">constructWithClassBody</jtok>
+<jtok eid="6" type="parameter_type" span="171:3:171:8">Class</jtok>
+<jtok eid="6" type="parameter_name" span="171:9:171:13">type</jtok>
+<jtok eid="6" type="parameter_type" span="171:15:171:21">Object</jtok>
+<jtok eid="6" type="parameter_name" span="171:24:171:28">args</jtok>
+<jtok eid="6" type="parameter_type" span="171:30:171:38">BSHBlock</jtok>
+<jtok eid="6" type="parameter_name" span="171:39:171:44">block</jtok>
+<jtok eid="6" type="parameter_type" span="172:3:172:12">CallStack</jtok>
+<jtok eid="6" type="parameter_name" span="172:13:172:22">callstack</jtok>
+<jtok eid="6" type="parameter_type" span="172:24:172:35">Interpreter</jtok>
+<jtok eid="6" type="parameter_name" span="172:36:172:47">interpreter</jtok>
+<jtok eid="6" type="throws" span="173:10:173:19">EvalError</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="175:3:175:9">String</jtok>
+<jtok eid="6" type="local_variable_name" span="175:10:175:14">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:17:175:26">callstack</jtok>
+<jtok eid="6" type="method_call" span="175:27:175:30">top</jtok>
+<jtok eid="6" type="method_call" span="175:33:175:40">getName</jtok>
+<jtok eid="6" type="string_literal" span="175:45:175:48">"$"</jtok>
+<jtok eid="6" type="primary_name_ref" span="175:54:175:69">innerClassCount</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="176:3:176:12">Modifiers</jtok>
+<jtok eid="6" type="local_variable_name" span="176:13:176:22">modifiers</jtok>
+<jtok eid="6" type="constructor_call" span="176:29:176:38">Modifiers</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:3:177:12">modifiers</jtok>
+<jtok eid="6" type="method_call" span="177:13:177:24">addModifier</jtok>
+<jtok eid="6" type="primary_name_ref" span="177:26:177:35">Modifiers</jtok>
+<jtok eid="6" type="qualified_name_ref" span="177:36:177:41">CLASS</jtok>
+<jtok eid="6" type="string_literal" span="177:43:177:51">"public"</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="178:3:178:8">Class</jtok>
+<jtok eid="6" type="local_variable_name" span="178:9:178:13">clas</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:4:180:8">clas</jtok>
+<jtok eid="6" type="primary_name_ref" span="180:11:180:25">ClassGenerator</jtok>
+<jtok eid="6" type="method_call" span="180:26:180:43">getClassGenerator</jtok>
+<jtok eid="6" type="method_call" span="180:47:180:60">generateClass</jtok>
+<jtok eid="6" type="primary_name_ref" span="181:5:181:9">name</jtok>
+<jtok eid="6" type="primary_name_ref" span="181:11:181:20">modifiers</jtok>
+<jtok eid="6" type="block_comment" span="181:26:181:40">/*interfaces*/</jtok>
+<jtok eid="6" type="primary_name_ref" span="181:42:181:46">type</jtok>
+<jtok eid="6" type="block_comment" span="181:46:181:60">/*superClass*/</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:5:182:10">block</jtok>
+<jtok eid="6" type="block_comment" span="182:17:182:32">/*isInterface*/</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:34:182:43">callstack</jtok>
+<jtok eid="6" type="primary_name_ref" span="182:45:182:56">interpreter</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="183:13:183:26">UtilEvalError</jtok>
+<jtok eid="6" type="local_variable_name" span="183:27:183:28">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="184:10:184:11">e</jtok>
+<jtok eid="6" type="method_call" span="184:12:184:23">toEvalError</jtok>
+<jtok eid="6" type="primary_name_ref" span="184:31:184:40">callstack</jtok>
+<jtok eid="6" type="primary_name_ref" span="187:11:187:18">Reflect</jtok>
+<jtok eid="6" type="method_call" span="187:19:187:34">constructObject</jtok>
+<jtok eid="6" type="primary_name_ref" span="187:36:187:40">clas</jtok>
+<jtok eid="6" type="primary_name_ref" span="187:42:187:46">args</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="188:13:188:22">Exception</jtok>
+<jtok eid="6" type="local_variable_name" span="188:23:188:24">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="189:9:189:10">e</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="189:22:189:47">InvocationTargetException</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:5:190:6">e</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="190:10:190:19">Exception</jtok>
+<jtok eid="6" type="class_or_interface_ref" span="190:22:190:47">InvocationTargetException</jtok>
+<jtok eid="6" type="primary_name_ref" span="190:48:190:49">e</jtok>
+<jtok eid="6" type="method_call" span="191:7:191:25">getTargetException</jtok>
+<jtok eid="6" type="constructor_call" span="192:14:192:23">EvalError</jtok>
+<jtok eid="6" type="string_literal" span="193:5:193:48">"Error constructing inner class instance: "</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:49:193:50">e</jtok>
+<jtok eid="6" type="primary_name_ref" span="193:58:193:67">callstack</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="198:10:198:16">Object</jtok>
+<jtok eid="7" type="method_name" span="198:17:198:43">constructWithInterfaceBody</jtok>
+<jtok eid="7" type="parameter_type" span="199:3:199:8">Class</jtok>
+<jtok eid="7" type="parameter_name" span="199:9:199:13">type</jtok>
+<jtok eid="7" type="parameter_type" span="199:15:199:21">Object</jtok>
+<jtok eid="7" type="parameter_name" span="199:24:199:28">args</jtok>
+<jtok eid="7" type="parameter_type" span="199:30:199:38">BSHBlock</jtok>
+<jtok eid="7" type="parameter_name" span="199:39:199:43">body</jtok>
+<jtok eid="7" type="parameter_type" span="200:3:200:12">CallStack</jtok>
+<jtok eid="7" type="parameter_name" span="200:13:200:22">callstack</jtok>
+<jtok eid="7" type="parameter_type" span="200:24:200:35">Interpreter</jtok>
+<jtok eid="7" type="parameter_name" span="200:36:200:47">interpreter</jtok>
+<jtok eid="7" type="throws" span="201:10:201:19">EvalError</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="203:3:203:12">NameSpace</jtok>
+<jtok eid="7" type="local_variable_name" span="203:13:203:22">namespace</jtok>
+<jtok eid="7" type="primary_name_ref" span="203:25:203:34">callstack</jtok>
+<jtok eid="7" type="method_call" span="203:35:203:38">top</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="204:3:204:12">NameSpace</jtok>
+<jtok eid="7" type="local_variable_name" span="204:13:204:18">local</jtok>
+<jtok eid="7" type="constructor_call" span="204:25:204:34">NameSpace</jtok>
+<jtok eid="7" type="primary_name_ref" span="204:35:204:44">namespace</jtok>
+<jtok eid="7" type="string_literal" span="204:46:204:62">"AnonymousBlock"</jtok>
+<jtok eid="7" type="primary_name_ref" span="205:3:205:12">callstack</jtok>
+<jtok eid="7" type="method_call" span="205:13:205:17">push</jtok>
+<jtok eid="7" type="primary_name_ref" span="205:18:205:23">local</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:3:206:7">body</jtok>
+<jtok eid="7" type="method_call" span="206:8:206:12">eval</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:14:206:23">callstack</jtok>
+<jtok eid="7" type="primary_name_ref" span="206:25:206:36">interpreter</jtok>
+<jtok eid="7" type="block_comment" span="206:42:206:63">/*overrideNamespace*/</jtok>
+<jtok eid="7" type="primary_name_ref" span="207:3:207:12">callstack</jtok>
+<jtok eid="7" type="method_call" span="207:13:207:16">pop</jtok>
+<jtok eid="7" type="line_comment" span="208:3:208:67">// statical import fields from the interface so that code inside</jtok>
+<jtok eid="7" type="line_comment" span="209:3:209:52">// can refer to the fields directly (e.g. HEIGHT)</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:3:210:8">local</jtok>
+<jtok eid="7" type="method_call" span="210:9:210:21">importStatic</jtok>
+<jtok eid="7" type="primary_name_ref" span="210:23:210:27">type</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:11:212:16">local</jtok>
+<jtok eid="7" type="method_call" span="212:17:212:24">getThis</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:25:212:36">interpreter</jtok>
+<jtok eid="7" type="method_call" span="212:38:212:50">getInterface</jtok>
+<jtok eid="7" type="primary_name_ref" span="212:52:212:56">type</jtok>
+<jtok eid="7" type="class_or_interface_ref" span="213:13:213:26">UtilEvalError</jtok>
+<jtok eid="7" type="local_variable_name" span="213:27:213:28">e</jtok>
+<jtok eid="7" type="primary_name_ref" span="214:10:214:11">e</jtok>
+<jtok eid="7" type="method_call" span="214:12:214:23">toEvalError</jtok>
+<jtok eid="7" type="primary_name_ref" span="214:31:214:40">callstack</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="218:13:218:19">Object</jtok>
+<jtok eid="8" type="method_name" span="218:20:218:41">objectArrayAllocation</jtok>
+<jtok eid="8" type="parameter_type" span="219:3:219:19">BSHAmbiguousName</jtok>
+<jtok eid="8" type="parameter_name" span="219:20:219:28">nameNode</jtok>
+<jtok eid="8" type="parameter_type" span="219:30:219:48">BSHArrayDimensions</jtok>
+<jtok eid="8" type="parameter_name" span="219:49:219:63">dimensionsNode</jtok>
+<jtok eid="8" type="parameter_type" span="220:3:220:12">CallStack</jtok>
+<jtok eid="8" type="parameter_name" span="220:13:220:22">callstack</jtok>
+<jtok eid="8" type="parameter_type" span="220:24:220:35">Interpreter</jtok>
+<jtok eid="8" type="parameter_name" span="220:36:220:47">interpreter</jtok>
+<jtok eid="8" type="throws" span="222:10:222:19">EvalError</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="224:3:224:12">NameSpace</jtok>
+<jtok eid="8" type="local_variable_name" span="224:13:224:22">namespace</jtok>
+<jtok eid="8" type="primary_name_ref" span="224:25:224:34">callstack</jtok>
+<jtok eid="8" type="method_call" span="224:35:224:38">top</jtok>
+<jtok eid="8" type="class_or_interface_ref" span="225:9:225:14">Class</jtok>
+<jtok eid="8" type="local_variable_name" span="225:15:225:19">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:22:225:30">nameNode</jtok>
+<jtok eid="8" type="method_call" span="225:31:225:38">toClass</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:40:225:49">callstack</jtok>
+<jtok eid="8" type="primary_name_ref" span="225:51:225:62">interpreter</jtok>
+<jtok eid="8" type="primary_name_ref" span="226:14:226:18">type</jtok>
+<jtok eid="8" type="constructor_call" span="227:23:227:32">EvalError</jtok>
+<jtok eid="8" type="string_literal" span="227:34:227:42">"Class "</jtok>
+<jtok eid="8" type="primary_name_ref" span="227:45:227:53">nameNode</jtok>
+<jtok eid="8" type="method_call" span="227:54:227:61">getName</jtok>
+<jtok eid="8" type="primary_name_ref" span="227:62:227:71">namespace</jtok>
+<jtok eid="8" type="string_literal" span="228:7:228:20">" not found."</jtok>
+<jtok eid="8" type="primary_name_ref" span="228:28:228:37">callstack</jtok>
+<jtok eid="8" type="method_call" span="230:10:230:25">arrayAllocation</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:27:230:41">dimensionsNode</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:43:230:47">type</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:49:230:58">callstack</jtok>
+<jtok eid="8" type="primary_name_ref" span="230:60:230:71">interpreter</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="233:13:233:19">Object</jtok>
+<jtok eid="9" type="method_name" span="233:20:233:44">primitiveArrayAllocation</jtok>
+<jtok eid="9" type="parameter_type" span="234:3:234:19">BSHPrimitiveType</jtok>
+<jtok eid="9" type="parameter_name" span="234:20:234:28">typeNode</jtok>
+<jtok eid="9" type="parameter_type" span="234:30:234:48">BSHArrayDimensions</jtok>
+<jtok eid="9" type="parameter_name" span="234:49:234:63">dimensionsNode</jtok>
+<jtok eid="9" type="parameter_type" span="235:3:235:12">CallStack</jtok>
+<jtok eid="9" type="parameter_name" span="235:13:235:22">callstack</jtok>
+<jtok eid="9" type="parameter_type" span="235:24:235:35">Interpreter</jtok>
+<jtok eid="9" type="parameter_name" span="235:36:235:47">interpreter</jtok>
+<jtok eid="9" type="throws" span="237:10:237:19">EvalError</jtok>
+<jtok eid="9" type="class_or_interface_ref" span="239:9:239:14">Class</jtok>
+<jtok eid="9" type="local_variable_name" span="239:15:239:19">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="239:22:239:30">typeNode</jtok>
+<jtok eid="9" type="method_call" span="239:31:239:38">getType</jtok>
+<jtok eid="9" type="method_call" span="241:10:241:25">arrayAllocation</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:27:241:41">dimensionsNode</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:43:241:47">type</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:49:241:58">callstack</jtok>
+<jtok eid="9" type="primary_name_ref" span="241:60:241:71">interpreter</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="244:10:244:16">Object</jtok>
+<jtok eid="10" type="method_name" span="244:17:244:32">arrayAllocation</jtok>
+<jtok eid="10" type="parameter_type" span="245:3:245:21">BSHArrayDimensions</jtok>
+<jtok eid="10" type="parameter_name" span="245:22:245:36">dimensionsNode</jtok>
+<jtok eid="10" type="parameter_type" span="245:38:245:43">Class</jtok>
+<jtok eid="10" type="parameter_name" span="245:44:245:48">type</jtok>
+<jtok eid="10" type="parameter_type" span="246:3:246:12">CallStack</jtok>
+<jtok eid="10" type="parameter_name" span="246:13:246:22">callstack</jtok>
+<jtok eid="10" type="parameter_type" span="246:24:246:35">Interpreter</jtok>
+<jtok eid="10" type="parameter_name" span="246:36:246:47">interpreter</jtok>
+<jtok eid="10" type="throws" span="247:10:247:19">EvalError</jtok>
+<jtok eid="10" type="block_comment" span="249:3:253:5">/*
+			dimensionsNode can return either a fully intialized array or VOID.
+			when VOID the prescribed array dimensions (defined and undefined)
+			are contained in the node.
+		*/</jtok>
+<jtok eid="10" type="class_or_interface_ref" span="254:9:254:15">Object</jtok>
+<jtok eid="10" type="local_variable_name" span="254:16:254:22">result</jtok>
+<jtok eid="10" type="primary_name_ref" span="254:25:254:39">dimensionsNode</jtok>
+<jtok eid="10" type="method_call" span="254:40:254:44">eval</jtok>
+<jtok eid="10" type="primary_name_ref" span="254:46:254:50">type</jtok>
+<jtok eid="10" type="primary_name_ref" span="254:52:254:61">callstack</jtok>
+<jtok eid="10" type="primary_name_ref" span="254:63:254:74">interpreter</jtok>
+<jtok eid="10" type="primary_name_ref" span="255:14:255:20">result</jtok>
+<jtok eid="10" type="primary_name_ref" span="255:24:255:33">Primitive</jtok>
+<jtok eid="10" type="qualified_name_ref" span="255:34:255:38">VOID</jtok>
+<jtok eid="10" type="primary_name_ref" span="256:20:256:26">result</jtok>
+<jtok eid="10" type="method_call" span="258:11:258:27">arrayNewInstance</jtok>
+<jtok eid="10" type="primary_name_ref" span="258:29:258:33">type</jtok>
+<jtok eid="10" type="primary_name_ref" span="258:35:258:49">dimensionsNode</jtok>
+<jtok eid="10" type="primary_name_ref" span="258:51:258:60">callstack</jtok>
+<jtok eid="1" type="block_comment" span="261:2:290:4">/**
+		Create an array of the dimensions specified in dimensionsNode.
+		dimensionsNode may contain a number of "undefined" as well as "defined"
+		dimensions.
+		&lt;p&gt;
+
+		Background: in Java arrays are implemented in arrays-of-arrays style
+		where, for example, a two dimensional array is a an array of arrays of
+		some base type.  Each dimension-type has a Java class type associated 
+		with it... so if foo = new int[5][5] then the type of foo is 
+		int [][] and the type of foo[0] is int[], etc.  Arrays may also be 
+		specified with undefined trailing dimensions - meaning that the lower 
+		order arrays are not allocated as objects. e.g.  
+		if foo = new int [5][]; then foo[0] == null //true; and can later be 
+		assigned with the appropriate type, e.g. foo[0] = new int[5];
+		(See Learning Java, O'Reilly &amp; Associates more background).
+		&lt;p&gt;
+
+		To create an array with undefined trailing dimensions using the
+		reflection API we must use an array type to represent the lower order
+		(undefined) dimensions as the "base" type for the array creation... 
+		Java will then create the correct type by adding the dimensions of the 
+		base type to specified allocated dimensions yielding an array of
+		dimensionality base + specified with the base dimensons unallocated.  
+		To create the "base" array type we simply create a prototype, zero 
+		length in each dimension, array and use it to get its class 
+		(Actually, I think there is a way we could do it with Class.forName() 
+		but I don't trust this).   The code is simpler than the explanation...
+		see below.
+	*/</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="291:10:291:16">Object</jtok>
+<jtok eid="11" type="method_name" span="291:17:291:33">arrayNewInstance</jtok>
+<jtok eid="11" type="parameter_type" span="292:3:292:8">Class</jtok>
+<jtok eid="11" type="parameter_name" span="292:9:292:13">type</jtok>
+<jtok eid="11" type="parameter_type" span="292:15:292:33">BSHArrayDimensions</jtok>
+<jtok eid="11" type="parameter_name" span="292:34:292:48">dimensionsNode</jtok>
+<jtok eid="11" type="parameter_type" span="292:50:292:59">CallStack</jtok>
+<jtok eid="11" type="parameter_name" span="292:60:292:69">callstack</jtok>
+<jtok eid="11" type="throws" span="293:10:293:19">EvalError</jtok>
+<jtok eid="11" type="primary_name_ref" span="295:8:295:22">dimensionsNode</jtok>
+<jtok eid="11" type="qualified_name_ref" span="295:23:295:39">numUndefinedDims</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="297:13:297:19">Object</jtok>
+<jtok eid="11" type="local_variable_name" span="297:20:297:25">proto</jtok>
+<jtok eid="11" type="primary_name_ref" span="297:28:297:33">Array</jtok>
+<jtok eid="11" type="method_call" span="297:34:297:45">newInstance</jtok>
+<jtok eid="11" type="primary_name_ref" span="298:5:298:9">type</jtok>
+<jtok eid="11" type="primary_name_ref" span="298:20:298:34">dimensionsNode</jtok>
+<jtok eid="11" type="qualified_name_ref" span="298:35:298:51">numUndefinedDims</jtok>
+<jtok eid="11" type="line_comment" span="298:56:298:64">// zeros</jtok>
+<jtok eid="11" type="primary_name_ref" span="299:4:299:8">type</jtok>
+<jtok eid="11" type="primary_name_ref" span="299:11:299:16">proto</jtok>
+<jtok eid="11" type="method_call" span="299:17:299:25">getClass</jtok>
+<jtok eid="11" type="primary_name_ref" span="303:20:303:25">Array</jtok>
+<jtok eid="11" type="method_call" span="303:26:303:37">newInstance</jtok>
+<jtok eid="11" type="primary_name_ref" span="304:5:304:9">type</jtok>
+<jtok eid="11" type="primary_name_ref" span="304:11:304:25">dimensionsNode</jtok>
+<jtok eid="11" type="qualified_name_ref" span="304:26:304:43">definedDimensions</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="305:18:305:44">NegativeArraySizeException</jtok>
+<jtok eid="11" type="local_variable_name" span="305:45:305:47">e1</jtok>
+<jtok eid="11" type="constructor_call" span="306:14:306:25">TargetError</jtok>
+<jtok eid="11" type="primary_name_ref" span="306:27:306:29">e1</jtok>
+<jtok eid="11" type="primary_name_ref" span="306:37:306:46">callstack</jtok>
+<jtok eid="11" type="class_or_interface_ref" span="307:18:307:27">Exception</jtok>
+<jtok eid="11" type="local_variable_name" span="307:28:307:29">e</jtok>
+<jtok eid="11" type="constructor_call" span="308:23:308:32">EvalError</jtok>
+<jtok eid="11" type="string_literal" span="308:33:308:68">"Can't construct primitive array: "</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:17:309:18">e</jtok>
+<jtok eid="11" type="method_call" span="309:19:309:29">getMessage</jtok>
+<jtok eid="11" type="primary_name_ref" span="309:39:309:48">callstack</jtok>
+</jdoc>
